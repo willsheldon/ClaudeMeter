@@ -21,11 +21,16 @@ final class SettingsRepositoryTests: XCTestCase {
         settings.isFirstLaunch = false
         settings.cachedOrganizationId = UUID(uuidString: TestConstants.organizationUUIDString)
         settings.iconStyle = .segments
+        settings.isChatGPTUsageShown = true
 
         try await repository.save(settings)
         let loaded = await repository.load()
 
         XCTAssertEqual(loaded, settings)
+    }
+
+    func test_defaultSettings_hideChatGPTUsage() {
+        XCTAssertFalse(AppSettings.default.isChatGPTUsageShown)
     }
 
     func test_notificationStatePersistsAcrossLaunches() async throws {

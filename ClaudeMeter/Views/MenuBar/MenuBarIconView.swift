@@ -15,6 +15,7 @@ struct MenuBarIconView: View {
     let isStale: Bool
     let iconStyle: IconStyle
     var weeklyPercentage: Double = 0  // Optional, used by dualBar style
+    var quotaBars: [MenuBarQuotaBar] = []
 
     var body: some View {
         switch iconStyle {
@@ -27,7 +28,18 @@ struct MenuBarIconView: View {
         case .segments:
             SegmentedBarIcon(percentage: percentage, status: status, isLoading: isLoading, isStale: isStale)
         case .dualBar:
-            DualBarIcon(percentage: percentage, weeklyPercentage: weeklyPercentage, status: status, isLoading: isLoading, isStale: isStale)
+            DualBarIcon(
+                percentage: percentage,
+                status: status,
+                isLoading: isLoading,
+                isStale: isStale,
+                quotaBars: quotaBars.isEmpty
+                    ? [
+                        MenuBarQuotaBar(label: "Claude 5h", percentage: percentage, status: status),
+                        MenuBarQuotaBar(label: "Claude weekly", percentage: weeklyPercentage, status: .safe)
+                    ]
+                    : quotaBars
+            )
         case .gauge:
             GaugeIcon(percentage: percentage, status: status, isLoading: isLoading, isStale: isStale)
         }

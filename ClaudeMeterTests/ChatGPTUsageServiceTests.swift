@@ -1,0 +1,194 @@
+//
+//  ChatGPTUsageServiceTests.swift
+//  ClaudeMeterTests
+//
+
+import Foundation
+import XCTest
+@testable import ClaudeMeter
+
+final class ChatGPTUsageServiceTests: XCTestCase {
+    func test_chatGPTUsageData_usesWorstQuotaBucketForOverallStatus() {
+        let data = ChatGPTUsageData(
+            rows: [
+                .init(label: "Codex Tasks", usedPercent: 12, resetAt: nil),
+                .init(label: "Code Review", usedPercent: 92, resetAt: nil),
+            ],
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+
+        XCTAssertEqual(data.percentage, 92)
+        XCTAssertEqual(data.status, .critical)
+    }
+
+    func test_cookieHeader_acceptsRawSessionToken() {
+        let header = ChatGPTUsageService.cookieHeader(from: " token-redacted \n")
+
+        XCTAssertEqual(header, "__Secure-next-auth.session-token=token-redacted")
+    }
+
+    func test_cookieHeader_acceptsFullCookieHeader() {
+        let header = ChatGPTUsageService.cookieHeader(from: "a=b; __Secure-next-auth.session-token=token-redacted")
+
+        XCTAssertEqual(header, "a=b; __Secure-next-auth.session-token=token-redacted")
+    }
+
+    func test_cookieHeader_joinsSplitSessionTokenCookies() {
+        let header = ChatGPTUsageService.cookieHeader(
+            from: "__Secure-next-auth.session-token.0=first; __Secure-next-auth.session-token.1=second"
+        )
+
+        XCTAssertEqual(header, "__Secure-next-auth.session-token=firstsecond")
+    }
+
+    func test_cookieHeader_acceptsCookiePrefixAndNewlineSeparatedSplitCookies() {
+        let header = ChatGPTUsageService.cookieHeader(
+            from: "Cookie: __Secure-next-auth.session-token.0=first\n__Secure-next-auth.session-token.1=second"
+        )
+
+        XCTAssertEqual(header, "__Secure-next-auth.session-token=firstsecond")
+    }
+
+    func test_whamToDomain_classifiesMenuBarRowsAndPreservesUnknownRows() throws {
+        let json = #"""
+        {
+          "rate_limit": { "primary_window": { "used_percent": 25, "reset_at": 1770000000 } },
+          "code_review_rate_limit": { "primary_window": { "used_percent": 50, "reset_at": 1770003600 } },
+          "additional_rate_limits": [
+            { "name": "gpt_5_weekly", "primary_window": { "used_percent": 35, "reset_at": 1770600000 } },
+            { "type": "chatgpt_pro", "primary_window": { "used_percent": 40, "reset_at": 1770700000 } },
+            { "name": "unknown_bucket", "primary_window": { "used_percent": 15, "reset_at": 1770800000 } }
+          ]
+        }
+        """#.data(using: .utf8)!
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
+        let response = try decoder.decode(ChatGPTWHAMUsageResponse.self, from: json)
+
+        let usage = try response.toDomain(lastUpdated: Date(timeIntervalSince1970: 0))
+
+        XCTAssertEqual(usage.rows.map(\.sourceLabel), [
+            "rate_limit",
+            "code_review_rate_limit",
+            "gpt_5_weekly",
+            "chatgpt_pro",
+            "unknown_bucket"
+        ])
+        XCTAssertEqual(usage.rows.map(\.label), [
+            "ChatGPT 5h",
+            "Code Review",
+            "ChatGPT weekly",
+            "ChatGPT Pro",
+            "Unknown Bucket"
+        ])
+        XCTAssertEqual(usage.menuBarRows.map(\.menuBarRole), [.chatGPT5h, .chatGPTWeekly, .chatGPTPro])
+        XCTAssertEqual(usage.menuBarRows.map(\.label), ["ChatGPT 5h", "ChatGPT weekly", "ChatGPT Pro"])
+
+        let unknownRow = try XCTUnwrap(usage.rows.last)
+        XCTAssertNil(unknownRow.menuBarRole)
+        XCTAssertEqual(unknownRow.subtitle, "WHAM: unknown_bucket")
+    }
+
+    func test_fetchUsage_withBlankSessionCookie_throwsMissingSessionCookie() async {
+        let service = ChatGPTUsageService(httpClient: ChatGPTHTTPClientStub())
+
+        do {
+            _ = try await service.fetchUsage(sessionCookie: "   ")
+            XCTFail("Expected missing session cookie error")
+        } catch ChatGPTUsageError.missingSessionCookie {
+            // Expected
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+
+    func test_fetchUsage_exchangesCookieForAccessTokenThenFetchesWhamUsage() async throws {
+        let now = ISO8601DateFormatter().date(from: "2026-06-05T12:00:00Z")!
+        let httpClient = ChatGPTHTTPClientStub(
+            responses: [
+                "auth": #"{"accessToken":"access-token-redacted"}"#.data(using: .utf8)!,
+                "usage": #"{"rate_limit":{"primary_window":{"used_percent":25,"reset_at":1770000000}},"code_review_rate_limit":{"primary_window":{"used_percent":50,"reset_at":1770003600}}}"#.data(using: .utf8)!
+            ]
+        )
+        let service = ChatGPTUsageService(
+            httpClient: httpClient,
+            now: { now }
+        )
+
+        let usage = try await service.fetchUsage(sessionCookie: "session-token-redacted")
+
+        XCTAssertEqual(usage.rows.map(\.label), ["ChatGPT 5h", "Code Review"])
+        XCTAssertEqual(usage.rows.map(\.sourceLabel), ["rate_limit", "code_review_rate_limit"])
+        XCTAssertEqual(usage.rows.map(\.usedPercent), [25, 50])
+        XCTAssertEqual(usage.lastUpdated, now)
+
+        let requests = await httpClient.requests
+        XCTAssertEqual(requests.count, 2)
+        XCTAssertTrue(requests[0].endpoint.hasSuffix("/api/auth/session"))
+        XCTAssertNil(requests[0].authorization)
+        XCTAssertTrue(requests[1].endpoint.hasSuffix("/backend-api/wham/usage"))
+        XCTAssertEqual(requests[1].authorization, "Bearer access-token-redacted")
+        XCTAssertEqual(
+            requests.map(\.cookieHeader),
+            [
+                "__Secure-next-auth.session-token=session-token-redacted",
+                "__Secure-next-auth.session-token=session-token-redacted"
+            ]
+        )
+    }
+
+    func test_fetchUsage_withoutAccessToken_treatsCookieAsInvalid() async {
+        let httpClient = ChatGPTHTTPClientStub(
+            responses: ["auth": #"{}"#.data(using: .utf8)!]
+        )
+        let service = ChatGPTUsageService(httpClient: httpClient)
+
+        do {
+            _ = try await service.fetchUsage(sessionCookie: "session-token-redacted")
+            XCTFail("Expected invalid session cookie error")
+        } catch ChatGPTUsageError.invalidSessionCookie {
+            // Expected
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+}
+
+private actor ChatGPTHTTPClientStub: ChatGPTHTTPClientProtocol {
+    struct RecordedRequest: Equatable {
+        let endpoint: String
+        let cookieHeader: String
+        let authorization: String?
+        let referer: String
+    }
+
+    private let responses: [String: Data]
+    private(set) var requests: [RecordedRequest] = []
+
+    init(responses: [String: Data] = [:]) {
+        self.responses = responses
+    }
+
+    func request<T: Decodable>(
+        _ endpoint: String,
+        cookieHeader: String,
+        authorization: String?,
+        referer: String
+    ) async throws -> T {
+        requests.append(RecordedRequest(
+            endpoint: endpoint,
+            cookieHeader: cookieHeader,
+            authorization: authorization,
+            referer: referer
+        ))
+
+        let key = endpoint.contains("auth/session") ? "auth" : "usage"
+        guard let data = responses[key] else {
+            throw ChatGPTUsageError.invalidResponse
+        }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
+        return try decoder.decode(T.self, from: data)
+    }
+}

@@ -11,7 +11,6 @@ import Security
 /// Actor-isolated repository for secure Keychain operations
 actor KeychainRepository: KeychainRepositoryProtocol {
     private let serviceName = "com.claudemeter.sessionkey"
-    private let accessGroup = "$(AppIdentifierPrefix)com.claudemeter"
 
     /// Save session key to Keychain with security attributes
     func save(sessionKey: String, account: String) async throws {
@@ -26,7 +25,6 @@ actor KeychainRepository: KeychainRepositoryProtocol {
             kSecValueData as String: data,
             kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock,
             kSecAttrSynchronizable as String: kCFBooleanFalse as Any,
-            kSecAttrAccessGroup as String: accessGroup,
         ]
 
         let status = SecItemAdd(query as CFDictionary, nil)
@@ -47,7 +45,6 @@ actor KeychainRepository: KeychainRepositoryProtocol {
             kSecAttrService as String: serviceName,
             kSecReturnData as String: kCFBooleanTrue as Any,
             kSecMatchLimit as String: kSecMatchLimitOne,
-            kSecAttrAccessGroup as String: accessGroup,
         ]
 
         var item: CFTypeRef?
@@ -72,7 +69,6 @@ actor KeychainRepository: KeychainRepositoryProtocol {
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: account,
             kSecAttrService as String: serviceName,
-            kSecAttrAccessGroup as String: accessGroup,
         ]
 
         let attributes: [String: Any] = [
@@ -92,7 +88,6 @@ actor KeychainRepository: KeychainRepositoryProtocol {
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrAccount as String: account,
             kSecAttrService as String: serviceName,
-            kSecAttrAccessGroup as String: accessGroup,
         ]
 
         let status = SecItemDelete(query as CFDictionary)
@@ -109,7 +104,6 @@ actor KeychainRepository: KeychainRepositoryProtocol {
             kSecAttrAccount as String: account,
             kSecAttrService as String: serviceName,
             kSecMatchLimit as String: kSecMatchLimitOne,
-            kSecAttrAccessGroup as String: accessGroup,
         ]
 
         let status = SecItemCopyMatching(query as CFDictionary, nil)

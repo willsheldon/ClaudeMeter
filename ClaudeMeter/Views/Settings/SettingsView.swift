@@ -19,6 +19,14 @@ struct SettingsView: View {
     @State private var sessionKeyValidationMessage: String?
     @State private var hasSessionKeyValidationSucceeded: Bool = false
 
+    @State private var chatGPTSessionTokenPart0: String = ""
+    @State private var chatGPTSessionTokenPart1: String = ""
+    @State private var chatGPTFullCookieHeader: String = ""
+    @State private var isChatGPTSessionCookieShown: Bool = false
+    @State private var isValidatingChatGPTSessionCookie: Bool = false
+    @State private var chatGPTSessionCookieValidationMessage: String?
+    @State private var hasChatGPTSessionCookieValidationSucceeded: Bool = false
+
     @State private var isSendingTestNotification: Bool = false
     @State private var testNotificationMessage: String?
     @State private var hasTestNotificationSucceeded: Bool = false
@@ -66,6 +74,7 @@ struct SettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 sessionKeySection
+                chatGPTSection
                 refreshIntervalSection
                 sonnetUsageSection
                 iconStyleSection
@@ -139,6 +148,148 @@ struct SettingsView: View {
         .padding()
         .background(.quaternary.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    // MARK: - ChatGPT Section
+
+    private var chatGPTSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("ChatGPT Usage")
+                        .font(.subheadline)
+                    Text("Optional. Stores your ChatGPT session cookie in Keychain and shows ChatGPT plan quota usage in the popover.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Toggle("", isOn: $appModel.settings.isChatGPTUsageShown)
+                    .labelsHidden()
+                    .disabled(!appModel.hasChatGPTSessionCookie)
+                    .onChange(of: appModel.settings.isChatGPTUsageShown) { _, isShown in
+                        if isShown {
+                            Task { await appModel.refreshChatGPTUsage() }
+                        }
+                    }
+            }
+
+            VStack(alignment: .leading, spacing: 8) {
+                chatGPTCookieField(
+                    label: "__Secure-next-auth.session-token.0",
+                    placeholder: "Paste value for .0",
+                    text: $chatGPTSessionTokenPart0
+                )
+
+                chatGPTCookieField(
+                    label: "__Secure-next-auth.session-token.1",
+                    placeholder: "Paste value for .1 if present",
+                    text: $chatGPTSessionTokenPart1
+                )
+
+                DisclosureGroup("Or paste a full Cookie header") {
+                    chatGPTCookieInput(placeholder: "Cookie: __Secure-next-auth.session-token.0=...; __Secure-next-auth.session-token.1=...", text: $chatGPTFullCookieHeader)
+                        .padding(.top, 4)
+                }
+                .font(.caption)
+
+                HStack {
+                    Button(action: { isChatGPTSessionCookieShown.toggle() }) {
+                        Label(isChatGPTSessionCookieShown ? "Hide values" : "Show values", systemImage: isChatGPTSessionCookieShown ? "eye.slash" : "eye")
+                    }
+                    .controlSize(.small)
+                    .buttonStyle(.borderless)
+                    .help(isChatGPTSessionCookieShown ? "Hide ChatGPT session cookie values" : "Show ChatGPT session cookie values")
+
+                    Spacer()
+
+                    if hasChatGPTCookieInput || appModel.hasChatGPTSessionCookie {
+                        Button(action: clearChatGPTSessionCookie) {
+                            Label("Clear", systemImage: "xmark.circle.fill")
+                        }
+                        .controlSize(.small)
+                        .buttonStyle(.borderless)
+                        .help("Clear ChatGPT session cookie")
+                    }
+                }
+            }
+
+            HStack(spacing: 8) {
+                Button("Validate & Save") {
+                    Task {
+                        await validateAndSaveChatGPTSessionCookie()
+                    }
+                }
+                .controlSize(.small)
+                .disabled(!hasChatGPTCookieInput || isValidatingChatGPTSessionCookie)
+
+                if isValidatingChatGPTSessionCookie {
+                    ProgressView()
+                        .controlSize(.small)
+                }
+
+                if let message = chatGPTSessionCookieValidationMessage {
+                    Label(message, systemImage: hasChatGPTSessionCookieValidationSucceeded ? "checkmark.circle.fill" : "xmark.circle.fill")
+                        .font(.caption)
+                        .foregroundStyle(hasChatGPTSessionCookieValidationSucceeded ? .green : .red)
+                }
+
+                Spacer()
+            }
+
+            Text("Paste the browser cookie values for .0 and .1 separately. ClaudeMeter joins them, stores the result only in Keychain, and sends it only to chatgpt.com.")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+
+            if let chatGPTErrorMessage = appModel.chatGPTErrorMessage, appModel.settings.isChatGPTUsageShown {
+                Label(chatGPTErrorMessage, systemImage: "exclamationmark.triangle.fill")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+            }
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private var hasChatGPTCookieInput: Bool {
+        !chatGPTSessionTokenPart0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        || !chatGPTSessionTokenPart1.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        || !chatGPTFullCookieHeader.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    private var joinedChatGPTCookieInput: String {
+        let fullHeader = chatGPTFullCookieHeader.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !fullHeader.isEmpty {
+            return fullHeader
+        }
+
+        return [chatGPTSessionTokenPart0, chatGPTSessionTokenPart1]
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .joined()
+    }
+
+    private func chatGPTCookieField(label: String, placeholder: String, text: Binding<String>) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            chatGPTCookieInput(placeholder: placeholder, text: text)
+        }
+    }
+
+    private func chatGPTCookieInput(placeholder: String, text: Binding<String>) -> some View {
+        Group {
+            if isChatGPTSessionCookieShown {
+                TextField(placeholder, text: text)
+            } else {
+                SecureField(placeholder, text: text)
+            }
+        }
+        .textFieldStyle(.roundedBorder)
+        .font(.system(.body, design: .monospaced))
     }
 
     // MARK: - Refresh Interval Section
@@ -488,6 +639,11 @@ struct SettingsView: View {
     private func loadSettings() {
         Task { @MainActor in
             sessionKey = await appModel.loadSessionKey() ?? ""
+            if let savedChatGPTCookie = await appModel.loadChatGPTSessionCookie() {
+                chatGPTSessionTokenPart0 = savedChatGPTCookie
+                chatGPTSessionTokenPart1 = ""
+                chatGPTFullCookieHeader = ""
+            }
             await updateNotificationStatus()
         }
     }
@@ -554,6 +710,57 @@ struct SettingsView: View {
             } catch {
                 sessionKeyValidationMessage = "Failed to clear: \(error.localizedDescription)"
                 hasSessionKeyValidationSucceeded = false
+            }
+        }
+    }
+
+    @MainActor
+    private func validateAndSaveChatGPTSessionCookie() async {
+        guard hasChatGPTCookieInput else {
+            chatGPTSessionCookieValidationMessage = "Session cookie cannot be empty"
+            hasChatGPTSessionCookieValidationSucceeded = false
+            return
+        }
+
+        isValidatingChatGPTSessionCookie = true
+        chatGPTSessionCookieValidationMessage = nil
+        hasChatGPTSessionCookieValidationSucceeded = false
+
+        do {
+            let isValid = try await appModel.validateAndSaveChatGPTSessionCookie(joinedChatGPTCookieInput)
+            if isValid {
+                chatGPTSessionCookieValidationMessage = "ChatGPT session cookie saved"
+                hasChatGPTSessionCookieValidationSucceeded = true
+
+                Task { @MainActor in
+                    try? await Task.sleep(for: .seconds(2))
+                    chatGPTSessionCookieValidationMessage = nil
+                    hasChatGPTSessionCookieValidationSucceeded = false
+                }
+            } else {
+                chatGPTSessionCookieValidationMessage = "ChatGPT session cookie validation failed"
+                hasChatGPTSessionCookieValidationSucceeded = false
+            }
+        } catch {
+            chatGPTSessionCookieValidationMessage = "Validation failed: \(error.localizedDescription)"
+            hasChatGPTSessionCookieValidationSucceeded = false
+        }
+
+        isValidatingChatGPTSessionCookie = false
+    }
+
+    private func clearChatGPTSessionCookie() {
+        Task { @MainActor in
+            do {
+                try await appModel.clearChatGPTSessionCookie()
+                chatGPTSessionTokenPart0 = ""
+                chatGPTSessionTokenPart1 = ""
+                chatGPTFullCookieHeader = ""
+                chatGPTSessionCookieValidationMessage = nil
+                hasChatGPTSessionCookieValidationSucceeded = false
+            } catch {
+                chatGPTSessionCookieValidationMessage = "Failed to clear: \(error.localizedDescription)"
+                hasChatGPTSessionCookieValidationSucceeded = false
             }
         }
     }

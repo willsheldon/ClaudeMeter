@@ -23,10 +23,14 @@ final class AppModel {
     }
 
     var usageData: UsageData?
+    var chatGPTUsageData: ChatGPTUsageData?
     var isLoading: Bool = false
     var isRefreshing: Bool = false
+    var isRefreshingChatGPT: Bool = false
     var errorMessage: String?
+    var chatGPTErrorMessage: String?
     var isSetupComplete: Bool = false
+    var hasChatGPTSessionCookie: Bool = false
     var isReady: Bool = false
 
     // MARK: - Dependencies
@@ -34,6 +38,7 @@ final class AppModel {
     @ObservationIgnored private let settingsRepository: SettingsRepositoryProtocol
     @ObservationIgnored private let keychainRepository: KeychainRepositoryProtocol
     @ObservationIgnored private let usageService: UsageServiceProtocol
+    @ObservationIgnored private let chatGPTUsageService: ChatGPTUsageServiceProtocol
     @ObservationIgnored private let notificationService: NotificationServiceProtocol
 
     // MARK: - Private
@@ -50,6 +55,7 @@ final class AppModel {
         settingsRepository: SettingsRepositoryProtocol = SettingsRepository(),
         keychainRepository: KeychainRepositoryProtocol = KeychainRepository(),
         usageService: UsageServiceProtocol? = nil,
+        chatGPTUsageService: ChatGPTUsageServiceProtocol? = nil,
         notificationService: NotificationServiceProtocol? = nil
     ) {
         self.settingsRepository = settingsRepository
@@ -64,6 +70,7 @@ final class AppModel {
             settingsRepository: settingsRepository
         )
         self.usageService = usageService
+        self.chatGPTUsageService = chatGPTUsageService ?? ChatGPTUsageService()
         self.notificationService = notificationService ?? NotificationService(
             settingsRepository: settingsRepository
         )
@@ -79,10 +86,18 @@ final class AppModel {
         hasLoadedSettings = true
 
         isSetupComplete = await keychainRepository.exists(account: "default")
+        hasChatGPTSessionCookie = await keychainRepository.exists(account: "chatgpt")
         isReady = true
+
+        if hasChatGPTSessionCookie && settings.isChatGPTUsageShown {
+            await refreshChatGPTUsage()
+        }
 
         if isSetupComplete {
             await refreshUsage(forceRefresh: true)
+        }
+
+        if isSetupComplete || hasChatGPTSessionCookie {
             startRefreshLoop()
         }
 
@@ -119,6 +134,64 @@ final class AppModel {
         } catch {
             errorMessage = error.localizedDescription
         }
+    }
+
+    // MARK: - ChatGPT Usage
+
+    func refreshChatGPTUsage() async {
+        if !hasChatGPTSessionCookie {
+            hasChatGPTSessionCookie = await keychainRepository.exists(account: "chatgpt")
+        }
+        guard hasChatGPTSessionCookie else {
+            chatGPTUsageData = nil
+            return
+        }
+        guard !isRefreshingChatGPT else { return }
+
+        isRefreshingChatGPT = true
+        chatGPTErrorMessage = nil
+
+        defer {
+            isRefreshingChatGPT = false
+        }
+
+        do {
+            let sessionCookie = try await keychainRepository.retrieve(account: "chatgpt")
+            chatGPTUsageData = try await chatGPTUsageService.fetchUsage(sessionCookie: sessionCookie)
+        } catch {
+            chatGPTUsageData = nil
+            chatGPTErrorMessage = error.localizedDescription
+        }
+    }
+
+    func loadChatGPTSessionCookie() async -> String? {
+        do {
+            return try await keychainRepository.retrieve(account: "chatgpt")
+        } catch {
+            return nil
+        }
+    }
+
+    func validateAndSaveChatGPTSessionCookie(_ rawValue: String) async throws -> Bool {
+        let trimmedCookie = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedCookie.isEmpty else { return false }
+
+        let isValid = try await chatGPTUsageService.validateSessionCookie(trimmedCookie)
+        guard isValid else { return false }
+
+        try await keychainRepository.save(sessionKey: trimmedCookie, account: "chatgpt")
+        hasChatGPTSessionCookie = true
+        settings.isChatGPTUsageShown = true
+        await refreshChatGPTUsage()
+        return true
+    }
+
+    func clearChatGPTSessionCookie() async throws {
+        try await keychainRepository.delete(account: "chatgpt")
+        hasChatGPTSessionCookie = false
+        settings.isChatGPTUsageShown = false
+        chatGPTUsageData = nil
+        chatGPTErrorMessage = nil
     }
 
     // MARK: - Session Key
@@ -206,14 +279,19 @@ final class AppModel {
 
     private func startRefreshLoop() {
         refreshTask?.cancel()
-        guard isSetupComplete else { return }
+        guard isSetupComplete || hasChatGPTSessionCookie else { return }
 
         let interval = Duration.seconds(Int(settings.refreshInterval))
         refreshTask = Task { [weak self] in
             guard let self else { return }
             while !Task.isCancelled {
                 try? await self.refreshClock.sleep(for: interval)
-                await self.refreshUsage()
+                if self.isSetupComplete {
+                    await self.refreshUsage()
+                }
+                if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+                    await self.refreshChatGPTUsage()
+                }
             }
         }
     }
@@ -223,7 +301,12 @@ final class AppModel {
         wakeTask = Task { [weak self] in
             guard let self else { return }
             for await _ in NSWorkspace.shared.notificationCenter.notifications(named: NSWorkspace.didWakeNotification) {
-                await self.refreshUsage(forceRefresh: true)
+                if self.isSetupComplete {
+                    await self.refreshUsage(forceRefresh: true)
+                }
+                if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+                    await self.refreshChatGPTUsage()
+                }
             }
         }
     }

@@ -192,7 +192,8 @@ final class AppModelTests: XCTestCase {
         let organization = Organization(
             id: 1,
             uuid: TestConstants.organizationUUIDString,
-            name: "Test Org"
+            name: "Test Org",
+            capabilities: ["chat"]
         )
         let usageService = UsageServiceStub(
             fetchUsageResult: .success(expectedUsage),

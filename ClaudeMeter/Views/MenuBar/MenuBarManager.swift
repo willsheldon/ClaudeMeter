@@ -86,8 +86,11 @@ final class MenuBarManager {
     private func observeIconUpdates() {
         withObservationTracking {
             _ = appModel.usageData
+            _ = appModel.chatGPTUsageData
             _ = appModel.isLoading
             _ = appModel.settings.iconStyle
+            _ = appModel.settings.isChatGPTUsageShown
+            _ = appModel.settings.isSonnetUsageShown
         } onChange: { [weak self] in
             Task { @MainActor [weak self] in
                 guard let self else { return }
@@ -106,6 +109,10 @@ final class MenuBarManager {
         let isStale = appModel.usageData?.isStale ?? false
         let isLoading = appModel.isLoading
         let style = appModel.settings.iconStyle
+        let quotaBars = menuBarQuotaBars()
+        let quotaSignature = quotaBars
+            .map { "\($0.label):\(Int($0.percentage.rounded())):\($0.status.rawValue)" }
+            .joined(separator: "|")
 
         if let cachedImage = iconCache.get(
             percentage: percentage,
@@ -113,7 +120,8 @@ final class MenuBarManager {
             isLoading: isLoading,
             isStale: isStale,
             iconStyle: style,
-            weeklyPercentage: weeklyPercentage
+            weeklyPercentage: weeklyPercentage,
+            quotaSignature: quotaSignature
         ) {
             button.image = cachedImage
             return
@@ -125,7 +133,8 @@ final class MenuBarManager {
             isLoading: isLoading,
             isStale: isStale,
             iconStyle: style,
-            weeklyPercentage: weeklyPercentage
+            weeklyPercentage: weeklyPercentage,
+            quotaBars: quotaBars
         )
 
         iconCache.set(
@@ -135,12 +144,45 @@ final class MenuBarManager {
             isLoading: isLoading,
             isStale: isStale,
             iconStyle: style,
-            weeklyPercentage: weeklyPercentage
+            weeklyPercentage: weeklyPercentage,
+            quotaSignature: quotaSignature
         )
 
         button.image = image
     }
 
+    private func menuBarQuotaBars() -> [MenuBarQuotaBar] {
+        var bars: [MenuBarQuotaBar] = []
+
+        if let usageData = appModel.usageData {
+            bars.append(MenuBarQuotaBar(label: "Claude 5h", percentage: clamped(usageData.sessionUsage.percentage), status: usageData.sessionUsage.status))
+            bars.append(MenuBarQuotaBar(label: "Claude weekly", percentage: clamped(usageData.weeklyUsage.percentage), status: usageData.weeklyUsage.status))
+        }
+
+        if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
+            let chatGPTBars = chatGPTUsageData.menuBarRows.map { row in
+                MenuBarQuotaBar(
+                    label: row.menuBarRole?.menuBarLabel ?? row.label,
+                    percentage: clamped(row.usedPercent),
+                    status: chatGPTStatus(for: row.usedPercent)
+                )
+            }
+            bars.append(contentsOf: chatGPTBars)
+        }
+
+        return bars
+    }
+
+    private func chatGPTStatus(for percentage: Double) -> UsageStatus {
+        switch percentage {
+        case 0..<Constants.Thresholds.Status.warningStart:
+            return .safe
+        case Constants.Thresholds.Status.warningStart..<Constants.Thresholds.Status.criticalStart:
+            return .warning
+        default:
+            return .critical
+        }
+    }
 
     private func clamped(_ value: Double) -> Double {
         max(0, min(value, 100))
