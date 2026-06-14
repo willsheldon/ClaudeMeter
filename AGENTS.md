@@ -152,6 +152,15 @@ Types: `feat`, `fix`, `refactor`, `docs`, `test`
 - `xcuserdata/`, `DerivedData/`
 - `build/` output directory
 
+## Secrets
+
+This project uses AWS SSM Parameter Store for agent-managed project secrets. Secrets must only be stored in SSM Parameter Store — never in `.env` files, shell profiles, local plaintext files, logs, repo files, or any other store.
+
+Use `mysecrets` to manage secrets for this project.
+
+ssm_path: /ws-claude/claudemeter
+aws_profile: ws-claude-claudemeter
+
 ### Non-Obvious Patterns
 - Cache TTL is 55 seconds (< 60s minimum refresh interval)
 - Staleness threshold: 1200 seconds (shows "stale" indicator)
