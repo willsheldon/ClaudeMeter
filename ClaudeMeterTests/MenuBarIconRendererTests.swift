@@ -10,22 +10,20 @@ import XCTest
 
 @MainActor
 final class MenuBarIconRendererTests: XCTestCase {
-    func test_menuBarIconRendersForAllStyles() {
+    func test_menuBarIconRendersMeterStyle() {
         let renderer = MenuBarIconRenderer()
 
-        for style in IconStyle.allCases {
-            let image = renderer.render(
-                percentage: TestConstants.sessionPercentage,
-                status: .safe,
-                isLoading: false,
-                isStale: false,
-                iconStyle: style,
-                weeklyPercentage: TestConstants.weeklyPercentage
-            )
+        let image = renderer.render(
+            percentage: TestConstants.sessionPercentage,
+            status: .safe,
+            isLoading: false,
+            isStale: false,
+            iconStyle: .dualBar,
+            weeklyPercentage: TestConstants.weeklyPercentage
+        )
 
-            XCTAssertGreaterThan(image.size.width, 0)
-            XCTAssertGreaterThan(image.size.height, 0)
-        }
+        XCTAssertGreaterThan(image.size.width, 0)
+        XCTAssertGreaterThan(image.size.height, 0)
     }
 
     func test_menuBarIconRendersWhenLoadingOrStale() {
@@ -36,7 +34,7 @@ final class MenuBarIconRendererTests: XCTestCase {
             status: .safe,
             isLoading: true,
             isStale: false,
-            iconStyle: .battery,
+            iconStyle: .dualBar,
             weeklyPercentage: TestConstants.weeklyPercentage
         )
 
@@ -45,7 +43,7 @@ final class MenuBarIconRendererTests: XCTestCase {
             status: .safe,
             isLoading: false,
             isStale: true,
-            iconStyle: .battery,
+            iconStyle: .dualBar,
             weeklyPercentage: TestConstants.weeklyPercentage
         )
 
@@ -63,7 +61,7 @@ final class MenuBarIconRendererTests: XCTestCase {
             status: .safe,
             isLoading: false,
             isStale: false,
-            iconStyle: .battery,
+            iconStyle: .dualBar,
             weeklyPercentage: TestConstants.weeklyPercentage
         )
 
@@ -78,7 +76,7 @@ final class MenuBarIconRendererTests: XCTestCase {
             status: .safe,
             isLoading: false,
             isStale: false,
-            iconStyle: .battery,
+            iconStyle: .dualBar,
             weeklyPercentage: TestConstants.weeklyPercentage,
             isColored: false
         )
@@ -94,7 +92,7 @@ final class MenuBarIconRendererTests: XCTestCase {
             status: .safe,
             isLoading: false,
             isStale: false,
-            iconStyle: .battery,
+            iconStyle: .dualBar,
             weeklyPercentage: TestConstants.weeklyPercentage,
             isColored: true
         )

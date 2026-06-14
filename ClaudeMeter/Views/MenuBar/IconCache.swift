@@ -22,7 +22,8 @@ final class IconCache {
         isStale: Bool,
         iconStyle: IconStyle,
         weeklyPercentage: Double,
-        isColored: Bool
+        isColored: Bool,
+        quotaSignature: String = ""
     ) -> NSImage? {
         cache.object(forKey: cacheKey(
             percentage: percentage,
@@ -31,7 +32,8 @@ final class IconCache {
             isStale: isStale,
             iconStyle: iconStyle,
             weeklyPercentage: weeklyPercentage,
-            isColored: isColored
+            isColored: isColored,
+            quotaSignature: quotaSignature
         ))
     }
 
@@ -43,7 +45,8 @@ final class IconCache {
         isStale: Bool,
         iconStyle: IconStyle,
         weeklyPercentage: Double,
-        isColored: Bool
+        isColored: Bool,
+        quotaSignature: String = ""
     ) {
         cache.setObject(
             image,
@@ -54,7 +57,8 @@ final class IconCache {
                 isStale: isStale,
                 iconStyle: iconStyle,
                 weeklyPercentage: weeklyPercentage,
-                isColored: isColored
+                isColored: isColored,
+                quotaSignature: quotaSignature
             )
         )
     }
@@ -66,10 +70,11 @@ final class IconCache {
         isStale: Bool,
         iconStyle: IconStyle,
         weeklyPercentage: Double,
-        isColored: Bool
+        isColored: Bool,
+        quotaSignature: String
     ) -> NSString {
         let percent = String(format: "%.2f", percentage)
         let weekly = String(format: "%.2f", weeklyPercentage)
-        return "\(percent)|\(weekly)|\(status.rawValue)|\(isLoading)|\(isStale)|\(iconStyle.rawValue)|\(isColored)" as NSString
+        return "\(percent)|\(weekly)|\(quotaSignature)|\(status.rawValue)|\(isLoading)|\(isStale)|\(iconStyle.rawValue)|\(isColored)" as NSString
     }
 }

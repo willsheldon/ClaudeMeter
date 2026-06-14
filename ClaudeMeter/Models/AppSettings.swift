@@ -27,6 +27,9 @@ struct AppSettings: Codable, Equatable, Sendable {
     /// Whether to show Sonnet usage in the popover
     var isSonnetUsageShown: Bool
 
+    /// Whether to show ChatGPT quota usage in the popover
+    var isChatGPTUsageShown: Bool
+
     /// Menu bar icon display style
     var iconStyle: IconStyle
 
@@ -40,7 +43,8 @@ struct AppSettings: Codable, Equatable, Sendable {
         isFirstLaunch: true,
         cachedOrganizationId: nil,
         isSonnetUsageShown: false,
-        iconStyle: .battery,
+        isChatGPTUsageShown: false,
+        iconStyle: .dualBar,
         isColoredIcon: true
     )
 
@@ -51,6 +55,8 @@ struct AppSettings: Codable, Equatable, Sendable {
         case isFirstLaunch = "is_first_launch"
         case cachedOrganizationId = "cached_organization_id"
         case isSonnetUsageShown = "show_sonnet_usage"
+        case isChatGPTUsageShown = "show_chatgpt_usage"
+        case legacyOpenAIUsageShown = "show_openai_usage"
         case iconStyle = "icon_style"
         case isColoredIcon = "is_colored_icon"
     }
@@ -67,8 +73,45 @@ extension AppSettings {
         isFirstLaunch = try container.decodeIfPresent(Bool.self, forKey: .isFirstLaunch) ?? defaults.isFirstLaunch
         cachedOrganizationId = try container.decodeIfPresent(UUID.self, forKey: .cachedOrganizationId)
         isSonnetUsageShown = try container.decodeIfPresent(Bool.self, forKey: .isSonnetUsageShown) ?? defaults.isSonnetUsageShown
+        isChatGPTUsageShown = try container.decodeIfPresent(Bool.self, forKey: .isChatGPTUsageShown)
+            ?? container.decodeIfPresent(Bool.self, forKey: .legacyOpenAIUsageShown)
+            ?? defaults.isChatGPTUsageShown
         iconStyle = try container.decodeIfPresent(IconStyle.self, forKey: .iconStyle) ?? defaults.iconStyle
         isColoredIcon = try container.decodeIfPresent(Bool.self, forKey: .isColoredIcon) ?? defaults.isColoredIcon
+    }
+
+    init(
+        refreshInterval: TimeInterval,
+        hasNotificationsEnabled: Bool,
+        notificationThresholds: NotificationThresholds,
+        isFirstLaunch: Bool,
+        cachedOrganizationId: UUID?,
+        isSonnetUsageShown: Bool,
+        isChatGPTUsageShown: Bool,
+        iconStyle: IconStyle
+    ) {
+        self.refreshInterval = refreshInterval
+        self.hasNotificationsEnabled = hasNotificationsEnabled
+        self.notificationThresholds = notificationThresholds
+        self.isFirstLaunch = isFirstLaunch
+        self.cachedOrganizationId = cachedOrganizationId
+        self.isSonnetUsageShown = isSonnetUsageShown
+        self.isChatGPTUsageShown = isChatGPTUsageShown
+        self.iconStyle = iconStyle
+        self.isColoredIcon = AppSettings.default.isColoredIcon
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(refreshInterval, forKey: .refreshInterval)
+        try container.encode(hasNotificationsEnabled, forKey: .hasNotificationsEnabled)
+        try container.encode(notificationThresholds, forKey: .notificationThresholds)
+        try container.encode(isFirstLaunch, forKey: .isFirstLaunch)
+        try container.encodeIfPresent(cachedOrganizationId, forKey: .cachedOrganizationId)
+        try container.encode(isSonnetUsageShown, forKey: .isSonnetUsageShown)
+        try container.encode(isChatGPTUsageShown, forKey: .isChatGPTUsageShown)
+        try container.encode(iconStyle, forKey: .iconStyle)
+        try container.encode(isColoredIcon, forKey: .isColoredIcon)
     }
 }
 

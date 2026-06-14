@@ -20,8 +20,9 @@ final class SettingsRepositoryTests: XCTestCase {
         settings.hasNotificationsEnabled = false
         settings.isFirstLaunch = false
         settings.cachedOrganizationId = UUID(uuidString: TestConstants.organizationUUIDString)
-        settings.iconStyle = .segments
+        settings.iconStyle = .dualBar
         settings.isColoredIcon = false
+        settings.isChatGPTUsageShown = true
 
         try await repository.save(settings)
         let loaded = await repository.load()
@@ -42,13 +43,17 @@ final class SettingsRepositoryTests: XCTestCase {
           "is_first_launch": false,
           "cached_organization_id": null,
           "show_sonnet_usage": true,
-          "icon_style": "segments"
+          "icon_style": "dual_bar"
         }
         """.data(using: .utf8)!
 
         let settings = try JSONDecoder().decode(AppSettings.self, from: data)
 
         XCTAssertTrue(settings.isColoredIcon)
+    }
+
+    func test_defaultSettings_hideChatGPTUsage() {
+        XCTAssertFalse(AppSettings.default.isChatGPTUsageShown)
     }
 
     func test_notificationStatePersistsAcrossLaunches() async throws {
