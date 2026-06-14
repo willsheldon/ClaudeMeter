@@ -41,7 +41,7 @@ struct AppSettings: Codable, Equatable, Sendable {
         cachedOrganizationId: nil,
         isSonnetUsageShown: false,
         isChatGPTUsageShown: false,
-        iconStyle: .battery
+        iconStyle: .dualBar
     )
 
     enum CodingKeys: String, CodingKey {
@@ -87,7 +87,7 @@ struct AppSettings: Codable, Equatable, Sendable {
         isChatGPTUsageShown = try container.decodeIfPresent(Bool.self, forKey: .isChatGPTUsageShown)
             ?? container.decodeIfPresent(Bool.self, forKey: .legacyOpenAIUsageShown)
             ?? false
-        iconStyle = try container.decodeIfPresent(IconStyle.self, forKey: .iconStyle) ?? .battery
+        iconStyle = try container.decodeIfPresent(IconStyle.self, forKey: .iconStyle) ?? .dualBar
     }
 
     func encode(to encoder: Encoder) throws {

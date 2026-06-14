@@ -77,7 +77,6 @@ struct SettingsView: View {
                 chatGPTSection
                 refreshIntervalSection
                 sonnetUsageSection
-                iconStyleSection
                 launchAtLoginSection
             }
         }
@@ -336,24 +335,6 @@ struct SettingsView: View {
 
             Toggle("", isOn: $appModel.settings.isSonnetUsageShown)
                 .labelsHidden()
-        }
-        .padding()
-        .background(.quaternary.opacity(0.3))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-    }
-
-    // MARK: - Icon Style Section
-
-    private var iconStyleSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Menu Bar Icon Style")
-                .font(.subheadline)
-
-            Text("Choose how the usage indicator appears in your menu bar")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-
-            IconStylePicker(selection: $appModel.settings.iconStyle)
         }
         .padding()
         .background(.quaternary.opacity(0.3))

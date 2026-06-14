@@ -20,7 +20,7 @@ final class SettingsRepositoryTests: XCTestCase {
         settings.hasNotificationsEnabled = false
         settings.isFirstLaunch = false
         settings.cachedOrganizationId = UUID(uuidString: TestConstants.organizationUUIDString)
-        settings.iconStyle = .segments
+        settings.iconStyle = .dualBar
         settings.isChatGPTUsageShown = true
 
         try await repository.save(settings)

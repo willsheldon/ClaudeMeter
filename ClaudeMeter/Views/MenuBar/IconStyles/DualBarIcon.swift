@@ -33,14 +33,6 @@ struct DualBarIcon: View {
         return Array(quotaBars.prefix(5))
     }
 
-    private var primaryPercentage: Double {
-        bars.max { $0.percentage < $1.percentage }?.percentage ?? percentage
-    }
-
-    private var primaryStatus: UsageStatus {
-        bars.max { $0.percentage < $1.percentage }?.status ?? status
-    }
-
     var body: some View {
         HStack(spacing: 4) {
             if isLoading {
@@ -59,10 +51,6 @@ struct DualBarIcon: View {
                         .help("\(bar.label): \(Int(bar.percentage))%")
                     }
                 }
-
-                Text("\(Int(primaryPercentage))%")
-                    .font(.system(size: 10, weight: .medium, design: .monospaced))
-                    .foregroundColor(statusColor)
             }
 
             if isStale && !isLoading {
@@ -74,11 +62,10 @@ struct DualBarIcon: View {
         .frame(height: 22)
         .padding(.horizontal, 4)
         .accessibilityLabel(accessibilityLabel)
-        .accessibilityValue(primaryStatus.accessibilityDescription)
     }
 
     private var statusColor: Color {
-        isStale ? .gray : primaryStatus.color
+        isStale ? .gray : status.color
     }
 
     private var accessibilityLabel: String {
