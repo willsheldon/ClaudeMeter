@@ -52,10 +52,12 @@ final class ChatGPTUsageServiceTests: XCTestCase {
     func test_whamToDomain_classifiesMenuBarRowsAndPreservesUnknownRows() throws {
         let json = #"""
         {
-          "rate_limit": { "primary_window": { "used_percent": 25, "reset_at": 1770000000 } },
+          "rate_limit": {
+            "primary_window": { "used_percent": 25, "reset_at": 1770000000 },
+            "secondary_window": { "used_percent": 35, "reset_at": 1770600000 }
+          },
           "code_review_rate_limit": { "primary_window": { "used_percent": 50, "reset_at": 1770003600 } },
           "additional_rate_limits": [
-            { "name": "gpt_5_weekly", "primary_window": { "used_percent": 35, "reset_at": 1770600000 } },
             { "type": "chatgpt_pro", "primary_window": { "used_percent": 40, "reset_at": 1770700000 } },
             { "name": "unknown_bucket", "primary_window": { "used_percent": 15, "reset_at": 1770800000 } }
           ]
@@ -69,15 +71,15 @@ final class ChatGPTUsageServiceTests: XCTestCase {
 
         XCTAssertEqual(usage.rows.map(\.sourceLabel), [
             "rate_limit",
+            "rate_limit.secondary_window",
             "code_review_rate_limit",
-            "gpt_5_weekly",
             "chatgpt_pro",
             "unknown_bucket"
         ])
         XCTAssertEqual(usage.rows.map(\.label), [
             "ChatGPT 5h",
-            "Code Review",
             "ChatGPT weekly",
+            "Code Review",
             "ChatGPT Pro",
             "Unknown Bucket"
         ])

@@ -37,9 +37,11 @@ struct ChatGPTWHAMAdditionalRateLimit: Decodable, Equatable, Sendable {
 
 struct ChatGPTWHAMRateLimit: Decodable, Equatable, Sendable {
     let primaryWindow: ChatGPTWHAMWindow?
+    let secondaryWindow: ChatGPTWHAMWindow?
 
     enum CodingKeys: String, CodingKey {
         case primaryWindow = "primary_window"
+        case secondaryWindow = "secondary_window"
     }
 }
 
@@ -63,6 +65,16 @@ extension ChatGPTWHAMUsageResponse {
             displayLabel: "ChatGPT 5h",
             subtitle: "Primary WHAM window",
             menuBarRole: .chatGPT5h
+        ) {
+            rows.append(row)
+        }
+
+        if let row = Self.row(
+            from: rateLimit?.secondaryWindow,
+            sourceLabel: "rate_limit.secondary_window",
+            displayLabel: ChatGPTUsageData.MenuBarQuotaRole.chatGPTWeekly.menuBarLabel,
+            subtitle: "Secondary WHAM window",
+            menuBarRole: .chatGPTWeekly
         ) {
             rows.append(row)
         }
