@@ -9,7 +9,7 @@ import Foundation
 
 /// User preferences and app configuration
 struct AppSettings: Codable, Equatable, Sendable {
-    /// Refresh interval in seconds (60-600)
+    /// Refresh interval in seconds, clamped to Constants.Refresh bounds.
     var refreshInterval: TimeInterval
 
     /// Whether notifications are enabled
@@ -37,7 +37,7 @@ struct AppSettings: Codable, Equatable, Sendable {
     var isColoredIcon: Bool
 
     static let `default` = AppSettings(
-        refreshInterval: 60,
+        refreshInterval: Constants.Refresh.minimum,
         hasNotificationsEnabled: true,
         notificationThresholds: .default,
         isFirstLaunch: true,
@@ -116,8 +116,8 @@ extension AppSettings {
 }
 
 extension AppSettings {
-    /// Validate refresh interval is within bounds
+    /// Validate refresh interval is within Constants.Refresh bounds.
     mutating func setRefreshInterval(_ interval: TimeInterval) {
-        refreshInterval = max(60, min(600, interval))
+        refreshInterval = max(Constants.Refresh.minimum, min(Constants.Refresh.maximum, interval))
     }
 }
