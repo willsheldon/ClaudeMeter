@@ -12,25 +12,46 @@ actor CacheRepository: CacheRepositoryProtocol {
     private var memoryCache: UsageData?
     private var memoryCacheTimestamp: Date?
     private let cacheTTL: TimeInterval = Constants.Cache.ttl
+    private let fileManager: FileManager
     private let diskCacheURL: URL
+    private let legacyDiskCacheURL: URL
     private let publicJSONURL: URL
+    private let legacyPublicJSONURL: URL
 
     init(fileManager: FileManager = .default) {
         let appSupport = fileManager.urls(
             for: .applicationSupportDirectory,
             in: .userDomainMask
         ).first!
+        self.init(
+            fileManager: fileManager,
+            appSupportBaseURL: appSupport,
+            homeBaseURL: fileManager.homeDirectoryForCurrentUser
+        )
+    }
 
-        let cacheDir = appSupport.appendingPathComponent("com.claudemeter", isDirectory: true)
+    internal init(
+        fileManager: FileManager = .default,
+        appSupportBaseURL: URL,
+        homeBaseURL: URL
+    ) {
+        self.fileManager = fileManager
+
+        let cacheDir = appSupportBaseURL.appendingPathComponent("com.pinemeter", isDirectory: true)
+        let legacyCacheDir = appSupportBaseURL.appendingPathComponent("com.claudemeter", isDirectory: true)
         try? fileManager.createDirectory(at: cacheDir, withIntermediateDirectories: true)
 
         self.diskCacheURL = cacheDir.appendingPathComponent("usage_cache.json")
+        self.legacyDiskCacheURL = legacyCacheDir.appendingPathComponent("usage_cache.json")
 
-        // Public JSON export at ~/.claudemeter/usage.json for external tools
-        let homeDir = fileManager.homeDirectoryForCurrentUser
-        let publicDir = homeDir.appendingPathComponent(".claudemeter", isDirectory: true)
+        // Public JSON export at ~/.pinemeter/usage.json for external tools.
+        // Continue writing the legacy ~/.claudemeter/usage.json export for milestone compatibility.
+        let publicDir = homeBaseURL.appendingPathComponent(".pinemeter", isDirectory: true)
+        let legacyPublicDir = homeBaseURL.appendingPathComponent(".claudemeter", isDirectory: true)
         try? fileManager.createDirectory(at: publicDir, withIntermediateDirectories: true)
+        try? fileManager.createDirectory(at: legacyPublicDir, withIntermediateDirectories: true)
         self.publicJSONURL = publicDir.appendingPathComponent("usage.json")
+        self.legacyPublicJSONURL = legacyPublicDir.appendingPathComponent("usage.json")
     }
 
     /// Get cached usage data (respects TTL)
@@ -53,10 +74,14 @@ actor CacheRepository: CacheRepositoryProtocol {
         await saveToDisk(data)
     }
 
-    /// Invalidate memory cache
+    /// Invalidate memory and disk cache artifacts
     func invalidate() async {
         memoryCache = nil
         memoryCacheTimestamp = nil
+        removeCacheFile(at: diskCacheURL)
+        removeCacheFile(at: legacyDiskCacheURL)
+        removeCacheFile(at: publicJSONURL)
+        removeCacheFile(at: legacyPublicJSONURL)
     }
 
     /// Get last known data from disk (ignores TTL) for offline display
@@ -95,15 +120,33 @@ actor CacheRepository: CacheRepositoryProtocol {
             return
         }
 
+        writePublicJSON(jsonData, to: publicJSONURL)
+        writePublicJSON(jsonData, to: legacyPublicJSONURL)
+    }
+
+    private func writePublicJSON(_ jsonData: Data, to url: URL) {
         do {
-            try jsonData.write(to: publicJSONURL, options: .atomic)
+            try jsonData.write(to: url, options: .atomic)
         } catch {
             // Silently fail - external tools location is optional
         }
     }
 
     private func loadFromDisk() async -> UsageData? {
-        guard let jsonData = try? Data(contentsOf: diskCacheURL) else {
+        if let data = loadUsageData(from: diskCacheURL) {
+            return data
+        }
+
+        guard let legacyData = loadUsageData(from: legacyDiskCacheURL) else {
+            return nil
+        }
+
+        await saveToDisk(legacyData)
+        return legacyData
+    }
+
+    private func loadUsageData(from url: URL) -> UsageData? {
+        guard let jsonData = try? Data(contentsOf: url) else {
             return nil
         }
 
@@ -115,5 +158,13 @@ actor CacheRepository: CacheRepositoryProtocol {
         } catch {
             return nil
         }
+    }
+
+    private func removeCacheFile(at url: URL) {
+        guard fileManager.fileExists(atPath: url.path) else {
+            return
+        }
+
+        try? fileManager.removeItem(at: url)
     }
 }

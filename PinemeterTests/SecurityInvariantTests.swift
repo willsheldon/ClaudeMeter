@@ -97,6 +97,36 @@ final class SecurityInvariantTests: XCTestCase {
         assertNoCredentialDisclosure(in: errors.map { $0.localizedDescription })
     }
 
+    func test_legacyKeychainServiceIdentifierRemainsDocumentedForCredentialCompatibility() throws {
+        let source = try sourceContents(relativePath: "Pinemeter/Repositories/KeychainRepository.swift")
+
+        XCTAssertTrue(
+            source.contains("com.claudemeter.sessionkey"),
+            "The legacy Keychain service identifier is a credential compatibility invariant. Add a migration plan before renaming it."
+        )
+        XCTAssertTrue(
+            source.contains("legacy ClaudeMeter") &&
+                source.contains("credential compatibility") &&
+                source.contains("M002 migration"),
+            "The Keychain service identifier must document why the legacy ClaudeMeter value is intentionally retained."
+        )
+    }
+
+    func test_legacyKeychainAccessGroupRemainsDocumentedForCredentialCompatibility() throws {
+        let source = try sourceContents(relativePath: "Pinemeter/Resources/Pinemeter.entitlements")
+
+        XCTAssertTrue(
+            source.contains("$(AppIdentifierPrefix)com.claudemeter"),
+            "The legacy Keychain access group is a credential compatibility invariant. Add a migration plan before renaming it."
+        )
+        XCTAssertTrue(
+            source.contains("legacy ClaudeMeter") &&
+                source.contains("credential compatibility") &&
+                source.contains("M002 migration"),
+            "The Keychain access group must document why the legacy ClaudeMeter value is intentionally retained."
+        )
+    }
+
     func test_networkServiceDiagnosticsDoNotLogResponseBodiesOrCredentialFragments() throws {
         let testFile = URL(fileURLWithPath: #filePath)
         let repositoryRoot = testFile.deletingLastPathComponent().deletingLastPathComponent()
@@ -137,6 +167,15 @@ final class SecurityInvariantTests: XCTestCase {
                 )
             }
         }
+    }
+
+    private func sourceContents(relativePath: String) throws -> String {
+        let testFile = URL(fileURLWithPath: #filePath)
+        let repositoryRoot = testFile.deletingLastPathComponent().deletingLastPathComponent()
+        let sourceURL = relativePath.split(separator: "/").reduce(repositoryRoot) { url, component in
+            url.appendingPathComponent(String(component))
+        }
+        return try String(contentsOf: sourceURL, encoding: .utf8)
     }
 
     private func assertNoCredentialDisclosure(in descriptions: [String], file: StaticString = #filePath, line: UInt = #line) {

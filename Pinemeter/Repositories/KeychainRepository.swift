@@ -10,6 +10,7 @@ import Security
 
 /// Actor-isolated repository for secure Keychain operations
 actor KeychainRepository: KeychainRepositoryProtocol {
+    // Intentional legacy ClaudeMeter identifier: this is a credential compatibility surface deferred to M002 migration work.
     private let serviceName = "com.claudemeter.sessionkey"
 
     /// Save session key to Keychain with security attributes
