@@ -141,6 +141,12 @@ Temporary Items
 .gsd/metrics.json
 .gsd/runtime/
 .gsd/state-manifest.json
+.gsd/gsd.db
+.gsd/gsd.db-shm
+.gsd/gsd.db-wal
+.gsd/notifications.jsonl
+.gsd/audit/
+.gsd/journal/
 
 # ── GSD baseline (auto-generated) ──
 .gsd-id

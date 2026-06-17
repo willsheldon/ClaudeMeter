@@ -1,0 +1,340 @@
+--- .gsd/REQUIREMENTS.md ---
+- Notes: Verified by renamed test and clean build commands after changes.
+
+### R003 — Credential and session handling surfaces are inventoried and assessed, including acquisition, storage, reuse, clearing, logging, settings, UI display, and recovery.
+- Class: compliance/security
+- Status: active
+- Description: Credential and session handling surfaces are inventoried and assessed, including acquisition, storage, reuse, clearing, logging, settings, UI display, and recovery.
+- Why it matters: Durable app-owned credential acquisition in M002 depends on knowing the current security and workflow surface area.
+
+- Class: compliance/security
+- Status: active
+- Description: Credential and session handling surfaces are inventoried and assessed, including acquisition, storage, reuse, clearing, logging, settings, UI display, and recovery.
+- Why it matters: Durable app-owned credential acquisition in M002 depends on knowing the current security and workflow surface area.
+- Source: user
+- Primary owning slice: M001/S02
+- Supporting slices: M001/S03, M001/S05
+
+- Status: active
+- Description: Credential and session handling surfaces are inventoried and assessed, including acquisition, storage, reuse, clearing, logging, settings, UI display, and recovery.
+- Why it matters: Durable app-owned credential acquisition in M002 depends on knowing the current security and workflow surface area.
+- Source: user
+- Primary owning slice: M001/S02
+- Supporting slices: M001/S03, M001/S05
+- Validation: mapped
+
+- Supporting slices: M001/S03, M001/S05
+- Validation: mapped
+- Notes: Known relevant files include KeychainRepository, SessionKeyImportService, UsageService, ChatGPTUsageService, AppModel, SettingsView, and SetupWizardView.
+
+### R004 — Security review identifies risks in credential storage, session handling, logging, persistence, user-visible recovery, and secret exposure.
+- Class: compliance/security
+- Status: active
+
+- Notes: Known relevant files include KeychainRepository, SessionKeyImportService, UsageService, ChatGPTUsageService, AppModel, SettingsView, and SetupWizardView.
+
+### R004 — Security review identifies risks in credential storage, session handling, logging, persistence, user-visible recovery, and secret exposure.
+- Class: compliance/security
+- Status: active
+- Description: Security review identifies risks in credential storage, session handling, logging, persistence, user-visible recovery, and secret exposure.
+- Why it matters: Pinemeter will handle provider credentials and session material, so unsafe storage or leakage would undermine the product before open-source release.
+
+- Class: compliance/security
+- Status: active
+- Description: Security review identifies risks in credential storage, session handling, logging, persistence, user-visible recovery, and secret exposure.
+- Why it matters: Pinemeter will handle provider credentials and session material, so unsafe storage or leakage would undermine the product before open-source release.
+- Source: user
+- Primary owning slice: M001/S03
+- Supporting slices: M001/S02, M001/S07
+
+- Status: active
+- Description: Security review identifies risks in credential storage, session handling, logging, persistence, user-visible recovery, and secret exposure.
+- Why it matters: Pinemeter will handle provider credentials and session material, so unsafe storage or leakage would undermine the product before open-source release.
+- Source: user
+- Primary owning slice: M001/S03
+- Supporting slices: M001/S02, M001/S07
+- Validation: mapped
+
+## Deferred
+
+### R010 — The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+- Class: core-capability
+- Status: deferred
+- Description: The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+- Why it matters: A smooth product-owned credential flow is central to making Pinemeter usable beyond manual setup.
+
+- Class: core-capability
+- Status: deferred
+- Description: The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+- Why it matters: A smooth product-owned credential flow is central to making Pinemeter usable beyond manual setup.
+- Source: user
+- Primary owning slice: M002
+- Supporting slices: M001/S02, M001/S03
+
+- Status: deferred
+- Description: The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+- Why it matters: A smooth product-owned credential flow is central to making Pinemeter usable beyond manual setup.
+- Source: user
+- Primary owning slice: M002
+- Supporting slices: M001/S02, M001/S03
+- Validation: unmapped
+
+- Why it matters: A smooth product-owned credential flow is central to making Pinemeter usable beyond manual setup.
+- Source: user
+- Primary owning slice: M002
+- Supporting slices: M001/S02, M001/S03
+- Validation: unmapped
+- Notes: Deferred until after M001 credential surface inventory and security review.
+
+
+- Supporting slices: M001/S02, M001/S03
+- Validation: unmapped
+- Notes: Deferred until after M001 credential surface inventory and security review.
+
+### R011 — Setup, status, errors, recovery, and notifications are fully provider-aware across monitored LLM providers.
+- Class: failure-visibility
+- Status: deferred
+
+- Notes: Deferred until after M001 credential surface inventory and security review.
+
+### R011 — Setup, status, errors, recovery, and notifications are fully provider-aware across monitored LLM providers.
+- Class: failure-visibility
+- Status: deferred
+- Description: Setup, status, errors, recovery, and notifications are fully provider-aware across monitored LLM providers.
+- Why it matters: As Pinemeter monitors more than one provider, workflows must identify the affected provider and next action clearly.
+
+- Notes: M001 audits and fixes obvious stale assumptions; full workflow polish is M003.
+
+### R012 — Gemini usage monitoring is added in the same product family as existing Opus and GPT monitoring.
+- Class: core-capability
+- Status: deferred
+- Description: Gemini usage monitoring is added in the same product family as existing Opus and GPT monitoring.
+- Why it matters: Gemini expands Pinemeter into the intended multi-LLM monitoring scope.
+
+- Notes: Not Google monitoring generically; specifically Gemini usage monitoring.
+
+### R013 — Public open-source polish is completed, including contribution conventions, issue templates, release-facing documentation, and public presentation details.
+- Class: launchability
+- Status: deferred
+- Description: Public open-source polish is completed, including contribution conventions, issue templates, release-facing documentation, and public presentation details.
+- Why it matters: The repo should be attractive and understandable when opened to the public, but this should not distract M001 from ownership and safety foundations.
+
+## Out of Scope
+
+### R014 — Do not perform destructive git history rewriting or remote pushes without fresh explicit confirmation.
+- Class: anti-feature
+- Status: out-of-scope
+- Description: Do not perform destructive git history rewriting or remote pushes without fresh explicit confirmation.
+- Why it matters: History rewrite and remote publication are irreversible or outward-facing actions and must remain user-approved.
+
+- Notes: M001 may prepare a plan/checklist for squashing but cannot execute it automatically.
+
+### R015 — Do not implement the full durable credential acquisition system during M001.
+- Class: anti-feature
+- Status: out-of-scope
+- Description: Do not implement the full durable credential acquisition system during M001.
+- Why it matters: M001 must first inventory and review the credential surface so M002 can implement the right secure flow.
+
+- Class: anti-feature
+- Status: out-of-scope
+- Description: Do not implement the full durable credential acquisition system during M001.
+- Why it matters: M001 must first inventory and review the credential surface so M002 can implement the right secure flow.
+- Source: user
+- Primary owning slice: M002
+- Supporting slices: M001/S02, M001/S03
+
+- Status: out-of-scope
+- Description: Do not implement the full durable credential acquisition system during M001.
+- Why it matters: M001 must first inventory and review the credential surface so M002 can implement the right secure flow.
+- Source: user
+- Primary owning slice: M002
+- Supporting slices: M001/S02, M001/S03
+- Validation: n/a
+
+- Why it matters: M001 must first inventory and review the credential surface so M002 can implement the right secure flow.
+- Source: user
+- Primary owning slice: M002
+- Supporting slices: M001/S02, M001/S03
+- Validation: n/a
+- Notes: Immediate safety fixes may still be made if discovered and low-risk.
+
+
+- Status: out-of-scope
+- Description: Do not spend M001 on contribution templates, issue templates, and launch-grade public polish.
+- Why it matters: Those public presentation details belong after ownership, safety, credential, provider, and Gemini foundations are clearer.
+- Source: user
+- Primary owning slice: M005
+- Supporting slices: none
+- Validation: n/a
+
+| R008 | launchability | active | M001/S07 | M001/S01, M001/S06 | mapped |
+| R009 | operability | active | M001/S07 | M001/S06 | mapped |
+| R010 | core-capability | deferred | M002 | M001/S02, M001/S03 | unmapped |
+| R011 | failure-visibility | deferred | M003 | M001/S05 | unmapped |
+| R012 | core-capability | deferred | M004 | M003 | unmapped |
+| R013 | launchability | deferred | M005 | M001/S07 | unmapped |
+| R014 | anti-feature | out-of-scope | none | none | n/a |
+
+| R009 | operability | active | M001/S07 | M001/S06 | mapped |
+| R010 | core-capability | deferred | M002 | M001/S02, M001/S03 | unmapped |
+| R011 | failure-visibility | deferred | M003 | M001/S05 | unmapped |
+| R012 | core-capability | deferred | M004 | M003 | unmapped |
+| R013 | launchability | deferred | M005 | M001/S07 | unmapped |
+| R014 | anti-feature | out-of-scope | none | none | n/a |
+| R015 | anti-feature | out-of-scope | M002 | M001/S02, M001/S03 | n/a |
+
+| R010 | core-capability | deferred | M002 | M001/S02, M001/S03 | unmapped |
+| R011 | failure-visibility | deferred | M003 | M001/S05 | unmapped |
+| R012 | core-capability | deferred | M004 | M003 | unmapped |
+| R013 | launchability | deferred | M005 | M001/S07 | unmapped |
+| R014 | anti-feature | out-of-scope | none | none | n/a |
+| R015 | anti-feature | out-of-scope | M002 | M001/S02, M001/S03 | n/a |
+| R016 | anti-feature | out-of-scope | M004 | M003 | n/a |
+
+| R011 | failure-visibility | deferred | M003 | M001/S05 | unmapped |
+| R012 | core-capability | deferred | M004 | M003 | unmapped |
+| R013 | launchability | deferred | M005 | M001/S07 | unmapped |
+| R014 | anti-feature | out-of-scope | none | none | n/a |
+| R015 | anti-feature | out-of-scope | M002 | M001/S02, M001/S03 | n/a |
+| R016 | anti-feature | out-of-scope | M004 | M003 | n/a |
+| R017 | anti-feature | out-of-scope | M005 | none | n/a |
+
+| R012 | core-capability | deferred | M004 | M003 | unmapped |
+| R013 | launchability | deferred | M005 | M001/S07 | unmapped |
+| R014 | anti-feature | out-of-scope | none | none | n/a |
+| R015 | anti-feature | out-of-scope | M002 | M001/S02, M001/S03 | n/a |
+| R016 | anti-feature | out-of-scope | M004 | M003 | n/a |
+| R017 | anti-feature | out-of-scope | M005 | none | n/a |
+
+
+| R013 | launchability | deferred | M005 | M001/S07 | unmapped |
+| R014 | anti-feature | out-of-scope | none | none | n/a |
+| R015 | anti-feature | out-of-scope | M002 | M001/S02, M001/S03 | n/a |
+| R016 | anti-feature | out-of-scope | M004 | M003 | n/a |
+| R017 | anti-feature | out-of-scope | M005 | none | n/a |
+
+## Coverage Summary
+
+--- .gsd/milestones/M001/M001-SUMMARY.md ---
+key_decisions:
+  - Comprehensive Pinemeter identity rename was performed wherever feasible, with compatibility-sensitive identifiers classified rather than blindly renamed.
+  - Durable credential acquisition and migration were deferred to M002 after M001 inventory and review.
+  - Architecture review proceeded as a ranked artifact-backed baseline with downstream cleanup handoffs.
+  - Git history rewrite, remote push, release publication, site deployment, repository creation, and secret-store mutation remain human-gated and were not performed.
+  - Milestone sequencing remains M001 ownership baseline, M002 durable credentials, M003 provider-aware workflows, M004 Gemini monitoring, and M005 public polish.
+key_files:
+
+  - Architecture review proceeded as a ranked artifact-backed baseline with downstream cleanup handoffs.
+  - Git history rewrite, remote push, release publication, site deployment, repository creation, and secret-store mutation remain human-gated and were not performed.
+  - Milestone sequencing remains M001 ownership baseline, M002 durable credentials, M003 provider-aware workflows, M004 Gemini monitoring, and M005 public polish.
+key_files:
+  - Pinemeter.xcodeproj/project.pbxproj
+  - Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme
+  - Pinemeter/App/PinemeterApp.swift
+
+  - Pinemeter/Repositories/CacheRepository.swift
+  - Pinemeter/Repositories/SettingsRepository.swift
+  - Pinemeter/Services/SessionKeyImportService.swift
+  - Pinemeter/Services/UsageService.swift
+  - Pinemeter/Services/NetworkService.swift
+  - Pinemeter/Services/ChatGPTUsageService.swift
+  - Pinemeter/Views/Settings/SettingsView.swift
+
+lessons_learned:
+  - Retained `claudemeter` Keychain/cache/export/access-group identifiers are compatibility surfaces that need migration planning, not automatic rename misses.
+  - Credential risk includes transient UI/app state, WebView/session material, Keychain, and diagnostics even when SettingsRepository persistence is credential-free.
+  - Narrow provider/error copy improvements can safely land before full provider redesign when source-reviewed and covered by focused tests.
+  - Safe cleanup must preserve compatibility and security invariants, not only remove stale names.
+  - Milestone closeout should refresh code-change, slice-status, summary, validation, and requirement-transition evidence even when a validation artifact already passes.
+---
+
+# M001: Ownership safety and review baseline
+
+**Renamed and reshaped ClaudeMeter into Pinemeter as an owned macOS menu bar app while preserving behavior, inventorying credential/session risk, establishing security and architecture baselines, cleaning safe stale code, and planning non-destructive public history work.**
+
+## What Happened
+
+M001 completed the ownership baseline for Pinemeter. S01 migrated the build-critical and user-facing identity from ClaudeMeter to Pinemeter across the Xcode project, scheme, module, app/test targets, source/test paths, active UI copy, docs/site assets, workflows, and logger subsystem, while classifying compatibility-sensitive Keychain, cache, export, and access-group identifiers instead of changing them blindly. S02 inventoried credential and session handling across Claude and ChatGPT acquisition, storage, reuse, display, logging, clearing, and recovery. S03 converted that inventory into a ranked security baseline with credential/session invariants and fix/defer recommendations. S04 produced an architecture review baseline for provider boundaries, services, repositories, app state, settings, and error handling. S05 audited provider/error workflows, applied safe stale copy and diagnostic-redaction fixes, and verified the focused behavior changes. S06 completed low-risk stale ownership cleanup while preserving cache/export compatibility, credential invariants, settings clamp behavior, provider copy, session keys, and redacted diagnostics. S07 performed final Pinemeter test and clean build verification, classified remaining public-readiness exceptions, and produced a non-destructive git history and open-source hygiene plan without rewriting history, pushing remotes, publishing releases, deploying the site, or mutating secrets. Fresh closeout verification confirmed non-.gsd implementation changes versus main, all seven slices complete with summaries, validation coverage for success criteria and verification classes, and requirement transitions for R001-R009.
+
+## What Happened
+
+M001 completed the ownership baseline for Pinemeter. S01 migrated the build-critical and user-facing identity from ClaudeMeter to Pinemeter across the Xcode project, scheme, module, app/test targets, source/test paths, active UI copy, docs/site assets, workflows, and logger subsystem, while classifying compatibility-sensitive Keychain, cache, export, and access-group identifiers instead of changing them blindly. S02 inventoried credential and session handling across Claude and ChatGPT acquisition, storage, reuse, display, logging, clearing, and recovery. S03 converted that inventory into a ranked security baseline with credential/session invariants and fix/defer recommendations. S04 produced an architecture review baseline for provider boundaries, services, repositories, app state, settings, and error handling. S05 audited provider/error workflows, applied safe stale copy and diagnostic-redaction fixes, and verified the focused behavior changes. S06 completed low-risk stale ownership cleanup while preserving cache/export compatibility, credential invariants, settings clamp behavior, provider copy, session keys, and redacted diagnostics. S07 performed final Pinemeter test and clean build verification, classified remaining public-readiness exceptions, and produced a non-destructive git history and open-source hygiene plan without rewriting history, pushing remotes, publishing releases, deploying the site, or mutating secrets. Fresh closeout verification confirmed non-.gsd implementation changes versus main, all seven slices complete with summaries, validation coverage for success criteria and verification classes, and requirement transitions for R001-R009.
+
+## Success Criteria Results
+
+| Criterion | Result | Evidence |
+
+| --- | --- | --- |
+| App/project/scheme/tests/docs/site/metadata/internal symbols use Pinemeter wherever feasible with risky exceptions escalated. | PASS | S01 migrated app/project/scheme/module/UI/docs/workflow identity and documented compatibility-sensitive Keychain/cache/export/access-group exceptions; S07 classified remaining public-readiness exceptions. |
+| Credential/session handling surfaces inventoried enough for M002. | PASS | S02 produced the complete credential/session inventory; S03 and S05 consumed it for security and workflow review. |
+| Security and architecture review artifacts exist with ranked findings and fix/defer recommendations. | PASS | S03 produced ranked security findings and invariants; S04 produced ranked architecture findings and provider-boundary alternatives. |
+| Provider/error workflow assumptions audited and obvious safe stale copy fixed. | PASS | S05 audited provider/error workflows, fixed safe stale credential copy and diagnostic-redaction issues, and added focused tests/source/docs evidence. |
+| Safe dead code, stale names, obsolete assumptions, and low-risk structural issues cleaned without behavior regressions. | PASS | S06 cleanup retained compatibility/security invariants and verified cache/export compatibility, credential invariants, settings clamp behavior, provider copy, session keys, and redacted diagnostics. |
+| Xcode test and clean build verification pass using resulting project/scheme names or exceptions documented. | PASS | S07 recorded fresh final `xcodebuild test` and `xcodebuild clean build` evidence for `Pinemeter.xcodeproj` / `Pinemeter`; S01 also recorded renamed verification after migration. |
+
+| Credential/session handling surfaces inventoried enough for M002. | PASS | S02 produced the complete credential/session inventory; S03 and S05 consumed it for security and workflow review. |
+| Security and architecture review artifacts exist with ranked findings and fix/defer recommendations. | PASS | S03 produced ranked security findings and invariants; S04 produced ranked architecture findings and provider-boundary alternatives. |
+| Provider/error workflow assumptions audited and obvious safe stale copy fixed. | PASS | S05 audited provider/error workflows, fixed safe stale credential copy and diagnostic-redaction issues, and added focused tests/source/docs evidence. |
+| Safe dead code, stale names, obsolete assumptions, and low-risk structural issues cleaned without behavior regressions. | PASS | S06 cleanup retained compatibility/security invariants and verified cache/export compatibility, credential invariants, settings clamp behavior, provider copy, session keys, and redacted diagnostics. |
+| Xcode test and clean build verification pass using resulting project/scheme names or exceptions documented. | PASS | S07 recorded fresh final `xcodebuild test` and `xcodebuild clean build` evidence for `Pinemeter.xcodeproj` / `Pinemeter`; S01 also recorded renamed verification after migration. |
+| Non-destructive git history squash and open-source hygiene plan exists with no rewrite or remote push. | PASS | S07 produced the plan and explicitly avoided filter-repo, reset, remote pushes, repository creation, release publication, site deployment, and secret mutation. |
+
+
+| Security and architecture review artifacts exist with ranked findings and fix/defer recommendations. | PASS | S03 produced ranked security findings and invariants; S04 produced ranked architecture findings and provider-boundary alternatives. |
+| Provider/error workflow assumptions audited and obvious safe stale copy fixed. | PASS | S05 audited provider/error workflows, fixed safe stale credential copy and diagnostic-redaction issues, and added focused tests/source/docs evidence. |
+| Safe dead code, stale names, obsolete assumptions, and low-risk structural issues cleaned without behavior regressions. | PASS | S06 cleanup retained compatibility/security invariants and verified cache/export compatibility, credential invariants, settings clamp behavior, provider copy, session keys, and redacted diagnostics. |
+| Xcode test and clean build verification pass using resulting project/scheme names or exceptions documented. | PASS | S07 recorded fresh final `xcodebuild test` and `xcodebuild clean build` evidence for `Pinemeter.xcodeproj` / `Pinemeter`; S01 also recorded renamed verification after migration. |
+| Non-destructive git history squash and open-source hygiene plan exists with no rewrite or remote push. | PASS | S07 produced the plan and explicitly avoided filter-repo, reset, remote pushes, repository creation, release publication, site deployment, and secret mutation. |
+
+Fresh closeout evidence: `gsd_exec` 354bbfba-92cd-4c4c-b613-ca8287ac7969 found 107 non-.gsd files changed versus `main`, all S01-S07 summaries present, all roadmap slice boxes checked, validation verdict `pass`, and no Horizontal Checklist in the roadmap.
+
+| R001 | active -> validated | S01/S07 prove Pinemeter identity migration with classified compatibility exceptions. |
+| R002 | active -> validated | S01/S06/S07 prove rename, cleanup, tests, and clean build preserved behavior. |
+| R003 | active -> validated | S02 credential/session inventory covers acquisition, storage, reuse, clearing, logging, settings/UI display, and recovery. |
+| R004 | active -> validated | S03 ranked security review covers credential/session/logging/persistence/recovery/secret-exposure risks. |
+| R005 | active -> validated | S04 ranked architecture review covers services, repositories, app state, provider boundaries, settings, and errors. |
+| R006 | active -> validated | S05 provider/error audit fixed safe stale copy/redaction issues with focused verification. |
+| R007 | active -> validated | S06 safe cleanup retained compatibility and security invariants with executable proof. |
+
+| R002 | active -> validated | S01/S06/S07 prove rename, cleanup, tests, and clean build preserved behavior. |
+| R003 | active -> validated | S02 credential/session inventory covers acquisition, storage, reuse, clearing, logging, settings/UI display, and recovery. |
+| R004 | active -> validated | S03 ranked security review covers credential/session/logging/persistence/recovery/secret-exposure risks. |
+| R005 | active -> validated | S04 ranked architecture review covers services, repositories, app state, provider boundaries, settings, and errors. |
+| R006 | active -> validated | S05 provider/error audit fixed safe stale copy/redaction issues with focused verification. |
+| R007 | active -> validated | S06 safe cleanup retained compatibility and security invariants with executable proof. |
+| R008 | active -> validated | S07 final Pinemeter `xcodebuild test` and `xcodebuild clean build` evidence passed. |
+
+| R008 | active -> validated | S07 final Pinemeter `xcodebuild test` and `xcodebuild clean build` evidence passed. |
+| R009 | active -> validated | S07 produced a non-destructive history/public hygiene plan and performed no destructive or remote actions. |
+| R010-R014 | unchanged deferred | These are planned for later milestones, primarily M002-M004. |
+| R015-R017 | unchanged out of scope | M001 respected anti-feature scope by not implementing durable credential acquisition, Gemini monitoring, or launch-grade public polish. |
+
+## Deviations
+
+
+| R009 | active -> validated | S07 produced a non-destructive history/public hygiene plan and performed no destructive or remote actions. |
+| R010-R014 | unchanged deferred | These are planned for later milestones, primarily M002-M004. |
+| R015-R017 | unchanged out of scope | M001 respected anti-feature scope by not implementing durable credential acquisition, Gemini monitoring, or launch-grade public polish. |
+
+## Deviations
+
+M001 intentionally retained compatibility-sensitive `claudemeter` Keychain/cache/export/access-group identifiers rather than renaming them automatically. Public release, repository creation, site deployment, Homebrew/release URL confirmation, remote pushes, filter-repo/history rewrite, durable credential acquisition, and Gemini monitoring were deliberately deferred or forbidden by scope.
+
+## Deviations
+
+M001 intentionally retained compatibility-sensitive `claudemeter` Keychain/cache/export/access-group identifiers rather than renaming them automatically. Public release, repository creation, site deployment, Homebrew/release URL confirmation, remote pushes, filter-repo/history rewrite, durable credential acquisition, and Gemini monitoring were deliberately deferred or forbidden by scope.
+
+## Follow-ups
+
+M002 should design durable app-owned credential/session acquisition, migration/fallback reads for retained Keychain/cache identifiers, safer replace-not-display credential flows, and credential diagnostics boundaries. M003 should make setup/status/errors/recovery/provider copy fully provider-aware. M004 should add Gemini monitoring using the reviewed provider boundaries. M005 should handle launch-grade public repository polish, contribution templates, release/hosting/Homebrew decisions, and any destructive git history action only after explicit human approval.
+
+M001 intentionally retained compatibility-sensitive `claudemeter` Keychain/cache/export/access-group identifiers rather than renaming them automatically. Public release, repository creation, site deployment, Homebrew/release URL confirmation, remote pushes, filter-repo/history rewrite, durable credential acquisition, and Gemini monitoring were deliberately deferred or forbidden by scope.
+
+## Follow-ups
+
+M002 should design durable app-owned credential/session acquisition, migration/fallback reads for retained Keychain/cache identifiers, safer replace-not-display credential flows, and credential diagnostics boundaries. M003 should make setup/status/errors/recovery/provider copy fully provider-aware. M004 should add Gemini monitoring using the reviewed provider boundaries. M005 should handle launch-grade public repository polish, contribution templates, release/hosting/Homebrew decisions, and any destructive git history action only after explicit human approval.
+
+## Follow-ups
+
+M002 should design durable app-owned credential/session acquisition, migration/fallback reads for retained Keychain/cache identifiers, safer replace-not-display credential flows, and credential diagnostics boundaries. M003 should make setup/status/errors/recovery/provider copy fully provider-aware. M004 should add Gemini monitoring using the reviewed provider boundaries. M005 should handle launch-grade public repository polish, contribution templates, release/hosting/Homebrew decisions, and any destructive git history action only after explicit human approval.
+

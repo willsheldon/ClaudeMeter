@@ -4,6 +4,17 @@ This file is the explicit capability and coverage contract for the project.
 
 ## Active
 
+### R010 — The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+- Class: core-capability
+- Status: active
+- Description: The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+- Why it matters: A smooth product-owned credential flow is central to making Pinemeter usable beyond manual setup.
+- Source: user
+- Primary owning slice: M002
+- Supporting slices: M001/S02, M001/S03
+- Validation: M002 will validate this through durable credential acquisition, repair, reuse, clear, invalid credential, and redaction lifecycle evidence.
+- Notes: Activated by quick task 1 planning after M001 credential surface inventory and security review completed. M002 now contains five executable slices covering credential state, Claude Keychain repair, ChatGPT session acquisition, setup and recovery UX, and lifecycle verification.
+
 ### R001 — Product identity is renamed to Pinemeter everywhere feasible, including user-facing surfaces, internal symbols, project/target/scheme names, docs/site, metadata, and tests unless a genuinely risky reference is escalated.
 - Class: core-capability
 - Status: active
@@ -106,17 +117,6 @@ This file is the explicit capability and coverage contract for the project.
 ## Validated
 
 ## Deferred
-
-### R010 — The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
-- Class: core-capability
-- Status: deferred
-- Description: The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
-- Why it matters: A smooth product-owned credential flow is central to making Pinemeter usable beyond manual setup.
-- Source: user
-- Primary owning slice: M002
-- Supporting slices: M001/S02, M001/S03
-- Validation: unmapped
-- Notes: Deferred until after M001 credential surface inventory and security review.
 
 ### R011 — Setup, status, errors, recovery, and notifications are fully provider-aware across monitored LLM providers.
 - Class: failure-visibility
