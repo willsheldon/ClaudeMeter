@@ -97,6 +97,48 @@ final class SecurityInvariantTests: XCTestCase {
         assertNoCredentialDisclosure(in: errors.map { $0.localizedDescription })
     }
 
+    func test_networkServiceDiagnosticsDoNotLogResponseBodiesOrCredentialFragments() throws {
+        let testFile = URL(fileURLWithPath: #filePath)
+        let repositoryRoot = testFile.deletingLastPathComponent().deletingLastPathComponent()
+        let networkServiceURL = repositoryRoot
+            .appendingPathComponent("Pinemeter")
+            .appendingPathComponent("Services")
+            .appendingPathComponent("NetworkService.swift")
+        let source = try String(contentsOf: networkServiceURL, encoding: .utf8)
+
+        let prohibitedBodyLoggingPatterns = [
+            "responseBody",
+            "Response:",
+            "String(data: data"
+        ]
+
+        for prohibitedPattern in prohibitedBodyLoggingPatterns {
+            XCTAssertFalse(
+                source.contains(prohibitedPattern),
+                "NetworkService diagnostics must not log or construct response bodies: \(prohibitedPattern)"
+            )
+        }
+
+        let diagnosticLines = source
+            .split(separator: "\n", omittingEmptySubsequences: false)
+            .filter { $0.contains("logger.") }
+        let prohibitedDiagnosticFragments = [
+            "Cookie:",
+            "sessionKey",
+            "Bearer",
+            "responseBody"
+        ]
+
+        for diagnosticLine in diagnosticLines {
+            for prohibitedFragment in prohibitedDiagnosticFragments {
+                XCTAssertFalse(
+                    diagnosticLine.contains(prohibitedFragment),
+                    "NetworkService diagnostic logs must not include credential-shaped fragments or response bodies: \(prohibitedFragment)"
+                )
+            }
+        }
+    }
+
     private func assertNoCredentialDisclosure(in descriptions: [String], file: StaticString = #filePath, line: UInt = #line) {
         for description in descriptions {
             for forbiddenFragment in forbiddenCredentialFragments {

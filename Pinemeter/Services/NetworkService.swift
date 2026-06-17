@@ -53,10 +53,14 @@ actor NetworkService: NetworkServiceProtocol {
             throw NetworkError.invalidResponse
         }
 
+        let endpointPath = url.path.isEmpty ? "/" : url.path
+        let responseByteCount = data.count
+
         // Handle HTTP status codes
         guard (200...299).contains(httpResponse.statusCode) else {
-            let responseBody = String(data: data, encoding: .utf8) ?? "<unable to decode>"
-            Self.logger.error("HTTP \(httpResponse.statusCode) from \(endpoint): \(responseBody)")
+            Self.logger.error(
+                "HTTP \(httpResponse.statusCode, privacy: .public) from endpoint path \(endpointPath, privacy: .public), bytes=\(responseByteCount, privacy: .public)"
+            )
 
             if httpResponse.statusCode == 401 {
                 throw NetworkError.authenticationFailed
@@ -74,8 +78,9 @@ actor NetworkService: NetworkServiceProtocol {
             let result = try decoder.decode(T.self, from: data)
             return result
         } catch {
-            let responseBody = String(data: data, encoding: .utf8) ?? "<unable to decode>"
-            Self.logger.error("Failed to decode response from \(endpoint): \(error.localizedDescription)\nResponse: \(responseBody)")
+            Self.logger.error(
+                "Failed to decode endpoint path \(endpointPath, privacy: .public), bytes=\(responseByteCount, privacy: .public), error=\(error.localizedDescription, privacy: .public)"
+            )
             throw NetworkError.decodingFailed(underlyingError: error)
         }
     }
