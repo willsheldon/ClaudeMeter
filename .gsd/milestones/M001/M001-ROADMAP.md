@@ -32,7 +32,7 @@
 - [x] **S06: Safe cleanup and ownership refactor** `risk:medium` `depends:[S04,S05]`
   > After this: After this: obvious dead code, stale names, obsolete assumptions, and low-risk structural issues are removed or cleaned while preserving behavior.
 
-- [ ] **S07: Verification and open source history plan** `risk:low` `depends:[S01,S03,S04,S06]`
+- [x] **S07: Verification and open source history plan** `risk:low` `depends:[S01,S03,S04,S06]`
   > After this: After this: renamed test and clean build commands pass, final review artifacts are linked, and a non-destructive git history squash and open-source hygiene plan exists.
 
 ## Boundary Map

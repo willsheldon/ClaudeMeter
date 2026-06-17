@@ -1,0 +1,18 @@
+{
+  "id": "6868e154-e86b-4633-91dd-8de41153dc8a",
+  "runtime": "python",
+  "purpose": "extract requirements wrapped",
+  "script_chars": 832,
+  "started_at": "2026-06-17T16:39:38.166Z",
+  "finished_at": "2026-06-17T16:39:38.214Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 48,
+  "stdout_bytes": 3240,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/6868e154-e86b-4633-91dd-8de41153dc8a.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/6868e154-e86b-4633-91dd-8de41153dc8a.stderr"
+}

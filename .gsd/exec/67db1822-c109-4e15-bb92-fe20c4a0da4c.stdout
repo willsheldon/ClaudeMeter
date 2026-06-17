@@ -1,0 +1,126 @@
+## .gsd/milestones/M001/slices/S07/tasks/T01-SUMMARY.md exists=True
+verification_result: passed
+blocker_discovered: false
+# T01: Captured fresh passing renamed Pinemeter Xcode test and clean build evidence for final milestone verification.
+## What Happened
+## Failure Modes
+## Load Profile
+## Negative Tests
+## Verification
+## Verification Evidence
+| # | Command | Exit Code | Verdict | Duration |
+## Deviations
+## Known Issues
+## Files Created/Modified
+
+## .gsd/milestones/M001/slices/S07/tasks/T02-SUMMARY.md exists=True
+evidence_ids: `aaee61c4-8b22-45f9-a632-c4207d0907ee`, `c0bdd5f9-08c6-41ca-8d64-313d03b9bbca`, `c19bcc57-2c69-4a77-952e-40e0dd45e3da`, `df44f346-e626-4c99-81bc-391cacb15731`, `f7462596-79cb-4c17-827a-6d924d6cde15`
+verification_result: passed
+blocker_discovered: false
+# T02: Created the final S07 identity and public hygiene audit classifying remaining legacy references, missing public-readiness files, and redacted secret-shaped scan findings.
+## What Happened
+## Verification
+## Verification Evidence
+| # | Command | Exit Code | Verdict | Duration |
+## Deviations
+## Known Issues
+## Files Created/Modified
+
+## .gsd/milestones/M001/slices/S07/tasks/T03-SUMMARY.md exists=True
+evidence_ids: gsd_exec:1d3053b9-deee-4b18-bb1f-739d85854ec9, gsd_exec:b35de30b-eda1-4167-acf8-7991abb7cd3f
+verification_result: passed
+blocker_discovered: false
+# T03: Wrote the non-destructive Pinemeter open-source history and public hygiene plan with explicit human confirmation gates.
+## What Happened
+## Verification
+## Verification Evidence
+| # | Command | Exit Code | Verdict | Duration |
+## Deviations
+## Known Issues
+## Files Created/Modified
+
+## .gsd/REQUIREMENTS.md exists=True
+### R001 — Product identity is renamed to Pinemeter everywhere feasible, including user-facing surfaces, internal symbols, project/target/scheme names, docs/site, metadata, and tests unless a genuinely risky reference is escalated. - Class: core-capability - Status: active - Description: Product identity is renamed to Pinemeter everywhere feasible, including user-facing surfaces, internal symbols, project/target/scheme names, docs/site, metadata, and tests unless a genuinely risky reference is escalated. - Why it matters: The app needs to feel owned as Pinemeter rather than a fork of ClaudeMeter, and later work should not inherit stale product identity assumptions. - Source: user - Primary owning slice: M001/S01 - Supporting slices: M001/S06, M001/S07 - Validation: mapped - Notes: If chang
+### R002 — Existing app behavior remains stable through rename, cleanup, and review-driven restructuring. - Class: quality-attribute - Status: active - Description: Existing app behavior remains stable through rename, cleanup, and review-driven restructuring. - Why it matters: M001 must improve ownership and maintainability without breaking existing Claude/Opus and GPT monitoring behavior. - Source: inferred - Primary owning slice: M001/S07 - Supporting slices: M001/S01, M001/S06 - Validation: mapped - Notes: Verified by renamed test and clean build commands after changes.
+### R004 — Security review identifies risks in credential storage, session handling, logging, persistence, user-visible recovery, and secret exposure. - Class: compliance/security - Status: active - Description: Security review identifies risks in credential storage, session handling, logging, persistence, user-visible recovery, and secret exposure. - Why it matters: Pinemeter will handle provider credentials and session material, so unsafe storage or leakage would undermine the product before open-source release. - Source: user - Primary owning slice: M001/S03 - Supporting slices: M001/S02, M001/S07 - Validation: mapped - Notes: Findings may be documented and deferred; M001 does not require fixing every severe issue because Claude/Opus quota is unavailable today unless a safe local fix is
+### R005 — Architecture review produces actionable findings about services, repositories, app state, provider boundaries, settings, and error handling, using an Opus subprocess or advisor if available. - Class: quality-attribute - Status: active - Description: Architecture review produces actionable findings about services, repositories, app state, provider boundaries, settings, and error handling, using an Opus subprocess or advisor if available. - Why it matters: The codebase should be owned deliberately before durable auth, provider polish, and Gemini monitoring add more pressure to the design. - Source: user - Primary owning slice: M001/S04 - Supporting slices: M001/S06, M001/S07 - Validation: mapped - Notes: If Opus quota is unavailable during execution, capture that limitation and pr
+### R006 — Provider and error workflow assumptions are audited for Claude/Opus and GPT so stale Claude-only messages and recovery paths are identified or safely cleaned. - Class: failure-visibility - Status: active - Description: Provider and error workflow assumptions are audited for Claude/Opus and GPT so stale Claude-only messages and recovery paths are identified or safely cleaned. - Why it matters: Pinemeter needs provider-aware failures and workflows before broader multi-provider polish and Gemini monitoring. - Source: user - Primary owning slice: M001/S05 - Supporting slices: M001/S02, M001/S03 - Validation: mapped - Notes: M001 fixes obviously stale, misleading, or unsafe copy; larger workflow redesign is deferred to M003.
+### R007 — Safe dead-code, stale-name, stale-assumption, and obsolete-path cleanup is performed where it improves ownership without destabilizing behavior. - Class: quality-attribute - Status: active - Description: Safe dead-code, stale-name, stale-assumption, and obsolete-path cleanup is performed where it improves ownership without destabilizing behavior. - Why it matters: The public-ready codebase should be easier to understand and maintain, not carry misleading fork leftovers. - Source: user - Primary owning slice: M001/S06 - Supporting slices: M001/S01, M001/S04 - Validation: mapped - Notes: Cleanup is allowed to include restructuring when it retires a concrete ownership, provider, security, or architecture risk.
+### R008 — Tests and clean build pass after rename, cleanup, and review-driven changes, using Pinemeter project and scheme names if they are renamed. - Class: launchability - Status: active - Description: Tests and clean build pass after rename, cleanup, and review-driven changes, using Pinemeter project and scheme names if they are renamed. - Why it matters: The ownership baseline is not useful unless the app remains buildable and testable at the end of M001. - Source: user - Primary owning slice: M001/S07 - Supporting slices: M001/S01, M001/S06 - Validation: mapped - Notes: Required commands: xcodebuild test and xcodebuild clean build with renamed Pinemeter project/scheme names, or documented approved exceptions.
+### R009 — Git history squashing and open-source repository hygiene are planned without performing destructive history rewriting or remote pushes. - Class: operability - Status: active - Description: Git history squashing and open-source repository hygiene are planned without performing destructive history rewriting or remote pushes. - Why it matters: The repository should be prepared to become a pretty public repo while avoiding irreversible local/remote history actions without explicit confirmation. - Source: user - Primary owning slice: M001/S07 - Supporting slices: M001/S06 - Validation: mapped - Notes: Actual history rewrite or push requires fresh explicit approval during execution. ## Validated ## Deferred
+
+## .gsd/DECISIONS.md exists=True
+# Decisions Register
+
+## .gsd/milestones/M001/slices/S01/S01-ASSESSMENT.md exists=True
+# S01 Assessment
+**Verdict:** roadmap-confirmed
+## Assessment
+
+## .gsd/milestones/M001/slices/S02/S02-ASSESSMENT.md exists=True
+# S02 Assessment
+**Verdict:** roadmap-confirmed
+## Assessment
+
+## .gsd/milestones/M001/slices/S03/S03-ASSESSMENT.md exists=True
+evidence_ids: `23f94c01-a21d-4b30-838c-1c6d2f4771b8`
+# S03 Final Security Assessment
+**Verdict:** Final ranked security baseline completed; executable credential-free persistence and redaction invariants are in place.
+## Executive Summary
+## Methodology
+## Scope and Assumptions
+### In Scope
+### Out of Scope
+## Lifecycle Cross-Check
+## Finding Table
+## Detailed Findings
+### 1. Medium: ChatGPT session cookie is normalized into credential-bearing Cookie headers and should move to replace-not-display Keychain flows
+### 2. Medium: ChatGPT access tokens are transient but future diagnostics could leak Bearer Authorization values
+
+## .gsd/milestones/M001/slices/S04/S04-ARCHITECTURE-REVIEW.md exists=True
+# S04 Architecture Review Baseline
+## Scope
+## Current Boundary Map
+## Provider Boundary Alternatives
+### A. Keep provider-specific services and AppModel orchestration
+### B. Introduce a common `UsageProvider` abstraction
+### C. Add a provider coordinator while keeping service APIs separate
+## Ranked Findings
+## Downstream Handoff
+## Decision
+## Verification
+
+## .gsd/milestones/M001/slices/S04/S04-ASSESSMENT.md exists=True
+# S04 Assessment
+**Verdict:** roadmap-confirmed
+## Assessment
+
+## .gsd/milestones/M001/slices/S05/S05-ASSESSMENT.md exists=True
+# S05 Assessment: Provider and Error Workflow Audit
+## Summary
+## Audited Surfaces
+## Changed Files
+## Safe Fixes Applied
+## Security and Redaction Notes
+## Remaining Deferred Work
+## Requirement Impact
+### R006 — Provider and error workflow assumptions
+### R003 — Credential and session handling inventory
+Preserved and extended. S05 consumed the S02 credential inventory by checking acquisition, storage wording, reuse/recovery copy, UI display, and logging/diagnostic surfaces. It did not redesign credential acquisition or storage, keeping R003's inventory role intact for M002.
+### R004 — Security review and secret exposure
+## Downstream Handoff
+REQ: ### R006 — Provider and error workflow assumptions
+REQ: ### R004 — Security review and secret exposure
+
+## .gsd/milestones/M001/slices/S06/S06-ASSESSMENT.md exists=True
+evidence_ids: `2ff494e3-66ab-40f5-9010-ea7720438b01`
+# S06 Reactive Batch Assessment: T01 and T02
+## Batch Outcome
+- T01: succeeded. Subagent reported `Task T01 complete.` and wrote `.gsd/milestones/M001/slices/S06/tasks/T01-SUMMARY.md` with `verification_result: passed` and `blocker_discovered: false`.
+- T02: succeeded. Subagent reported `Task T02 complete` and wrote `.gsd/milestones/M001/slices/S06/tasks/T02-SUMMARY.md` with `verification_result: passed` and `blocker_discovered: false`.
+## Durable Output Checks
+## Verification Evidence
+- T02 summary records `verification_result: passed` for `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/SecurityInvariantTests`.
+## Collisions or Dependency Surprises
+## Blockers
+

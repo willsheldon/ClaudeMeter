@@ -1,0 +1,18 @@
+{
+  "id": "f7462596-79cb-4c17-827a-6d924d6cde15",
+  "runtime": "python",
+  "purpose": "S07 T02 identity reference scan",
+  "script_chars": 1428,
+  "started_at": "2026-06-17T16:26:51.031Z",
+  "finished_at": "2026-06-17T16:26:51.171Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 140,
+  "stdout_bytes": 6232,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/f7462596-79cb-4c17-827a-6d924d6cde15.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/f7462596-79cb-4c17-827a-6d924d6cde15.stderr"
+}

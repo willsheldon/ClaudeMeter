@@ -1,0 +1,18 @@
+{
+  "id": "c11d4dbd-c2d5-4450-ac17-a2f29613b866",
+  "runtime": "python",
+  "purpose": "summarize M001 validation evidence files",
+  "script_chars": 1012,
+  "started_at": "2026-06-17T16:39:11.258Z",
+  "finished_at": "2026-06-17T16:39:11.313Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 55,
+  "stdout_bytes": 17935,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c11d4dbd-c2d5-4450-ac17-a2f29613b866.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c11d4dbd-c2d5-4450-ac17-a2f29613b866.stderr"
+}

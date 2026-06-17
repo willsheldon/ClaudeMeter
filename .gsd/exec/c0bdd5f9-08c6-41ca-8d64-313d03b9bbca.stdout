@@ -1,0 +1,11 @@
+secret_shape_files=10
+.github/workflows/deploy-pages.yml | generic_api_key_assignment@[14]
+.github/workflows/release.yml | generic_api_key_assignment@[179]
+Pinemeter/Services/ChatGPTUsageService.swift | generic_api_key_assignment@[91, 120, 126, 141, 146]
+Pinemeter/Services/NetworkService.swift | generic_api_key_assignment@[14, 19]
+Pinemeter/Services/SessionKeyImportService.swift | aws_secret_assignment@[23, 39]; generic_api_key_assignment@[65]
+Pinemeter/Services/WebViewNetworkService.swift | generic_api_key_assignment@[76]
+Pinemeter/Views/Settings/SettingsView.swift | generic_api_key_assignment@[232]
+PinemeterTests/ChatGPTUsageServiceTests.swift | generic_api_key_assignment@[27, 31, 33, 41, 46, 49, 136, 137]; bearer_token_literal@[132]
+PinemeterTests/SecurityInvariantTests.swift | generic_api_key_assignment@[7, 8, 156, 197]; bearer_token_literal@[9, 197]
+PinemeterTests/SessionKeyTests.swift | generic_api_key_assignment@[12, 18]

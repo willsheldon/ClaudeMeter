@@ -1,0 +1,85 @@
+R001 — Product identity is renamed to Pinemeter everywhere feasible, including user-facing surfaces, internal symbols, project/target/scheme names, docs/site, metadata, and tests unless a genuinely risky reference is escalated.
+  Status: active
+  Owner: M001/S01; Supporting: M001/S06, M001/S07
+  Validation: mapped
+
+R002 — Existing app behavior remains stable through rename, cleanup, and review-driven restructuring.
+  Status: active
+  Owner: M001/S07; Supporting: M001/S01, M001/S06
+  Validation: mapped
+
+R003 — Credential and session handling surfaces are inventoried and assessed, including acquisition, storage, reuse, clearing, logging, settings, UI display, and recovery.
+  Status: active
+  Owner: M001/S02; Supporting: M001/S03, M001/S05
+  Validation: mapped
+
+R004 — Security review identifies risks in credential storage, session handling, logging, persistence, user-visible recovery, and secret exposure.
+  Status: active
+  Owner: M001/S03; Supporting: M001/S02, M001/S07
+  Validation: mapped
+
+R005 — Architecture review produces actionable findings about services, repositories, app state, provider boundaries, settings, and error handling, using an Opus subprocess or advisor if available.
+  Status: active
+  Owner: M001/S04; Supporting: M001/S06, M001/S07
+  Validation: mapped
+
+R006 — Provider and error workflow assumptions are audited for Claude/Opus and GPT so stale Claude-only messages and recovery paths are identified or safely cleaned.
+  Status: active
+  Owner: M001/S05; Supporting: M001/S02, M001/S03
+  Validation: mapped
+
+R007 — Safe dead-code, stale-name, stale-assumption, and obsolete-path cleanup is performed where it improves ownership without destabilizing behavior.
+  Status: active
+  Owner: M001/S06; Supporting: M001/S01, M001/S04
+  Validation: mapped
+
+R008 — Tests and clean build pass after rename, cleanup, and review-driven changes, using Pinemeter project and scheme names if they are renamed.
+  Status: active
+  Owner: M001/S07; Supporting: M001/S01, M001/S06
+  Validation: mapped
+
+R009 — Git history squashing and open-source repository hygiene are planned without performing destructive history rewriting or remote pushes.
+  Status: active
+  Owner: M001/S07; Supporting: M001/S06
+  Validation: mapped
+
+R010 — The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+  Status: deferred
+  Owner: M002; Supporting: M001/S02, M001/S03
+  Validation: unmapped
+
+R011 — Setup, status, errors, recovery, and notifications are fully provider-aware across monitored LLM providers.
+  Status: deferred
+  Owner: M003; Supporting: M001/S05
+  Validation: unmapped
+
+R012 — Gemini usage monitoring is added in the same product family as existing Opus and GPT monitoring.
+  Status: deferred
+  Owner: M004; Supporting: M003
+  Validation: unmapped
+
+R013 — Public open-source polish is completed, including contribution conventions, issue templates, release-facing documentation, and public presentation details.
+  Status: deferred
+  Owner: M005; Supporting: M001/S07
+  Validation: unmapped
+
+R014 — Do not perform destructive git history rewriting or remote pushes without fresh explicit confirmation.
+  Status: out-of-scope
+  Owner: none; Supporting: none
+  Validation: n/a
+
+R015 — Do not implement the full durable credential acquisition system during M001.
+  Status: out-of-scope
+  Owner: M002; Supporting: M001/S02, M001/S03
+  Validation: n/a
+
+R016 — Do not implement Gemini monitoring during M001.
+  Status: out-of-scope
+  Owner: M004; Supporting: M003
+  Validation: n/a
+
+R017 — Do not spend M001 on contribution templates, issue templates, and launch-grade public polish.
+  Status: out-of-scope
+  Owner: M005; Supporting: none
+  Validation: n/a
+

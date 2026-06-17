@@ -1,0 +1,18 @@
+{
+  "id": "936f2b46-09ea-418a-84a3-809f76dae956",
+  "runtime": "python",
+  "purpose": "extract active requirements concise",
+  "script_chars": 799,
+  "started_at": "2026-06-17T16:39:21.142Z",
+  "finished_at": "2026-06-17T16:39:21.199Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 57,
+  "stdout_bytes": 3768,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/936f2b46-09ea-418a-84a3-809f76dae956.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/936f2b46-09ea-418a-84a3-809f76dae956.stderr"
+}

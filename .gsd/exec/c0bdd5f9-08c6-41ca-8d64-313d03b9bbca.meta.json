@@ -1,0 +1,18 @@
+{
+  "id": "c0bdd5f9-08c6-41ca-8d64-313d03b9bbca",
+  "runtime": "python",
+  "purpose": "S07 T02 redacted secret-shaped content scan",
+  "script_chars": 1959,
+  "started_at": "2026-06-17T16:27:20.090Z",
+  "finished_at": "2026-06-17T16:27:20.187Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 97,
+  "stdout_bytes": 942,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c0bdd5f9-08c6-41ca-8d64-313d03b9bbca.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c0bdd5f9-08c6-41ca-8d64-313d03b9bbca.stderr"
+}

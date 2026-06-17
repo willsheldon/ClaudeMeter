@@ -35,7 +35,7 @@ Consumes completed S01, S03, S04, and S06 outputs without modifying completed sl
   - Files: `Pinemeter.xcodeproj/project.pbxproj`, `Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme`, `Pinemeter`, `PinemeterTests`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug && xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
 
-- [ ] **T02: Classify final identity and hygiene scan findings** `est:45-75 minutes`
+- [x] **T02: Created the final S07 identity and public hygiene audit classifying remaining legacy references, missing public-readiness files, and redacted secret-shaped scan findings.** `est:45-75 minutes`
   ---
   skills_used:
     - verify-before-complete
@@ -44,7 +44,7 @@ Consumes completed S01, S03, S04, and S06 outputs without modifying completed sl
   - Files: `.gsd/milestones/M001/slices/S07/S07-FINAL-AUDIT.md`, `README.md`, `LICENSE`, `CHANGELOG.md`, `site/index.html`, `.github/workflows/test.yml`, `.github/workflows/release.yml`, `.github/workflows/deploy-pages.yml`, `scripts/provider_workflow_copy_audit.py`, `Pinemeter`, `PinemeterTests`, `work-to-date.md`
   - Verify: test -f .gsd/milestones/M001/slices/S07/S07-FINAL-AUDIT.md
 
-- [ ] **T03: Write non destructive history and public hygiene plan** `est:60-90 minutes`
+- [x] **T03: Wrote the non-destructive Pinemeter open-source history and public hygiene plan with explicit human confirmation gates.** `est:60-90 minutes`
   ---
   skills_used:
     - write-docs
@@ -53,7 +53,7 @@ Consumes completed S01, S03, S04, and S06 outputs without modifying completed sl
   - Files: `.gsd/milestones/M001/slices/S07/S07-OPEN-SOURCE-HISTORY-PLAN.md`, `.gsd/milestones/M001/slices/S07/S07-FINAL-AUDIT.md`, `README.md`, `LICENSE`, `CHANGELOG.md`, `site/index.html`, `.github/workflows/test.yml`, `.github/workflows/release.yml`, `.github/workflows/deploy-pages.yml`
   - Verify: test -f .gsd/milestones/M001/slices/S07/S07-OPEN-SOURCE-HISTORY-PLAN.md
 
-- [ ] **T04: Assemble final S07 assessment and closure evidence** `est:45-60 minutes`
+- [x] **T04: Assembled the final S07 assessment tying Pinemeter build/test evidence, final audit classifications, and the non-destructive open-source history plan to M001 requirements.** `est:45-60 minutes`
   ---
   skills_used:
     - write-docs

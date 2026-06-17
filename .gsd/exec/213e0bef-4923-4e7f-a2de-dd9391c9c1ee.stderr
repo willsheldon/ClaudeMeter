@@ -1,0 +1,15 @@
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:macOS, arch:arm64, id:00006001-000C58DC26F8801E, name:My Mac }
+{ platform:macOS, arch:x86_64, id:00006001-000C58DC26F8801E, name:My Mac }
+{ platform:macOS, name:Any Mac }
+2026-06-17 09:36:52.732 xcodebuild[95043:52669497] [MT] IDETestOperationsObserverDebug: 2.914 elapsed -- Testing started completed.
+2026-06-17 09:36:52.732 xcodebuild[95043:52669497] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-06-17 09:36:52.732 xcodebuild[95043:52669497] [MT] IDETestOperationsObserverDebug: 2.914 sec, +2.914 sec -- end
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:macOS, arch:arm64, id:00006001-000C58DC26F8801E, name:My Mac }
+{ platform:macOS, arch:x86_64, id:00006001-000C58DC26F8801E, name:My Mac }
+{ platform:macOS, name:Any Mac }
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:macOS, arch:arm64, id:00006001-000C58DC26F8801E, name:My Mac }
+{ platform:macOS, arch:x86_64, id:00006001-000C58DC26F8801E, name:My Mac }
+{ platform:macOS, name:Any Mac }
