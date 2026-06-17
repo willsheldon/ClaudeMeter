@@ -4,7 +4,7 @@ estimated_files: 2
 skills_used: []
 ---
 
-# T03: Redact Claude network failure diagnostics
+# T03: Redacted NetworkService HTTP and decode failure diagnostics while adding a source-level security invariant against response-body and credential-fragment logging.
 
 ---
 skills_used: [tdd, verify-before-complete]

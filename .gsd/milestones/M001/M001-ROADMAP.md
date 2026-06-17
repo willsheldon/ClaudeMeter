@@ -26,10 +26,10 @@
 - [x] **S04: Architecture review baseline** `risk:medium` `depends:[S01]`
   > After this: After this: a ranked architecture review, using Opus if available, identifies provider, service, repository, app-state, settings, and error-handling risks.
 
-- [ ] **S05: Provider and error workflow audit** `risk:medium` `depends:[S02,S03]`
+- [x] **S05: Provider and error workflow audit** `risk:medium` `depends:[S02,S03]`
   > After this: After this: stale Claude-only or provider-ambiguous setup, status, error, and recovery messages are identified, and obvious safe copy fixes are applied.
 
-- [ ] **S06: Safe cleanup and ownership refactor** `risk:medium` `depends:[S04,S05]`
+- [x] **S06: Safe cleanup and ownership refactor** `risk:medium` `depends:[S04,S05]`
   > After this: After this: obvious dead code, stale names, obsolete assumptions, and low-risk structural issues are removed or cleaned while preserving behavior.
 
 - [ ] **S07: Verification and open source history plan** `risk:low` `depends:[S01,S03,S04,S06]`

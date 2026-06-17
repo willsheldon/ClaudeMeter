@@ -1,0 +1,107 @@
+## Pinemeter/Views/Setup/SetupWizardView.swift
+38: // Session Key Input
+46: .accessibilityLabel("Session key input field")
+47: .accessibilityHint("Enter your Claude session key or paste a Cookie header containing sessionKey")
+132: .accessibilityLabel(isImporting ? "Importing session key" : "Import session key from browser")
+133: .accessibilityHint("Finds your Claude session key in local browser cookies and validates it")
+148: .accessibilityLabel(isValidating ? "Validating session key" : "Continue with manual setup")
+149: .accessibilityHint("Validates your session key and completes setup")
+197: errorMessage = "Session key cannot be empty"
+212: errorMessage = "Session key is invalid or expired"
+## Pinemeter/Views/Settings/SettingsView.swift
+16: @State private var chatGPTSessionTokenPart0: String = ""
+17: @State private var chatGPTSessionTokenPart1: String = ""
+18: @State private var chatGPTFullCookieHeader: String = ""
+19: @State private var isChatGPTSessionCookieShown: Bool = false
+20: @State private var isValidatingChatGPTSessionCookie: Bool = false
+21: @State private var chatGPTSessionCookieValidationMessage: String?
+22: @State private var hasChatGPTSessionCookieValidationSucceeded: Bool = false
+71: chatGPTSection
+118: .help(isSessionKeyShown ? "Hide session key" : "Show session key")
+126: .help("Clear session key")
+193: // MARK: - ChatGPT Section
+195: private var chatGPTSection: some View {
+199: Text("ChatGPT Usage")
+201: Text("Optional. Stores your ChatGPT session cookie in Keychain and shows ChatGPT plan quota usage in the popover.")
+208: Toggle("", isOn: $appModel.settings.isChatGPTUsageShown)
+210: .disabled(!appModel.hasChatGPTSessionCookie)
+211: .onChange(of: appModel.settings.isChatGPTUsageShown) { _, isShown in
+213: Task { await appModel.refreshChatGPTUsage() }
+219: chatGPTCookieField(
+222: text: $chatGPTSessionTokenPart0
+225: chatGPTCookieField(
+228: text: $chatGPTSessionTokenPart1
+232: chatGPTCookieInput(placeholder: "Cookie: __Secure-next-auth.session-token.0=...; __Secure-next-auth.session-token.1=...", text: $chatGPTFullCookieHeader)
+238: Button(action: { isChatGPTSessionCookieShown.toggle() }) {
+239: Label(isChatGPTSessionCookieShown ? "Hide values" : "Show values", systemImage: isChatGPTSessionCookieShown ? "eye.slash" : "eye")
+243: .help(isChatGPTSessionCookieShown ? "Hide ChatGPT session cookie values" : "Show ChatGPT session cookie values")
+247: if hasChatGPTCookieInput || appModel.hasChatGPTSessionCookie {
+248: Button(action: clearChatGPTSessionCookie) {
+253: .help("Clear ChatGPT session cookie")
+261: await validateAndSaveChatGPTSessionCookie()
+265: .disabled(!hasChatGPTCookieInput || isValidatingChatGPTSessionCookie)
+267: if isValidatingChatGPTSessionCookie {
+272: if let message = chatGPTSessionCookieValidationMessage {
+273: Label(message, systemImage: hasChatGPTSessionCookieValidationSucceeded ? "checkmark.circle.fill" : "xmark.circle.fill")
+275: .foregroundStyle(hasChatGPTSessionCookieValidationSucceeded ? .green : .red)
+281: Text("Paste the browser cookie values for .0 and .1 separately. Pinemeter joins them, stores the result only in Keychain, and sends it only to chatgpt.com.")
+285: if let chatGPTErrorMessage = appModel.chatGPTErrorMessage, appModel.settings.isChatGPTUsageShown {
+286: Label(chatGPTErrorMessage, systemImage: "exclamationmark.triangle.fill")
+296: private var hasChatGPTCookieInput: Bool {
+297: !chatGPTSessionTokenPart0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+298: || !chatGPTSessionTokenPart1.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+299: || !chatGPTFullCookieHeader.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+302: private var joinedChatGPTCookieInput: String {
+303: let fullHeader = chatGPTFullCookieHeader.trimmingCharacters(in: .whitespacesAndNewlines)
+308: return [chatGPTSessionTokenPart0, chatGPTSessionTokenPart1]
+313: private func chatGPTCookieField(label: String, placeholder: String, text: Binding<String>) -> some View {
+319: chatGPTCookieInput(placeholder: placeholder, text: text)
+323: private func chatGPTCookieInput(placeholder: String, text: Binding<String>) -> some View {
+325: if isChatGPTSessionCookieShown {
+668: if let savedChatGPTCookie = await appModel.loadChatGPTSessionCookie() {
+669: chatGPTSessionTokenPart0 = savedChatGPTCookie
+670: chatGPTSessionTokenPart1 = ""
+671: chatGPTFullCookieHeader = ""
+693: sessionKeyValidationMessage = "Session key cannot be empty"
+707: sessionKeyValidationMessage = "Session key saved"
+716: sessionKeyValidationMessage = "Session key validation failed"
+782: private func validateAndSaveChatGPTSessionCookie() async {
+783: guard hasChatGPTCookieInput else {
+784: chatGPTSessionCookieValidationMessage = "Session cookie cannot be empty"
+785: hasChatGPTSessionCookieValidationSucceeded = false
+789: isValidatingChatGPTSessionCookie = true
+790: chatGPTSessionCookieValidationMessage = nil
+791: hasChatGPTSessionCookieValidationSucceeded = false
+794: let isValid = try await appModel.validateAndSaveChatGPTSessionCookie(joinedChatGPTCookieInput)
+796: chatGPTSessionCookieValidationMessage = "ChatGPT session cookie saved"
+797: hasChatGPTSessionCookieValidationSucceeded = true
+801: chatGPTSessionCookieValidationMessage = nil
+802: hasChatGPTSessionCookieValidationSucceeded = false
+805: chatGPTSessionCookieValidationMessage = "ChatGPT session cookie validation failed"
+806: hasChatGPTSessionCookieValidationSucceeded = false
+809: chatGPTSessionCookieValidationMessage = "Validation failed: \(error.localizedDescription)"
+810: hasChatGPTSessionCookieValidationSucceeded = false
+813: isValidatingChatGPTSessionCookie = false
+816: private func clearChatGPTSessionCookie() {
+819: try await appModel.clearChatGPTSessionCookie()
+820: chatGPTSessionTokenPart0 = ""
+821: chatGPTSessionTokenPart1 = ""
+822: chatGPTFullCookieHeader = ""
+823: chatGPTSessionCookieValidationMessage = nil
+824: hasChatGPTSessionCookieValidationSucceeded = false
+826: chatGPTSessionCookieValidationMessage = "Failed to clear: \(error.localizedDescription)"
+827: hasChatGPTSessionCookieValidationSucceeded = false
+## Pinemeter/Views/MenuBar/UsagePopoverView.swift
+31: if appModel.hasChatGPTSessionCookie && appModel.settings.isChatGPTUsageShown {
+32: await appModel.refreshChatGPTUsage()
+76: Button("Update Session Key") {
+90: if appModel.usageData != nil || appModel.chatGPTUsageData != nil || appModel.chatGPTErrorMessage != nil {
+123: if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
+124: UsageMetricSection(title: "ChatGPT", icon: "message.badge.waveform") {
+125: ForEach(chatGPTUsageData.rows) { row in
+128: subtitle: chatGPTQuotaSubtitle(for: row),
+137: if appModel.settings.isChatGPTUsageShown, let chatGPTErrorMessage = appModel.chatGPTErrorMessage {
+141: Text("ChatGPT: \(chatGPTErrorMessage)")
+202: private func chatGPTQuotaSubtitle(for row: ChatGPTUsageData.LimitRow) -> String {
+213: private func status(for row: ChatGPTUsageData.LimitRow) -> UsageStatus {
+## Pinemeter.xcodeproj/project.pbxproj

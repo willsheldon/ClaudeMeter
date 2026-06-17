@@ -1,0 +1,53 @@
+Bundle/display/scheme refs:
+Pinemeter.xcodeproj/project.pbxproj:20:			remoteInfo = Pinemeter;
+Pinemeter.xcodeproj/project.pbxproj:25:		6814B1072EC74F6000B4B5C3 /* Pinemeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pinemeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+Pinemeter.xcodeproj/project.pbxproj:26:		E19FC5088677C21D48B7E68B /* PinemeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PinemeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+Pinemeter.xcodeproj/project.pbxproj:30:		6814B1092EC74F6000B4B5C3 /* Pinemeter */ = {
+Pinemeter.xcodeproj/project.pbxproj:32:			path = Pinemeter;
+Pinemeter.xcodeproj/project.pbxproj:35:		EFD5C9BBC5AFCE7EF8910B35 /* PinemeterTests */ = {
+Pinemeter.xcodeproj/project.pbxproj:37:			path = PinemeterTests;
+Pinemeter.xcodeproj/project.pbxproj:65:				6814B1092EC74F6000B4B5C3 /* Pinemeter */,
+Pinemeter.xcodeproj/project.pbxproj:66:				EFD5C9BBC5AFCE7EF8910B35 /* PinemeterTests */,
+Pinemeter.xcodeproj/project.pbxproj:74:				6814B1072EC74F6000B4B5C3 /* Pinemeter.app */,
+Pinemeter.xcodeproj/project.pbxproj:75:				E19FC5088677C21D48B7E68B /* PinemeterTests.xctest */,
+Pinemeter.xcodeproj/project.pbxproj:83:		281275B8A43D48EF3E864245 /* PinemeterTests */ = {
+Pinemeter.xcodeproj/project.pbxproj:85:			buildConfigurationList = D3F3D03AF401D3C31DA2A40E /* Build configuration list for PBXNativeTarget "PinemeterTests" */;
+Pinemeter.xcodeproj/project.pbxproj:97:				EFD5C9BBC5AFCE7EF8910B35 /* PinemeterTests */,
+Pinemeter.xcodeproj/project.pbxproj:99:			name = PinemeterTests;
+Pinemeter.xcodeproj/project.pbxproj:103:			productName = PinemeterTests;
+Pinemeter.xcodeproj/project.pbxproj:104:			productReference = E19FC5088677C21D48B7E68B /* PinemeterTests.xctest */;
+Pinemeter.xcodeproj/project.pbxproj:107:		6814B1062EC74F6000B4B5C3 /* Pinemeter */ = {
+Pinemeter.xcodeproj/project.pbxproj:109:			buildConfigurationList = 6814B1142EC74F6000B4B5C3 /* Build configuration list for PBXNativeTarget "Pinemeter" */;
+Pinemeter.xcodeproj/project.pbxproj:120:				6814B1092EC74F6000B4B5C3 /* Pinemeter */,
+Pinemeter.xcodeproj/project.pbxproj:122:			name = Pinemeter;
+Pinemeter.xcodeproj/project.pbxproj:126:			productName = Pinemeter;
+Pinemeter.xcodeproj/project.pbxproj:127:			productReference = 6814B1072EC74F6000B4B5C3 /* Pinemeter.app */;
+Pinemeter.xcodeproj/project.pbxproj:149:			buildConfigurationList = 6814B1022EC74F6000B4B5C3 /* Build configuration list for PBXProject "Pinemeter" */;
+Pinemeter.xcodeproj/project.pbxproj:167:				6814B1062EC74F6000B4B5C3 /* Pinemeter */,
+Pinemeter.xcodeproj/project.pbxproj:168:				281275B8A43D48EF3E864245 /* PinemeterTests */,
+Pinemeter.xcodeproj/project.pbxproj:210:			target = 6814B1062EC74F6000B4B5C3 /* Pinemeter */;
+Pinemeter.xcodeproj/project.pbxproj:229:				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.PinemeterTests;
+Pinemeter.xcodeproj/project.pbxproj:230:				PRODUCT_NAME = "$(TARGET_NAME)";
+Pinemeter.xcodeproj/project.pbxproj:233:				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pinemeter.app/Contents/MacOS/Pinemeter";
+Pinemeter.xcodeproj/project.pbxproj:251:				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.PinemeterTests;
+Pinemeter.xcodeproj/project.pbxproj:252:				PRODUCT_NAME = "$(TARGET_NAME)";
+Pinemeter.xcodeproj/project.pbxproj:255:				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pinemeter.app/Contents/MacOS/Pinemeter";
+Pinemeter.xcodeproj/project.pbxproj:403:				INFOPLIST_KEY_CFBundleDisplayName = Pinemeter;
+Pinemeter.xcodeproj/project.pbxproj:413:				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.Pinemeter;
+Pinemeter.xcodeproj/project.pbxproj:414:				PRODUCT_NAME = "$(TARGET_NAME)";
+Pinemeter.xcodeproj/project.pbxproj:450:				INFOPLIST_KEY_CFBundleDisplayName = Pinemeter;
+Pinemeter.xcodeproj/project.pbxproj:460:				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.Pinemeter;
+Pinemeter.xcodeproj/project.pbxproj:461:				PRODUCT_NAME = "$(TARGET_NAME)";
+Pinemeter.xcodeproj/project.pbxproj:475:		6814B1022EC74F6000B4B5C3 /* Build configuration list for PBXProject "Pinemeter" */ = {
+Pinemeter.xcodeproj/project.pbxproj:484:		6814B1142EC74F6000B4B5C3 /* Build configuration list for PBXNativeTarget "Pinemeter" */ = {
+Pinemeter.xcodeproj/project.pbxproj:493:		D3F3D03AF401D3C31DA2A40E /* Build configuration list for PBXNativeTarget "PinemeterTests" */ = {
+Pinemeter/Resources/Pinemeter.entitlements:7:		<string>$(AppIdentifierPrefix)com.claudemeter</string>
+Pinemeter/Resources/Info.plist:10:	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+Pinemeter/Resources/Info.plist:14:	<string>$(PRODUCT_NAME)</string>
+Pinemeter/Resources/Info.plist:28:	<string>Pinemeter sends notifications to alert you when your Claude.ai usage approaches threshold limits (warning and critical levels) and when your usage session resets.</string>
+
+Scheme files:
+Pinemeter.xcodeproj/project.pbxproj
+Pinemeter.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+Pinemeter.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme

@@ -1,0 +1,18 @@
+{
+  "id": "4800bf8a-a46a-405f-9623-20cdb52bcafa",
+  "runtime": "bash",
+  "purpose": "S06 non-gsd stale identity refs precise",
+  "script_chars": 420,
+  "started_at": "2026-06-17T15:53:29.717Z",
+  "finished_at": "2026-06-17T15:53:29.754Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 37,
+  "stdout_bytes": 3679,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/4800bf8a-a46a-405f-9623-20cdb52bcafa.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/4800bf8a-a46a-405f-9623-20cdb52bcafa.stderr"
+}

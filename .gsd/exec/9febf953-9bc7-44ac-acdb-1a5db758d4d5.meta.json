@@ -1,0 +1,18 @@
+{
+  "id": "9febf953-9bc7-44ac-acdb-1a5db758d4d5",
+  "runtime": "bash",
+  "purpose": "Run slice provider workflow copy audit",
+  "script_chars": 181,
+  "started_at": "2026-06-17T16:12:46.054Z",
+  "finished_at": "2026-06-17T16:12:46.158Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 104,
+  "stdout_bytes": 1991,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/9febf953-9bc7-44ac-acdb-1a5db758d4d5.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/9febf953-9bc7-44ac-acdb-1a5db758d4d5.stderr"
+}

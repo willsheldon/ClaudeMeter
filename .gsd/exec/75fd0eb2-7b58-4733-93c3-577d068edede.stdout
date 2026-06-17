@@ -1,0 +1,122 @@
+Swift tests inventory:
+PinemeterTests/NotificationServiceTests.swift:12:final class NotificationServiceTests: XCTestCase {
+PinemeterTests/NotificationServiceTests.swift:13:    func test_userReceivesWarningNotificationWhenUsageCrossesThreshold() async {
+PinemeterTests/NotificationServiceTests.swift:34:    func test_userWithNotificationsDisabled_doesNotReceiveThresholdNotification() async {
+PinemeterTests/NotificationServiceTests.swift:53:    func test_userWithoutSystemPermission_doesNotReceiveNotification() async {
+PinemeterTests/NotificationServiceTests.swift:74:    func test_userDoesNotReceiveDuplicateWarningWithoutDroppingBelowThreshold() async {
+PinemeterTests/NotificationServiceTests.swift:95:    func test_userCrossesCriticalThreshold_receivesCriticalNotification() async {
+PinemeterTests/NotificationServiceTests.swift:118:    func test_userReceivesWarningAgainAfterDroppingBelowThreshold() async {
+PinemeterTests/NotificationServiceTests.swift:138:    func test_userReceivesResetNotificationWhenUsageResets() async {
+PinemeterTests/SecurityInvariantTests.swift:4:final class SecurityInvariantTests: XCTestCase {
+PinemeterTests/SecurityInvariantTests.swift:13:    func test_appSettingsPersistenceDoesNotEncodeCredentialMaterial() async throws {
+PinemeterTests/SecurityInvariantTests.swift:52:    func test_userFacingAppErrorDescriptionsDoNotDiscloseCredentialShapedFragments() {
+PinemeterTests/SecurityInvariantTests.swift:69:    func test_userFacingChatGPTErrorDescriptionsDoNotDiscloseCredentialShapedFragments() {
+PinemeterTests/SecurityInvariantTests.swift:81:    func test_userFacingNetworkAndKeychainDescriptionsDoNotDiscloseCredentialShapedFragments() {
+PinemeterTests/SecurityInvariantTests.swift:100:    func test_networkServiceDiagnosticsDoNotLogResponseBodiesOrCredentialFragments() throws {
+PinemeterTests/SettingsRepositoryTests.swift:11:final class SettingsRepositoryTests: XCTestCase {
+PinemeterTests/SettingsRepositoryTests.swift:12:    func test_settingsPersistAcrossLaunches() async throws {
+PinemeterTests/SettingsRepositoryTests.swift:33:    func test_settingsDecodingWithoutIsColoredIcon_usesDefault() throws {
+PinemeterTests/SettingsRepositoryTests.swift:55:    func test_defaultSettings_hideChatGPTUsage() {
+PinemeterTests/SettingsRepositoryTests.swift:59:    func test_notificationStatePersistsAcrossLaunches() async throws {
+PinemeterTests/UsageLimitRiskTests.swift:11:final class UsageLimitRiskTests: XCTestCase {
+PinemeterTests/UsageLimitRiskTests.swift:15:    func test_isAtRisk_whenUsingFasterThanSustainable_returnsTrue() {
+PinemeterTests/UsageLimitRiskTests.swift:23:    func test_isAtRisk_whenUsingAtSustainablePace_returnsFalse() {
+PinemeterTests/UsageLimitRiskTests.swift:31:    func test_isAtRisk_whenSlightlyAboveThreshold_returnsTrue() {
+PinemeterTests/UsageLimitRiskTests.swift:39:    func test_isAtRisk_whenPastResetTime_returnsFalse() {
+PinemeterTests/UsageLimitRiskTests.swift:46:    func test_isAtRisk_whenBeforeWindowStart_returnsFalse() {
+PinemeterTests/UsageLimitRiskTests.swift:54:    func test_resetDescription_whenUnderOneHour_showsRoundedUpMinutes() {
+PinemeterTests/UsageLimitRiskTests.swift:61:    func test_resetDescription_whenUnderOneDay_showsRoundedUpHours() {
+PinemeterTests/UsageLimitRiskTests.swift:68:    func test_resetDescription_whenOverOneDay_showsDaysAndHours() {
+PinemeterTests/UsageLimitRiskTests.swift:75:    func test_resetDescription_whenExactlyWholeDays_omitsZeroHours() {
+PinemeterTests/UsageLimitRiskTests.swift:82:    func test_resetDescription_whenPastResetTime_showsNow() {
+PinemeterTests/ChatGPTAppModelTests.swift:11:final class ChatGPTAppModelTests: XCTestCase {
+PinemeterTests/ChatGPTAppModelTests.swift:12:    func test_bootstrap_detectsExistingChatGPTSessionWithoutRequiringClaudeSetup() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:23:    func test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:47:    func test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:62:    func test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError() async {
+PinemeterTests/ChatGPTAppModelTests.swift:84:    func test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage() async throws {
+PinemeterTests/SessionKeyTests.swift:4:final class SessionKeyTests: XCTestCase {
+PinemeterTests/SessionKeyTests.swift:5:    func test_sessionKey_acceptsRawSessionKey() throws {
+PinemeterTests/SessionKeyTests.swift:11:    func test_sessionKey_extractsValueFromCookieHeader() throws {
+PinemeterTests/SessionKeyTests.swift:17:    func test_sessionKey_rejectsCookieHeaderWithoutSessionKey() {
+PinemeterTests/SessionKeyTests.swift:21:    func test_sessionKeyErrorDescriptions_useClaudeSpecificCredentialCopy() {
+PinemeterTests/UsageServiceTests.swift:11:final class UsageServiceTests: XCTestCase {
+PinemeterTests/UsageServiceTests.swift:12:    func test_usageFetch_requiresSessionKey() async {
+PinemeterTests/UsageServiceTests.swift:35:    func test_userWithCachedUsage_seesCachedValueWithoutNetworkCall() async throws {
+PinemeterTests/UsageServiceTests.swift:64:    func test_userForcesRefresh_bypassesCacheAndUpdatesCache() async throws {
+PinemeterTests/UsageServiceTests.swift:108:    func test_userWithCachedOrganization_fetchesUsageFromCachedOrg() async throws {
+PinemeterTests/UsageServiceTests.swift:145:    func test_usageFetch_showsUsageFromApiResponse() async throws {
+PinemeterTests/UsageServiceTests.swift:184:    func test_usageFetch_withMissingResetAt_usesFallbackWindow() async throws {
+PinemeterTests/UsageServiceTests.swift:225:    func test_usageFetch_withMalformedResetAt_surfacesInvalidResponse() async throws {
+PinemeterTests/UsageServiceTests.swift:269:    func test_usageFetch_withSonnetUsage_showsSonnetUsage() async throws {
+PinemeterTests/MenuBarIconRendererTests.swift:12:final class MenuBarIconRendererTests: XCTestCase {
+PinemeterTests/MenuBarIconRendererTests.swift:13:    func test_menuBarIconRendersMeterStyle() {
+PinemeterTests/MenuBarIconRendererTests.swift:29:    func test_menuBarIconRendersWhenLoadingOrStale() {
+PinemeterTests/MenuBarIconRendererTests.swift:56:    func test_menuBarIconIsRenderedAsNonTemplateImage() {
+PinemeterTests/MenuBarIconRendererTests.swift:71:    func test_menuBarIconIsRenderedAsTemplateImageWhenMonochromeModeSelected() {
+PinemeterTests/MenuBarIconRendererTests.swift:87:    func test_menuBarIconIsRenderedAsNonTemplateImageWhenColorModeSelected() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:10:final class ChatGPTUsageServiceTests: XCTestCase {
+PinemeterTests/ChatGPTUsageServiceTests.swift:11:    func test_chatGPTUsageData_usesWorstQuotaBucketForOverallStatus() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:24:    func test_cookieHeader_acceptsRawSessionToken() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:30:    func test_cookieHeader_acceptsFullCookieHeader() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:36:    func test_cookieHeader_joinsSplitSessionTokenCookies() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:44:    func test_cookieHeader_acceptsCookiePrefixAndNewlineSeparatedSplitCookies() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:52:    func test_whamToDomain_classifiesMenuBarRowsAndPreservesUnknownRows() throws {
+PinemeterTests/ChatGPTUsageServiceTests.swift:94:    func test_fetchUsage_withBlankSessionCookie_throwsMissingSessionCookie() async {
+PinemeterTests/ChatGPTUsageServiceTests.swift:107:    func test_fetchUsage_exchangesCookieForAccessTokenThenFetchesWhamUsage() async throws {
+PinemeterTests/ChatGPTUsageServiceTests.swift:142:    func test_fetchUsage_withoutAccessToken_treatsCookieAsInvalid() async {
+PinemeterTests/ProviderErrorWorkflowTests.swift:4:final class ProviderErrorWorkflowTests: XCTestCase {
+PinemeterTests/ProviderErrorWorkflowTests.swift:5:    func test_appError_noSessionKey_usesClaudeSpecificCredentialCopy() {
+PinemeterTests/ProviderErrorWorkflowTests.swift:10:    func test_appError_sessionKeyInvalid_usesClaudeSpecificCredentialCopy() {
+PinemeterTests/ProviderErrorWorkflowTests.swift:15:    func test_networkAuthenticationFailed_usesClaudeSpecificCredentialCopy() {
+PinemeterTests/ProviderErrorWorkflowTests.swift:19:    func test_claudeRecoveryCopy_detectsOnlyClaudeCredentialAuthenticationMessages() {
+PinemeterTests/ProviderErrorWorkflowTests.swift:28:    func test_claudeRecoveryCopy_usesClaudeSpecificButtonLabel() {
+PinemeterTests/AppModelTests.swift:5:final class AppModelTests: XCTestCase {
+PinemeterTests/AppModelTests.swift:6:    func test_bootstrap_withoutSessionKey_showsSetupState() async {
+PinemeterTests/AppModelTests.swift:29:    func test_userWithSessionKey_seesUsageAfterLaunch() async {
+PinemeterTests/AppModelTests.swift:57:    func test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch() async {
+PinemeterTests/AppModelTests.swift:85:    func test_refreshingUsage_showsLatestUsageAndClearsError() async {
+PinemeterTests/AppModelTests.swift:111:    func test_refreshingUsage_showsErrorWhenFetchFails() async {
+PinemeterTests/AppModelTests.swift:136:    func test_refreshingUsage_hidesUsageWhenSetupIncomplete() async {
+PinemeterTests/AppModelTests.swift:158:    func test_userWithInvalidSessionKey_staysInSetup() async throws {
+PinemeterTests/AppModelTests.swift:183:    func test_userWithValidSessionKey_entersUsageAndLoadsData() async throws {
+PinemeterTests/AppModelTests.swift:219:    func test_importingSessionKey_savesImportedKeyAndLoadsData() async throws {
+PinemeterTests/AppModelTests.swift:257:    func test_importingSessionKey_whenImportedKeyInvalid_staysInSetup() async throws {
+PinemeterTests/AppModelTests.swift:290:    func test_userWithValidSessionKeyWithoutOrganization_staysInSetup() async {
+PinemeterTests/AppModelTests.swift:318:    func test_userClearsSession_returnsToSetupState() async throws {
+PinemeterTests/AppModelTests.swift:349:    func test_userWithNotificationPermission_doesNotSeePermissionPrompt() async {
+PinemeterTests/AppModelTests.swift:368:    func test_userWithoutNotificationPermission_isPromptedForPermission() async {
+PinemeterTests/AppModelTests.swift:387:    func test_userSendsTestNotification_triggersNotificationService() async throws {
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:12:final class NotificationCenterSpy: UserNotificationCenterProtocol {
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:12:final class NotificationServiceSpy: NotificationServiceProtocol {
+
+Scripts text files:
+scripts/demo.sh Bourne-Again shell script text executable
+scripts/provider_workflow_copy_audit.py Python script text executable
+
+Provider audit headings:
+19:SOURCE_FILES: tuple[str, ...] = (
+31:DOC_FILES: tuple[str, ...] = (
+36:ALLOWED_FILES = SOURCE_FILES + DOC_FILES
+39:SECRET_PATTERNS: tuple[re.Pattern[str], ...] = (
+49:class Finding:
+58:def redact(text: str) -> str:
+60:    for pattern in SECRET_PATTERNS:
+61:        def replacement(match: re.Match[str]) -> str:
+71:def fail(message: str) -> int:
+76:def checked_path(relative_path: str) -> Path:
+88:def read_allowlisted_files() -> dict[str, str]:
+90:    for relative_path in ALLOWED_FILES:
+98:def find_lines(text: str, predicate: Callable[[str], bool]) -> Iterable[tuple[int, str]]:
+104:def add_contains_findings(
+130:def audit_claude_credential_copy(contents: dict[str, str]) -> list[Finding]:
+166:def audit_chatgpt_copy(contents: dict[str, str]) -> list[Finding]:
+207:def audit_public_docs(contents: dict[str, str]) -> list[Finding]:
+209:    docs_joined = "\n".join(contents[path].lower() for path in DOC_FILES)
+231:    for relative_path in DOC_FILES:
+245:def audit_response_body_logging(contents: dict[str, str]) -> list[Finding]:
+270:def audit(contents: dict[str, str]) -> list[Finding]:
+279:def print_report(findings: Sequence[Finding], *, report_only: bool) -> None:
+282:    print(f"Files scanned: {len(ALLOWED_FILES)} fixed allowlist")
+308:def parse_args(argv: Sequence[str]) -> argparse.Namespace:
+318:def main(argv: Sequence[str]) -> int:

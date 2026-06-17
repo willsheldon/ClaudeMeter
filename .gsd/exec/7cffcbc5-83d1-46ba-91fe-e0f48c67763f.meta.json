@@ -1,0 +1,18 @@
+{
+  "id": "7cffcbc5-83d1-46ba-91fe-e0f48c67763f",
+  "runtime": "bash",
+  "purpose": "Check explicit superpowers-agent version string",
+  "script_chars": 25,
+  "started_at": "2026-06-17T15:50:41.211Z",
+  "finished_at": "2026-06-17T15:50:41.260Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 49,
+  "stdout_bytes": 6,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/7cffcbc5-83d1-46ba-91fe-e0f48c67763f.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/7cffcbc5-83d1-46ba-91fe-e0f48c67763f.stderr"
+}

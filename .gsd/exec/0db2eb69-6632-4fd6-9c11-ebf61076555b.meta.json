@@ -1,0 +1,18 @@
+{
+  "id": "0db2eb69-6632-4fd6-9c11-ebf61076555b",
+  "runtime": "bash",
+  "purpose": "Run provider workflow copy audit after public docs edits",
+  "script_chars": 47,
+  "started_at": "2026-06-17T15:47:51.851Z",
+  "finished_at": "2026-06-17T15:47:51.968Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 117,
+  "stdout_bytes": 3859,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/0db2eb69-6632-4fd6-9c11-ebf61076555b.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/0db2eb69-6632-4fd6-9c11-ebf61076555b.stderr"
+}

@@ -1,0 +1,43 @@
+1: //
+2: //  CacheRepository.swift
+3: //  Pinemeter
+4: //
+5: //  Created by Edd on 2025-11-14.
+6: //
+7: 
+8: import Foundation
+9: 
+10: /// Actor-isolated two-tier cache repository
+11: actor CacheRepository: CacheRepositoryProtocol {
+12:     private var memoryCache: UsageData?
+13:     private var memoryCacheTimestamp: Date?
+14:     private let cacheTTL: TimeInterval = Constants.Cache.ttl
+15:     private let diskCacheURL: URL
+16:     private let publicJSONURL: URL
+17: 
+18:     init(fileManager: FileManager = .default) {
+19:         let appSupport = fileManager.urls(
+20:             for: .applicationSupportDirectory,
+21:             in: .userDomainMask
+22:         ).first!
+23: 
+24:         let cacheDir = appSupport.appendingPathComponent("com.claudemeter", isDirectory: true)
+25:         try? fileManager.createDirectory(at: cacheDir, withIntermediateDirectories: true)
+26: 
+27:         self.diskCacheURL = cacheDir.appendingPathComponent("usage_cache.json")
+28: 
+29:         // Public JSON export at ~/.claudemeter/usage.json for external tools
+30:         let homeDir = fileManager.homeDirectoryForCurrentUser
+31:         let publicDir = homeDir.appendingPathComponent(".claudemeter", isDirectory: true)
+32:         try? fileManager.createDirectory(at: publicDir, withIntermediateDirectories: true)
+33:         self.publicJSONURL = publicDir.appendingPathComponent("usage.json")
+34:     }
+35: 
+37:     func get() async -> UsageData? {
+50:     func set(_ data: UsageData) async {
+57:     func invalidate() async {
+63:     func getLastKnown() async -> UsageData? {
+78:             try jsonData.write(to: diskCacheURL, options: .atomic)
+83:         // Also write to public location for external tools (statusline scripts, etc.)
+99:             try jsonData.write(to: publicJSONURL, options: .atomic)
+106:         guard let jsonData = try? Data(contentsOf: diskCacheURL) else {

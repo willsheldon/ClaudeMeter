@@ -1,0 +1,18 @@
+{
+  "id": "c7a7db98-7802-44fc-b000-5f9136c49fd3",
+  "runtime": "python",
+  "purpose": "CacheRepository method outline for migration planning",
+  "script_chars": 364,
+  "started_at": "2026-06-17T15:58:57.029Z",
+  "finished_at": "2026-06-17T15:58:57.108Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 79,
+  "stdout_bytes": 1882,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c7a7db98-7802-44fc-b000-5f9136c49fd3.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c7a7db98-7802-44fc-b000-5f9136c49fd3.stderr"
+}

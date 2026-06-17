@@ -1,0 +1,18 @@
+{
+  "id": "cc7e6caf-2ee3-4e49-a8eb-2cccabdf1e99",
+  "runtime": "python",
+  "purpose": "Show exact repr for CacheRepositoryTests invalidation assertion block",
+  "script_chars": 162,
+  "started_at": "2026-06-17T16:08:05.036Z",
+  "finished_at": "2026-06-17T16:08:05.107Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 71,
+  "stdout_bytes": 455,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/cc7e6caf-2ee3-4e49-a8eb-2cccabdf1e99.stdout",
+  "stderr_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/cc7e6caf-2ee3-4e49-a8eb-2cccabdf1e99.stderr"
+}

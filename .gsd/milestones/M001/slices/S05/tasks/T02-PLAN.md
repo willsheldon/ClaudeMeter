@@ -4,7 +4,7 @@ estimated_files: 8
 skills_used: []
 ---
 
-# T02: Qualify Claude credential errors and recovery copy
+# T02: Qualified Claude credential errors, setup/settings recovery copy, and popover recovery-button detection with focused regression tests.
 
 ---
 skills_used: [tdd, verify-before-complete]

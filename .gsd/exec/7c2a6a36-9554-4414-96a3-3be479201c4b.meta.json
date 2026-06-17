@@ -1,0 +1,18 @@
+{
+  "id": "7c2a6a36-9554-4414-96a3-3be479201c4b",
+  "runtime": "python",
+  "purpose": "AppModel init dependency construction lines",
+  "script_chars": 143,
+  "started_at": "2026-06-17T15:59:29.739Z",
+  "finished_at": "2026-06-17T15:59:29.829Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 90,
+  "stdout_bytes": 2420,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/7c2a6a36-9554-4414-96a3-3be479201c4b.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/7c2a6a36-9554-4414-96a3-3be479201c4b.stderr"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "1a99680f-18bc-4e0d-bdc3-72b9a9138f1b",
+  "runtime": "bash",
+  "purpose": "RED run for NetworkService diagnostic source invariant",
+  "script_chars": 135,
+  "started_at": "2026-06-17T15:42:29.547Z",
+  "finished_at": "2026-06-17T15:42:48.739Z",
+  "exit_code": 65,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 19192,
+  "stdout_bytes": 43896,
+  "stderr_bytes": 1064,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/1a99680f-18bc-4e0d-bdc3-72b9a9138f1b.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/1a99680f-18bc-4e0d-bdc3-72b9a9138f1b.stderr"
+}

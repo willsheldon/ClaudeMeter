@@ -1,0 +1,7 @@
+13: func test_appSettingsPersistenceDoesNotEncodeCredentialMaterial() async throws {
+52: func test_userFacingAppErrorDescriptionsDoNotDiscloseCredentialShapedFragments() {
+69: func test_userFacingChatGPTErrorDescriptionsDoNotDiscloseCredentialShapedFragments() {
+81: func test_userFacingNetworkAndKeychainDescriptionsDoNotDiscloseCredentialShapedFragments() {
+100: func test_networkServiceDiagnosticsDoNotLogResponseBodiesOrCredentialFragments() throws {
+142: private func assertNoCredentialDisclosure(in descriptions: [String], file: StaticString = #filePath, line: UInt = #line) {
+total_lines=160

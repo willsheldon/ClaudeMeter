@@ -1,0 +1,18 @@
+{
+  "id": "cf08fbdb-4902-43bc-8bfe-597bc52fc5a8",
+  "runtime": "python",
+  "purpose": "Summarize SecurityInvariantTests structure for targeted edit",
+  "script_chars": 295,
+  "started_at": "2026-06-17T16:04:59.853Z",
+  "finished_at": "2026-06-17T16:04:59.916Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 63,
+  "stdout_bytes": 599,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/cf08fbdb-4902-43bc-8bfe-597bc52fc5a8.stdout",
+  "stderr_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/cf08fbdb-4902-43bc-8bfe-597bc52fc5a8.stderr"
+}

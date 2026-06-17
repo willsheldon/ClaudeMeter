@@ -1,0 +1,18 @@
+{
+  "id": "c52736d7-19c7-4830-9e78-c8e199a4b4f8",
+  "runtime": "bash",
+  "purpose": "Final focused provider and SessionKey tests",
+  "script_chars": 184,
+  "started_at": "2026-06-17T15:40:41.255Z",
+  "finished_at": "2026-06-17T15:40:50.916Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 9661,
+  "stdout_bytes": 91948,
+  "stderr_bytes": 626,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c52736d7-19c7-4830-9e78-c8e199a4b4f8.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c52736d7-19c7-4830-9e78-c8e199a4b4f8.stderr"
+}

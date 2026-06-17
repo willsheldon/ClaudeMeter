@@ -1,0 +1,18 @@
+{
+  "id": "6a6d88c7-202e-4fb7-b4e7-2b11014f9624",
+  "runtime": "bash",
+  "purpose": "S06 slice-level verification: provider workflow audit plus focused XCTest suite",
+  "script_chars": 446,
+  "started_at": "2026-06-17T16:15:56.802Z",
+  "finished_at": "2026-06-17T16:16:01.763Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 4961,
+  "stdout_bytes": 13483,
+  "stderr_bytes": 626,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/6a6d88c7-202e-4fb7-b4e7-2b11014f9624.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/6a6d88c7-202e-4fb7-b4e7-2b11014f9624.stderr"
+}

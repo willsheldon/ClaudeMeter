@@ -1,0 +1,36 @@
+### R002 — Existing app behavior remains stable through rename, cleanup, and review-driven restructuring.
+- Class: quality-attribute
+- Status: active
+- Description: Existing app behavior remains stable through rename, cleanup, and review-driven restructuring.
+- Why it matters: M001 must improve ownership and maintainability without breaking existing Claude/Opus and GPT monitoring behavior.
+- Source: inferred
+- Primary owning slice: M001/S07
+- Supporting slices: M001/S01, M001/S06
+- Validation: mapped
+- Notes: Verified by renamed test and clean build commands after changes.
+
+---
+### R008 — Tests and clean build pass after rename, cleanup, and review-driven changes, using Pinemeter project and scheme names if they are renamed.
+- Class: launchability
+- Status: active
+- Description: Tests and clean build pass after rename, cleanup, and review-driven changes, using Pinemeter project and scheme names if they are renamed.
+- Why it matters: The ownership baseline is not useful unless the app remains buildable and testable at the end of M001.
+- Source: user
+- Primary owning slice: M001/S07
+- Supporting slices: M001/S01, M001/S06
+- Validation: mapped
+- Notes: Required commands: xcodebuild test and xcodebuild clean build with renamed Pinemeter project/scheme names, or documented approved exceptions.
+
+---
+### R009 — Git history squashing and open-source repository hygiene are planned without performing destructive history rewriting or remote pushes.
+- Class: operability
+- Status: active
+- Description: Git history squashing and open-source repository hygiene are planned without performing destructive history rewriting or remote pushes.
+- Why it matters: The repository should be prepared to become a pretty public repo while avoiding irreversible local/remote history actions without explicit confirmation.
+- Source: user
+- Primary owning slice: M001/S07
+- Supporting slices: M001/S06
+- Validation: mapped
+- Notes: Actual history rewrite or push requires fresh explicit approval during execution.
+
+---

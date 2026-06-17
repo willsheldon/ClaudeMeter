@@ -1,0 +1,18 @@
+{
+  "id": "f4a1f806-68cc-43d4-aee1-e5e8d643a294",
+  "runtime": "python",
+  "purpose": "Inspect write-docs skill content after read truncation",
+  "script_chars": 136,
+  "started_at": "2026-06-17T16:22:41.415Z",
+  "finished_at": "2026-06-17T16:22:41.473Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 58,
+  "stdout_bytes": 1030,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/f4a1f806-68cc-43d4-aee1-e5e8d643a294.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/f4a1f806-68cc-43d4-aee1-e5e8d643a294.stderr"
+}

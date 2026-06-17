@@ -33,7 +33,7 @@ The slice closes when source/docs copy changes compile under the Pinemeter Xcode
   - Files: `scripts/provider_workflow_copy_audit.py`
   - Verify: python3 scripts/provider_workflow_copy_audit.py --report-only
 
-- [ ] **T02: Qualify Claude credential errors and recovery copy** `est:1 day`
+- [x] **T02: Qualified Claude credential errors, setup/settings recovery copy, and popover recovery-button detection with focused regression tests.** `est:1 day`
   ---
   skills_used: [tdd, verify-before-complete]
   ---
@@ -41,7 +41,7 @@ The slice closes when source/docs copy changes compile under the Pinemeter Xcode
   - Files: `Pinemeter/Models/Errors/AppError.swift`, `Pinemeter/Models/Errors/NetworkError.swift`, `Pinemeter/Models/SessionKey.swift`, `Pinemeter/Views/MenuBar/UsagePopoverView.swift`, `Pinemeter/Views/Setup/SetupWizardView.swift`, `Pinemeter/Views/Settings/SettingsView.swift`, `PinemeterTests/ProviderErrorWorkflowTests.swift`, `PinemeterTests/SessionKeyTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/ProviderErrorWorkflowTests -only-testing:PinemeterTests/SessionKeyTests
 
-- [ ] **T03: Redact Claude network failure diagnostics** `est:0.5 day`
+- [x] **T03: Redacted NetworkService HTTP and decode failure diagnostics while adding a source-level security invariant against response-body and credential-fragment logging.** `est:0.5 day`
   ---
   skills_used: [tdd, verify-before-complete]
   ---
@@ -49,7 +49,7 @@ The slice closes when source/docs copy changes compile under the Pinemeter Xcode
   - Files: `Pinemeter/Services/NetworkService.swift`, `PinemeterTests/SecurityInvariantTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/SecurityInvariantTests -only-testing:PinemeterTests/ProviderErrorWorkflowTests
 
-- [ ] **T04: Update public provider copy and write S05 assessment** `est:0.5 day`
+- [x] **T04: Updated public provider positioning and wrote the S05 provider/error workflow assessment with passing audit and focused test verification.** `est:0.5 day`
   ---
   skills_used: [verify-before-complete, write-docs]
   ---

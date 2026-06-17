@@ -1,0 +1,18 @@
+{
+  "id": "31c6dc8c-4046-425d-84c6-5cb15cb022be",
+  "runtime": "bash",
+  "purpose": "S06 first proof baseline provider audit before cleanup planning",
+  "script_chars": 47,
+  "started_at": "2026-06-17T15:59:49.072Z",
+  "finished_at": "2026-06-17T15:59:49.180Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 108,
+  "stdout_bytes": 1991,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/31c6dc8c-4046-425d-84c6-5cb15cb022be.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/31c6dc8c-4046-425d-84c6-5cb15cb022be.stderr"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "38ab8f8d-0382-419d-aac3-48c682e86b72",
+  "runtime": "bash",
+  "purpose": "Run focused AppSettings refresh interval tests",
+  "script_chars": 161,
+  "started_at": "2026-06-17T16:12:03.505Z",
+  "finished_at": "2026-06-17T16:12:14.095Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 10590,
+  "stdout_bytes": 17670,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/38ab8f8d-0382-419d-aac3-48c682e86b72.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/38ab8f8d-0382-419d-aac3-48c682e86b72.stderr"
+}

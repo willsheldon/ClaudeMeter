@@ -1,0 +1,18 @@
+{
+  "id": "c7699a8a-0213-4ef7-8a8b-06e0caef8672",
+  "runtime": "bash",
+  "purpose": "S07 prior final artifacts inventory and verification evidence ids",
+  "script_chars": 494,
+  "started_at": "2026-06-17T16:20:27.139Z",
+  "finished_at": "2026-06-17T16:20:27.172Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 33,
+  "stdout_bytes": 15295,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c7699a8a-0213-4ef7-8a8b-06e0caef8672.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c7699a8a-0213-4ef7-8a8b-06e0caef8672.stderr"
+}

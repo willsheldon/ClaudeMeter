@@ -1,0 +1,18 @@
+{
+  "id": "ed29232b-ed29-41fe-82cf-cd409e381339",
+  "runtime": "bash",
+  "purpose": "T04 final verification: provider audit plus focused Xcode tests",
+  "script_chars": 287,
+  "started_at": "2026-06-17T15:49:37.518Z",
+  "finished_at": "2026-06-17T15:49:47.661Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 10143,
+  "stdout_bytes": 57111,
+  "stderr_bytes": 626,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/ed29232b-ed29-41fe-82cf-cd409e381339.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/ed29232b-ed29-41fe-82cf-cd409e381339.stderr"
+}

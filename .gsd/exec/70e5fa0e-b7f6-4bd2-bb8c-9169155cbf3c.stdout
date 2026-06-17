@@ -1,0 +1,39 @@
+DemoMode: count=11 files=4
+  Pinemeter/App/PinemeterApp.swift; Pinemeter/App/AppDelegate.swift; Pinemeter/Utilities/DemoDataFactory.swift; Pinemeter/Utilities/DemoMode.swift
+DemoDataFactory: count=3 files=2
+  Pinemeter/App/PinemeterApp.swift; Pinemeter/Utilities/DemoDataFactory.swift
+WebViewNetworkService: count=5 files=2
+  Pinemeter/App/AppModel.swift; Pinemeter/Services/WebViewNetworkService.swift
+NetworkServiceProtocol: count=7 files=5
+  Pinemeter/Services/UsageService.swift; Pinemeter/Services/NetworkService.swift; Pinemeter/Services/WebViewNetworkService.swift; Pinemeter/Services/Protocols/NetworkServiceProtocol.swift; PinemeterTests/TestDoubles/NetworkServiceStub.swift
+SessionKeyImportPromptCoordinator: count=2 files=2
+  Pinemeter/App/SessionKeyImportPromptCoordinator.swift; Pinemeter/App/AppDelegate.swift
+SettingsRepositoryProtocol: count=10 files=6
+  Pinemeter/App/AppModel.swift; Pinemeter/Repositories/SettingsRepository.swift; Pinemeter/Services/UsageService.swift; Pinemeter/Services/NotificationService.swift; Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift; PinemeterTests/TestDoubles/SettingsRepositoryFake.swift
+KeychainRepositoryProtocol: count=8 files=5
+  Pinemeter/App/AppModel.swift; Pinemeter/Repositories/KeychainRepository.swift; Pinemeter/Services/UsageService.swift; Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift; PinemeterTests/TestDoubles/KeychainRepositoryFake.swift
+NotificationServiceProtocol: count=6 files=4
+  Pinemeter/App/AppModel.swift; Pinemeter/Services/NotificationService.swift; Pinemeter/Services/Protocols/NotificationServiceProtocol.swift; PinemeterTests/TestDoubles/NotificationServiceSpy.swift
+UserNotificationCenterProtocol: count=6 files=3
+  Pinemeter/Services/NotificationService.swift; Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift; PinemeterTests/TestDoubles/NotificationCenterSpy.swift
+UsageServiceProtocol: count=13 files=7
+  Pinemeter/App/AppModel.swift; Pinemeter/Services/ChatGPTUsageService.swift; Pinemeter/Services/UsageService.swift; Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift; Pinemeter/Services/Protocols/UsageServiceProtocol.swift; PinemeterTests/ChatGPTAppModelTests.swift; PinemeterTests/TestDoubles/UsageServiceStub.swift
+ChatGPTUsageServiceProtocol: count=7 files=4
+  Pinemeter/App/AppModel.swift; Pinemeter/Services/ChatGPTUsageService.swift; Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift; PinemeterTests/ChatGPTAppModelTests.swift
+SystemSettingsOpener: count=3 files=3
+  Pinemeter/Utilities/SystemSettingsOpener.swift; Pinemeter/Views/Settings/SettingsView.swift; Pinemeter/Views/Setup/SetupWizardView.swift
+MenuBarIconRenderer: count=10 files=3
+  Pinemeter/Views/MenuBar/MenuBarManager.swift; Pinemeter/Views/MenuBar/MenuBarIconRenderer.swift; PinemeterTests/MenuBarIconRendererTests.swift
+ServiceProvider: count=0 files=0
+  
+AppError: count=31 files=8
+  Pinemeter/App/AppModel.swift; Pinemeter/Services/UsageService.swift; Pinemeter/Views/Setup/SetupWizardView.swift; Pinemeter/Models/Errors/AppError.swift; PinemeterTests/ProviderErrorWorkflowTests.swift; PinemeterTests/UsageServiceTests.swift; PinemeterTests/AppModelTests.swift; PinemeterTests/SecurityInvariantTests.swift
+NetworkError: count=42 files=8
+  Pinemeter/Services/UsageService.swift; Pinemeter/Services/NetworkService.swift; Pinemeter/Services/WebViewNetworkService.swift; Pinemeter/Views/Setup/SetupWizardView.swift; Pinemeter/Models/Errors/AppError.swift; Pinemeter/Models/Errors/NetworkError.swift; PinemeterTests/ProviderErrorWorkflowTests.swift; PinemeterTests/SecurityInvariantTests.swift
+
+Potential old identity/constants lines:
+Pinemeter/Repositories/CacheRepository.swift:24:let cacheDir = appSupport.appendingPathComponent("com.claudemeter", isDirectory: true)
+Pinemeter/Repositories/CacheRepository.swift:29:// Public JSON export at ~/.claudemeter/usage.json for external tools
+Pinemeter/Repositories/CacheRepository.swift:31:let publicDir = homeDir.appendingPathComponent(".claudemeter", isDirectory: true)
+Pinemeter/Repositories/KeychainRepository.swift:13:private let serviceName = "com.claudemeter.sessionkey"
+Pinemeter/Resources/Pinemeter.entitlements:7:<string>$(AppIdentifierPrefix)com.claudemeter</string>

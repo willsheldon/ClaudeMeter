@@ -1,0 +1,20 @@
+bytes 10118
+headings:
+## Summary
+## Audited Surfaces
+## Changed Files
+## Safe Fixes Applied
+## Security and Redaction Notes
+## Remaining Deferred Work
+## Requirement Impact
+### R006 — Provider and error workflow assumptions
+### R003 — Credential and session handling inventory
+### R004 — Security review and secret exposure
+## Downstream Handoff
+## Failure Modes
+## Load Profile
+## Negative Tests
+## Observability Impact
+
+R006 mentions 1
+deferred mentions 10

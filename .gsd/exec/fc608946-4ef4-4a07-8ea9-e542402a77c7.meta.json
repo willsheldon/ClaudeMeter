@@ -1,0 +1,18 @@
+{
+  "id": "fc608946-4ef4-4a07-8ea9-e542402a77c7",
+  "runtime": "bash",
+  "purpose": "Extract final test pass summary",
+  "script_chars": 262,
+  "started_at": "2026-06-17T15:41:00.134Z",
+  "finished_at": "2026-06-17T15:41:00.199Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 65,
+  "stdout_bytes": 0,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/fc608946-4ef4-4a07-8ea9-e542402a77c7.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/fc608946-4ef4-4a07-8ea9-e542402a77c7.stderr"
+}

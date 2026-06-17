@@ -1,0 +1,4 @@
+PASS: uses Constants.Refresh.minimum
+PASS: uses Constants.Refresh.maximum
+PASS: setRefreshInterval has no literal clamp values
+PASS: default refresh uses Constants.Refresh.minimum

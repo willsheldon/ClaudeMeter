@@ -1,0 +1,18 @@
+{
+  "id": "cadb20ea-278a-4277-9172-47bfd1278f31",
+  "runtime": "python",
+  "purpose": "summarize CacheRepository paths and references",
+  "script_chars": 549,
+  "started_at": "2026-06-17T15:56:19.815Z",
+  "finished_at": "2026-06-17T15:56:19.883Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 68,
+  "stdout_bytes": 3391,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/cadb20ea-278a-4277-9172-47bfd1278f31.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/cadb20ea-278a-4277-9172-47bfd1278f31.stderr"
+}
