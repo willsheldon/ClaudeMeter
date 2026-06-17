@@ -1,0 +1,18 @@
+{
+  "id": "f23e4076-0b46-47c2-9360-03f11c37f2c3",
+  "runtime": "bash",
+  "purpose": "exact credential symbol locations",
+  "script_chars": 262,
+  "started_at": "2026-06-17T02:45:52.801Z",
+  "finished_at": "2026-06-17T02:45:52.829Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 28,
+  "stdout_bytes": 34005,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/f23e4076-0b46-47c2-9360-03f11c37f2c3.stdout",
+  "stderr_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/f23e4076-0b46-47c2-9360-03f11c37f2c3.stderr"
+}

@@ -1,6 +1,6 @@
-# ClaudeMeter
+# Pinemeter
 
-![ClaudeMeter](docs/heading.png)
+![Pinemeter](docs/heading.png)
 
 Keep track of your Claude.ai plan usage at a glance.
 
@@ -33,7 +33,7 @@ When using Sonnet models, an additional indicator shows your Sonnet-specific usa
 
 ### Notifications
 
-ClaudeMeter sends native macOS notifications when you reach warning or critical thresholds:
+Pinemeter sends native macOS notifications when you reach warning or critical thresholds:
 
 <p align="center">
   <img src="docs/notifications.png" width="450" alt="Usage notifications">
@@ -56,36 +56,30 @@ Configure your Claude session, refresh interval, icon style, and notification th
 
 ## Installation
 
-### Homebrew (Recommended)
-
-```bash
-brew install eddmann/tap/claudemeter
-```
-
 ### Manual Download
 
-1. Download the latest release from [GitHub Releases](https://github.com/eddmann/ClaudeMeter/releases)
-2. Unzip and move `ClaudeMeter.app` to Applications
-3. Double-click to open
+1. Download the latest Pinemeter release from this repository's Releases page.
+2. Unzip and move `Pinemeter.app` to Applications.
+3. Double-click to open.
 
-The app is signed and notarized by Apple, so it will open without any security warnings.
+Release distribution, Homebrew packaging, and final public repository URLs are pending the open-source hygiene plan.
 
 ## Usage
 
 ### First Launch
 
-1. ClaudeMeter appears in your menu bar as a gauge icon
+1. Pinemeter appears in your menu bar as a gauge icon
 2. The setup wizard will guide you through initial configuration
 3. Import from a browser signed in to [claude.ai](https://claude.ai), or paste your session manually
 4. The app validates your session and begins monitoring usage
 
 ### Claude Session Setup
 
-ClaudeMeter can import your existing Claude session from local browser cookies. Sign in to [claude.ai](https://claude.ai) in a supported browser, then choose **Import from Browser** in the setup wizard or Settings.
+Pinemeter can import your existing Claude session from local browser cookies. Sign in to [claude.ai](https://claude.ai) in a supported browser, then choose **Import from Browser** in the setup wizard or Settings.
 
-Chrome, Arc, Brave, Edge, and other Chromium browsers may ask for browser Safe Storage Keychain access so ClaudeMeter can decrypt cookies. Safari cookies are protected by macOS and may require Full Disk Access.
+Chrome, Arc, Brave, Edge, and other Chromium browsers may ask for browser Safe Storage Keychain access so Pinemeter can decrypt cookies. Safari cookies are protected by macOS and may require Full Disk Access.
 
-If browser import is unavailable, paste your session manually. ClaudeMeter accepts either a raw `sk-ant-...` session key or a Cookie header containing `sessionKey=...`.
+If browser import is unavailable, paste your session manually. Pinemeter accepts either a raw `sk-ant-...` session key or a Cookie header containing `sessionKey=...`.
 
 #### Manual Session Setup
 
@@ -123,7 +117,7 @@ Your Claude session key is stored in your browser cookies.
 
 ### Integration with External Tools
 
-ClaudeMeter exports usage data to `~/.claudemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards.
+Pinemeter exports usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards.
 
 **JSON format:**
 
@@ -151,7 +145,7 @@ Create `~/.claude/statusline.sh`:
 
 ```bash
 #!/bin/bash
-usage=$(jq -r '.session_usage.utilization' ~/.claudemeter/usage.json 2>/dev/null)
+usage=$(jq -r '.session_usage.utilization' ~/.pinemeter/usage.json 2>/dev/null)
 
 if [ -z "$usage" ] || [ "$usage" = "null" ]; then
   echo "Usage: ~"
@@ -185,11 +179,11 @@ Then configure Claude Code's `~/.claude/settings.json`:
 
 ```bash
 # Clone the repository
-git clone https://github.com/eddmann/ClaudeMeter.git
-cd ClaudeMeter
+git clone <repository-url>
+cd Pinemeter
 
 # Open in Xcode
-open ClaudeMeter.xcodeproj
+open Pinemeter.xcodeproj
 
 # Build and run (⌘R)
 ```
@@ -200,7 +194,7 @@ Requires Xcode 16.0 or later.
 
 **This is an unofficial tool** and is not affiliated with, endorsed by, or supported by Anthropic PBC.
 
-This application accesses Claude's web API using browser-based authentication methods. **This may violate Anthropic's Terms of Service.** By using ClaudeMeter, you acknowledge that:
+This application accesses Claude's web API using browser-based authentication methods. **This may violate Anthropic's Terms of Service.** By using Pinemeter, you acknowledge that:
 
 - Anthropic may block, restrict, or terminate access at any time
 - Your Claude account could be affected by using unofficial API clients
@@ -214,7 +208,7 @@ This application accesses Claude's web API using browser-based authentication me
 - Usage data is cached locally (unencrypted, contains usage percentages only)
 - No data is sent to third-party servers or collected by the developer
 
-This software is provided "as is" under the MIT License, without warranty of any kind. **By downloading and using ClaudeMeter, you accept these terms.**
+This software is provided "as is" under the MIT License, without warranty of any kind. **By downloading and using Pinemeter, you accept these terms.**
 
 ## License
 

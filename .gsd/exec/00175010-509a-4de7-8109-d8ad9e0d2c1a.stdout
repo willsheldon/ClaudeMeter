@@ -1,0 +1,298 @@
+Credential/session keyword hits by file:
+   1 Pinemeter/App/AppDelegate.swift
+  41 Pinemeter/App/AppModel.swift
+   9 Pinemeter/App/SessionKeyImportPromptCoordinator.swift
+   9 Pinemeter/Models/Errors/AppError.swift
+   7 Pinemeter/Models/Errors/KeychainError.swift
+  13 Pinemeter/Models/SessionKey.swift
+  22 Pinemeter/Repositories/KeychainRepository.swift
+  10 Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift
+  23 Pinemeter/Services/ChatGPTUsageService.swift
+   2 Pinemeter/Services/NetworkService.swift
+   2 Pinemeter/Services/NotificationService.swift
+   2 Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift
+   1 Pinemeter/Services/Protocols/NetworkServiceProtocol.swift
+   1 Pinemeter/Services/Protocols/NotificationServiceProtocol.swift
+  17 Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift
+   5 Pinemeter/Services/Protocols/UsageServiceProtocol.swift
+   3 Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift
+  32 Pinemeter/Services/SessionKeyImportService.swift
+  25 Pinemeter/Services/UsageService.swift
+  12 Pinemeter/Services/WebViewNetworkService.swift
+   1 Pinemeter/Views/MenuBar/UsagePopoverView.swift
+ 134 Pinemeter/Views/Settings/SettingsView.swift
+  17 Pinemeter/Views/Setup/SetupWizardView.swift
+  48 PinemeterTests/AppModelTests.swift
+  32 PinemeterTests/ChatGPTAppModelTests.swift
+  25 PinemeterTests/ChatGPTUsageServiceTests.swift
+   9 PinemeterTests/SessionKeyTests.swift
+  17 PinemeterTests/TestDoubles/KeychainRepositoryFake.swift
+   1 PinemeterTests/TestDoubles/NetworkServiceStub.swift
+   7 PinemeterTests/TestDoubles/NotificationCenterSpy.swift
+   3 PinemeterTests/TestDoubles/NotificationServiceSpy.swift
+   4 PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift
+   6 PinemeterTests/TestDoubles/UsageServiceStub.swift
+   1 PinemeterTests/TestSupport/TestConstants.swift
+  18 PinemeterTests/UsageServiceTests.swift
+
+Representative hits:
+PinemeterTests/AppModelTests.swift:6:    func test_bootstrap_withoutSessionKey_showsSetupState() async {
+PinemeterTests/AppModelTests.swift:10:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:19:        try? await keychainRepository.delete(account: "default")
+PinemeterTests/AppModelTests.swift:29:    func test_userWithSessionKey_seesUsageAfterLaunch() async {
+PinemeterTests/AppModelTests.swift:34:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:44:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/AppModelTests.swift:57:    func test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch() async {
+PinemeterTests/AppModelTests.swift:62:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:72:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/AppModelTests.swift:90:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:116:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:140:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:158:    func test_userWithInvalidSessionKey_staysInSetup() async throws {
+PinemeterTests/AppModelTests.swift:161:            isSessionKeyValid: false
+PinemeterTests/AppModelTests.swift:165:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:174:        let result = try await appModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:183:    func test_userWithValidSessionKey_entersUsageAndLoadsData() async throws {
+PinemeterTests/AppModelTests.swift:194:            isSessionKeyValid: true
+PinemeterTests/AppModelTests.swift:198:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:207:        let result = try await appModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:219:    func test_importingSessionKey_savesImportedKeyAndLoadsData() async throws {
+PinemeterTests/AppModelTests.swift:230:            isSessionKeyValid: true
+PinemeterTests/AppModelTests.swift:234:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:235:        let importService = SessionKeyImportServiceStub(result: .success(ImportedSessionKey(
+PinemeterTests/AppModelTests.swift:236:            value: TestConstants.sessionKeyValue,
+PinemeterTests/AppModelTests.swift:245:            sessionKeyImportService: importService
+PinemeterTests/AppModelTests.swift:248:        let imported = try await appModel.importAndSaveSessionKey()
+PinemeterTests/AppModelTests.swift:252:        XCTAssertEqual(savedKey, TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:257:    func test_importingSessionKey_whenImportedKeyInvalid_staysInSetup() async throws {
+PinemeterTests/AppModelTests.swift:261:            isSessionKeyValid: false
+PinemeterTests/AppModelTests.swift:265:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:266:        let importService = SessionKeyImportServiceStub(result: .success(ImportedSessionKey(
+PinemeterTests/AppModelTests.swift:267:            value: TestConstants.sessionKeyValue,
+PinemeterTests/AppModelTests.swift:276:            sessionKeyImportService: importService
+PinemeterTests/AppModelTests.swift:280:            _ = try await appModel.importAndSaveSessionKey()
+PinemeterTests/AppModelTests.swift:281:            XCTFail("Expected invalidImportedSessionKey to be thrown")
+PinemeterTests/AppModelTests.swift:282:        } catch SessionKeyImportError.invalidImportedSessionKey {
+PinemeterTests/AppModelTests.swift:290:    func test_userWithValidSessionKeyWithoutOrganization_staysInSetup() async {
+PinemeterTests/AppModelTests.swift:294:            isSessionKeyValid: true
+PinemeterTests/AppModelTests.swift:298:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:308:            _ = try await appModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:322:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:340:        try await appModel.clearSessionKey()
+PinemeterTests/AppModelTests.swift:354:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:365:        XCTAssertEqual(notificationService.requestAuthorizationCallCount, 0)
+PinemeterTests/AppModelTests.swift:373:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:384:        XCTAssertEqual(notificationService.requestAuthorizationCallCount, 1)
+PinemeterTests/AppModelTests.swift:391:        let keychainRepository = KeychainRepositoryFake()
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:13:    /// - Parameter forceRefresh: If true, clears cache before fetching new data
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:19:    /// Fetch list of organizations with explicit session key (for setup)
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:20:    func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization]
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:22:    /// Validate session key with Claude API
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:23:    func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool
+PinemeterTests/ChatGPTUsageServiceTests.swift:25:        let header = ChatGPTUsageService.cookieHeader(from: " token-redacted \n")
+PinemeterTests/ChatGPTUsageServiceTests.swift:30:    func test_cookieHeader_acceptsFullCookieHeader() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:31:        let header = ChatGPTUsageService.cookieHeader(from: "a=b; __Secure-next-auth.session-token=token-redacted")
+PinemeterTests/ChatGPTUsageServiceTests.swift:36:    func test_cookieHeader_joinsSplitSessionTokenCookies() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:37:        let header = ChatGPTUsageService.cookieHeader(
+PinemeterTests/ChatGPTUsageServiceTests.swift:44:    func test_cookieHeader_acceptsCookiePrefixAndNewlineSeparatedSplitCookies() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:45:        let header = ChatGPTUsageService.cookieHeader(
+PinemeterTests/ChatGPTUsageServiceTests.swift:46:            from: "Cookie: __Secure-next-auth.session-token.0=first\n__Secure-next-auth.session-token.1=second"
+PinemeterTests/ChatGPTUsageServiceTests.swift:94:    func test_fetchUsage_withBlankSessionCookie_throwsMissingSessionCookie() async {
+PinemeterTests/ChatGPTUsageServiceTests.swift:98:            _ = try await service.fetchUsage(sessionCookie: "   ")
+PinemeterTests/ChatGPTUsageServiceTests.swift:100:        } catch ChatGPTUsageError.missingSessionCookie {
+PinemeterTests/ChatGPTUsageServiceTests.swift:107:    func test_fetchUsage_exchangesCookieForAccessTokenThenFetchesWhamUsage() async throws {
+PinemeterTests/ChatGPTUsageServiceTests.swift:120:        let usage = try await service.fetchUsage(sessionCookie: "session-token-redacted")
+PinemeterTests/ChatGPTUsageServiceTests.swift:142:    func test_fetchUsage_withoutAccessToken_treatsCookieAsInvalid() async {
+PinemeterTests/ChatGPTUsageServiceTests.swift:149:            _ = try await service.fetchUsage(sessionCookie: "session-token-redacted")
+PinemeterTests/ChatGPTUsageServiceTests.swift:151:        } catch ChatGPTUsageError.invalidSessionCookie {
+Pinemeter/Repositories/KeychainRepository.swift:2://  KeychainRepository.swift
+Pinemeter/Repositories/KeychainRepository.swift:11:/// Actor-isolated repository for secure Keychain operations
+Pinemeter/Repositories/KeychainRepository.swift:12:actor KeychainRepository: KeychainRepositoryProtocol {
+Pinemeter/Repositories/KeychainRepository.swift:15:    /// Save session key to Keychain with security attributes
+Pinemeter/Repositories/KeychainRepository.swift:16:    func save(sessionKey: String, account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:17:        guard let data = sessionKey.data(using: .utf8) else {
+Pinemeter/Repositories/KeychainRepository.swift:18:            throw KeychainError.saveFailed(OSStatus: errSecParam)
+Pinemeter/Repositories/KeychainRepository.swift:34:            try await update(sessionKey: sessionKey, account: account)
+Pinemeter/Repositories/KeychainRepository.swift:36:            throw KeychainError.saveFailed(OSStatus: status)
+Pinemeter/Repositories/KeychainRepository.swift:40:    /// Retrieve session key from Keychain
+Pinemeter/Repositories/KeychainRepository.swift:55:              let sessionKey = String(data: data, encoding: .utf8) else {
+Pinemeter/Repositories/KeychainRepository.swift:56:            throw KeychainError.notFound
+Pinemeter/Repositories/KeychainRepository.swift:59:        return sessionKey
+Pinemeter/Repositories/KeychainRepository.swift:62:    /// Update existing session key in Keychain
+Pinemeter/Repositories/KeychainRepository.swift:63:    func update(sessionKey: String, account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:64:        guard let data = sessionKey.data(using: .utf8) else {
+Pinemeter/Repositories/KeychainRepository.swift:65:            throw KeychainError.updateFailed(OSStatus: errSecParam)
+Pinemeter/Repositories/KeychainRepository.swift:81:            throw KeychainError.updateFailed(OSStatus: status)
+Pinemeter/Repositories/KeychainRepository.swift:85:    /// Delete session key from Keychain
+Pinemeter/Repositories/KeychainRepository.swift:86:    func delete(account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:96:            throw KeychainError.deleteFailed(OSStatus: status)
+Pinemeter/Repositories/KeychainRepository.swift:100:    /// Check if session key exists for account
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:2://  KeychainRepositoryProtocol.swift
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:11:protocol KeychainRepositoryProtocol: Actor {
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:12:    /// Save session key to keychain
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:13:    func save(sessionKey: String, account: String) async throws
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:15:    /// Retrieve session key from keychain
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:18:    /// Update existing session key
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:19:    func update(sessionKey: String, account: String) async throws
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:21:    /// Delete session key from keychain
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:22:    func delete(account: String) async throws
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:24:    /// Check if session key exists for account
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:9:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:10:    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool
+Pinemeter/Services/UsageService.swift:16:    private let keychainRepository: KeychainRepositoryProtocol
+Pinemeter/Services/UsageService.swift:25:        keychainRepository: KeychainRepositoryProtocol,
+Pinemeter/Services/UsageService.swift:36:        let sessionKeyString: String
+Pinemeter/Services/UsageService.swift:38:            sessionKeyString = try await keychainRepository.retrieve(account: "default")
+Pinemeter/Services/UsageService.swift:39:        } catch KeychainError.notFound {
+Pinemeter/Services/UsageService.swift:40:            throw AppError.noSessionKey
+Pinemeter/Services/UsageService.swift:41:        } catch let error as KeychainError {
+Pinemeter/Services/UsageService.swift:45:        let sessionKey = try SessionKey(sessionKeyString)
+Pinemeter/Services/UsageService.swift:63:        } else if let orgId = sessionKey.organizationId {
+Pinemeter/Services/UsageService.swift:84:                    sessionKey: sessionKey.value
+Pinemeter/Services/UsageService.swift:106:                Self.logger.error("Authentication failed - session key invalid")
+Pinemeter/Services/UsageService.swift:107:                throw AppError.sessionKeyInvalid
+Pinemeter/Services/UsageService.swift:135:        let sessionKeyString: String
+Pinemeter/Services/UsageService.swift:137:            sessionKeyString = try await keychainRepository.retrieve(account: "default")
+Pinemeter/Services/UsageService.swift:138:        } catch KeychainError.notFound {
+Pinemeter/Services/UsageService.swift:139:            throw AppError.noSessionKey
+Pinemeter/Services/UsageService.swift:140:        } catch let error as KeychainError {
+Pinemeter/Services/UsageService.swift:144:        let sessionKey = try SessionKey(sessionKeyString)
+Pinemeter/Services/UsageService.swift:145:        return try await fetchOrganizations(sessionKey: sessionKey)
+Pinemeter/Services/UsageService.swift:148:    /// Fetch list of organizations with explicit session key (for setup before keychain save)
+Pinemeter/Services/UsageService.swift:149:    func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization] {
+Pinemeter/Services/UsageService.swift:153:            sessionKey: sessionKey.value
+Pinemeter/Services/UsageService.swift:159:    /// Validate session key with Claude API
+Pinemeter/Services/UsageService.swift:160:    func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool {
+Pinemeter/Services/UsageService.swift:165:                sessionKey: sessionKey.value
+PinemeterTests/ChatGPTAppModelTests.swift:13:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:14:        try await keychainRepository.save(sessionKey: "chatgpt-session-redacted", account: "chatgpt")
+PinemeterTests/ChatGPTAppModelTests.swift:19:        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:23:    func test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:27:            isSessionCookieValid: true
+PinemeterTests/ChatGPTAppModelTests.swift:29:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:35:        let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:38:        let savedChatGPTCookie = try await keychainRepository.retrieve(account: "chatgpt")
+PinemeterTests/ChatGPTAppModelTests.swift:39:        XCTAssertEqual(savedChatGPTCookie, "chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:41:        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:47:    func test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:48:        let chatGPTService = ChatGPTUsageServiceStub(isSessionCookieValid: false)
+PinemeterTests/ChatGPTAppModelTests.swift:49:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:55:        let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:58:        XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:67:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:68:        try? await keychainRepository.save(sessionKey: "chatgpt-session-redacted", account: "chatgpt")
+PinemeterTests/ChatGPTAppModelTests.swift:84:    func test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:85:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:86:        try await keychainRepository.save(sessionKey: TestConstants.sessionKeyValue, account: "default")
+PinemeterTests/ChatGPTAppModelTests.swift:87:        try await keychainRepository.save(sessionKey: "chatgpt-session-redacted", account: "chatgpt")
+PinemeterTests/ChatGPTAppModelTests.swift:92:        appModel.hasChatGPTSessionCookie = true
+PinemeterTests/ChatGPTAppModelTests.swift:94:        try await appModel.clearChatGPTSessionCookie()
+PinemeterTests/ChatGPTAppModelTests.swift:97:        XCTAssertEqual(savedClaudeKey, TestConstants.sessionKeyValue)
+PinemeterTests/ChatGPTAppModelTests.swift:99:        XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:106:        keychainRepository: KeychainRepositoryFake = KeychainRepositoryFake(),
+PinemeterTests/ChatGPTAppModelTests.swift:121:    let isSessionCookieValid: Bool
+PinemeterTests/ChatGPTAppModelTests.swift:125:        isSessionCookieValid: Bool = true
+PinemeterTests/ChatGPTAppModelTests.swift:128:        self.isSessionCookieValid = isSessionCookieValid
+PinemeterTests/ChatGPTAppModelTests.swift:131:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+PinemeterTests/ChatGPTAppModelTests.swift:140:    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+PinemeterTests/ChatGPTAppModelTests.swift:141:        isSessionCookieValid
+PinemeterTests/SessionKeyTests.swift:4:final class SessionKeyTests: XCTestCase {
+PinemeterTests/SessionKeyTests.swift:5:    func test_sessionKey_acceptsRawSessionKey() throws {
+PinemeterTests/SessionKeyTests.swift:6:        let sessionKey = try SessionKey("  \(TestConstants.sessionKeyValue)  ")
+PinemeterTests/SessionKeyTests.swift:8:        XCTAssertEqual(sessionKey.value, TestConstants.sessionKeyValue)
+PinemeterTests/SessionKeyTests.swift:11:    func test_sessionKey_extractsValueFromCookieHeader() throws {
+PinemeterTests/SessionKeyTests.swift:12:        let sessionKey = try SessionKey("Cookie: foo=bar; sessionKey=\(TestConstants.sessionKeyValue); other=value")
+PinemeterTests/SessionKeyTests.swift:14:        XCTAssertEqual(sessionKey.value, TestConstants.sessionKeyValue)
+PinemeterTests/SessionKeyTests.swift:17:    func test_sessionKey_rejectsCookieHeaderWithoutSessionKey() {
+PinemeterTests/SessionKeyTests.swift:18:        XCTAssertThrowsError(try SessionKey("Cookie: foo=bar"))
+PinemeterTests/TestSupport/TestConstants.swift:20:    static let sessionKeyValue = "sk-ant-test-session-key"
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:3:/// Browser import result for a Claude session key.
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:4:struct ImportedSessionKey: Equatable, Sendable {
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:9:/// Errors that can occur while importing a session key from browser cookies.
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:10:enum SessionKeyImportError: LocalizedError {
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:11:    case noSessionKeyFound
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:14:    case browserKeychainAccessDenied(String)
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:15:    case invalidImportedSessionKey
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:19:        case .noSessionKeyFound:
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:25:        case .browserKeychainAccessDenied(let browserName):
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:26:            return "Allow \(browserName) Safe Storage in Keychain, or paste your session."
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:27:        case .invalidImportedSessionKey:
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:28:            return "The imported Claude session key could not be validated."
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:40:/// Protocol for importing Claude session keys from local browser data.
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:41:protocol SessionKeyImportServiceProtocol: Actor {
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:42:    func importSessionKey() async throws -> ImportedSessionKey
+Pinemeter/App/AppDelegate.swift:24:        SessionKeyImportPromptCoordinator.install()
+PinemeterTests/UsageServiceTests.swift:12:    func test_usageFetch_requiresSessionKey() async {
+PinemeterTests/UsageServiceTests.swift:15:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:27:            XCTFail("Expected noSessionKey error")
+PinemeterTests/UsageServiceTests.swift:28:        } catch AppError.noSessionKey {
+PinemeterTests/UsageServiceTests.swift:39:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:50:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:78:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:89:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:120:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:131:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:157:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:168:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:196:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:207:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:237:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:248:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:281:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:292:            sessionKey: TestConstants.sessionKeyValue,
+Pinemeter/Services/ChatGPTUsageService.swift:9:    case missingSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:10:    case invalidSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:17:        case .missingSessionCookie:
+Pinemeter/Services/ChatGPTUsageService.swift:18:            return "No ChatGPT session cookie found. Add one in Settings."
+Pinemeter/Services/ChatGPTUsageService.swift:19:        case .invalidSessionCookie:
+Pinemeter/Services/ChatGPTUsageService.swift:44:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+Pinemeter/Services/ChatGPTUsageService.swift:45:        let cookieHeader = Self.cookieHeader(from: sessionCookie)
+Pinemeter/Services/ChatGPTUsageService.swift:47:            throw ChatGPTUsageError.missingSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:59:            throw ChatGPTUsageError.invalidSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:72:    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+Pinemeter/Services/ChatGPTUsageService.swift:74:            _ = try await fetchUsage(sessionCookie: sessionCookie)
+Pinemeter/Services/ChatGPTUsageService.swift:76:        } catch ChatGPTUsageError.missingSessionCookie {
+Pinemeter/Services/ChatGPTUsageService.swift:78:        } catch ChatGPTUsageError.invalidSessionCookie {
+Pinemeter/Services/ChatGPTUsageService.swift:85:    /// Accept a raw session token, a full Cookie header, or split NextAuth cookie chunks.
+Pinemeter/Services/ChatGPTUsageService.swift:126:            .replacingOccurrences(of: "Cookie:", with: "", options: [.caseInsensitive, .anchored])
+Pinemeter/Services/ChatGPTUsageService.swift:162:        request.setValue(cookieHeader, forHTTPHeaderField: "Cookie")
+Pinemeter/Services/ChatGPTUsageService.swift:167:            request.setValue(authorization, forHTTPHeaderField: "Authorization")
+Pinemeter/Services/ChatGPTUsageService.swift:178:                    throw ChatGPTUsageError.invalidSessionCookie
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:2://  KeychainRepositoryFake.swift
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:11:actor KeychainRepositoryFake: KeychainRepositoryProtocol {
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:12:    private var sessionKeysByAccount: [String: String] = [:]
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:14:    var sessionKey: String? {
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:15:        sessionKeysByAccount["default"]
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:18:    var hasSessionKey: Bool {
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:19:        sessionKeysByAccount["default"] != nil
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:22:    func save(sessionKey: String, account: String) async throws {
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:23:        sessionKeysByAccount[account] = sessionKey
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:27:        guard let sessionKey = sessionKeysByAccount[account] else {
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:28:            throw KeychainError.notFound
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:30:        return sessionKey
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:33:    func update(sessionKey: String, account: String) async throws {
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:34:        sessionKeysByAccount[account] = sessionKey
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:37:    func delete(account: String) async throws {
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:38:        sessionKeysByAccount[account] = nil
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:42:        sessionKeysByAccount[account] != nil
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift:22:        sessionKey: String
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:2:import SweetCookieKit
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:5:enum SessionKeyImportPromptCoordinator {
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:9:        BrowserCookieKeychainPromptHandler.handler = { context in
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:10:            presentBrowserCookiePrompt(context)
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:14:    private static func presentBrowserCookiePrompt(_ context: BrowserCookieKeychainPromptContext) {
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:16:            "Pinemeter will ask macOS Keychain for \"\(context.label)\" so it can decrypt your Claude browser session cookie.",
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:17:            "Click OK to continue, then allow the macOS Keychain prompt.",
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:21:            title: "Keychain Access Required",
+Pinemeter/Services/NetworkService.swift:26:        sessionKey: String
+Pinemeter/Services/NetworkService.swift:41:        request.setValue("sessionKey=\(sessionKey)", forHTTPHeaderField: "Cookie")
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:14:    var authorizationStatus: UNAuthorizationStatus = .authorized
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:15:    var shouldGrantAuthorization: Bool = true
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:16:    private(set) var requestedAuthorizationOptions: UNAuthorizationOptions?
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:19:    func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool {
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:20:        requestedAuthorizationOptions = options
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:21:        return shouldGrantAuthorization
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:28:    func authorizationStatus() async -> UNAuthorizationStatus {
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:48:    func requestAuthorization() async throws -> Bool
+PinemeterTests/TestDoubles/NetworkServiceStub.swift:25:        sessionKey: String
+Pinemeter/Models/Errors/AppError.swift:12:    case noSessionKey

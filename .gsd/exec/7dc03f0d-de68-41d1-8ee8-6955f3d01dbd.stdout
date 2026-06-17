@@ -1,0 +1,438 @@
+
+--- Pinemeter/App/AppModel.swift:1-80 ---
+1: import AppKit
+2: import Foundation
+3: import Observation
+6: @MainActor
+7: @Observable
+8: final class AppModel {
+11:     var settings: AppSettings = .default {
+18:     var usageData: UsageData?
+19:     var chatGPTUsageData: ChatGPTUsageData?
+20:     var isLoading: Bool = false
+21:     var isRefreshing: Bool = false
+22:     var isRefreshingChatGPT: Bool = false
+23:     var errorMessage: String?
+24:     var chatGPTErrorMessage: String?
+25:     var isSetupComplete: Bool = false
+26:     var hasChatGPTSessionCookie: Bool = false
+27:     var isReady: Bool = false
+31:     @ObservationIgnored private let settingsRepository: SettingsRepositoryProtocol
+32:     @ObservationIgnored private let keychainRepository: KeychainRepositoryProtocol
+33:     @ObservationIgnored private let usageService: UsageServiceProtocol
+34:     @ObservationIgnored private let chatGPTUsageService: ChatGPTUsageServiceProtocol
+35:     @ObservationIgnored private let notificationService: NotificationServiceProtocol
+36:     @ObservationIgnored private let sessionKeyImportService: SessionKeyImportServiceProtocol
+40:     @ObservationIgnored private var refreshTask: Task<Void, Never>?
+41:     @ObservationIgnored private var settingsSaveTask: Task<Void, Never>?
+42:     @ObservationIgnored private var wakeTask: Task<Void, Never>?
+43:     @ObservationIgnored private var hasLoadedSettings: Bool = false
+44:     @ObservationIgnored private let refreshClock = ContinuousClock()
+60:         let networkService = WebViewNetworkService()
+61:         let cacheRepository = CacheRepository()
+62:         let usageService = usageService ?? UsageService(
+64:             cacheRepository: cacheRepository,
+79:     func bootstrap() async {
+
+--- Pinemeter/App/AppModel.swift:80-180 ---
+81:         settings = await settingsRepository.load()
+84:         isSetupComplete = await keychainRepository.exists(account: "default")
+85:         hasChatGPTSessionCookie = await keychainRepository.exists(account: "chatgpt")
+88:         if hasChatGPTSessionCookie && settings.isChatGPTUsageShown {
+89:             await refreshChatGPTUsage()
+93:             await refreshUsage(forceRefresh: true)
+96:         if isSetupComplete || hasChatGPTSessionCookie {
+105:     func refreshUsage(forceRefresh: Bool = false) async {
+110:         guard !isRefreshing else { return }
+115:         isRefreshing = true
+116:         errorMessage = nil
+120:             isRefreshing = false
+124:             let data = try await usageService.fetchUsage(forceRefresh: forceRefresh)
+130:         } catch {
+131:             errorMessage = error.localizedDescription
+137:     func refreshChatGPTUsage() async {
+138:         if !hasChatGPTSessionCookie {
+139:             hasChatGPTSessionCookie = await keychainRepository.exists(account: "chatgpt")
+141:         guard hasChatGPTSessionCookie else {
+145:         guard !isRefreshingChatGPT else { return }
+147:         isRefreshingChatGPT = true
+148:         chatGPTErrorMessage = nil
+151:             isRefreshingChatGPT = false
+155:             let sessionCookie = try await keychainRepository.retrieve(account: "chatgpt")
+156:             chatGPTUsageData = try await chatGPTUsageService.fetchUsage(sessionCookie: sessionCookie)
+157:         } catch {
+159:             chatGPTErrorMessage = error.localizedDescription
+163:     func loadChatGPTSessionCookie() async -> String? {
+166:         } catch {
+171:     func validateAndSaveChatGPTSessionCookie(_ rawValue: String) async throws -> Bool {
+172:         let trimmedCookie = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+173:         guard !trimmedCookie.isEmpty else { return false }
+175:         let isValid = try await chatGPTUsageService.validateSessionCookie(trimmedCookie)
+178:         try await keychainRepository.save(sessionKey: trimmedCookie, account: "chatgpt")
+179:         hasChatGPTSessionCookie = true
+
+--- Pinemeter/App/AppModel.swift:180-260 ---
+181:         await refreshChatGPTUsage()
+185:     func clearChatGPTSessionCookie() async throws {
+186:         try await keychainRepository.delete(account: "chatgpt")
+187:         hasChatGPTSessionCookie = false
+190:         chatGPTErrorMessage = nil
+195:     func loadSessionKey() async -> String? {
+198:         } catch KeychainError.notFound {
+200:         } catch {
+205:     func validateAndSaveSessionKey(_ rawValue: String) async throws -> Bool {
+206:         let sessionKey = try SessionKey(rawValue)
+207:         let isValid = try await usageService.validateSessionKey(sessionKey)
+213:         let organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
+215:         guard let chatOrg = organizations.first(where: { $0.hasChatCapability }) ?? organizations.first,
+216:               let orgUUID = chatOrg.organizationUUID else {
+217:             throw AppError.organizationNotFound
+220:         try await keychainRepository.save(sessionKey: sessionKey.value, account: "default")
+222:         settings.cachedOrganizationId = orgUUID
+226:         await refreshUsage(forceRefresh: true)
+232:     func importAndSaveSessionKey() async throws -> ImportedSessionKey {
+233:         let imported = try await sessionKeyImportService.importSessionKey()
+234:         let isValid = try await validateAndSaveSessionKey(imported.value)
+237:             throw SessionKeyImportError.invalidImportedSessionKey
+240:         return imported
+243:     func clearSessionKey() async throws {
+244:         try await keychainRepository.delete(account: "default")
+245:         settings.cachedOrganizationId = nil
+249:         errorMessage = nil
+250:         refreshTask?.cancel()
+255:     func requestNotificationPermissionIfNeeded() async {
+256:         let hasPermission = await notificationService.checkNotificationPermissions()
+258:             _ = try? await notificationService.requestAuthorization()
+
+--- Pinemeter/App/AppModel.swift:300-342 ---
+300:                     await self.refreshChatGPTUsage()
+306:     private func startWakeObserver() {
+307:         wakeTask?.cancel()
+308:         wakeTask = Task { [weak self] in
+309:             guard let self else { return }
+312:                     await self.refreshUsage(forceRefresh: true)
+314:                 if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+315:                     await self.refreshChatGPTUsage()
+326:     func applyDemoState(
+329:         errorMessage: String?,
+334:         self.errorMessage = errorMessage
+338:         // Don't start refresh loop or wake observer in demo mode
+
+--- Pinemeter/Services/NetworkService.swift:20-82 ---
+23:     func request<T: Decodable>(
+27:     ) async throws -> T {
+30:             throw NetworkError.invalidURL
+33:         guard let url = URL(string: endpoint) else {
+34:             throw NetworkError.invalidURL
+37:         var request = URLRequest(url: url)
+41:         request.setValue("sessionKey=\(sessionKey)", forHTTPHeaderField: "Cookie")
+50:         let (data, response) = try await session.data(for: request)
+52:         guard let httpResponse = response as? HTTPURLResponse else {
+53:             throw NetworkError.invalidResponse
+58:             let responseBody = String(data: data, encoding: .utf8) ?? "<unable to decode>"
+59:             Self.logger.error("HTTP \(httpResponse.statusCode) from \(endpoint): \(responseBody)")
+62:                 throw NetworkError.authenticationFailed
+65:                 throw NetworkError.rateLimitExceeded
+67:             throw NetworkError.httpError(statusCode: httpResponse.statusCode)
+72:             let decoder = JSONDecoder()
+74:             let result = try decoder.decode(T.self, from: data)
+76:         } catch {
+77:             let responseBody = String(data: data, encoding: .utf8) ?? "<unable to decode>"
+78:             Self.logger.error("Failed to decode response from \(endpoint): \(error.localizedDescription)\nResponse: \(responseBody)")
+79:             throw NetworkError.decodingFailed(underlyingError: error)
+
+--- Pinemeter/Services/UsageService.swift:20-110 ---
+20:     private let baseURL = "https://claude.ai/api"
+24:         cacheRepository: CacheRepositoryProtocol,
+29:         self.cacheRepository = cacheRepository
+34:     /// Fetch usage data with cache integration and exponential backoff retry
+35:     func fetchUsage(forceRefresh: Bool = false) async throws -> UsageData {
+36:         let sessionKeyString: String
+39:         } catch KeychainError.notFound {
+40:             throw AppError.noSessionKey
+41:         } catch let error as KeychainError {
+42:             throw AppError.keychainError(error)
+45:         let sessionKey = try SessionKey(sessionKeyString)
+47:         // Clear cache if force refresh is requested
+49:             await cacheRepository.invalidate()
+52:         // Check cache first (will be empty if force refresh)
+53:         if let cachedData = await cacheRepository.get() {
+54:             return cachedData
+58:         let settings = await settingsRepository.load()
+59:         let organizationId: UUID
+61:         if let cachedOrgId = settings.cachedOrganizationId {
+62:             organizationId = cachedOrgId
+63:         } else if let orgId = sessionKey.organizationId {
+67:             let orgs = try await fetchOrganizations()
+69:             guard let chatOrg = orgs.first(where: { $0.hasChatCapability }) ?? orgs.first,
+70:                   let uuid = chatOrg.organizationUUID else {
+71:                 throw AppError.organizationNotFound
+76:         // Fetch usage data with retry logic
+77:         var lastError: Error?
+81:                 let response: UsageAPIResponse = try await networkService.request(
+82:                     "\(baseURL)/organizations/\(organizationId)/usage",
+87:                 let usageData = try response.toDomain()
+90:                 await cacheRepository.set(usageData)
+94:             } catch NetworkError.networkUnavailable {
+96:                 lastError = NetworkError.networkUnavailable
+97:                 let delay = pow(Constants.Network.backoffBase, Double(attempt))
+98:                 try await Task.sleep(for: .seconds(delay))
+99:             } catch NetworkError.rateLimitExceeded {
+102:                 lastError = NetworkError.rateLimitExceeded
+103:                 let delay = pow(Constants.Network.rateLimitBackoffBase, Double(attempt))
+104:                 try await Task.sleep(for: .seconds(delay))
+105:             } catch NetworkError.authenticationFailed {
+106:                 Self.logger.error("Authentication failed - session key invalid")
+107:                 throw AppError.sessionKeyInvalid
+108:             } catch let error as URLError where error.code == .timedOut ||
+109:                                                error.code == .cannotConnectToHost ||
+110:                                                error.code == .networkConnectionLost ||
+
+--- Pinemeter/Services/UsageService.swift:110-174 ---
+110:                                                error.code == .networkConnectionLost ||
+111:                                                error.code == .notConnectedToInternet {
+112:                 // Retry on timeout and connection errors
+113:                 Self.logger.warning("URL error: \(error.localizedDescription) (attempt \(attempt + 1)/\(self.maxRetries))")
+114:                 lastError = error
+115:                 let delay = pow(Constants.Network.backoffBase, Double(attempt))
+116:                 try await Task.sleep(for: .seconds(delay))
+117:             } catch {
+118:                 Self.logger.error("API request failed: \(error.localizedDescription)")
+119:                 throw AppError.networkError(error as? NetworkError ?? .invalidResponse)
+124:         if let lastKnown = await cacheRepository.getLastKnown() {
+125:             Self.logger.warning("All retries failed, using cached data")
+129:         Self.logger.error("All retries failed, no cached data available")
+130:         throw AppError.networkError(lastError as? NetworkError ?? .networkUnavailable)
+134:     func fetchOrganizations() async throws -> [Organization] {
+135:         let sessionKeyString: String
+138:         } catch KeychainError.notFound {
+139:             throw AppError.noSessionKey
+140:         } catch let error as KeychainError {
+141:             throw AppError.keychainError(error)
+144:         let sessionKey = try SessionKey(sessionKeyString)
+148:     /// Fetch list of organizations with explicit session key (for setup before keychain save)
+149:     func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization] {
+150:         let organizations: OrganizationListResponse = try await networkService.request(
+151:             "\(baseURL)/organizations",
+160:     func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool {
+162:             let _: OrganizationListResponse = try await networkService.request(
+163:                 "\(baseURL)/organizations",
+168:         } catch NetworkError.authenticationFailed {
+170:         } catch {
+171:             throw error
+
+--- Pinemeter/Services/ChatGPTUsageService.swift:1-110 ---
+6: import Foundation
+8: enum ChatGPTUsageError: LocalizedError, Equatable {
+9:     case missingSessionCookie
+10:     case invalidSessionCookie
+12:     case httpError(statusCode: Int)
+15:     var errorDescription: String? {
+17:         case .missingSessionCookie:
+19:         case .invalidSessionCookie:
+23:         case .httpError(let statusCode):
+31: actor ChatGPTUsageService: ChatGPTUsageServiceProtocol {
+32:     private let httpClient: ChatGPTHTTPClientProtocol
+33:     private let now: @Sendable () -> Date
+34:     private let baseURL = "https://chatgpt.com"
+44:     func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+45:         let cookieHeader = Self.cookieHeader(from: sessionCookie)
+47:             throw ChatGPTUsageError.missingSessionCookie
+50:         let authSession: ChatGPTAuthSessionResponse = try await httpClient.request(
+51:             "\(baseURL)/api/auth/session",
+54:             referer: "\(baseURL)/codex/settings/usage"
+57:         guard let accessToken = authSession.accessToken?.trimmingCharacters(in: .whitespacesAndNewlines),
+59:             throw ChatGPTUsageError.invalidSessionCookie
+62:         let usage: ChatGPTWHAMUsageResponse = try await httpClient.request(
+63:             "\(baseURL)/backend-api/wham/usage",
+66:             referer: "\(baseURL)/codex/settings/usage"
+72:     func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+74:             _ = try await fetchUsage(sessionCookie: sessionCookie)
+76:         } catch ChatGPTUsageError.missingSessionCookie {
+78:         } catch ChatGPTUsageError.invalidSessionCookie {
+80:         } catch ChatGPTUsageError.httpError(let statusCode) where statusCode == 401 || statusCode == 403 {
+85:     /// Accept a raw session token, a full Cookie header, or split NextAuth cookie chunks.
+86:     static func cookieHeader(from rawValue: String) -> String {
+87:         let trimmedValue = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+94:         let cookiePairs = cookiePairs(from: trimmedValue)
+97:         if let unsplitToken = cookiePairs.first(where: { $0.name == "__Secure-next-auth.session-token" })?.value,
+102:         let splitToken = cookiePairs
+104:                 let prefix = "__Secure-next-auth.session-token."
+106:                       let index = Int(pair.name.dropFirst(prefix.count)) else {
+
+--- Pinemeter/Services/ChatGPTUsageService.swift:110-196 ---
+119:         let otherPairs = cookiePairs.filter { !$0.name.hasPrefix("__Secure-next-auth.session-token.") }
+124:     private static func cookiePairs(from rawValue: String) -> [(name: String, value: String)] {
+126:             .replacingOccurrences(of: "Cookie:", with: "", options: [.caseInsensitive, .anchored])
+129:                 let trimmedPart = part.trimmingCharacters(in: .whitespacesAndNewlines)
+130:                 guard let separatorIndex = trimmedPart.firstIndex(of: "=") else { return nil }
+132:                 let name = trimmedPart[..<separatorIndex].trimmingCharacters(in: .whitespacesAndNewlines)
+133:                 let value = trimmedPart[trimmedPart.index(after: separatorIndex)...].trimmingCharacters(in: .whitespacesAndNewlines)
+140: actor ChatGPTHTTPClient: ChatGPTHTTPClientProtocol {
+141:     private let session: URLSession
+149:     func request<T: Decodable>(
+154:     ) async throws -> T {
+155:         guard endpoint.hasPrefix("https://"), let url = URL(string: endpoint) else {
+156:             throw ChatGPTUsageError.invalidResponse
+159:         var request = URLRequest(url: url)
+162:         request.setValue(cookieHeader, forHTTPHeaderField: "Cookie")
+166:         if let authorization {
+167:             request.setValue(authorization, forHTTPHeaderField: "Authorization")
+171:             let (data, response) = try await session.data(for: request)
+172:             guard let httpResponse = response as? HTTPURLResponse else {
+173:                 throw ChatGPTUsageError.invalidResponse
+178:                     throw ChatGPTUsageError.invalidSessionCookie
+180:                 throw ChatGPTUsageError.httpError(statusCode: httpResponse.statusCode)
+184:                 let decoder = JSONDecoder()
+187:             } catch {
+188:                 throw ChatGPTUsageError.invalidResponse
+190:         } catch let error as ChatGPTUsageError {
+191:             throw error
+192:         } catch {
+193:             throw ChatGPTUsageError.networkUnavailable
+
+--- Pinemeter/Repositories/SettingsRepository.swift:1-67 ---
+8: import Foundation
+10: /// Actor-isolated repository for app settings persistence using UserDefaults
+11: actor SettingsRepository: SettingsRepositoryProtocol {
+12:     private let userDefaults: UserDefaults
+13:     private let settingsKey = "app_settings"
+14:     private let notificationStateKey = "notification_state"
+16:     init(userDefaults: UserDefaults = .standard) {
+20:     /// Load app settings from UserDefaults
+21:     func load() async -> AppSettings {
+22:         guard let data = userDefaults.data(forKey: settingsKey) else {
+26:         let decoder = JSONDecoder()
+31:         } catch {
+37:     /// Save app settings to UserDefaults
+38:     func save(_ settings: AppSettings) async throws {
+39:         let encoder = JSONEncoder()
+42:         let data = try encoder.encode(settings)
+43:         userDefaults.set(data, forKey: settingsKey)
+46:     /// Load notification state from UserDefaults
+47:     func loadNotificationState() async -> NotificationState {
+48:         guard let data = userDefaults.data(forKey: notificationStateKey) else {
+52:         let decoder = JSONDecoder()
+56:         } catch {
+61:     /// Save notification state to UserDefaults
+62:     func saveNotificationState(_ state: NotificationState) async throws {
+63:         let encoder = JSONEncoder()
+64:         let data = try encoder.encode(state)
+65:         userDefaults.set(data, forKey: notificationStateKey)
+
+--- Pinemeter/Repositories/KeychainRepository.swift:1-112 ---
+8: import Foundation
+9: import Security
+12: actor KeychainRepository: KeychainRepositoryProtocol {
+13:     private let serviceName = "com.claudemeter.sessionkey"
+16:     func save(sessionKey: String, account: String) async throws {
+17:         guard let data = sessionKey.data(using: .utf8) else {
+18:             throw KeychainError.saveFailed(OSStatus: errSecParam)
+21:         let query: [String: Any] = [
+24:             kSecAttrService as String: serviceName,
+30:         let status = SecItemAdd(query as CFDictionary, nil)
+33:             // Item already exists, update it instead
+36:             throw KeychainError.saveFailed(OSStatus: status)
+41:     func retrieve(account: String) async throws -> String {
+42:         let query: [String: Any] = [
+45:             kSecAttrService as String: serviceName,
+50:         var item: CFTypeRef?
+51:         let status = SecItemCopyMatching(query as CFDictionary, &item)
+54:               let data = item as? Data,
+55:               let sessionKey = String(data: data, encoding: .utf8) else {
+56:             throw KeychainError.notFound
+63:     func update(sessionKey: String, account: String) async throws {
+64:         guard let data = sessionKey.data(using: .utf8) else {
+65:             throw KeychainError.updateFailed(OSStatus: errSecParam)
+68:         let query: [String: Any] = [
+71:             kSecAttrService as String: serviceName,
+74:         let attributes: [String: Any] = [
+78:         let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+81:             throw KeychainError.updateFailed(OSStatus: status)
+86:     func delete(account: String) async throws {
+87:         let query: [String: Any] = [
+90:             kSecAttrService as String: serviceName,
+93:         let status = SecItemDelete(query as CFDictionary)
+96:             throw KeychainError.deleteFailed(OSStatus: status)
+100:     /// Check if session key exists for account
+101:     func exists(account: String) async -> Bool {
+102:         let query: [String: Any] = [
+105:             kSecAttrService as String: serviceName,
+109:         let status = SecItemCopyMatching(query as CFDictionary, nil)
+
+--- Pinemeter/Repositories/CacheRepository.swift:1-119 ---
+8: import Foundation
+10: /// Actor-isolated two-tier cache repository
+11: actor CacheRepository: CacheRepositoryProtocol {
+12:     private var memoryCache: UsageData?
+13:     private var memoryCacheTimestamp: Date?
+14:     private let cacheTTL: TimeInterval = Constants.Cache.ttl
+15:     private let diskCacheURL: URL
+16:     private let publicJSONURL: URL
+19:         let appSupport = fileManager.urls(
+24:         let cacheDir = appSupport.appendingPathComponent("com.claudemeter", isDirectory: true)
+25:         try? fileManager.createDirectory(at: cacheDir, withIntermediateDirectories: true)
+27:         self.diskCacheURL = cacheDir.appendingPathComponent("usage_cache.json")
+30:         let homeDir = fileManager.homeDirectoryForCurrentUser
+31:         let publicDir = homeDir.appendingPathComponent(".claudemeter", isDirectory: true)
+36:     /// Get cached usage data (respects TTL)
+37:     func get() async -> UsageData? {
+38:         // Check in-memory cache first
+39:         if let cached = memoryCache,
+40:            let timestamp = memoryCacheTimestamp,
+41:            Date().timeIntervalSince(timestamp) < cacheTTL {
+42:             return cached
+45:         // Memory cache is stale or missing
+50:     func set(_ data: UsageData) async {
+53:         await saveToDisk(data)
+56:     /// Invalidate memory cache
+57:     func invalidate() async {
+63:     func getLastKnown() async -> UsageData? {
+64:         await loadFromDisk()
+69:     private func saveToDisk(_ data: UsageData) async {
+70:         let encoder = JSONEncoder()
+73:         guard let jsonData = try? encoder.encode(data) else {
+79:         } catch {
+86:         saveToPublicJSON(data)
+89:     private func saveToPublicJSON(_ data: UsageData) {
+90:         let encoder = JSONEncoder()
+94:         guard let jsonData = try? encoder.encode(data) else {
+100:         } catch {
+105:     private func loadFromDisk() async -> UsageData? {
+106:         guard let jsonData = try? Data(contentsOf: diskCacheURL) else {
+110:         let decoder = JSONDecoder()
+115:         } catch {
+
+--- Pinemeter/Services/SessionKeyImportService.swift:1-98 ---
+1: import Foundation
+2: import os
+3: import SweetCookieKit
+6: actor SessionKeyImportService: SessionKeyImportServiceProtocol {
+7:     private static let logger = Logger(subsystem: "com.pinemeter", category: "SessionKeyImportService")
+9:     private let cookieClient: BrowserCookieClient
+10:     private let browserImportOrder: [Browser]
+13:         cookieClient: BrowserCookieClient = BrowserCookieClient(),
+20:     func importSessionKey() async throws -> ImportedSessionKey {
+21:         let query = BrowserCookieQuery(domains: ["claude.ai"], domainMatch: .suffix)
+22:         var sawAccessDenied = false
+23:         var sawSafariAccessDenied = false
+24:         var deniedKeychainBrowserName: String?
+28:                 let sources = try cookieClient.records(matching: query, in: browser)
+30:                     if let imported = try importedSessionKey(from: source) {
+31:                         return imported
+34:             } catch let error as BrowserCookieError {
+35:                 switch error {
+40:                     } else if browser.usesKeychainForCookieDecryption {
+43:                 case .notFound, .loadFailed:
+46:                 Self.logger.debug("Browser cookie import failed for \(browser.displayName): \(error.localizedDescription)")
+47:             } catch {
+48:                 Self.logger.debug("Browser cookie import failed for \(browser.displayName): \(error.localizedDescription)")
+52:         if let deniedKeychainBrowserName {
+53:             throw SessionKeyImportError.browserKeychainAccessDenied(deniedKeychainBrowserName)
+56:             throw SessionKeyImportError.safariAccessDenied
+59:             throw SessionKeyImportError.accessDenied
+61:         throw SessionKeyImportError.noSessionKeyFound
+64:     private func importedSessionKey(from source: BrowserCookieStoreRecords) throws -> ImportedSessionKey? {
+65:         guard let cookie = source.records.first(where: { $0.name == "sessionKey" }) else {
+69:         let sessionKey = try SessionKey(cookie.value)
+78:     var usesKeychainForCookieDecryption: Bool {

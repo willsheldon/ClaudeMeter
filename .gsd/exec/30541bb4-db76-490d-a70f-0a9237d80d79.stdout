@@ -1,0 +1,91 @@
+--- Pinemeter/App/AppModel.swift:1-80 ---
+11:     var settings: AppSettings = .default {
+19:     var chatGPTUsageData: ChatGPTUsageData?
+22:     var isRefreshingChatGPT: Bool = false
+23:     var errorMessage: String?
+24:     var chatGPTErrorMessage: String?
+26:     var hasChatGPTSessionCookie: Bool = false
+31:     @ObservationIgnored private let settingsRepository: SettingsRepositoryProtocol
+32:     @ObservationIgnored private let keychainRepository: KeychainRepositoryProtocol
+34:     @ObservationIgnored private let chatGPTUsageService: ChatGPTUsageServiceProtocol
+36:     @ObservationIgnored private let sessionKeyImportService: SessionKeyImportServiceProtocol
+41:     @ObservationIgnored private var settingsSaveTask: Task<Void, Never>?
+48:     init(
+49:         settingsRepository: SettingsRepositoryProtocol = SettingsRepository(),
+50:         keychainRepository: KeychainRepositoryProtocol = KeychainRepository(),
+52:         chatGPTUsageService: ChatGPTUsageServiceProtocol? = nil,
+54:         sessionKeyImportService: SessionKeyImportServiceProtocol = SessionKeyImportService()
+56:         self.settingsRepository = settingsRepository
+58:         self.sessionKeyImportService = sessionKeyImportService
+66:             settingsRepository: settingsRepository
+69:         self.chatGPTUsageService = chatGPTUsageService ?? ChatGPTUsageService()
+71:             settingsRepository: settingsRepository
+--- Pinemeter/App/AppModel.swift:80-170 ---
+81:         settings = await settingsRepository.load()
+85:         hasChatGPTSessionCookie = await keychainRepository.exists(account: "chatgpt")
+88:         if hasChatGPTSessionCookie && settings.isChatGPTUsageShown {
+89:             await refreshChatGPTUsage()
+96:         if isSetupComplete || hasChatGPTSessionCookie {
+116:         errorMessage = nil
+124:             let data = try await usageService.fetchUsage(forceRefresh: forceRefresh)
+128:                 settings: settings
+131:             errorMessage = error.localizedDescription
+135:     // MARK: - ChatGPT Usage
+137:     func refreshChatGPTUsage() async {
+138:         if !hasChatGPTSessionCookie {
+139:             hasChatGPTSessionCookie = await keychainRepository.exists(account: "chatgpt")
+141:         guard hasChatGPTSessionCookie else {
+142:             chatGPTUsageData = nil
+145:         guard !isRefreshingChatGPT else { return }
+147:         isRefreshingChatGPT = true
+148:         chatGPTErrorMessage = nil
+151:             isRefreshingChatGPT = false
+156:             chatGPTUsageData = try await chatGPTUsageService.fetchUsage(sessionCookie: sessionCookie)
+158:             chatGPTUsageData = nil
+159:             chatGPTErrorMessage = error.localizedDescription
+163:     func loadChatGPTSessionCookie() async -> String? {
+--- Pinemeter/App/AppModel.swift:170-260 ---
+171:     func validateAndSaveChatGPTSessionCookie(_ rawValue: String) async throws -> Bool {
+175:         let isValid = try await chatGPTUsageService.validateSessionCookie(trimmedCookie)
+178:         try await keychainRepository.save(sessionKey: trimmedCookie, account: "chatgpt")
+179:         hasChatGPTSessionCookie = true
+180:         settings.isChatGPTUsageShown = true
+181:         await refreshChatGPTUsage()
+185:     func clearChatGPTSessionCookie() async throws {
+186:         try await keychainRepository.delete(account: "chatgpt")
+187:         hasChatGPTSessionCookie = false
+188:         settings.isChatGPTUsageShown = false
+189:         chatGPTUsageData = nil
+190:         chatGPTErrorMessage = nil
+195:     func loadSessionKey() async -> String? {
+198:         } catch KeychainError.notFound {
+205:     func validateAndSaveSessionKey(_ rawValue: String) async throws -> Bool {
+206:         let sessionKey = try SessionKey(rawValue)
+207:         let isValid = try await usageService.validateSessionKey(sessionKey)
+213:         let organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
+217:             throw AppError.organizationNotFound
+220:         try await keychainRepository.save(sessionKey: sessionKey.value, account: "default")
+222:         settings.cachedOrganizationId = orgUUID
+223:         settings.isFirstLaunch = false
+232:     func importAndSaveSessionKey() async throws -> ImportedSessionKey {
+233:         let imported = try await sessionKeyImportService.importSessionKey()
+234:         let isValid = try await validateAndSaveSessionKey(imported.value)
+237:             throw SessionKeyImportError.invalidImportedSessionKey
+243:     func clearSessionKey() async throws {
+244:         try await keychainRepository.delete(account: "default")
+245:         settings.cachedOrganizationId = nil
+246:         settings.isFirstLaunch = true
+249:         errorMessage = nil
+--- Pinemeter/App/AppModel.swift:260-360 ---
+277:         settingsSaveTask?.cancel()
+278:         settingsSaveTask = Task {
+279:             try? await settingsRepository.save(settings)
+282:         if previous.refreshInterval != settings.refreshInterval {
+289:         guard isSetupComplete || hasChatGPTSessionCookie else { return }
+291:         let interval = Duration.seconds(Int(settings.refreshInterval))
+299:                 if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+300:                     await self.refreshChatGPTUsage()
+314:                 if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+315:                     await self.refreshChatGPTUsage()
+329:         errorMessage: String?,
+334:         self.errorMessage = errorMessage

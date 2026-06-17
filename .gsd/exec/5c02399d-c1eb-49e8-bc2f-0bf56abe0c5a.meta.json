@@ -1,0 +1,18 @@
+{
+  "id": "5c02399d-c1eb-49e8-bc2f-0bf56abe0c5a",
+  "runtime": "python",
+  "purpose": "S04 compact line excerpts for architecture research",
+  "script_chars": 1132,
+  "started_at": "2026-06-17T02:45:49.132Z",
+  "finished_at": "2026-06-17T02:45:49.183Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 51,
+  "stdout_bytes": 14726,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/5c02399d-c1eb-49e8-bc2f-0bf56abe0c5a.stdout",
+  "stderr_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/5c02399d-c1eb-49e8-bc2f-0bf56abe0c5a.stderr"
+}

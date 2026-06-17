@@ -1,0 +1,18 @@
+{
+  "id": "4650d878-f4d3-41b6-9652-af719d9b44e2",
+  "runtime": "bash",
+  "purpose": "Find user-visible app names and bundle identifiers",
+  "script_chars": 228,
+  "started_at": "2026-06-17T00:02:25.686Z",
+  "finished_at": "2026-06-17T00:02:25.708Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 22,
+  "stdout_bytes": 13312,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/4650d878-f4d3-41b6-9652-af719d9b44e2.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/4650d878-f4d3-41b6-9652-af719d9b44e2.stderr"
+}

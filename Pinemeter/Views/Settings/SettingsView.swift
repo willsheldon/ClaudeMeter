@@ -1,0 +1,889 @@
+import SwiftUI
+import ServiceManagement
+import AppKit
+
+struct SettingsView: View {
+    @Bindable var appModel: AppModel
+
+    @State private var sessionKey: String = ""
+    @State private var isSessionKeyShown: Bool = false
+    @State private var isValidatingSessionKey: Bool = false
+    @State private var isImportingSessionKey: Bool = false
+    @State private var sessionKeyValidationMessage: String?
+    @State private var offersFullDiskAccessSettings: Bool = false
+    @State private var hasSessionKeyValidationSucceeded: Bool = false
+
+    @State private var chatGPTSessionTokenPart0: String = ""
+    @State private var chatGPTSessionTokenPart1: String = ""
+    @State private var chatGPTFullCookieHeader: String = ""
+    @State private var isChatGPTSessionCookieShown: Bool = false
+    @State private var isValidatingChatGPTSessionCookie: Bool = false
+    @State private var chatGPTSessionCookieValidationMessage: String?
+    @State private var hasChatGPTSessionCookieValidationSucceeded: Bool = false
+
+    @State private var isSendingTestNotification: Bool = false
+    @State private var testNotificationMessage: String?
+    @State private var hasTestNotificationSucceeded: Bool = false
+    @State private var notificationError: String?
+
+    @State private var launchAtLogin: Bool = SMAppService.mainApp.status == .enabled
+
+    var body: some View {
+        TabView {
+            generalTab
+                .tabItem { Label("General", systemImage: "gearshape") }
+            notificationsTab
+                .tabItem { Label("Notifications", systemImage: "bell") }
+            aboutTab
+                .tabItem { Label("About", systemImage: "info.circle") }
+        }
+        .frame(width: 500)
+        .onAppear {
+            loadSettings()
+        }
+        .onChange(of: appModel.settings.hasNotificationsEnabled) { _, newValue in
+            Task {
+                if newValue {
+                    await appModel.requestNotificationPermissionIfNeeded()
+                }
+                await updateNotificationStatus()
+            }
+        }
+        .onChange(of: launchAtLogin) { _, newValue in
+            updateLaunchAtLogin(newValue)
+        }
+    }
+
+    // MARK: - General Tab
+
+    private var generalTab: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            if !appModel.isReady {
+                VStack {
+                    Spacer()
+                    ProgressView("Loading settings...")
+                        .controlSize(.large)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                sessionKeySection
+                chatGPTSection
+                refreshIntervalSection
+                sonnetUsageSection
+                launchAtLoginSection
+            }
+        }
+        .padding(24)
+    }
+
+    // MARK: - Claude Session Section
+
+    private var sessionKeySection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Claude Session")
+                        .font(.subheadline)
+
+                    Text("Import from browser or paste your Claude session")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer()
+
+                Label(sessionKey.isEmpty ? "Not configured" : "Saved in Keychain", systemImage: sessionKey.isEmpty ? "exclamationmark.circle" : "checkmark.circle")
+                    .font(.caption)
+                    .foregroundStyle(sessionKey.isEmpty ? Color.secondary : Color.green)
+            }
+
+            HStack {
+                if isSessionKeyShown {
+                    TextField("sk-ant-...", text: $sessionKey)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.system(.body, design: .monospaced))
+                } else {
+                    SecureField("sk-ant-...", text: $sessionKey)
+                        .textFieldStyle(.roundedBorder)
+                        .font(.system(.body, design: .monospaced))
+                }
+
+                Button(action: { isSessionKeyShown.toggle() }) {
+                    Image(systemName: isSessionKeyShown ? "eye.slash" : "eye")
+                }
+                .buttonStyle(.borderless)
+                .help(isSessionKeyShown ? "Hide session key" : "Show session key")
+
+                if !sessionKey.isEmpty {
+                    Button(action: clearSessionKey) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.secondary)
+                    }
+                    .buttonStyle(.borderless)
+                    .help("Clear session key")
+                }
+            }
+
+            HStack {
+                Button("Save") {
+                    Task {
+                        await validateAndSaveSessionKey()
+                    }
+                }
+                .controlSize(.small)
+                .disabled(sessionKey.isEmpty || isSessionKeyBusy)
+
+                Button("Import from Browser") {
+                    Task {
+                        await importAndSaveSessionKey()
+                    }
+                }
+                .controlSize(.small)
+                .disabled(isSessionKeyBusy)
+
+                if isSessionKeyBusy {
+                    ProgressView()
+                        .controlSize(.small)
+                }
+
+                if let message = sessionKeyValidationMessage, hasSessionKeyValidationSucceeded {
+                    Label(message, systemImage: "checkmark.circle.fill")
+                        .font(.caption)
+                        .foregroundStyle(.green)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
+                }
+
+                Spacer()
+            }
+
+            if let message = sessionKeyValidationMessage, !hasSessionKeyValidationSucceeded {
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack(alignment: .top, spacing: 6) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.red)
+                            .frame(width: 16)
+
+                        Text(message)
+                            .font(.caption)
+                            .foregroundStyle(.red)
+                            .lineLimit(3)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+
+                    if offersFullDiskAccessSettings {
+                        Button("Open Full Disk Access") {
+                            SystemSettingsOpener.openFullDiskAccess()
+                        }
+                        .controlSize(.small)
+                        .padding(.leading, 22)
+                    }
+                }
+            }
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    // MARK: - ChatGPT Section
+
+    private var chatGPTSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("ChatGPT Usage")
+                        .font(.subheadline)
+                    Text("Optional. Stores your ChatGPT session cookie in Keychain and shows ChatGPT plan quota usage in the popover.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Toggle("", isOn: $appModel.settings.isChatGPTUsageShown)
+                    .labelsHidden()
+                    .disabled(!appModel.hasChatGPTSessionCookie)
+                    .onChange(of: appModel.settings.isChatGPTUsageShown) { _, isShown in
+                        if isShown {
+                            Task { await appModel.refreshChatGPTUsage() }
+                        }
+                    }
+            }
+
+            VStack(alignment: .leading, spacing: 8) {
+                chatGPTCookieField(
+                    label: "__Secure-next-auth.session-token.0",
+                    placeholder: "Paste value for .0",
+                    text: $chatGPTSessionTokenPart0
+                )
+
+                chatGPTCookieField(
+                    label: "__Secure-next-auth.session-token.1",
+                    placeholder: "Paste value for .1 if present",
+                    text: $chatGPTSessionTokenPart1
+                )
+
+                DisclosureGroup("Or paste a full Cookie header") {
+                    chatGPTCookieInput(placeholder: "Cookie: __Secure-next-auth.session-token.0=...; __Secure-next-auth.session-token.1=...", text: $chatGPTFullCookieHeader)
+                        .padding(.top, 4)
+                }
+                .font(.caption)
+
+                HStack {
+                    Button(action: { isChatGPTSessionCookieShown.toggle() }) {
+                        Label(isChatGPTSessionCookieShown ? "Hide values" : "Show values", systemImage: isChatGPTSessionCookieShown ? "eye.slash" : "eye")
+                    }
+                    .controlSize(.small)
+                    .buttonStyle(.borderless)
+                    .help(isChatGPTSessionCookieShown ? "Hide ChatGPT session cookie values" : "Show ChatGPT session cookie values")
+
+                    Spacer()
+
+                    if hasChatGPTCookieInput || appModel.hasChatGPTSessionCookie {
+                        Button(action: clearChatGPTSessionCookie) {
+                            Label("Clear", systemImage: "xmark.circle.fill")
+                        }
+                        .controlSize(.small)
+                        .buttonStyle(.borderless)
+                        .help("Clear ChatGPT session cookie")
+                    }
+                }
+            }
+
+            HStack(spacing: 8) {
+                Button("Validate & Save") {
+                    Task {
+                        await validateAndSaveChatGPTSessionCookie()
+                    }
+                }
+                .controlSize(.small)
+                .disabled(!hasChatGPTCookieInput || isValidatingChatGPTSessionCookie)
+
+                if isValidatingChatGPTSessionCookie {
+                    ProgressView()
+                        .controlSize(.small)
+                }
+
+                if let message = chatGPTSessionCookieValidationMessage {
+                    Label(message, systemImage: hasChatGPTSessionCookieValidationSucceeded ? "checkmark.circle.fill" : "xmark.circle.fill")
+                        .font(.caption)
+                        .foregroundStyle(hasChatGPTSessionCookieValidationSucceeded ? .green : .red)
+                }
+
+                Spacer()
+            }
+
+            Text("Paste the browser cookie values for .0 and .1 separately. Pinemeter joins them, stores the result only in Keychain, and sends it only to chatgpt.com.")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+
+            if let chatGPTErrorMessage = appModel.chatGPTErrorMessage, appModel.settings.isChatGPTUsageShown {
+                Label(chatGPTErrorMessage, systemImage: "exclamationmark.triangle.fill")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+            }
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private var hasChatGPTCookieInput: Bool {
+        !chatGPTSessionTokenPart0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        || !chatGPTSessionTokenPart1.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        || !chatGPTFullCookieHeader.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
+    private var joinedChatGPTCookieInput: String {
+        let fullHeader = chatGPTFullCookieHeader.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !fullHeader.isEmpty {
+            return fullHeader
+        }
+
+        return [chatGPTSessionTokenPart0, chatGPTSessionTokenPart1]
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .joined()
+    }
+
+    private func chatGPTCookieField(label: String, placeholder: String, text: Binding<String>) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            chatGPTCookieInput(placeholder: placeholder, text: text)
+        }
+    }
+
+    private func chatGPTCookieInput(placeholder: String, text: Binding<String>) -> some View {
+        Group {
+            if isChatGPTSessionCookieShown {
+                TextField(placeholder, text: text)
+            } else {
+                SecureField(placeholder, text: text)
+            }
+        }
+        .textFieldStyle(.roundedBorder)
+        .font(.system(.body, design: .monospaced))
+    }
+
+    // MARK: - Refresh Interval Section
+
+    private var refreshIntervalSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Refresh Interval")
+                    .font(.subheadline)
+                Text("How often to check your usage data")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Picker("", selection: $appModel.settings.refreshInterval) {
+                Text("1 minute").tag(60.0)
+                Text("5 minutes").tag(300.0)
+                Text("10 minutes").tag(600.0)
+            }
+            .pickerStyle(.menu)
+            .labelsHidden()
+            .frame(width: 120)
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    // MARK: - Sonnet Usage Section
+
+    private var sonnetUsageSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Show Sonnet Usage")
+                    .font(.subheadline)
+                Text("Display weekly Sonnet usage in the menu bar popover")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Toggle("", isOn: $appModel.settings.isSonnetUsageShown)
+                .labelsHidden()
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    // MARK: - Launch at Login Section
+
+    private var launchAtLoginSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Start at Login")
+                    .font(.subheadline)
+                Text("Automatically launch Pinemeter when you log in")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Toggle("", isOn: $launchAtLogin)
+                .labelsHidden()
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    // MARK: - Notifications Tab
+
+    private var notificationsTab: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            enableNotificationsSection
+            thresholdsSection
+                .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
+                .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
+            resetNotificationSection
+                .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
+                .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
+            testNotificationSection
+                .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
+                .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
+        }
+        .padding(24)
+    }
+
+    private var enableNotificationsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Enable Notifications")
+                        .font(.subheadline)
+                    Text("Get notified when session usage thresholds are reached")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Toggle("", isOn: $appModel.settings.hasNotificationsEnabled)
+                    .labelsHidden()
+            }
+
+            if let error = notificationError {
+                HStack(spacing: 6) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.orange)
+                    Text(error)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                    Button("Open Settings") {
+                        openSystemNotificationSettings()
+                    }
+                    .buttonStyle(.link)
+                    .font(.caption)
+                }
+            }
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private var thresholdsSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text("Warning Threshold")
+                        .font(.subheadline)
+                    Spacer()
+                    Text("\(Int(warningThresholdValue))%")
+                        .foregroundStyle(.orange)
+                        .font(.subheadline.monospacedDigit())
+                }
+
+                Slider(
+                    value: warningThresholdBinding,
+                    in: Constants.Thresholds.Notification.warningMin...Constants.Thresholds.Notification.warningMax,
+                    step: Constants.Thresholds.Notification.step
+                )
+                .tint(.orange)
+
+                Text("Get notified when session usage reaches this percentage")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Divider()
+                .padding(.vertical, 4)
+
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text("Critical Threshold")
+                        .font(.subheadline)
+                    Spacer()
+                    Text("\(Int(criticalThresholdValue))%")
+                        .foregroundStyle(.red)
+                        .font(.subheadline.monospacedDigit())
+                }
+
+                Slider(
+                    value: criticalThresholdBinding,
+                    in: Constants.Thresholds.Notification.criticalMin...Constants.Thresholds.Notification.criticalMax,
+                    step: Constants.Thresholds.Notification.step
+                )
+                .tint(.red)
+
+                Text("Get urgent notification when session usage reaches this percentage")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                if criticalThresholdValue <= warningThresholdValue {
+                    Label("Critical threshold must be higher than warning", systemImage: "exclamationmark.triangle")
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
+            }
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private var resetNotificationSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Notify on Session Reset")
+                    .font(.subheadline)
+                Text("Get notified when your usage limit resets")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Toggle("", isOn: isNotifiedOnResetBinding)
+                .labelsHidden()
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private var testNotificationSection: some View {
+        HStack {
+            Button("Send Test Notification") {
+                Task {
+                    await sendTestNotification()
+                }
+            }
+            .controlSize(.small)
+            .disabled(isSendingTestNotification)
+
+            if isSendingTestNotification {
+                ProgressView()
+                    .controlSize(.small)
+            }
+
+            if let message = testNotificationMessage {
+                Label(message, systemImage: hasTestNotificationSucceeded ? "checkmark.circle.fill" : "xmark.circle.fill")
+                    .font(.caption)
+                    .foregroundStyle(hasTestNotificationSucceeded ? .green : .red)
+            }
+
+            Spacer()
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    // MARK: - Bindings
+
+    private var warningThresholdBinding: Binding<Double> {
+        Binding(
+            get: { appModel.settings.notificationThresholds.warningThreshold },
+            set: { appModel.settings.notificationThresholds.warningThreshold = $0 }
+        )
+    }
+
+    private var criticalThresholdBinding: Binding<Double> {
+        Binding(
+            get: { appModel.settings.notificationThresholds.criticalThreshold },
+            set: { appModel.settings.notificationThresholds.criticalThreshold = $0 }
+        )
+    }
+
+    private var isNotifiedOnResetBinding: Binding<Bool> {
+        Binding(
+            get: { appModel.settings.notificationThresholds.isNotifiedOnReset },
+            set: { appModel.settings.notificationThresholds.isNotifiedOnReset = $0 }
+        )
+    }
+
+    private var warningThresholdValue: Double {
+        appModel.settings.notificationThresholds.warningThreshold
+    }
+
+    private var criticalThresholdValue: Double {
+        appModel.settings.notificationThresholds.criticalThreshold
+    }
+
+    // MARK: - About Tab
+
+    private var aboutTab: some View {
+        VStack(spacing: 24) {
+            // App Icon
+            if let appIconImage = NSImage(named: "AppIcon") {
+                Image(nsImage: appIconImage)
+                    .resizable()
+                    .frame(width: 128, height: 128)
+                    .cornerRadius(22)
+                    .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
+            } else {
+                Image(systemName: "chart.bar.fill")
+                    .font(.system(size: 80))
+                    .foregroundStyle(.blue)
+            }
+
+            // App Name & Version
+            VStack(spacing: 8) {
+                Text("Pinemeter")
+                    .font(.system(size: 28, weight: .semibold))
+
+                if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+                   let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
+                    Text("Version \(version) (\(build))")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+            }
+
+            // Copyright
+            VStack(spacing: 4) {
+                Text("© 2025 Edd Mann")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                Text("Monitor your Claude.ai usage limits")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            // Project Link
+            Link(destination: URL(string: "https://github.com/willsheldon/Pinemeter")!) {
+                HStack {
+                    Image(systemName: "link.circle.fill")
+                    Text("View Project on GitHub")
+                }
+                .frame(maxWidth: 280)
+                .padding(.vertical, 10)
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.large)
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity)
+    }
+
+    // MARK: - Actions
+
+    private var isSessionKeyBusy: Bool {
+        isValidatingSessionKey || isImportingSessionKey
+    }
+
+    private func loadSettings() {
+        Task { @MainActor in
+            sessionKey = await appModel.loadSessionKey() ?? ""
+            if let savedChatGPTCookie = await appModel.loadChatGPTSessionCookie() {
+                chatGPTSessionTokenPart0 = savedChatGPTCookie
+                chatGPTSessionTokenPart1 = ""
+                chatGPTFullCookieHeader = ""
+            }
+            await updateNotificationStatus()
+        }
+    }
+
+    @MainActor
+    private func updateNotificationStatus() async {
+        let hasPermission = await appModel.checkNotificationPermissions()
+        if !hasPermission {
+            notificationError = "Notifications disabled in System Settings"
+            if appModel.settings.hasNotificationsEnabled {
+                appModel.settings.hasNotificationsEnabled = false
+            }
+        } else {
+            notificationError = nil
+        }
+    }
+
+    @MainActor
+    private func validateAndSaveSessionKey() async {
+        guard !sessionKey.isEmpty else {
+            sessionKeyValidationMessage = "Session key cannot be empty"
+            hasSessionKeyValidationSucceeded = false
+            return
+        }
+
+        isValidatingSessionKey = true
+        sessionKeyValidationMessage = nil
+        offersFullDiskAccessSettings = false
+        hasSessionKeyValidationSucceeded = false
+
+        do {
+            let isValid = try await appModel.validateAndSaveSessionKey(sessionKey)
+
+            if isValid {
+                sessionKeyValidationMessage = "Session key saved"
+                hasSessionKeyValidationSucceeded = true
+
+                Task { @MainActor in
+                    try? await Task.sleep(for: .seconds(2))
+                    sessionKeyValidationMessage = nil
+                    hasSessionKeyValidationSucceeded = false
+                }
+            } else {
+                sessionKeyValidationMessage = "Session key validation failed"
+                hasSessionKeyValidationSucceeded = false
+            }
+        } catch let error as SessionKeyError {
+            sessionKeyValidationMessage = error.localizedDescription
+            offersFullDiskAccessSettings = false
+            hasSessionKeyValidationSucceeded = false
+        } catch {
+            sessionKeyValidationMessage = "Validation failed: \(error.localizedDescription)"
+            offersFullDiskAccessSettings = false
+            hasSessionKeyValidationSucceeded = false
+        }
+
+        isValidatingSessionKey = false
+    }
+
+    @MainActor
+    private func importAndSaveSessionKey() async {
+        isImportingSessionKey = true
+        sessionKeyValidationMessage = nil
+        offersFullDiskAccessSettings = false
+        hasSessionKeyValidationSucceeded = false
+
+        do {
+            let imported = try await appModel.importAndSaveSessionKey()
+            sessionKey = imported.value
+            sessionKeyValidationMessage = "Imported from \(imported.sourceDescription)"
+            hasSessionKeyValidationSucceeded = true
+            offersFullDiskAccessSettings = false
+
+            Task { @MainActor in
+                try? await Task.sleep(for: .seconds(2))
+                sessionKeyValidationMessage = nil
+                offersFullDiskAccessSettings = false
+                hasSessionKeyValidationSucceeded = false
+            }
+        } catch let error as SessionKeyImportError {
+            sessionKeyValidationMessage = error.localizedDescription
+            offersFullDiskAccessSettings = error.offersFullDiskAccessSettings
+            hasSessionKeyValidationSucceeded = false
+        } catch {
+            sessionKeyValidationMessage = error.localizedDescription
+            offersFullDiskAccessSettings = false
+            hasSessionKeyValidationSucceeded = false
+        }
+
+        isImportingSessionKey = false
+    }
+
+    private func clearSessionKey() {
+        Task { @MainActor in
+            do {
+                try await appModel.clearSessionKey()
+                sessionKey = ""
+                sessionKeyValidationMessage = nil
+                offersFullDiskAccessSettings = false
+                hasSessionKeyValidationSucceeded = false
+            } catch {
+                sessionKeyValidationMessage = "Failed to clear: \(error.localizedDescription)"
+                offersFullDiskAccessSettings = false
+                hasSessionKeyValidationSucceeded = false
+            }
+        }
+    }
+
+    @MainActor
+    private func validateAndSaveChatGPTSessionCookie() async {
+        guard hasChatGPTCookieInput else {
+            chatGPTSessionCookieValidationMessage = "Session cookie cannot be empty"
+            hasChatGPTSessionCookieValidationSucceeded = false
+            return
+        }
+
+        isValidatingChatGPTSessionCookie = true
+        chatGPTSessionCookieValidationMessage = nil
+        hasChatGPTSessionCookieValidationSucceeded = false
+
+        do {
+            let isValid = try await appModel.validateAndSaveChatGPTSessionCookie(joinedChatGPTCookieInput)
+            if isValid {
+                chatGPTSessionCookieValidationMessage = "ChatGPT session cookie saved"
+                hasChatGPTSessionCookieValidationSucceeded = true
+
+                Task { @MainActor in
+                    try? await Task.sleep(for: .seconds(2))
+                    chatGPTSessionCookieValidationMessage = nil
+                    hasChatGPTSessionCookieValidationSucceeded = false
+                }
+            } else {
+                chatGPTSessionCookieValidationMessage = "ChatGPT session cookie validation failed"
+                hasChatGPTSessionCookieValidationSucceeded = false
+            }
+        } catch {
+            chatGPTSessionCookieValidationMessage = "Validation failed: \(error.localizedDescription)"
+            hasChatGPTSessionCookieValidationSucceeded = false
+        }
+
+        isValidatingChatGPTSessionCookie = false
+    }
+
+    private func clearChatGPTSessionCookie() {
+        Task { @MainActor in
+            do {
+                try await appModel.clearChatGPTSessionCookie()
+                chatGPTSessionTokenPart0 = ""
+                chatGPTSessionTokenPart1 = ""
+                chatGPTFullCookieHeader = ""
+                chatGPTSessionCookieValidationMessage = nil
+                hasChatGPTSessionCookieValidationSucceeded = false
+            } catch {
+                chatGPTSessionCookieValidationMessage = "Failed to clear: \(error.localizedDescription)"
+                hasChatGPTSessionCookieValidationSucceeded = false
+            }
+        }
+    }
+
+    private func updateLaunchAtLogin(_ enabled: Bool) {
+        do {
+            if enabled {
+                try SMAppService.mainApp.register()
+            } else {
+                try SMAppService.mainApp.unregister()
+            }
+        } catch {
+            // Revert the toggle if it failed
+            launchAtLogin = SMAppService.mainApp.status == .enabled
+        }
+    }
+
+    @MainActor
+    private func sendTestNotification() async {
+        isSendingTestNotification = true
+        testNotificationMessage = nil
+        hasTestNotificationSucceeded = false
+
+        do {
+            let hasPermission = await appModel.checkNotificationPermissions()
+            if !hasPermission {
+                await appModel.requestNotificationPermissionIfNeeded()
+                let granted = await appModel.checkNotificationPermissions()
+                if !granted {
+                    testNotificationMessage = "Permission denied"
+                    hasTestNotificationSucceeded = false
+                    isSendingTestNotification = false
+                    return
+                }
+            }
+
+            // Send test notification
+            try await appModel.sendTestNotification()
+
+            testNotificationMessage = "Test notification sent!"
+            hasTestNotificationSucceeded = true
+
+            // Clear message after 2 seconds
+            Task { @MainActor in
+                try? await Task.sleep(for: .seconds(2))
+                testNotificationMessage = nil
+                hasTestNotificationSucceeded = false
+            }
+        } catch {
+            testNotificationMessage = "Failed: \(error.localizedDescription)"
+            hasTestNotificationSucceeded = false
+        }
+
+        isSendingTestNotification = false
+    }
+
+    private func openSystemNotificationSettings() {
+        if let url = URL(string: "x-apple.systempreferences:com.apple.preference.notifications") {
+            NSWorkspace.shared.open(url)
+        }
+    }
+}

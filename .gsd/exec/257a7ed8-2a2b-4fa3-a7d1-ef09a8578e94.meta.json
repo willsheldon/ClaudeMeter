@@ -1,0 +1,18 @@
+{
+  "id": "257a7ed8-2a2b-4fa3-a7d1-ef09a8578e94",
+  "runtime": "bash",
+  "purpose": "Workflow ClaudeMeter references compact",
+  "script_chars": 136,
+  "started_at": "2026-06-17T00:03:12.671Z",
+  "finished_at": "2026-06-17T00:03:12.724Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 53,
+  "stdout_bytes": 10862,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/257a7ed8-2a2b-4fa3-a7d1-ef09a8578e94.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/257a7ed8-2a2b-4fa3-a7d1-ef09a8578e94.stderr"
+}
