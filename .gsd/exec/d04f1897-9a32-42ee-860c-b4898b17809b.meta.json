@@ -1,0 +1,18 @@
+{
+  "id": "d04f1897-9a32-42ee-860c-b4898b17809b",
+  "runtime": "python",
+  "purpose": "M001 requirement inventory concise",
+  "script_chars": 466,
+  "started_at": "2026-06-17T17:53:39.983Z",
+  "finished_at": "2026-06-17T17:53:40.029Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 46,
+  "stdout_bytes": 2358,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/d04f1897-9a32-42ee-860c-b4898b17809b.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/d04f1897-9a32-42ee-860c-b4898b17809b.stderr"
+}
