@@ -135,3 +135,9 @@ Temporary Items
 
 # AppCode
 .idea/
+
+# GSD transient runtime state
+.gsd/event-log.jsonl
+.gsd/metrics.json
+.gsd/runtime/
+.gsd/state-manifest.json
