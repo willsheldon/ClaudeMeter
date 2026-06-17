@@ -140,6 +140,8 @@ Temporary Items
 .gsd/event-log.jsonl
 .gsd/metrics.json
 .gsd/runtime/
+.gsd/worktrees/
+.gsd/STATE.md
 .gsd/state-manifest.json
 .gsd/gsd.db
 .gsd/gsd.db-shm
