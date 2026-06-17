@@ -1,6 +1,6 @@
 import Foundation
 
-/// Errors that can occur when working with session keys
+/// Errors that can occur when working with Claude session keys
 enum SessionKeyError: LocalizedError {
     case invalidFormat
     case tooShort
@@ -21,7 +21,7 @@ enum SessionKeyError: LocalizedError {
 /// Validated Claude session key
 /// Note: Not Codable to prevent accidental serialization - use Keychain instead
 struct SessionKey: Equatable, Sendable {
-    /// The session key value (format: sk-ant-*)
+    /// The Claude session key value (format: sk-ant-*)
     let value: String
 
     /// Organization associated with this key (cached)

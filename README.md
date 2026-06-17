@@ -2,16 +2,16 @@
 
 ![Pinemeter](docs/heading.png)
 
-Keep track of your Claude.ai plan usage at a glance.
+Keep track of your Claude.ai plan usage at a glance, with optional ChatGPT quota visibility when configured.
 
 ## Features
 
-- **Real-time usage monitoring** - Track your 5-hour session, 7-day weekly, and Sonnet-specific usage limits
+- **Claude.ai usage monitoring** - Track your 5-hour session, 7-day weekly, and Sonnet-specific usage limits
 - **Menu bar integration** - Clean, colour-coded usage indicator that lives in your macOS menu bar
 - **Multiple icon styles** - Choose from 6 icon styles: Battery, Circular, Minimal, Segments, Dual Bar, or Gauge
 - **Pacing indicator** - Flame icon warns when you're using Claude faster than sustainable pace
 - **Smart notifications** - Configurable alerts at warning and critical thresholds (defaults: 75% and 90%)
-- **Auto-refresh** - Automatic usage updates every 1 minute, 5 minutes, or 10 minutes
+- **Auto-refresh** - Automatic Claude.ai usage updates every 1 minute, 5 minutes, or 10 minutes
 
 ## Screenshots
 
@@ -41,7 +41,7 @@ Pinemeter sends native macOS notifications when you reach warning or critical th
 
 ### Settings
 
-Configure your Claude session, refresh interval, icon style, and notification thresholds:
+Configure your Claude session, optional ChatGPT quota visibility, refresh interval, icon style, and notification thresholds:
 
 <p align="center">
   <img src="docs/settings-general.png" width="380" alt="Settings - General">
@@ -71,7 +71,7 @@ Release distribution, Homebrew packaging, and final public repository URLs are p
 1. Pinemeter appears in your menu bar as a gauge icon
 2. The setup wizard will guide you through initial configuration
 3. Import from a browser signed in to [claude.ai](https://claude.ai), or paste your session manually
-4. The app validates your session and begins monitoring usage
+4. The app validates your Claude session and begins monitoring Claude.ai usage
 
 ### Claude Session Setup
 
@@ -79,7 +79,7 @@ Pinemeter can import your existing Claude session from local browser cookies. Si
 
 Chrome, Arc, Brave, Edge, and other Chromium browsers may ask for browser Safe Storage Keychain access so Pinemeter can decrypt cookies. Safari cookies are protected by macOS and may require Full Disk Access.
 
-If browser import is unavailable, paste your session manually. Pinemeter accepts either a raw `sk-ant-...` session key or a Cookie header containing `sessionKey=...`.
+If browser import is unavailable, paste your Claude session manually. Pinemeter accepts either a raw `sk-ant-...` Claude session key or a Cookie header containing `sessionKey=...`.
 
 #### Manual Session Setup
 
@@ -111,8 +111,8 @@ Your Claude session key is stored in your browser cookies.
 
 ### Daily Use
 
-- Monitor your usage at a glance with the colour-coded menu bar icon
-- Click the icon to access detailed statistics and adjust settings
+- Monitor Claude.ai usage at a glance with the colour-coded menu bar icon
+- Click the icon to access detailed statistics, adjust settings, and optionally show ChatGPT quota visibility
 - Receive automatic notifications when reaching warning or critical thresholds
 
 ### Integration with External Tools
@@ -172,7 +172,8 @@ Then configure Claude Code's `~/.claude/settings.json`:
 ## Requirements
 
 - macOS 14.0 (Sonoma) or later
-- Active Claude.ai account with a browser session or session key
+- Active Claude.ai account with a browser session or Claude session key
+- Optional: ChatGPT browser session if enabling ChatGPT quota visibility
 - For browser import, a supported browser signed in to [claude.ai](https://claude.ai)
 
 ## Building from Source
@@ -203,8 +204,8 @@ This application accesses Claude's web API using browser-based authentication me
 
 **Data storage:**
 
-- Session keys are stored securely in macOS Keychain (encrypted, device-local only)
-- Browser import reads local browser cookies to extract your Claude session, then stores only the session key in Keychain
+- Claude session keys are stored securely in macOS Keychain (encrypted, device-local only)
+- Browser import reads local browser cookies to extract your Claude session, then stores only the Claude session key in Keychain
 - Usage data is cached locally (unencrypted, contains usage percentages only)
 - No data is sent to third-party servers or collected by the developer
 

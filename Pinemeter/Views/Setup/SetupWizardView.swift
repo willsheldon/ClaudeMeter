@@ -35,7 +35,7 @@ struct SetupWizardView: View {
             }
             .padding(.top, 32)
 
-            // Session Key Input
+            // Claude Session Key Input
             VStack(alignment: .leading, spacing: 8) {
                 Text("Claude Session")
                     .font(.headline)
@@ -145,7 +145,7 @@ struct SetupWizardView: View {
                 }
                 .buttonStyle(.bordered)
                 .disabled(!isFormatValid || isBusy)
-                .accessibilityLabel(isValidating ? "Validating session key" : "Continue with manual setup")
+                .accessibilityLabel(isValidating ? "Validating Claude session key" : "Continue with manual setup")
                 .accessibilityHint("Validates your Claude session key and completes setup")
             }
             .padding(.horizontal, 32)
