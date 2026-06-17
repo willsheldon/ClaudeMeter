@@ -1,0 +1,8 @@
+86: '        await repository.invalidate()'
+87: ''
+88: '        let cached = await repository.get()'
+89: '        let lastKnown = await repository.getLastKnown()'
+90: ''
+91: '        XCTAssertFalse(FileManager.default.fileExists(atPath: newPrivateCacheURL.path))'
+92: '        XCTAssertFalse(FileManager.default.fileExists(atPath: legacyPrivateCacheURL.path))'
+93: '        XCTAssertFalse(FileManager.default.fileExists(atPath: newPublicExportURL.path))'

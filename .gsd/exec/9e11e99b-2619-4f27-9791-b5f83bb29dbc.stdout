@@ -1,0 +1,43 @@
+
+== XCRemoteSwiftPackageReference ==
+159: 7C6391426CABA70B39395D98 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+160: B4C1B3AF2ECA700100000001 /* XCRemoteSwiftPackageReference "SweetCookieKit" */,
+506: /* Begin XCRemoteSwiftPackageReference section */
+507: 7C6391426CABA70B39395D98 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+508: isa = XCRemoteSwiftPackageReference;
+515: B4C1B3AF2ECA700100000001 /* XCRemoteSwiftPackageReference "SweetCookieKit" */ = {
+516: isa = XCRemoteSwiftPackageReference;
+523: /* End XCRemoteSwiftPackageReference section */
+528: package = 7C6391426CABA70B39395D98 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+533: package = B4C1B3AF2ECA700100000001 /* XCRemoteSwiftPackageReference "SweetCookieKit" */;
+
+== XCSwiftPackageProductDependency ==
+525: /* Begin XCSwiftPackageProductDependency section */
+527: isa = XCSwiftPackageProductDependency;
+532: isa = XCSwiftPackageProductDependency;
+536: /* End XCSwiftPackageProductDependency section */
+
+== SweetCookieKit ==
+11: B4C1B3B12ECA700100000001 /* SweetCookieKit in Frameworks */ = {isa = PBXBuildFile; productRef = B4C1B3B02ECA700100000001 /* SweetCookieKit */; };
+55: B4C1B3B12ECA700100000001 /* SweetCookieKit in Frameworks */,
+124: B4C1B3B02ECA700100000001 /* SweetCookieKit */,
+160: B4C1B3AF2ECA700100000001 /* XCRemoteSwiftPackageReference "SweetCookieKit" */,
+515: B4C1B3AF2ECA700100000001 /* XCRemoteSwiftPackageReference "SweetCookieKit" */ = {
+517: repositoryURL = "https://github.com/steipete/SweetCookieKit";
+531: B4C1B3B02ECA700100000001 /* SweetCookieKit */ = {
+533: package = B4C1B3AF2ECA700100000001 /* XCRemoteSwiftPackageReference "SweetCookieKit" */;
+534: productName = SweetCookieKit;
+
+== SnapshotTesting ==
+10: 940ECFCED2930E18C9024CDB /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 1E869117452041001C7AF869 /* SnapshotTesting */; };
+47: 940ECFCED2930E18C9024CDB /* SnapshotTesting in Frameworks */,
+101: 1E869117452041001C7AF869 /* SnapshotTesting */,
+526: 1E869117452041001C7AF869 /* SnapshotTesting */ = {
+529: productName = SnapshotTesting;
+
+== packageProductDependencies ==
+100: packageProductDependencies = (
+123: packageProductDependencies = (
+
+== packageReferences ==
+158: packageReferences = (

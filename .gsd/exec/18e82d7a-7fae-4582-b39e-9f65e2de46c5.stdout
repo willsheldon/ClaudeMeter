@@ -1,0 +1,67 @@
+ClaudeMeter/App/SessionKeyImportPromptCoordinator.swift
+16: "ClaudeMeter will ask macOS Keychain for \"\(context.label)\" so it can decrypt your Claude browser session cookie.",
+
+ClaudeMeter/Models/IconStyle.swift
+18: var description: String { "Compact quota meters for Claude and ChatGPT" }
+
+ClaudeMeter/Models/SessionKey.swift
+16: return "Session key could not be validated with Claude API"
+
+ClaudeMeter/Repositories/CacheRepository.swift
+24: let cacheDir = appSupport.appendingPathComponent("com.claudemeter", isDirectory: true)
+31: let publicDir = homeDir.appendingPathComponent(".claudemeter", isDirectory: true)
+
+ClaudeMeter/Repositories/KeychainRepository.swift
+13: private let serviceName = "com.claudemeter.sessionkey"
+
+ClaudeMeter/Services/NetworkService.swift
+13: private static let logger = Logger(subsystem: "com.claudemeter", category: "NetworkService")
+
+ClaudeMeter/Services/Protocols/SessionKeyImportServiceProtocol.swift
+20: return "No Claude browser session found. Sign in to claude.ai and try again."
+22: return "ClaudeMeter could not access browser cookies. Allow the macOS prompt or paste your session."
+28: return "The imported Claude session key could not be validated."
+
+ClaudeMeter/Services/SessionKeyImportService.swift
+7: private static let logger = Logger(subsystem: "com.claudemeter", category: "SessionKeyImportService")
+
+ClaudeMeter/Services/UsageService.swift
+13: private static let logger = Logger(subsystem: "com.claudemeter", category: "UsageService")
+
+ClaudeMeter/Services/WebViewNetworkService.swift
+16: nonisolated static let logger = Logger(subsystem: "com.claudemeter", category: "WebViewNetworkService")
+
+ClaudeMeter/Utilities/DemoDataFactory.swift
+74: errorMessage: "Unable to connect to Claude.ai. Check your internet connection.",
+
+ClaudeMeter/Views/MenuBar/IconStyles/DualBarIcon.swift
+31: return [MenuBarQuotaBar(label: "Claude 5h", percentage: percentage, status: status)]
+111: MenuBarQuotaBar(label: "Claude 5h", percentage: 65, status: .warning),
+112: MenuBarQuotaBar(label: "Claude weekly", percentage: 35, status: .safe),
+
+ClaudeMeter/Views/MenuBar/MenuBarManager.swift
+64: button.setAccessibilityLabel("ClaudeMeter")
+174: bars.append(MenuBarQuotaBar(label: "Claude 5h", percentage: clamped(usageData.sessionUsage.percentage), status: usageData.sessionUsage.status))
+175: bars.append(MenuBarQuotaBar(label: "Claude weekly", percentage: clamped(usageData.weeklyUsage.percentage), status: usageData.weeklyUsage.status))
+
+ClaudeMeter/Views/MenuBar/UsagePopoverView.swift
+21: Text("Claude Usage")
+94: UsageMetricSection(title: "Claude", icon: "sparkles") {
+
+ClaudeMeter/Views/Settings/SettingsView.swift
+86: Text("Claude Session")
+89: Text("Import from browser or paste your Claude session")
+281: Text("Paste the browser cookie values for .0 and .1 separately. ClaudeMeter joins them, stores the result only in Keychain, and sends it only to chatgpt.com.")
+392: Text("Automatically launch ClaudeMeter when you log in")
+621: Text("ClaudeMeter")
+638: Text("Monitor your Claude.ai usage limits")
+644: Link(destination: URL(string: "https://github.com/eddmann/ClaudeMeter")!) {
+
+ClaudeMeter/Views/Setup/SetupWizardView.swift
+28: Text("Welcome to ClaudeMeter")
+32: Text("Monitor your Claude.ai plan usage in real-time")
+40: Text("Claude Session")
+47: .accessibilityHint("Enter your Claude session key or paste a Cookie header containing sessionKey")
+101: Text("Setup complete! Launching ClaudeMeter...")
+133: .accessibilityHint("Finds your Claude session key in local browser cookies and validates it")
+

@@ -1,0 +1,18 @@
+{
+  "id": "30541bb4-db76-490d-a70f-0a9237d80d79",
+  "runtime": "python",
+  "purpose": "focused AppModel snippets for security review",
+  "script_chars": 476,
+  "started_at": "2026-06-17T02:46:38.842Z",
+  "finished_at": "2026-06-17T02:46:38.896Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 54,
+  "stdout_bytes": 5513,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/30541bb4-db76-490d-a70f-0a9237d80d79.stdout",
+  "stderr_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/30541bb4-db76-490d-a70f-0a9237d80d79.stderr"
+}

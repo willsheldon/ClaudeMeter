@@ -1,0 +1,3 @@
+36: ALLOWED_FILES = SOURCE_FILES + DOC_FILES
+90:     for relative_path in ALLOWED_FILES:
+282:     print(f"Files scanned: {len(ALLOWED_FILES)} fixed allowlist")

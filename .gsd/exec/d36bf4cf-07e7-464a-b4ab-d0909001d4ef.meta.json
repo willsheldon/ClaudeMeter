@@ -1,0 +1,18 @@
+{
+  "id": "d36bf4cf-07e7-464a-b4ab-d0909001d4ef",
+  "runtime": "bash",
+  "purpose": "Xcode scheme list and baseline command shape",
+  "script_chars": 63,
+  "started_at": "2026-06-17T00:03:19.143Z",
+  "finished_at": "2026-06-17T00:03:27.131Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 7988,
+  "stdout_bytes": 1929,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/d36bf4cf-07e7-464a-b4ab-d0909001d4ef.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/d36bf4cf-07e7-464a-b4ab-d0909001d4ef.stderr"
+}

@@ -1,0 +1,19 @@
+
+FILE Pinemeter/Models/AppSettings.swift
+12:     /// Refresh interval in seconds (60-600)
+13:     var refreshInterval: TimeInterval
+40:         refreshInterval: 60,
+52:         case refreshInterval = "refresh_interval"
+70:         refreshInterval = try container.decodeIfPresent(TimeInterval.self, forKey: .refreshInterval) ?? defaults.refreshInterval
+84:         refreshInterval: TimeInterval,
+93:         self.refreshInterval = refreshInterval
+106:         try container.encode(refreshInterval, forKey: .refreshInterval)
+120:     mutating func setRefreshInterval(_ interval: TimeInterval) {
+121:         refreshInterval = max(60, min(600, interval))
+
+FILE Pinemeter/Models/Constants.swift
+33:     /// Refresh intervals (in seconds)
+34:     enum Refresh {
+36:         static let minimum: TimeInterval = 60
+39:         static let maximum: TimeInterval = 600
+42:         static let stalenessThreshold: TimeInterval = 1200

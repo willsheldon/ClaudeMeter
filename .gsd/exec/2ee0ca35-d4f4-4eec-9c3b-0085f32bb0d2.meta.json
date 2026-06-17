@@ -1,0 +1,18 @@
+{
+  "id": "2ee0ca35-d4f4-4eec-9c3b-0085f32bb0d2",
+  "runtime": "bash",
+  "purpose": "S06 count stale author header comments",
+  "script_chars": 347,
+  "started_at": "2026-06-17T15:58:39.638Z",
+  "finished_at": "2026-06-17T15:58:39.730Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 92,
+  "stdout_bytes": 2427,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/2ee0ca35-d4f4-4eec-9c3b-0085f32bb0d2.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/2ee0ca35-d4f4-4eec-9c3b-0085f32bb0d2.stderr"
+}

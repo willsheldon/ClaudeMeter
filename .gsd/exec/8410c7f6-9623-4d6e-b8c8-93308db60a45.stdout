@@ -1,0 +1,2 @@
+PASS xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+Log: .gsd/exec/s01-xcodebuild-clean-build.log

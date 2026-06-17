@@ -1,0 +1,18 @@
+{
+  "id": "4f5d43a3-a563-467d-9200-995f975aaee8",
+  "runtime": "bash",
+  "purpose": "S06 keychain tests/invariants search",
+  "script_chars": 232,
+  "started_at": "2026-06-17T15:59:17.301Z",
+  "finished_at": "2026-06-17T15:59:17.344Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 43,
+  "stdout_bytes": 6985,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/4f5d43a3-a563-467d-9200-995f975aaee8.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/4f5d43a3-a563-467d-9200-995f975aaee8.stderr"
+}

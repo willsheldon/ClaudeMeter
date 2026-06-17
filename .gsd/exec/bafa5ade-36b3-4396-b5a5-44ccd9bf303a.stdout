@@ -1,0 +1,45 @@
+## Pinemeter/Models/Errors/AppError.swift
+23: return "No Claude session key found. Please complete setup."
+29: return "Claude session key is invalid or expired. Please update in settings."
+55: return "Update Claude Session Key"
+## Pinemeter/Models/Errors/NetworkError.swift
+28: return "Claude session key is invalid or expired"
+## Pinemeter/Models/SessionKey.swift
+3: /// Errors that can occur when working with session keys
+12: return "Claude session key must start with 'sk-ant-'"
+14: return "Claude session key is too short"
+16: return "Claude session key could not be validated with Claude API"
+21: /// Validated Claude session key
+24: /// The session key value (format: sk-ant-*)
+## Pinemeter/Views/Setup/SetupWizardView.swift
+38: // Session Key Input
+46: .accessibilityLabel("Claude session key input field")
+47: .accessibilityHint("Enter your Claude session key or paste a Cookie header containing sessionKey")
+49: Text("Import from a browser signed in to claude.ai, or paste your session")
+58: Text(isFormatValid ? "Session format valid" : "Invalid session format")
+132: .accessibilityLabel(isImporting ? "Importing Claude session key" : "Import Claude session key from browser")
+133: .accessibilityHint("Finds your Claude session key in local browser cookies and validates it")
+148: .accessibilityLabel(isValidating ? "Validating session key" : "Continue with manual setup")
+149: .accessibilityHint("Validates your Claude session key and completes setup")
+197: errorMessage = "Claude session key cannot be empty"
+212: errorMessage = "Claude session key is invalid or expired"
+## Pinemeter/Views/Settings/SettingsView.swift
+118: .help(isSessionKeyShown ? "Hide Claude session key" : "Show Claude session key")
+126: .help("Clear Claude session key")
+693: sessionKeyValidationMessage = "Claude session key cannot be empty"
+707: sessionKeyValidationMessage = "Claude session key saved"
+716: sessionKeyValidationMessage = "Claude session key validation failed"
+## Pinemeter/Views/MenuBar/UsagePopoverView.swift
+226: static let updateButtonTitle = "Update Claude Session Key"
+232: return normalized.contains("session key")
+## PinemeterTests/ProviderErrorWorkflowTests.swift
+6: XCTAssertEqual(AppError.noSessionKey.errorDescription, "No Claude session key found. Please complete setup.")
+11: XCTAssertEqual(AppError.sessionKeyInvalid.errorDescription, "Claude session key is invalid or expired. Please update in settings.")
+12: XCTAssertEqual(AppError.sessionKeyInvalid.recoveryAction, "Update Claude Session Key")
+16: XCTAssertEqual(NetworkError.authenticationFailed.errorDescription, "Claude session key is invalid or expired")
+20: XCTAssertTrue(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "Claude session key is invalid or expired"))
+29: XCTAssertEqual(ClaudeCredentialRecoveryCopy.updateButtonTitle, "Update Claude Session Key")
+## PinemeterTests/SessionKeyTests.swift
+22: XCTAssertEqual(SessionKeyError.invalidFormat.errorDescription, "Claude session key must start with 'sk-ant-'")
+23: XCTAssertEqual(SessionKeyError.tooShort.errorDescription, "Claude session key is too short")
+24: XCTAssertEqual(SessionKeyError.validationFailed.errorDescription, "Claude session key could not be validated with Claude API")

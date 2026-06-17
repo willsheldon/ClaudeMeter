@@ -1,0 +1,46 @@
+20: 			remoteInfo = ClaudeMeter;
+25: 		6814B1072EC74F6000B4B5C3 /* ClaudeMeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClaudeMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+26: 		E19FC5088677C21D48B7E68B /* ClaudeMeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClaudeMeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+30: 		6814B1092EC74F6000B4B5C3 /* ClaudeMeter */ = {
+32: 			path = ClaudeMeter;
+35: 		EFD5C9BBC5AFCE7EF8910B35 /* ClaudeMeterTests */ = {
+37: 			path = ClaudeMeterTests;
+65: 				6814B1092EC74F6000B4B5C3 /* ClaudeMeter */,
+66: 				EFD5C9BBC5AFCE7EF8910B35 /* ClaudeMeterTests */,
+74: 				6814B1072EC74F6000B4B5C3 /* ClaudeMeter.app */,
+75: 				E19FC5088677C21D48B7E68B /* ClaudeMeterTests.xctest */,
+83: 		281275B8A43D48EF3E864245 /* ClaudeMeterTests */ = {
+85: 			buildConfigurationList = D3F3D03AF401D3C31DA2A40E /* Build configuration list for PBXNativeTarget "ClaudeMeterTests" */;
+97: 				EFD5C9BBC5AFCE7EF8910B35 /* ClaudeMeterTests */,
+99: 			name = ClaudeMeterTests;
+103: 			productName = ClaudeMeterTests;
+104: 			productReference = E19FC5088677C21D48B7E68B /* ClaudeMeterTests.xctest */;
+107: 		6814B1062EC74F6000B4B5C3 /* ClaudeMeter */ = {
+109: 			buildConfigurationList = 6814B1142EC74F6000B4B5C3 /* Build configuration list for PBXNativeTarget "ClaudeMeter" */;
+120: 				6814B1092EC74F6000B4B5C3 /* ClaudeMeter */,
+122: 			name = ClaudeMeter;
+126: 			productName = ClaudeMeter;
+127: 			productReference = 6814B1072EC74F6000B4B5C3 /* ClaudeMeter.app */;
+149: 			buildConfigurationList = 6814B1022EC74F6000B4B5C3 /* Build configuration list for PBXProject "ClaudeMeter" */;
+167: 				6814B1062EC74F6000B4B5C3 /* ClaudeMeter */,
+168: 				281275B8A43D48EF3E864245 /* ClaudeMeterTests */,
+210: 			target = 6814B1062EC74F6000B4B5C3 /* ClaudeMeter */;
+223: 				GENERATE_INFOPLIST_FILE = YES;
+230: 				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.ClaudeMeterTests;
+231: 				PRODUCT_NAME = "$(TARGET_NAME)";
+234: 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClaudeMeter.app/Contents/MacOS/ClaudeMeter";
+245: 				GENERATE_INFOPLIST_FILE = YES;
+252: 				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.ClaudeMeterTests;
+253: 				PRODUCT_NAME = "$(TARGET_NAME)";
+256: 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClaudeMeter.app/Contents/MacOS/ClaudeMeter";
+404: 				GENERATE_INFOPLIST_FILE = YES;
+405: 				INFOPLIST_KEY_CFBundleDisplayName = ClaudeMeter;
+415: 				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.ClaudeMeter;
+416: 				PRODUCT_NAME = "$(TARGET_NAME)";
+451: 				GENERATE_INFOPLIST_FILE = YES;
+452: 				INFOPLIST_KEY_CFBundleDisplayName = ClaudeMeter;
+462: 				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.ClaudeMeter;
+463: 				PRODUCT_NAME = "$(TARGET_NAME)";
+477: 		6814B1022EC74F6000B4B5C3 /* Build configuration list for PBXProject "ClaudeMeter" */ = {
+486: 		6814B1142EC74F6000B4B5C3 /* Build configuration list for PBXNativeTarget "ClaudeMeter" */ = {
+495: 		D3F3D03AF401D3C31DA2A40E /* Build configuration list for PBXNativeTarget "ClaudeMeterTests" */ = {

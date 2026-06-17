@@ -1,0 +1,18 @@
+{
+  "id": "f104f66f-e1f3-47f9-a367-74574720b757",
+  "runtime": "python",
+  "purpose": "S05 concise provider error workflow candidate summary",
+  "script_chars": 984,
+  "started_at": "2026-06-17T15:19:43.343Z",
+  "finished_at": "2026-06-17T15:19:43.401Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 58,
+  "stdout_bytes": 6829,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/f104f66f-e1f3-47f9-a367-74574720b757.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/f104f66f-e1f3-47f9-a367-74574720b757.stderr"
+}

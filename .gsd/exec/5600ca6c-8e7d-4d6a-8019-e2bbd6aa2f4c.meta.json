@@ -1,0 +1,18 @@
+{
+  "id": "5600ca6c-8e7d-4d6a-8019-e2bbd6aa2f4c",
+  "runtime": "python",
+  "purpose": "S06 AppModel private vars usage counts",
+  "script_chars": 491,
+  "started_at": "2026-06-17T15:59:42.082Z",
+  "finished_at": "2026-06-17T15:59:42.164Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 82,
+  "stdout_bytes": 1120,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/5600ca6c-8e7d-4d6a-8019-e2bbd6aa2f4c.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/5600ca6c-8e7d-4d6a-8019-e2bbd6aa2f4c.stderr"
+}

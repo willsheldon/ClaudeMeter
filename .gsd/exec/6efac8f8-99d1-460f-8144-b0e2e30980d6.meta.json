@@ -1,0 +1,18 @@
+{
+  "id": "6efac8f8-99d1-460f-8144-b0e2e30980d6",
+  "runtime": "python",
+  "purpose": "S07 concise source/docs old identity refs excluding .gsd",
+  "script_chars": 641,
+  "started_at": "2026-06-17T16:18:26.024Z",
+  "finished_at": "2026-06-17T16:18:26.113Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 89,
+  "stdout_bytes": 3650,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/6efac8f8-99d1-460f-8144-b0e2e30980d6.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/6efac8f8-99d1-460f-8144-b0e2e30980d6.stderr"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "b6196268-2e17-487e-a123-423089334e7a",
+  "runtime": "bash",
+  "purpose": "Broad repo inventory and ClaudeMeter reference counts for S01 rename research",
+  "script_chars": 701,
+  "started_at": "2026-06-17T00:00:50.067Z",
+  "finished_at": "2026-06-17T00:00:50.155Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 88,
+  "stdout_bytes": 5777,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/b6196268-2e17-487e-a123-423089334e7a.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/b6196268-2e17-487e-a123-423089334e7a.stderr"
+}

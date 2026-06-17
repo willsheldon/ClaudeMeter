@@ -1,0 +1,18 @@
+{
+  "id": "08e06a89-5ec5-4786-a0a8-e52f670a86a9",
+  "runtime": "python",
+  "purpose": "S06 unused constants candidates",
+  "script_chars": 699,
+  "started_at": "2026-06-17T15:57:13.680Z",
+  "finished_at": "2026-06-17T15:57:13.745Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 65,
+  "stdout_bytes": 931,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/08e06a89-5ec5-4786-a0a8-e52f670a86a9.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/08e06a89-5ec5-4786-a0a8-e52f670a86a9.stderr"
+}

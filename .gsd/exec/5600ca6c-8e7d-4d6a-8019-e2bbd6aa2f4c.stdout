@@ -1,0 +1,27 @@
+refreshTask 4
+settingsSaveTask 3
+wakeTask 3
+hasLoadedSettings 4
+sessionKeyImportService 5
+38:     // MARK: - Private
+39: 
+40:     @ObservationIgnored private var refreshTask: Task<Void, Never>?
+41:     @ObservationIgnored private var settingsSaveTask: Task<Void, Never>?
+42:     @ObservationIgnored private var wakeTask: Task<Void, Never>?
+43:     @ObservationIgnored private var hasLoadedSettings: Bool = false
+44:     @ObservationIgnored private let refreshClock = ContinuousClock()
+45: 
+46:     // MARK: - Initialization
+47: 
+48:     init(
+49:         settingsRepository: SettingsRepositoryProtocol = SettingsRepository(),
+40:     @ObservationIgnored private var refreshTask: Task<Void, Never>?
+41:     @ObservationIgnored private var settingsSaveTask: Task<Void, Never>?
+42:     @ObservationIgnored private var wakeTask: Task<Void, Never>?
+250:         refreshTask?.cancel()
+277:         settingsSaveTask?.cancel()
+278:         settingsSaveTask = Task {
+288:         refreshTask?.cancel()
+292:         refreshTask = Task { [weak self] in
+307:         wakeTask?.cancel()
+308:         wakeTask = Task { [weak self] in

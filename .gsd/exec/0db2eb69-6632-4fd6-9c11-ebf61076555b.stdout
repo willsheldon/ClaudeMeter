@@ -1,0 +1,41 @@
+Provider workflow copy audit
+Mode: enforce
+Files scanned: 11 fixed allowlist
+
+[ChatGPT copy review] 163 finding(s)
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:31 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: if appModel.hasChatGPTSessionCookie && appModel.settings.isChatGPTUsageShown {
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:32 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: await appModel.refreshChatGPTUsage()
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:90 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: if appModel.usageData != nil || appModel.chatGPTUsageData != nil || appModel.chatGPTErrorMessage != nil {
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:123 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:124 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: UsageMetricSection(title: "ChatGPT", icon: "message.badge.waveform") {
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:125 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: ForEach(chatGPTUsageData.rows) { row in
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:128 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: subtitle: chatGPTQuotaSubtitle(for: row),
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:137 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: if appModel.settings.isChatGPTUsageShown, let chatGPTErrorMessage = appModel.chatGPTErrorMessage {
+- ... 155 more
+
+[Claude credential copy] 8 finding(s)
+- Pinemeter/Models/SessionKey.swift:3: Claude credential copy should say 'Claude session key' instead of provider-ambiguous key/session-key wording.
+  evidence: /// Errors that can occur when working with session keys
+- Pinemeter/Models/SessionKey.swift:24: Claude credential copy should say 'Claude session key' instead of provider-ambiguous key/session-key wording.
+  evidence: /// The session key value (format: sk-ant-*)
+- Pinemeter/Views/Setup/SetupWizardView.swift:38: Claude credential copy should say 'Claude session key' instead of provider-ambiguous key/session-key wording.
+  evidence: // Session Key Input
+- Pinemeter/Views/Setup/SetupWizardView.swift:148: Claude credential copy should say 'Claude session key' instead of provider-ambiguous key/session-key wording.
+  evidence: .accessibilityLabel(isValidating ? "Validating session key" : "Continue with manual setup")
+- README.md:82: Claude credential copy should say 'Claude session key' instead of provider-ambiguous key/session-key wording.
+  evidence: If browser import is unavailable, paste your session manually. Pinemeter accepts either a raw `sk-ant-...` session key o
+- README.md:175: Claude credential copy should say 'Claude session key' instead of provider-ambiguous key/session-key wording.
+  evidence: - Active Claude.ai account with a browser session or session key
+- README.md:207: Claude credential copy should say 'Claude session key' instead of provider-ambiguous key/session-key wording.
+  evidence: - Session keys are stored securely in macOS Keychain (encrypted, device-local only)
+- README.md:208: Claude credential copy should say 'Claude session key' instead of provider-ambiguous key/session-key wording.
+  evidence: - Browser import reads local browser cookies to extract your Claude session, then stores only the session key in Keychai
+

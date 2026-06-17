@@ -1,0 +1,18 @@
+{
+  "id": "d8872886-905f-48bc-b16b-62dd13e45665",
+  "runtime": "bash",
+  "purpose": "Run provider workflow copy audit before T04 fixes",
+  "script_chars": 47,
+  "started_at": "2026-06-17T15:45:08.863Z",
+  "finished_at": "2026-06-17T15:45:08.965Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 102,
+  "stdout_bytes": 4052,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/d8872886-905f-48bc-b16b-62dd13e45665.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/d8872886-905f-48bc-b16b-62dd13e45665.stderr"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "67db1822-c109-4e15-bb92-fe20c4a0da4c",
+  "runtime": "python",
+  "purpose": "Extract M001/S07 T04 assessment source evidence and requirement snippets",
+  "script_chars": 1896,
+  "started_at": "2026-06-17T16:33:39.813Z",
+  "finished_at": "2026-06-17T16:33:39.945Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 132,
+  "stdout_bytes": 10866,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/67db1822-c109-4e15-bb92-fe20c4a0da4c.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/67db1822-c109-4e15-bb92-fe20c4a0da4c.stderr"
+}

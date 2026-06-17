@@ -1,11 +1,11 @@
 #!/bin/bash
-# Demo mode launcher for ClaudeMeter (macOS)
+# Demo mode launcher for Pinemeter (macOS)
 # Builds and runs the app with selected demo mode
 
 set -e
 
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-SCHEME="ClaudeMeter"
+SCHEME="Pinemeter"
 
 # Demo modes (from DemoMode.swift)
 MODES=(
@@ -19,7 +19,7 @@ MODES=(
     "setupWizard|First-time setup screen"
 )
 
-echo "=== ClaudeMeter Demo Mode Launcher ==="
+echo "=== Pinemeter Demo Mode Launcher ==="
 echo ""
 echo "Select a demo mode:"
 echo ""
@@ -47,19 +47,19 @@ echo ""
 # Build the app
 echo "Building $SCHEME..."
 BUILD_DIR="$PROJECT_DIR/.build"
-xcodebuild -project "$PROJECT_DIR/ClaudeMeter.xcodeproj" \
+xcodebuild -project "$PROJECT_DIR/Pinemeter.xcodeproj" \
     -scheme "$SCHEME" \
     -configuration Debug \
     -derivedDataPath "$BUILD_DIR" \
     build | xcbeautify 2>/dev/null || \
-xcodebuild -project "$PROJECT_DIR/ClaudeMeter.xcodeproj" \
+xcodebuild -project "$PROJECT_DIR/Pinemeter.xcodeproj" \
     -scheme "$SCHEME" \
     -configuration Debug \
     -derivedDataPath "$BUILD_DIR" \
     build 2>&1 | tail -20
 
 # Find the built app
-APP_PATH=$(find "$BUILD_DIR/Build/Products" -name "ClaudeMeter.app" -type d 2>/dev/null | head -1)
+APP_PATH=$(find "$BUILD_DIR/Build/Products" -name "Pinemeter.app" -type d 2>/dev/null | head -1)
 
 if [ -z "$APP_PATH" ]; then
     echo "Error: Could not find built app in $BUILD_DIR/Build/Products"
@@ -70,7 +70,7 @@ fi
 echo "Found app: $APP_PATH"
 
 # Kill any existing instance
-pkill -f "ClaudeMeter.app" 2>/dev/null || true
+pkill -f "Pinemeter.app" 2>/dev/null || true
 sleep 0.5
 
 # Launch with demo argument

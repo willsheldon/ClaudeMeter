@@ -1,0 +1,18 @@
+{
+  "id": "466fb4ec-1110-496e-a0e8-ee74776e32f1",
+  "runtime": "bash",
+  "purpose": "Final ClaudeMeter scan classification",
+  "script_chars": 89,
+  "started_at": "2026-06-17T00:59:37.891Z",
+  "finished_at": "2026-06-17T00:59:38.022Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 131,
+  "stdout_bytes": 3557,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/466fb4ec-1110-496e-a0e8-ee74776e32f1.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/466fb4ec-1110-496e-a0e8-ee74776e32f1.stderr"
+}

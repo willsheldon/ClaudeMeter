@@ -1,0 +1,18 @@
+{
+  "id": "8c16f8bd-6b33-4c3d-914b-195dc2ac8ac8",
+  "runtime": "python",
+  "purpose": "S07 T03 summarize cited assessment artifacts",
+  "script_chars": 897,
+  "started_at": "2026-06-17T16:30:30.996Z",
+  "finished_at": "2026-06-17T16:30:31.060Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 64,
+  "stdout_bytes": 14632,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/8c16f8bd-6b33-4c3d-914b-195dc2ac8ac8.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/8c16f8bd-6b33-4c3d-914b-195dc2ac8ac8.stderr"
+}

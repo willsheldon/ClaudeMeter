@@ -1,0 +1,18 @@
+{
+  "id": "0ed8b525-41f8-496e-9c36-a10653b88e7e",
+  "runtime": "bash",
+  "purpose": "T04 docs workflow ClaudeMeter hits",
+  "script_chars": 157,
+  "started_at": "2026-06-17T00:54:07.586Z",
+  "finished_at": "2026-06-17T00:54:07.652Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 66,
+  "stdout_bytes": 10687,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/0ed8b525-41f8-496e-9c36-a10653b88e7e.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/0ed8b525-41f8-496e-9c36-a10653b88e7e.stderr"
+}

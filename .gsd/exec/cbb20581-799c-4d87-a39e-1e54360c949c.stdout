@@ -1,0 +1,555 @@
+Old/new identity references with context:
+CHANGELOG.md:12:- Import Claude sessions from browsers signed in to claude.ai
+CHANGELOG.md:13:- Accept pasted Cookie headers containing `sessionKey` during setup
+CHANGELOG.md:25:- Handle null usage reset timestamps after Claude usage windows reset
+CHANGELOG.md:89:- Export usage data to ~/.claudemeter/usage.json for external tools
+CHANGELOG.md:135:- Force UserDefaults sync
+CHANGELOG.md:141:- Clarify Claude.ai plan usage vs developer API in documentation
+CHANGELOG.md:147:- Initial ClaudeMeter macOS menu bar app
+CHANGELOG.md:153:[1.4.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.2...v1.4.0
+CHANGELOG.md:154:[1.3.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.1...v1.3.2
+CHANGELOG.md:155:[1.3.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.0...v1.3.1
+CHANGELOG.md:156:[1.3.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.2.1...v1.3.0
+CHANGELOG.md:157:[1.2.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.2.0...v1.2.1
+CHANGELOG.md:158:[1.2.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.2...v1.2.0
+CHANGELOG.md:159:[1.1.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.1...v1.1.2
+CHANGELOG.md:160:[1.1.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.0...v1.1.1
+CHANGELOG.md:161:[1.1.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.7...v1.1.0
+CHANGELOG.md:162:[1.0.7]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.6...v1.0.7
+CHANGELOG.md:163:[1.0.6]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.5...v1.0.6
+CHANGELOG.md:164:[1.0.5]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.4...v1.0.5
+CHANGELOG.md:165:[1.0.4]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.3...v1.0.4
+CHANGELOG.md:166:[1.0.3]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.2...v1.0.3
+CHANGELOG.md:167:[1.0.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.1...v1.0.2
+CHANGELOG.md:168:[1.0.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.0...v1.0.1
+CHANGELOG.md:169:[1.0.0]: https://github.com/eddmann/ClaudeMeter/releases/tag/v1.0.0
+README.md:5:Keep track of your Claude.ai plan usage at a glance.
+README.md:12:- **Pacing indicator** - Flame icon warns when you're using Claude faster than sustainable pace
+README.md:44:Configure your Claude session, refresh interval, icon style, and notification thresholds:
+README.md:76:### Claude Session Setup
+README.md:78:Pinemeter can import your existing Claude session from local browser cookies. Sign in to [claude.ai](https://claude.ai) in a supported browser, then choose **Import from Browser** in the setup wizard or Settings.
+README.md:82:If browser import is unavailable, paste your session manually. Pinemeter accepts either a raw `sk-ant-...` session key or a Cookie header containing `sessionKey=...`.
+README.md:86:Your Claude session key is stored in your browser cookies.
+README.md:92:3. Go to Application > Cookies > `https://claude.ai`
+README.md:93:4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:100:3. Go to Storage > Cookies > `https://claude.ai`
+README.md:101:4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:108:3. Go to Storage > Cookies > `https://claude.ai`
+README.md:109:4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:120:Pinemeter exports usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards.
+README.md:142:**Example: Claude Code statusline**
+README.md:161:Then configure Claude Code's `~/.claude/settings.json`:
+README.md:175:- Active Claude.ai account with a browser session or session key
+README.md:197:This application accesses Claude's web API using browser-based authentication methods. **This may violate Anthropic's Terms of Service.** By using Pinemeter, you acknowledge that:
+README.md:200:- Your Claude account could be affected by using unofficial API clients
+README.md:207:- Browser import reads local browser cookies to extract your Claude session, then stores only the session key in Keychain
+Pinemeter/Services/NotificationService.swift:32:    func requestAuthorization() async throws -> Bool {
+Pinemeter/Services/NotificationService.swift:33:        let granted = try await center.requestAuthorization(options: [.alert, .sound])
+PinemeterTests/SettingsRepositoryTests.swift:14:        let userDefaults = UserDefaults(suiteName: suiteName)
+PinemeterTests/SettingsRepositoryTests.swift:25:        settings.isChatGPTUsageShown = true
+PinemeterTests/SettingsRepositoryTests.swift:55:    func test_defaultSettings_hideChatGPTUsage() {
+PinemeterTests/SettingsRepositoryTests.swift:56:        XCTAssertFalse(AppSettings.default.isChatGPTUsageShown)
+PinemeterTests/SettingsRepositoryTests.swift:61:        let userDefaults = UserDefaults(suiteName: suiteName)
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:13:    func save(sessionKey: String, account: String) async throws
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:19:    func update(sessionKey: String, account: String) async throws
+Pinemeter/Services/SessionKeyImportService.swift:3:import SweetCookieKit
+Pinemeter/Services/SessionKeyImportService.swift:5:/// Imports Claude session keys from local browser cookies.
+Pinemeter/Services/SessionKeyImportService.swift:7:    private static let logger = Logger(subsystem: "com.pinemeter", category: "SessionKeyImportService")
+Pinemeter/Services/SessionKeyImportService.swift:9:    private let cookieClient: BrowserCookieClient
+Pinemeter/Services/SessionKeyImportService.swift:13:        cookieClient: BrowserCookieClient = BrowserCookieClient(),
+Pinemeter/Services/SessionKeyImportService.swift:21:        let query = BrowserCookieQuery(domains: ["claude.ai"], domainMatch: .suffix)
+Pinemeter/Services/SessionKeyImportService.swift:34:            } catch let error as BrowserCookieError {
+Pinemeter/Services/SessionKeyImportService.swift:40:                    } else if browser.usesKeychainForCookieDecryption {
+Pinemeter/Services/SessionKeyImportService.swift:64:    private func importedSessionKey(from source: BrowserCookieStoreRecords) throws -> ImportedSessionKey? {
+Pinemeter/Services/SessionKeyImportService.swift:65:        guard let cookie = source.records.first(where: { $0.name == "sessionKey" }) else {
+Pinemeter/Services/SessionKeyImportService.swift:69:        let sessionKey = try SessionKey(cookie.value)
+Pinemeter/Services/SessionKeyImportService.swift:71:            value: sessionKey.value,
+Pinemeter/Services/SessionKeyImportService.swift:78:    var usesKeychainForCookieDecryption: Bool {
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:10:/// Protocol for Claude.ai usage operations
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:20:    func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization]
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:22:    /// Validate session key with Claude API
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:23:    func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool
+site/index.html:8:    <title>Pinemeter - Track Your Claude.ai Usage | macOS Menu Bar App</title>
+site/index.html:9:    <meta name="title" content="Pinemeter - Track Your Claude.ai Usage | macOS Menu Bar App">
+site/index.html:10:    <meta name="description" content="A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:11:    <meta name="keywords" content="Pinemeter, Claude.ai, usage tracker, menu bar app, macOS, Anthropic, AI usage, session limits, Claude monitor">
+site/index.html:26:    <meta property="og:title" content="Pinemeter - Track Your Claude.ai Usage">
+site/index.html:27:    <meta property="og:description" content="A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:34:    <meta property="twitter:title" content="Pinemeter - Track Your Claude.ai Usage">
+site/index.html:35:    <meta property="twitter:description" content="A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:51:        "description": "A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.",
+site/index.html:314:                Track Your <span class="gradient-text">Claude.ai</span> Usage
+site/index.html:319:                Keep track of your Claude.ai plan usage at a glance. A lightweight macOS menu bar app for power users.
+site/index.html:354:                <p class="text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto">Powerful features designed for Claude.ai power users who want complete visibility into their usage.</p>
+site/index.html:411:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Export usage data as JSON for integration with external tools, scripts, and dashboards (e.g. Claude Code statusline).</p>
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:14:    var authorizationStatus: UNAuthorizationStatus = .authorized
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:15:    var shouldGrantAuthorization: Bool = true
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:16:    private(set) var requestedAuthorizationOptions: UNAuthorizationOptions?
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:19:    func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool {
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:20:        requestedAuthorizationOptions = options
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:21:        return shouldGrantAuthorization
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:28:    func authorizationStatus() async -> UNAuthorizationStatus {
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:2://  ChatGPTUsageServiceProtocol.swift
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:8:protocol ChatGPTUsageServiceProtocol: Sendable {
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:9:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:10:    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:13:protocol ChatGPTHTTPClientProtocol: Sendable {
+PinemeterTests/AppModelTests.swift:44:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/AppModelTests.swift:72:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/AppModelTests.swift:174:        let result = try await appModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:207:        let result = try await appModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:236:            value: TestConstants.sessionKeyValue,
+PinemeterTests/AppModelTests.swift:245:            sessionKeyImportService: importService
+PinemeterTests/AppModelTests.swift:252:        XCTAssertEqual(savedKey, TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:267:            value: TestConstants.sessionKeyValue,
+PinemeterTests/AppModelTests.swift:276:            sessionKeyImportService: importService
+PinemeterTests/AppModelTests.swift:308:            _ = try await appModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:365:        XCTAssertEqual(notificationService.requestAuthorizationCallCount, 0)
+PinemeterTests/AppModelTests.swift:384:        XCTAssertEqual(notificationService.requestAuthorizationCallCount, 1)
+Pinemeter/Services/UsageService.swift:13:    private static let logger = Logger(subsystem: "com.pinemeter", category: "UsageService")
+Pinemeter/Services/UsageService.swift:36:        let sessionKeyString: String
+Pinemeter/Services/UsageService.swift:38:            sessionKeyString = try await keychainRepository.retrieve(account: "default")
+Pinemeter/Services/UsageService.swift:45:        let sessionKey = try SessionKey(sessionKeyString)
+Pinemeter/Services/UsageService.swift:63:        } else if let orgId = sessionKey.organizationId {
+Pinemeter/Services/UsageService.swift:68:            // Prefer organization with chat capability (Claude.ai usage), fall back to first
+Pinemeter/Services/UsageService.swift:84:                    sessionKey: sessionKey.value
+Pinemeter/Services/UsageService.swift:107:                throw AppError.sessionKeyInvalid
+Pinemeter/Services/UsageService.swift:135:        let sessionKeyString: String
+Pinemeter/Services/UsageService.swift:137:            sessionKeyString = try await keychainRepository.retrieve(account: "default")
+Pinemeter/Services/UsageService.swift:144:        let sessionKey = try SessionKey(sessionKeyString)
+Pinemeter/Services/UsageService.swift:145:        return try await fetchOrganizations(sessionKey: sessionKey)
+Pinemeter/Services/UsageService.swift:149:    func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization] {
+Pinemeter/Services/UsageService.swift:153:            sessionKey: sessionKey.value
+Pinemeter/Services/UsageService.swift:159:    /// Validate session key with Claude API
+Pinemeter/Services/UsageService.swift:160:    func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool {
+Pinemeter/Services/UsageService.swift:165:                sessionKey: sessionKey.value
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:3:/// Browser import result for a Claude session key.
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:20:            return "No Claude browser session found. Sign in to claude.ai and try again."
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:28:            return "The imported Claude session key could not be validated."
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:40:/// Protocol for importing Claude session keys from local browser data.
+Pinemeter/Services/ChatGPTUsageService.swift:2://  ChatGPTUsageService.swift
+Pinemeter/Services/ChatGPTUsageService.swift:8:enum ChatGPTUsageError: LocalizedError, Equatable {
+Pinemeter/Services/ChatGPTUsageService.swift:9:    case missingSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:10:    case invalidSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:17:        case .missingSessionCookie:
+Pinemeter/Services/ChatGPTUsageService.swift:18:            return "No ChatGPT session cookie found. Add one in Settings."
+Pinemeter/Services/ChatGPTUsageService.swift:19:        case .invalidSessionCookie:
+Pinemeter/Services/ChatGPTUsageService.swift:20:            return "ChatGPT session is invalid or expired. Update it in Settings."
+Pinemeter/Services/ChatGPTUsageService.swift:22:            return "Unable to parse ChatGPT usage data."
+Pinemeter/Services/ChatGPTUsageService.swift:24:            return "ChatGPT quota request failed with HTTP \(statusCode)."
+Pinemeter/Services/ChatGPTUsageService.swift:26:            return "ChatGPT quota data is unavailable. Check your connection and try again."
+Pinemeter/Services/ChatGPTUsageService.swift:31:actor ChatGPTUsageService: ChatGPTUsageServiceProtocol {
+Pinemeter/Services/ChatGPTUsageService.swift:32:    private let httpClient: ChatGPTHTTPClientProtocol
+Pinemeter/Services/ChatGPTUsageService.swift:37:        httpClient: ChatGPTHTTPClientProtocol = ChatGPTHTTPClient(),
+Pinemeter/Services/ChatGPTUsageService.swift:44:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+Pinemeter/Services/ChatGPTUsageService.swift:45:        let cookieHeader = Self.cookieHeader(from: sessionCookie)
+Pinemeter/Services/ChatGPTUsageService.swift:47:            throw ChatGPTUsageError.missingSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:50:        let authSession: ChatGPTAuthSessionResponse = try await httpClient.request(
+Pinemeter/Services/ChatGPTUsageService.swift:59:            throw ChatGPTUsageError.invalidSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:62:        let usage: ChatGPTWHAMUsageResponse = try await httpClient.request(
+Pinemeter/Services/ChatGPTUsageService.swift:72:    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+Pinemeter/Services/ChatGPTUsageService.swift:74:            _ = try await fetchUsage(sessionCookie: sessionCookie)
+Pinemeter/Services/ChatGPTUsageService.swift:76:        } catch ChatGPTUsageError.missingSessionCookie {
+Pinemeter/Services/ChatGPTUsageService.swift:78:        } catch ChatGPTUsageError.invalidSessionCookie {
+Pinemeter/Services/ChatGPTUsageService.swift:80:        } catch ChatGPTUsageError.httpError(let statusCode) where statusCode == 401 || statusCode == 403 {
+Pinemeter/Services/ChatGPTUsageService.swift:85:    /// Accept a raw session token, a full Cookie header, or split NextAuth cookie chunks.
+Pinemeter/Services/ChatGPTUsageService.swift:126:            .replacingOccurrences(of: "Cookie:", with: "", options: [.caseInsensitive, .anchored])
+Pinemeter/Services/ChatGPTUsageService.swift:140:actor ChatGPTHTTPClient: ChatGPTHTTPClientProtocol {
+Pinemeter/Services/ChatGPTUsageService.swift:156:            throw ChatGPTUsageError.invalidResponse
+Pinemeter/Services/ChatGPTUsageService.swift:162:        request.setValue(cookieHeader, forHTTPHeaderField: "Cookie")
+Pinemeter/Services/ChatGPTUsageService.swift:167:            request.setValue(authorization, forHTTPHeaderField: "Authorization")
+Pinemeter/Services/ChatGPTUsageService.swift:173:                throw ChatGPTUsageError.invalidResponse
+Pinemeter/Services/ChatGPTUsageService.swift:178:                    throw ChatGPTUsageError.invalidSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:180:                throw ChatGPTUsageError.httpError(statusCode: httpResponse.statusCode)
+Pinemeter/Services/ChatGPTUsageService.swift:188:                throw ChatGPTUsageError.invalidResponse
+Pinemeter/Services/ChatGPTUsageService.swift:190:        } catch let error as ChatGPTUsageError {
+Pinemeter/Services/ChatGPTUsageService.swift:193:            throw ChatGPTUsageError.networkUnavailable
+PinemeterTests/ChatGPTAppModelTests.swift:2://  ChatGPTAppModelTests.swift
+PinemeterTests/ChatGPTAppModelTests.swift:11:final class ChatGPTAppModelTests: XCTestCase {
+PinemeterTests/ChatGPTAppModelTests.swift:12:    func test_bootstrap_detectsExistingChatGPTSessionWithoutRequiringClaudeSetup() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:14:        try await keychainRepository.save(sessionKey: "chatgpt-session-redacted", account: "chatgpt")
+PinemeterTests/ChatGPTAppModelTests.swift:19:        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:23:    func test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:24:        let expectedUsage = makeChatGPTUsage(percentage: 25)
+PinemeterTests/ChatGPTAppModelTests.swift:25:        let chatGPTService = ChatGPTUsageServiceStub(
+PinemeterTests/ChatGPTAppModelTests.swift:27:            isSessionCookieValid: true
+PinemeterTests/ChatGPTAppModelTests.swift:35:        let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:38:        let savedChatGPTCookie = try await keychainRepository.retrieve(account: "chatgpt")
+PinemeterTests/ChatGPTAppModelTests.swift:39:        XCTAssertEqual(savedChatGPTCookie, "chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:41:        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:42:        XCTAssertTrue(appModel.settings.isChatGPTUsageShown)
+PinemeterTests/ChatGPTAppModelTests.swift:47:    func test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:48:        let chatGPTService = ChatGPTUsageServiceStub(isSessionCookieValid: false)
+PinemeterTests/ChatGPTAppModelTests.swift:55:        let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:58:        XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:62:    func test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError() async {
+PinemeterTests/ChatGPTAppModelTests.swift:63:        let claudeUsage = makeClaudeUsage(percentage: 42)
+PinemeterTests/ChatGPTAppModelTests.swift:64:        let chatGPTService = ChatGPTUsageServiceStub(
+PinemeterTests/ChatGPTAppModelTests.swift:65:            fetchUsageResult: .failure(ChatGPTUsageError.networkUnavailable)
+PinemeterTests/ChatGPTAppModelTests.swift:68:        try? await keychainRepository.save(sessionKey: "chatgpt-session-redacted", account: "chatgpt")
+PinemeterTests/ChatGPTAppModelTests.swift:74:        appModel.errorMessage = "Claude error stays separate"
+PinemeterTests/ChatGPTAppModelTests.swift:76:        await appModel.refreshChatGPTUsage()
+PinemeterTests/ChatGPTAppModelTests.swift:79:        XCTAssertEqual(appModel.errorMessage, "Claude error stays separate")
+PinemeterTests/ChatGPTAppModelTests.swift:80:        XCTAssertEqual(appModel.chatGPTErrorMessage, "ChatGPT quota data is unavailable. Check your connection and try again.")
+PinemeterTests/ChatGPTAppModelTests.swift:84:    func test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:86:        try await keychainRepository.save(sessionKey: TestConstants.sessionKeyValue, account: "default")
+PinemeterTests/ChatGPTAppModelTests.swift:87:        try await keychainRepository.save(sessionKey: "chatgpt-session-redacted", account: "chatgpt")
+PinemeterTests/ChatGPTAppModelTests.swift:89:        appModel.settings.isChatGPTUsageShown = true
+PinemeterTests/ChatGPTAppModelTests.swift:90:        appModel.chatGPTUsageData = makeChatGPTUsage(percentage: 1)
+PinemeterTests/ChatGPTAppModelTests.swift:92:        appModel.hasChatGPTSessionCookie = true
+PinemeterTests/ChatGPTAppModelTests.swift:94:        try await appModel.clearChatGPTSessionCookie()
+PinemeterTests/ChatGPTAppModelTests.swift:96:        let savedClaudeKey = try await keychainRepository.retrieve(account: "default")
+PinemeterTests/ChatGPTAppModelTests.swift:97:        XCTAssertEqual(savedClaudeKey, TestConstants.sessionKeyValue)
+PinemeterTests/ChatGPTAppModelTests.swift:99:        XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:100:        XCTAssertFalse(appModel.settings.isChatGPTUsageShown)
+PinemeterTests/ChatGPTAppModelTests.swift:107:        chatGPTUsageService: ChatGPTUsageServiceProtocol = ChatGPTUsageServiceStub()
+PinemeterTests/ChatGPTAppModelTests.swift:112:            usageService: UsageServiceStub(fetchUsageResult: .success(makeClaudeUsage(percentage: 10))),
+PinemeterTests/ChatGPTAppModelTests.swift:119:private actor ChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+PinemeterTests/ChatGPTAppModelTests.swift:120:    let fetchUsageResult: Result<ChatGPTUsageData, Error>
+PinemeterTests/ChatGPTAppModelTests.swift:121:    let isSessionCookieValid: Bool
+PinemeterTests/ChatGPTAppModelTests.swift:124:        fetchUsageResult: Result<ChatGPTUsageData, Error> = .success(makeChatGPTUsage(percentage: 10)),
+PinemeterTests/ChatGPTAppModelTests.swift:125:        isSessionCookieValid: Bool = true
+PinemeterTests/ChatGPTAppModelTests.swift:128:        self.isSessionCookieValid = isSessionCookieValid
+PinemeterTests/ChatGPTAppModelTests.swift:131:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+PinemeterTests/ChatGPTAppModelTests.swift:140:    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+PinemeterTests/ChatGPTAppModelTests.swift:141:        isSessionCookieValid
+PinemeterTests/ChatGPTAppModelTests.swift:145:private func makeClaudeUsage(percentage: Double) -> UsageData {
+PinemeterTests/ChatGPTAppModelTests.swift:160:private func makeChatGPTUsage(percentage: Double) -> ChatGPTUsageData {
+PinemeterTests/ChatGPTAppModelTests.swift:161:    ChatGPTUsageData(
+Pinemeter/Repositories/CacheRepository.swift:24:        let cacheDir = appSupport.appendingPathComponent("com.claudemeter", isDirectory: true)
+Pinemeter/Repositories/CacheRepository.swift:29:        // Public JSON export at ~/.claudemeter/usage.json for external tools
+Pinemeter/Repositories/CacheRepository.swift:31:        let publicDir = homeDir.appendingPathComponent(".claudemeter", isDirectory: true)
+Pinemeter/Repositories/CacheRepository.swift:84:        // Note: Ideally this would be a separate service, but since we always export
+Pinemeter/Repositories/SettingsRepository.swift:10:/// Actor-isolated repository for app settings persistence using UserDefaults
+Pinemeter/Repositories/SettingsRepository.swift:12:    private let userDefaults: UserDefaults
+Pinemeter/Repositories/SettingsRepository.swift:16:    init(userDefaults: UserDefaults = .standard) {
+Pinemeter/Repositories/SettingsRepository.swift:20:    /// Load app settings from UserDefaults
+Pinemeter/Repositories/SettingsRepository.swift:37:    /// Save app settings to UserDefaults
+Pinemeter/Repositories/SettingsRepository.swift:46:    /// Load notification state from UserDefaults
+Pinemeter/Repositories/SettingsRepository.swift:61:    /// Save notification state to UserDefaults
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift:22:        sessionKey: String
+Pinemeter/Repositories/KeychainRepository.swift:13:    private let serviceName = "com.claudemeter.sessionkey"
+Pinemeter/Repositories/KeychainRepository.swift:16:    func save(sessionKey: String, account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:17:        guard let data = sessionKey.data(using: .utf8) else {
+Pinemeter/Repositories/KeychainRepository.swift:34:            try await update(sessionKey: sessionKey, account: account)
+Pinemeter/Repositories/KeychainRepository.swift:55:              let sessionKey = String(data: data, encoding: .utf8) else {
+Pinemeter/Repositories/KeychainRepository.swift:59:        return sessionKey
+Pinemeter/Repositories/KeychainRepository.swift:63:    func update(sessionKey: String, account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:64:        guard let data = sessionKey.data(using: .utf8) else {
+Pinemeter/Services/WebViewNetworkService.swift:16:    nonisolated static let logger = Logger(subsystem: "com.pinemeter", category: "WebViewNetworkService")
+Pinemeter/Services/WebViewNetworkService.swift:34:        sessionKey: String
+Pinemeter/Services/WebViewNetworkService.swift:36:        let data = try await performRequest(endpoint, method: method, sessionKey: sessionKey)
+Pinemeter/Services/WebViewNetworkService.swift:53:        sessionKey: String
+Pinemeter/Services/WebViewNetworkService.swift:67:        currentSessionKey = sessionKey
+Pinemeter/Services/WebViewNetworkService.swift:76:        let cookie = HTTPCookie(properties: [
+Pinemeter/Services/WebViewNetworkService.swift:79:            .name: "sessionKey",
+Pinemeter/Services/WebViewNetworkService.swift:80:            .value: sessionKey,
+Pinemeter/Services/WebViewNetworkService.swift:85:        await webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie)
+PinemeterTests/UsageServiceTests.swift:50:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:89:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:131:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:168:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:207:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:248:            sessionKey: TestConstants.sessionKeyValue,
+PinemeterTests/UsageServiceTests.swift:292:            sessionKey: TestConstants.sessionKeyValue,
+Pinemeter/Services/NetworkService.swift:13:    private static let logger = Logger(subsystem: "com.pinemeter", category: "NetworkService")
+Pinemeter/Services/NetworkService.swift:26:        sessionKey: String
+Pinemeter/Services/NetworkService.swift:41:        request.setValue("sessionKey=\(sessionKey)", forHTTPHeaderField: "Cookie")
+PinemeterTests/TestDoubles/UsageServiceStub.swift:39:    func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization] {
+PinemeterTests/TestDoubles/UsageServiceStub.swift:43:    func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool {
+Pinemeter/Views/Setup/SetupWizardView.swift:7:    @State private var sessionKeyInput: String = ""
+Pinemeter/Views/Setup/SetupWizardView.swift:32:                Text("Monitor your Claude.ai plan usage in real-time")
+
+Error enums and thrown errors:
+PinemeterTests/ChatGPTAppModelTests.swift:12:    func test_bootstrap_detectsExistingChatGPTSessionWithoutRequiringClaudeSetup() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:23:    func test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:47:    func test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:65:            fetchUsageResult: .failure(ChatGPTUsageError.networkUnavailable)
+PinemeterTests/ChatGPTAppModelTests.swift:84:    func test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:131:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+PinemeterTests/ChatGPTAppModelTests.swift:136:            throw error
+PinemeterTests/ChatGPTAppModelTests.swift:140:    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+PinemeterTests/ChatGPTAppModelTests.swift:170:    _ expression: @autoclosure () async throws -> some Any,
+PinemeterTests/ChatGPTAppModelTests.swift:177:    } catch {
+PinemeterTests/SessionKeyTests.swift:5:    func test_sessionKey_acceptsRawSessionKey() throws {
+PinemeterTests/SessionKeyTests.swift:11:    func test_sessionKey_extractsValueFromCookieHeader() throws {
+PinemeterTests/SettingsRepositoryTests.swift:12:    func test_settingsPersistAcrossLaunches() async throws {
+PinemeterTests/SettingsRepositoryTests.swift:33:    func test_settingsDecodingWithoutIsColoredIcon_usesDefault() throws {
+PinemeterTests/SettingsRepositoryTests.swift:59:    func test_notificationStatePersistsAcrossLaunches() async throws {
+PinemeterTests/ChatGPTUsageServiceTests.swift:52:    func test_whamToDomain_classifiesMenuBarRowsAndPreservesUnknownRows() throws {
+PinemeterTests/ChatGPTUsageServiceTests.swift:94:    func test_fetchUsage_withBlankSessionCookie_throwsMissingSessionCookie() async {
+PinemeterTests/ChatGPTUsageServiceTests.swift:100:        } catch ChatGPTUsageError.missingSessionCookie {
+PinemeterTests/ChatGPTUsageServiceTests.swift:102:        } catch {
+PinemeterTests/ChatGPTUsageServiceTests.swift:107:    func test_fetchUsage_exchangesCookieForAccessTokenThenFetchesWhamUsage() async throws {
+PinemeterTests/ChatGPTUsageServiceTests.swift:151:        } catch ChatGPTUsageError.invalidSessionCookie {
+PinemeterTests/ChatGPTUsageServiceTests.swift:153:        } catch {
+PinemeterTests/ChatGPTUsageServiceTests.swift:179:    ) async throws -> T {
+PinemeterTests/ChatGPTUsageServiceTests.swift:189:            throw ChatGPTUsageError.invalidResponse
+PinemeterTests/UsageServiceTests.swift:30:        } catch {
+PinemeterTests/UsageServiceTests.swift:35:    func test_userWithCachedUsage_seesCachedValueWithoutNetworkCall() async throws {
+PinemeterTests/UsageServiceTests.swift:64:    func test_userForcesRefresh_bypassesCacheAndUpdatesCache() async throws {
+PinemeterTests/UsageServiceTests.swift:108:    func test_userWithCachedOrganization_fetchesUsageFromCachedOrg() async throws {
+PinemeterTests/UsageServiceTests.swift:145:    func test_usageFetch_showsUsageFromApiResponse() async throws {
+PinemeterTests/UsageServiceTests.swift:184:    func test_usageFetch_withMissingResetAt_usesFallbackWindow() async throws {
+PinemeterTests/UsageServiceTests.swift:225:    func test_usageFetch_withMalformedResetAt_surfacesInvalidResponse() async throws {
+PinemeterTests/UsageServiceTests.swift:260:            if case .invalidResponse = networkError {
+PinemeterTests/UsageServiceTests.swift:264:        } catch {
+PinemeterTests/UsageServiceTests.swift:269:    func test_usageFetch_withSonnetUsage_showsSonnetUsage() async throws {
+PinemeterTests/UsageServiceTests.swift:320:) throws -> Data {
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:14:    func fetchUsage(forceRefresh: Bool) async throws -> UsageData
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:17:    func fetchOrganizations() async throws -> [Organization]
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:20:    func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization]
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:23:    func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool
+Pinemeter/Services/UsageService.swift:35:    func fetchUsage(forceRefresh: Bool = false) async throws -> UsageData {
+Pinemeter/Services/UsageService.swift:39:        } catch KeychainError.notFound {
+Pinemeter/Services/UsageService.swift:40:            throw AppError.noSessionKey
+Pinemeter/Services/UsageService.swift:41:        } catch let error as KeychainError {
+Pinemeter/Services/UsageService.swift:42:            throw AppError.keychainError(error)
+Pinemeter/Services/UsageService.swift:71:                throw AppError.organizationNotFound
+Pinemeter/Services/UsageService.swift:94:            } catch NetworkError.networkUnavailable {
+Pinemeter/Services/UsageService.swift:96:                lastError = NetworkError.networkUnavailable
+Pinemeter/Services/UsageService.swift:99:            } catch NetworkError.rateLimitExceeded {
+Pinemeter/Services/UsageService.swift:102:                lastError = NetworkError.rateLimitExceeded
+Pinemeter/Services/UsageService.swift:105:            } catch NetworkError.authenticationFailed {
+Pinemeter/Services/UsageService.swift:107:                throw AppError.sessionKeyInvalid
+Pinemeter/Services/UsageService.swift:113:                Self.logger.warning("URL error: \(error.localizedDescription) (attempt \(attempt + 1)/\(self.maxRetries))")
+Pinemeter/Services/UsageService.swift:117:            } catch {
+Pinemeter/Services/UsageService.swift:118:                Self.logger.error("API request failed: \(error.localizedDescription)")
+Pinemeter/Services/UsageService.swift:119:                throw AppError.networkError(error as? NetworkError ?? .invalidResponse)
+Pinemeter/Services/UsageService.swift:130:        throw AppError.networkError(lastError as? NetworkError ?? .networkUnavailable)
+Pinemeter/Services/UsageService.swift:134:    func fetchOrganizations() async throws -> [Organization] {
+Pinemeter/Services/UsageService.swift:138:        } catch KeychainError.notFound {
+Pinemeter/Services/UsageService.swift:139:            throw AppError.noSessionKey
+Pinemeter/Services/UsageService.swift:140:        } catch let error as KeychainError {
+Pinemeter/Services/UsageService.swift:141:            throw AppError.keychainError(error)
+Pinemeter/Services/UsageService.swift:149:    func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization] {
+Pinemeter/Services/UsageService.swift:160:    func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool {
+Pinemeter/Services/UsageService.swift:168:        } catch NetworkError.authenticationFailed {
+Pinemeter/Services/UsageService.swift:170:        } catch {
+Pinemeter/Services/UsageService.swift:171:            throw error
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:21:    func requestAuthorization() async throws -> Bool {
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:34:    ) async throws {
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:39:    func sendResetNotification() async throws {}
+Pinemeter/Services/ChatGPTUsageService.swift:8:enum ChatGPTUsageError: LocalizedError, Equatable {
+Pinemeter/Services/ChatGPTUsageService.swift:12:    case httpError(statusCode: Int)
+Pinemeter/Services/ChatGPTUsageService.swift:15:    var errorDescription: String? {
+Pinemeter/Services/ChatGPTUsageService.swift:23:        case .httpError(let statusCode):
+Pinemeter/Services/ChatGPTUsageService.swift:44:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+Pinemeter/Services/ChatGPTUsageService.swift:47:            throw ChatGPTUsageError.missingSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:59:            throw ChatGPTUsageError.invalidSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:72:    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+Pinemeter/Services/ChatGPTUsageService.swift:76:        } catch ChatGPTUsageError.missingSessionCookie {
+Pinemeter/Services/ChatGPTUsageService.swift:78:        } catch ChatGPTUsageError.invalidSessionCookie {
+Pinemeter/Services/ChatGPTUsageService.swift:80:        } catch ChatGPTUsageError.httpError(let statusCode) where statusCode == 401 || statusCode == 403 {
+Pinemeter/Services/ChatGPTUsageService.swift:154:    ) async throws -> T {
+Pinemeter/Services/ChatGPTUsageService.swift:156:            throw ChatGPTUsageError.invalidResponse
+Pinemeter/Services/ChatGPTUsageService.swift:173:                throw ChatGPTUsageError.invalidResponse
+Pinemeter/Services/ChatGPTUsageService.swift:178:                    throw ChatGPTUsageError.invalidSessionCookie
+Pinemeter/Services/ChatGPTUsageService.swift:180:                throw ChatGPTUsageError.httpError(statusCode: httpResponse.statusCode)
+Pinemeter/Services/ChatGPTUsageService.swift:187:            } catch {
+Pinemeter/Services/ChatGPTUsageService.swift:188:                throw ChatGPTUsageError.invalidResponse
+Pinemeter/Services/ChatGPTUsageService.swift:190:        } catch let error as ChatGPTUsageError {
+Pinemeter/Services/ChatGPTUsageService.swift:191:            throw error
+Pinemeter/Services/ChatGPTUsageService.swift:192:        } catch {
+Pinemeter/Services/ChatGPTUsageService.swift:193:            throw ChatGPTUsageError.networkUnavailable
+PinemeterTests/TestSupport/TestError.swift:13:    var errorDescription: String? {
+PinemeterTests/TestDoubles/SettingsRepositoryFake.swift:19:    func save(_ settings: AppSettings) async throws {
+PinemeterTests/TestDoubles/SettingsRepositoryFake.swift:27:    func saveNotificationState(_ state: NotificationState) async throws {
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:9:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:10:    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:19:    ) async throws -> T
+PinemeterTests/TestDoubles/NetworkServiceStub.swift:26:    ) async throws -> T {
+PinemeterTests/TestDoubles/NetworkServiceStub.swift:31:            throw error
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:22:    func save(sessionKey: String, account: String) async throws {
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:26:    func retrieve(account: String) async throws -> String {
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:28:            throw KeychainError.notFound
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:33:    func update(sessionKey: String, account: String) async throws {
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:37:    func delete(account: String) async throws {
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:13:    func save(sessionKey: String, account: String) async throws
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:16:    func retrieve(account: String) async throws -> String
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:19:    func update(sessionKey: String, account: String) async throws
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:22:    func delete(account: String) async throws
+PinemeterTests/TestDoubles/UsageServiceStub.swift:26:    func fetchUsage(forceRefresh: Bool) async throws -> UsageData {
+PinemeterTests/TestDoubles/UsageServiceStub.swift:31:            throw error
+PinemeterTests/TestDoubles/UsageServiceStub.swift:35:    func fetchOrganizations() async throws -> [Organization] {
+PinemeterTests/TestDoubles/UsageServiceStub.swift:39:    func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization] {
+PinemeterTests/TestDoubles/UsageServiceStub.swift:43:    func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool {
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:14:    func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:15:    func add(_ request: UNNotificationRequest) async throws
+PinemeterTests/AppModelTests.swift:81:        XCTAssertEqual(appModel.errorMessage, failure.localizedDescription)
+PinemeterTests/AppModelTests.swift:130:        XCTAssertEqual(appModel.errorMessage, failure.localizedDescription)
+PinemeterTests/AppModelTests.swift:158:    func test_userWithInvalidSessionKey_staysInSetup() async throws {
+PinemeterTests/AppModelTests.swift:183:    func test_userWithValidSessionKey_entersUsageAndLoadsData() async throws {
+PinemeterTests/AppModelTests.swift:219:    func test_importingSessionKey_savesImportedKeyAndLoadsData() async throws {
+PinemeterTests/AppModelTests.swift:257:    func test_importingSessionKey_whenImportedKeyInvalid_staysInSetup() async throws {
+PinemeterTests/AppModelTests.swift:282:        } catch SessionKeyImportError.invalidImportedSessionKey {
+PinemeterTests/AppModelTests.swift:285:        } catch {
+PinemeterTests/AppModelTests.swift:313:        } catch {
+PinemeterTests/AppModelTests.swift:318:    func test_userClearsSession_returnsToSetupState() async throws {
+PinemeterTests/AppModelTests.swift:387:    func test_userSendsTestNotification_triggersNotificationService() async throws {
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:10:enum SessionKeyImportError: LocalizedError {
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:17:    var errorDescription: String? {
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:42:    func importSessionKey() async throws -> ImportedSessionKey
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:11:    func importSessionKey() async throws -> ImportedSessionKey {
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:16:            throw error
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:16:    func save(_ settings: AppSettings) async throws
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:22:    func saveNotificationState(_ state: NotificationState) async throws
+Pinemeter/Services/WebViewNetworkService.swift:35:    ) async throws -> T {
+Pinemeter/Services/WebViewNetworkService.swift:43:        } catch {
+Pinemeter/Services/WebViewNetworkService.swift:45:            Self.logger.error("Failed to decode response from \(endpoint): \(error.localizedDescription)\nResponse: \(responseBody)")
+Pinemeter/Services/WebViewNetworkService.swift:46:            throw NetworkError.decodingFailed(underlyingError: error)
+Pinemeter/Services/WebViewNetworkService.swift:54:    ) async throws -> Data {
+Pinemeter/Services/WebViewNetworkService.swift:57:            throw NetworkError.invalidURL
+Pinemeter/Services/WebViewNetworkService.swift:61:            throw NetworkError.invalidURL
+Pinemeter/Services/WebViewNetworkService.swift:95:                    self.continuation?.resume(throwing: NetworkError.timeout)
+Pinemeter/Services/WebViewNetworkService.swift:127:            continuation?.resume(throwing: NetworkError.invalidResponse)
+Pinemeter/Services/WebViewNetworkService.swift:146:                Self.logger.error("JavaScript evaluation failed: \(error.localizedDescription)")
+Pinemeter/Services/WebViewNetworkService.swift:147:                self.continuation?.resume(throwing: NetworkError.invalidResponse)
+Pinemeter/Services/WebViewNetworkService.swift:153:                self.continuation?.resume(throwing: NetworkError.invalidResponse)
+Pinemeter/Services/WebViewNetworkService.swift:184:                    self.continuation?.resume(throwing: NetworkError.httpError(statusCode: 403))
+Pinemeter/Services/WebViewNetworkService.swift:194:                self.continuation?.resume(throwing: NetworkError.invalidResponse)
+Pinemeter/Services/WebViewNetworkService.swift:218:        Self.logger.error("Navigation failed: \(error.localizedDescription)")
+Pinemeter/Services/WebViewNetworkService.swift:219:        self.continuation?.resume(throwing: NetworkError.networkUnavailable)
+Pinemeter/Services/WebViewNetworkService.swift:224:        Self.logger.error("Provisional navigation failed: \(error.localizedDescription)")
+Pinemeter/Services/WebViewNetworkService.swift:225:        self.continuation?.resume(throwing: NetworkError.networkUnavailable)
+Pinemeter/Services/WebViewNetworkService.swift:238:                self.continuation?.resume(throwing: NetworkError.authenticationFailed)
+Pinemeter/Services/WebViewNetworkService.swift:245:                self.continuation?.resume(throwing: NetworkError.rateLimitExceeded)
+Pinemeter/Repositories/CacheRepository.swift:79:        } catch {
+Pinemeter/Repositories/CacheRepository.swift:100:        } catch {
+Pinemeter/Repositories/CacheRepository.swift:115:        } catch {
+Pinemeter/Repositories/SettingsRepository.swift:31:        } catch {
+Pinemeter/Repositories/SettingsRepository.swift:38:    func save(_ settings: AppSettings) async throws {
+Pinemeter/Repositories/SettingsRepository.swift:56:        } catch {
+Pinemeter/Repositories/SettingsRepository.swift:62:    func saveNotificationState(_ state: NotificationState) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:16:    func save(sessionKey: String, account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:18:            throw KeychainError.saveFailed(OSStatus: errSecParam)
+Pinemeter/Repositories/KeychainRepository.swift:36:            throw KeychainError.saveFailed(OSStatus: status)
+Pinemeter/Repositories/KeychainRepository.swift:41:    func retrieve(account: String) async throws -> String {
+Pinemeter/Repositories/KeychainRepository.swift:56:            throw KeychainError.notFound
+Pinemeter/Repositories/KeychainRepository.swift:63:    func update(sessionKey: String, account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:65:            throw KeychainError.updateFailed(OSStatus: errSecParam)
+Pinemeter/Repositories/KeychainRepository.swift:81:            throw KeychainError.updateFailed(OSStatus: status)
+Pinemeter/Repositories/KeychainRepository.swift:86:    func delete(account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:96:            throw KeychainError.deleteFailed(OSStatus: status)
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:48:    func requestAuthorization() async throws -> Bool
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:61:    ) async throws
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:64:    func sendResetNotification() async throws
+Pinemeter/Services/NetworkService.swift:27:    ) async throws -> T {
+Pinemeter/Services/NetworkService.swift:30:            throw NetworkError.invalidURL
+Pinemeter/Services/NetworkService.swift:34:            throw NetworkError.invalidURL
+Pinemeter/Services/NetworkService.swift:53:            throw NetworkError.invalidResponse
+Pinemeter/Services/NetworkService.swift:62:                throw NetworkError.authenticationFailed
+Pinemeter/Services/NetworkService.swift:65:                throw NetworkError.rateLimitExceeded
+Pinemeter/Services/NetworkService.swift:67:            throw NetworkError.httpError(statusCode: httpResponse.statusCode)
+Pinemeter/Services/NetworkService.swift:76:        } catch {
+Pinemeter/Services/NetworkService.swift:78:            Self.logger.error("Failed to decode response from \(endpoint): \(error.localizedDescription)\nResponse: \(responseBody)")
+Pinemeter/Services/NetworkService.swift:79:            throw NetworkError.decodingFailed(underlyingError: error)
+Pinemeter/Utilities/DemoMode.swift:40:        case .error: "Error banner displayed"
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift:23:    ) async throws -> T
+Pinemeter/Services/NotificationService.swift:32:    func requestAuthorization() async throws -> Bool {
+Pinemeter/Services/NotificationService.swift:102:    ) async throws {
+Pinemeter/Services/NotificationService.swift:123:    func sendResetNotification() async throws {
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:19:    func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool {
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:24:    func add(_ request: UNNotificationRequest) async throws {
+Pinemeter/Views/Setup/SetupWizardView.swift:180:        } catch let error as SessionKeyImportError {
+Pinemeter/Views/Setup/SetupWizardView.swift:181:            errorMessage = error.localizedDescription
+Pinemeter/Views/Setup/SetupWizardView.swift:183:        } catch let error as NetworkError {
+Pinemeter/Views/Setup/SetupWizardView.swift:184:            errorMessage = "Network error: \(error.localizedDescription)"
+Pinemeter/Views/Setup/SetupWizardView.swift:186:            errorMessage = error.localizedDescription
+Pinemeter/Views/Setup/SetupWizardView.swift:187:        } catch {
+Pinemeter/Views/Setup/SetupWizardView.swift:188:            errorMessage = "Import failed: \(error.localizedDescription)"
+Pinemeter/Views/Setup/SetupWizardView.swift:215:            errorMessage = error.localizedDescription
+Pinemeter/Views/Setup/SetupWizardView.swift:216:        } catch let error as NetworkError {
+Pinemeter/Views/Setup/SetupWizardView.swift:217:            errorMessage = "Network error: \(error.localizedDescription)"
+Pinemeter/Views/Setup/SetupWizardView.swift:219:            errorMessage = error.localizedDescription
+Pinemeter/Views/Setup/SetupWizardView.swift:220:        } catch {
+Pinemeter/Views/Setup/SetupWizardView.swift:221:            errorMessage = "Validation failed: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:720:            sessionKeyValidationMessage = error.localizedDescription
+Pinemeter/Views/Settings/SettingsView.swift:723:        } catch {
+Pinemeter/Views/Settings/SettingsView.swift:724:            sessionKeyValidationMessage = "Validation failed: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:752:        } catch let error as SessionKeyImportError {
+Pinemeter/Views/Settings/SettingsView.swift:753:            sessionKeyValidationMessage = error.localizedDescription
+Pinemeter/Views/Settings/SettingsView.swift:756:        } catch {
+Pinemeter/Views/Settings/SettingsView.swift:757:            sessionKeyValidationMessage = error.localizedDescription
+Pinemeter/Views/Settings/SettingsView.swift:773:            } catch {
+Pinemeter/Views/Settings/SettingsView.swift:774:                sessionKeyValidationMessage = "Failed to clear: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:808:        } catch {
+Pinemeter/Views/Settings/SettingsView.swift:809:            chatGPTSessionCookieValidationMessage = "Validation failed: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:825:            } catch {
+Pinemeter/Views/Settings/SettingsView.swift:826:                chatGPTSessionCookieValidationMessage = "Failed to clear: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:839:        } catch {
+Pinemeter/Views/Settings/SettingsView.swift:876:        } catch {
+Pinemeter/Views/Settings/SettingsView.swift:877:            testNotificationMessage = "Failed: \(error.localizedDescription)"
+Pinemeter/Models/SessionKey.swift:4:enum SessionKeyError: LocalizedError {
+Pinemeter/Models/SessionKey.swift:9:    var errorDescription: String? {
+Pinemeter/Models/SessionKey.swift:32:    init(_ value: String) throws {
+Pinemeter/Models/SessionKey.swift:34:            throw SessionKeyError.invalidFormat
+Pinemeter/Models/SessionKey.swift:38:            throw SessionKeyError.invalidFormat
+Pinemeter/Models/SessionKey.swift:42:            throw SessionKeyError.tooShort
+Pinemeter/Models/IconStyle.swift:22:    init(from decoder: Decoder) throws {
+Pinemeter/Services/SessionKeyImportService.swift:20:    func importSessionKey() async throws -> ImportedSessionKey {
+Pinemeter/Services/SessionKeyImportService.swift:46:                Self.logger.debug("Browser cookie import failed for \(browser.displayName): \(error.localizedDescription)")
+Pinemeter/Services/SessionKeyImportService.swift:47:            } catch {
+Pinemeter/Services/SessionKeyImportService.swift:48:                Self.logger.debug("Browser cookie import failed for \(browser.displayName): \(error.localizedDescription)")
+Pinemeter/Services/SessionKeyImportService.swift:53:            throw SessionKeyImportError.browserKeychainAccessDenied(deniedKeychainBrowserName)
+Pinemeter/Services/SessionKeyImportService.swift:56:            throw SessionKeyImportError.safariAccessDenied
+Pinemeter/Services/SessionKeyImportService.swift:59:            throw SessionKeyImportError.accessDenied
+Pinemeter/Services/SessionKeyImportService.swift:61:        throw SessionKeyImportError.noSessionKeyFound
+Pinemeter/Services/SessionKeyImportService.swift:64:    private func importedSessionKey(from source: BrowserCookieStoreRecords) throws -> ImportedSessionKey? {
+Pinemeter/Models/AppSettings.swift:66:    init(from decoder: Decoder) throws {
+Pinemeter/Models/AppSettings.swift:104:    func encode(to encoder: Encoder) throws {
+Pinemeter/Models/Errors/NetworkError.swift:2://  NetworkError.swift
+Pinemeter/Models/Errors/NetworkError.swift:11:enum NetworkError: LocalizedError {
+Pinemeter/Models/Errors/NetworkError.swift:16:    case httpError(statusCode: Int)
+Pinemeter/Models/Errors/NetworkError.swift:17:    case decodingFailed(underlyingError: Error)
+Pinemeter/Models/Errors/NetworkError.swift:21:    var errorDescription: String? {
+Pinemeter/Models/Errors/NetworkError.swift:31:        case .httpError(let code):
+Pinemeter/Models/Errors/AppError.swift:11:enum AppError: LocalizedError {
+Pinemeter/Models/Errors/AppError.swift:13:    case networkError(NetworkError)
+Pinemeter/Models/Errors/AppError.swift:14:    case keychainError(KeychainError)
+Pinemeter/Models/Errors/AppError.swift:20:    var errorDescription: String? {
+Pinemeter/Models/Errors/AppError.swift:24:        case .networkError(let error):
+Pinemeter/Models/Errors/AppError.swift:25:            return error.localizedDescription
+Pinemeter/Models/Errors/AppError.swift:26:        case .keychainError(let error):
+Pinemeter/Models/Errors/AppError.swift:27:            return error.localizedDescription
+Pinemeter/Models/Errors/AppError.swift:42:        case .networkError, .cacheCorrupted, .apiResponseInvalid:
+Pinemeter/Models/Errors/AppError.swift:44:        case .noSessionKey, .sessionKeyInvalid, .organizationNotFound, .keychainError:
+Pinemeter/Models/Errors/AppError.swift:56:        case .networkError:
+Pinemeter/Models/Errors/KeychainError.swift:2://  KeychainError.swift
+Pinemeter/Models/Errors/KeychainError.swift:11:enum KeychainError: LocalizedError {
+Pinemeter/Models/Errors/KeychainError.swift:17:    var errorDescription: String? {
+Pinemeter/App/AppModel.swift:130:        } catch {
+Pinemeter/App/AppModel.swift:131:            errorMessage = error.localizedDescription
+Pinemeter/App/AppModel.swift:157:        } catch {
+
+Long files / possible cleanup seams:
+    7600 total
+     889 Pinemeter/Views/Settings/SettingsView.swift
+     420 PinemeterTests/AppModelTests.swift
+     366 PinemeterTests/UsageServiceTests.swift
+     342 Pinemeter/App/AppModel.swift
+     304 Pinemeter/Views/MenuBar/UsagePopoverView.swift
+     259 Pinemeter/Services/WebViewNetworkService.swift
+     226 Pinemeter/Views/Setup/SetupWizardView.swift
+     225 Pinemeter/Views/MenuBar/MenuBarManager.swift
+     196 PinemeterTests/ChatGPTUsageServiceTests.swift
+     196 Pinemeter/Services/ChatGPTUsageService.swift
+     180 PinemeterTests/ChatGPTAppModelTests.swift
+     180 Pinemeter/Models/API/ChatGPTAPIResponses.swift
+     175 PinemeterTests/NotificationServiceTests.swift
+     174 Pinemeter/Services/UsageService.swift
+     168 Pinemeter/Services/NotificationService.swift
+     124 Pinemeter/Views/MenuBar/UsageCardView.swift
+     123 Pinemeter/Models/AppSettings.swift
+     121 Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift
+     120 Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift
+     119 Pinemeter/Repositories/CacheRepository.swift
+     117 Pinemeter/Models/UsageLimit.swift
+     115 Pinemeter/Utilities/DemoDataFactory.swift
+     112 Pinemeter/Repositories/KeychainRepository.swift
+     110 Pinemeter/Models/API/UsageAPIResponse.swift
+     107 Pinemeter/Models/ChatGPTUsageData.swift
+     102 PinemeterTests/MenuBarIconRendererTests.swift
+      98 Pinemeter/Services/SessionKeyImportService.swift
+      88 PinemeterTests/UsageLimitRiskTests.swift
+      87 Pinemeter/Models/Constants.swift

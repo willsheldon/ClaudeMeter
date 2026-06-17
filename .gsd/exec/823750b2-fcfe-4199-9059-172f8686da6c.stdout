@@ -1,0 +1,9 @@
+Pinemeter/Services/SessionKeyImportService.swift:7:    private static let logger = Logger(subsystem: "com.claudemeter", category: "SessionKeyImportService")
+Pinemeter/Services/UsageService.swift:13:    private static let logger = Logger(subsystem: "com.claudemeter", category: "UsageService")
+Pinemeter/Services/WebViewNetworkService.swift:16:    nonisolated static let logger = Logger(subsystem: "com.claudemeter", category: "WebViewNetworkService")
+Pinemeter/Repositories/CacheRepository.swift:24:        let cacheDir = appSupport.appendingPathComponent("com.claudemeter", isDirectory: true)
+Pinemeter/Repositories/CacheRepository.swift:29:        // Public JSON export at ~/.claudemeter/usage.json for external tools
+Pinemeter/Repositories/CacheRepository.swift:31:        let publicDir = homeDir.appendingPathComponent(".claudemeter", isDirectory: true)
+Pinemeter/Services/NetworkService.swift:13:    private static let logger = Logger(subsystem: "com.claudemeter", category: "NetworkService")
+Pinemeter/Resources/ClaudeMeter.entitlements:7:		<string>$(AppIdentifierPrefix)com.claudemeter</string>
+Pinemeter/Repositories/KeychainRepository.swift:13:    private let serviceName = "com.claudemeter.sessionkey"

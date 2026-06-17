@@ -1,0 +1,115 @@
+README.md:1:# ClaudeMeter
+README.md:3:![ClaudeMeter](docs/heading.png)
+README.md:10:- **Menu bar integration** - Clean, colour-coded usage indicator that lives in your macOS menu bar
+README.md:20:The menu bar icon changes colour based on your usage levels:
+README.md:23:  <img src="docs/menubar-safe.png" width="260" alt="Menu bar - Safe usage">
+README.md:24:  <img src="docs/menubar-warning.png" width="260" alt="Menu bar - Warning threshold">
+README.md:25:  <img src="docs/menubar-critical.png" width="260" alt="Menu bar - Critical threshold">
+README.md:31:  <img src="docs/menubar-sonnet.png" width="300" alt="Menu bar - Sonnet usage">
+README.md:36:ClaudeMeter sends native macOS notifications when you reach warning or critical thresholds:
+README.md:42:### Settings
+README.md:47:  <img src="docs/settings-general.png" width="380" alt="Settings - General">
+README.md:48:  <img src="docs/settings-notifications.png" width="380" alt="Settings - Notifications">
+README.md:67:1. Download the latest release from [GitHub Releases](https://github.com/eddmann/ClaudeMeter/releases)
+README.md:68:2. Unzip and move `ClaudeMeter.app` to Applications
+README.md:77:1. ClaudeMeter appears in your menu bar as a gauge icon
+README.md:84:ClaudeMeter can import your existing Claude session from local browser cookies. Sign in to [claude.ai](https://claude.ai) in a supported browser, then choose **Import from Browser** in the setup wizard or Settings.
+README.md:86:Chrome, Arc, Brave, Edge, and other Chromium browsers may ask for browser Safe Storage Keychain access so ClaudeMeter can decrypt cookies. Safari cookies are protected by macOS and may require Full Disk Access.
+README.md:88:If browser import is unavailable, paste your session manually. ClaudeMeter accepts either a raw `sk-ant-...` session key or a Cookie header containing `sessionKey=...`.
+README.md:105:2. Go to Develop > Show Web Inspector (enable Develop menu in Safari preferences if needed)
+README.md:120:- Monitor your usage at a glance with the colour-coded menu bar icon
+README.md:126:ClaudeMeter exports usage data to `~/.claudemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards.
+README.md:188:git clone https://github.com/eddmann/ClaudeMeter.git
+README.md:189:cd ClaudeMeter
+README.md:192:open ClaudeMeter.xcodeproj
+README.md:203:This application accesses Claude's web API using browser-based authentication methods. **This may violate Anthropic's Terms of Service.** By using ClaudeMeter, you acknowledge that:
+README.md:217:This software is provided "as is" under the MIT License, without warranty of any kind. **By downloading and using ClaudeMeter, you accept these terms.**
+site/index.html:8:    <title>ClaudeMeter - Track Your Claude.ai Usage | macOS Menu Bar App</title>
+site/index.html:9:    <meta name="title" content="ClaudeMeter - Track Your Claude.ai Usage | macOS Menu Bar App">
+site/index.html:10:    <meta name="description" content="A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:11:    <meta name="keywords" content="ClaudeMeter, Claude.ai, usage tracker, menu bar app, macOS, Anthropic, AI usage, session limits, Claude monitor">
+site/index.html:17:    <link rel="canonical" href="https://eddmann.com/ClaudeMeter/">
+site/index.html:25:    <meta property="og:url" content="https://eddmann.com/ClaudeMeter/">
+site/index.html:26:    <meta property="og:title" content="ClaudeMeter - Track Your Claude.ai Usage">
+site/index.html:27:    <meta property="og:description" content="A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:28:    <meta property="og:image" content="https://eddmann.com/ClaudeMeter/preview.png">
+site/index.html:29:    <meta property="og:site_name" content="ClaudeMeter">
+site/index.html:33:    <meta property="twitter:url" content="https://eddmann.com/ClaudeMeter/">
+site/index.html:34:    <meta property="twitter:title" content="ClaudeMeter - Track Your Claude.ai Usage">
+site/index.html:35:    <meta property="twitter:description" content="A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:36:    <meta property="twitter:image" content="https://eddmann.com/ClaudeMeter/preview.png">
+site/index.html:43:        "name": "ClaudeMeter",
+site/index.html:51:        "description": "A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.",
+site/index.html:52:        "downloadUrl": "https://github.com/eddmann/ClaudeMeter/releases/latest",
+site/index.html:58:        "image": "https://eddmann.com/ClaudeMeter/logo.png",
+site/index.html:59:        "screenshot": "https://eddmann.com/ClaudeMeter/preview.png"
+site/index.html:308:                    <img src="logo.png" alt="ClaudeMeter" class="w-36 h-36 mx-auto rounded-[28%]">
+site/index.html:319:                Keep track of your Claude.ai plan usage at a glance. A lightweight macOS menu bar app for power users.
+site/index.html:330:                <a href="https://github.com/eddmann/ClaudeMeter" class="px-8 py-4 text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-3 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-slate-300 dark:hover:border-slate-600 bg-white/50 dark:bg-slate-800/50 backdrop-blur">
+site/index.html:378:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Color-coded gauge icon in your menu bar. Green for safe, yellow for warning, red for critical - see your status at a glance.</p>
+site/index.html:469:                <a href="https://github.com/eddmann/ClaudeMeter/releases" class="text-coral-500 hover:text-coral-600 underline underline-offset-4 transition-colors">GitHub Releases</a>
+site/index.html:478:                <span class="text-2xl font-bold gradient-text">ClaudeMeter</span>
+site/index.html:482:                <a href="https://github.com/eddmann/ClaudeMeter" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-2">
+site/index.html:489:                <a href="https://github.com/eddmann/ClaudeMeter/releases" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:493:                <a href="https://github.com/eddmann/ClaudeMeter/issues" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:503:                ClaudeMeter is not affiliated with or endorsed by Anthropic.
+ClaudeMeter.xcodeproj/project.pbxproj:20:			remoteInfo = ClaudeMeter;
+ClaudeMeter.xcodeproj/project.pbxproj:25:		6814B1072EC74F6000B4B5C3 /* ClaudeMeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClaudeMeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+ClaudeMeter.xcodeproj/project.pbxproj:26:		E19FC5088677C21D48B7E68B /* ClaudeMeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClaudeMeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+ClaudeMeter.xcodeproj/project.pbxproj:30:		6814B1092EC74F6000B4B5C3 /* ClaudeMeter */ = {
+ClaudeMeter.xcodeproj/project.pbxproj:32:			path = ClaudeMeter;
+ClaudeMeter.xcodeproj/project.pbxproj:35:		EFD5C9BBC5AFCE7EF8910B35 /* ClaudeMeterTests */ = {
+ClaudeMeter.xcodeproj/project.pbxproj:37:			path = ClaudeMeterTests;
+ClaudeMeter.xcodeproj/project.pbxproj:65:				6814B1092EC74F6000B4B5C3 /* ClaudeMeter */,
+ClaudeMeter.xcodeproj/project.pbxproj:66:				EFD5C9BBC5AFCE7EF8910B35 /* ClaudeMeterTests */,
+ClaudeMeter.xcodeproj/project.pbxproj:74:				6814B1072EC74F6000B4B5C3 /* ClaudeMeter.app */,
+ClaudeMeter.xcodeproj/project.pbxproj:75:				E19FC5088677C21D48B7E68B /* ClaudeMeterTests.xctest */,
+ClaudeMeter.xcodeproj/project.pbxproj:83:		281275B8A43D48EF3E864245 /* ClaudeMeterTests */ = {
+ClaudeMeter.xcodeproj/project.pbxproj:85:			buildConfigurationList = D3F3D03AF401D3C31DA2A40E /* Build configuration list for PBXNativeTarget "ClaudeMeterTests" */;
+ClaudeMeter.xcodeproj/project.pbxproj:97:				EFD5C9BBC5AFCE7EF8910B35 /* ClaudeMeterTests */,
+ClaudeMeter.xcodeproj/project.pbxproj:99:			name = ClaudeMeterTests;
+ClaudeMeter.xcodeproj/project.pbxproj:103:			productName = ClaudeMeterTests;
+ClaudeMeter.xcodeproj/project.pbxproj:104:			productReference = E19FC5088677C21D48B7E68B /* ClaudeMeterTests.xctest */;
+ClaudeMeter.xcodeproj/project.pbxproj:107:		6814B1062EC74F6000B4B5C3 /* ClaudeMeter */ = {
+ClaudeMeter.xcodeproj/project.pbxproj:109:			buildConfigurationList = 6814B1142EC74F6000B4B5C3 /* Build configuration list for PBXNativeTarget "ClaudeMeter" */;
+ClaudeMeter.xcodeproj/project.pbxproj:120:				6814B1092EC74F6000B4B5C3 /* ClaudeMeter */,
+ClaudeMeter.xcodeproj/project.pbxproj:122:			name = ClaudeMeter;
+ClaudeMeter.xcodeproj/project.pbxproj:126:			productName = ClaudeMeter;
+ClaudeMeter.xcodeproj/project.pbxproj:127:			productReference = 6814B1072EC74F6000B4B5C3 /* ClaudeMeter.app */;
+ClaudeMeter.xcodeproj/project.pbxproj:149:			buildConfigurationList = 6814B1022EC74F6000B4B5C3 /* Build configuration list for PBXProject "ClaudeMeter" */;
+ClaudeMeter.xcodeproj/project.pbxproj:167:				6814B1062EC74F6000B4B5C3 /* ClaudeMeter */,
+ClaudeMeter.xcodeproj/project.pbxproj:168:				281275B8A43D48EF3E864245 /* ClaudeMeterTests */,
+ClaudeMeter.xcodeproj/project.pbxproj:210:			target = 6814B1062EC74F6000B4B5C3 /* ClaudeMeter */;
+ClaudeMeter.xcodeproj/project.pbxproj:218:			buildSettings = {
+ClaudeMeter.xcodeproj/project.pbxproj:230:				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.ClaudeMeterTests;
+ClaudeMeter.xcodeproj/project.pbxproj:231:				PRODUCT_NAME = "$(TARGET_NAME)";
+ClaudeMeter.xcodeproj/project.pbxproj:234:				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClaudeMeter.app/Contents/MacOS/ClaudeMeter";
+ClaudeMeter.xcodeproj/project.pbxproj:240:			buildSettings = {
+ClaudeMeter.xcodeproj/project.pbxproj:252:				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.ClaudeMeterTests;
+ClaudeMeter.xcodeproj/project.pbxproj:253:				PRODUCT_NAME = "$(TARGET_NAME)";
+ClaudeMeter.xcodeproj/project.pbxproj:256:				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClaudeMeter.app/Contents/MacOS/ClaudeMeter";
+ClaudeMeter.xcodeproj/project.pbxproj:262:			buildSettings = {
+ClaudeMeter.xcodeproj/project.pbxproj:326:			buildSettings = {
+ClaudeMeter.xcodeproj/project.pbxproj:382:			buildSettings = {
+ClaudeMeter.xcodeproj/project.pbxproj:405:				INFOPLIST_KEY_CFBundleDisplayName = ClaudeMeter;
+ClaudeMeter.xcodeproj/project.pbxproj:415:				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.ClaudeMeter;
+ClaudeMeter.xcodeproj/project.pbxproj:416:				PRODUCT_NAME = "$(TARGET_NAME)";
+ClaudeMeter.xcodeproj/project.pbxproj:429:			buildSettings = {
+ClaudeMeter.xcodeproj/project.pbxproj:452:				INFOPLIST_KEY_CFBundleDisplayName = ClaudeMeter;
+ClaudeMeter.xcodeproj/project.pbxproj:462:				PRODUCT_BUNDLE_IDENTIFIER = com.eddmann.ClaudeMeter;
+ClaudeMeter.xcodeproj/project.pbxproj:463:				PRODUCT_NAME = "$(TARGET_NAME)";
+ClaudeMeter.xcodeproj/project.pbxproj:477:		6814B1022EC74F6000B4B5C3 /* Build configuration list for PBXProject "ClaudeMeter" */ = {
+ClaudeMeter.xcodeproj/project.pbxproj:486:		6814B1142EC74F6000B4B5C3 /* Build configuration list for PBXNativeTarget "ClaudeMeter" */ = {
+ClaudeMeter.xcodeproj/project.pbxproj:495:		D3F3D03AF401D3C31DA2A40E /* Build configuration list for PBXNativeTarget "ClaudeMeterTests" */ = {
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:19:               BuildableName = "ClaudeMeter.app"
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:20:               BlueprintName = "ClaudeMeter"
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:21:               ReferencedContainer = "container:ClaudeMeter.xcodeproj">
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:39:               BuildableName = "ClaudeMeterTests.xctest"
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:40:               BlueprintName = "ClaudeMeterTests"
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:41:               ReferencedContainer = "container:ClaudeMeter.xcodeproj">
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:61:            BuildableName = "ClaudeMeter.app"
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:62:            BlueprintName = "ClaudeMeter"
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:63:            ReferencedContainer = "container:ClaudeMeter.xcodeproj">
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:112:            BuildableName = "ClaudeMeter.app"
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:113:            BlueprintName = "ClaudeMeter"
+ClaudeMeter.xcodeproj/xcshareddata/xcschemes/ClaudeMeter.xcscheme:114:            ReferencedContainer = "container:ClaudeMeter.xcodeproj">

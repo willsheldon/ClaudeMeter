@@ -1,0 +1,18 @@
+{
+  "id": "9e11e99b-2619-4f27-9791-b5f83bb29dbc",
+  "runtime": "bash",
+  "purpose": "SPM/package dependencies and target membership clues",
+  "script_chars": 417,
+  "started_at": "2026-06-17T00:03:31.580Z",
+  "finished_at": "2026-06-17T00:03:31.639Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 59,
+  "stdout_bytes": 2277,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/9e11e99b-2619-4f27-9791-b5f83bb29dbc.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/9e11e99b-2619-4f27-9791-b5f83bb29dbc.stderr"
+}

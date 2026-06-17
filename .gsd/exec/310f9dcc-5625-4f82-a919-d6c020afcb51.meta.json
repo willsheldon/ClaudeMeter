@@ -1,0 +1,18 @@
+{
+  "id": "310f9dcc-5625-4f82-a919-d6c020afcb51",
+  "runtime": "bash",
+  "purpose": "S01 final remaining reference scan",
+  "script_chars": 89,
+  "started_at": "2026-06-17T01:02:57.845Z",
+  "finished_at": "2026-06-17T01:02:58.004Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 159,
+  "stdout_bytes": 3455,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/310f9dcc-5625-4f82-a919-d6c020afcb51.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/310f9dcc-5625-4f82-a919-d6c020afcb51.stderr"
+}

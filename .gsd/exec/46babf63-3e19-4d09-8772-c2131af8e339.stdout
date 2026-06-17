@@ -1,0 +1,277 @@
+Swift files with credential/session/security/logging terms:
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:16:    /// Fetch list of organizations for the user (from keychain)
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:19:    /// Fetch list of organizations with explicit session key (for setup)
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:20:    func fetchOrganizations(REDACTED REDACTED) async throws -> [Organization]
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:22:    /// Validate session key with Claude API
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:23:    func validateREDACTED REDACTED REDACTED) async throws -> Bool
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:14:    func requestREDACTED UNREDACTED) async throws -> Bool
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:16:    func REDACTED) async -> UNREDACTED
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:20:    func REDACTED) async -> UNREDACTED {
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:9:    func fetchUsage(REDACTED String) async throws -> ChatGPTUsageData
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:10:    func validateREDACTED REDACTED String) async throws -> Bool
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:16:        cookieHeader: String,
+Pinemeter/Services/UsageService.swift:13:    private static let logger = Logger(subsystem: "com.pinemeter", category: "UsageService")
+Pinemeter/Services/UsageService.swift:16:    private let keychainRepository: KeychainRepositoryProtocol
+Pinemeter/Services/UsageService.swift:17:    private let settingsRepository: SettingsRepositoryProtocol
+Pinemeter/Services/UsageService.swift:25:        keychainRepository: KeychainRepositoryProtocol,
+Pinemeter/Services/UsageService.swift:26:        settingsRepository: SettingsRepositoryProtocol
+Pinemeter/Services/UsageService.swift:30:        self.keychainRepository = keychainRepository
+Pinemeter/Services/UsageService.swift:36:        let REDACTED String
+Pinemeter/Services/UsageService.swift:38:            REDACTED = try await keychainRepository.retrieve(account: "default")
+Pinemeter/Services/UsageService.swift:39:        } catch KeychainError.notFound {
+Pinemeter/Services/UsageService.swift:41:        } catch let error as KeychainError {
+Pinemeter/Services/UsageService.swift:42:            throw AppError.keychainError(error)
+Pinemeter/Services/UsageService.swift:45:        let REDACTED = try REDACTED)
+Pinemeter/Services/UsageService.swift:63:        } else if let orgId = REDACTED {
+Pinemeter/Services/UsageService.swift:84:                    REDACTED REDACTED
+Pinemeter/Services/UsageService.swift:106:                Self.logger.error("Authentication failed - session key invalid")
+Pinemeter/Services/UsageService.swift:107:                throw AppError.REDACTED
+Pinemeter/Services/UsageService.swift:113:                Self.logger.warning("URL error: \(error.localizedDescription) (attempt \(attempt + 1)/\(self.maxRetries))")
+Pinemeter/Services/UsageService.swift:118:                Self.logger.error("API request failed: \(error.localizedDescription)")
+Pinemeter/Services/UsageService.swift:135:        let REDACTED String
+Pinemeter/Services/UsageService.swift:137:            REDACTED = try await keychainRepository.retrieve(account: "default")
+Pinemeter/Services/UsageService.swift:138:        } catch KeychainError.notFound {
+Pinemeter/Services/UsageService.swift:140:        } catch let error as KeychainError {
+Pinemeter/Services/UsageService.swift:141:            throw AppError.keychainError(error)
+Pinemeter/Services/UsageService.swift:144:        let REDACTED = try REDACTED)
+Pinemeter/Services/UsageService.swift:145:        return try await fetchOrganizations(REDACTED REDACTED)
+Pinemeter/Services/UsageService.swift:148:    /// Fetch list of organizations with explicit session key (for setup before keychain save)
+Pinemeter/Services/UsageService.swift:149:    func fetchOrganizations(REDACTED REDACTED) async throws -> [Organization] {
+Pinemeter/Services/UsageService.swift:153:            REDACTED REDACTED
+Pinemeter/Services/UsageService.swift:159:    /// Validate session key with Claude API
+Pinemeter/Services/UsageService.swift:160:    func validateREDACTED REDACTED REDACTED) async throws -> Bool {
+Pinemeter/Services/UsageService.swift:165:                REDACTED REDACTED
+Pinemeter/Services/REDACTED Imports Claude session keys from local browser cookies.
+Pinemeter/Services/REDACTED    private static let logger = Logger(subsystem: "com.pinemeter", category: "REDACTED)
+Pinemeter/Services/REDACTED    private let cookieClient: BrowserCookieClient
+Pinemeter/Services/REDACTED        cookieClient: BrowserCookieClient = BrowserCookieClient(),
+Pinemeter/Services/REDACTED        self.cookieClient = cookieClient
+Pinemeter/Services/REDACTED        var deniedKeychainBrowserName: String?
+Pinemeter/Services/REDACTED                let sources = try cookieClient.records(matching: query, in: browser)
+Pinemeter/Services/REDACTED                    } else if browser.usesKeychainForCookieDecryption {
+Pinemeter/Services/REDACTED                        deniedKeychainBrowserName = browser.displayName
+Pinemeter/Services/REDACTED                Self.logger.debug("Browser cookie import failed for \(browser.displayName): \(error.localizedDescription)")
+Pinemeter/Services/REDACTED                Self.logger.debug("Browser cookie import failed for \(browser.displayName): \(error.localizedDescription)")
+Pinemeter/Services/REDACTED        if let deniedKeychainBrowserName {
+Pinemeter/Services/REDACTED            throw REDACTED)
+Pinemeter/Services/REDACTED        guard let cookie = source.records.first(where: { $0.name == "REDACTED }) else {
+Pinemeter/Services/REDACTED        let REDACTED = try REDACTED)
+Pinemeter/Services/REDACTED            value: REDACTED,
+Pinemeter/Services/REDACTED    var usesKeychainForCookieDecryption: Bool {
+Pinemeter/Services/NotificationService.swift:15:    private let settingsRepository: SettingsRepositoryProtocol
+Pinemeter/Services/NotificationService.swift:18:        settingsRepository: SettingsRepositoryProtocol,
+Pinemeter/Services/NotificationService.swift:32:    func requestREDACTED) async throws -> Bool {
+Pinemeter/Services/NotificationService.swift:33:        let granted = try await center.requestREDACTED [.alert, .sound])
+Pinemeter/Services/NotificationService.swift:40:        settings: AppSettings
+Pinemeter/Services/NetworkService.swift:13:    private static let logger = Logger(subsystem: "com.pinemeter", category: "NetworkService")
+Pinemeter/Services/NetworkService.swift:26:        REDACTED String
+Pinemeter/Services/NetworkService.swift:41:        request.setValue("REDACTED)", forHTTPHeaderField: "Cookie")
+Pinemeter/Services/NetworkService.swift:78:            Self.logger.error("Failed to decode response from \(endpoint): \(error.localizedDescription)\nResponse: \(responseBody)")
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:48:    func requestREDACTED) async throws -> Bool
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:53:        settings: AppSettings
+Pinemeter/Services/Protocols/REDACTED Browser import result for a Claude session key.
+Pinemeter/Services/Protocols/REDACTED Errors that can occur while importing a session key from browser cookies.
+Pinemeter/Services/Protocols/REDACTED    case browserKeychainAccessDenied(String)
+Pinemeter/Services/Protocols/REDACTED    var errorDescription: String? {
+Pinemeter/Services/Protocols/REDACTED            return "Pinemeter could not access browser cookies. Allow the macOS prompt or paste your session."
+Pinemeter/Services/Protocols/REDACTED            return "Safari needs Full Disk Access to import cookies. Use Chrome/Arc/Brave or paste your session."
+Pinemeter/Services/Protocols/REDACTED        case .browserKeychainAccessDenied(let browserName):
+Pinemeter/Services/Protocols/REDACTED            return "Allow \(browserName) Safe Storage in Keychain, or paste your session."
+Pinemeter/Services/Protocols/REDACTED            return "The imported Claude session key could not be validated."
+Pinemeter/Services/Protocols/REDACTED Protocol for importing Claude session keys from local browser data.
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:2://  KeychainRepositoryProtocol.swift
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:10:/// Protocol for secure keychain operations
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:11:protocol KeychainRepositoryProtocol: Actor {
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:12:    /// Save session key to keychain
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:13:    func save(REDACTED String, account: String) async throws
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:15:    /// Retrieve session key from keychain
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:18:    /// Update existing session key
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:19:    func update(REDACTED String, account: String) async throws
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:21:    /// Delete session key from keychain
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:24:    /// Check if session key exists for account
+Pinemeter/Services/WebViewNetworkService.swift:16:    nonisolated static let logger = Logger(subsystem: "com.pinemeter", category: "WebViewNetworkService")
+Pinemeter/Services/WebViewNetworkService.swift:34:        REDACTED String
+Pinemeter/Services/WebViewNetworkService.swift:36:        let data = try await performRequest(endpoint, method: method, REDACTED REDACTED)
+Pinemeter/Services/WebViewNetworkService.swift:45:            Self.logger.error("Failed to decode response from \(endpoint): \(error.localizedDescription)\nResponse: \(responseBody)")
+Pinemeter/Services/WebViewNetworkService.swift:53:        REDACTED String
+Pinemeter/Services/WebViewNetworkService.swift:66:        // Store session key for cookie injection
+Pinemeter/Services/WebViewNetworkService.swift:67:        currentREDACTED = REDACTED
+Pinemeter/Services/WebViewNetworkService.swift:75:        // Set the session key cookie
+Pinemeter/Services/WebViewNetworkService.swift:76:        let cookie = HTTPCookie(properties: [
+Pinemeter/Services/WebViewNetworkService.swift:79:            .name: "REDACTED,
+Pinemeter/Services/WebViewNetworkService.swift:80:            .value: REDACTED,
+Pinemeter/Services/WebViewNetworkService.swift:85:        await webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie)
+Pinemeter/Services/WebViewNetworkService.swift:146:                Self.logger.error("JavaScript evaluation failed: \(error.localizedDescription)")
+Pinemeter/Services/WebViewNetworkService.swift:218:        Self.logger.error("Navigation failed: \(error.localizedDescription)")
+Pinemeter/Services/WebViewNetworkService.swift:224:        Self.logger.error("Provisional navigation failed: \(error.localizedDescription)")
+Pinemeter/Repositories/KeychainRepository.swift:2://  KeychainRepository.swift
+Pinemeter/Repositories/KeychainRepository.swift:11:/// Actor-isolated repository for secure Keychain operations
+Pinemeter/Repositories/KeychainRepository.swift:12:actor KeychainRepository: KeychainRepositoryProtocol {
+Pinemeter/Repositories/KeychainRepository.swift:15:    /// Save session key to Keychain with security attributes
+Pinemeter/Repositories/KeychainRepository.swift:16:    func save(REDACTED String, account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:17:        guard let data = REDACTED .utf8) else {
+Pinemeter/Repositories/KeychainRepository.swift:18:            throw KeychainError.saveFailed(OSStatus: errSecParam)
+Pinemeter/Repositories/KeychainRepository.swift:26:            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock,
+Pinemeter/Repositories/KeychainRepository.swift:30:        let status = SecItemAdd(query as CFDictionary, nil)
+Pinemeter/Repositories/KeychainRepository.swift:34:            try await update(REDACTED REDACTED, account: account)
+Pinemeter/Repositories/KeychainRepository.swift:36:            throw KeychainError.saveFailed(OSStatus: status)
+Pinemeter/Repositories/KeychainRepository.swift:40:    /// Retrieve session key from Keychain
+Pinemeter/Repositories/KeychainRepository.swift:51:        let status = SecItemCopyMatching(query as CFDictionary, &item)
+Pinemeter/Repositories/KeychainRepository.swift:55:              let REDACTED = String(data: data, encoding: .utf8) else {
+Pinemeter/Repositories/KeychainRepository.swift:56:            throw KeychainError.notFound
+Pinemeter/Repositories/KeychainRepository.swift:59:        return REDACTED
+Pinemeter/Repositories/KeychainRepository.swift:62:    /// Update existing session key in Keychain
+Pinemeter/Repositories/KeychainRepository.swift:63:    func update(REDACTED String, account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:64:        guard let data = REDACTED .utf8) else {
+Pinemeter/Repositories/KeychainRepository.swift:65:            throw KeychainError.updateFailed(OSStatus: errSecParam)
+Pinemeter/Repositories/KeychainRepository.swift:78:        let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+Pinemeter/Repositories/KeychainRepository.swift:81:            throw KeychainError.updateFailed(OSStatus: status)
+Pinemeter/Repositories/KeychainRepository.swift:85:    /// Delete session key from Keychain
+Pinemeter/Repositories/KeychainRepository.swift:93:        let status = SecItemDelete(query as CFDictionary)
+Pinemeter/Repositories/KeychainRepository.swift:95:        guard status == errSecSuccess || status == errSecItemNotFound else {
+Pinemeter/Repositories/KeychainRepository.swift:96:            throw KeychainError.deleteFailed(OSStatus: status)
+Pinemeter/Repositories/KeychainRepository.swift:100:    /// Check if session key exists for account
+Pinemeter/Repositories/KeychainRepository.swift:109:        let status = SecItemCopyMatching(query as CFDictionary, nil)
+Pinemeter/Services/ChatGPTUsageService.swift:15:    var errorDescription: String? {
+Pinemeter/Services/ChatGPTUsageService.swift:18:            return "No ChatGPT session cookie found. Add one in Settings."
+Pinemeter/Services/ChatGPTUsageService.swift:44:    func fetchUsage(REDACTED String) async throws -> ChatGPTUsageData {
+Pinemeter/Services/ChatGPTUsageService.swift:45:        let cookieHeader = Self.cookieHeader(from: REDACTED)
+Pinemeter/Services/ChatGPTUsageService.swift:46:        guard !cookieHeader.isEmpty else {
+Pinemeter/Services/ChatGPTUsageService.swift:52:            cookieHeader: cookieHeader,
+Pinemeter/Services/ChatGPTUsageService.swift:64:            cookieHeader: cookieHeader,
+Pinemeter/Services/ChatGPTUsageService.swift:65:            REDACTED "REDACTED \(accessREDACTED)",
+Pinemeter/Services/ChatGPTUsageService.swift:72:    func validateREDACTED REDACTED String) async throws -> Bool {
+Pinemeter/Services/ChatGPTUsageService.swift:74:            _ = try await fetchUsage(REDACTED REDACTED)
+Pinemeter/Services/ChatGPTUsageService.swift:85:    /// Accept a raw session REDACTED, a full Cookie header, or split NextAuth cookie chunks.
+Pinemeter/Services/ChatGPTUsageService.swift:86:    static func cookieHeader(from rawValue: String) -> String {
+Pinemeter/Services/ChatGPTUsageService.swift:91:            return "__Secure-next-auth.session-REDACTED)"
+Pinemeter/Services/ChatGPTUsageService.swift:94:        let cookiePairs = cookiePairs(from: trimmedValue)
+Pinemeter/Services/ChatGPTUsageService.swift:95:        guard !cookiePairs.isEmpty else { return trimmedValue }
+Pinemeter/Services/ChatGPTUsageService.swift:97:        if let unsplitREDACTED = cookiePairs.first(where: { $0.name == "__Secure-next-auth.session-REDACTED })?.value,
+Pinemeter/Services/ChatGPTUsageService.swift:99:            return cookiePairs.map { "\($0.name)=\($0.value)" }.joined(separator: "; ")
+Pinemeter/Services/ChatGPTUsageService.swift:102:        let splitREDACTED = cookiePairs
+Pinemeter/Services/ChatGPTUsageService.swift:104:                let prefix = "__Secure-next-auth.session-REDACTED
+Pinemeter/Services/ChatGPTUsageService.swift:116:            return cookiePairs.map { "\($0.name)=\($0.value)" }.joined(separator: "; ")
+Pinemeter/Services/ChatGPTUsageService.swift:119:        let otherPairs = cookiePairs.filter { !$0.name.hasPrefix("__Secure-next-auth.session-REDACTED) }
+Pinemeter/Services/ChatGPTUsageService.swift:120:        return (["__Secure-next-auth.session-REDACTED)"] + otherPairs.map { "\($0.name)=\($0.value)" })
+Pinemeter/Services/ChatGPTUsageService.swift:124:    private static func cookiePairs(from rawValue: String) -> [(name: String, value: String)] {
+Pinemeter/Services/ChatGPTUsageService.swift:151:        cookieHeader: String,
+Pinemeter/Services/ChatGPTUsageService.swift:162:        request.setValue(cookieHeader, forHTTPHeaderField: "Cookie")
+Pinemeter/Services/ChatGPTUsageService.swift:167:            request.setValue(REDACTED, forHTTPHeaderField: "REDACTED)
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift:22:        REDACTED String
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:2://  SettingsRepositoryProtocol.swift
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:11:protocol SettingsRepositoryProtocol: Actor {
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:13:    func load() async -> AppSettings
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:16:    func save(_ settings: AppSettings) async throws
+Pinemeter/Repositories/SettingsRepository.swift:2://  SettingsRepository.swift
+Pinemeter/Repositories/SettingsRepository.swift:10:/// Actor-isolated repository for app settings persistence using UserDefaults
+Pinemeter/Repositories/SettingsRepository.swift:11:actor SettingsRepository: SettingsRepositoryProtocol {
+Pinemeter/Repositories/SettingsRepository.swift:12:    private let userDefaults: UserDefaults
+Pinemeter/Repositories/SettingsRepository.swift:16:    init(userDefaults: UserDefaults = .standard) {
+Pinemeter/Repositories/SettingsRepository.swift:20:    /// Load app settings from UserDefaults
+Pinemeter/Repositories/SettingsRepository.swift:21:    func load() async -> AppSettings {
+Pinemeter/Repositories/SettingsRepository.swift:30:            return try decoder.decode(AppSettings.self, from: data)
+Pinemeter/Repositories/SettingsRepository.swift:37:    /// Save app settings to UserDefaults
+Pinemeter/Repositories/SettingsRepository.swift:38:    func save(_ settings: AppSettings) async throws {
+Pinemeter/Repositories/SettingsRepository.swift:46:    /// Load notification state from UserDefaults
+Pinemeter/Repositories/SettingsRepository.swift:61:    /// Save notification state to UserDefaults
+Pinemeter/App/REDACTED        BrowserCookieKeychainPromptHandler.handler = { context in
+Pinemeter/App/REDACTED    private static func presentBrowserCookiePrompt(_ context: BrowserCookieKeychainPromptContext) {
+Pinemeter/App/REDACTED            "Pinemeter will ask macOS Keychain for \"\(context.label)\" so it can decrypt your Claude browser session cookie.",
+Pinemeter/App/REDACTED            "Click OK to continue, then allow the macOS Keychain prompt.",
+Pinemeter/App/REDACTED            title: "Keychain Access Required",
+Pinemeter/Models/Errors/NetworkError.swift:21:    var errorDescription: String? {
+Pinemeter/App/AppModel.swift:11:    var settings: AppSettings = .default {
+Pinemeter/App/AppModel.swift:31:    @ObservationIgnored private let settingsRepository: SettingsRepositoryProtocol
+Pinemeter/App/AppModel.swift:32:    @ObservationIgnored private let keychainRepository: KeychainRepositoryProtocol
+Pinemeter/App/AppModel.swift:36:    @ObservationIgnored private let REDACTED REDACTED
+Pinemeter/App/AppModel.swift:49:        settingsRepository: SettingsRepositoryProtocol = SettingsRepository(),
+Pinemeter/App/AppModel.swift:50:        keychainRepository: KeychainRepositoryProtocol = KeychainRepository(),
+Pinemeter/App/AppModel.swift:54:        REDACTED REDACTED = REDACTED)
+Pinemeter/App/AppModel.swift:57:        self.keychainRepository = keychainRepository
+Pinemeter/App/AppModel.swift:58:        self.REDACTED = REDACTED
+Pinemeter/App/AppModel.swift:65:            keychainRepository: keychainRepository,
+Pinemeter/App/AppModel.swift:84:        isSetupComplete = await keychainRepository.exists(account: "default")
+Pinemeter/App/AppModel.swift:85:        hasChatGPTREDACTED = await keychainRepository.exists(account: "chatgpt")
+Pinemeter/App/AppModel.swift:131:            errorMessage = error.localizedDescription
+Pinemeter/App/AppModel.swift:139:            hasChatGPTREDACTED = await keychainRepository.exists(account: "chatgpt")
+Pinemeter/App/AppModel.swift:155:            let REDACTED = try await keychainRepository.retrieve(account: "chatgpt")
+Pinemeter/App/AppModel.swift:156:            chatGPTUsageData = try await chatGPTUsageService.fetchUsage(REDACTED REDACTED)
+Pinemeter/App/AppModel.swift:159:            chatGPTErrorMessage = error.localizedDescription
+Pinemeter/App/AppModel.swift:165:            return try await keychainRepository.retrieve(account: "chatgpt")
+Pinemeter/App/AppModel.swift:178:        try await keychainRepository.save(REDACTED trimmedCookie, account: "chatgpt")
+Pinemeter/App/AppModel.swift:186:        try await keychainRepository.delete(account: "chatgpt")
+Pinemeter/App/AppModel.swift:197:            return try await keychainRepository.retrieve(account: "default")
+Pinemeter/App/AppModel.swift:198:        } catch KeychainError.notFound {
+Pinemeter/App/AppModel.swift:206:        let REDACTED = try REDACTED)
+Pinemeter/App/AppModel.swift:207:        let isValid = try await usageService.validateREDACTED)
+Pinemeter/App/AppModel.swift:213:        let organizations = try await usageService.fetchOrganizations(REDACTED REDACTED)
+Pinemeter/App/AppModel.swift:220:        try await keychainRepository.save(REDACTED REDACTED, account: "default")
+Pinemeter/App/AppModel.swift:233:        let imported = try await REDACTED)
+Pinemeter/App/AppModel.swift:244:        try await keychainRepository.delete(account: "default")
+Pinemeter/App/AppModel.swift:258:            _ = try? await notificationService.requestREDACTED)
+Pinemeter/App/AppModel.swift:276:    private func scheduleSettingsSave(previous: AppSettings) {
+Pinemeter/Views/Setup/SetupWizardView.swift:7:    @State private var REDACTED String = ""
+Pinemeter/Views/Setup/SetupWizardView.swift:43:                SecureField("sk-ant-...", text: $REDACTED)
+Pinemeter/Views/Setup/SetupWizardView.swift:47:                    .accessibilityHint("Enter your Claude session key or paste a Cookie header containing REDACTED)
+Pinemeter/Views/Setup/SetupWizardView.swift:54:                if !REDACTED {
+Pinemeter/Views/Setup/SetupWizardView.swift:132:                .accessibilityLabel(isImporting ? "Importing session key" : "Import session key from browser")
+Pinemeter/Views/Setup/SetupWizardView.swift:133:                .accessibilityHint("Finds your Claude session key in local browser cookies and validates it")
+Pinemeter/Views/Setup/SetupWizardView.swift:148:                .accessibilityLabel(isValidating ? "Validating session key" : "Continue with manual setup")
+Pinemeter/Views/Setup/SetupWizardView.swift:149:                .accessibilityHint("Validates your session key and completes setup")
+
+Relevant files:
+Pinemeter/App/AppDelegate.swift
+Pinemeter/App/AppModel.swift
+Pinemeter/App/PinemeterApp.swift
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift
+Pinemeter/Models/API/ChatGPTAPIResponses.swift
+Pinemeter/Models/API/OrganizationListResponse.swift
+Pinemeter/Models/API/UsageAPIResponse.swift
+Pinemeter/Models/AppSettings.swift
+Pinemeter/Models/ChatGPTUsageData.swift
+Pinemeter/Models/Constants.swift
+Pinemeter/Models/Errors/AppError.swift
+Pinemeter/Models/Errors/KeychainError.swift
+Pinemeter/Models/Errors/NetworkError.swift
+Pinemeter/Models/IconStyle.swift
+Pinemeter/Models/NotificationState.swift
+Pinemeter/Models/NotificationThresholds.swift
+Pinemeter/Models/Organization.swift
+Pinemeter/Models/SessionKey.swift
+Pinemeter/Models/UsageData.swift
+Pinemeter/Models/UsageLimit.swift
+Pinemeter/Models/UsageStatus.swift
+Pinemeter/Repositories/CacheRepository.swift
+Pinemeter/Repositories/KeychainRepository.swift
+Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift
+Pinemeter/Repositories/SettingsRepository.swift
+Pinemeter/Resources/Pinemeter.entitlements
+Pinemeter/Services/ChatGPTUsageService.swift
+Pinemeter/Services/NetworkService.swift
+Pinemeter/Services/NotificationService.swift
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift
+Pinemeter/Services/SessionKeyImportService.swift
+Pinemeter/Services/UsageService.swift
+Pinemeter/Services/WebViewNetworkService.swift
+Pinemeter/Utilities/DemoDataFactory.swift
+Pinemeter/Utilities/DemoMode.swift
+Pinemeter/Utilities/SystemSettingsOpener.swift
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift
+Pinemeter/Views/MenuBar/IconCache.swift
+Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift
+Pinemeter/Views/MenuBar/MenuBarIconRenderer.swift
+Pinemeter/Views/MenuBar/MenuBarIconView.swift
+Pinemeter/Views/MenuBar/MenuBarManager.swift
+Pinemeter/Views/MenuBar/MenuBarPopoverView.swift
+Pinemeter/Views/MenuBar/UsageCardView.swift
+Pinemeter/Views/MenuBar/UsagePopoverView.swift
+Pinemeter/Views/Settings/SettingsView.swift
+Pinemeter/Views/Setup/SetupWizardView.swift

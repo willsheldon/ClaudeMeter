@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "taskId": "T01",
+  "unitId": "M001/S05/T01",
+  "timestamp": 1781710613633,
+  "passed": true,
+  "discoverySource": "task-plan",
+  "checks": [
+    {
+      "command": "python3 scripts/provider_workflow_copy_audit.py --report-only",
+      "exitCode": 0,
+      "durationMs": 118,
+      "verdict": "pass"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "bf1b56e0-a0f1-49bf-8050-4ca481e7a75b",
+  "runtime": "bash",
+  "purpose": "SetupWizard product reference lines",
+  "script_chars": 215,
+  "started_at": "2026-06-17T00:04:31.210Z",
+  "finished_at": "2026-06-17T00:04:31.248Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 38,
+  "stdout_bytes": 1616,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/bf1b56e0-a0f1-49bf-8050-4ca481e7a75b.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/bf1b56e0-a0f1-49bf-8050-4ca481e7a75b.stderr"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "1829b0f7-82cc-42e5-bd7f-6326957676b5",
+  "runtime": "bash",
+  "purpose": "Xcode app target build settings compact",
+  "script_chars": 500,
+  "started_at": "2026-06-17T00:02:57.716Z",
+  "finished_at": "2026-06-17T00:02:57.789Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 73,
+  "stdout_bytes": 1712,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/1829b0f7-82cc-42e5-bd7f-6326957676b5.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/1829b0f7-82cc-42e5-bd7f-6326957676b5.stderr"
+}

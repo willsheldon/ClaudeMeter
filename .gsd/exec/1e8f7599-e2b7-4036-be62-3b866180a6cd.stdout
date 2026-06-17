@@ -1,0 +1,20 @@
+PinemeterTests/SettingsRepositoryTests.swift:19:        settings.refreshInterval = 300
+PinemeterTests/SecurityInvariantTests.swift:19:        settings.refreshInterval = 300
+Pinemeter/Views/Settings/SettingsView.swift:72:                refreshIntervalSection
+Pinemeter/Views/Settings/SettingsView.swift:337:    private var refreshIntervalSection: some View {
+Pinemeter/Views/Settings/SettingsView.swift:349:            Picker("", selection: $appModel.settings.refreshInterval) {
+Pinemeter/App/AppModel.swift:282:        if previous.refreshInterval != settings.refreshInterval {
+Pinemeter/App/AppModel.swift:291:        let interval = Duration.seconds(Int(settings.refreshInterval))
+Pinemeter/Models/Constants.swift:14:        /// Memory cache time-to-live (slightly less than minimum refresh interval)
+Pinemeter/Models/Constants.swift:36:        static let minimum: TimeInterval = 60
+Pinemeter/Models/Constants.swift:39:        static let maximum: TimeInterval = 600
+Pinemeter/Models/Constants.swift:42:        static let stalenessThreshold: TimeInterval = 1200
+Pinemeter/Models/AppSettings.swift:13:    var refreshInterval: TimeInterval
+Pinemeter/Models/AppSettings.swift:40:        refreshInterval: 60,
+Pinemeter/Models/AppSettings.swift:52:        case refreshInterval = "refresh_interval"
+Pinemeter/Models/AppSettings.swift:70:        refreshInterval = try container.decodeIfPresent(TimeInterval.self, forKey: .refreshInterval) ?? defaults.refreshInterval
+Pinemeter/Models/AppSettings.swift:84:        refreshInterval: TimeInterval,
+Pinemeter/Models/AppSettings.swift:93:        self.refreshInterval = refreshInterval
+Pinemeter/Models/AppSettings.swift:106:        try container.encode(refreshInterval, forKey: .refreshInterval)
+Pinemeter/Models/AppSettings.swift:121:        refreshInterval = max(60, min(600, interval))
+Pinemeter/Models/UsageData.swift:51:        Date().timeIntervalSince(lastUpdated) > Constants.Refresh.stalenessThreshold

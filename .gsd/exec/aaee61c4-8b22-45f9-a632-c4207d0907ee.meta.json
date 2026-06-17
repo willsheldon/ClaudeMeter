@@ -1,0 +1,18 @@
+{
+  "id": "aaee61c4-8b22-45f9-a632-c4207d0907ee",
+  "runtime": "bash",
+  "purpose": "S07 T02 required artifact existence verification",
+  "script_chars": 58,
+  "started_at": "2026-06-17T16:29:22.611Z",
+  "finished_at": "2026-06-17T16:29:22.623Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 12,
+  "stdout_bytes": 0,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/aaee61c4-8b22-45f9-a632-c4207d0907ee.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/aaee61c4-8b22-45f9-a632-c4207d0907ee.stderr"
+}

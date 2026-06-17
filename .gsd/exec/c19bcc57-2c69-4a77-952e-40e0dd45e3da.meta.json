@@ -1,0 +1,18 @@
+{
+  "id": "c19bcc57-2c69-4a77-952e-40e0dd45e3da",
+  "runtime": "python",
+  "purpose": "S07 T02 sanitized classification context",
+  "script_chars": 1552,
+  "started_at": "2026-06-17T16:27:44.400Z",
+  "finished_at": "2026-06-17T16:27:44.466Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 66,
+  "stdout_bytes": 3779,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c19bcc57-2c69-4a77-952e-40e0dd45e3da.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/c19bcc57-2c69-4a77-952e-40e0dd45e3da.stderr"
+}

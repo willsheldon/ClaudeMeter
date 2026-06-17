@@ -1,0 +1,18 @@
+{
+  "id": "12d5c692-7a08-4ac0-a0fe-591fc191a378",
+  "runtime": "bash",
+  "purpose": "S06 stale ownership comments and upstream URLs",
+  "script_chars": 356,
+  "started_at": "2026-06-17T15:58:29.959Z",
+  "finished_at": "2026-06-17T15:58:30.045Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 86,
+  "stdout_bytes": 20044,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/12d5c692-7a08-4ac0-a0fe-591fc191a378.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/12d5c692-7a08-4ac0-a0fe-591fc191a378.stderr"
+}

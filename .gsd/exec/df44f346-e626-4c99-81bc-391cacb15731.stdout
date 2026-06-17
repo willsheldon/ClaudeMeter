@@ -1,0 +1,16 @@
+public_hygiene_inventory
+README: present | ['README.md']
+LICENSE: present | ['LICENSE']
+SECURITY: missing | -
+CONTRIBUTING: missing | -
+CODE_OF_CONDUCT: missing | -
+CHANGELOG: present | ['CHANGELOG.md']
+Dependabot: missing | -
+Issue templates: missing | -
+PR template: missing | -
+context site/index.html: present
+context .github/workflows/test.yml: present
+context .github/workflows/release.yml: present
+context .github/workflows/deploy-pages.yml: present
+context scripts/provider_workflow_copy_audit.py: present
+context work-to-date.md: present

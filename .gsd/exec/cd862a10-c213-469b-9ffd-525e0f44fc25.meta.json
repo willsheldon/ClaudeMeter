@@ -1,0 +1,18 @@
+{
+  "id": "cd862a10-c213-469b-9ffd-525e0f44fc25",
+  "runtime": "python",
+  "purpose": "Inspect updated CacheRepositoryTests invalidation assertions",
+  "script_chars": 163,
+  "started_at": "2026-06-17T16:08:11.858Z",
+  "finished_at": "2026-06-17T16:08:11.901Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 43,
+  "stdout_bytes": 737,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/cd862a10-c213-469b-9ffd-525e0f44fc25.stdout",
+  "stderr_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/cd862a10-c213-469b-9ffd-525e0f44fc25.stderr"
+}

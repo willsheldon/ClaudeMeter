@@ -1,0 +1,18 @@
+{
+  "id": "63970e7a-90f0-4511-a1bc-1dc6ca61d846",
+  "runtime": "python",
+  "purpose": "Inspect CacheRepositoryTests failing lines 84-100",
+  "script_chars": 161,
+  "started_at": "2026-06-17T16:06:43.382Z",
+  "finished_at": "2026-06-17T16:06:43.444Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 62,
+  "stdout_bytes": 868,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/63970e7a-90f0-4511-a1bc-1dc6ca61d846.stdout",
+  "stderr_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/63970e7a-90f0-4511-a1bc-1dc6ca61d846.stderr"
+}

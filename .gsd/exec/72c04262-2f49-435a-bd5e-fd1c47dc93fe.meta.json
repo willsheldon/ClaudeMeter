@@ -1,0 +1,18 @@
+{
+  "id": "72c04262-2f49-435a-bd5e-fd1c47dc93fe",
+  "runtime": "python",
+  "purpose": "focused SettingsView credential snippets",
+  "script_chars": 598,
+  "started_at": "2026-06-17T02:46:49.886Z",
+  "finished_at": "2026-06-17T02:46:49.931Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 45,
+  "stdout_bytes": 9196,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/72c04262-2f49-435a-bd5e-fd1c47dc93fe.stdout",
+  "stderr_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/72c04262-2f49-435a-bd5e-fd1c47dc93fe.stderr"
+}

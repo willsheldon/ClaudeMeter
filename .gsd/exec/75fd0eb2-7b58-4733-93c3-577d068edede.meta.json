@@ -1,0 +1,18 @@
+{
+  "id": "75fd0eb2-7b58-4733-93c3-577d068edede",
+  "runtime": "bash",
+  "purpose": "S06 concise test and script inventory no binaries",
+  "script_chars": 414,
+  "started_at": "2026-06-17T15:55:21.988Z",
+  "finished_at": "2026-06-17T15:55:22.049Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 61,
+  "stdout_bytes": 12079,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/75fd0eb2-7b58-4733-93c3-577d068edede.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/75fd0eb2-7b58-4733-93c3-577d068edede.stderr"
+}

@@ -1,0 +1,13 @@
+ClaudeMeter/App/SessionKeyImportPromptCoordinator.swift:4:/// Presents ClaudeMeter-owned context before macOS shows browser Safe Storage prompts.
+ClaudeMeter/App/SessionKeyImportPromptCoordinator.swift:16:            "ClaudeMeter will ask macOS Keychain for \"\(context.label)\" so it can decrypt your Claude browser session cookie.",
+ClaudeMeter/Views/Setup/SetupWizardView.swift:28:                Text("Welcome to ClaudeMeter")
+ClaudeMeter/Views/Setup/SetupWizardView.swift:32:                Text("Monitor your Claude.ai plan usage in real-time")
+ClaudeMeter/Views/Setup/SetupWizardView.swift:40:                Text("Claude Session")
+ClaudeMeter/Views/Setup/SetupWizardView.swift:101:                    Text("Setup complete! Launching ClaudeMeter...")
+ClaudeMeter/Views/Settings/SettingsView.swift:80:    // MARK: - Claude Session Section
+ClaudeMeter/Views/Settings/SettingsView.swift:86:                    Text("Claude Session")
+ClaudeMeter/Views/Settings/SettingsView.swift:281:            Text("Paste the browser cookie values for .0 and .1 separately. ClaudeMeter joins them, stores the result only in Keychain, and sends it only to chatgpt.com.")
+ClaudeMeter/Views/Settings/SettingsView.swift:392:                Text("Automatically launch ClaudeMeter when you log in")
+ClaudeMeter/Views/Settings/SettingsView.swift:621:                Text("ClaudeMeter")
+ClaudeMeter/Views/Settings/SettingsView.swift:638:                Text("Monitor your Claude.ai usage limits")
+ClaudeMeter/Views/Settings/SettingsView.swift:644:            Link(destination: URL(string: "https://github.com/eddmann/ClaudeMeter")!) {

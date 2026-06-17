@@ -1,0 +1,17 @@
+84:         try writeUsageData(makeUsageData(sessionUtilization: 75), to: legacyPrivateCacheURL)
+85: 
+86:         await repository.invalidate()
+87: 
+88:         XCTAssertFalse(FileManager.default.fileExists(atPath: newPrivateCacheURL.path))
+89:         XCTAssertFalse(FileManager.default.fileExists(atPath: legacyPrivateCacheURL.path))
+90:         XCTAssertFalse(FileManager.default.fileExists(atPath: newPublicExportURL.path))
+91:         XCTAssertFalse(FileManager.default.fileExists(atPath: legacyPublicExportURL.path))
+92:         XCTAssertNil(await repository.get())
+93:         XCTAssertNil(await repository.getLastKnown())
+94:     }
+95: 
+96:     private func makeRepository() -> CacheRepository {
+97:         CacheRepository(
+98:             fileManager: .default,
+99:             appSupportBaseURL: appSupportBaseURL,
+100:             homeBaseURL: homeBaseURL

@@ -1,0 +1,18 @@
+{
+  "id": "034476dd-8ce9-4702-acae-2282417d60ff",
+  "runtime": "bash",
+  "purpose": "S06 test inventory relevant to cleanup/refactor boundaries",
+  "script_chars": 276,
+  "started_at": "2026-06-17T15:55:16.760Z",
+  "finished_at": "2026-06-17T15:55:16.824Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 64,
+  "stdout_bytes": 35044,
+  "stderr_bytes": 267,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/034476dd-8ce9-4702-acae-2282417d60ff.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/034476dd-8ce9-4702-acae-2282417d60ff.stderr"
+}

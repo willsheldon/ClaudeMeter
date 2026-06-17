@@ -1,0 +1,56 @@
+
+FILE .gsd/milestones/M001/slices/S04/S04-ARCHITECTURE-REVIEW.md
+-- excerpt around Ranked Findings --
+Ranked Findings
+
+| Rank | Finding | Severity | Files | Recommendation | Owner |
+|---:|---|---|---|---|---|
+| 1 | Credential compatibility and redaction are architecture invariants, not cleanup details. | High | `KeychainRepository`, `AppModel`, credential UI/services | Do not rename `com.claudemeter.sessionkey` or expose Cookie/Bearer/session material without an explicit migration and redaction tests. | M002 |
+| 2 | AppModel coordinates too many provider-specific workflows. | Medium | `ClaudeMeter/App/AppModel.swift` | Defer code extraction until S05 maps provider/error flows; then consider coordinator option C. | S05/S06 |
+| 3 | Provider errors are string-based and split by provider. | Medium | `AppModel`, services, settings/setup views | Introduce sanitized provider error/status model before adding more providers. | S05/M003 |
+| 4 | Settings persistence is correctly credential-free but has side effects from broad `settings` mutation. | Medium | `AppSettings`, `SettingsRepository`, `AppModel.scheduleSettingsSave` | Keep as-is for M001; when adding settings, test decode compatibility and save behavior. | S06+ |
+| 5 | Settings and setup views are large provider workflow surfaces. | Low | `SettingsView`, `SetupWizardView` | Refactor only after workflow audit; extract credential entry components with tests if touched. | S06 |
+
+## Downstream Handoff
+
+| Downstream | Needs from S04 |
+|---|---|
+| S05 Provider and error workflow audit | Validate whether provider workflows remain distinct and define sanitized provider error/status shapes. |
+| S06 Safe cleanup and ownership refactor | Prefer small extractions around views or AppModel coordinator seams; avoid credential storage changes. |
+| M002 Durable credential acquisition | Treat session/cookie/token flows as credential-equivalent and preserve Keychain service compatibility. |
+| M003/M004 Provider expansion | Do not introduce a universal provider abstraction until Claude, ChatGPT, and Gemini lifecycles are compared. |
+
+## Decision
+
+For the next implementation slice, do **not** introduce a universal `UsageProvider` protocol yet. Keep provider-specific services and, if cleanup is needed, extract orchestration into a provider coordinator that preserves provider-specific auth and error semantics.
+
+## Verification
+
+- Reviewed S04 research and current source surfaces listed above.
+- No production source files modified.
+- Artifact provides boundary map, three alternatives, recommendation, ranked findings, and downstream
+
+FILE .gsd/milestones/M001/slices/S05/S05-ASSESSMENT.md
+-- excerpt around Downstream Handoff --
+Downstream Handoff
+
+- **S06 cleanup:** use `scripts/provider_workflow_copy_audit.py` before and after cleanup that touches provider, credential, setup, status, or error copy. Do not turn advisory ChatGPT findings into generic provider claims without a real workflow change.
+- **S07 final verification:** include the audit script and focused Xcode tests in final validation evidence. Public docs should continue to say Claude.ai usage tracking plus optional ChatGPT quota visibility, not Gemini or generic provider support.
+- **M002 durable credentials:** use this assessment plus S02/S03 artifacts to redesign app-owned credential/session acquisition and retention. Current Keychain and settings rehydration behavior was not changed by S05.
+- **M003 provider-aware workflows:** use the audited surfaces list as the starting map for typed provider-aware setup, status, error, notification, and recovery flows.
+- **M004 Gemini monitoring:** do not infer Gemini readiness from S05. Gemini remains a future provider integration after provider-aware workflows exist.
+
+## Failure Modes
+
+- **Filesystem reads for the audit script:** `scripts/provider_workflow_copy_audit.py` scans a fixed allowlist. Missing files or unreadable paths fail the script and bubble as a non-zero verification result rather than silently passing.
+- **Public copy drift:** stale Claude-only public positioning, unsupported generic provider claims, or unsafe credential/logging copy fail the audit in default mode.
+- **Xcode test subprocess:** build/test failures bubble through the verification command and block completion. S05 made only static copy and diagnostic changes, so runtime provider API failures are not introduced by T04.
+- **Ambiguous provider decisions:** ambiguous or risky provider-copy choices are documented as deferred instead of broadened into generic provider support.
+
+## Load Profile
+
+S05 has no new runtime load path. The only 10x load dimension is verification-time static scanning of a fixed allowlist plus focused Xcode tests. The first resource to saturate would be local subprocess time, bounded by scanning 11 explicit files and running only the focused security/provider/session test targets rather than the full app test suite.
+
+## Negative Tests
+
+- `scripts/provider_workflow_copy_audit.py` fails on public-doc regressions to Claude-only positioning, unsupported generic provider claims, ambiguous Claude credential copy, and unsafe diagnostics that reintroduce response-body or credential loggin

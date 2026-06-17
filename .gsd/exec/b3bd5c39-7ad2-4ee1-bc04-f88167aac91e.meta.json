@@ -1,0 +1,18 @@
+{
+  "id": "b3bd5c39-7ad2-4ee1-bc04-f88167aac91e",
+  "runtime": "python",
+  "purpose": "S06 AppModel function inventory and size",
+  "script_chars": 436,
+  "started_at": "2026-06-17T15:55:04.326Z",
+  "finished_at": "2026-06-17T15:55:04.376Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 50,
+  "stdout_bytes": 1232,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/b3bd5c39-7ad2-4ee1-bc04-f88167aac91e.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/b3bd5c39-7ad2-4ee1-bc04-f88167aac91e.stderr"
+}

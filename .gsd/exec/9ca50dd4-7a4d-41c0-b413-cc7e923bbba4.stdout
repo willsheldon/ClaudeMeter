@@ -1,0 +1,39 @@
+--- context around line 88 ---
+
+SwiftCompile normal arm64 /Users/will/.gsd/projects/8f2789607114/worktrees/M001/PinemeterTests/CacheRepositoryTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+/Users/will/.gsd/projects/8f2789607114/worktrees/M001/PinemeterTests/CacheRepositoryTests.swift:92:28: error: 'async' call in an autoclosure that does not support concurrency
+        XCTAssertNil(await repository.get())
+                           ^
+/Users/will/.gsd/projects/8f2789607114/worktrees/M001/PinemeterTests/CacheRepositoryTests.swift:93:28: error: 'async' call in an autoclosure that does not support concurrency
+        XCTAssertNil(await repository.getLastKnown())
+                           ^
+/Users/will/.gsd/projects/8f2789607114/worktrees/M001/PinemeterTests/CacheRepositoryTests.swift:97:24: error: extra arguments at positions #2, #3 in call
+        CacheRepository(
+--- context around line 91 ---
+    
+/Users/will/.gsd/projects/8f2789607114/worktrees/M001/PinemeterTests/CacheRepositoryTests.swift:92:28: error: 'async' call in an autoclosure that does not support concurrency
+        XCTAssertNil(await repository.get())
+                           ^
+/Users/will/.gsd/projects/8f2789607114/worktrees/M001/PinemeterTests/CacheRepositoryTests.swift:93:28: error: 'async' call in an autoclosure that does not support concurrency
+        XCTAssertNil(await repository.getLastKnown())
+                           ^
+/Users/will/.gsd/projects/8f2789607114/worktrees/M001/PinemeterTests/CacheRepositoryTests.swift:97:24: error: extra arguments at positions #2, #3 in call
+        CacheRepository(
+                       ^
+Pinemeter.CacheRepository.init:2:10: note: 'init(fileManager:)' declared here
+internal init(fileManager: FileManager = .default)}
+--- context around line 94 ---
+                           ^
+/Users/will/.gsd/projects/8f2789607114/worktrees/M001/PinemeterTests/CacheRepositoryTests.swift:93:28: error: 'async' call in an autoclosure that does not support concurrency
+        XCTAssertNil(await repository.getLastKnown())
+                           ^
+/Users/will/.gsd/projects/8f2789607114/worktrees/M001/PinemeterTests/CacheRepositoryTests.swift:97:24: error: extra arguments at positions #2, #3 in call
+        CacheRepository(
+                       ^
+Pinemeter.CacheRepository.init:2:10: note: 'init(fileManager:)' declared here
+internal init(fileManager: FileManager = .default)}
+         ^
+
+note: Disabling hardened runtime with ad-hoc codesigning. (in target 'Pinemeter' from project 'Pinemeter')

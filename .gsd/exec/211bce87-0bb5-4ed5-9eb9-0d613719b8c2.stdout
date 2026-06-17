@@ -1,0 +1,181 @@
+PWD=/Users/will/.gsd/projects/8f2789607114/worktrees/M001
+
+Git branches/remotes:
+milestone/M001
+base_branch=main
+merge_base=bd4ea81418841c578b69fd51117d73e54f46849c HEAD=87dfe3749b1573fa4022ce4138719706e0a30e32
+
+Non-GSD diff files vs merge-base:
+.bg-shell/manifest.json
+.github/workflows/release.yml
+.github/workflows/test.yml
+.gitignore
+AGENTS.md
+Pinemeter.xcodeproj/project.pbxproj
+Pinemeter.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+Pinemeter.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme
+Pinemeter/App/AppDelegate.swift
+Pinemeter/App/AppModel.swift
+Pinemeter/App/PinemeterApp.swift
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift
+Pinemeter/Assets.xcassets/AccentColor.colorset/Contents.json
+Pinemeter/Assets.xcassets/AppIcon.appiconset/1024-mac.png
+Pinemeter/Assets.xcassets/AppIcon.appiconset/128-mac.png
+Pinemeter/Assets.xcassets/AppIcon.appiconset/16-mac.png
+Pinemeter/Assets.xcassets/AppIcon.appiconset/256-mac.png
+Pinemeter/Assets.xcassets/AppIcon.appiconset/32-mac.png
+Pinemeter/Assets.xcassets/AppIcon.appiconset/512-mac.png
+Pinemeter/Assets.xcassets/AppIcon.appiconset/64-mac.png
+Pinemeter/Assets.xcassets/AppIcon.appiconset/Contents.json
+Pinemeter/Assets.xcassets/Contents.json
+Pinemeter/Models/API/ChatGPTAPIResponses.swift
+Pinemeter/Models/API/OrganizationListResponse.swift
+Pinemeter/Models/API/UsageAPIResponse.swift
+Pinemeter/Models/AppSettings.swift
+Pinemeter/Models/ChatGPTUsageData.swift
+Pinemeter/Models/Constants.swift
+Pinemeter/Models/Errors/AppError.swift
+Pinemeter/Models/Errors/KeychainError.swift
+Pinemeter/Models/Errors/NetworkError.swift
+Pinemeter/Models/IconStyle.swift
+Pinemeter/Models/NotificationState.swift
+Pinemeter/Models/NotificationThresholds.swift
+Pinemeter/Models/Organization.swift
+Pinemeter/Models/SessionKey.swift
+Pinemeter/Models/UsageData.swift
+Pinemeter/Models/UsageLimit.swift
+Pinemeter/Models/UsageStatus.swift
+Pinemeter/Repositories/CacheRepository.swift
+Pinemeter/Repositories/KeychainRepository.swift
+Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift
+Pinemeter/Repositories/SettingsRepository.swift
+Pinemeter/Resources/Info.plist
+Pinemeter/Resources/Pinemeter.entitlements
+Pinemeter/Services/ChatGPTUsageService.swift
+Pinemeter/Services/NetworkService.swift
+Pinemeter/Services/NotificationService.swift
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift
+Pinemeter/Services/SessionKeyImportService.swift
+Pinemeter/Services/UsageService.swift
+Pinemeter/Services/WebViewNetworkService.swift
+Pinemeter/Utilities/DemoDataFactory.swift
+Pinemeter/Utilities/DemoMode.swift
+Pinemeter/Utilities/SystemSettingsOpener.swift
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift
+Pinemeter/Views/MenuBar/IconCache.swift
+Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift
+Pinemeter/Views/MenuBar/MenuBarIconRenderer.swift
+Pinemeter/Views/MenuBar/MenuBarIconView.swift
+Pinemeter/Views/MenuBar/MenuBarManager.swift
+Pinemeter/Views/MenuBar/MenuBarPopoverView.swift
+Pinemeter/Views/MenuBar/UsageCardView.swift
+Pinemeter/Views/MenuBar/UsagePopoverView.swift
+Pinemeter/Views/Settings/SettingsView.swift
+Pinemeter/Views/Setup/SetupWizardView.swift
+PinemeterTests/AppModelTests.swift
+PinemeterTests/AppSettingsTests.swift
+PinemeterTests/CacheRepositoryTests.swift
+PinemeterTests/ChatGPTAppModelTests.swift
+PinemeterTests/ChatGPTUsageServiceTests.swift
+PinemeterTests/MenuBarIconRendererTests.swift
+PinemeterTests/NotificationServiceTests.swift
+PinemeterTests/ProviderErrorWorkflowTests.swift
+PinemeterTests/SecurityInvariantTests.swift
+PinemeterTests/SessionKeyTests.swift
+PinemeterTests/SettingsRepositoryTests.swift
+PinemeterTests/TestDoubles/CacheRepositoryFake.swift
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift
+PinemeterTests/TestDoubles/NetworkServiceStub.swift
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift
+PinemeterTests/TestDoubles/SettingsRepositoryFake.swift
+PinemeterTests/TestDoubles/UsageServiceStub.swift
+PinemeterTests/TestSupport/MenuBarIconSnapshotRenderer.swift
+PinemeterTests/TestSupport/TestConstants.swift
+PinemeterTests/TestSupport/TestError.swift
+PinemeterTests/UsageLimitRiskTests.swift
+PinemeterTests/UsageServiceTests.swift
+README.md
+docs/heading.png
+scripts/__pycache__/provider_workflow_copy_audit.cpython-314.pyc
+scripts/demo.sh
+scripts/provider_workflow_copy_audit.py
+site/index.html
+site/logo.png
+site/preview.png
+work-to-date.md
+
+Non-GSD diff count: 107
+
+Milestone commits touching non-GSD files:
+commit_non_gsd_count=0
+
+Slice summaries present:
+S01 summary yes
+S02 summary yes
+S03 summary yes
+S04 summary yes
+S05 summary yes
+S06 summary yes
+S07 summary yes
+
+Roadmap checklist lines:
+17:- [x] **S01: Pinemeter identity migration** `risk:high` `depends:[]`
+20:- [x] **S02: Credential surface inventory** `risk:high` `depends:[S01]`
+23:- [x] **S03: Security review baseline** `risk:high` `depends:[S02]`
+26:- [x] **S04: Architecture review baseline** `risk:medium` `depends:[S01]`
+29:- [x] **S05: Provider and error workflow audit** `risk:medium` `depends:[S02,S03]`
+32:- [x] **S06: Safe cleanup and ownership refactor** `risk:medium` `depends:[S04,S05]`
+35:- [x] **S07: Verification and open source history plan** `risk:low` `depends:[S01,S03,S04,S06]`
+
+Requirement statuses:
+### R001 — Product identity is renamed to Pinemeter everywhere feasible, including user-facing surfaces, internal symbols, project/target/scheme names, docs/site, metadata, and tests unless a genuinely risky reference is escalated.
+- Status: active
+### R002 — Existing app behavior remains stable through rename, cleanup, and review-driven restructuring.
+- Status: active
+### R003 — Credential and session handling surfaces are inventoried and assessed, including acquisition, storage, reuse, clearing, logging, settings, UI display, and recovery.
+- Status: active
+### R004 — Security review identifies risks in credential storage, session handling, logging, persistence, user-visible recovery, and secret exposure.
+- Status: active
+### R005 — Architecture review produces actionable findings about services, repositories, app state, provider boundaries, settings, and error handling, using an Opus subprocess or advisor if available.
+- Status: active
+### R006 — Provider and error workflow assumptions are audited for Claude/Opus and GPT so stale Claude-only messages and recovery paths are identified or safely cleaned.
+- Status: active
+### R007 — Safe dead-code, stale-name, stale-assumption, and obsolete-path cleanup is performed where it improves ownership without destabilizing behavior.
+- Status: active
+### R008 — Tests and clean build pass after rename, cleanup, and review-driven changes, using Pinemeter project and scheme names if they are renamed.
+- Status: active
+### R009 — Git history squashing and open-source repository hygiene are planned without performing destructive history rewriting or remote pushes.
+- Status: active
+### R010 — The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+- Status: deferred
+### R011 — Setup, status, errors, recovery, and notifications are fully provider-aware across monitored LLM providers.
+- Status: deferred
+### R012 — Gemini usage monitoring is added in the same product family as existing Opus and GPT monitoring.
+- Status: deferred
+### R013 — Public open-source polish is completed, including contribution conventions, issue templates, release-facing documentation, and public presentation details.
+- Status: deferred
+### R014 — Do not perform destructive git history rewriting or remote pushes without fresh explicit confirmation.
+- Status: out-of-scope
+### R015 — Do not implement the full durable credential acquisition system during M001.
+- Status: out-of-scope
+### R016 — Do not implement Gemini monitoring during M001.
+- Status: out-of-scope
+### R017 — Do not spend M001 on contribution templates, issue templates, and launch-grade public polish.
+- Status: out-of-scope
+
+Decision rows:
+| D001 | M001 planning | product-identity | How far the ClaudeMeter to Pinemeter rename should go in M001 | Perform a comprehensive product and internal identity rename to Pinemeter wherever feasible, including project, scheme, target, source symbols, tests, docs/site, metadata, and user-facing copy. | The user wants to take ownership of the codebase, not only change the visible app label. Leaving internal ClaudeMeter assumptions would make the repo less maintainable and less presentable for future open-source release. | Yes, if execution finds a genuinely risky rename surface that requires explicit user approval. | collaborative |
+| D002 | M001 planning | credential-architecture | Whether M001 should implement durable credential acquisition | M001 inventories and reviews credential/session handling, while M002 owns implementation of durable app-owned credential acquisition and persistence. | The existing app already has Claude session key import, ChatGPT session cookie settings, Keychain storage, and provider-specific error flows. A safe durable credential system requires a concrete inventory and security review first. | Yes, if execution discovers an immediate low-risk security fix required in M001. | collaborative |
+| D003 | M001 planning | architecture-review | How to use Opus for the architecture review | Attempt an Opus subprocess or advisor review if available, but produce a local ranked architecture review baseline if quota prevents Opus use. | The user requested an Opus architecture review but noted Claude quota is unavailable today. M001 should not block indefinitely on quota and should still provide actionable architecture findings. | Yes, if Opus becomes available during execution. | collaborative |
+| D004 | M001 planning | git-history | Whether M001 may squash or rewrite git history | M001 may prepare a non-destructive git history squash and open-source hygiene plan, but must not rewrite history or push remotely without fresh explicit confirmation. | History rewriting and remote publication are destructive or outward-facing actions. The user wants a pretty public repo, but the project rules require explicit confirmation before those operations. | No for automatic execution; the user can explicitly approve a later destructive action. | collaborative |
+| D005 | M001 planning | milestone-sequencing | How to sequence the broader Pinemeter ownership vision | Use M001 for ownership, safety, reviews, and cleanup; M002 for durable credential acquisition; M003 for provider-aware workflows; M004 for Gemini monitoring; and M005 for public open-source polish. | This preserves the user's big vision without reducing scope, while ordering work so credential and provider decisions are informed by M001's inventory and review outputs. | Yes, after each milestone reassessment. | collaborative |

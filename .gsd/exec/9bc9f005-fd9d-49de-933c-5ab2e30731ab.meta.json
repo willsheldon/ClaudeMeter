@@ -1,0 +1,18 @@
+{
+  "id": "9bc9f005-fd9d-49de-933c-5ab2e30731ab",
+  "runtime": "python",
+  "purpose": "Inspect CacheRepositoryTests definitions without dumping full file",
+  "script_chars": 197,
+  "started_at": "2026-06-17T16:06:59.294Z",
+  "finished_at": "2026-06-17T16:06:59.349Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 55,
+  "stdout_bytes": 2472,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/9bc9f005-fd9d-49de-933c-5ab2e30731ab.stdout",
+  "stderr_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/9bc9f005-fd9d-49de-933c-5ab2e30731ab.stderr"
+}

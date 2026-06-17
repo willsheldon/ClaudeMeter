@@ -1,0 +1,519 @@
+Tests by file and classes:
+PinemeterTests/NotificationServiceTests.swift:12:final class NotificationServiceTests: XCTestCase {
+PinemeterTests/NotificationServiceTests.swift:13:    func test_userReceivesWarningNotificationWhenUsageCrossesThreshold() async {
+PinemeterTests/NotificationServiceTests.swift:14:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/NotificationServiceTests.swift:30:        XCTAssertEqual(notificationCenter.addedRequests.count, 1)
+PinemeterTests/NotificationServiceTests.swift:31:        XCTAssertEqual(notificationCenter.addedRequests.first?.content.userInfo["threshold"] as? String, "warning")
+PinemeterTests/NotificationServiceTests.swift:34:    func test_userWithNotificationsDisabled_doesNotReceiveThresholdNotification() async {
+PinemeterTests/NotificationServiceTests.swift:35:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/NotificationServiceTests.swift:50:        XCTAssertTrue(notificationCenter.addedRequests.isEmpty)
+PinemeterTests/NotificationServiceTests.swift:53:    func test_userWithoutSystemPermission_doesNotReceiveNotification() async {
+PinemeterTests/NotificationServiceTests.swift:54:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/NotificationServiceTests.swift:71:        XCTAssertTrue(notificationCenter.addedRequests.isEmpty)
+PinemeterTests/NotificationServiceTests.swift:74:    func test_userDoesNotReceiveDuplicateWarningWithoutDroppingBelowThreshold() async {
+PinemeterTests/NotificationServiceTests.swift:75:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/NotificationServiceTests.swift:92:        XCTAssertEqual(notificationCenter.addedRequests.count, 1)
+PinemeterTests/NotificationServiceTests.swift:95:    func test_userCrossesCriticalThreshold_receivesCriticalNotification() async {
+PinemeterTests/NotificationServiceTests.swift:96:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/NotificationServiceTests.swift:115:        XCTAssertTrue(sentCritical)
+PinemeterTests/NotificationServiceTests.swift:118:    func test_userReceivesWarningAgainAfterDroppingBelowThreshold() async {
+PinemeterTests/NotificationServiceTests.swift:119:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/NotificationServiceTests.swift:135:        XCTAssertEqual(notificationCenter.addedRequests.count, 2)
+PinemeterTests/NotificationServiceTests.swift:138:    func test_userReceivesResetNotificationWhenUsageResets() async {
+PinemeterTests/NotificationServiceTests.swift:139:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/NotificationServiceTests.swift:156:        XCTAssertEqual(notificationCenter.addedRequests.count, 1)
+PinemeterTests/NotificationServiceTests.swift:157:        XCTAssertEqual(notificationCenter.addedRequests.first?.content.categoryIdentifier, "usage.reset")
+PinemeterTests/UsageLimitRiskTests.swift:11:final class UsageLimitRiskTests: XCTestCase {
+PinemeterTests/UsageLimitRiskTests.swift:15:    func test_isAtRisk_whenUsingFasterThanSustainable_returnsTrue() {
+PinemeterTests/UsageLimitRiskTests.swift:20:        XCTAssertTrue(usageLimit.isAtRisk(windowDuration: sessionWindow))
+PinemeterTests/UsageLimitRiskTests.swift:23:    func test_isAtRisk_whenUsingAtSustainablePace_returnsFalse() {
+PinemeterTests/UsageLimitRiskTests.swift:28:        XCTAssertFalse(usageLimit.isAtRisk(windowDuration: sessionWindow))
+PinemeterTests/UsageLimitRiskTests.swift:31:    func test_isAtRisk_whenSlightlyAboveThreshold_returnsTrue() {
+PinemeterTests/UsageLimitRiskTests.swift:36:        XCTAssertTrue(usageLimit.isAtRisk(windowDuration: sessionWindow))
+PinemeterTests/UsageLimitRiskTests.swift:39:    func test_isAtRisk_whenPastResetTime_returnsFalse() {
+PinemeterTests/UsageLimitRiskTests.swift:43:        XCTAssertFalse(usageLimit.isAtRisk(windowDuration: sessionWindow))
+PinemeterTests/UsageLimitRiskTests.swift:46:    func test_isAtRisk_whenBeforeWindowStart_returnsFalse() {
+PinemeterTests/UsageLimitRiskTests.swift:51:        XCTAssertFalse(usageLimit.isAtRisk(windowDuration: sessionWindow))
+PinemeterTests/UsageLimitRiskTests.swift:54:    func test_resetDescription_whenUnderOneHour_showsRoundedUpMinutes() {
+PinemeterTests/UsageLimitRiskTests.swift:55:        XCTAssertEqual(
+PinemeterTests/UsageLimitRiskTests.swift:61:    func test_resetDescription_whenUnderOneDay_showsRoundedUpHours() {
+PinemeterTests/UsageLimitRiskTests.swift:62:        XCTAssertEqual(
+PinemeterTests/UsageLimitRiskTests.swift:68:    func test_resetDescription_whenOverOneDay_showsDaysAndHours() {
+PinemeterTests/UsageLimitRiskTests.swift:69:        XCTAssertEqual(
+PinemeterTests/UsageLimitRiskTests.swift:75:    func test_resetDescription_whenExactlyWholeDays_omitsZeroHours() {
+PinemeterTests/UsageLimitRiskTests.swift:76:        XCTAssertEqual(
+PinemeterTests/UsageLimitRiskTests.swift:82:    func test_resetDescription_whenPastResetTime_showsNow() {
+PinemeterTests/UsageLimitRiskTests.swift:83:        XCTAssertEqual(
+PinemeterTests/SettingsRepositoryTests.swift:2://  SettingsRepositoryTests.swift
+PinemeterTests/SettingsRepositoryTests.swift:11:final class SettingsRepositoryTests: XCTestCase {
+PinemeterTests/SettingsRepositoryTests.swift:12:    func test_settingsPersistAcrossLaunches() async throws {
+PinemeterTests/SettingsRepositoryTests.swift:13:        let suiteName = "SettingsRepositoryTests.\(UUID().uuidString)"
+PinemeterTests/SettingsRepositoryTests.swift:17:        let repository = SettingsRepository(userDefaults: userDefaults ?? .standard)
+PinemeterTests/SettingsRepositoryTests.swift:25:        settings.isChatGPTUsageShown = true
+PinemeterTests/SettingsRepositoryTests.swift:30:        XCTAssertEqual(loaded, settings)
+PinemeterTests/SettingsRepositoryTests.swift:33:    func test_settingsDecodingWithoutIsColoredIcon_usesDefault() throws {
+PinemeterTests/SettingsRepositoryTests.swift:52:        XCTAssertTrue(settings.isColoredIcon)
+PinemeterTests/SettingsRepositoryTests.swift:55:    func test_defaultSettings_hideChatGPTUsage() {
+PinemeterTests/SettingsRepositoryTests.swift:56:        XCTAssertFalse(AppSettings.default.isChatGPTUsageShown)
+PinemeterTests/SettingsRepositoryTests.swift:59:    func test_notificationStatePersistsAcrossLaunches() async throws {
+PinemeterTests/SettingsRepositoryTests.swift:60:        let suiteName = "SettingsRepositoryTests.\(UUID().uuidString)"
+PinemeterTests/SettingsRepositoryTests.swift:64:        let repository = SettingsRepository(userDefaults: userDefaults ?? .standard)
+PinemeterTests/SettingsRepositoryTests.swift:73:        XCTAssertEqual(loaded, state)
+PinemeterTests/MenuBarIconRendererTests.swift:12:final class MenuBarIconRendererTests: XCTestCase {
+PinemeterTests/MenuBarIconRendererTests.swift:13:    func test_menuBarIconRendersMeterStyle() {
+PinemeterTests/MenuBarIconRendererTests.swift:25:        XCTAssertGreaterThan(image.size.width, 0)
+PinemeterTests/MenuBarIconRendererTests.swift:26:        XCTAssertGreaterThan(image.size.height, 0)
+PinemeterTests/MenuBarIconRendererTests.swift:29:    func test_menuBarIconRendersWhenLoadingOrStale() {
+PinemeterTests/MenuBarIconRendererTests.swift:50:        XCTAssertGreaterThan(loadingImage.size.width, 0)
+PinemeterTests/MenuBarIconRendererTests.swift:51:        XCTAssertGreaterThan(loadingImage.size.height, 0)
+PinemeterTests/MenuBarIconRendererTests.swift:52:        XCTAssertGreaterThan(staleImage.size.width, 0)
+PinemeterTests/MenuBarIconRendererTests.swift:53:        XCTAssertGreaterThan(staleImage.size.height, 0)
+PinemeterTests/MenuBarIconRendererTests.swift:56:    func test_menuBarIconIsRenderedAsNonTemplateImage() {
+PinemeterTests/MenuBarIconRendererTests.swift:68:        XCTAssertFalse(image.isTemplate)
+PinemeterTests/MenuBarIconRendererTests.swift:71:    func test_menuBarIconIsRenderedAsTemplateImageWhenMonochromeModeSelected() {
+PinemeterTests/MenuBarIconRendererTests.swift:84:        XCTAssertTrue(image.isTemplate)
+PinemeterTests/MenuBarIconRendererTests.swift:87:    func test_menuBarIconIsRenderedAsNonTemplateImageWhenColorModeSelected() {
+PinemeterTests/MenuBarIconRendererTests.swift:100:        XCTAssertFalse(image.isTemplate)
+PinemeterTests/ChatGPTAppModelTests.swift:2://  ChatGPTAppModelTests.swift
+PinemeterTests/ChatGPTAppModelTests.swift:11:final class ChatGPTAppModelTests: XCTestCase {
+PinemeterTests/ChatGPTAppModelTests.swift:12:    func test_bootstrap_detectsExistingChatGPTSessionWithoutRequiringClaudeSetup() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:13:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:15:        let appModel = makeAppModel(keychainRepository: keychainRepository)
+PinemeterTests/ChatGPTAppModelTests.swift:19:        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:20:        XCTAssertFalse(appModel.isSetupComplete)
+PinemeterTests/ChatGPTAppModelTests.swift:23:    func test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:24:        let expectedUsage = makeChatGPTUsage(percentage: 25)
+PinemeterTests/ChatGPTAppModelTests.swift:25:        let chatGPTService = ChatGPTUsageServiceStub(
+PinemeterTests/ChatGPTAppModelTests.swift:29:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:30:        let appModel = makeAppModel(
+PinemeterTests/ChatGPTAppModelTests.swift:32:            chatGPTUsageService: chatGPTService
+PinemeterTests/ChatGPTAppModelTests.swift:35:        let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:37:        XCTAssertTrue(result)
+PinemeterTests/ChatGPTAppModelTests.swift:38:        let savedChatGPTCookie = try await keychainRepository.retrieve(account: "chatgpt")
+PinemeterTests/ChatGPTAppModelTests.swift:39:        XCTAssertEqual(savedChatGPTCookie, "chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:40:        await XCTAssertThrowsErrorAsync(try await keychainRepository.retrieve(account: "default"))
+PinemeterTests/ChatGPTAppModelTests.swift:41:        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:42:        XCTAssertTrue(appModel.settings.isChatGPTUsageShown)
+PinemeterTests/ChatGPTAppModelTests.swift:43:        XCTAssertEqual(appModel.chatGPTUsageData, expectedUsage)
+PinemeterTests/ChatGPTAppModelTests.swift:44:        XCTAssertNil(appModel.chatGPTErrorMessage)
+PinemeterTests/ChatGPTAppModelTests.swift:47:    func test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:48:        let chatGPTService = ChatGPTUsageServiceStub(isSessionCookieValid: false)
+PinemeterTests/ChatGPTAppModelTests.swift:49:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:50:        let appModel = makeAppModel(
+PinemeterTests/ChatGPTAppModelTests.swift:52:            chatGPTUsageService: chatGPTService
+PinemeterTests/ChatGPTAppModelTests.swift:55:        let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:57:        XCTAssertFalse(result)
+PinemeterTests/ChatGPTAppModelTests.swift:58:        XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:59:        await XCTAssertThrowsErrorAsync(try await keychainRepository.retrieve(account: "chatgpt"))
+PinemeterTests/ChatGPTAppModelTests.swift:62:    func test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError() async {
+PinemeterTests/ChatGPTAppModelTests.swift:64:        let chatGPTService = ChatGPTUsageServiceStub(
+PinemeterTests/ChatGPTAppModelTests.swift:65:            fetchUsageResult: .failure(ChatGPTUsageError.networkUnavailable)
+PinemeterTests/ChatGPTAppModelTests.swift:67:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:69:        let appModel = makeAppModel(
+PinemeterTests/ChatGPTAppModelTests.swift:71:            chatGPTUsageService: chatGPTService
+PinemeterTests/ChatGPTAppModelTests.swift:76:        await appModel.refreshChatGPTUsage()
+PinemeterTests/ChatGPTAppModelTests.swift:78:        XCTAssertEqual(appModel.usageData, claudeUsage)
+PinemeterTests/ChatGPTAppModelTests.swift:79:        XCTAssertEqual(appModel.errorMessage, "Claude error stays separate")
+PinemeterTests/ChatGPTAppModelTests.swift:80:        XCTAssertEqual(appModel.chatGPTErrorMessage, "ChatGPT quota data is unavailable. Check your connection and try again.")
+PinemeterTests/ChatGPTAppModelTests.swift:81:        XCTAssertNil(appModel.chatGPTUsageData)
+PinemeterTests/ChatGPTAppModelTests.swift:84:    func test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:85:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:88:        let appModel = makeAppModel(keychainRepository: keychainRepository)
+PinemeterTests/ChatGPTAppModelTests.swift:89:        appModel.settings.isChatGPTUsageShown = true
+PinemeterTests/ChatGPTAppModelTests.swift:90:        appModel.chatGPTUsageData = makeChatGPTUsage(percentage: 1)
+PinemeterTests/ChatGPTAppModelTests.swift:92:        appModel.hasChatGPTSessionCookie = true
+PinemeterTests/ChatGPTAppModelTests.swift:94:        try await appModel.clearChatGPTSessionCookie()
+PinemeterTests/ChatGPTAppModelTests.swift:97:        XCTAssertEqual(savedClaudeKey, TestConstants.sessionKeyValue)
+PinemeterTests/ChatGPTAppModelTests.swift:98:        await XCTAssertThrowsErrorAsync(try await keychainRepository.retrieve(account: "chatgpt"))
+PinemeterTests/ChatGPTAppModelTests.swift:99:        XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+PinemeterTests/ChatGPTAppModelTests.swift:100:        XCTAssertFalse(appModel.settings.isChatGPTUsageShown)
+PinemeterTests/ChatGPTAppModelTests.swift:101:        XCTAssertNil(appModel.chatGPTUsageData)
+PinemeterTests/ChatGPTAppModelTests.swift:102:        XCTAssertNil(appModel.chatGPTErrorMessage)
+PinemeterTests/ChatGPTAppModelTests.swift:105:    private func makeAppModel(
+PinemeterTests/ChatGPTAppModelTests.swift:106:        keychainRepository: KeychainRepositoryFake = KeychainRepositoryFake(),
+PinemeterTests/ChatGPTAppModelTests.swift:107:        chatGPTUsageService: ChatGPTUsageServiceProtocol = ChatGPTUsageServiceStub()
+PinemeterTests/ChatGPTAppModelTests.swift:108:    ) -> AppModel {
+PinemeterTests/ChatGPTAppModelTests.swift:109:        AppModel(
+PinemeterTests/ChatGPTAppModelTests.swift:110:            settingsRepository: SettingsRepositoryFake(),
+PinemeterTests/ChatGPTAppModelTests.swift:112:            usageService: UsageServiceStub(fetchUsageResult: .success(makeClaudeUsage(percentage: 10))),
+PinemeterTests/ChatGPTAppModelTests.swift:113:            chatGPTUsageService: chatGPTUsageService,
+PinemeterTests/ChatGPTAppModelTests.swift:119:private actor ChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+PinemeterTests/ChatGPTAppModelTests.swift:120:    let fetchUsageResult: Result<ChatGPTUsageData, Error>
+PinemeterTests/ChatGPTAppModelTests.swift:124:        fetchUsageResult: Result<ChatGPTUsageData, Error> = .success(makeChatGPTUsage(percentage: 10)),
+PinemeterTests/ChatGPTAppModelTests.swift:131:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+PinemeterTests/ChatGPTAppModelTests.swift:160:private func makeChatGPTUsage(percentage: Double) -> ChatGPTUsageData {
+PinemeterTests/ChatGPTAppModelTests.swift:161:    ChatGPTUsageData(
+PinemeterTests/ChatGPTAppModelTests.swift:169:private func XCTAssertThrowsErrorAsync(
+PinemeterTests/TestDoubles/NetworkServiceStub.swift:2://  NetworkServiceStub.swift
+PinemeterTests/TestDoubles/NetworkServiceStub.swift:11:actor NetworkServiceStub: NetworkServiceProtocol {
+PinemeterTests/ChatGPTUsageServiceTests.swift:2://  ChatGPTUsageServiceTests.swift
+PinemeterTests/ChatGPTUsageServiceTests.swift:10:final class ChatGPTUsageServiceTests: XCTestCase {
+PinemeterTests/ChatGPTUsageServiceTests.swift:11:    func test_chatGPTUsageData_usesWorstQuotaBucketForOverallStatus() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:12:        let data = ChatGPTUsageData(
+PinemeterTests/ChatGPTUsageServiceTests.swift:20:        XCTAssertEqual(data.percentage, 92)
+PinemeterTests/ChatGPTUsageServiceTests.swift:21:        XCTAssertEqual(data.status, .critical)
+PinemeterTests/ChatGPTUsageServiceTests.swift:24:    func test_cookieHeader_acceptsRawSessionToken() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:25:        let header = ChatGPTUsageService.cookieHeader(from: " token-redacted \n")
+PinemeterTests/ChatGPTUsageServiceTests.swift:27:        XCTAssertEqual(header, "__Secure-next-auth.session-token=token-redacted")
+PinemeterTests/ChatGPTUsageServiceTests.swift:30:    func test_cookieHeader_acceptsFullCookieHeader() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:31:        let header = ChatGPTUsageService.cookieHeader(from: "a=b; __Secure-next-auth.session-token=token-redacted")
+PinemeterTests/ChatGPTUsageServiceTests.swift:33:        XCTAssertEqual(header, "a=b; __Secure-next-auth.session-token=token-redacted")
+PinemeterTests/ChatGPTUsageServiceTests.swift:36:    func test_cookieHeader_joinsSplitSessionTokenCookies() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:37:        let header = ChatGPTUsageService.cookieHeader(
+PinemeterTests/ChatGPTUsageServiceTests.swift:41:        XCTAssertEqual(header, "__Secure-next-auth.session-token=firstsecond")
+PinemeterTests/ChatGPTUsageServiceTests.swift:44:    func test_cookieHeader_acceptsCookiePrefixAndNewlineSeparatedSplitCookies() {
+PinemeterTests/ChatGPTUsageServiceTests.swift:45:        let header = ChatGPTUsageService.cookieHeader(
+PinemeterTests/ChatGPTUsageServiceTests.swift:49:        XCTAssertEqual(header, "__Secure-next-auth.session-token=firstsecond")
+PinemeterTests/ChatGPTUsageServiceTests.swift:52:    func test_whamToDomain_classifiesMenuBarRowsAndPreservesUnknownRows() throws {
+PinemeterTests/ChatGPTUsageServiceTests.swift:68:        let response = try decoder.decode(ChatGPTWHAMUsageResponse.self, from: json)
+PinemeterTests/ChatGPTUsageServiceTests.swift:72:        XCTAssertEqual(usage.rows.map(\.sourceLabel), [
+PinemeterTests/ChatGPTUsageServiceTests.swift:79:        XCTAssertEqual(usage.rows.map(\.label), [
+PinemeterTests/ChatGPTUsageServiceTests.swift:80:            "ChatGPT 5h",
+PinemeterTests/ChatGPTUsageServiceTests.swift:81:            "ChatGPT weekly",
+PinemeterTests/ChatGPTUsageServiceTests.swift:83:            "ChatGPT Pro",
+PinemeterTests/ChatGPTUsageServiceTests.swift:86:        XCTAssertEqual(usage.menuBarRows.map(\.menuBarRole), [.chatGPT5h, .chatGPTWeekly, .chatGPTPro])
+PinemeterTests/ChatGPTUsageServiceTests.swift:87:        XCTAssertEqual(usage.menuBarRows.map(\.label), ["ChatGPT 5h", "ChatGPT weekly", "ChatGPT Pro"])
+PinemeterTests/ChatGPTUsageServiceTests.swift:90:        XCTAssertNil(unknownRow.menuBarRole)
+PinemeterTests/ChatGPTUsageServiceTests.swift:91:        XCTAssertEqual(unknownRow.subtitle, "WHAM: unknown_bucket")
+PinemeterTests/ChatGPTUsageServiceTests.swift:94:    func test_fetchUsage_withBlankSessionCookie_throwsMissingSessionCookie() async {
+PinemeterTests/ChatGPTUsageServiceTests.swift:95:        let service = ChatGPTUsageService(httpClient: ChatGPTHTTPClientStub())
+PinemeterTests/ChatGPTUsageServiceTests.swift:100:        } catch ChatGPTUsageError.missingSessionCookie {
+PinemeterTests/ChatGPTUsageServiceTests.swift:107:    func test_fetchUsage_exchangesCookieForAccessTokenThenFetchesWhamUsage() async throws {
+PinemeterTests/ChatGPTUsageServiceTests.swift:109:        let httpClient = ChatGPTHTTPClientStub(
+PinemeterTests/ChatGPTUsageServiceTests.swift:115:        let service = ChatGPTUsageService(
+PinemeterTests/ChatGPTUsageServiceTests.swift:122:        XCTAssertEqual(usage.rows.map(\.label), ["ChatGPT 5h", "Code Review"])
+PinemeterTests/ChatGPTUsageServiceTests.swift:123:        XCTAssertEqual(usage.rows.map(\.sourceLabel), ["rate_limit", "code_review_rate_limit"])
+PinemeterTests/ChatGPTUsageServiceTests.swift:124:        XCTAssertEqual(usage.rows.map(\.usedPercent), [25, 50])
+PinemeterTests/ChatGPTUsageServiceTests.swift:125:        XCTAssertEqual(usage.lastUpdated, now)
+PinemeterTests/ChatGPTUsageServiceTests.swift:128:        XCTAssertEqual(requests.count, 2)
+PinemeterTests/ChatGPTUsageServiceTests.swift:129:        XCTAssertTrue(requests[0].endpoint.hasSuffix("/api/auth/session"))
+PinemeterTests/ChatGPTUsageServiceTests.swift:130:        XCTAssertNil(requests[0].authorization)
+PinemeterTests/ChatGPTUsageServiceTests.swift:131:        XCTAssertTrue(requests[1].endpoint.hasSuffix("/backend-api/wham/usage"))
+PinemeterTests/ChatGPTUsageServiceTests.swift:132:        XCTAssertEqual(requests[1].authorization, "Bearer access-token-redacted")
+PinemeterTests/ChatGPTUsageServiceTests.swift:133:        XCTAssertEqual(
+PinemeterTests/ChatGPTUsageServiceTests.swift:142:    func test_fetchUsage_withoutAccessToken_treatsCookieAsInvalid() async {
+PinemeterTests/ChatGPTUsageServiceTests.swift:143:        let httpClient = ChatGPTHTTPClientStub(
+PinemeterTests/ChatGPTUsageServiceTests.swift:146:        let service = ChatGPTUsageService(httpClient: httpClient)
+PinemeterTests/ChatGPTUsageServiceTests.swift:151:        } catch ChatGPTUsageError.invalidSessionCookie {
+PinemeterTests/ChatGPTUsageServiceTests.swift:159:private actor ChatGPTHTTPClientStub: ChatGPTHTTPClientProtocol {
+PinemeterTests/ChatGPTUsageServiceTests.swift:189:            throw ChatGPTUsageError.invalidResponse
+PinemeterTests/TestDoubles/SettingsRepositoryFake.swift:2://  SettingsRepositoryFake.swift
+PinemeterTests/TestDoubles/SettingsRepositoryFake.swift:11:actor SettingsRepositoryFake: SettingsRepositoryProtocol {
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:12:final class NotificationServiceSpy: NotificationServiceProtocol {
+PinemeterTests/TestDoubles/UsageServiceStub.swift:2://  UsageServiceStub.swift
+PinemeterTests/TestDoubles/UsageServiceStub.swift:11:actor UsageServiceStub: UsageServiceProtocol {
+PinemeterTests/UsageServiceTests.swift:2://  UsageServiceTests.swift
+PinemeterTests/UsageServiceTests.swift:11:final class UsageServiceTests: XCTestCase {
+PinemeterTests/UsageServiceTests.swift:12:    func test_usageFetch_requiresSessionKey() async {
+PinemeterTests/UsageServiceTests.swift:13:        let networkService = NetworkServiceStub(responseData: Data())
+PinemeterTests/UsageServiceTests.swift:14:        let cacheRepository = CacheRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:15:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:16:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:18:        let service = UsageService(
+PinemeterTests/UsageServiceTests.swift:35:    func test_userWithCachedUsage_seesCachedValueWithoutNetworkCall() async throws {
+PinemeterTests/UsageServiceTests.swift:37:        let networkService = NetworkServiceStub(responseData: Data())
+PinemeterTests/UsageServiceTests.swift:38:        let cacheRepository = CacheRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:39:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:40:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:42:        let service = UsageService(
+PinemeterTests/UsageServiceTests.swift:59:        XCTAssertEqual(usageData, expectedUsage)
+PinemeterTests/UsageServiceTests.swift:60:        XCTAssertEqual(requestCount, 0)
+PinemeterTests/UsageServiceTests.swift:61:        XCTAssertNil(lastEndpoint)
+PinemeterTests/UsageServiceTests.swift:64:    func test_userForcesRefresh_bypassesCacheAndUpdatesCache() async throws {
+PinemeterTests/UsageServiceTests.swift:76:        let networkService = NetworkServiceStub(responseData: responseData)
+PinemeterTests/UsageServiceTests.swift:77:        let cacheRepository = CacheRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:78:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:79:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:81:        let service = UsageService(
+PinemeterTests/UsageServiceTests.swift:101:        XCTAssertEqual(usageData.sessionUsage.utilization, expectedSessionPercentage)
+PinemeterTests/UsageServiceTests.swift:102:        XCTAssertEqual(usageData.weeklyUsage.utilization, expectedWeeklyPercentage)
+PinemeterTests/UsageServiceTests.swift:103:        XCTAssertEqual(cachedData?.sessionUsage.utilization, expectedSessionPercentage)
+PinemeterTests/UsageServiceTests.swift:104:        XCTAssertEqual(cachedData?.weeklyUsage.utilization, expectedWeeklyPercentage)
+PinemeterTests/UsageServiceTests.swift:105:        XCTAssertEqual(requestCount, 1)
+PinemeterTests/UsageServiceTests.swift:108:    func test_userWithCachedOrganization_fetchesUsageFromCachedOrg() async throws {
+PinemeterTests/UsageServiceTests.swift:118:        let networkService = NetworkServiceStub(responseData: responseData)
+PinemeterTests/UsageServiceTests.swift:119:        let cacheRepository = CacheRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:120:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:121:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:123:        let service = UsageService(
+PinemeterTests/UsageServiceTests.swift:142:        XCTAssertTrue(lastEndpoint?.contains(expectedPath) == true)
+PinemeterTests/UsageServiceTests.swift:145:    func test_usageFetch_showsUsageFromApiResponse() async throws {
+PinemeterTests/UsageServiceTests.swift:155:        let networkService = NetworkServiceStub(responseData: responseData)
+PinemeterTests/UsageServiceTests.swift:156:        let cacheRepository = CacheRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:157:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:158:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:160:        let service = UsageService(
+PinemeterTests/UsageServiceTests.swift:178:        XCTAssertEqual(usageData.sessionUsage.utilization, TestConstants.sessionPercentage)
+PinemeterTests/UsageServiceTests.swift:179:        XCTAssertEqual(usageData.weeklyUsage.utilization, TestConstants.weeklyPercentage)
+PinemeterTests/UsageServiceTests.swift:184:    func test_usageFetch_withMissingResetAt_usesFallbackWindow() async throws {
+PinemeterTests/UsageServiceTests.swift:194:        let networkService = NetworkServiceStub(responseData: responseData)
+PinemeterTests/UsageServiceTests.swift:195:        let cacheRepository = CacheRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:196:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:197:        let settingsRepository = SettingsRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:199:        let service = UsageService(
+PinemeterTests/UsageServiceTests.swift:217:        XCTAssertEqual(usageData.sessionUsage.utilization, 0)
+PinemeterTests/UsageServiceTests.swift:218:        XCTAssertGreaterThan(usageData.sessionUsage.resetAt.timeIntervalSinceNow, 0)
+PinemeterTests/UsageServiceTests.swift:219:        XCTAssertLessThanOrEqual(
+PinemeterTests/UsageServiceTests.swift:225:    func test_usageFetch_withMalformedResetAt_surfacesInvalidResponse() async throws {
+PinemeterTests/UsageServiceTests.swift:235:        let networkService = NetworkServiceStub(responseData: responseData)
+PinemeterTests/UsageServiceTests.swift:236:        let cacheRepository = CacheRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:237:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:238:        let settingsRepository = SettingsRepositoryFake()
+
+Settings/setup view bindings and credential controls:
+Pinemeter/Views/Setup/SetupWizardView.swift:5:    @Bindable var appModel: AppModel
+Pinemeter/Views/Setup/SetupWizardView.swift:7:    @State private var sessionKeyInput: String = ""
+Pinemeter/Views/Setup/SetupWizardView.swift:10:    @State private var errorMessage: String?
+Pinemeter/Views/Setup/SetupWizardView.swift:11:    @State private var offersFullDiskAccessSettings: Bool = false
+Pinemeter/Views/Setup/SetupWizardView.swift:32:                Text("Monitor your Claude.ai plan usage in real-time")
+Pinemeter/Views/Setup/SetupWizardView.swift:40:                Text("Claude Session")
+Pinemeter/Views/Setup/SetupWizardView.swift:43:                SecureField("sk-ant-...", text: $sessionKeyInput)
+Pinemeter/Views/Setup/SetupWizardView.swift:47:                    .accessibilityHint("Enter your Claude session key or paste a Cookie header containing sessionKey")
+Pinemeter/Views/Setup/SetupWizardView.swift:49:                Text("Import from a browser signed in to claude.ai, or paste your session")
+Pinemeter/Views/Setup/SetupWizardView.swift:54:                if !sessionKeyInput.isEmpty {
+Pinemeter/Views/Setup/SetupWizardView.swift:58:                        Text(isFormatValid ? "Session format valid" : "Invalid session format")
+Pinemeter/Views/Setup/SetupWizardView.swift:67:            if let errorMessage = errorMessage {
+Pinemeter/Views/Setup/SetupWizardView.swift:73:                        Text(errorMessage)
+Pinemeter/Views/Setup/SetupWizardView.swift:81:                    if offersFullDiskAccessSettings {
+Pinemeter/Views/Setup/SetupWizardView.swift:82:                        Button("Open Full Disk Access") {
+Pinemeter/Views/Setup/SetupWizardView.swift:83:                            SystemSettingsOpener.openFullDiskAccess()
+Pinemeter/Views/Setup/SetupWizardView.swift:93:                .accessibilityLabel("Error: \(errorMessage)")
+Pinemeter/Views/Setup/SetupWizardView.swift:115:                Button(action: {
+Pinemeter/Views/Setup/SetupWizardView.swift:132:                .accessibilityLabel(isImporting ? "Importing session key" : "Import session key from browser")
+Pinemeter/Views/Setup/SetupWizardView.swift:133:                .accessibilityHint("Finds your Claude session key in local browser cookies and validates it")
+Pinemeter/Views/Setup/SetupWizardView.swift:135:                Button(action: {
+Pinemeter/Views/Setup/SetupWizardView.swift:148:                .accessibilityLabel(isValidating ? "Validating session key" : "Continue with manual setup")
+Pinemeter/Views/Setup/SetupWizardView.swift:149:                .accessibilityHint("Validates your session key and completes setup")
+Pinemeter/Views/Setup/SetupWizardView.swift:164:        let trimmed = sessionKeyInput.trimmingCharacters(in: .whitespacesAndNewlines)
+Pinemeter/Views/Setup/SetupWizardView.swift:172:        errorMessage = nil
+Pinemeter/Views/Setup/SetupWizardView.swift:173:        offersFullDiskAccessSettings = false
+Pinemeter/Views/Setup/SetupWizardView.swift:178:            sessionKeyInput = imported.value
+Pinemeter/Views/Setup/SetupWizardView.swift:180:        } catch let error as SessionKeyImportError {
+Pinemeter/Views/Setup/SetupWizardView.swift:181:            errorMessage = error.localizedDescription
+Pinemeter/Views/Setup/SetupWizardView.swift:182:            offersFullDiskAccessSettings = error.offersFullDiskAccessSettings
+Pinemeter/Views/Setup/SetupWizardView.swift:183:        } catch let error as NetworkError {
+Pinemeter/Views/Setup/SetupWizardView.swift:184:            errorMessage = "Network error: \(error.localizedDescription)"
+Pinemeter/Views/Setup/SetupWizardView.swift:185:        } catch let error as AppError {
+Pinemeter/Views/Setup/SetupWizardView.swift:186:            errorMessage = error.localizedDescription
+Pinemeter/Views/Setup/SetupWizardView.swift:188:            errorMessage = "Import failed: \(error.localizedDescription)"
+Pinemeter/Views/Setup/SetupWizardView.swift:196:        guard !sessionKeyInput.isEmpty else {
+Pinemeter/Views/Setup/SetupWizardView.swift:197:            errorMessage = "Session key cannot be empty"
+Pinemeter/Views/Setup/SetupWizardView.swift:203:        errorMessage = nil
+Pinemeter/Views/Setup/SetupWizardView.swift:204:        offersFullDiskAccessSettings = false
+Pinemeter/Views/Setup/SetupWizardView.swift:208:            let isValid = try await appModel.validateAndSaveSessionKey(sessionKeyInput)
+Pinemeter/Views/Setup/SetupWizardView.swift:212:                errorMessage = "Session key is invalid or expired"
+Pinemeter/Views/Setup/SetupWizardView.swift:214:        } catch let error as SessionKeyError {
+Pinemeter/Views/Setup/SetupWizardView.swift:215:            errorMessage = error.localizedDescription
+Pinemeter/Views/Setup/SetupWizardView.swift:216:        } catch let error as NetworkError {
+Pinemeter/Views/Setup/SetupWizardView.swift:217:            errorMessage = "Network error: \(error.localizedDescription)"
+Pinemeter/Views/Setup/SetupWizardView.swift:218:        } catch let error as AppError {
+Pinemeter/Views/Setup/SetupWizardView.swift:219:            errorMessage = error.localizedDescription
+Pinemeter/Views/Setup/SetupWizardView.swift:221:            errorMessage = "Validation failed: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:5:struct SettingsView: View {
+Pinemeter/Views/Settings/SettingsView.swift:6:    @Bindable var appModel: AppModel
+Pinemeter/Views/Settings/SettingsView.swift:8:    @State private var sessionKey: String = ""
+Pinemeter/Views/Settings/SettingsView.swift:12:    @State private var sessionKeyValidationMessage: String?
+Pinemeter/Views/Settings/SettingsView.swift:13:    @State private var offersFullDiskAccessSettings: Bool = false
+Pinemeter/Views/Settings/SettingsView.swift:19:    @State private var isChatGPTSessionCookieShown: Bool = false
+Pinemeter/Views/Settings/SettingsView.swift:20:    @State private var isValidatingChatGPTSessionCookie: Bool = false
+Pinemeter/Views/Settings/SettingsView.swift:22:    @State private var hasChatGPTSessionCookieValidationSucceeded: Bool = false
+Pinemeter/Views/Settings/SettingsView.swift:42:            loadSettings()
+Pinemeter/Views/Settings/SettingsView.swift:70:                sessionKeySection
+Pinemeter/Views/Settings/SettingsView.swift:72:                refreshIntervalSection
+Pinemeter/Views/Settings/SettingsView.swift:80:    // MARK: - Claude Session Section
+Pinemeter/Views/Settings/SettingsView.swift:82:    private var sessionKeySection: some View {
+Pinemeter/Views/Settings/SettingsView.swift:86:                    Text("Claude Session")
+Pinemeter/Views/Settings/SettingsView.swift:89:                    Text("Import from browser or paste your Claude session")
+Pinemeter/Views/Settings/SettingsView.swift:98:                Label(sessionKey.isEmpty ? "Not configured" : "Saved in Keychain", systemImage: sessionKey.isEmpty ? "exclamationmark.circle" : "checkmark.circle")
+Pinemeter/Views/Settings/SettingsView.swift:100:                    .foregroundStyle(sessionKey.isEmpty ? Color.secondary : Color.green)
+Pinemeter/Views/Settings/SettingsView.swift:105:                    TextField("sk-ant-...", text: $sessionKey)
+Pinemeter/Views/Settings/SettingsView.swift:109:                    SecureField("sk-ant-...", text: $sessionKey)
+Pinemeter/Views/Settings/SettingsView.swift:114:                Button(action: { isSessionKeyShown.toggle() }) {
+Pinemeter/Views/Settings/SettingsView.swift:118:                .help(isSessionKeyShown ? "Hide session key" : "Show session key")
+Pinemeter/Views/Settings/SettingsView.swift:120:                if !sessionKey.isEmpty {
+Pinemeter/Views/Settings/SettingsView.swift:121:                    Button(action: clearSessionKey) {
+Pinemeter/Views/Settings/SettingsView.swift:126:                    .help("Clear session key")
+Pinemeter/Views/Settings/SettingsView.swift:131:                Button("Save") {
+Pinemeter/Views/Settings/SettingsView.swift:137:                .disabled(sessionKey.isEmpty || isSessionKeyBusy)
+Pinemeter/Views/Settings/SettingsView.swift:139:                Button("Import from Browser") {
+Pinemeter/Views/Settings/SettingsView.swift:152:                if let message = sessionKeyValidationMessage, hasSessionKeyValidationSucceeded {
+Pinemeter/Views/Settings/SettingsView.swift:163:            if let message = sessionKeyValidationMessage, !hasSessionKeyValidationSucceeded {
+Pinemeter/Views/Settings/SettingsView.swift:178:                    if offersFullDiskAccessSettings {
+Pinemeter/Views/Settings/SettingsView.swift:179:                        Button("Open Full Disk Access") {
+Pinemeter/Views/Settings/SettingsView.swift:180:                            SystemSettingsOpener.openFullDiskAccess()
+Pinemeter/Views/Settings/SettingsView.swift:193:    // MARK: - ChatGPT Section
+Pinemeter/Views/Settings/SettingsView.swift:199:                    Text("ChatGPT Usage")
+Pinemeter/Views/Settings/SettingsView.swift:201:                    Text("Optional. Stores your ChatGPT session cookie in Keychain and shows ChatGPT plan quota usage in the popover.")
+Pinemeter/Views/Settings/SettingsView.swift:208:                Toggle("", isOn: $appModel.settings.isChatGPTUsageShown)
+Pinemeter/Views/Settings/SettingsView.swift:210:                    .disabled(!appModel.hasChatGPTSessionCookie)
+Pinemeter/Views/Settings/SettingsView.swift:211:                    .onChange(of: appModel.settings.isChatGPTUsageShown) { _, isShown in
+Pinemeter/Views/Settings/SettingsView.swift:213:                            Task { await appModel.refreshChatGPTUsage() }
+Pinemeter/Views/Settings/SettingsView.swift:220:                    label: "__Secure-next-auth.session-token.0",
+Pinemeter/Views/Settings/SettingsView.swift:226:                    label: "__Secure-next-auth.session-token.1",
+Pinemeter/Views/Settings/SettingsView.swift:232:                    chatGPTCookieInput(placeholder: "Cookie: __Secure-next-auth.session-token.0=...; __Secure-next-auth.session-token.1=...", text: $chatGPTFullCookieHeader)
+Pinemeter/Views/Settings/SettingsView.swift:238:                    Button(action: { isChatGPTSessionCookieShown.toggle() }) {
+Pinemeter/Views/Settings/SettingsView.swift:239:                        Label(isChatGPTSessionCookieShown ? "Hide values" : "Show values", systemImage: isChatGPTSessionCookieShown ? "eye.slash" : "eye")
+Pinemeter/Views/Settings/SettingsView.swift:243:                    .help(isChatGPTSessionCookieShown ? "Hide ChatGPT session cookie values" : "Show ChatGPT session cookie values")
+Pinemeter/Views/Settings/SettingsView.swift:247:                    if hasChatGPTCookieInput || appModel.hasChatGPTSessionCookie {
+Pinemeter/Views/Settings/SettingsView.swift:248:                        Button(action: clearChatGPTSessionCookie) {
+Pinemeter/Views/Settings/SettingsView.swift:253:                        .help("Clear ChatGPT session cookie")
+Pinemeter/Views/Settings/SettingsView.swift:259:                Button("Validate & Save") {
+Pinemeter/Views/Settings/SettingsView.swift:261:                        await validateAndSaveChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:265:                .disabled(!hasChatGPTCookieInput || isValidatingChatGPTSessionCookie)
+Pinemeter/Views/Settings/SettingsView.swift:267:                if isValidatingChatGPTSessionCookie {
+Pinemeter/Views/Settings/SettingsView.swift:273:                    Label(message, systemImage: hasChatGPTSessionCookieValidationSucceeded ? "checkmark.circle.fill" : "xmark.circle.fill")
+Pinemeter/Views/Settings/SettingsView.swift:275:                        .foregroundStyle(hasChatGPTSessionCookieValidationSucceeded ? .green : .red)
+Pinemeter/Views/Settings/SettingsView.swift:281:            Text("Paste the browser cookie values for .0 and .1 separately. Pinemeter joins them, stores the result only in Keychain, and sends it only to chatgpt.com.")
+Pinemeter/Views/Settings/SettingsView.swift:285:            if let chatGPTErrorMessage = appModel.chatGPTErrorMessage, appModel.settings.isChatGPTUsageShown {
+Pinemeter/Views/Settings/SettingsView.swift:296:    private var hasChatGPTCookieInput: Bool {
+Pinemeter/Views/Settings/SettingsView.swift:302:    private var joinedChatGPTCookieInput: String {
+Pinemeter/Views/Settings/SettingsView.swift:325:            if isChatGPTSessionCookieShown {
+Pinemeter/Views/Settings/SettingsView.swift:326:                TextField(placeholder, text: text)
+Pinemeter/Views/Settings/SettingsView.swift:328:                SecureField(placeholder, text: text)
+Pinemeter/Views/Settings/SettingsView.swift:337:    private var refreshIntervalSection: some View {
+Pinemeter/Views/Settings/SettingsView.swift:349:            Picker("", selection: $appModel.settings.refreshInterval) {
+Pinemeter/Views/Settings/SettingsView.swift:377:            Toggle("", isOn: $appModel.settings.isSonnetUsageShown)
+Pinemeter/Views/Settings/SettingsView.swift:399:            Toggle("", isOn: $launchAtLogin)
+Pinemeter/Views/Settings/SettingsView.swift:431:                    Text("Get notified when session usage thresholds are reached")
+Pinemeter/Views/Settings/SettingsView.swift:438:                Toggle("", isOn: $appModel.settings.hasNotificationsEnabled)
+Pinemeter/Views/Settings/SettingsView.swift:442:            if let error = notificationError {
+Pinemeter/Views/Settings/SettingsView.swift:446:                    Text(error)
+Pinemeter/Views/Settings/SettingsView.swift:450:                    Button("Open Settings") {
+Pinemeter/Views/Settings/SettingsView.swift:451:                        openSystemNotificationSettings()
+Pinemeter/Views/Settings/SettingsView.swift:482:                Text("Get notified when session usage reaches this percentage")
+Pinemeter/Views/Settings/SettingsView.swift:507:                Text("Get urgent notification when session usage reaches this percentage")
+Pinemeter/Views/Settings/SettingsView.swift:535:            Toggle("", isOn: isNotifiedOnResetBinding)
+Pinemeter/Views/Settings/SettingsView.swift:545:            Button("Send Test Notification") {
+Pinemeter/Views/Settings/SettingsView.swift:638:                Text("Monitor your Claude.ai usage limits")
+Pinemeter/Views/Settings/SettingsView.swift:665:    private func loadSettings() {
+Pinemeter/Views/Settings/SettingsView.swift:667:            sessionKey = await appModel.loadSessionKey() ?? ""
+Pinemeter/Views/Settings/SettingsView.swift:668:            if let savedChatGPTCookie = await appModel.loadChatGPTSessionCookie() {
+Pinemeter/Views/Settings/SettingsView.swift:669:                chatGPTSessionTokenPart0 = savedChatGPTCookie
+Pinemeter/Views/Settings/SettingsView.swift:681:            notificationError = "Notifications disabled in System Settings"
+Pinemeter/Views/Settings/SettingsView.swift:692:        guard !sessionKey.isEmpty else {
+Pinemeter/Views/Settings/SettingsView.swift:693:            sessionKeyValidationMessage = "Session key cannot be empty"
+Pinemeter/Views/Settings/SettingsView.swift:699:        sessionKeyValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:700:        offersFullDiskAccessSettings = false
+Pinemeter/Views/Settings/SettingsView.swift:704:            let isValid = try await appModel.validateAndSaveSessionKey(sessionKey)
+Pinemeter/Views/Settings/SettingsView.swift:707:                sessionKeyValidationMessage = "Session key saved"
+Pinemeter/Views/Settings/SettingsView.swift:712:                    sessionKeyValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:716:                sessionKeyValidationMessage = "Session key validation failed"
+Pinemeter/Views/Settings/SettingsView.swift:719:        } catch let error as SessionKeyError {
+Pinemeter/Views/Settings/SettingsView.swift:720:            sessionKeyValidationMessage = error.localizedDescription
+Pinemeter/Views/Settings/SettingsView.swift:721:            offersFullDiskAccessSettings = false
+Pinemeter/Views/Settings/SettingsView.swift:724:            sessionKeyValidationMessage = "Validation failed: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:725:            offersFullDiskAccessSettings = false
+Pinemeter/Views/Settings/SettingsView.swift:735:        sessionKeyValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:736:        offersFullDiskAccessSettings = false
+Pinemeter/Views/Settings/SettingsView.swift:741:            sessionKey = imported.value
+Pinemeter/Views/Settings/SettingsView.swift:742:            sessionKeyValidationMessage = "Imported from \(imported.sourceDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:744:            offersFullDiskAccessSettings = false
+Pinemeter/Views/Settings/SettingsView.swift:748:                sessionKeyValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:749:                offersFullDiskAccessSettings = false
+Pinemeter/Views/Settings/SettingsView.swift:752:        } catch let error as SessionKeyImportError {
+Pinemeter/Views/Settings/SettingsView.swift:753:            sessionKeyValidationMessage = error.localizedDescription
+Pinemeter/Views/Settings/SettingsView.swift:754:            offersFullDiskAccessSettings = error.offersFullDiskAccessSettings
+Pinemeter/Views/Settings/SettingsView.swift:757:            sessionKeyValidationMessage = error.localizedDescription
+Pinemeter/Views/Settings/SettingsView.swift:758:            offersFullDiskAccessSettings = false
+Pinemeter/Views/Settings/SettingsView.swift:769:                sessionKey = ""
+Pinemeter/Views/Settings/SettingsView.swift:770:                sessionKeyValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:771:                offersFullDiskAccessSettings = false
+Pinemeter/Views/Settings/SettingsView.swift:774:                sessionKeyValidationMessage = "Failed to clear: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:775:                offersFullDiskAccessSettings = false
+Pinemeter/Views/Settings/SettingsView.swift:782:    private func validateAndSaveChatGPTSessionCookie() async {
+Pinemeter/Views/Settings/SettingsView.swift:783:        guard hasChatGPTCookieInput else {
+Pinemeter/Views/Settings/SettingsView.swift:784:            chatGPTSessionCookieValidationMessage = "Session cookie cannot be empty"
+Pinemeter/Views/Settings/SettingsView.swift:785:            hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:789:        isValidatingChatGPTSessionCookie = true
+Pinemeter/Views/Settings/SettingsView.swift:791:        hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:794:            let isValid = try await appModel.validateAndSaveChatGPTSessionCookie(joinedChatGPTCookieInput)
+Pinemeter/Views/Settings/SettingsView.swift:796:                chatGPTSessionCookieValidationMessage = "ChatGPT session cookie saved"
+Pinemeter/Views/Settings/SettingsView.swift:797:                hasChatGPTSessionCookieValidationSucceeded = true
+Pinemeter/Views/Settings/SettingsView.swift:802:                    hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:805:                chatGPTSessionCookieValidationMessage = "ChatGPT session cookie validation failed"
+Pinemeter/Views/Settings/SettingsView.swift:806:                hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:809:            chatGPTSessionCookieValidationMessage = "Validation failed: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:810:            hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:813:        isValidatingChatGPTSessionCookie = false
+Pinemeter/Views/Settings/SettingsView.swift:816:    private func clearChatGPTSessionCookie() {
+Pinemeter/Views/Settings/SettingsView.swift:819:                try await appModel.clearChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:824:                hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:826:                chatGPTSessionCookieValidationMessage = "Failed to clear: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:827:                hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:877:            testNotificationMessage = "Failed: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:884:    private func openSystemNotificationSettings() {
+
+Protocols/interfaces:
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:11:protocol UsageServiceProtocol: Actor {
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:14:    func fetchUsage(forceRefresh: Bool) async throws -> UsageData
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:17:    func fetchOrganizations() async throws -> [Organization]
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:20:    func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization]
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:23:    func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:11:protocol KeychainRepositoryProtocol: Actor {
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:13:    func save(sessionKey: String, account: String) async throws
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:16:    func retrieve(account: String) async throws -> String
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:19:    func update(sessionKey: String, account: String) async throws
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:22:    func delete(account: String) async throws
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:25:    func exists(account: String) async -> Bool
+Pinemeter/Models/UsageData.swift:11:struct UsageData: Codable, Equatable, Sendable {
+Pinemeter/Models/ChatGPTUsageData.swift:9:struct ChatGPTUsageData: Codable, Equatable, Sendable {
+Pinemeter/Models/Errors/NetworkError.swift:11:enum NetworkError: LocalizedError {
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:8:protocol ChatGPTUsageServiceProtocol: Sendable {
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:9:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:10:    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:13:protocol ChatGPTHTTPClientProtocol: Sendable {
+Pinemeter/Models/Errors/AppError.swift:11:enum AppError: LocalizedError {
+Pinemeter/Repositories/KeychainRepository.swift:16:    func save(sessionKey: String, account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:41:    func retrieve(account: String) async throws -> String {
+Pinemeter/Repositories/KeychainRepository.swift:63:    func update(sessionKey: String, account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:86:    func delete(account: String) async throws {
+Pinemeter/Repositories/KeychainRepository.swift:101:    func exists(account: String) async -> Bool {
+Pinemeter/Models/Errors/KeychainError.swift:11:enum KeychainError: LocalizedError {
+Pinemeter/Models/API/OrganizationListResponse.swift:11:typealias OrganizationListResponse = [Organization]
+Pinemeter/Services/UsageService.swift:35:    func fetchUsage(forceRefresh: Bool = false) async throws -> UsageData {
+Pinemeter/Services/UsageService.swift:134:    func fetchOrganizations() async throws -> [Organization] {
+Pinemeter/Services/UsageService.swift:149:    func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization] {
+Pinemeter/Services/UsageService.swift:160:    func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool {
+Pinemeter/Services/ChatGPTUsageService.swift:8:enum ChatGPTUsageError: LocalizedError, Equatable {
+Pinemeter/Services/ChatGPTUsageService.swift:44:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+Pinemeter/Services/ChatGPTUsageService.swift:72:    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+Pinemeter/Services/SessionKeyImportService.swift:20:    func importSessionKey() async throws -> ImportedSessionKey {
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:11:protocol UserNotificationCenterProtocol {
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:14:    func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:15:    func add(_ request: UNNotificationRequest) async throws
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:16:    func authorizationStatus() async -> UNAuthorizationStatus
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:20:    func authorizationStatus() async -> UNAuthorizationStatus {
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:43:protocol NotificationServiceProtocol {
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:48:    func requestAuthorization() async throws -> Bool
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:64:    func sendResetNotification() async throws
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:67:    func checkNotificationPermissions() async -> Bool
+Pinemeter/Repositories/CacheRepository.swift:37:    func get() async -> UsageData? {
+Pinemeter/Repositories/CacheRepository.swift:50:    func set(_ data: UsageData) async {
+Pinemeter/Repositories/CacheRepository.swift:57:    func invalidate() async {
+Pinemeter/Repositories/CacheRepository.swift:63:    func getLastKnown() async -> UsageData? {
+Pinemeter/Repositories/CacheRepository.swift:69:    private func saveToDisk(_ data: UsageData) async {
+Pinemeter/Repositories/CacheRepository.swift:105:    private func loadFromDisk() async -> UsageData? {
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift:17:protocol NetworkServiceProtocol: Sendable {
+Pinemeter/Models/API/UsageAPIResponse.swift:35:enum MappingError: LocalizedError {
+Pinemeter/Services/NotificationService.swift:32:    func requestAuthorization() async throws -> Bool {
+Pinemeter/Services/NotificationService.swift:123:    func sendResetNotification() async throws {
+Pinemeter/Services/NotificationService.swift:142:    func checkNotificationPermissions() async -> Bool {
+Pinemeter/Services/NotificationService.swift:148:    private func shouldSendNotifications() async -> Bool {
+Pinemeter/Repositories/SettingsRepository.swift:21:    func load() async -> AppSettings {
+Pinemeter/Repositories/SettingsRepository.swift:38:    func save(_ settings: AppSettings) async throws {
+Pinemeter/Repositories/SettingsRepository.swift:47:    func loadNotificationState() async -> NotificationState {
+Pinemeter/Repositories/SettingsRepository.swift:62:    func saveNotificationState(_ state: NotificationState) async throws {
+Pinemeter/Models/SessionKey.swift:4:enum SessionKeyError: LocalizedError {
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:11:protocol SettingsRepositoryProtocol: Actor {
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:13:    func load() async -> AppSettings
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:16:    func save(_ settings: AppSettings) async throws
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:19:    func loadNotificationState() async -> NotificationState
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:22:    func saveNotificationState(_ state: NotificationState) async throws
+Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift:11:protocol CacheRepositoryProtocol: Actor {
+Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift:13:    func get() async -> UsageData?
+Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift:16:    func set(_ data: UsageData) async
+Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift:19:    func invalidate() async
+Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift:22:    func getLastKnown() async -> UsageData?
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:10:enum SessionKeyImportError: LocalizedError {
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:41:protocol SessionKeyImportServiceProtocol: Actor {
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:42:    func importSessionKey() async throws -> ImportedSessionKey

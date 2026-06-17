@@ -1,0 +1,18 @@
+{
+  "id": "f8409ca0-3a37-427c-99fa-05e809f4e612",
+  "runtime": "python",
+  "purpose": "Inspect CacheRepository initializer and test fragments",
+  "script_chars": 394,
+  "started_at": "2026-06-17T16:07:11.876Z",
+  "finished_at": "2026-06-17T16:07:11.929Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 53,
+  "stdout_bytes": 2664,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/f8409ca0-3a37-427c-99fa-05e809f4e612.stdout",
+  "stderr_path": "/Users/will/.gsd/projects/8f2789607114/worktrees/M001/.gsd/exec/f8409ca0-3a37-427c-99fa-05e809f4e612.stderr"
+}

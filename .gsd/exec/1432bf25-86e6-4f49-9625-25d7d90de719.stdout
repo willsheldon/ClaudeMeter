@@ -1,0 +1,22 @@
+11:| `default` | Claude `sessionKey` value | `AppModel.validateAndSaveSessionKey(_:)` after local + remote validation | `AppModel.loadSessionKey()`, `UsageService` through Keychain during refresh | `AppModel.clearSessionKey()` | `KeychainRepository.serviceName = "com.claudemeter.sessionkey"`; generic password; `kSecAttrAccessibleAfterFirstUnlock`; `kSecAttrSynchronizable = false` | Service name intentionally retained from ClaudeMeter for continuity. `AppSettings.cachedOrganizationId` stores org UUID separately in UserDefaults. |
+12:| `chatgpt` | ChatGPT session cookie input: raw token, full Cookie header, or split cookie string depending on user input | `AppModel.validateAndSaveChatGPTSessionCookie(_:)` after `ChatGPTUsageService.validateSessionCookie` | `AppModel.loadChatGPTSessionCookie()`, `AppModel.refreshChatGPTUsage()` | `AppModel.clearChatGPTSessionCookie()` | Same Keychain service and attributes as above | Saved value shape is not normalized before storage beyond trimming. `AppSettings.isChatGPTUsageShown` stores visibility preference only. |
+16:- `Pinemeter/Repositories/KeychainRepository.swift`: `com.claudemeter.sessionkey` remains the Keychain service name.
+27:  - `Pinemeter/Views/Setup/SetupWizardView.swift` first-launch setup accepts a Claude session key or Cookie header containing `sessionKey`.
+30:  - `Pinemeter/Services/SessionKeyImportService.swift` queries local browser cookies for domain suffix `claude.ai` and cookie name `sessionKey` using SweetCookieKit.
+36:- `AppModel.validateAndSaveSessionKey(_:)` constructs `SessionKey`, calls `usageService.validateSessionKey(sessionKey)`, then fetches organizations with `usageService.fetchOrganizations(sessionKey:)`.
+41:- Stored only through `KeychainRepository.save(sessionKey:account: "default")`.
+46:- `UsageService` retrieves the default account from Keychain and calls `NetworkService`.
+47:- `NetworkService.request(... sessionKey:)` sends `Cookie: sessionKey=<value>` to `https://claude.ai/api`.
+51:- `SettingsView.loadSettings()` loads the full saved Claude session key into local SwiftUI state `sessionKey` so it can be edited/saved again. Even if rendered through a secure field, this is a display/local-state exposure surface.
+57:- `AppModel.clearSessionKey()` deletes account `default`, clears cached organization ID, resets setup state, clears usage/error state, and cancels refresh task.
+58:- Recovery/error paths include `SessionKeyError`, `SessionKeyImportError`, `AppError.noSessionKey`, `AppError.sessionKeyInvalid`, `AppError.organizationNotFound`, and provider/network errors.
+65:  - `__Secure-next-auth.session-token.0`,
+66:  - optional `__Secure-next-auth.session-token.1`,
+67:  - full Cookie header,
+77:- Stored through `KeychainRepository.save(sessionKey: trimmedCookie, account: "chatgpt")`.
+78:- The stored value may be a raw token, full Cookie header, or split-cookie-derived string depending on input path.
+82:- `AppModel.refreshChatGPTUsage()` retrieves account `chatgpt` from Keychain.
+83:- `ChatGPTUsageService.cookieHeader(from:)` builds a Cookie header.
+93:- `AppModel.clearChatGPTSessionCookie()` deletes account `chatgpt`, clears `hasChatGPTSessionCookie`, usage data, and error message.
+94:- `SettingsView.clearChatGPTSessionCookie()` clears local token/header state and validation message.
+127:- S03 should review whether `kSecAttrAccessibleAfterFirstUnlock` is the right accessibility class for this app.

@@ -1,0 +1,18 @@
+{
+  "id": "0c6424f0-7b52-47a9-8754-2b5a31350f0d",
+  "runtime": "bash",
+  "purpose": "S03 artifact coverage check",
+  "script_chars": 938,
+  "started_at": "2026-06-17T03:07:34.106Z",
+  "finished_at": "2026-06-17T03:07:34.167Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 61,
+  "stdout_bytes": 253,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/0c6424f0-7b52-47a9-8754-2b5a31350f0d.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/0c6424f0-7b52-47a9-8754-2b5a31350f0d.stderr"
+}

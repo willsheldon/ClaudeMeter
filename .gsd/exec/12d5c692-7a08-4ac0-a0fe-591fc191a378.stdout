@@ -1,0 +1,207 @@
+Created by comments summary:
+CHANGELOG.md:153:[1.4.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.2...v1.4.0
+CHANGELOG.md:154:[1.3.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.1...v1.3.2
+CHANGELOG.md:155:[1.3.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.0...v1.3.1
+CHANGELOG.md:156:[1.3.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.2.1...v1.3.0
+CHANGELOG.md:157:[1.2.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.2.0...v1.2.1
+CHANGELOG.md:158:[1.2.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.2...v1.2.0
+CHANGELOG.md:159:[1.1.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.1...v1.1.2
+CHANGELOG.md:160:[1.1.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.0...v1.1.1
+CHANGELOG.md:161:[1.1.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.7...v1.1.0
+CHANGELOG.md:162:[1.0.7]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.6...v1.0.7
+CHANGELOG.md:163:[1.0.6]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.5...v1.0.6
+CHANGELOG.md:164:[1.0.5]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.4...v1.0.5
+CHANGELOG.md:165:[1.0.4]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.3...v1.0.4
+CHANGELOG.md:166:[1.0.3]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.2...v1.0.3
+CHANGELOG.md:167:[1.0.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.1...v1.0.2
+CHANGELOG.md:168:[1.0.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.0...v1.0.1
+CHANGELOG.md:169:[1.0.0]: https://github.com/eddmann/ClaudeMeter/releases/tag/v1.0.0
+PinemeterTests/NotificationServiceTests.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/UsageLimitRiskTests.swift:5://  Created by Edd on 2026-01-16.
+site/index.html:13:    <meta name="author" content="Edd Mann">
+site/index.html:17:    <link rel="canonical" href="https://eddmann.com/Pinemeter/">
+site/index.html:25:    <meta property="og:url" content="https://eddmann.com/Pinemeter/">
+site/index.html:28:    <meta property="og:image" content="https://eddmann.com/Pinemeter/preview.png">
+site/index.html:33:    <meta property="twitter:url" content="https://eddmann.com/Pinemeter/">
+site/index.html:36:    <meta property="twitter:image" content="https://eddmann.com/Pinemeter/preview.png">
+site/index.html:52:        "downloadUrl": "https://github.com/eddmann/Pinemeter/releases/latest",
+site/index.html:56:            "name": "Edd Mann"
+site/index.html:58:        "image": "https://eddmann.com/Pinemeter/logo.png",
+site/index.html:59:        "screenshot": "https://eddmann.com/Pinemeter/preview.png"
+site/index.html:330:                <a href="https://github.com/eddmann/Pinemeter" class="px-8 py-4 text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-3 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-slate-300 dark:hover:border-slate-600 bg-white/50 dark:bg-slate-800/50 backdrop-blur">
+site/index.html:450:                                <code class="text-slate-200 text-sm md:text-lg">brew install eddmann/tap/pinemeter</code>
+site/index.html:455:                    <button class="js-copy-command ml-2 p-2 rounded-lg hover:bg-white/10 transition-colors group flex-shrink-0" data-command="brew install eddmann/tap/pinemeter" title="Copy to clipboard">
+site/index.html:469:                <a href="https://github.com/eddmann/Pinemeter/releases" class="text-coral-500 hover:text-coral-600 underline underline-offset-4 transition-colors">GitHub Releases</a>
+site/index.html:482:                <a href="https://github.com/eddmann/Pinemeter" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-2">
+site/index.html:489:                <a href="https://github.com/eddmann/Pinemeter/releases" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:493:                <a href="https://github.com/eddmann/Pinemeter/issues" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:499:                Built by <a href="https://eddmann.com" class="text-coral-500 hover:text-coral-600 transition-colors">Edd Mann</a>
+PinemeterTests/TestSupport/MenuBarIconSnapshotRenderer.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestSupport/TestConstants.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestDoubles/UsageServiceStub.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestDoubles/CacheRepositoryFake.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestDoubles/NetworkServiceStub.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestDoubles/SettingsRepositoryFake.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestSupport/TestError.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/UsageServiceTests.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Utilities/DemoMode.swift:5://  Created by Edd on 2026-02-02.
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Services/WebViewNetworkService.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Services/NetworkService.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Services/NotificationService.swift:5://  Created by Edd on 2025-11-14.
+PinemeterTests/MenuBarIconRendererTests.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:5://  Created by Edd on 2025-11-14.
+PinemeterTests/SettingsRepositoryTests.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Services/UsageService.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Repositories/KeychainRepository.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Repositories/CacheRepository.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Repositories/SettingsRepository.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Utilities/DemoDataFactory.swift:5://  Created by Edd on 2026-02-02.
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Views/MenuBar/UsageCardView.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Views/Settings/SettingsView.swift:634:                Text("© 2025 Edd Mann")
+Pinemeter/Models/UsageData.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/Organization.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Views/MenuBar/MenuBarPopoverView.swift:5://  Created by Edd on 2026-01-14.
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Models/UsageLimit.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Views/MenuBar/MenuBarManager.swift:5://  Created by Edd on 2026-01-14.
+Pinemeter/App/PinemeterApp.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/AppSettings.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Views/MenuBar/IconCache.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Views/MenuBar/MenuBarIconView.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/API/UsageAPIResponse.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/Constants.swift:5://  Created by Edd on 2025-11-17.
+Pinemeter/Models/NotificationState.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/UsageStatus.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/IconStyle.swift:5://  Created by Edd on 2025-12-28.
+Pinemeter/Views/MenuBar/MenuBarIconRenderer.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Models/NotificationThresholds.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/Errors/NetworkError.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift:5://  Created by Edd on 2025-12-28.
+Pinemeter/Models/Errors/KeychainError.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/API/OrganizationListResponse.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/Errors/AppError.swift:5://  Created by Edd on 2025-11-14.
+
+Author/license refs:
+CHANGELOG.md:153:[1.4.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.2...v1.4.0
+CHANGELOG.md:154:[1.3.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.1...v1.3.2
+CHANGELOG.md:155:[1.3.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.0...v1.3.1
+CHANGELOG.md:156:[1.3.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.2.1...v1.3.0
+CHANGELOG.md:157:[1.2.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.2.0...v1.2.1
+CHANGELOG.md:158:[1.2.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.2...v1.2.0
+CHANGELOG.md:159:[1.1.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.1...v1.1.2
+CHANGELOG.md:160:[1.1.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.0...v1.1.1
+CHANGELOG.md:161:[1.1.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.7...v1.1.0
+CHANGELOG.md:162:[1.0.7]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.6...v1.0.7
+CHANGELOG.md:163:[1.0.6]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.5...v1.0.6
+CHANGELOG.md:164:[1.0.5]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.4...v1.0.5
+CHANGELOG.md:165:[1.0.4]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.3...v1.0.4
+CHANGELOG.md:166:[1.0.3]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.2...v1.0.3
+CHANGELOG.md:167:[1.0.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.1...v1.0.2
+CHANGELOG.md:168:[1.0.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.0...v1.0.1
+CHANGELOG.md:169:[1.0.0]: https://github.com/eddmann/ClaudeMeter/releases/tag/v1.0.0
+LICENSE:3:Copyright (c) 2025 Edd Mann
+PinemeterTests/NotificationServiceTests.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:5://  Created by Edd on 2025-11-14.
+PinemeterTests/SettingsRepositoryTests.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestSupport/MenuBarIconSnapshotRenderer.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestSupport/TestError.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Services/WebViewNetworkService.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift:5://  Created by Edd on 2025-11-14.
+PinemeterTests/TestDoubles/SettingsRepositoryFake.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/MenuBarIconRendererTests.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Services/NetworkService.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:48:    func requestAuthorization() async throws -> Bool
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:14:    var authorizationStatus: UNAuthorizationStatus = .authorized
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:15:    var shouldGrantAuthorization: Bool = true
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:16:    private(set) var requestedAuthorizationOptions: UNAuthorizationOptions?
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:19:    func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool {
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:20:        requestedAuthorizationOptions = options
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:21:        return shouldGrantAuthorization
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift:28:    func authorizationStatus() async -> UNAuthorizationStatus {
+PinemeterTests/UsageServiceTests.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:14:    func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:16:    func authorizationStatus() async -> UNAuthorizationStatus
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:20:    func authorizationStatus() async -> UNAuthorizationStatus {
+PinemeterTests/UsageLimitRiskTests.swift:5://  Created by Edd on 2026-01-16.
+PinemeterTests/TestDoubles/CacheRepositoryFake.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Services/NotificationService.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Services/NotificationService.swift:32:    func requestAuthorization() async throws -> Bool {
+Pinemeter/Services/NotificationService.swift:33:        let granted = try await center.requestAuthorization(options: [.alert, .sound])
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:15:    private(set) var requestAuthorizationCallCount: Int = 0
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:21:    func requestAuthorization() async throws -> Bool {
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:22:        requestAuthorizationCallCount += 1
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:5://  Created by Edd on 2026-01-09.
+site/index.html:13:    <meta name="author" content="Edd Mann">
+site/index.html:17:    <link rel="canonical" href="https://eddmann.com/Pinemeter/">
+site/index.html:25:    <meta property="og:url" content="https://eddmann.com/Pinemeter/">
+site/index.html:28:    <meta property="og:image" content="https://eddmann.com/Pinemeter/preview.png">
+site/index.html:33:    <meta property="twitter:url" content="https://eddmann.com/Pinemeter/">
+site/index.html:36:    <meta property="twitter:image" content="https://eddmann.com/Pinemeter/preview.png">
+site/index.html:52:        "downloadUrl": "https://github.com/eddmann/Pinemeter/releases/latest",
+site/index.html:56:            "name": "Edd Mann"
+site/index.html:58:        "image": "https://eddmann.com/Pinemeter/logo.png",
+site/index.html:59:        "screenshot": "https://eddmann.com/Pinemeter/preview.png"
+site/index.html:330:                <a href="https://github.com/eddmann/Pinemeter" class="px-8 py-4 text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-3 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-slate-300 dark:hover:border-slate-600 bg-white/50 dark:bg-slate-800/50 backdrop-blur">
+site/index.html:450:                                <code class="text-slate-200 text-sm md:text-lg">brew install eddmann/tap/pinemeter</code>
+site/index.html:455:                    <button class="js-copy-command ml-2 p-2 rounded-lg hover:bg-white/10 transition-colors group flex-shrink-0" data-command="brew install eddmann/tap/pinemeter" title="Copy to clipboard">
+site/index.html:469:                <a href="https://github.com/eddmann/Pinemeter/releases" class="text-coral-500 hover:text-coral-600 underline underline-offset-4 transition-colors">GitHub Releases</a>
+site/index.html:482:                <a href="https://github.com/eddmann/Pinemeter" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-2">
+site/index.html:489:                <a href="https://github.com/eddmann/Pinemeter/releases" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:493:                <a href="https://github.com/eddmann/Pinemeter/issues" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:499:                Built by <a href="https://eddmann.com" class="text-coral-500 hover:text-coral-600 transition-colors">Edd Mann</a>
+PinemeterTests/AppModelTests.swift:365:        XCTAssertEqual(notificationService.requestAuthorizationCallCount, 0)
+PinemeterTests/AppModelTests.swift:384:        XCTAssertEqual(notificationService.requestAuthorizationCallCount, 1)
+PinemeterTests/TestSupport/TestConstants.swift:5://  Created by Edd on 2026-01-09.
+PinemeterTests/TestDoubles/UsageServiceStub.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Services/UsageService.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Repositories/KeychainRepository.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Services/ChatGPTUsageService.swift:167:            request.setValue(authorization, forHTTPHeaderField: "Authorization")
+Pinemeter/Resources/Info.plist:25:	<key>NSHumanReadableCopyright</key>
+Pinemeter/Resources/Info.plist:26:	<string>Copyright © 2025. All rights reserved.</string>
+Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Utilities/DemoMode.swift:5://  Created by Edd on 2026-02-02.
+Pinemeter/Repositories/CacheRepository.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Utilities/DemoDataFactory.swift:5://  Created by Edd on 2026-02-02.
+Pinemeter/App/PinemeterApp.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/IconStyle.swift:5://  Created by Edd on 2025-12-28.
+Pinemeter/App/AppModel.swift:258:            _ = try? await notificationService.requestAuthorization()
+Pinemeter/Views/Settings/SettingsView.swift:632:            // Copyright
+Pinemeter/Views/Settings/SettingsView.swift:634:                Text("© 2025 Edd Mann")
+Pinemeter/Views/MenuBar/UsageCardView.swift:5://  Created by Edd on 2025-11-14.
+PinemeterTests/TestDoubles/NetworkServiceStub.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Models/UsageStatus.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Repositories/SettingsRepository.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/Errors/NetworkError.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/Organization.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Views/MenuBar/MenuBarPopoverView.swift:5://  Created by Edd on 2026-01-14.
+Pinemeter/Models/Errors/AppError.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/UsageData.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/UsageLimit.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/API/UsageAPIResponse.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/Errors/KeychainError.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Views/MenuBar/MenuBarManager.swift:5://  Created by Edd on 2026-01-14.
+Pinemeter/Views/MenuBar/MenuBarIconRenderer.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Views/MenuBar/MenuBarIconView.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/Constants.swift:5://  Created by Edd on 2025-11-17.
+Pinemeter/Models/NotificationThresholds.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/API/OrganizationListResponse.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Models/AppSettings.swift:5://  Created by Edd on 2025-11-14.
+Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift:5://  Created by Edd on 2025-12-28.
+Pinemeter/Views/MenuBar/IconCache.swift:5://  Created by Edd on 2026-01-09.
+Pinemeter/Models/NotificationState.swift:5://  Created by Edd on 2025-11-14.

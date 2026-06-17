@@ -1,0 +1,5 @@
+xcodebuild focused tests FAIL exit=65
+/Users/will/.gsd/projects/8f2789607114/worktrees/M001/PinemeterTests/CacheRepositoryTests.swift:92:28: error: 'async' call in an autoclosure that does not support concurrency
+/Users/will/.gsd/projects/8f2789607114/worktrees/M001/PinemeterTests/CacheRepositoryTests.swift:93:28: error: 'async' call in an autoclosure that does not support concurrency
+Testing failed:
+The following build commands failed:

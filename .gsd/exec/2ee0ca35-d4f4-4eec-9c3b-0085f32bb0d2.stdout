@@ -1,0 +1,59 @@
+Created by Edd counts by tree:
+   1 Pinemeter/App
+   9 Pinemeter/Models
+   2 Pinemeter/Models/API
+   3 Pinemeter/Models/Errors
+   3 Pinemeter/Repositories
+   3 Pinemeter/Repositories/Protocols
+   4 Pinemeter/Services
+   4 Pinemeter/Services/Protocols
+   2 Pinemeter/Utilities
+   7 Pinemeter/Views/MenuBar
+   1 Pinemeter/Views/MenuBar/IconStyles
+   5 PinemeterTests
+   7 PinemeterTests/TestDoubles
+   3 PinemeterTests/TestSupport
+
+Total files:       54
+
+Sample files:
+PinemeterTests/NotificationServiceTests.swift
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift
+Pinemeter/Services/NotificationService.swift
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift
+Pinemeter/Services/UsageService.swift
+PinemeterTests/SettingsRepositoryTests.swift
+PinemeterTests/TestDoubles/SettingsRepositoryFake.swift
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift
+Pinemeter/Services/NetworkService.swift
+PinemeterTests/TestSupport/MenuBarIconSnapshotRenderer.swift
+PinemeterTests/TestDoubles/NotificationCenterSpy.swift
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift
+Pinemeter/Services/WebViewNetworkService.swift
+PinemeterTests/MenuBarIconRendererTests.swift
+PinemeterTests/TestSupport/TestError.swift
+PinemeterTests/UsageServiceTests.swift
+Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift
+Pinemeter/Views/MenuBar/MenuBarIconView.swift
+PinemeterTests/TestDoubles/UsageServiceStub.swift
+PinemeterTests/TestDoubles/CacheRepositoryFake.swift
+Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift
+PinemeterTests/TestDoubles/NetworkServiceStub.swift
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift
+PinemeterTests/TestSupport/TestConstants.swift
+PinemeterTests/UsageLimitRiskTests.swift
+Pinemeter/Views/MenuBar/MenuBarManager.swift
+Pinemeter/Views/MenuBar/MenuBarIconRenderer.swift
+Pinemeter/Repositories/SettingsRepository.swift
+Pinemeter/Views/MenuBar/UsageCardView.swift
+Pinemeter/Utilities/DemoMode.swift
+Pinemeter/Repositories/CacheRepository.swift
+Pinemeter/Views/MenuBar/MenuBarPopoverView.swift
+Pinemeter/Views/MenuBar/IconCache.swift
+Pinemeter/Repositories/KeychainRepository.swift
+Pinemeter/Models/NotificationThresholds.swift
+Pinemeter/Models/UsageData.swift
+Pinemeter/App/PinemeterApp.swift
+Pinemeter/Views/MenuBar/UsagePopoverView.swift
+Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift

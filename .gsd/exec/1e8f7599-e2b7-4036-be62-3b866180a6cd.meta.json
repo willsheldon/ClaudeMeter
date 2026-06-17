@@ -1,0 +1,18 @@
+{
+  "id": "1e8f7599-e2b7-4036-be62-3b866180a6cd",
+  "runtime": "bash",
+  "purpose": "S06 references to Refresh constants and settings validation",
+  "script_chars": 131,
+  "started_at": "2026-06-17T15:57:23.862Z",
+  "finished_at": "2026-06-17T15:57:23.904Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 42,
+  "stdout_bytes": 1947,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/1e8f7599-e2b7-4036-be62-3b866180a6cd.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/1e8f7599-e2b7-4036-be62-3b866180a6cd.stderr"
+}

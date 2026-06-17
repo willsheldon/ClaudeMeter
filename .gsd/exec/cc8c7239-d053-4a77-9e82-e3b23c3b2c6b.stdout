@@ -1,0 +1,58 @@
+# Project
+
+## What This Is
+
+Pinemeter is a macOS 14+ SwiftUI menu bar app for monitoring LLM usage across providers. It starts
+from the existing ClaudeMeter codebase, which currently tracks Claude/Opus usage and ChatGPT quota
+usage, and is being taken over as an owned product with new naming, cleaner architecture, safer
+credential handling, and future Gemini monitoring.
+
+## Core Value
+
+The one thing that must survive every tradeoff is: Pinemeter should reliably show the user their
+current LLM usage state from the menu bar without repeatedly forcing them through fragile manual
+credential workflows.
+
+## Project Shape
+
+- **Complexity:** complex
+- **Why:** The work crosses macOS app identity, Xcode project naming, secure credential/session
+handling, provider-specific network services, Keychain persistence, error workflows, architecture
+review, and future multi-provider expansion.
+
+## Current State
+
+The existing codebase is a SwiftUI macOS menu bar app named ClaudeMeter. It has tests and CI, uses
+actor services and repositories, stores Claude session keys in Keychain, imports Claude session keys
+from browser cookies via SweetCookieKit, supports ChatGPT quota usage via session-cookie settings,
+and currently has many ClaudeMeter/Claude/ChatGPT-specific names and user-facing strings. A baseline
+test run passed with `xcodebuild test -project ClaudeMeter.xcodeproj -scheme ClaudeMeter
+-configuration Debug` before planning.
+
+## Architecture / Key Patterns
+
+The project uses Swift and SwiftUI. Project convention is to keep UI state on `@MainActor
+@Observable` types and non-UI work in actor services/repositories. Current important seams include
+`AppModel`, `UsageService`, `ChatGPTUsageService`, `SessionKeyImportService`, `KeychainRepository`,
+`SettingsRepository`, setup/settings views, and error models. Security-sensitive app credential
+material should stay in Keychain-style secure storage; agent-managed project secrets remain in AWS
+SSM and must never be written to `.env` or plaintext files.
+
+## Capability Contract
+
+See `.gsd/REQUIREMENTS.md` for the explicit capability contract, requirement status, and coverage
+mapping.
+
+## Milestone Sequence
+
+- [ ] M001: Ownership, safety, and review baseline — Rename ClaudeMeter to Pinemeter, inventory
+credentials, capture security and architecture findings, clean safe stale code, and verify the app
+still builds/tests.
+- [ ] M002: Durable credential acquisition — Implement app-owned credential/session acquisition and
+persistence so users are not repeatedly asked for keys.
+- [ ] M003: Multi-provider workflow polish — Make setup, status, errors, recovery, and notifications
+provider-aware across monitored LLM providers.
+- [ ] M004: Gemini monitoring extension — Add Gemini usage monitoring using the established
+provider/auth/error patterns.
+- [ ] M005: Public open-source polish — Finish contribution conventions, issue templates, release-
+facing docs, and launch-grade public repo presentation.

@@ -1,0 +1,18 @@
+{
+  "id": "579b8c84-6558-4802-96f4-a30dfb30c4a9",
+  "runtime": "bash",
+  "purpose": "S06 concise stale reference and TODO scan",
+  "script_chars": 625,
+  "started_at": "2026-06-17T15:53:19.839Z",
+  "finished_at": "2026-06-17T15:53:19.889Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 50,
+  "stdout_bytes": 207763,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/579b8c84-6558-4802-96f4-a30dfb30c4a9.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/579b8c84-6558-4802-96f4-a30dfb30c4a9.stderr"
+}

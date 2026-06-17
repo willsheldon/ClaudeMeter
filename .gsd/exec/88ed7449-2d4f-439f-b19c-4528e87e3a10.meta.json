@@ -1,0 +1,18 @@
+{
+  "id": "88ed7449-2d4f-439f-b19c-4528e87e3a10",
+  "runtime": "bash",
+  "purpose": "S07 concise public hygiene and git clean status excluding gsd exec",
+  "script_chars": 780,
+  "started_at": "2026-06-17T16:19:41.344Z",
+  "finished_at": "2026-06-17T16:19:41.465Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 121,
+  "stdout_bytes": 3676,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/88ed7449-2d4f-439f-b19c-4528e87e3a10.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/88ed7449-2d4f-439f-b19c-4528e87e3a10.stderr"
+}

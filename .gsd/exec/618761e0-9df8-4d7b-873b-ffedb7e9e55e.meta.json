@@ -1,0 +1,18 @@
+{
+  "id": "618761e0-9df8-4d7b-873b-ffedb7e9e55e",
+  "runtime": "bash",
+  "purpose": "Run targeted SecurityInvariantTests after async throws fix",
+  "script_chars": 271,
+  "started_at": "2026-06-17T02:56:09.103Z",
+  "finished_at": "2026-06-17T02:56:15.807Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 6704,
+  "stdout_bytes": 56985,
+  "stderr_bytes": 626,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/618761e0-9df8-4d7b-873b-ffedb7e9e55e.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/618761e0-9df8-4d7b-873b-ffedb7e9e55e.stderr"
+}
