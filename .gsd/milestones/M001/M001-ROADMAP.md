@@ -20,7 +20,7 @@
 - [x] **S02: Credential surface inventory** `risk:high` `depends:[S01]`
   > After this: After this: a concrete inventory shows where Claude and GPT credentials or session material are obtained, stored, reused, displayed, logged, cleared, and recovered.
 
-- [ ] **S03: Security review baseline** `risk:high` `depends:[S02]`
+- [x] **S03: Security review baseline** `risk:high` `depends:[S02]`
   > After this: After this: a ranked security findings report identifies credential, Keychain, logging, persistence, and recovery risks with fix or defer recommendations.
 
 - [ ] **S04: Architecture review baseline** `risk:medium` `depends:[S01]`

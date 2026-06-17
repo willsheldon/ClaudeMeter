@@ -35,7 +35,7 @@ Consumes S02 credential/session inventory and produces `S03-ASSESSMENT.md` plus 
   - Files: `Pinemeter/Models/AppSettings.swift`, `Pinemeter/Repositories/SettingsRepository.swift`, `Pinemeter/Views/Settings/SettingsView.swift`, `Pinemeter/App/AppModel.swift`, `PinemeterTests/SecurityInvariantTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/SecurityInvariantTests
 
-- [ ] **T02: Rank Claude Keychain, UI state, and WebView credential risks** `est:1.5h`
+- [x] **T02: Ranked Claude Keychain, SwiftUI credential-state, WebView session-retention, and logging redaction risks in the S03 assessment.** `est:1.5h`
   ---
   skills_used:
     - verify-before-complete
@@ -44,7 +44,7 @@ Consumes S02 credential/session inventory and produces `S03-ASSESSMENT.md` plus 
   - Files: `Pinemeter/Repositories/KeychainRepository.swift`, `Pinemeter/Views/Settings/SettingsView.swift`, `Pinemeter/Views/Setup/SetupWizardView.swift`, `Pinemeter/Services/WebViewNetworkService.swift`, `.gsd/milestones/M001/slices/S03/S03-ASSESSMENT.md`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/SecurityInvariantTests
 
-- [ ] **T03: Rank ChatGPT token handling and error redaction risks** `est:1.5h`
+- [x] **T03: Ranked ChatGPT cookie, Bearer-token, and generic error redaction risks and pinned user-facing disclosure invariants with synthetic sentinel tests.** `est:1.5h`
   ---
   skills_used:
     - verify-before-complete
@@ -53,7 +53,7 @@ Consumes S02 credential/session inventory and produces `S03-ASSESSMENT.md` plus 
   - Files: `Pinemeter/Services/ChatGPTUsageService.swift`, `Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift`, `Pinemeter/Models/Errors/AppError.swift`, `Pinemeter/Models/Errors/NetworkError.swift`, `Pinemeter/Models/Errors/KeychainError.swift`, `Pinemeter/Views/Settings/SettingsView.swift`, `PinemeterTests/SecurityInvariantTests.swift`, `.gsd/milestones/M001/slices/S03/S03-ASSESSMENT.md`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/SecurityInvariantTests
 
-- [ ] **T04: Finalize ranked security assessment and downstream handoff** `est:1h`
+- [x] **T04: Finalized the S03 ranked security assessment with lifecycle cross-checks, downstream handoffs, gate sections, and focused XCTest evidence.** `est:1h`
   ---
   skills_used:
     - verify-before-complete

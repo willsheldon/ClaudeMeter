@@ -80,6 +80,43 @@
       "label": "T05: Wrote the final credential/session surface inventory artifact for downstream security and auth planning.",
       "type": "task",
       "confidence": "EXTRACTED"
+    },
+    {
+      "id": "slice:M001:S03",
+      "label": "S03: Security review baseline",
+      "type": "slice",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/slices/S03/S03-PLAN.md"
+    },
+    {
+      "id": "task:M001:S03:T01",
+      "label": "T01: Added a security invariant test proving AppSettings UserDefaults persistence remains credential-free.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M001:S03:T02",
+      "label": "T02: Ranked Claude Keychain, SwiftUI credential-state, WebView session-retention, and logging redaction risks in the S03 assessment.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M001:S03:T03",
+      "label": "T03: Ranked ChatGPT cookie, Bearer-token, and generic error redaction risks and pinned user-facing disclosure invariants with synthetic sentinel tests.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M001:S03:T04",
+      "label": "T04: Finalized the S03 ranked security assessment with lifecycle cross-checks, downstream handoffs, gate sections, and focused XCTest evidence.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "slice:M001:S04",
+      "label": "M001/S04",
+      "type": "slice",
+      "confidence": "EXTRACTED"
     }
   ],
   "edges": [
@@ -154,7 +191,43 @@
       "to": "task:M001:S02:T05",
       "type": "contains",
       "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "slice:M001:S03",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M001:S03",
+      "to": "task:M001:S03:T01",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M001:S03",
+      "to": "task:M001:S03:T02",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M001:S03",
+      "to": "task:M001:S03:T03",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M001:S03",
+      "to": "task:M001:S03:T04",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "slice:M001:S04",
+      "type": "contains",
+      "confidence": "EXTRACTED"
     }
   ],
-  "builtAt": "2026-06-17T01:21:24.615Z"
+  "builtAt": "2026-06-17T03:08:28.946Z"
 }

@@ -4,7 +4,7 @@ estimated_files: 8
 skills_used: []
 ---
 
-# T03: Rank ChatGPT token handling and error redaction risks
+# T03: Ranked ChatGPT cookie, Bearer-token, and generic error redaction risks and pinned user-facing disclosure invariants with synthetic sentinel tests.
 
 ---
 skills_used:

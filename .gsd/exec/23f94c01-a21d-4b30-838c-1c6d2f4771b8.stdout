@@ -1,0 +1,214 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug "-only-testing:PinemeterTests/SecurityInvariantTests" "-only-testing:PinemeterTests/SettingsRepositoryTests" "-only-testing:PinemeterTests/ChatGPTUsageServiceTests"
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  swift-syntax: https://github.com/swiftlang/swift-syntax @ 602.0.0
+  SweetCookieKit: https://github.com/steipete/SweetCookieKit @ 0.4.1
+  swift-custom-dump: https://github.com/pointfreeco/swift-custom-dump @ 1.3.3
+  xctest-dynamic-overlay: https://github.com/pointfreeco/xctest-dynamic-overlay @ 1.8.1
+  swift-snapshot-testing: https://github.com/pointfreeco/swift-snapshot-testing @ 1.18.7
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (6 targets)
+    Target 'PinemeterTests' in project 'Pinemeter'
+        ➜ Explicit dependency on target 'Pinemeter' in project 'Pinemeter'
+        ➜ Explicit dependency on target 'SnapshotTesting' in project 'swift-snapshot-testing'
+    Target 'SnapshotTesting' in project 'swift-snapshot-testing'
+        ➜ Explicit dependency on target 'SnapshotTesting' in project 'swift-snapshot-testing'
+    Target 'SnapshotTesting' in project 'swift-snapshot-testing' (no dependencies)
+    Target 'Pinemeter' in project 'Pinemeter'
+        ➜ Explicit dependency on target 'SweetCookieKit' in project 'SweetCookieKit'
+    Target 'SweetCookieKit' in project 'SweetCookieKit'
+        ➜ Explicit dependency on target 'SweetCookieKit' in project 'SweetCookieKit'
+    Target 'SweetCookieKit' in project 'SweetCookieKit' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ReadFileContents /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/docc/features.json
+
+Build description signature: d901c8aaaa975bf68cd87e9a3b587c63
+Build description path: /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Intermediates.noindex/XCBuildData/d901c8aaaa975bf68cd87e9a3b587c63.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk /Users/will/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.5-25F70-e082c4a02f00227109f4ed75e425c832.sdkstatcache
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001/Pinemeter.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -o /Users/will/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.5-25F70-e082c4a02f00227109f4ed75e425c832.sdkstatcache
+
+note: Disabling hardened runtime with ad-hoc codesigning. (in target 'Pinemeter' from project 'Pinemeter')
+CopySwiftLibs /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter.debug.dylib --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Library/SystemExtensions --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Extensions --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os --back-deploy-swift-span
+
+ProcessInfoPlistFile /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Info.plist /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/empty-Pinemeter.plist (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    builtin-infoPlistUtility /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/empty-Pinemeter.plist -producttype com.apple.product-type.application -genpkginfo /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PkgInfo -expandbuildsettings -platform macosx -additionalcontentfile /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/assetcatalog_generated_info.plist -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Info.plist
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/Testing.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/Testing.framework
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/Testing.framework: replacing existing signature
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTAutomationSupport.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTAutomationSupport.framework
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTAutomationSupport.framework: replacing existing signature
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTest.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTest.framework
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTest.framework: replacing existing signature
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTestCore.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTestCore.framework
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTestCore.framework: replacing existing signature
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTestSupport.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTestSupport.framework
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTestSupport.framework: replacing existing signature
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCUIAutomation.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCUIAutomation.framework
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCUIAutomation.framework: replacing existing signature
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCUnit.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCUnit.framework
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCUnit.framework: replacing existing signature
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/libXCTestBundleInject.dylib (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/libXCTestBundleInject.dylib
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/libXCTestBundleInject.dylib: replacing existing signature
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/libXCTestSwiftSupport.dylib (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --preserve-metadata\=identifier,entitlements,flags --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/libXCTestSwiftSupport.dylib
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/libXCTestSwiftSupport.dylib: replacing existing signature
+
+CopySwiftLibs /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/MacOS/PinemeterTests --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Frameworks --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/PlugIns --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Library/SystemExtensions --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Extensions --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os --back-deploy-swift-span
+
+ProcessInfoPlistFile /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Info.plist /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/empty-PinemeterTests.plist (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    builtin-infoPlistUtility /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/empty-PinemeterTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -platform macosx -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Info.plist
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest: replacing existing signature
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter.debug.dylib (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter.debug.dylib
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter.debug.dylib: replacing existing signature
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/MacOS/__preview.dylib (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --timestamp\=none --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/MacOS/__preview.dylib
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app/Contents/MacOS/__preview.dylib: replacing existing signature
+
+CodeSign /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    
+    Signing Identity:     "Sign to Run Locally"
+    
+    /usr/bin/codesign --force --sign - --entitlements /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter.app.xcent --timestamp\=none --generate-entitlement-der /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app
+/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app: replacing existing signature
+
+Validate /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    builtin-validationUtility /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app -no-validate-extension -infoplist-subpath Contents/Info.plist
+
+RegisterWithLaunchServices /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/.gsd/projects/8f2789607114/worktrees/M001
+    /System/Library/Frameworks/CoreServices.framework/Versions/Current/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -f -R -trusted /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Build/Products/Debug/Pinemeter.app
+
+
+Test session results, code coverage, and logs:
+	/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-esvolrcqrienydhfdaldlfffwjpy/Logs/Test/Test-Pinemeter-2026.06.16_20-04-05--0700.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started
+Test suite 'SettingsRepositoryTests' started on 'My Mac - Pinemeter (58109)'
+Test case 'SettingsRepositoryTests.test_defaultSettings_hideChatGPTUsage()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)
+Test case 'SettingsRepositoryTests.test_notificationStatePersistsAcrossLaunches()' passed on 'My Mac - Pinemeter (58109)' (0.003 seconds)
+Test case 'SettingsRepositoryTests.test_settingsDecodingWithoutIsColoredIcon_usesDefault()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)
+Test case 'SettingsRepositoryTests.test_settingsPersistAcrossLaunches()' passed on 'My Mac - Pinemeter (58109)' (0.004 seconds)
+Test suite 'SecurityInvariantTests' started on 'My Mac - Pinemeter (58109)'
+Test case 'SecurityInvariantTests.test_appSettingsPersistenceDoesNotEncodeCredentialMaterial()' passed on 'My Mac - Pinemeter (58109)' (0.005 seconds)
+Test case 'SecurityInvariantTests.test_userFacingAppErrorDescriptionsDoNotDiscloseCredentialShapedFragments()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)
+Test case 'SecurityInvariantTests.test_userFacingChatGPTErrorDescriptionsDoNotDiscloseCredentialShapedFragments()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)
+Test case 'SecurityInvariantTests.test_userFacingNetworkAndKeychainDescriptionsDoNotDiscloseCredentialShapedFragments()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)
+Test suite 'ChatGPTUsageServiceTests' started on 'My Mac - Pinemeter (58109)'
+Test case 'ChatGPTUsageServiceTests.test_chatGPTUsageData_usesWorstQuotaBucketForOverallStatus()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_cookieHeader_acceptsCookiePrefixAndNewlineSeparatedSplitCookies()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_cookieHeader_acceptsFullCookieHeader()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_cookieHeader_acceptsRawSessionToken()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_cookieHeader_joinsSplitSessionTokenCookies()' passed on 'My Mac - Pinemeter (58109)' (0.004 seconds)
+Test case 'ChatGPTUsageServiceTests.test_fetchUsage_exchangesCookieForAccessTokenThenFetchesWhamUsage()' passed on 'My Mac - Pinemeter (58109)' (0.003 seconds)
+Test case 'ChatGPTUsageServiceTests.test_fetchUsage_withBlankSessionCookie_throwsMissingSessionCookie()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_fetchUsage_withoutAccessToken_treatsCookieAsInvalid()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_whamToDomain_classifiesMenuBarRowsAndPreservesUnknownRows()' passed on 'My Mac - Pinemeter (58109)' (0.001 seconds)

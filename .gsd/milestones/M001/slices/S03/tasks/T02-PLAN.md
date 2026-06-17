@@ -4,7 +4,7 @@ estimated_files: 5
 skills_used: []
 ---
 
-# T02: Rank Claude Keychain, UI state, and WebView credential risks
+# T02: Ranked Claude Keychain, SwiftUI credential-state, WebView session-retention, and logging redaction risks in the S03 assessment.
 
 ---
 skills_used:
