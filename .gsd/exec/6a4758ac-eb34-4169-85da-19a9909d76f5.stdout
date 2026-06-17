@@ -1,0 +1,415 @@
+## Pinemeter/App/AppModel.swift (73 hits)
+19: var chatGPTUsageData: ChatGPTUsageData?
+22: var isRefreshingChatGPT: Bool = false
+23: var errorMessage: String?
+24: var chatGPTErrorMessage: String?
+25: var isSetupComplete: Bool = false
+26: var hasChatGPTSessionCookie: Bool = false
+32: @ObservationIgnored private let keychainRepository: KeychainRepositoryProtocol
+34: @ObservationIgnored private let chatGPTUsageService: ChatGPTUsageServiceProtocol
+36: @ObservationIgnored private let sessionKeyImportService: SessionKeyImportServiceProtocol
+50: keychainRepository: KeychainRepositoryProtocol = KeychainRepository(),
+52: chatGPTUsageService: ChatGPTUsageServiceProtocol? = nil,
+54: sessionKeyImportService: SessionKeyImportServiceProtocol = SessionKeyImportService()
+57: self.keychainRepository = keychainRepository
+58: self.sessionKeyImportService = sessionKeyImportService
+65: keychainRepository: keychainRepository,
+69: self.chatGPTUsageService = chatGPTUsageService ?? ChatGPTUsageService()
+74: self.notificationService.setupDelegate()
+84: isSetupComplete = await keychainRepository.exists(account: "default")
+85: hasChatGPTSessionCookie = await keychainRepository.exists(account: "chatgpt")
+88: if hasChatGPTSessionCookie && settings.isChatGPTUsageShown {
+89: await refreshChatGPTUsage()
+92: if isSetupComplete {
+96: if isSetupComplete || hasChatGPTSessionCookie {
+106: guard isSetupComplete else {
+116: errorMessage = nil
+131: errorMessage = error.localizedDescription
+135: // MARK: - ChatGPT Usage
+137: func refreshChatGPTUsage() async {
+138: if !hasChatGPTSessionCookie {
+139: hasChatGPTSessionCookie = await keychainRepository.exists(account: "chatgpt")
+141: guard hasChatGPTSessionCookie else {
+145: guard !isRefreshingChatGPT else { return }
+147: isRefreshingChatGPT = true
+148: chatGPTErrorMessage = nil
+151: isRefreshingChatGPT = false
+155: let sessionCookie = try await keychainRepository.retrieve(account: "chatgpt")
+156: chatGPTUsageData = try await chatGPTUsageService.fetchUsage(sessionCookie: sessionCookie)
+159: chatGPTErrorMessage = error.localizedDescription
+163: func loadChatGPTSessionCookie() async -> String? {
+165: return try await keychainRepository.retrieve(account: "chatgpt")
+171: func validateAndSaveChatGPTSessionCookie(_ rawValue: String) async throws -> Bool {
+178: try await keychainRepository.save(sessionKey: trimmedCookie, account: "chatgpt")
+179: hasChatGPTSessionCookie = true
+180: settings.isChatGPTUsageShown = true
+181: await refreshChatGPTUsage()
+185: func clearChatGPTSessionCookie() async throws {
+186: try await keychainRepository.delete(account: "chatgpt")
+187: hasChatGPTSessionCookie = false
+188: settings.isChatGPTUsageShown = false
+190: chatGPTErrorMessage = nil
+197: return try await keychainRepository.retrieve(account: "default")
+206: let sessionKey = try SessionKey(rawValue)
+207: let isValid = try await usageService.validateSessionKey(sessionKey)
+213: let organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
+214: // Prefer organization with chat capability (Claude.ai usage), fall back to first
+220: try await keychainRepository.save(sessionKey: sessionKey.value, account: "default")
+224: isSetupComplete = true
+233: let imported = try await sessionKeyImportService.importSessionKey()
+237: throw SessionKeyImportError.invalidImportedSessionKey
+244: try await keychainRepository.delete(account: "default")
+247: isSetupComplete = false
+249: errorMessage = nil
+289: guard isSetupComplete || hasChatGPTSessionCookie else { return }
+296: if self.isSetupComplete {
+299: if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+300: await self.refreshChatGPTUsage()
+311: if self.isSetupComplete {
+314: if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+315: await self.refreshChatGPTUsage()
+328: isSetupComplete: Bool,
+329: errorMessage: String?,
+333: self.isSetupComplete = isSetupComplete
+334: self.errorMessage = errorMessage
+
+## Pinemeter/Services/UsageService.swift (29 hits)
+16: private let keychainRepository: KeychainRepositoryProtocol
+25: keychainRepository: KeychainRepositoryProtocol,
+30: self.keychainRepository = keychainRepository
+36: let sessionKeyString: String
+38: sessionKeyString = try await keychainRepository.retrieve(account: "default")
+42: throw AppError.keychainError(error)
+45: let sessionKey = try SessionKey(sessionKeyString)
+49: await cacheRepository.invalidate()
+63: } else if let orgId = sessionKey.organizationId {
+68: // Prefer organization with chat capability (Claude.ai usage), fall back to first
+84: sessionKey: sessionKey.value
+106: Self.logger.error("Authentication failed - session key invalid")
+107: throw AppError.sessionKeyInvalid
+118: Self.logger.error("API request failed: \(error.localizedDescription)")
+119: throw AppError.networkError(error as? NetworkError ?? .invalidResponse)
+123: // If all retries failed, check for last known data
+125: Self.logger.warning("All retries failed, using cached data")
+129: Self.logger.error("All retries failed, no cached data available")
+135: let sessionKeyString: String
+137: sessionKeyString = try await keychainRepository.retrieve(account: "default")
+141: throw AppError.keychainError(error)
+144: let sessionKey = try SessionKey(sessionKeyString)
+145: return try await fetchOrganizations(sessionKey: sessionKey)
+148: /// Fetch list of organizations with explicit session key (for setup before keychain save)
+149: func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization] {
+153: sessionKey: sessionKey.value
+159: /// Validate session key with Claude API
+160: func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool {
+165: sessionKey: sessionKey.value
+
+## Pinemeter/Services/ChatGPTUsageService.swift (61 hits)
+2: //  ChatGPTUsageService.swift
+8: enum ChatGPTUsageError: LocalizedError, Equatable {
+10: case invalidSessionCookie
+11: case invalidResponse
+12: case httpError(statusCode: Int)
+15: var errorDescription: String? {
+18: return "No ChatGPT session cookie found. Add one in Settings."
+19: case .invalidSessionCookie:
+20: return "ChatGPT session is invalid or expired. Update it in Settings."
+21: case .invalidResponse:
+22: return "Unable to parse ChatGPT usage data."
+23: case .httpError(let statusCode):
+24: return "ChatGPT quota request failed with HTTP \(statusCode)."
+26: return "ChatGPT quota data is unavailable. Check your connection and try again."
+31: actor ChatGPTUsageService: ChatGPTUsageServiceProtocol {
+32: private let httpClient: ChatGPTHTTPClientProtocol
+37: httpClient: ChatGPTHTTPClientProtocol = ChatGPTHTTPClient(),
+44: func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+45: let cookieHeader = Self.cookieHeader(from: sessionCookie)
+46: guard !cookieHeader.isEmpty else {
+47: throw ChatGPTUsageError.missingSessionCookie
+50: let authSession: ChatGPTAuthSessionResponse = try await httpClient.request(
+51: "\(baseURL)/api/auth/session",
+52: cookieHeader: cookieHeader,
+59: throw ChatGPTUsageError.invalidSessionCookie
+62: let usage: ChatGPTWHAMUsageResponse = try await httpClient.request(
+64: cookieHeader: cookieHeader,
+69: return try usage.toDomain(lastUpdated: now())
+72: func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+74: _ = try await fetchUsage(sessionCookie: sessionCookie)
+76: } catch ChatGPTUsageError.missingSessionCookie {
+78: } catch ChatGPTUsageError.invalidSessionCookie {
+80: } catch ChatGPTUsageError.httpError(let statusCode) where statusCode == 401 || statusCode == 403 {
+85: /// Accept a raw session token, a full Cookie header, or split NextAuth cookie chunks.
+86: static func cookieHeader(from rawValue: String) -> String {
+91: return "__Secure-next-auth.session-token=\(trimmedValue)"
+94: let cookiePairs = cookiePairs(from: trimmedValue)
+95: guard !cookiePairs.isEmpty else { return trimmedValue }
+97: if let unsplitToken = cookiePairs.first(where: { $0.name == "__Secure-next-auth.session-token" })?.value,
+99: return cookiePairs.map { "\($0.name)=\($0.value)" }.joined(separator: "; ")
+102: let splitToken = cookiePairs
+104: let prefix = "__Secure-next-auth.session-token."
+116: return cookiePairs.map { "\($0.name)=\($0.value)" }.joined(separator: "; ")
+119: let otherPairs = cookiePairs.filter { !$0.name.hasPrefix("__Secure-next-auth.session-token.") }
+120: return (["__Secure-next-auth.session-token=\(splitToken)"] + otherPairs.map { "\($0.name)=\($0.value)" })
+124: private static func cookiePairs(from rawValue: String) -> [(name: String, value: String)] {
+140: actor ChatGPTHTTPClient: ChatGPTHTTPClientProtocol {
+141: private let session: URLSession
+146: self.session = URLSession(configuration: configuration)
+151: cookieHeader: String,
+156: throw ChatGPTUsageError.invalidResponse
+162: request.setValue(cookieHeader, forHTTPHeaderField: "Cookie")
+171: let (data, response) = try await session.data(for: request)
+173: throw ChatGPTUsageError.invalidResponse
+176: guard (200...299).contains(httpResponse.statusCode) else {
+177: if httpResponse.statusCode == 401 || httpResponse.statusCode == 403 {
+178: throw ChatGPTUsageError.invalidSessionCookie
+180: throw ChatGPTUsageError.httpError(statusCode: httpResponse.statusCode)
+188: throw ChatGPTUsageError.invalidResponse
+190: } catch let error as ChatGPTUsageError {
+193: throw ChatGPTUsageError.networkUnavailable
+
+## Pinemeter/Services/NetworkService.swift (14 hits)
+14: private let session: URLSession
+19: self.session = URLSession(configuration: configuration)
+26: sessionKey: String
+30: throw NetworkError.invalidURL
+34: throw NetworkError.invalidURL
+41: request.setValue("sessionKey=\(sessionKey)", forHTTPHeaderField: "Cookie")
+50: let (data, response) = try await session.data(for: request)
+53: throw NetworkError.invalidResponse
+56: // Handle HTTP status codes
+57: guard (200...299).contains(httpResponse.statusCode) else {
+59: Self.logger.error("HTTP \(httpResponse.statusCode) from \(endpoint): \(responseBody)")
+61: if httpResponse.statusCode == 401 {
+64: if httpResponse.statusCode == 429 {
+67: throw NetworkError.httpError(statusCode: httpResponse.statusCode)
+
+## Pinemeter/Views/Setup/SetupWizardView.swift (35 hits)
+4: struct SetupWizardView: View {
+7: @State private var sessionKeyInput: String = ""
+10: @State private var errorMessage: String?
+32: Text("Monitor your Claude.ai plan usage in real-time")
+40: Text("Claude Session")
+43: SecureField("sk-ant-...", text: $sessionKeyInput)
+46: .accessibilityLabel("Session key input field")
+47: .accessibilityHint("Enter your Claude session key or paste a Cookie header containing sessionKey")
+49: Text("Import from a browser signed in to claude.ai, or paste your session")
+54: if !sessionKeyInput.isEmpty {
+58: Text(isFormatValid ? "Session format valid" : "Invalid session format")
+67: if let errorMessage = errorMessage {
+73: Text(errorMessage)
+93: .accessibilityLabel("Error: \(errorMessage)")
+101: Text("Setup complete! Launching Pinemeter...")
+132: .accessibilityLabel(isImporting ? "Importing session key" : "Import session key from browser")
+133: .accessibilityHint("Finds your Claude session key in local browser cookies and validates it")
+148: .accessibilityLabel(isValidating ? "Validating session key" : "Continue with manual setup")
+149: .accessibilityHint("Validates your session key and completes setup")
+164: let trimmed = sessionKeyInput.trimmingCharacters(in: .whitespacesAndNewlines)
+172: errorMessage = nil
+178: sessionKeyInput = imported.value
+181: errorMessage = error.localizedDescription
+184: errorMessage = "Network error: \(error.localizedDescription)"
+186: errorMessage = error.localizedDescription
+188: errorMessage = "Import failed: \(error.localizedDescription)"
+196: guard !sessionKeyInput.isEmpty else {
+197: errorMessage = "Session key cannot be empty"
+203: errorMessage = nil
+208: let isValid = try await appModel.validateAndSaveSessionKey(sessionKeyInput)
+212: errorMessage = "Session key is invalid or expired"
+215: errorMessage = error.localizedDescription
+217: errorMessage = "Network error: \(error.localizedDescription)"
+219: errorMessage = error.localizedDescription
+221: errorMessage = "Validation failed: \(error.localizedDescription)"
+
+## Pinemeter/Views/Settings/SettingsView.swift (97 hits)
+8: @State private var sessionKey: String = ""
+12: @State private var sessionKeyValidationMessage: String?
+19: @State private var isChatGPTSessionCookieShown: Bool = false
+20: @State private var isValidatingChatGPTSessionCookie: Bool = false
+22: @State private var hasChatGPTSessionCookieValidationSucceeded: Bool = false
+29: @State private var launchAtLogin: Bool = SMAppService.mainApp.status == .enabled
+49: await updateNotificationStatus()
+70: sessionKeySection
+80: // MARK: - Claude Session Section
+82: private var sessionKeySection: some View {
+86: Text("Claude Session")
+89: Text("Import from browser or paste your Claude session")
+98: Label(sessionKey.isEmpty ? "Not configured" : "Saved in Keychain", systemImage: sessionKey.isEmpty ? "exclamationmark.circle" : "checkmark.circle")
+100: .foregroundStyle(sessionKey.isEmpty ? Color.secondary : Color.green)
+105: TextField("sk-ant-...", text: $sessionKey)
+109: SecureField("sk-ant-...", text: $sessionKey)
+118: .help(isSessionKeyShown ? "Hide session key" : "Show session key")
+120: if !sessionKey.isEmpty {
+126: .help("Clear session key")
+137: .disabled(sessionKey.isEmpty || isSessionKeyBusy)
+152: if let message = sessionKeyValidationMessage, hasSessionKeyValidationSucceeded {
+163: if let message = sessionKeyValidationMessage, !hasSessionKeyValidationSucceeded {
+193: // MARK: - ChatGPT Section
+199: Text("ChatGPT Usage")
+201: Text("Optional. Stores your ChatGPT session cookie in Keychain and shows ChatGPT plan quota usage in the popover.")
+208: Toggle("", isOn: $appModel.settings.isChatGPTUsageShown)
+210: .disabled(!appModel.hasChatGPTSessionCookie)
+211: .onChange(of: appModel.settings.isChatGPTUsageShown) { _, isShown in
+213: Task { await appModel.refreshChatGPTUsage() }
+220: label: "__Secure-next-auth.session-token.0",
+226: label: "__Secure-next-auth.session-token.1",
+232: chatGPTCookieInput(placeholder: "Cookie: __Secure-next-auth.session-token.0=...; __Secure-next-auth.session-token.1=...", text: $chatGPTFullCookieHeader)
+238: Button(action: { isChatGPTSessionCookieShown.toggle() }) {
+239: Label(isChatGPTSessionCookieShown ? "Hide values" : "Show values", systemImage: isChatGPTSessionCookieShown ? "eye.slash" : "eye")
+243: .help(isChatGPTSessionCookieShown ? "Hide ChatGPT session cookie values" : "Show ChatGPT session cookie values")
+247: if hasChatGPTCookieInput || appModel.hasChatGPTSessionCookie {
+248: Button(action: clearChatGPTSessionCookie) {
+253: .help("Clear ChatGPT session cookie")
+261: await validateAndSaveChatGPTSessionCookie()
+265: .disabled(!hasChatGPTCookieInput || isValidatingChatGPTSessionCookie)
+267: if isValidatingChatGPTSessionCookie {
+273: Label(message, systemImage: hasChatGPTSessionCookieValidationSucceeded ? "checkmark.circle.fill" : "xmark.circle.fill")
+275: .foregroundStyle(hasChatGPTSessionCookieValidationSucceeded ? .green : .red)
+281: Text("Paste the browser cookie values for .0 and .1 separately. Pinemeter joins them, stores the result only in Keychain, and sends it only to chatgpt.com.")
+285: if let chatGPTErrorMessage = appModel.chatGPTErrorMessage, appModel.settings.isChatGPTUsageShown {
+286: Label(chatGPTErrorMessage, systemImage: "exclamationmark.triangle.fill")
+296: private var hasChatGPTCookieInput: Bool {
+302: private var joinedChatGPTCookieInput: String {
+325: if isChatGPTSessionCookieShown {
+431: Text("Get notified when session usage thresholds are reached")
+482: Text("Get notified when session usage reaches this percentage")
+507: Text("Get urgent notification when session usage reaches this percentage")
+638: Text("Monitor your Claude.ai usage limits")
+667: sessionKey = await appModel.loadSessionKey() ?? ""
+668: if let savedChatGPTCookie = await appModel.loadChatGPTSessionCookie() {
+669: chatGPTSessionTokenPart0 = savedChatGPTCookie
+673: await updateNotificationStatus()
+678: private func updateNotificationStatus() async {
+692: guard !sessionKey.isEmpty else {
+693: sessionKeyValidationMessage = "Session key cannot be empty"
+699: sessionKeyValidationMessage = nil
+704: let isValid = try await appModel.validateAndSaveSessionKey(sessionKey)
+707: sessionKeyValidationMessage = "Session key saved"
+712: sessionKeyValidationMessage = nil
+716: sessionKeyValidationMessage = "Session key validation failed"
+720: sessionKeyValidationMessage = error.localizedDescription
+724: sessionKeyValidationMessage = "Validation failed: \(error.localizedDescription)"
+735: sessionKeyValidationMessage = nil
+741: sessionKey = imported.value
+742: sessionKeyValidationMessage = "Imported from \(imported.sourceDescription)"
+748: sessionKeyValidationMessage = nil
+753: sessionKeyValidationMessage = error.localizedDescription
+757: sessionKeyValidationMessage = error.localizedDescription
+769: sessionKey = ""
+770: sessionKeyValidationMessage = nil
+774: sessionKeyValidationMessage = "Failed to clear: \(error.localizedDescription)"
+782: private func validateAndSaveChatGPTSessionCookie() async {
+783: guard hasChatGPTCookieInput else {
+784: chatGPTSessionCookieValidationMessage = "Session cookie cannot be empty"
+785: hasChatGPTSessionCookieValidationSucceeded = false
+... 17 more
+
+## Pinemeter/Views/MenuBar/UsagePopoverView.swift (34 hits)
+21: Text("Claude Usage")
+31: if appModel.hasChatGPTSessionCookie && appModel.settings.isChatGPTUsageShown {
+32: await appModel.refreshChatGPTUsage()
+46: .keyboardShortcut("r", modifiers: .command)
+53: if let errorMessage = appModel.errorMessage {
+58: Text(errorMessage)
+66: // Retry button for recoverable errors
+74: // Update Key button for authentication errors
+75: if errorMessage.contains("invalid") || errorMessage.contains("expired") || errorMessage.contains("authentication") {
+76: Button("Update Session Key") {
+90: if appModel.usageData != nil || appModel.chatGPTUsageData != nil || appModel.chatGPTErrorMessage != nil {
+94: UsageMetricSection(title: "Claude", icon: "sparkles") {
+97: subtitle: "Resets \(usageData.sessionUsage.resetDescription)",
+98: percentage: usageData.sessionUsage.percentage,
+99: status: usageData.sessionUsage.status,
+107: status: usageData.weeklyUsage.status,
+116: status: sonnetUsage.status,
+123: if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
+124: UsageMetricSection(title: "ChatGPT", icon: "message.badge.waveform") {
+130: status: status(for: row),
+137: if appModel.settings.isChatGPTUsageShown, let chatGPTErrorMessage = appModel.chatGPTErrorMessage {
+141: Text("ChatGPT: \(chatGPTErrorMessage)")
+173: .keyboardShortcut(",", modifiers: .command)
+182: .keyboardShortcut("q", modifiers: .command)
+195: if let keyWindow = NSApp.keyWindow, keyWindow.level != .normal {
+196: keyWindow.orderOut(nil)
+202: private func chatGPTQuotaSubtitle(for row: ChatGPTUsageData.LimitRow) -> String {
+213: private func status(for row: ChatGPTUsageData.LimitRow) -> UsageStatus {
+215: case 0..<Constants.Thresholds.Status.warningStart:
+217: case Constants.Thresholds.Status.warningStart..<Constants.Thresholds.Status.criticalStart:
+254: let status: UsageStatus
+266: .foregroundStyle(status.color)
+283: .foregroundStyle(status.color)
+292: .fill(status.color)
+
+## Pinemeter/Models/API/ChatGPTAPIResponses.swift (28 hits)
+2: //  ChatGPTAPIResponses.swift
+8: /// Response from https://chatgpt.com/api/auth/session.
+9: struct ChatGPTAuthSessionResponse: Decodable, Equatable, Sendable {
+14: struct ChatGPTWHAMUsageResponse: Decodable, Equatable, Sendable {
+15: let rateLimit: ChatGPTWHAMRateLimit?
+16: let codeReviewRateLimit: ChatGPTWHAMRateLimit?
+17: let additionalRateLimits: [ChatGPTWHAMAdditionalRateLimit]?
+26: struct ChatGPTWHAMAdditionalRateLimit: Decodable, Equatable, Sendable {
+29: let primaryWindow: ChatGPTWHAMWindow?
+38: struct ChatGPTWHAMRateLimit: Decodable, Equatable, Sendable {
+39: let primaryWindow: ChatGPTWHAMWindow?
+40: let secondaryWindow: ChatGPTWHAMWindow?
+48: struct ChatGPTWHAMWindow: Decodable, Equatable, Sendable {
+58: extension ChatGPTWHAMUsageResponse {
+59: func toDomain(lastUpdated: Date = Date()) throws -> ChatGPTUsageData {
+60: var rows: [ChatGPTUsageData.LimitRow] = []
+65: displayLabel: "ChatGPT 5h",
+75: displayLabel: ChatGPTUsageData.MenuBarQuotaRole.chatGPTWeekly.menuBarLabel,
+107: throw ChatGPTUsageError.invalidResponse
+110: return ChatGPTUsageData(rows: rows, lastUpdated: lastUpdated)
+114: from rateLimit: ChatGPTWHAMRateLimit?,
+118: menuBarRole: ChatGPTUsageData.MenuBarQuotaRole?
+119: ) -> ChatGPTUsageData.LimitRow? {
+130: from window: ChatGPTWHAMWindow?,
+134: menuBarRole: ChatGPTUsageData.MenuBarQuotaRole?
+135: ) -> ChatGPTUsageData.LimitRow? {
+138: return ChatGPTUsageData.LimitRow(
+148: private static func menuBarRole(for rawLabel: String) -> ChatGPTUsageData.MenuBarQuotaRole? {
+
+## Pinemeter/Models/AppSettings.swift (11 hits)
+30: /// Whether to show ChatGPT quota usage in the popover
+31: var isChatGPTUsageShown: Bool
+46: isChatGPTUsageShown: false,
+58: case isChatGPTUsageShown = "show_chatgpt_usage"
+67: let container = try decoder.container(keyedBy: CodingKeys.self)
+76: isChatGPTUsageShown = try container.decodeIfPresent(Bool.self, forKey: .isChatGPTUsageShown)
+78: ?? defaults.isChatGPTUsageShown
+90: isChatGPTUsageShown: Bool,
+99: self.isChatGPTUsageShown = isChatGPTUsageShown
+105: var container = encoder.container(keyedBy: CodingKeys.self)
+112: try container.encode(isChatGPTUsageShown, forKey: .isChatGPTUsageShown)
+
+## Pinemeter/Repositories/KeychainRepository.swift (29 hits)
+13: private let serviceName = "com.claudemeter.sessionkey"
+15: /// Save session key to Keychain with security attributes
+16: func save(sessionKey: String, account: String) async throws {
+17: guard let data = sessionKey.data(using: .utf8) else {
+18: throw KeychainError.saveFailed(OSStatus: errSecParam)
+30: let status = SecItemAdd(query as CFDictionary, nil)
+32: if status == errSecDuplicateItem {
+34: try await update(sessionKey: sessionKey, account: account)
+35: } else if status != errSecSuccess {
+36: throw KeychainError.saveFailed(OSStatus: status)
+40: /// Retrieve session key from Keychain
+51: let status = SecItemCopyMatching(query as CFDictionary, &item)
+53: guard status == errSecSuccess,
+55: let sessionKey = String(data: data, encoding: .utf8) else {
+59: return sessionKey
+62: /// Update existing session key in Keychain
+63: func update(sessionKey: String, account: String) async throws {
+64: guard let data = sessionKey.data(using: .utf8) else {
+65: throw KeychainError.updateFailed(OSStatus: errSecParam)
+78: let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+80: guard status == errSecSuccess else {
+81: throw KeychainError.updateFailed(OSStatus: status)
+85: /// Delete session key from Keychain
+93: let status = SecItemDelete(query as CFDictionary)
+95: guard status == errSecSuccess || status == errSecItemNotFound else {
+96: throw KeychainError.deleteFailed(OSStatus: status)
+100: /// Check if session key exists for account
+109: let status = SecItemCopyMatching(query as CFDictionary, nil)
+110: return status == errSecSuccess
+

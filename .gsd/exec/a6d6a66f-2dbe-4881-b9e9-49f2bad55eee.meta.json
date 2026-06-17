@@ -1,0 +1,18 @@
+{
+  "id": "a6d6a66f-2dbe-4881-b9e9-49f2bad55eee",
+  "runtime": "bash",
+  "purpose": "T01 final verification for provider workflow copy audit harness",
+  "script_chars": 855,
+  "started_at": "2026-06-17T15:36:18.057Z",
+  "finished_at": "2026-06-17T15:36:18.348Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 291,
+  "stdout_bytes": 5048,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/a6d6a66f-2dbe-4881-b9e9-49f2bad55eee.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/a6d6a66f-2dbe-4881-b9e9-49f2bad55eee.stderr"
+}

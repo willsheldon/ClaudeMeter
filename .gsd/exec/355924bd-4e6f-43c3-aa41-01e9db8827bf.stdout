@@ -1,0 +1,182 @@
+
+## PinemeterTests/AppModelTests.swift
+23: XCTAssertTrue(appModel.isReady)
+24: XCTAssertFalse(appModel.isSetupComplete)
+26: XCTAssertNil(appModel.errorMessage)
+50: XCTAssertTrue(appModel.isReady)
+51: XCTAssertTrue(appModel.isSetupComplete)
+52: XCTAssertEqual(appModel.usageData, expectedUsage)
+53: XCTAssertNil(appModel.errorMessage)
+54: XCTAssertEqual(notificationService.lastEvaluatedUsageData, expectedUsage)
+78: XCTAssertTrue(appModel.isReady)
+79: XCTAssertTrue(appModel.isSetupComplete)
+81: XCTAssertEqual(appModel.errorMessage, failure.localizedDescription)
+100: appModel.errorMessage = TestConstants.previousErrorMessage
+104: XCTAssertEqual(appModel.usageData, expectedUsage)
+105: XCTAssertNil(appModel.errorMessage)
+106: XCTAssertFalse(appModel.isRefreshing)
+107: XCTAssertFalse(appModel.isLoading)
+108: XCTAssertEqual(notificationService.lastEvaluatedUsageData, expectedUsage)
+130: XCTAssertEqual(appModel.errorMessage, failure.localizedDescription)
+131: XCTAssertFalse(appModel.isRefreshing)
+132: XCTAssertFalse(appModel.isLoading)
+176: XCTAssertFalse(result)
+177: XCTAssertFalse(appModel.isSetupComplete)
+178: XCTAssertTrue(appModel.settings.isFirstLaunch)
+209: XCTAssertTrue(result)
+210: XCTAssertTrue(appModel.isSetupComplete)
+211: XCTAssertFalse(appModel.settings.isFirstLaunch)
+212: XCTAssertEqual(
+216: XCTAssertEqual(appModel.usageData, expectedUsage)
+251: XCTAssertEqual(imported.sourceDescription, "Chrome Default")
+252: XCTAssertEqual(savedKey, TestConstants.sessionKeyValue)
+253: XCTAssertTrue(appModel.isSetupComplete)
+254: XCTAssertEqual(appModel.usageData, expectedUsage)
+281: XCTFail("Expected invalidImportedSessionKey to be thrown")
+282: } catch SessionKeyImportError.invalidImportedSessionKey {
+283: XCTAssertFalse(appModel.isSetupComplete)
+311: XCTAssertFalse(appModel.isSetupComplete)
+333: appModel.errorMessage = TestConstants.fetchFailureMessage
+342: XCTAssertFalse(appModel.isSetupComplete)
+344: XCTAssertNil(appModel.errorMessage)
+346: XCTAssertTrue(appModel.settings.isFirstLaunch)
+365: XCTAssertEqual(notificationService.requestAuthorizationCallCount, 0)
+384: XCTAssertEqual(notificationService.requestAuthorizationCallCount, 1)
+402: XCTAssertEqual(notificationService.sentThresholdType, .warning)
+403: XCTAssertEqual(notificationService.sentThresholdPercentage, 85.0)
+
+## PinemeterTests/ChatGPTAppModelTests.swift
+2: //  ChatGPTAppModelTests.swift
+11: final class ChatGPTAppModelTests: XCTestCase {
+12: func test_bootstrap_detectsExistingChatGPTSessionWithoutRequiringClaudeSetup() async throws {
+19: XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+20: XCTAssertFalse(appModel.isSetupComplete)
+23: func test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage() async throws {
+24: let expectedUsage = makeChatGPTUsage(percentage: 25)
+25: let chatGPTService = ChatGPTUsageServiceStub(
+35: let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+37: XCTAssertTrue(result)
+38: let savedChatGPTCookie = try await keychainRepository.retrieve(account: "chatgpt")
+39: XCTAssertEqual(savedChatGPTCookie, "chatgpt-session-redacted")
+41: XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+42: XCTAssertTrue(appModel.settings.isChatGPTUsageShown)
+43: XCTAssertEqual(appModel.chatGPTUsageData, expectedUsage)
+44: XCTAssertNil(appModel.chatGPTErrorMessage)
+47: func test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave() async throws {
+48: let chatGPTService = ChatGPTUsageServiceStub(isSessionCookieValid: false)
+55: let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+57: XCTAssertFalse(result)
+58: XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+62: func test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError() async {
+64: let chatGPTService = ChatGPTUsageServiceStub(
+65: fetchUsageResult: .failure(ChatGPTUsageError.networkUnavailable)
+74: appModel.errorMessage = "Claude error stays separate"
+76: await appModel.refreshChatGPTUsage()
+78: XCTAssertEqual(appModel.usageData, claudeUsage)
+79: XCTAssertEqual(appModel.errorMessage, "Claude error stays separate")
+80: XCTAssertEqual(appModel.chatGPTErrorMessage, "ChatGPT quota data is unavailable. Check your connection and try again.")
+84: func test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage() async throws {
+89: appModel.settings.isChatGPTUsageShown = true
+90: appModel.chatGPTUsageData = makeChatGPTUsage(percentage: 1)
+91: appModel.chatGPTErrorMessage = "old error"
+92: appModel.hasChatGPTSessionCookie = true
+94: try await appModel.clearChatGPTSessionCookie()
+97: XCTAssertEqual(savedClaudeKey, TestConstants.sessionKeyValue)
+99: XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+100: XCTAssertFalse(appModel.settings.isChatGPTUsageShown)
+102: XCTAssertNil(appModel.chatGPTErrorMessage)
+107: chatGPTUsageService: ChatGPTUsageServiceProtocol = ChatGPTUsageServiceStub()
+119: private actor ChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+120: let fetchUsageResult: Result<ChatGPTUsageData, Error>
+124: fetchUsageResult: Result<ChatGPTUsageData, Error> = .success(makeChatGPTUsage(percentage: 10)),
+131: func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+160: private func makeChatGPTUsage(percentage: Double) -> ChatGPTUsageData {
+161: ChatGPTUsageData(
+
+## PinemeterTests/ChatGPTUsageServiceTests.swift
+2: //  ChatGPTUsageServiceTests.swift
+10: final class ChatGPTUsageServiceTests: XCTestCase {
+12: let data = ChatGPTUsageData(
+20: XCTAssertEqual(data.percentage, 92)
+21: XCTAssertEqual(data.status, .critical)
+24: func test_cookieHeader_acceptsRawSessionToken() {
+25: let header = ChatGPTUsageService.cookieHeader(from: " token-redacted \n")
+27: XCTAssertEqual(header, "__Secure-next-auth.session-token=token-redacted")
+30: func test_cookieHeader_acceptsFullCookieHeader() {
+31: let header = ChatGPTUsageService.cookieHeader(from: "a=b; __Secure-next-auth.session-token=token-redacted")
+33: XCTAssertEqual(header, "a=b; __Secure-next-auth.session-token=token-redacted")
+36: func test_cookieHeader_joinsSplitSessionTokenCookies() {
+37: let header = ChatGPTUsageService.cookieHeader(
+41: XCTAssertEqual(header, "__Secure-next-auth.session-token=firstsecond")
+44: func test_cookieHeader_acceptsCookiePrefixAndNewlineSeparatedSplitCookies() {
+45: let header = ChatGPTUsageService.cookieHeader(
+49: XCTAssertEqual(header, "__Secure-next-auth.session-token=firstsecond")
+68: let response = try decoder.decode(ChatGPTWHAMUsageResponse.self, from: json)
+72: XCTAssertEqual(usage.rows.map(\.sourceLabel), [
+79: XCTAssertEqual(usage.rows.map(\.label), [
+80: "ChatGPT 5h",
+81: "ChatGPT weekly",
+83: "ChatGPT Pro",
+86: XCTAssertEqual(usage.menuBarRows.map(\.menuBarRole), [.chatGPT5h, .chatGPTWeekly, .chatGPTPro])
+87: XCTAssertEqual(usage.menuBarRows.map(\.label), ["ChatGPT 5h", "ChatGPT weekly", "ChatGPT Pro"])
+91: XCTAssertEqual(unknownRow.subtitle, "WHAM: unknown_bucket")
+95: let service = ChatGPTUsageService(httpClient: ChatGPTHTTPClientStub())
+99: XCTFail("Expected missing session cookie error")
+100: } catch ChatGPTUsageError.missingSessionCookie {
+109: let httpClient = ChatGPTHTTPClientStub(
+115: let service = ChatGPTUsageService(
+122: XCTAssertEqual(usage.rows.map(\.label), ["ChatGPT 5h", "Code Review"])
+123: XCTAssertEqual(usage.rows.map(\.sourceLabel), ["rate_limit", "code_review_rate_limit"])
+124: XCTAssertEqual(usage.rows.map(\.usedPercent), [25, 50])
+125: XCTAssertEqual(usage.lastUpdated, now)
+128: XCTAssertEqual(requests.count, 2)
+129: XCTAssertTrue(requests[0].endpoint.hasSuffix("/api/auth/session"))
+131: XCTAssertTrue(requests[1].endpoint.hasSuffix("/backend-api/wham/usage"))
+132: XCTAssertEqual(requests[1].authorization, "Bearer access-token-redacted")
+133: XCTAssertEqual(
+134: requests.map(\.cookieHeader),
+143: let httpClient = ChatGPTHTTPClientStub(
+146: let service = ChatGPTUsageService(httpClient: httpClient)
+150: XCTFail("Expected invalid session cookie error")
+151: } catch ChatGPTUsageError.invalidSessionCookie {
+159: private actor ChatGPTHTTPClientStub: ChatGPTHTTPClientProtocol {
+162: let cookieHeader: String
+176: cookieHeader: String,
+182: cookieHeader: cookieHeader,
+189: throw ChatGPTUsageError.invalidResponse
+
+## PinemeterTests/UsageServiceTests.swift
+59: XCTAssertEqual(usageData, expectedUsage)
+60: XCTAssertEqual(requestCount, 0)
+101: XCTAssertEqual(usageData.sessionUsage.utilization, expectedSessionPercentage)
+102: XCTAssertEqual(usageData.weeklyUsage.utilization, expectedWeeklyPercentage)
+103: XCTAssertEqual(cachedData?.sessionUsage.utilization, expectedSessionPercentage)
+104: XCTAssertEqual(cachedData?.weeklyUsage.utilization, expectedWeeklyPercentage)
+105: XCTAssertEqual(requestCount, 1)
+142: XCTAssertTrue(lastEndpoint?.contains(expectedPath) == true)
+178: XCTAssertEqual(usageData.sessionUsage.utilization, TestConstants.sessionPercentage)
+179: XCTAssertEqual(usageData.weeklyUsage.utilization, TestConstants.weeklyPercentage)
+217: XCTAssertEqual(usageData.sessionUsage.utilization, 0)
+258: XCTFail("Expected invalidResponse error")
+260: if case .invalidResponse = networkError {
+263: XCTFail("Expected invalidResponse error")
+302: XCTAssertEqual(usageData.sonnetUsage?.utilization, TestConstants.sonnetPercentage)
+365: XCTAssertEqual(date.timeIntervalSince1970, expectedDate.timeIntervalSince1970, accuracy: 0.001)
+
+## PinemeterTests/SecurityInvariantTests.swift
+7: "__Secure-next-auth.session-token=synthetic-cookie",
+24: settings.isChatGPTUsageShown = true
+45: XCTAssertFalse(
+66: assertNoCredentialDisclosure(in: errors.map { $0.localizedDescription })
+69: func test_userFacingChatGPTErrorDescriptionsDoNotDiscloseCredentialShapedFragments() {
+71: ChatGPTUsageError.missingSessionCookie,
+72: ChatGPTUsageError.invalidSessionCookie,
+73: ChatGPTUsageError.invalidResponse,
+74: ChatGPTUsageError.httpError(statusCode: 403),
+75: ChatGPTUsageError.networkUnavailable
+78: assertNoCredentialDisclosure(in: errors.map { $0.localizedDescription })
+83: NetworkError.invalidURL,
+84: NetworkError.invalidResponse,
+97: assertNoCredentialDisclosure(in: errors.map { $0.localizedDescription })
+103: XCTAssertFalse(
+116: "Synthetic upstream failure with sk-ant-test-synthetic-session-key, Cookie: __Secure-next-auth.session-token=synthetic-cookie, Bearer synthetic-access-token, access-token-synthetic

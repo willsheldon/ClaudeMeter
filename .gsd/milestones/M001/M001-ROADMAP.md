@@ -23,7 +23,7 @@
 - [x] **S03: Security review baseline** `risk:high` `depends:[S02]`
   > After this: After this: a ranked security findings report identifies credential, Keychain, logging, persistence, and recovery risks with fix or defer recommendations.
 
-- [ ] **S04: Architecture review baseline** `risk:medium` `depends:[S01]`
+- [x] **S04: Architecture review baseline** `risk:medium` `depends:[S01]`
   > After this: After this: a ranked architecture review, using Opus if available, identifies provider, service, repository, app-state, settings, and error-handling risks.
 
 - [ ] **S05: Provider and error workflow audit** `risk:medium` `depends:[S02,S03]`

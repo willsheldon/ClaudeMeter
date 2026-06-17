@@ -1,0 +1,18 @@
+{
+  "id": "6a4758ac-eb34-4169-85da-19a9909d76f5",
+  "runtime": "python",
+  "purpose": "S05 targeted error/status/setup string extraction",
+  "script_chars": 1169,
+  "started_at": "2026-06-17T15:19:31.651Z",
+  "finished_at": "2026-06-17T15:19:31.718Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 67,
+  "stdout_bytes": 23147,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/6a4758ac-eb34-4169-85da-19a9909d76f5.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/6a4758ac-eb34-4169-85da-19a9909d76f5.stderr"
+}

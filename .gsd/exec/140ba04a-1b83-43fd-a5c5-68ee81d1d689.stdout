@@ -1,0 +1,12 @@
+scripts/provider_workflow_copy_audit.py: MISSING
+Pinemeter/Models/Errors/AppError.swift: exists
+Pinemeter/Models/Errors/NetworkError.swift: exists
+Pinemeter/Models/SessionKey.swift: exists
+Pinemeter/Views/MenuBar/UsagePopoverView.swift: exists
+Pinemeter/Views/Setup/SetupWizardView.swift: exists
+Pinemeter/Views/Settings/SettingsView.swift: exists
+Pinemeter/Services/NetworkService.swift: exists
+Pinemeter/Services/UsageService.swift: exists
+Pinemeter/Services/ChatGPTUsageService.swift: exists
+README.md: exists
+site/index.html: exists

@@ -1,0 +1,86 @@
+Docs/site provider setup/error references:
+README.md:5:Keep track of your Claude.ai plan usage at a glance.
+README.md:9:- **Real-time usage monitoring** - Track your 5-hour session, 7-day weekly, and Sonnet-specific usage limits
+README.md:10:- **Menu bar integration** - Clean, colour-coded usage indicator that lives in your macOS menu bar
+README.md:12:- **Pacing indicator** - Flame icon warns when you're using Claude faster than sustainable pace
+README.md:14:- **Auto-refresh** - Automatic usage updates every 1 minute, 5 minutes, or 10 minutes
+README.md:20:The menu bar icon changes colour based on your usage levels:
+README.md:23:  <img src="docs/menubar-safe.png" width="260" alt="Menu bar - Safe usage">
+README.md:28:When using Sonnet models, an additional indicator shows your Sonnet-specific usage:
+README.md:31:  <img src="docs/menubar-sonnet.png" width="300" alt="Menu bar - Sonnet usage">
+README.md:44:Configure your Claude session, refresh interval, icon style, and notification thresholds:
+README.md:51:### Setup Wizard
+README.md:54:  <img src="docs/setup-wizard.png" width="600" alt="First-time setup wizard">
+README.md:72:2. The setup wizard will guide you through initial configuration
+README.md:73:3. Import from a browser signed in to [claude.ai](https://claude.ai), or paste your session manually
+README.md:74:4. The app validates your session and begins monitoring usage
+README.md:76:### Claude Session Setup
+README.md:78:Pinemeter can import your existing Claude session from local browser cookies. Sign in to [claude.ai](https://claude.ai) in a supported browser, then choose **Import from Browser** in the setup wizard or Settings.
+README.md:80:Chrome, Arc, Brave, Edge, and other Chromium browsers may ask for browser Safe Storage Keychain access so Pinemeter can decrypt cookies. Safari cookies are protected by macOS and may require Full Disk Access.
+README.md:82:If browser import is unavailable, paste your session manually. Pinemeter accepts either a raw `sk-ant-...` session key or a Cookie header containing `sessionKey=...`.
+README.md:84:#### Manual Session Setup
+README.md:86:Your Claude session key is stored in your browser cookies.
+README.md:93:4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:101:4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:109:4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:114:- Monitor your usage at a glance with the colour-coded menu bar icon
+README.md:120:Pinemeter exports usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards.
+README.md:127:  "session_usage": {
+README.md:131:  "sonnet_usage": {
+README.md:135:  "weekly_usage": {
+README.md:142:**Example: Claude Code statusline**
+README.md:144:Create `~/.claude/statusline.sh`:
+README.md:148:usage=$(jq -r '.session_usage.utilization' ~/.pinemeter/usage.json 2>/dev/null)
+README.md:150:if [ -z "$usage" ] || [ "$usage" = "null" ]; then
+README.md:152:elif [ "$usage" -lt 50 ]; then
+README.md:153:  echo -e "\033[32mUsage: ${usage}%\033[0m"
+README.md:154:elif [ "$usage" -lt 80 ]; then
+README.md:155:  echo -e "\033[33mUsage: ${usage}%\033[0m"
+README.md:157:  echo -e "\033[31mUsage: ${usage}%\033[0m"
+README.md:161:Then configure Claude Code's `~/.claude/settings.json`:
+README.md:165:  "statusLine": {
+README.md:167:    "command": "bash ~/.claude/statusline.sh"
+README.md:175:- Active Claude.ai account with a browser session or session key
+README.md:197:This application accesses Claude's web API using browser-based authentication methods. **This may violate Anthropic's Terms of Service.** By using Pinemeter, you acknowledge that:
+README.md:200:- Your Claude account could be affected by using unofficial API clients
+README.md:206:- Session keys are stored securely in macOS Keychain (encrypted, device-local only)
+README.md:207:- Browser import reads local browser cookies to extract your Claude session, then stores only the session key in Keychain
+README.md:208:- Usage data is cached locally (unencrypted, contains usage percentages only)
+.github/workflows/deploy-pages.yml:55:      - name: Setup Pages
+Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme:92:            argument = "--demo error"
+Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme:96:            argument = "--demo setupWizard"
+.github/workflows/test.yml:24:        uses: maxim-lobanov/setup-xcode@v1.7.0
+site/index.html:8:    <title>Pinemeter - Track Your Claude.ai Usage | macOS Menu Bar App</title>
+site/index.html:9:    <meta name="title" content="Pinemeter - Track Your Claude.ai Usage | macOS Menu Bar App">
+site/index.html:10:    <meta name="description" content="A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:11:    <meta name="keywords" content="Pinemeter, Claude.ai, usage tracker, menu bar app, macOS, Anthropic, AI usage, session limits, Claude monitor">
+site/index.html:26:    <meta property="og:title" content="Pinemeter - Track Your Claude.ai Usage">
+site/index.html:27:    <meta property="og:description" content="A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:34:    <meta property="twitter:title" content="Pinemeter - Track Your Claude.ai Usage">
+site/index.html:35:    <meta property="twitter:description" content="A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:51:        "description": "A macOS menu bar app that monitors your Claude.ai plan usage in real-time. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.",
+site/index.html:226:        @keyframes float {
+site/index.html:231:        @keyframes fadeInUp {
+site/index.html:314:                Track Your <span class="gradient-text">Claude.ai</span> Usage
+site/index.html:319:                Keep track of your Claude.ai plan usage at a glance. A lightweight macOS menu bar app for power users.
+site/index.html:354:                <p class="text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto">Powerful features designed for Claude.ai power users who want complete visibility into their usage.</p>
+site/index.html:367:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Track your 5-hour session limits, 7-day weekly usage, and Sonnet-specific limits in real-time. Never get caught off guard by hitting your limits.</p>
+site/index.html:378:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Color-coded gauge icon in your menu bar. Green for safe, yellow for warning, red for critical - see your status at a glance.</p>
+site/index.html:400:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Automatic usage updates every 1, 5, or 10 minutes. Set it and forget it - your usage data is always up to date.</p>
+site/index.html:411:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Export usage data as JSON for integration with external tools, scripts, and dashboards (e.g. Claude Code statusline).</p>
+site/index.html:422:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Session keys are encrypted and stored securely in the macOS Keychain. Your credentials never leave your machine.</p>
+.github/workflows/release.yml:42:        uses: maxim-lobanov/setup-xcode@v1.7.0
+.github/workflows/release.yml:62:          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+.github/workflows/release.yml:67:          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+.github/workflows/release.yml:68:          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+.github/workflows/release.yml:69:          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+.github/workflows/release.yml:76:          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+.github/workflows/release.yml:77:          security list-keychain -d user -s $KEYCHAIN_PATH
+.github/workflows/release.yml:122:            --key "$RUNNER_TEMP/AuthKey.p8" \
+.github/workflows/release.yml:123:            --key-id "$APP_STORE_CONNECT_KEY_ID" \
+.github/workflows/release.yml:133:          if echo "$SUBMIT_OUTPUT" | grep -q "status: Accepted"; then
+.github/workflows/release.yml:138:              --key "$RUNNER_TEMP/AuthKey.p8" \
+.github/workflows/release.yml:139:              --key-id "$APP_STORE_CONNECT_KEY_ID" \
+.github/workflows/release.yml:191:      - name: Cleanup keychain
+.github/workflows/release.yml:195:            security delete-keychain $KEYCHAIN_PATH || true
+Pinemeter.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved:5:      "identity" : "sweetcookiekit",

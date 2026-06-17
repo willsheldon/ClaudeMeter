@@ -1,0 +1,18 @@
+{
+  "id": "31d021e1-b4b1-4c60-939d-2437b83b8c88",
+  "runtime": "python",
+  "purpose": "S05 settings setup view user copy anchors",
+  "script_chars": 542,
+  "started_at": "2026-06-17T15:22:03.691Z",
+  "finished_at": "2026-06-17T15:22:03.751Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 60,
+  "stdout_bytes": 13200,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/31d021e1-b4b1-4c60-939d-2437b83b8c88.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M001/.gsd/exec/31d021e1-b4b1-4c60-939d-2437b83b8c88.stderr"
+}
