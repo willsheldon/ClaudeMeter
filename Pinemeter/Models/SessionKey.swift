@@ -9,11 +9,11 @@ enum SessionKeyError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidFormat:
-            return "Session key must start with 'sk-ant-'"
+            return "Claude session key must start with 'sk-ant-'"
         case .tooShort:
-            return "Session key is too short"
+            return "Claude session key is too short"
         case .validationFailed:
-            return "Session key could not be validated with Claude API"
+            return "Claude session key could not be validated with Claude API"
         }
     }
 }

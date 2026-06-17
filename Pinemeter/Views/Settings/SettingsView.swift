@@ -115,7 +115,7 @@ struct SettingsView: View {
                     Image(systemName: isSessionKeyShown ? "eye.slash" : "eye")
                 }
                 .buttonStyle(.borderless)
-                .help(isSessionKeyShown ? "Hide session key" : "Show session key")
+                .help(isSessionKeyShown ? "Hide Claude session key" : "Show Claude session key")
 
                 if !sessionKey.isEmpty {
                     Button(action: clearSessionKey) {
@@ -123,7 +123,7 @@ struct SettingsView: View {
                             .foregroundStyle(.secondary)
                     }
                     .buttonStyle(.borderless)
-                    .help("Clear session key")
+                    .help("Clear Claude session key")
                 }
             }
 
@@ -690,7 +690,7 @@ struct SettingsView: View {
     @MainActor
     private func validateAndSaveSessionKey() async {
         guard !sessionKey.isEmpty else {
-            sessionKeyValidationMessage = "Session key cannot be empty"
+            sessionKeyValidationMessage = "Claude session key cannot be empty"
             hasSessionKeyValidationSucceeded = false
             return
         }
@@ -704,7 +704,7 @@ struct SettingsView: View {
             let isValid = try await appModel.validateAndSaveSessionKey(sessionKey)
 
             if isValid {
-                sessionKeyValidationMessage = "Session key saved"
+                sessionKeyValidationMessage = "Claude session key saved"
                 hasSessionKeyValidationSucceeded = true
 
                 Task { @MainActor in
@@ -713,7 +713,7 @@ struct SettingsView: View {
                     hasSessionKeyValidationSucceeded = false
                 }
             } else {
-                sessionKeyValidationMessage = "Session key validation failed"
+                sessionKeyValidationMessage = "Claude session key validation failed"
                 hasSessionKeyValidationSucceeded = false
             }
         } catch let error as SessionKeyError {

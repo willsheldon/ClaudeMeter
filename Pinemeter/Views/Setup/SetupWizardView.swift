@@ -43,7 +43,7 @@ struct SetupWizardView: View {
                 SecureField("sk-ant-...", text: $sessionKeyInput)
                     .textFieldStyle(.roundedBorder)
                     .disabled(isBusy)
-                    .accessibilityLabel("Session key input field")
+                    .accessibilityLabel("Claude session key input field")
                     .accessibilityHint("Enter your Claude session key or paste a Cookie header containing sessionKey")
 
                 Text("Import from a browser signed in to claude.ai, or paste your session")
@@ -129,7 +129,7 @@ struct SetupWizardView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .disabled(isBusy)
-                .accessibilityLabel(isImporting ? "Importing session key" : "Import session key from browser")
+                .accessibilityLabel(isImporting ? "Importing Claude session key" : "Import Claude session key from browser")
                 .accessibilityHint("Finds your Claude session key in local browser cookies and validates it")
 
                 Button(action: {
@@ -146,7 +146,7 @@ struct SetupWizardView: View {
                 .buttonStyle(.bordered)
                 .disabled(!isFormatValid || isBusy)
                 .accessibilityLabel(isValidating ? "Validating session key" : "Continue with manual setup")
-                .accessibilityHint("Validates your session key and completes setup")
+                .accessibilityHint("Validates your Claude session key and completes setup")
             }
             .padding(.horizontal, 32)
             .padding(.bottom, 32)
@@ -194,7 +194,7 @@ struct SetupWizardView: View {
     @MainActor
     private func validateAndSave() async {
         guard !sessionKeyInput.isEmpty else {
-            errorMessage = "Session key cannot be empty"
+            errorMessage = "Claude session key cannot be empty"
             hasValidationSucceeded = false
             return
         }
@@ -209,7 +209,7 @@ struct SetupWizardView: View {
             if isValid {
                 hasValidationSucceeded = true
             } else {
-                errorMessage = "Session key is invalid or expired"
+                errorMessage = "Claude session key is invalid or expired"
             }
         } catch let error as SessionKeyError {
             errorMessage = error.localizedDescription

@@ -20,13 +20,13 @@ enum AppError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .noSessionKey:
-            return "No session key found. Please complete setup."
+            return "No Claude session key found. Please complete setup."
         case .networkError(let error):
             return error.localizedDescription
         case .keychainError(let error):
             return error.localizedDescription
         case .sessionKeyInvalid:
-            return "Session key is invalid or expired. Please update in settings."
+            return "Claude session key is invalid or expired. Please update in settings."
         case .apiResponseInvalid:
             return "Unable to parse usage data from server."
         case .organizationNotFound:
@@ -50,9 +50,9 @@ enum AppError: LocalizedError {
     var recoveryAction: String? {
         switch self {
         case .noSessionKey:
-            return "Complete Setup"
+            return "Complete Claude Setup"
         case .sessionKeyInvalid:
-            return "Update Session Key"
+            return "Update Claude Session Key"
         case .networkError:
             return "Retry"
         case .organizationNotFound:

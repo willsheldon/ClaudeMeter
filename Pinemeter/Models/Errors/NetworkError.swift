@@ -25,7 +25,7 @@ enum NetworkError: LocalizedError {
         case .invalidResponse:
             return "Server returned invalid response"
         case .authenticationFailed:
-            return "Session key is invalid or expired"
+            return "Claude session key is invalid or expired"
         case .rateLimitExceeded:
             return "Rate limit exceeded. Please wait before retrying."
         case .httpError(let code):

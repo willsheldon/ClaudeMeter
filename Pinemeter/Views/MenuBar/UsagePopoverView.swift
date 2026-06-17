@@ -71,9 +71,9 @@ struct UsagePopoverView: View {
                         }
                         .buttonStyle(.bordered)
 
-                        // Update Key button for authentication errors
-                        if errorMessage.contains("invalid") || errorMessage.contains("expired") || errorMessage.contains("authentication") {
-                            Button("Update Session Key") {
+                        // Update Key button for Claude credential authentication errors
+                        if ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: errorMessage) {
+                            Button(ClaudeCredentialRecoveryCopy.updateButtonTitle) {
                                 openSettingsFront()
                             }
                             .buttonStyle(.borderedProminent)
@@ -219,6 +219,20 @@ struct UsagePopoverView: View {
         default:
             return .critical
         }
+    }
+}
+
+enum ClaudeCredentialRecoveryCopy {
+    static let updateButtonTitle = "Update Claude Session Key"
+
+    static func shouldShowUpdateButton(for errorMessage: String) -> Bool {
+        let normalized = errorMessage.lowercased()
+        guard normalized.contains("claude") else { return false }
+
+        return normalized.contains("session key")
+            || normalized.contains("authentication")
+            || normalized.contains("invalid")
+            || normalized.contains("expired")
     }
 }
 
