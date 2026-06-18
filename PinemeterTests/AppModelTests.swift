@@ -178,6 +178,41 @@ final class AppModelTests: XCTestCase {
         XCTAssertTrue(appModel.settings.isFirstLaunch)
         XCTAssertNil(appModel.settings.cachedOrganizationId)
         XCTAssertNil(appModel.usageData)
+        XCTAssertEqual(appModel.claudeCredentialState.health, .invalid)
+        XCTAssertEqual(appModel.claudeCredentialState.failureCategory, .providerRejected)
+    }
+
+    func test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState() async throws {
+        let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: "raw sk-ant-secret must not appear")))
+        let notificationService = NotificationServiceSpy()
+        let settingsRepository = SettingsRepositoryFake()
+        let keychainRepository = KeychainRepositoryFake()
+
+        let appModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: keychainRepository,
+            usageService: usageService,
+            notificationService: notificationService
+        )
+        appModel.claudeCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+            health: .unavailable,
+            failureCategory: .storageUnavailable,
+            checkedAt: Date(timeIntervalSince1970: 0)
+        )
+
+        let statuses = appModel.providerCredentialStatuses
+
+        XCTAssertEqual(statuses.map(\.id), ["claude.sessionKey", "chatGPT.sessionCookie"])
+        let claude = try XCTUnwrap(statuses.first { $0.provider == .claude })
+        XCTAssertEqual(claude.statusTitle, "Unavailable")
+        XCTAssertEqual(claude.lastFailureTitle, "Credential storage unavailable")
+        XCTAssertEqual(claude.actions.map(\.kind), [.reconnect, .repair, .clear])
+        XCTAssertFalse(claude.searchableText.contains("sk-ant-secret"))
+
+        let chatGPT = try XCTUnwrap(statuses.first { $0.provider == .chatGPT })
+        XCTAssertEqual(chatGPT.statusTitle, "Unknown")
+        XCTAssertEqual(chatGPT.actions.map(\.kind), [.reconnect])
     }
 
     func test_userWithValidSessionKey_entersUsageAndLoadsData() async throws {

@@ -2,6 +2,61 @@ import AppKit
 import Foundation
 import Observation
 
+/// Recovery action that can be shown for a provider credential without exposing credential material.
+enum ProviderCredentialActionKind: String, Equatable, Hashable, Sendable {
+    case reconnect
+    case repair
+    case clear
+
+    var displayTitle: String {
+        switch self {
+        case .reconnect:
+            return "Reconnect"
+        case .repair:
+            return "Repair"
+        case .clear:
+            return "Clear"
+        }
+    }
+}
+
+/// Sanitized credential status view model for setup/settings surfaces.
+struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
+    struct Action: Identifiable, Equatable, Sendable {
+        let kind: ProviderCredentialActionKind
+
+        var id: String { kind.rawValue }
+        var displayTitle: String { kind.displayTitle }
+    }
+
+    let state: CredentialState
+    let actions: [Action]
+
+    var id: String { state.identity.id }
+    var provider: CredentialProvider { state.identity.provider }
+    var kind: CredentialKind { state.identity.kind }
+    var providerName: String { provider.displayName }
+    var credentialName: String { state.identity.displayName }
+    var statusTitle: String { state.health.displayTitle }
+    var statusDescription: String { state.displayDescription }
+    var lastFailureTitle: String? { state.failureCategory?.displayTitle }
+    var recoverySuggestion: String? { state.recoverySuggestion }
+
+    var searchableText: String {
+        [
+            providerName,
+            credentialName,
+            statusTitle,
+            statusDescription,
+            lastFailureTitle,
+            recoverySuggestion,
+            actions.map(\.displayTitle).joined(separator: " ")
+        ]
+        .compactMap { $0 }
+        .joined(separator: " ")
+    }
+}
+
 /// Main application model for SwiftUI-first architecture.
 @MainActor
 @Observable
@@ -29,6 +84,23 @@ final class AppModel {
         identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
         health: .unknown
     )
+    var chatGPTCredentialState: CredentialState = CredentialState(
+        identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+        health: .unknown
+    )
+
+    var providerCredentialStatuses: [AppProviderCredentialStatus] {
+        [
+            AppProviderCredentialStatus(
+                state: claudeCredentialState,
+                actions: credentialActions(for: claudeCredentialState)
+            ),
+            AppProviderCredentialStatus(
+                state: chatGPTCredentialState,
+                actions: credentialActions(for: chatGPTCredentialState)
+            )
+        ]
+    }
 
     // MARK: - Dependencies
 
@@ -98,7 +170,9 @@ final class AppModel {
             failureCategory: isSetupComplete ? nil : .missing,
             checkedAt: Date()
         )
-        hasChatGPTSessionCookie = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount).state == .available
+        let chatGPTStatus = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount)
+        hasChatGPTSessionCookie = chatGPTStatus.state == .available
+        chatGPTCredentialState = Self.credentialState(from: chatGPTStatus, checkedAt: Date())
         isReady = true
 
         if hasChatGPTSessionCookie && settings.isChatGPTUsageShown {
@@ -152,7 +226,9 @@ final class AppModel {
 
     func refreshChatGPTUsage() async {
         if !hasChatGPTSessionCookie {
-            hasChatGPTSessionCookie = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount).state == .available
+            let status = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount)
+            hasChatGPTSessionCookie = status.state == .available
+            chatGPTCredentialState = Self.credentialState(from: status, checkedAt: Date())
         }
         guard hasChatGPTSessionCookie else {
             chatGPTUsageData = nil
@@ -170,14 +246,31 @@ final class AppModel {
         do {
             chatGPTUsageData = try await chatGPTUsageService.fetchUsage()
             hasChatGPTSessionCookie = true
+            chatGPTCredentialState = CredentialState(
+                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+                health: .valid,
+                checkedAt: Date()
+            )
         } catch ChatGPTUsageError.missingSessionCookie {
             hasChatGPTSessionCookie = false
             chatGPTUsageData = nil
             chatGPTErrorMessage = ChatGPTUsageError.missingSessionCookie.localizedDescription
+            chatGPTCredentialState = CredentialState(
+                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+                health: .missing,
+                failureCategory: .missing,
+                checkedAt: Date()
+            )
         } catch ChatGPTUsageError.invalidSessionCookie {
             hasChatGPTSessionCookie = false
             chatGPTUsageData = nil
             chatGPTErrorMessage = ChatGPTUsageError.invalidSessionCookie.localizedDescription
+            chatGPTCredentialState = CredentialState(
+                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+                health: .invalid,
+                failureCategory: .providerRejected,
+                checkedAt: Date()
+            )
         } catch {
             chatGPTUsageData = nil
             chatGPTErrorMessage = error.localizedDescription
@@ -197,13 +290,27 @@ final class AppModel {
         guard !trimmedCookie.isEmpty else { return false }
 
         let isValid = try await chatGPTUsageService.validateSessionCookie(trimmedCookie)
-        guard isValid else { return false }
+        guard isValid else {
+            hasChatGPTSessionCookie = false
+            chatGPTCredentialState = CredentialState(
+                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+                health: .invalid,
+                failureCategory: .providerRejected,
+                checkedAt: Date()
+            )
+            return false
+        }
 
         try await chatGPTSessionRepository.save(
             ChatGPTSession(sessionCookie: trimmedCookie),
             account: ChatGPTUsageService.defaultSessionAccount
         )
         hasChatGPTSessionCookie = true
+        chatGPTCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+            health: .valid,
+            checkedAt: Date()
+        )
         settings.isChatGPTUsageShown = true
         await refreshChatGPTUsage()
         return true
@@ -215,6 +322,12 @@ final class AppModel {
         settings.isChatGPTUsageShown = false
         chatGPTUsageData = nil
         chatGPTErrorMessage = nil
+        chatGPTCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+            health: .missing,
+            failureCategory: .missing,
+            checkedAt: Date()
+        )
     }
 
     // MARK: - Session Key
@@ -234,6 +347,12 @@ final class AppModel {
         let isValid = try await usageService.validateSessionKey(sessionKey)
 
         guard isValid else {
+            claudeCredentialState = CredentialState(
+                identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+                health: .invalid,
+                failureCategory: .providerRejected,
+                checkedAt: Date()
+            )
             return false
         }
 
@@ -328,6 +447,33 @@ final class AppModel {
     }
 
     // MARK: - Private
+
+    private func credentialActions(for state: CredentialState) -> [AppProviderCredentialStatus.Action] {
+        let kinds: [ProviderCredentialActionKind]
+        switch state.health {
+        case .unknown, .missing:
+            kinds = [.reconnect]
+        case .validating:
+            kinds = []
+        case .valid, .refreshRecommended:
+            kinds = [.reconnect, .clear]
+        case .invalid, .expired, .unavailable:
+            kinds = [.reconnect, .repair, .clear]
+        }
+        return kinds.map(AppProviderCredentialStatus.Action.init(kind:))
+    }
+
+    private static func credentialState(
+        from status: ChatGPTSessionAcquisitionStatus,
+        checkedAt: Date
+    ) -> CredentialState {
+        CredentialState(
+            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+            health: status.state.credentialHealth,
+            failureCategory: status.lastErrorCategory?.credentialFailureCategory ?? status.state.defaultFailureCategory,
+            checkedAt: checkedAt
+        )
+    }
 
     private func scheduleSettingsSave(previous: AppSettings) {
         settingsSaveTask?.cancel()

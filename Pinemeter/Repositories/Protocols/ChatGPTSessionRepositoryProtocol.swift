@@ -46,6 +46,47 @@ enum ChatGPTSessionFailureCategory: String, Equatable, Sendable {
     case keychainDeleteFailed
 }
 
+extension ChatGPTSessionAcquisitionState {
+    var credentialHealth: CredentialHealthState {
+        switch self {
+        case .available:
+            return .valid
+        case .missing:
+            return .missing
+        case .invalid:
+            return .invalid
+        case .storageUnavailable:
+            return .unavailable
+        }
+    }
+
+    var defaultFailureCategory: CredentialFailureCategory? {
+        switch self {
+        case .available:
+            return nil
+        case .missing:
+            return .missing
+        case .invalid:
+            return .providerRejected
+        case .storageUnavailable:
+            return .storageUnavailable
+        }
+    }
+}
+
+extension ChatGPTSessionFailureCategory {
+    var credentialFailureCategory: CredentialFailureCategory {
+        switch self {
+        case .notFound:
+            return .missing
+        case .invalidSessionCookie:
+            return .providerRejected
+        case .keychainReadFailed, .keychainWriteFailed, .keychainDeleteFailed:
+            return .storageUnavailable
+        }
+    }
+}
+
 enum ChatGPTSessionRepositoryError: LocalizedError, Equatable {
     case invalidSessionCookie
     case notFound

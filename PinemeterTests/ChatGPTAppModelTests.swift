@@ -21,6 +21,44 @@ final class ChatGPTAppModelTests: XCTestCase {
 
         XCTAssertTrue(appModel.hasChatGPTSessionCookie)
         XCTAssertFalse(appModel.isSetupComplete)
+        XCTAssertEqual(appModel.chatGPTCredentialState.health, .valid)
+        XCTAssertNil(appModel.chatGPTCredentialState.failureCategory)
+    }
+
+    func test_bootstrap_withChatGPTStorageUnavailablePublishesSanitizedStatus() async throws {
+        let sessionRepository = ChatGPTSessionRepositoryFake()
+        await sessionRepository.setStatus(ChatGPTSessionAcquisitionStatus(
+            state: .storageUnavailable,
+            lastErrorCategory: .keychainReadFailed
+        ))
+        let appModel = makeAppModel(chatGPTSessionRepository: sessionRepository)
+
+        await appModel.bootstrap()
+
+        XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+        XCTAssertEqual(appModel.chatGPTCredentialState.health, .unavailable)
+        XCTAssertEqual(appModel.chatGPTCredentialState.failureCategory, .storageUnavailable)
+        let status = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .chatGPT })
+        XCTAssertEqual(status.lastFailureTitle, "Credential storage unavailable")
+        XCTAssertEqual(status.actions.map(\.kind), [.reconnect, .repair, .clear])
+    }
+
+    func test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection() async throws {
+        let chatGPTService = ChatGPTUsageServiceStub(isSessionCookieValid: false)
+        let sessionRepository = ChatGPTSessionRepositoryFake()
+        let appModel = makeAppModel(
+            chatGPTUsageService: chatGPTService,
+            chatGPTSessionRepository: sessionRepository
+        )
+
+        let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+
+        XCTAssertFalse(result)
+        XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+        XCTAssertEqual(appModel.chatGPTCredentialState.health, .invalid)
+        XCTAssertEqual(appModel.chatGPTCredentialState.failureCategory, .providerRejected)
+        let status = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .chatGPT })
+        XCTAssertFalse(status.searchableText.contains("chatgpt-session-redacted"))
     }
 
     func test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage() async throws {
@@ -156,6 +194,10 @@ private actor ChatGPTSessionRepositoryFake: ChatGPTSessionRepositoryProtocol {
 
     func validate(account: String) async -> ChatGPTSessionAcquisitionStatus {
         status
+    }
+
+    func setStatus(_ status: ChatGPTSessionAcquisitionStatus) {
+        self.status = status
     }
 
     func clear(account: String) async throws {
