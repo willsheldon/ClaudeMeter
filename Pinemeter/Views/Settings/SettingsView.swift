@@ -67,6 +67,7 @@ struct SettingsView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
+                credentialRecoverySection
                 sessionKeySection
                 chatGPTSection
                 refreshIntervalSection
@@ -75,6 +76,116 @@ struct SettingsView: View {
             }
         }
         .padding(24)
+    }
+
+    // MARK: - Credential Recovery Section
+
+    private var credentialRecoverySection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Credential Recovery")
+                    .font(.subheadline)
+                Text("Claude appears first. Status and recovery actions never show saved credential values.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            ForEach(appModel.providerCredentialStatuses) { status in
+                providerCredentialRow(status)
+
+                if status.id != appModel.providerCredentialStatuses.last?.id {
+                    Divider()
+                }
+            }
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private func providerCredentialRow(_ status: AppProviderCredentialStatus) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: credentialStatusIcon(for: status.state.health))
+                    .foregroundStyle(credentialStatusColor(for: status.state.health))
+                    .frame(width: 18)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(status.providerName)
+                        .font(.caption.weight(.semibold))
+
+                    Text(status.statusDescription)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    if let lastFailureTitle = status.lastFailureTitle {
+                        Text(lastFailureTitle)
+                            .font(.caption2)
+                            .foregroundStyle(.orange)
+                    }
+
+                    if let recoverySuggestion = status.recoverySuggestion {
+                        Text(recoverySuggestion)
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+
+                Spacer()
+
+                Text(status.statusTitle)
+                    .font(.caption.monospacedDigit())
+                    .foregroundStyle(credentialStatusColor(for: status.state.health))
+            }
+
+            if !status.actions.isEmpty {
+                HStack(spacing: 8) {
+                    ForEach(status.actions) { action in
+                        Button(action.displayTitle) {
+                            handleCredentialAction(action.kind, for: status)
+                        }
+                        .controlSize(.small)
+                        .disabled(isCredentialActionDisabled(action.kind, for: status))
+                    }
+
+                    Spacer()
+                }
+                .padding(.leading, 30)
+            }
+        }
+    }
+
+    private func credentialStatusIcon(for health: CredentialHealthState) -> String {
+        switch health {
+        case .valid:
+            return "checkmark.circle.fill"
+        case .refreshRecommended:
+            return "clock.badge.exclamationmark"
+        case .validating:
+            return "arrow.triangle.2.circlepath.circle"
+        case .invalid, .expired, .unavailable:
+            return "exclamationmark.triangle.fill"
+        case .missing, .unknown:
+            return "questionmark.circle"
+        }
+    }
+
+    private func credentialStatusColor(for health: CredentialHealthState) -> Color {
+        switch health {
+        case .valid:
+            return .green
+        case .refreshRecommended:
+            return .orange
+        case .validating:
+            return .blue
+        case .invalid, .expired, .unavailable:
+            return .red
+        case .missing, .unknown:
+            return .secondary
+        }
     }
 
     // MARK: - Claude Session Section
@@ -764,17 +875,74 @@ struct SettingsView: View {
 
     private func clearSessionKey() {
         Task { @MainActor in
-            do {
-                try await appModel.clearSessionKey()
-                sessionKey = ""
-                sessionKeyValidationMessage = nil
-                offersFullDiskAccessSettings = false
-                hasSessionKeyValidationSucceeded = false
-            } catch {
-                sessionKeyValidationMessage = "Failed to clear: \(error.localizedDescription)"
-                offersFullDiskAccessSettings = false
-                hasSessionKeyValidationSucceeded = false
+            await clearSessionKeyFromSettings()
+        }
+    }
+
+    @MainActor
+    private func clearSessionKeyFromSettings() async {
+        do {
+            try await appModel.clearSessionKey()
+            sessionKey = ""
+            sessionKeyValidationMessage = nil
+            offersFullDiskAccessSettings = false
+            hasSessionKeyValidationSucceeded = false
+        } catch {
+            sessionKeyValidationMessage = "Failed to clear: \(error.localizedDescription)"
+            offersFullDiskAccessSettings = false
+            hasSessionKeyValidationSucceeded = false
+        }
+    }
+
+    @MainActor
+    private func repairClaudeSessionKeyFromSettings() async {
+        sessionKeyValidationMessage = nil
+        offersFullDiskAccessSettings = false
+        hasSessionKeyValidationSucceeded = false
+
+        let state = await appModel.repairClaudeSessionKey()
+        if state.isUsable {
+            sessionKey = await appModel.loadSessionKey() ?? sessionKey
+            sessionKeyValidationMessage = "Claude session key repaired"
+            hasSessionKeyValidationSucceeded = true
+        } else {
+            let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+            sessionKeyValidationMessage = status?.recoverySuggestion ?? status?.statusDescription ?? "Claude session key repair failed"
+            hasSessionKeyValidationSucceeded = false
+        }
+    }
+
+    private func handleCredentialAction(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) {
+        Task { @MainActor in
+            switch (status.provider, kind) {
+            case (.claude, .reconnect):
+                await importAndSaveSessionKey()
+            case (.claude, .repair):
+                await repairClaudeSessionKeyFromSettings()
+            case (.claude, .clear):
+                await clearSessionKeyFromSettings()
+            case (.chatGPT, .reconnect), (.chatGPT, .repair):
+                isChatGPTSessionCookieShown = true
+                chatGPTSessionCookieValidationMessage = "Paste a ChatGPT session cookie below, then validate and save."
+                hasChatGPTSessionCookieValidationSucceeded = false
+            case (.chatGPT, .clear):
+                await clearChatGPTSessionCookieFromSettings()
             }
+        }
+    }
+
+    private func isCredentialActionDisabled(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> Bool {
+        switch (status.provider, kind) {
+        case (.claude, .reconnect):
+            return isSessionKeyBusy
+        case (.claude, .repair):
+            return isSessionKeyBusy || status.state.health == .validating
+        case (.claude, .clear):
+            return isSessionKeyBusy
+        case (.chatGPT, .reconnect), (.chatGPT, .repair):
+            return isValidatingChatGPTSessionCookie
+        case (.chatGPT, .clear):
+            return isValidatingChatGPTSessionCookie
         }
     }
 
@@ -815,17 +983,22 @@ struct SettingsView: View {
 
     private func clearChatGPTSessionCookie() {
         Task { @MainActor in
-            do {
-                try await appModel.clearChatGPTSessionCookie()
-                chatGPTSessionTokenPart0 = ""
-                chatGPTSessionTokenPart1 = ""
-                chatGPTFullCookieHeader = ""
-                chatGPTSessionCookieValidationMessage = nil
-                hasChatGPTSessionCookieValidationSucceeded = false
-            } catch {
-                chatGPTSessionCookieValidationMessage = "Failed to clear: \(error.localizedDescription)"
-                hasChatGPTSessionCookieValidationSucceeded = false
-            }
+            await clearChatGPTSessionCookieFromSettings()
+        }
+    }
+
+    @MainActor
+    private func clearChatGPTSessionCookieFromSettings() async {
+        do {
+            try await appModel.clearChatGPTSessionCookie()
+            chatGPTSessionTokenPart0 = ""
+            chatGPTSessionTokenPart1 = ""
+            chatGPTFullCookieHeader = ""
+            chatGPTSessionCookieValidationMessage = nil
+            hasChatGPTSessionCookieValidationSucceeded = false
+        } catch {
+            chatGPTSessionCookieValidationMessage = "Failed to clear: \(error.localizedDescription)"
+            hasChatGPTSessionCookieValidationSucceeded = false
         }
     }
 

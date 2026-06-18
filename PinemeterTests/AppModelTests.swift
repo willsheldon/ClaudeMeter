@@ -215,6 +215,43 @@ final class AppModelTests: XCTestCase {
         XCTAssertEqual(chatGPT.actions.map(\.kind), [.reconnect])
     }
 
+    func test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates() throws {
+        let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+        let notificationService = NotificationServiceSpy()
+        let settingsRepository = SettingsRepositoryFake()
+        let keychainRepository = KeychainRepositoryFake()
+        let appModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: keychainRepository,
+            usageService: usageService,
+            notificationService: notificationService
+        )
+
+        let cases: [(CredentialHealthState, [ProviderCredentialActionKind])] = [
+            (.unknown, [.reconnect]),
+            (.missing, [.reconnect]),
+            (.validating, []),
+            (.valid, [.reconnect, .clear]),
+            (.refreshRecommended, [.reconnect, .clear]),
+            (.invalid, [.reconnect, .repair, .clear]),
+            (.expired, [.reconnect, .repair, .clear]),
+            (.unavailable, [.reconnect, .repair, .clear])
+        ]
+
+        for (health, expectedActions) in cases {
+            appModel.claudeCredentialState = CredentialState(
+                identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+                health: health,
+                failureCategory: health == .valid ? nil : .providerRejected,
+                checkedAt: Date(timeIntervalSince1970: 0)
+            )
+
+            let claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+            XCTAssertEqual(claude.actions.map(\.kind), expectedActions, "Unexpected actions for \\(health)")
+            XCTAssertFalse(claude.searchableText.contains(TestConstants.sessionKeyValue))
+        }
+    }
+
     func test_userWithValidSessionKey_entersUsageAndLoadsData() async throws {
         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
         let organization = Organization(
