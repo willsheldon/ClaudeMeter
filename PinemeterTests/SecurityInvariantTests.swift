@@ -31,20 +31,55 @@ final class SecurityInvariantTests: XCTestCase {
         let persistedData = try XCTUnwrap(userDefaults.data(forKey: "app_settings"))
         let persistedPayload = try XCTUnwrap(String(data: persistedData, encoding: .utf8))
 
-        let forbiddenPersistenceFragments = [
+        assertNoCredentialPersistenceFragments(in: persistedPayload)
+    }
+
+    func test_appSettingsCodingKeysDoNotPersistCredentialStateBoundaryFields() throws {
+        let encodedSettings = try JSONEncoder().encode(AppSettings.default)
+        let persistedPayload = try XCTUnwrap(String(data: encodedSettings, encoding: .utf8))
+
+        let credentialBoundaryFragments = [
+            "CredentialState",
+            "CredentialIdentity",
+            "CredentialHealthState",
+            "ProviderCredentialStatus",
+            "credential_status",
+            "credential_state",
+            "credential_identity",
+            "failure_category",
+            "checked_at",
+            "session_key",
+            "session_cookie",
+            "access_token"
+        ]
+
+        for forbiddenFragment in credentialBoundaryFragments {
+            XCTAssertFalse(
+                persistedPayload.contains(forbiddenFragment),
+                "AppSettings persistence must stay credential-state free: \(forbiddenFragment)"
+            )
+        }
+    }
+
+    func test_settingsRepositoryDoesNotReferenceCredentialStateOrCredentialMaterial() throws {
+        let source = try sourceContents(relativePath: "Pinemeter/Repositories/SettingsRepository.swift")
+        let forbiddenRepositoryFragments = [
+            "CredentialState",
+            "ProviderCredentialStatus",
+            "CredentialStatusService",
             "sessionKey",
-            "chatGPTSessionCookie",
+            "sessionCookie",
             "accessToken",
-            "__Secure-next-auth",
-            "Cookie",
             "Bearer",
+            "Cookie",
+            "__Secure-next-auth",
             "sk-ant-"
         ]
 
-        for forbiddenFragment in forbiddenPersistenceFragments {
+        for forbiddenFragment in forbiddenRepositoryFragments {
             XCTAssertFalse(
-                persistedPayload.contains(forbiddenFragment),
-                "AppSettings persistence must not encode credential-bearing fields or values: \(forbiddenFragment)"
+                source.contains(forbiddenFragment),
+                "SettingsRepository must remain free of credential state and credential material: \(forbiddenFragment)"
             )
         }
     }
@@ -188,6 +223,34 @@ final class SecurityInvariantTests: XCTestCase {
                     line: line
                 )
             }
+        }
+    }
+
+    private func assertNoCredentialPersistenceFragments(in payload: String, file: StaticString = #filePath, line: UInt = #line) {
+        let forbiddenPersistenceFragments = [
+            "sessionKey",
+            "sessionCookie",
+            "accessToken",
+            "CredentialState",
+            "ProviderCredentialStatus",
+            "credential_state",
+            "credential_status",
+            "session_key",
+            "session_cookie",
+            "access_token",
+            "__Secure-next-auth",
+            "Cookie",
+            "Bearer",
+            "sk-ant-"
+        ]
+
+        for forbiddenFragment in forbiddenPersistenceFragments {
+            XCTAssertFalse(
+                payload.contains(forbiddenFragment),
+                "Settings persistence must not encode credential-bearing fields or values: \(forbiddenFragment)",
+                file: file,
+                line: line
+            )
         }
     }
 }
