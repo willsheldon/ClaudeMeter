@@ -23,6 +23,12 @@ actor KeychainRepositoryFake: KeychainRepositoryProtocol {
         sessionKeysByAccount[account] = sessionKey
     }
 
+    func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+        let result: ClaudeCredentialRepairResult = sessionKeysByAccount[account] == nil ? .created : .updated
+        sessionKeysByAccount[account] = sessionKey
+        return result
+    }
+
     func retrieve(account: String) async throws -> String {
         guard let sessionKey = sessionKeysByAccount[account] else {
             throw KeychainError.notFound

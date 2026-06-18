@@ -38,6 +38,56 @@ actor KeychainRepository: KeychainRepositoryProtocol {
         }
     }
 
+    /// Explicitly repair or re-save a Claude session key without deleting existing Keychain items.
+    func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+        guard let data = sessionKey.data(using: .utf8) else {
+            throw KeychainError.saveFailed(OSStatus: errSecParam)
+        }
+
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: account,
+            kSecAttrService as String: serviceName,
+        ]
+
+        let attributes: [String: Any] = [
+            kSecValueData as String: data,
+        ]
+
+        let updateStatus = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+        if updateStatus == errSecSuccess {
+            return .updated
+        }
+
+        guard updateStatus == errSecItemNotFound else {
+            throw KeychainError.updateFailed(OSStatus: updateStatus)
+        }
+
+        let addQuery: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: account,
+            kSecAttrService as String: serviceName,
+            kSecValueData as String: data,
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock,
+            kSecAttrSynchronizable as String: kCFBooleanFalse as Any,
+        ]
+
+        let addStatus = SecItemAdd(addQuery as CFDictionary, nil)
+        if addStatus == errSecSuccess {
+            return .created
+        }
+
+        if addStatus == errSecDuplicateItem {
+            let retryStatus = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+            if retryStatus == errSecSuccess {
+                return .updated
+            }
+            throw KeychainError.updateFailed(OSStatus: retryStatus)
+        }
+
+        throw KeychainError.saveFailed(OSStatus: addStatus)
+    }
+
     /// Retrieve session key from Keychain
     func retrieve(account: String) async throws -> String {
         let query: [String: Any] = [

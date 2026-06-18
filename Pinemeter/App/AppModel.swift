@@ -25,6 +25,10 @@ final class AppModel {
     var isSetupComplete: Bool = false
     var hasChatGPTSessionCookie: Bool = false
     var isReady: Bool = false
+    var claudeCredentialState: CredentialState = CredentialState(
+        identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+        health: .unknown
+    )
 
     // MARK: - Dependencies
 
@@ -51,11 +55,13 @@ final class AppModel {
         usageService: UsageServiceProtocol? = nil,
         chatGPTUsageService: ChatGPTUsageServiceProtocol? = nil,
         notificationService: NotificationServiceProtocol? = nil,
-        sessionKeyImportService: SessionKeyImportServiceProtocol = SessionKeyImportService()
+        sessionKeyImportService: SessionKeyImportServiceProtocol? = nil
     ) {
         self.settingsRepository = settingsRepository
         self.keychainRepository = keychainRepository
-        self.sessionKeyImportService = sessionKeyImportService
+        self.sessionKeyImportService = sessionKeyImportService ?? SessionKeyImportService(
+            keychainRepository: keychainRepository
+        )
 
         let networkService = WebViewNetworkService()
         let cacheRepository = CacheRepository()
@@ -82,6 +88,12 @@ final class AppModel {
         hasLoadedSettings = true
 
         isSetupComplete = await keychainRepository.exists(account: "default")
+        claudeCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+            health: isSetupComplete ? .valid : .missing,
+            failureCategory: isSetupComplete ? nil : .missing,
+            checkedAt: Date()
+        )
         hasChatGPTSessionCookie = await keychainRepository.exists(account: "chatgpt")
         isReady = true
 
@@ -218,6 +230,11 @@ final class AppModel {
         }
 
         try await keychainRepository.save(sessionKey: sessionKey.value, account: "default")
+        claudeCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+            health: .valid,
+            checkedAt: Date()
+        )
 
         settings.cachedOrganizationId = orgUUID
         settings.isFirstLaunch = false
@@ -240,11 +257,35 @@ final class AppModel {
         return imported
     }
 
+    func repairClaudeSessionKey() async -> CredentialState {
+        claudeCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+            health: .validating,
+            checkedAt: Date()
+        )
+
+        let repairedState = await sessionKeyImportService.repairSavedSessionKey(account: "default")
+        claudeCredentialState = repairedState
+
+        if repairedState.isUsable {
+            isSetupComplete = true
+            await refreshUsage(forceRefresh: true)
+        }
+
+        return repairedState
+    }
+
     func clearSessionKey() async throws {
         try await keychainRepository.delete(account: "default")
         settings.cachedOrganizationId = nil
         settings.isFirstLaunch = true
         isSetupComplete = false
+        claudeCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+            health: .missing,
+            failureCategory: .missing,
+            checkedAt: Date()
+        )
         usageData = nil
         errorMessage = nil
         refreshTask?.cancel()

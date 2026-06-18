@@ -59,6 +59,10 @@ private actor CredentialStatusKeychainRepositoryStub: KeychainRepositoryProtocol
 
     func save(sessionKey: String, account: String) async throws {}
 
+    func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+        existingAccounts.contains(account) ? .updated : .created
+    }
+
     func retrieve(account: String) async throws -> String {
         retrieveCallCount += 1
         throw KeychainError.notFound

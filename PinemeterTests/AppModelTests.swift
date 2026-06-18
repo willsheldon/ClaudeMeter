@@ -254,6 +254,55 @@ final class AppModelTests: XCTestCase {
         XCTAssertEqual(appModel.usageData, expectedUsage)
     }
 
+    func test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState() async throws {
+        let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+        let usageService = UsageServiceStub(fetchUsageResult: .success(expectedUsage))
+        let notificationService = NotificationServiceSpy()
+        let settingsRepository = SettingsRepositoryFake()
+        let keychainRepository = KeychainRepositoryFake()
+        try await keychainRepository.save(sessionKey: TestConstants.sessionKeyValue, account: "default")
+
+        let appModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: keychainRepository,
+            usageService: usageService,
+            notificationService: notificationService
+        )
+        appModel.isSetupComplete = true
+
+        let state = await appModel.repairClaudeSessionKey()
+        let savedKey = try await keychainRepository.retrieve(account: "default")
+
+        XCTAssertEqual(state.health, .valid)
+        XCTAssertNil(state.failureCategory)
+        XCTAssertEqual(appModel.claudeCredentialState, state)
+        XCTAssertEqual(savedKey, TestConstants.sessionKeyValue)
+        XCTAssertEqual(appModel.usageData, expectedUsage)
+    }
+
+    func test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure() async throws {
+        let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+        let notificationService = NotificationServiceSpy()
+        let settingsRepository = SettingsRepositoryFake()
+        let keychainRepository = RepairFailingKeychainRepository(sessionKey: TestConstants.sessionKeyValue)
+
+        let appModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: keychainRepository,
+            usageService: usageService,
+            notificationService: notificationService
+        )
+        appModel.isSetupComplete = true
+
+        let state = await appModel.repairClaudeSessionKey()
+
+        XCTAssertEqual(state.health, .unavailable)
+        XCTAssertEqual(state.failureCategory, .storageUnavailable)
+        XCTAssertEqual(appModel.claudeCredentialState, state)
+        XCTAssertNil(appModel.usageData)
+        XCTAssertNil(appModel.errorMessage)
+    }
+
     func test_importingSessionKey_whenImportedKeyInvalid_staysInSetup() async throws {
         let usageService = UsageServiceStub(
             fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)),
@@ -405,6 +454,36 @@ final class AppModelTests: XCTestCase {
 }
 
 // MARK: - Helpers
+
+private actor RepairFailingKeychainRepository: KeychainRepositoryProtocol {
+    private let sessionKey: String
+
+    init(sessionKey: String) {
+        self.sessionKey = sessionKey
+    }
+
+    func save(sessionKey: String, account: String) async throws {
+        throw KeychainError.saveFailed(OSStatus: OSStatus(errSecInteractionNotAllowed))
+    }
+
+    func retrieve(account: String) async throws -> String {
+        sessionKey
+    }
+
+    func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+        throw KeychainError.saveFailed(OSStatus: OSStatus(errSecInteractionNotAllowed))
+    }
+
+    func update(sessionKey: String, account: String) async throws {
+        throw KeychainError.updateFailed(OSStatus: OSStatus(errSecInteractionNotAllowed))
+    }
+
+    func delete(account: String) async throws {}
+
+    func exists(account: String) async -> Bool {
+        true
+    }
+}
 
 private func makeUsageData(percentage: Double) -> UsageData {
     let resetDate = Date().addingTimeInterval(TestConstants.oneHourInterval)

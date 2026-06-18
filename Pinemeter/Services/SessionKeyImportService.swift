@@ -8,13 +8,16 @@ actor SessionKeyImportService: SessionKeyImportServiceProtocol {
 
     private let cookieClient: BrowserCookieClient
     private let browserImportOrder: [Browser]
+    private let keychainRepository: KeychainRepositoryProtocol
 
     init(
         cookieClient: BrowserCookieClient = BrowserCookieClient(),
-        browserImportOrder: [Browser] = Browser.defaultImportOrder
+        browserImportOrder: [Browser] = Browser.defaultImportOrder,
+        keychainRepository: KeychainRepositoryProtocol = KeychainRepository()
     ) {
         self.cookieClient = cookieClient
         self.browserImportOrder = browserImportOrder
+        self.keychainRepository = keychainRepository
     }
 
     func importSessionKey() async throws -> ImportedSessionKey {
@@ -59,6 +62,50 @@ actor SessionKeyImportService: SessionKeyImportServiceProtocol {
             throw SessionKeyImportError.accessDenied
         }
         throw SessionKeyImportError.noSessionKeyFound
+    }
+
+    func repairSavedSessionKey(account: String) async -> CredentialState {
+        let identity = CredentialIdentity(provider: .claude, kind: .sessionKey)
+        let checkedAt = Date()
+
+        do {
+            let existingValue = try await keychainRepository.retrieve(account: account)
+            let sessionKey = try SessionKey(existingValue)
+
+            _ = try await keychainRepository.repairClaudeSessionKey(sessionKey.value, account: account)
+
+            return CredentialState(identity: identity, health: .valid, checkedAt: checkedAt)
+        } catch is SessionKeyError {
+            return CredentialState(
+                identity: identity,
+                health: .invalid,
+                failureCategory: .invalidFormat,
+                checkedAt: checkedAt
+            )
+        } catch KeychainError.notFound {
+            return CredentialState(
+                identity: identity,
+                health: .missing,
+                failureCategory: .missing,
+                checkedAt: checkedAt
+            )
+        } catch is KeychainError {
+            Self.logger.error("Claude session key repair failed with sanitized Keychain storage error")
+            return CredentialState(
+                identity: identity,
+                health: .unavailable,
+                failureCategory: .storageUnavailable,
+                checkedAt: checkedAt
+            )
+        } catch {
+            Self.logger.error("Claude session key repair failed with sanitized unknown error")
+            return CredentialState(
+                identity: identity,
+                health: .unavailable,
+                failureCategory: .unknown,
+                checkedAt: checkedAt
+            )
+        }
     }
 
     private func importedSessionKey(from source: BrowserCookieStoreRecords) throws -> ImportedSessionKey? {

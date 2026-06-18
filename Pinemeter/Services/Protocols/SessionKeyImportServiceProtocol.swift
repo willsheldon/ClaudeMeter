@@ -37,7 +37,8 @@ enum SessionKeyImportError: LocalizedError {
     }
 }
 
-/// Protocol for importing Claude session keys from local browser data.
+/// Protocol for importing and repairing Claude session keys.
 protocol SessionKeyImportServiceProtocol: Actor {
     func importSessionKey() async throws -> ImportedSessionKey
+    func repairSavedSessionKey(account: String) async -> CredentialState
 }
