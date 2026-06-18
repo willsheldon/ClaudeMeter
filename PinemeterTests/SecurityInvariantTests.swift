@@ -162,6 +162,51 @@ final class SecurityInvariantTests: XCTestCase {
         )
     }
 
+    func test_signedPinemeterBuildsUseOfficialAutimoIdentityForClaudeKeychainRepair() throws {
+        let project = try sourceContents(relativePath: "Pinemeter.xcodeproj/project.pbxproj")
+
+        XCTAssertTrue(
+            project.contains("CODE_SIGN_STYLE = Manual;"),
+            "Signed Pinemeter builds must use the explicit official identity so Claude Keychain repair runs under the expected trusted app identity."
+        )
+        XCTAssertTrue(
+            project.contains("CODE_SIGN_IDENTITY = \"Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)\";"),
+            "Claude Keychain repair depends on re-saving credentials under the official Autimo signed app identity, not an ad-hoc or local identity."
+        )
+        XCTAssertTrue(
+            project.contains("DEVELOPMENT_TEAM = HMR9RDR6M2;"),
+            "The official Autimo team identifier is part of the Keychain access group prefix used when repairing Claude credentials."
+        )
+        XCTAssertFalse(
+            project.contains("CODE_SIGN_IDENTITY = \"-\";"),
+            "Ad-hoc signing must not be the project default for builds that exercise Claude Keychain repair."
+        )
+    }
+
+    func test_claudeSessionRepairKeepsLegacyServiceIdentifierAndAvoidsAccessGroupRewrite() throws {
+        let source = try sourceContents(relativePath: "Pinemeter/Repositories/KeychainRepository.swift")
+        let repairBody = try XCTUnwrap(
+            source.range(of: "func repairClaudeSessionKey")
+                .flatMap { startRange in
+                    source.range(of: "    /// Retrieve session key from Keychain", range: startRange.lowerBound..<source.endIndex)
+                        .map { endRange in String(source[startRange.lowerBound..<endRange.lowerBound]) }
+                }
+        )
+
+        XCTAssertTrue(
+            repairBody.contains("kSecAttrService as String: serviceName"),
+            "Claude credential repair must re-save under the existing legacy service identifier so old prompt-triggering items remain repairable."
+        )
+        XCTAssertFalse(
+            repairBody.contains("kSecAttrAccessGroup"),
+            "Repair must not rewrite credentials into a new hard-coded access group; the signed app identity and entitlements should scope access."
+        )
+        XCTAssertFalse(
+            repairBody.contains("SecItemDelete"),
+            "Repair must not delete broad Keychain state while recovering from an ad-hoc-to-official signing prompt path."
+        )
+    }
+
     func test_networkServiceDiagnosticsDoNotLogResponseBodiesOrCredentialFragments() throws {
         let testFile = URL(fileURLWithPath: #filePath)
         let repositoryRoot = testFile.deletingLastPathComponent().deletingLastPathComponent()
