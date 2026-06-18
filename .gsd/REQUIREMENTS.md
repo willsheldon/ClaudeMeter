@@ -4,17 +4,6 @@ This file is the explicit capability and coverage contract for the project.
 
 ## Active
 
-### R010 — The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
-- Class: core-capability
-- Status: active
-- Description: The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
-- Why it matters: A smooth product-owned credential flow is central to making Pinemeter usable beyond manual setup.
-- Source: user
-- Primary owning slice: M002
-- Supporting slices: M001/S02, M001/S03
-- Validation: M002 will validate this through durable credential acquisition, repair, reuse, clear, invalid credential, and redaction lifecycle evidence.
-- Notes: Activated by quick task 1 planning after M001 credential surface inventory and security review completed. M002 now contains five executable slices covering credential state, Claude Keychain repair, ChatGPT session acquisition, setup and recovery UX, and lifecycle verification.
-
 ### R001 — Product identity is renamed to Pinemeter everywhere feasible, including user-facing surfaces, internal symbols, project/target/scheme names, docs/site, metadata, and tests unless a genuinely risky reference is escalated.
 - Class: core-capability
 - Status: active
@@ -116,6 +105,17 @@ This file is the explicit capability and coverage contract for the project.
 
 ## Validated
 
+### R010 — The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+- Class: core-capability
+- Status: validated
+- Description: The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+- Why it matters: A smooth product-owned credential flow is central to making Pinemeter usable beyond manual setup.
+- Source: user
+- Primary owning slice: M002
+- Supporting slices: M001/S02, M001/S03, M002/S05
+- Validation: Validated by M002/S05 lifecycle verification: credential acquisition, reuse, repair, clearing, invalid credential handling, and redaction coverage passed in the Debug test suite. Evidence is recorded in `.gsd/milestones/M002/slices/S05/S05-ASSESSMENT.md` from `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` and the combined signing verification command.
+- Notes: M002 delivered durable credential acquisition coverage across credential state, Claude Keychain repair, ChatGPT session acquisition, setup and recovery UX, and lifecycle verification. Remaining provider-specific workflow polish stays scoped to R011/M003; Gemini monitoring remains R012/M004; open-source polish remains R013/M005; destructive history rewrite and remote push protections remain R014.
+
 ## Deferred
 
 ### R011 — Setup, status, errors, recovery, and notifications are fully provider-aware across monitored LLM providers.
@@ -210,7 +210,7 @@ This file is the explicit capability and coverage contract for the project.
 | R007 | quality-attribute | active | M001/S06 | M001/S01, M001/S04 | mapped |
 | R008 | launchability | active | M001/S07 | M001/S01, M001/S06 | mapped |
 | R009 | operability | active | M001/S07 | M001/S06 | mapped |
-| R010 | core-capability | deferred | M002 | M001/S02, M001/S03 | unmapped |
+| R010 | core-capability | validated | M002 | M001/S02, M001/S03, M002/S05 | M002/S05 lifecycle verification |
 | R011 | failure-visibility | deferred | M003 | M001/S05 | unmapped |
 | R012 | core-capability | deferred | M004 | M003 | unmapped |
 | R013 | launchability | deferred | M005 | M001/S07 | unmapped |
@@ -223,5 +223,5 @@ This file is the explicit capability and coverage contract for the project.
 
 - Active requirements: 9
 - Mapped to slices: 9
-- Validated: 0
+- Validated: 1
 - Unmapped active requirements: 0
