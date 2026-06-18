@@ -4,7 +4,7 @@ estimated_files: 5
 skills_used: []
 ---
 
-# T02: Add credential status service boundary
+# T02: Added a non-secret credential status service boundary for Claude and ChatGPT credentials.
 
 Introduce protocols or service interfaces that report provider credential state without exposing raw secret values. Map existing Claude session key and ChatGPT session availability into the new contract without changing acquisition behavior.
 

@@ -4,7 +4,7 @@ estimated_files: 2
 skills_used: []
 ---
 
-# T01: Add credential state domain model
+# T01: Added a provider credential state domain model with sanitized health and failure descriptions.
 
 Define provider credential identity, credential health states, sanitized failure categories, and display safe descriptions. Keep the model independent of SwiftUI and storage so services and UI can share it.
 

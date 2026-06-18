@@ -24,12 +24,12 @@ Introduces the shared contract used by later slices but does not change acquisit
 
 ## Tasks
 
-- [ ] **T01: Add credential state domain model** `est:small`
+- [x] **T01: Added a provider credential state domain model with sanitized health and failure descriptions.** `est:small`
   Define provider credential identity, credential health states, sanitized failure categories, and display safe descriptions. Keep the model independent of SwiftUI and storage so services and UI can share it.
   - Files: `Pinemeter/Models/CredentialState.swift`, `PinemeterTests/CredentialStateTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/CredentialStateTests
 
-- [ ] **T02: Add credential status service boundary** `est:medium`
+- [x] **T02: Added a non-secret credential status service boundary for Claude and ChatGPT credentials.** `est:medium`
   Introduce protocols or service interfaces that report provider credential state without exposing raw secret values. Map existing Claude session key and ChatGPT session availability into the new contract without changing acquisition behavior.
   - Files: `Pinemeter/Services/Protocols/CredentialStatusServiceProtocol.swift`, `Pinemeter/Services/CredentialStatusService.swift`, `Pinemeter/App/AppModel.swift`, `PinemeterTests/TestDoubles/KeychainRepositoryFake.swift`, `PinemeterTests/CredentialStatusServiceTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/CredentialStatusServiceTests
