@@ -139,6 +139,64 @@ final class ChatGPTUsageServiceTests: XCTestCase {
         )
     }
 
+    func test_fetchUsage_loadsPersistedSessionAndStoresTransientAccessToken() async throws {
+        let repository = ChatGPTSessionRepositoryStub()
+        try await repository.save(ChatGPTSession(sessionCookie: "session-token-redacted"), account: ChatGPTUsageService.defaultSessionAccount)
+        let httpClient = ChatGPTHTTPClientStub(
+            responses: [
+                "auth": #"{"accessToken":"access-token-redacted"}"#.data(using: .utf8)!,
+                "usage": #"{"rate_limit":{"primary_window":{"used_percent":25,"reset_at":1770000000}}}"#.data(using: .utf8)!
+            ]
+        )
+        let service = ChatGPTUsageService(httpClient: httpClient, sessionRepository: repository)
+
+        _ = try await service.fetchUsage()
+
+        let storedSession = try await repository.load(account: ChatGPTUsageService.defaultSessionAccount)
+        XCTAssertEqual(storedSession.sessionCookie, "session-token-redacted")
+        XCTAssertEqual(storedSession.accessToken, "access-token-redacted")
+        let status = await repository.status
+        XCTAssertEqual(status.state, .available)
+    }
+
+    func test_fetchUsage_withoutPersistedSessionReportsMissingSession() async {
+        let repository = ChatGPTSessionRepositoryStub()
+        let service = ChatGPTUsageService(httpClient: ChatGPTHTTPClientStub(), sessionRepository: repository)
+
+        do {
+            _ = try await service.fetchUsage()
+            XCTFail("Expected missing session cookie error")
+        } catch ChatGPTUsageError.missingSessionCookie {
+            let status = await repository.status
+            XCTAssertEqual(status.state, .missing)
+            XCTAssertEqual(status.lastErrorCategory, .notFound)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+
+    func test_fetchUsage_withPersistedSessionClearsRepositoryWhenSessionIsInvalid() async throws {
+        let repository = ChatGPTSessionRepositoryStub()
+        try await repository.save(ChatGPTSession(sessionCookie: "session-token-redacted"), account: ChatGPTUsageService.defaultSessionAccount)
+        let httpClient = ChatGPTHTTPClientStub(
+            responses: ["auth": #"{}"#.data(using: .utf8)!]
+        )
+        let service = ChatGPTUsageService(httpClient: httpClient, sessionRepository: repository)
+
+        do {
+            _ = try await service.fetchUsage()
+            XCTFail("Expected invalid session cookie error")
+        } catch ChatGPTUsageError.invalidSessionCookie {
+            let clearCalled = await repository.clearCalled
+            let status = await repository.status
+            XCTAssertTrue(clearCalled)
+            XCTAssertEqual(status.state, .missing)
+            XCTAssertEqual(status.lastErrorCategory, .notFound)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+
     func test_fetchUsage_withoutAccessToken_treatsCookieAsInvalid() async {
         let httpClient = ChatGPTHTTPClientStub(
             responses: ["auth": #"{}"#.data(using: .utf8)!]
@@ -153,6 +211,35 @@ final class ChatGPTUsageServiceTests: XCTestCase {
         } catch {
             XCTFail("Unexpected error: \(error)")
         }
+    }
+}
+
+private actor ChatGPTSessionRepositoryStub: ChatGPTSessionRepositoryProtocol {
+    private var sessions: [String: ChatGPTSession] = [:]
+    private(set) var clearCalled = false
+    private(set) var status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+
+    func save(_ session: ChatGPTSession, account: String) async throws {
+        sessions[account] = session
+        status = ChatGPTSessionAcquisitionStatus(state: .available, lastErrorCategory: nil)
+    }
+
+    func load(account: String) async throws -> ChatGPTSession {
+        guard let session = sessions[account] else {
+            status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+            throw ChatGPTSessionRepositoryError.notFound
+        }
+        return session
+    }
+
+    func validate(account: String) async -> ChatGPTSessionAcquisitionStatus {
+        status
+    }
+
+    func clear(account: String) async throws {
+        sessions[account] = nil
+        clearCalled = true
+        status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
     }
 }
 

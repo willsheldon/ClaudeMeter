@@ -22,8 +22,10 @@ final class WebViewNetworkService: NSObject, NetworkServiceProtocol {
     private let maxChallengeWaitSeconds: Double = 15
     private var challengeRetryCount = 0
     private let maxChallengeRetries = 30
+    private let chatGPTSessionRepository: any ChatGPTSessionRepositoryProtocol
 
-    override init() {
+    init(chatGPTSessionRepository: any ChatGPTSessionRepositoryProtocol = ChatGPTSessionRepository()) {
+        self.chatGPTSessionRepository = chatGPTSessionRepository
         super.init()
     }
 
@@ -197,8 +199,54 @@ final class WebViewNetworkService: NSObject, NetworkServiceProtocol {
             }
 
             Self.logger.info("Successfully extracted JSON response")
-            self.continuation?.resume(returning: data)
-            self.continuation = nil
+            Task { @MainActor in
+                await self.persistChatGPTSessionIfAvailable(from: webView.configuration.websiteDataStore.httpCookieStore)
+                self.continuation?.resume(returning: data)
+                self.continuation = nil
+            }
+        }
+    }
+
+    private func persistChatGPTSessionIfAvailable(from cookieStore: WKHTTPCookieStore) async {
+        let cookies = await allCookies(from: cookieStore)
+        let chatGPTCookies = cookies.filter { cookie in
+            cookie.domain.contains("chatgpt.com") && cookie.name.hasPrefix("__Secure-next-auth.session-token")
+        }
+        guard !chatGPTCookies.isEmpty else {
+            Self.logger.debug("No ChatGPT session cookies found in WebView cookie store")
+            return
+        }
+
+        let rawCookieHeader = chatGPTCookies
+            .sorted { $0.name < $1.name }
+            .map { "\($0.name)=\($0.value)" }
+            .joined(separator: "; ")
+        let sessionCookie = ChatGPTUsageService.cookieHeader(from: rawCookieHeader)
+        guard !sessionCookie.isEmpty else {
+            Self.logger.warning("ChatGPT session cookies were present but could not be normalized")
+            return
+        }
+
+        do {
+            try await chatGPTSessionRepository.save(
+                ChatGPTSession(sessionCookie: sessionCookie),
+                account: ChatGPTUsageService.defaultSessionAccount
+            )
+            Self.logger.info("Persisted ChatGPT session acquired from WebView cookie store")
+        } catch ChatGPTSessionRepositoryError.invalidSessionCookie {
+            Self.logger.warning("Rejected invalid ChatGPT session acquired from WebView cookie store")
+        } catch ChatGPTSessionRepositoryError.secureStorageUnavailable(let category) {
+            Self.logger.error("Failed to persist ChatGPT session acquired from WebView cookie store: \(category.rawValue)")
+        } catch {
+            Self.logger.error("Failed to persist ChatGPT session acquired from WebView cookie store")
+        }
+    }
+
+    private func allCookies(from cookieStore: WKHTTPCookieStore) async -> [HTTPCookie] {
+        await withCheckedContinuation { continuation in
+            cookieStore.getAllCookies { cookies in
+                continuation.resume(returning: cookies)
+            }
         }
     }
 }

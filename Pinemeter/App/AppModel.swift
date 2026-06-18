@@ -36,6 +36,7 @@ final class AppModel {
     @ObservationIgnored private let keychainRepository: KeychainRepositoryProtocol
     @ObservationIgnored private let usageService: UsageServiceProtocol
     @ObservationIgnored private let chatGPTUsageService: ChatGPTUsageServiceProtocol
+    @ObservationIgnored private let chatGPTSessionRepository: any ChatGPTSessionRepositoryProtocol
     @ObservationIgnored private let notificationService: NotificationServiceProtocol
     @ObservationIgnored private let sessionKeyImportService: SessionKeyImportServiceProtocol
 
@@ -54,16 +55,19 @@ final class AppModel {
         keychainRepository: KeychainRepositoryProtocol = KeychainRepository(),
         usageService: UsageServiceProtocol? = nil,
         chatGPTUsageService: ChatGPTUsageServiceProtocol? = nil,
+        chatGPTSessionRepository: (any ChatGPTSessionRepositoryProtocol)? = nil,
         notificationService: NotificationServiceProtocol? = nil,
         sessionKeyImportService: SessionKeyImportServiceProtocol? = nil
     ) {
         self.settingsRepository = settingsRepository
         self.keychainRepository = keychainRepository
+        let chatGPTSessionRepository = chatGPTSessionRepository ?? ChatGPTSessionRepository()
+        self.chatGPTSessionRepository = chatGPTSessionRepository
         self.sessionKeyImportService = sessionKeyImportService ?? SessionKeyImportService(
             keychainRepository: keychainRepository
         )
 
-        let networkService = WebViewNetworkService()
+        let networkService = WebViewNetworkService(chatGPTSessionRepository: chatGPTSessionRepository)
         let cacheRepository = CacheRepository()
         let usageService = usageService ?? UsageService(
             networkService: networkService,
@@ -72,7 +76,7 @@ final class AppModel {
             settingsRepository: settingsRepository
         )
         self.usageService = usageService
-        self.chatGPTUsageService = chatGPTUsageService ?? ChatGPTUsageService()
+        self.chatGPTUsageService = chatGPTUsageService ?? ChatGPTUsageService(sessionRepository: chatGPTSessionRepository)
         self.notificationService = notificationService ?? NotificationService(
             settingsRepository: settingsRepository
         )
@@ -94,7 +98,7 @@ final class AppModel {
             failureCategory: isSetupComplete ? nil : .missing,
             checkedAt: Date()
         )
-        hasChatGPTSessionCookie = await keychainRepository.exists(account: "chatgpt")
+        hasChatGPTSessionCookie = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount).state == .available
         isReady = true
 
         if hasChatGPTSessionCookie && settings.isChatGPTUsageShown {
@@ -148,7 +152,7 @@ final class AppModel {
 
     func refreshChatGPTUsage() async {
         if !hasChatGPTSessionCookie {
-            hasChatGPTSessionCookie = await keychainRepository.exists(account: "chatgpt")
+            hasChatGPTSessionCookie = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount).state == .available
         }
         guard hasChatGPTSessionCookie else {
             chatGPTUsageData = nil
@@ -164,8 +168,16 @@ final class AppModel {
         }
 
         do {
-            let sessionCookie = try await keychainRepository.retrieve(account: "chatgpt")
-            chatGPTUsageData = try await chatGPTUsageService.fetchUsage(sessionCookie: sessionCookie)
+            chatGPTUsageData = try await chatGPTUsageService.fetchUsage()
+            hasChatGPTSessionCookie = true
+        } catch ChatGPTUsageError.missingSessionCookie {
+            hasChatGPTSessionCookie = false
+            chatGPTUsageData = nil
+            chatGPTErrorMessage = ChatGPTUsageError.missingSessionCookie.localizedDescription
+        } catch ChatGPTUsageError.invalidSessionCookie {
+            hasChatGPTSessionCookie = false
+            chatGPTUsageData = nil
+            chatGPTErrorMessage = ChatGPTUsageError.invalidSessionCookie.localizedDescription
         } catch {
             chatGPTUsageData = nil
             chatGPTErrorMessage = error.localizedDescription
@@ -174,7 +186,7 @@ final class AppModel {
 
     func loadChatGPTSessionCookie() async -> String? {
         do {
-            return try await keychainRepository.retrieve(account: "chatgpt")
+            return try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount).sessionCookie
         } catch {
             return nil
         }
@@ -187,7 +199,10 @@ final class AppModel {
         let isValid = try await chatGPTUsageService.validateSessionCookie(trimmedCookie)
         guard isValid else { return false }
 
-        try await keychainRepository.save(sessionKey: trimmedCookie, account: "chatgpt")
+        try await chatGPTSessionRepository.save(
+            ChatGPTSession(sessionCookie: trimmedCookie),
+            account: ChatGPTUsageService.defaultSessionAccount
+        )
         hasChatGPTSessionCookie = true
         settings.isChatGPTUsageShown = true
         await refreshChatGPTUsage()
@@ -195,7 +210,7 @@ final class AppModel {
     }
 
     func clearChatGPTSessionCookie() async throws {
-        try await keychainRepository.delete(account: "chatgpt")
+        try await chatGPTSessionRepository.clear(account: ChatGPTUsageService.defaultSessionAccount)
         hasChatGPTSessionCookie = false
         settings.isChatGPTUsageShown = false
         chatGPTUsageData = nil

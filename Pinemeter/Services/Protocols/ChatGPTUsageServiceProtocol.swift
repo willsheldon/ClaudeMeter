@@ -6,6 +6,7 @@
 import Foundation
 
 protocol ChatGPTUsageServiceProtocol: Sendable {
+    func fetchUsage() async throws -> ChatGPTUsageData
     func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData
     func validateSessionCookie(_ sessionCookie: String) async throws -> Bool
 }

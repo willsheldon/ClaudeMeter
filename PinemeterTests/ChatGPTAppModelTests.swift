@@ -10,9 +10,12 @@ import XCTest
 @MainActor
 final class ChatGPTAppModelTests: XCTestCase {
     func test_bootstrap_detectsExistingChatGPTSessionWithoutRequiringClaudeSetup() async throws {
-        let keychainRepository = KeychainRepositoryFake()
-        try await keychainRepository.save(sessionKey: "chatgpt-session-redacted", account: "chatgpt")
-        let appModel = makeAppModel(keychainRepository: keychainRepository)
+        let sessionRepository = ChatGPTSessionRepositoryFake()
+        try await sessionRepository.save(
+            ChatGPTSession(sessionCookie: "chatgpt-session-redacted"),
+            account: ChatGPTUsageService.defaultSessionAccount
+        )
+        let appModel = makeAppModel(chatGPTSessionRepository: sessionRepository)
 
         await appModel.bootstrap()
 
@@ -27,16 +30,18 @@ final class ChatGPTAppModelTests: XCTestCase {
             isSessionCookieValid: true
         )
         let keychainRepository = KeychainRepositoryFake()
+        let sessionRepository = ChatGPTSessionRepositoryFake()
         let appModel = makeAppModel(
             keychainRepository: keychainRepository,
-            chatGPTUsageService: chatGPTService
+            chatGPTUsageService: chatGPTService,
+            chatGPTSessionRepository: sessionRepository
         )
 
         let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
 
         XCTAssertTrue(result)
-        let savedChatGPTCookie = try await keychainRepository.retrieve(account: "chatgpt")
-        XCTAssertEqual(savedChatGPTCookie, "chatgpt-session-redacted")
+        let savedChatGPTSession = try await sessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+        XCTAssertEqual(savedChatGPTSession.sessionCookie, "chatgpt-session-redacted")
         await XCTAssertThrowsErrorAsync(try await keychainRepository.retrieve(account: "default"))
         XCTAssertTrue(appModel.hasChatGPTSessionCookie)
         XCTAssertTrue(appModel.settings.isChatGPTUsageShown)
@@ -47,16 +52,18 @@ final class ChatGPTAppModelTests: XCTestCase {
     func test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave() async throws {
         let chatGPTService = ChatGPTUsageServiceStub(isSessionCookieValid: false)
         let keychainRepository = KeychainRepositoryFake()
+        let sessionRepository = ChatGPTSessionRepositoryFake()
         let appModel = makeAppModel(
             keychainRepository: keychainRepository,
-            chatGPTUsageService: chatGPTService
+            chatGPTUsageService: chatGPTService,
+            chatGPTSessionRepository: sessionRepository
         )
 
         let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
 
         XCTAssertFalse(result)
         XCTAssertFalse(appModel.hasChatGPTSessionCookie)
-        await XCTAssertThrowsErrorAsync(try await keychainRepository.retrieve(account: "chatgpt"))
+        await XCTAssertThrowsErrorAsync(try await sessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount))
     }
 
     func test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError() async {
@@ -65,10 +72,15 @@ final class ChatGPTAppModelTests: XCTestCase {
             fetchUsageResult: .failure(ChatGPTUsageError.networkUnavailable)
         )
         let keychainRepository = KeychainRepositoryFake()
-        try? await keychainRepository.save(sessionKey: "chatgpt-session-redacted", account: "chatgpt")
+        let sessionRepository = ChatGPTSessionRepositoryFake()
+        try? await sessionRepository.save(
+            ChatGPTSession(sessionCookie: "chatgpt-session-redacted"),
+            account: ChatGPTUsageService.defaultSessionAccount
+        )
         let appModel = makeAppModel(
             keychainRepository: keychainRepository,
-            chatGPTUsageService: chatGPTService
+            chatGPTUsageService: chatGPTService,
+            chatGPTSessionRepository: sessionRepository
         )
         appModel.usageData = claudeUsage
         appModel.errorMessage = "Claude error stays separate"
@@ -84,8 +96,15 @@ final class ChatGPTAppModelTests: XCTestCase {
     func test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage() async throws {
         let keychainRepository = KeychainRepositoryFake()
         try await keychainRepository.save(sessionKey: TestConstants.sessionKeyValue, account: "default")
-        try await keychainRepository.save(sessionKey: "chatgpt-session-redacted", account: "chatgpt")
-        let appModel = makeAppModel(keychainRepository: keychainRepository)
+        let sessionRepository = ChatGPTSessionRepositoryFake()
+        try await sessionRepository.save(
+            ChatGPTSession(sessionCookie: "chatgpt-session-redacted"),
+            account: ChatGPTUsageService.defaultSessionAccount
+        )
+        let appModel = makeAppModel(
+            keychainRepository: keychainRepository,
+            chatGPTSessionRepository: sessionRepository
+        )
         appModel.settings.isChatGPTUsageShown = true
         appModel.chatGPTUsageData = makeChatGPTUsage(percentage: 1)
         appModel.chatGPTErrorMessage = "old error"
@@ -95,7 +114,7 @@ final class ChatGPTAppModelTests: XCTestCase {
 
         let savedClaudeKey = try await keychainRepository.retrieve(account: "default")
         XCTAssertEqual(savedClaudeKey, TestConstants.sessionKeyValue)
-        await XCTAssertThrowsErrorAsync(try await keychainRepository.retrieve(account: "chatgpt"))
+        await XCTAssertThrowsErrorAsync(try await sessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount))
         XCTAssertFalse(appModel.hasChatGPTSessionCookie)
         XCTAssertFalse(appModel.settings.isChatGPTUsageShown)
         XCTAssertNil(appModel.chatGPTUsageData)
@@ -104,15 +123,44 @@ final class ChatGPTAppModelTests: XCTestCase {
 
     private func makeAppModel(
         keychainRepository: KeychainRepositoryFake = KeychainRepositoryFake(),
-        chatGPTUsageService: ChatGPTUsageServiceProtocol = ChatGPTUsageServiceStub()
+        chatGPTUsageService: ChatGPTUsageServiceProtocol = ChatGPTUsageServiceStub(),
+        chatGPTSessionRepository: ChatGPTSessionRepositoryFake = ChatGPTSessionRepositoryFake()
     ) -> AppModel {
         AppModel(
             settingsRepository: SettingsRepositoryFake(),
             keychainRepository: keychainRepository,
             usageService: UsageServiceStub(fetchUsageResult: .success(makeClaudeUsage(percentage: 10))),
             chatGPTUsageService: chatGPTUsageService,
+            chatGPTSessionRepository: chatGPTSessionRepository,
             notificationService: NotificationServiceSpy()
         )
+    }
+}
+
+private actor ChatGPTSessionRepositoryFake: ChatGPTSessionRepositoryProtocol {
+    private var sessions: [String: ChatGPTSession] = [:]
+    private var status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+
+    func save(_ session: ChatGPTSession, account: String) async throws {
+        sessions[account] = session
+        status = ChatGPTSessionAcquisitionStatus(state: .available, lastErrorCategory: nil)
+    }
+
+    func load(account: String) async throws -> ChatGPTSession {
+        guard let session = sessions[account] else {
+            status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+            throw ChatGPTSessionRepositoryError.notFound
+        }
+        return session
+    }
+
+    func validate(account: String) async -> ChatGPTSessionAcquisitionStatus {
+        status
+    }
+
+    func clear(account: String) async throws {
+        sessions[account] = nil
+        status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
     }
 }
 
@@ -126,6 +174,10 @@ private actor ChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
     ) {
         self.fetchUsageResult = fetchUsageResult
         self.isSessionCookieValid = isSessionCookieValid
+    }
+
+    func fetchUsage() async throws -> ChatGPTUsageData {
+        try await fetchUsage(sessionCookie: "stored-chatgpt-session-redacted")
     }
 
     func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {

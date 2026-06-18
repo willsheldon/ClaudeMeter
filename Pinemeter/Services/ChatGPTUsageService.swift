@@ -29,19 +29,57 @@ enum ChatGPTUsageError: LocalizedError, Equatable {
 }
 
 actor ChatGPTUsageService: ChatGPTUsageServiceProtocol {
+    static let defaultSessionAccount = "chatgpt.com"
+
     private let httpClient: ChatGPTHTTPClientProtocol
+    private let sessionRepository: any ChatGPTSessionRepositoryProtocol
     private let now: @Sendable () -> Date
     private let baseURL = "https://chatgpt.com"
 
     init(
         httpClient: ChatGPTHTTPClientProtocol = ChatGPTHTTPClient(),
+        sessionRepository: any ChatGPTSessionRepositoryProtocol = ChatGPTSessionRepository(),
         now: @escaping @Sendable () -> Date = { Date() }
     ) {
         self.httpClient = httpClient
+        self.sessionRepository = sessionRepository
         self.now = now
     }
 
+    func fetchUsage() async throws -> ChatGPTUsageData {
+        let session: ChatGPTSession
+        do {
+            session = try await sessionRepository.load(account: Self.defaultSessionAccount)
+        } catch ChatGPTSessionRepositoryError.notFound {
+            throw ChatGPTUsageError.missingSessionCookie
+        } catch ChatGPTSessionRepositoryError.invalidSessionCookie {
+            throw ChatGPTUsageError.invalidSessionCookie
+        } catch ChatGPTSessionRepositoryError.secureStorageUnavailable {
+            throw ChatGPTUsageError.networkUnavailable
+        }
+
+        do {
+            let (usage, accessToken) = try await fetchUsageAndAccessToken(sessionCookie: session.sessionCookie)
+            try await sessionRepository.save(
+                ChatGPTSession(sessionCookie: session.sessionCookie, accessToken: accessToken),
+                account: Self.defaultSessionAccount
+            )
+            return usage
+        } catch ChatGPTUsageError.invalidSessionCookie {
+            try? await sessionRepository.clear(account: Self.defaultSessionAccount)
+            throw ChatGPTUsageError.invalidSessionCookie
+        } catch ChatGPTUsageError.missingSessionCookie {
+            try? await sessionRepository.clear(account: Self.defaultSessionAccount)
+            throw ChatGPTUsageError.missingSessionCookie
+        }
+    }
+
     func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+        let (usage, _) = try await fetchUsageAndAccessToken(sessionCookie: sessionCookie)
+        return usage
+    }
+
+    private func fetchUsageAndAccessToken(sessionCookie: String) async throws -> (ChatGPTUsageData, String) {
         let cookieHeader = Self.cookieHeader(from: sessionCookie)
         guard !cookieHeader.isEmpty else {
             throw ChatGPTUsageError.missingSessionCookie
@@ -66,7 +104,7 @@ actor ChatGPTUsageService: ChatGPTUsageServiceProtocol {
             referer: "\(baseURL)/codex/settings/usage"
         )
 
-        return try usage.toDomain(lastUpdated: now())
+        return (try usage.toDomain(lastUpdated: now()), accessToken)
     }
 
     func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
