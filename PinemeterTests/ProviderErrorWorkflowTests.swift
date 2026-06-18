@@ -28,4 +28,29 @@ final class ProviderErrorWorkflowTests: XCTestCase {
     func test_claudeRecoveryCopy_usesClaudeSpecificButtonLabel() {
         XCTAssertEqual(ClaudeCredentialRecoveryCopy.updateButtonTitle, "Update Claude Session Key")
     }
+
+    func test_chatGPTUsageErrorsDoNotEchoCookieOrBearerTokenSentinels() {
+        let forbiddenFragments = [
+            "__Secure-next-auth.session-token=synthetic-cookie-redaction-sentinel",
+            "synthetic-cookie-redaction-sentinel",
+            "Bearer synthetic-access-token-redaction-sentinel",
+            "synthetic-access-token-redaction-sentinel"
+        ]
+        let descriptions = [
+            ChatGPTUsageError.missingSessionCookie.localizedDescription,
+            ChatGPTUsageError.invalidSessionCookie.localizedDescription,
+            ChatGPTUsageError.invalidResponse.localizedDescription,
+            ChatGPTUsageError.httpError(statusCode: 401).localizedDescription,
+            ChatGPTUsageError.networkUnavailable.localizedDescription
+        ]
+
+        for description in descriptions {
+            for forbiddenFragment in forbiddenFragments {
+                XCTAssertFalse(
+                    description.contains(forbiddenFragment),
+                    "ChatGPT user-facing errors must not echo credential material: \(forbiddenFragment)"
+                )
+            }
+        }
+    }
 }

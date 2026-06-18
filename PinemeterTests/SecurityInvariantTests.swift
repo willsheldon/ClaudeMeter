@@ -61,6 +61,67 @@ final class SecurityInvariantTests: XCTestCase {
         }
     }
 
+    func test_chatGPTAcquisitionStatusPersistenceIsSanitizedAndSeparateFromAppSettings() async throws {
+        let suiteName = "SecurityInvariantTests.ChatGPTStatus.\(UUID().uuidString)"
+        let userDefaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        defer { userDefaults.removePersistentDomain(forName: suiteName) }
+
+        let account = "SecurityInvariantTests.ChatGPTStatus.\(UUID().uuidString)"
+        let repository = ChatGPTSessionRepository(userDefaults: userDefaults)
+
+        try await repository.save(
+            ChatGPTSession(
+                sessionCookie: "__Secure-next-auth.session-token=synthetic-cookie-redaction-sentinel; cf_clearance=synthetic-cookie-redaction-sentinel",
+                accessToken: "Bearer synthetic-access-token-redaction-sentinel"
+            ),
+            account: account
+        )
+
+        let status = await repository.validate(account: account)
+        XCTAssertEqual(status.state, .available)
+        XCTAssertNil(status.lastErrorCategory)
+
+        let persistedDomain = userDefaults.persistentDomain(forName: suiteName) ?? [:]
+        let persistedDiagnosticPayload = String(describing: persistedDomain)
+        let persistedAppSettingsPayload = userDefaults.data(forKey: "app_settings")
+            .flatMap { String(data: $0, encoding: .utf8) }
+
+        XCTAssertNil(persistedAppSettingsPayload, "ChatGPT acquisition diagnostics must not be stored inside AppSettings persistence.")
+        assertNoChatGPTCredentialDisclosure(in: [String(describing: status), status.debugDescription, persistedDiagnosticPayload])
+
+        try await repository.clear(account: account)
+    }
+
+    func test_chatGPTInvalidAcquisitionDiagnosticsPersistOnlyFailureCategory() async throws {
+        let suiteName = "SecurityInvariantTests.ChatGPTInvalidStatus.\(UUID().uuidString)"
+        let userDefaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        defer { userDefaults.removePersistentDomain(forName: suiteName) }
+
+        let account = "SecurityInvariantTests.ChatGPTInvalidStatus.\(UUID().uuidString)"
+        let repository = ChatGPTSessionRepository(userDefaults: userDefaults)
+        do {
+            try await repository.save(
+                ChatGPTSession(
+                    sessionCookie: "   ",
+                    accessToken: "Bearer synthetic-access-token-redaction-sentinel"
+                ),
+                account: account
+            )
+            XCTFail("Expected blank ChatGPT session cookie to be rejected")
+        } catch ChatGPTSessionRepositoryError.invalidSessionCookie {
+            // Expected.
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+
+        let status = await repository.validate(account: account)
+        XCTAssertEqual(status.state, .invalid)
+        XCTAssertEqual(status.lastErrorCategory, .invalidSessionCookie)
+
+        let persistedDomain = userDefaults.persistentDomain(forName: suiteName) ?? [:]
+        assertNoChatGPTCredentialDisclosure(in: [String(describing: status), status.debugDescription, String(describing: persistedDomain)])
+    }
+
     func test_settingsRepositoryDoesNotReferenceCredentialStateOrCredentialMaterial() throws {
         let source = try sourceContents(relativePath: "Pinemeter/Repositories/SettingsRepository.swift")
         let forbiddenRepositoryFragments = [
@@ -264,6 +325,27 @@ final class SecurityInvariantTests: XCTestCase {
                 XCTAssertFalse(
                     description.contains(forbiddenFragment),
                     "User-facing error descriptions must not include credential-shaped fragments: \(forbiddenFragment)",
+                    file: file,
+                    line: line
+                )
+            }
+        }
+    }
+
+    private func assertNoChatGPTCredentialDisclosure(in descriptions: [String], file: StaticString = #filePath, line: UInt = #line) {
+        let forbiddenChatGPTFragments = [
+            "__Secure-next-auth.session-token=synthetic-cookie-redaction-sentinel",
+            "cf_clearance=synthetic-cookie-redaction-sentinel",
+            "synthetic-cookie-redaction-sentinel",
+            "Bearer synthetic-access-token-redaction-sentinel",
+            "synthetic-access-token-redaction-sentinel"
+        ]
+
+        for description in descriptions {
+            for forbiddenFragment in forbiddenChatGPTFragments {
+                XCTAssertFalse(
+                    description.contains(forbiddenFragment),
+                    "ChatGPT diagnostics and persisted settings must not include credential material: \(forbiddenFragment)",
                     file: file,
                     line: line
                 )
