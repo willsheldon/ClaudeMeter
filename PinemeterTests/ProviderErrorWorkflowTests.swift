@@ -54,6 +54,26 @@ final class ProviderErrorWorkflowTests: XCTestCase {
         }
     }
 
+    func test_chatGPTInvalidCredentialStatusKeepsRecoveryProviderSpecificAndSanitized() {
+        let status = AppProviderCredentialStatus(
+            state: CredentialState(
+                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+                health: .invalid,
+                failureCategory: .providerRejected,
+                checkedAt: Date(timeIntervalSince1970: 0)
+            ),
+            actions: [.init(kind: .reconnect), .init(kind: .clear)]
+        )
+
+        XCTAssertEqual(status.providerName, "ChatGPT")
+        XCTAssertEqual(status.credentialName, "ChatGPT session cookie")
+        XCTAssertEqual(status.setupPromptTitle, "Recover ChatGPT session cookie")
+        XCTAssertEqual(status.setupPromptDescription, "Update the credential and try again.")
+        XCTAssertEqual(status.actions.map { $0.displayTitle }, ["Reconnect", "Clear"])
+        XCTAssertTrue(status.setupAccessibilityLabel.contains("ChatGPT session cookie status: Invalid"))
+        XCTAssertFalse(status.setupAccessibilityLabel.contains("synthetic-chatgpt-session-cookie"))
+    }
+
     func test_credentialRecoverySetupCopyDoesNotExposeRawCredentialMaterial() {
         let status = AppProviderCredentialStatus(
             state: CredentialState(

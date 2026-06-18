@@ -197,6 +197,43 @@ final class ChatGPTUsageServiceTests: XCTestCase {
         }
     }
 
+    func test_fetchUsage_afterInvalidSessionClearCanReacquirePersistedSession() async throws {
+        let repository = ChatGPTSessionRepositoryStub()
+        try await repository.save(ChatGPTSession(sessionCookie: "expired-session-token-redacted"), account: ChatGPTUsageService.defaultSessionAccount)
+        let invalidHTTPClient = ChatGPTHTTPClientStub(responses: ["auth": #"{}"#.data(using: .utf8)!])
+        let invalidService = ChatGPTUsageService(httpClient: invalidHTTPClient, sessionRepository: repository)
+
+        do {
+            _ = try await invalidService.fetchUsage()
+            XCTFail("Expected invalid session cookie error")
+        } catch ChatGPTUsageError.invalidSessionCookie {
+            let status = await repository.status
+            XCTAssertEqual(status.state, .missing)
+            XCTAssertEqual(status.lastErrorCategory, .notFound)
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+
+        try await repository.save(ChatGPTSession(sessionCookie: "reacquired-session-token-redacted"), account: ChatGPTUsageService.defaultSessionAccount)
+        let validHTTPClient = ChatGPTHTTPClientStub(
+            responses: [
+                "auth": #"{"accessToken":"access-token-redacted"}"#.data(using: .utf8)!,
+                "usage": #"{"rate_limit":{"primary_window":{"used_percent":34,"reset_at":1770000000}}}"#.data(using: .utf8)!
+            ]
+        )
+        let validService = ChatGPTUsageService(httpClient: validHTTPClient, sessionRepository: repository)
+
+        let usage = try await validService.fetchUsage()
+
+        XCTAssertEqual(usage.percentage, 34)
+        let storedSession = try await repository.load(account: ChatGPTUsageService.defaultSessionAccount)
+        XCTAssertEqual(storedSession.sessionCookie, "reacquired-session-token-redacted")
+        XCTAssertEqual(storedSession.accessToken, "access-token-redacted")
+        let status = await repository.status
+        XCTAssertEqual(status.state, .available)
+        XCTAssertNil(status.lastErrorCategory)
+    }
+
     func test_fetchUsage_withoutAccessToken_treatsCookieAsInvalid() async {
         let httpClient = ChatGPTHTTPClientStub(
             responses: ["auth": #"{}"#.data(using: .utf8)!]

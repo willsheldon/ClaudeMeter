@@ -268,6 +268,26 @@ final class SecurityInvariantTests: XCTestCase {
         )
     }
 
+    func test_credentialLifecycleSourcesKeepSyntheticCredentialMaterialOutOfDiagnostics() throws {
+        let lifecycleSources = [
+            try sourceContents(relativePath: "Pinemeter/App/AppModel.swift"),
+            try sourceContents(relativePath: "Pinemeter/Services/ChatGPTUsageService.swift"),
+            try sourceContents(relativePath: "Pinemeter/Repositories/KeychainRepository.swift")
+        ].joined(separator: "\n")
+        let syntheticCredentialFragments = [
+            "synthetic-chatgpt-session-cookie",
+            "sk-ant-test-session-key",
+            "Bearer synthetic-access-token"
+        ]
+
+        for forbiddenFragment in syntheticCredentialFragments {
+            XCTAssertFalse(
+                lifecycleSources.contains(forbiddenFragment),
+                "Credential lifecycle code must not bake credential-shaped test material into diagnostics: \(forbiddenFragment)"
+            )
+        }
+    }
+
     func test_networkServiceDiagnosticsDoNotLogResponseBodiesOrCredentialFragments() throws {
         let testFile = URL(fileURLWithPath: #filePath)
         let repositoryRoot = testFile.deletingLastPathComponent().deletingLastPathComponent()

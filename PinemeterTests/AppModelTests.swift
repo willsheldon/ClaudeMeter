@@ -514,6 +514,191 @@ final class AppModelTests: XCTestCase {
         XCTAssertTrue(appModel.settings.isFirstLaunch)
     }
 
+    func test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+        let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+        let organization = Organization(
+            id: 1,
+            uuid: TestConstants.organizationUUIDString,
+            name: "Lifecycle Org",
+            capabilities: ["chat"]
+        )
+        let notificationService = NotificationServiceSpy()
+        let settingsRepository = SettingsRepositoryFake()
+        let keychainRepository = KeychainRepositoryFake()
+        let invalidUsageService = UsageServiceStub(
+            fetchUsageResult: .success(expectedUsage),
+            organizations: [organization],
+            isSessionKeyValid: false
+        )
+        let invalidModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: keychainRepository,
+            usageService: invalidUsageService,
+            notificationService: notificationService
+        )
+
+        let rejected = try await invalidModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+
+        XCTAssertFalse(rejected)
+        XCTAssertFalse(invalidModel.isSetupComplete)
+        XCTAssertEqual(invalidModel.claudeCredentialState.health, .invalid)
+        XCTAssertEqual(invalidModel.claudeCredentialState.failureCategory, .providerRejected)
+        do {
+            _ = try await keychainRepository.retrieve(account: "default")
+            XCTFail("Expected missing Claude session key after invalid validation")
+        } catch KeychainError.notFound {
+            // Expected
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+
+        let validUsageService = UsageServiceStub(
+            fetchUsageResult: .success(expectedUsage),
+            organizations: [organization],
+            isSessionKeyValid: true
+        )
+        let setupModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: keychainRepository,
+            usageService: validUsageService,
+            notificationService: notificationService
+        )
+
+        let acquired = try await setupModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+
+        let savedSessionKey = try await keychainRepository.retrieve(account: "default")
+
+        XCTAssertTrue(acquired)
+        XCTAssertTrue(setupModel.isSetupComplete)
+        XCTAssertEqual(setupModel.claudeCredentialState.health, .valid)
+        XCTAssertEqual(savedSessionKey, TestConstants.sessionKeyValue)
+
+        let reuseModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: keychainRepository,
+            usageService: validUsageService,
+            notificationService: notificationService
+        )
+
+        await reuseModel.bootstrap()
+
+        XCTAssertTrue(reuseModel.isSetupComplete)
+        XCTAssertEqual(reuseModel.claudeCredentialState.health, .valid)
+        XCTAssertEqual(reuseModel.usageData, expectedUsage)
+
+        try await setupModel.clearSessionKey()
+
+        XCTAssertFalse(setupModel.isSetupComplete)
+        XCTAssertNil(setupModel.usageData)
+        XCTAssertEqual(setupModel.claudeCredentialState.health, .missing)
+        XCTAssertEqual(setupModel.claudeCredentialState.failureCategory, .missing)
+
+        let reacquired = try await setupModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+
+        let reacquiredSessionKey = try await keychainRepository.retrieve(account: "default")
+
+        XCTAssertTrue(reacquired)
+        XCTAssertTrue(setupModel.isSetupComplete)
+        XCTAssertEqual(setupModel.claudeCredentialState.health, .valid)
+        XCTAssertEqual(reacquiredSessionKey, TestConstants.sessionKeyValue)
+    }
+
+    func test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+        let expectedUsage = ChatGPTUsageData(
+            rows: [.init(label: "Codex Tasks", usedPercent: 24, resetAt: nil)],
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+        let settingsRepository = SettingsRepositoryFake()
+        let keychainRepository = KeychainRepositoryFake()
+        let notificationService = NotificationServiceSpy()
+        let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+        let invalidChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+            fetchUsageResult: .success(expectedUsage),
+            validateResult: false
+        )
+        let invalidModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: keychainRepository,
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            chatGPTUsageService: invalidChatGPTUsageService,
+            chatGPTSessionRepository: chatGPTSessionRepository,
+            notificationService: notificationService
+        )
+
+        let rejected = try await invalidModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+
+        XCTAssertFalse(rejected)
+        XCTAssertFalse(invalidModel.hasChatGPTSessionCookie)
+        XCTAssertEqual(invalidModel.chatGPTCredentialState.health, .invalid)
+        XCTAssertEqual(invalidModel.chatGPTCredentialState.failureCategory, .providerRejected)
+        do {
+            _ = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+            XCTFail("Expected missing ChatGPT session after invalid validation")
+        } catch ChatGPTSessionRepositoryError.notFound {
+            // Expected
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+
+        let validChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+            fetchUsageResult: .success(expectedUsage),
+            validateResult: true
+        )
+        let setupModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: keychainRepository,
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            chatGPTUsageService: validChatGPTUsageService,
+            chatGPTSessionRepository: chatGPTSessionRepository,
+            notificationService: notificationService
+        )
+
+        let acquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+
+        XCTAssertTrue(acquired)
+        XCTAssertTrue(setupModel.hasChatGPTSessionCookie)
+        XCTAssertTrue(setupModel.settings.isChatGPTUsageShown)
+        let savedChatGPTSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+
+        XCTAssertEqual(setupModel.chatGPTCredentialState.health, .valid)
+        XCTAssertEqual(setupModel.chatGPTUsageData, expectedUsage)
+        XCTAssertEqual(savedChatGPTSession.sessionCookie, "synthetic-chatgpt-session-cookie")
+
+        var reuseSettings = AppSettings.default
+        reuseSettings.isChatGPTUsageShown = true
+        try await settingsRepository.save(reuseSettings)
+        let reuseModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: keychainRepository,
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            chatGPTUsageService: validChatGPTUsageService,
+            chatGPTSessionRepository: chatGPTSessionRepository,
+            notificationService: notificationService
+        )
+
+        await reuseModel.bootstrap()
+
+        XCTAssertTrue(reuseModel.hasChatGPTSessionCookie)
+        XCTAssertEqual(reuseModel.chatGPTCredentialState.health, .valid)
+        XCTAssertEqual(reuseModel.chatGPTUsageData, expectedUsage)
+
+        try await setupModel.clearChatGPTSessionCookie()
+
+        XCTAssertFalse(setupModel.hasChatGPTSessionCookie)
+        XCTAssertFalse(setupModel.settings.isChatGPTUsageShown)
+        XCTAssertNil(setupModel.chatGPTUsageData)
+        XCTAssertNil(setupModel.chatGPTErrorMessage)
+        XCTAssertEqual(setupModel.chatGPTCredentialState.health, .missing)
+        XCTAssertEqual(setupModel.chatGPTCredentialState.failureCategory, .missing)
+
+        let reacquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+
+        XCTAssertTrue(reacquired)
+        XCTAssertTrue(setupModel.hasChatGPTSessionCookie)
+        XCTAssertEqual(setupModel.chatGPTCredentialState.health, .valid)
+        XCTAssertEqual(setupModel.chatGPTUsageData, expectedUsage)
+    }
+
     func test_userWithNotificationPermission_doesNotSeePermissionPrompt() async {
         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
         let notificationService = NotificationServiceSpy()
@@ -601,6 +786,60 @@ private actor RepairFailingKeychainRepository: KeychainRepositoryProtocol {
 
     func exists(account: String) async -> Bool {
         true
+    }
+}
+
+private actor AppModelChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+    private let fetchUsageResult: Result<ChatGPTUsageData, Error>
+    private let validateResult: Bool
+
+    init(fetchUsageResult: Result<ChatGPTUsageData, Error>, validateResult: Bool) {
+        self.fetchUsageResult = fetchUsageResult
+        self.validateResult = validateResult
+    }
+
+    func fetchUsage() async throws -> ChatGPTUsageData {
+        switch fetchUsageResult {
+        case .success(let data):
+            return data
+        case .failure(let error):
+            throw error
+        }
+    }
+
+    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+        try await fetchUsage()
+    }
+
+    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+        validateResult
+    }
+}
+
+private actor AppModelChatGPTSessionRepositoryFake: ChatGPTSessionRepositoryProtocol {
+    private var sessions: [String: ChatGPTSession] = [:]
+    private var status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+
+    func save(_ session: ChatGPTSession, account: String) async throws {
+        sessions[account] = session
+        status = ChatGPTSessionAcquisitionStatus(state: .available, lastErrorCategory: nil)
+    }
+
+    func load(account: String) async throws -> ChatGPTSession {
+        guard let session = sessions[account] else {
+            status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+            throw ChatGPTSessionRepositoryError.notFound
+        }
+        return session
+    }
+
+    func validate(account: String) async -> ChatGPTSessionAcquisitionStatus {
+        status
+    }
+
+    func clear(account: String) async throws {
+        sessions[account] = nil
+        status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
     }
 }
 
