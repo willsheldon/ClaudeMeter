@@ -53,4 +53,22 @@ final class ProviderErrorWorkflowTests: XCTestCase {
             }
         }
     }
+
+    func test_credentialRecoverySetupCopyDoesNotExposeRawCredentialMaterial() {
+        let status = AppProviderCredentialStatus(
+            state: CredentialState(
+                identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+                health: .unavailable,
+                failureCategory: .storageUnavailable,
+                checkedAt: Date(timeIntervalSince1970: 0)
+            ),
+            actions: [.init(kind: .reconnect), .init(kind: .repair), .init(kind: .clear)]
+        )
+
+        XCTAssertEqual(status.setupPromptTitle, "Recover Claude session key")
+        XCTAssertEqual(status.setupPromptDescription, "Check Keychain access and try again.")
+        XCTAssertTrue(status.setupAccessibilityLabel.contains("Claude session key status: Unavailable"))
+        XCTAssertFalse(status.setupAccessibilityLabel.contains("sk-ant-"))
+    }
+
 }

@@ -12,6 +12,8 @@ struct SetupWizardView: View {
     @State private var hasValidationSucceeded: Bool = false
 
     var body: some View {
+        let claudeStatus = claudeCredentialStatus
+
         VStack(spacing: 22) {
             // Header
             VStack(spacing: 8) {
@@ -35,33 +37,13 @@ struct SetupWizardView: View {
             }
             .padding(.top, 32)
 
-            // Claude Session Key Input
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Claude Session")
-                    .font(.headline)
+            credentialStatusCard(claudeStatus)
+                .padding(.horizontal, 32)
 
-                SecureField("sk-ant-...", text: $sessionKeyInput)
-                    .textFieldStyle(.roundedBorder)
-                    .disabled(isBusy)
-                    .accessibilityLabel("Claude session key input field")
-                    .accessibilityHint("Enter your Claude session key or paste a Cookie header containing sessionKey")
-
-                Text("Import from a browser signed in to claude.ai, or paste your session")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-
-                // Format validation indicator
-                if !sessionKeyInput.isEmpty {
-                    HStack(spacing: 4) {
-                        Image(systemName: isFormatValid ? "checkmark.circle.fill" : "xmark.circle.fill")
-                            .foregroundColor(isFormatValid ? .green : .red)
-                        Text(isFormatValid ? "Session format valid" : "Invalid session format")
-                            .font(.caption)
-                            .foregroundColor(isFormatValid ? .green : .red)
-                    }
-                }
+            if claudeStatus.shouldPromptForSetupCredential {
+                claudeSessionKeyInput
+                    .padding(.horizontal, 32)
             }
-            .padding(.horizontal, 32)
 
             // Error Message
             if let errorMessage = errorMessage {
@@ -111,7 +93,122 @@ struct SetupWizardView: View {
             Spacer()
 
             // Actions
-            VStack(spacing: 8) {
+            setupActions(for: claudeStatus)
+        }
+        .frame(width: 370, height: 460)
+        .background(Color(nsColor: .windowBackgroundColor))
+    }
+    // MARK: - Credential Status
+
+    private var claudeCredentialStatus: AppProviderCredentialStatus {
+        appModel.providerCredentialStatuses.first { $0.provider == .claude } ?? AppProviderCredentialStatus(
+            state: CredentialState(
+                identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+                health: .unknown
+            ),
+            actions: []
+        )
+    }
+
+    private var claudeSessionKeyInput: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Claude Session")
+                .font(.headline)
+
+            SecureField("sk-ant-...", text: $sessionKeyInput)
+                .textFieldStyle(.roundedBorder)
+                .disabled(isBusy)
+                .accessibilityLabel("Claude session key input field")
+                .accessibilityHint("Enter your Claude session key or paste a Cookie header containing sessionKey")
+
+            Text("Import from a browser signed in to claude.ai, or paste your session")
+                .font(.caption)
+                .foregroundColor(.secondary)
+
+            // Format validation indicator
+            if !sessionKeyInput.isEmpty {
+                HStack(spacing: 4) {
+                    Image(systemName: isFormatValid ? "checkmark.circle.fill" : "xmark.circle.fill")
+                        .foregroundColor(isFormatValid ? .green : .red)
+                    Text(isFormatValid ? "Session format valid" : "Invalid session format")
+                        .font(.caption)
+                        .foregroundColor(isFormatValid ? .green : .red)
+                }
+                .accessibilityLabel(isFormatValid ? "Claude session key format valid" : "Claude session key format invalid")
+            }
+        }
+    }
+
+    private func credentialStatusCard(_ status: AppProviderCredentialStatus) -> some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: credentialStatusIcon(for: status.state.health))
+                .foregroundStyle(credentialStatusColor(for: status.state.health))
+                .frame(width: 18)
+                .accessibilityHidden(true)
+
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text(status.setupPromptTitle)
+                        .font(.headline)
+                    Spacer()
+                    Text(status.statusTitle)
+                        .font(.caption.monospacedDigit())
+                        .foregroundStyle(credentialStatusColor(for: status.state.health))
+                }
+
+                Text(status.setupPromptDescription)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                if let lastFailureTitle = status.lastFailureTitle {
+                    Text(lastFailureTitle)
+                        .font(.caption2)
+                        .foregroundStyle(.orange)
+                }
+            }
+        }
+        .padding(12)
+        .background(Color(nsColor: .controlBackgroundColor).opacity(0.7))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(status.setupAccessibilityLabel)
+    }
+
+    private func credentialStatusIcon(for health: CredentialHealthState) -> String {
+        switch health {
+        case .valid:
+            return "checkmark.circle.fill"
+        case .refreshRecommended:
+            return "clock.badge.exclamationmark"
+        case .validating:
+            return "arrow.triangle.2.circlepath.circle"
+        case .invalid, .expired, .unavailable:
+            return "exclamationmark.triangle.fill"
+        case .missing, .unknown:
+            return "questionmark.circle"
+        }
+    }
+
+    private func credentialStatusColor(for health: CredentialHealthState) -> Color {
+        switch health {
+        case .valid:
+            return .green
+        case .refreshRecommended:
+            return .orange
+        case .validating:
+            return .blue
+        case .invalid, .expired, .unavailable:
+            return .red
+        case .missing, .unknown:
+            return .secondary
+        }
+    }
+
+    @ViewBuilder
+    private func setupActions(for status: AppProviderCredentialStatus) -> some View {
+        VStack(spacing: 8) {
+            if status.actions.contains(where: { $0.kind == .reconnect }) {
                 Button(action: {
                     Task {
                         await importAndSave()
@@ -131,7 +228,9 @@ struct SetupWizardView: View {
                 .disabled(isBusy)
                 .accessibilityLabel(isImporting ? "Importing Claude session key" : "Import Claude session key from browser")
                 .accessibilityHint("Finds your Claude session key in local browser cookies and validates it")
+            }
 
+            if status.shouldPromptForSetupCredential {
                 Button(action: {
                     Task {
                         await validateAndSave()
@@ -148,12 +247,43 @@ struct SetupWizardView: View {
                 .accessibilityLabel(isValidating ? "Validating Claude session key" : "Continue with manual setup")
                 .accessibilityHint("Validates your Claude session key and completes setup")
             }
-            .padding(.horizontal, 32)
-            .padding(.bottom, 32)
+
+            if status.isRepairableInSetup {
+                Button(action: {
+                    Task {
+                        await repairClaudeSessionKey()
+                    }
+                }) {
+                    HStack {
+                        if isValidating {
+                            ProgressView()
+                                .controlSize(.small)
+                        }
+                        Text(isValidating ? "Repairing..." : "Repair Saved Credential")
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                }
+                .buttonStyle(.bordered)
+                .disabled(isBusy || status.state.health == .validating)
+                .accessibilityLabel(isValidating ? "Repairing Claude session key" : "Repair saved Claude session key")
+                .accessibilityHint("Re-saves the existing Claude session key with the current app identity when possible")
+
+                Button("Clear Saved Credential") {
+                    Task {
+                        await clearSavedCredential()
+                    }
+                }
+                .buttonStyle(.borderless)
+                .disabled(isBusy)
+                .accessibilityLabel("Clear saved Claude session key")
+                .accessibilityHint("Removes the saved Claude session key from Keychain without displaying it")
+            }
         }
-        .frame(width: 370, height: 460)
-        .background(Color(nsColor: .windowBackgroundColor))
+        .padding(.horizontal, 32)
+        .padding(.bottom, 32)
     }
+
     // MARK: - Validation
 
     private var isBusy: Bool {
@@ -189,6 +319,42 @@ struct SetupWizardView: View {
         }
 
         isImporting = false
+    }
+
+    @MainActor
+    private func repairClaudeSessionKey() async {
+        isValidating = true
+        errorMessage = nil
+        offersFullDiskAccessSettings = false
+        hasValidationSucceeded = false
+
+        let state = await appModel.repairClaudeSessionKey()
+        if state.isUsable {
+            sessionKeyInput = await appModel.loadSessionKey() ?? ""
+            hasValidationSucceeded = true
+        } else {
+            let status = claudeCredentialStatus
+            errorMessage = status.recoverySuggestion ?? status.statusDescription
+        }
+
+        isValidating = false
+    }
+
+    @MainActor
+    private func clearSavedCredential() async {
+        isValidating = true
+        errorMessage = nil
+        offersFullDiskAccessSettings = false
+        hasValidationSucceeded = false
+
+        do {
+            try await appModel.clearSessionKey()
+            sessionKeyInput = ""
+        } catch {
+            errorMessage = "Failed to clear saved credential: \(error.localizedDescription)"
+        }
+
+        isValidating = false
     }
 
     @MainActor

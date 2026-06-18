@@ -215,6 +215,53 @@ final class AppModelTests: XCTestCase {
         XCTAssertEqual(chatGPT.actions.map(\.kind), [.reconnect])
     }
 
+    func test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials() throws {
+        let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+        let notificationService = NotificationServiceSpy()
+        let settingsRepository = SettingsRepositoryFake()
+        let keychainRepository = KeychainRepositoryFake()
+        let appModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: keychainRepository,
+            usageService: usageService,
+            notificationService: notificationService
+        )
+
+        appModel.claudeCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+            health: .valid,
+            checkedAt: Date(timeIntervalSince1970: 0)
+        )
+        var claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+        XCTAssertFalse(claude.shouldPromptForSetupCredential)
+        XCTAssertFalse(claude.isRepairableInSetup)
+        XCTAssertEqual(claude.setupPromptTitle, "Saved Claude session key is ready")
+        XCTAssertTrue(claude.setupAccessibilityLabel.contains("Claude session key status: Ready"))
+
+        appModel.claudeCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+            health: .missing,
+            failureCategory: .missing,
+            checkedAt: Date(timeIntervalSince1970: 0)
+        )
+        claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+        XCTAssertTrue(claude.shouldPromptForSetupCredential)
+        XCTAssertFalse(claude.isRepairableInSetup)
+        XCTAssertEqual(claude.setupPromptTitle, "Set up Claude session key")
+
+        appModel.claudeCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+            health: .unavailable,
+            failureCategory: .storageUnavailable,
+            checkedAt: Date(timeIntervalSince1970: 0)
+        )
+        claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+        XCTAssertFalse(claude.shouldPromptForSetupCredential)
+        XCTAssertTrue(claude.isRepairableInSetup)
+        XCTAssertEqual(claude.setupPromptTitle, "Recover Claude session key")
+        XCTAssertFalse(claude.setupAccessibilityLabel.contains(TestConstants.sessionKeyValue))
+    }
+
     func test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates() throws {
         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
         let notificationService = NotificationServiceSpy()

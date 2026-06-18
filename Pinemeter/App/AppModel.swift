@@ -42,6 +42,49 @@ struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
     var lastFailureTitle: String? { state.failureCategory?.displayTitle }
     var recoverySuggestion: String? { state.recoverySuggestion }
 
+    var setupPromptTitle: String {
+        switch state.health {
+        case .valid, .refreshRecommended:
+            return "Saved \(credentialName) is ready"
+        case .missing, .unknown:
+            return "Set up \(credentialName)"
+        case .validating:
+            return "Checking \(credentialName)"
+        case .invalid, .expired, .unavailable:
+            return "Recover \(credentialName)"
+        }
+    }
+
+    var setupPromptDescription: String {
+        switch state.health {
+        case .valid, .refreshRecommended:
+            return "A saved credential is available, so setup can continue without asking you to paste it again."
+        case .missing, .unknown:
+            return "Import from a browser signed in to \(providerName), or paste your session manually."
+        case .validating:
+            return "Pinemeter is checking your saved credential."
+        case .invalid, .expired, .unavailable:
+            return recoverySuggestion ?? statusDescription
+        }
+    }
+
+    var setupAccessibilityLabel: String {
+        "\(credentialName) status: \(statusTitle). \(setupPromptDescription)"
+    }
+
+    var shouldPromptForSetupCredential: Bool {
+        switch state.health {
+        case .unknown, .missing:
+            return true
+        case .validating, .valid, .refreshRecommended, .invalid, .expired, .unavailable:
+            return false
+        }
+    }
+
+    var isRepairableInSetup: Bool {
+        actions.contains { $0.kind == .repair }
+    }
+
     var searchableText: String {
         [
             providerName,
