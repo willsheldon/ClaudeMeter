@@ -149,6 +149,8 @@ Temporary Items
 .gsd/notifications.jsonl
 .gsd/audit/
 .gsd/journal/
+.gsd/activity/
+.gsd/doctor-history.jsonl
 
 # ── GSD baseline (auto-generated) ──
 .gsd-id
