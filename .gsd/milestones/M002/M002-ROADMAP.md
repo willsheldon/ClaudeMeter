@@ -12,19 +12,19 @@
 
 ## Slices
 
-- [ ] **S01: Credential state contract** `risk:high` `depends:[]`
+- [x] **S01: Credential state contract** `risk:high` `depends:[]`
   > After this: Developer can inspect a central credential state contract that represents Claude and ChatGPT credential health without exposing secret values.
 
-- [ ] **S02: Claude Keychain repair flow** `risk:high` `depends:[S01]`
+- [x] **S02: Claude Keychain repair flow** `risk:high` `depends:[S01]`
   > After this: User can repair or re save the Claude session key under the current signed app identity without deleting unrelated Keychain items.
 
-- [ ] **S03: ChatGPT session acquisition boundary** `risk:high` `depends:[S01]`
+- [x] **S03: ChatGPT session acquisition boundary** `risk:high` `depends:[S01]`
   > After this: App can classify and persist ChatGPT session acquisition state through a secure boundary without storing ChatGPT credential material in settings.
 
-- [ ] **S04: Credential setup and recovery UX** `risk:medium` `depends:[S02,S03]`
+- [x] **S04: Credential setup and recovery UX** `risk:medium` `depends:[S02,S03]`
   > After this: Settings or setup shows provider credential status with reconnect, repair, and clear actions using labels that do not expose secrets.
 
-- [ ] **S05: Credential lifecycle verification** `risk:medium` `depends:[S04]`
+- [x] **S05: Credential lifecycle verification** `risk:medium` `depends:[S04]`
   > After this: A fresh verification report proves credential acquisition, reuse, repair, clearing, and redaction work across Claude and ChatGPT paths.
 
 ## Boundary Map

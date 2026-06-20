@@ -1,0 +1,66 @@
+---
+verdict: needs-attention
+remediation_round: 0
+---
+
+# Milestone Validation: M002
+
+## Success Criteria Checklist
+## Reviewer C — Acceptance Criteria
+
+| Criterion | Evidence | Status |
+|---|---|---|
+| R010 is active during M002 and validated by the end of the milestone. | Roadmap names R010 as the M002 requirement; S05 summary states R010 was validated, `.gsd/REQUIREMENTS.md` was updated, and credential acquisition/retention proof was produced. | PASS |
+| Claude and ChatGPT credential material is acquired or repaired through app-owned flows without repeated manual re-entry when durable material is valid. | S02 provides scoped Claude repair/re-save under the current signed identity; S03 provides Keychain-backed ChatGPT durable cookie storage with transient access tokens; S04 exposes provider-aware setup/reconnect/repair/clear UX; S05 reports lifecycle tests for acquisition, reuse, repair, clear, invalid, and redaction paths. | PASS |
+| No credential material is persisted in AppSettings, UserDefaults settings, logs, user-facing errors, or GSD artifacts. | S01 credential-free settings regression tests; S03 sanitized diagnostics and transient access-token boundary; S05 synthetic secret/redaction assertions and security invariant tests. | PASS |
+| Legacy Claude Keychain compatibility is preserved unless a tested migration path replaces it. | S02 repairs through the legacy `com.claudemeter.sessionkey` service identifier using scoped update-then-add without broad deletion; S05 preserved signing settings. | PASS |
+| Credential setup, status, repair, reconnect, and clear flows are provider-aware for currently supported providers. | S01 central provider-aware state contract; S02 Claude repair state; S03 ChatGPT session/acquisition state; S04 Settings/setup provider-aware status and recovery controls; S05 integrated lifecycle verification. | PASS |
+
+## Slice Delivery Audit
+## Reviewer C — Assessment and Slice Delivery Audit
+
+| Slice | SUMMARY | ASSESSMENT | Status | Notes |
+|---|---|---|---|---|
+| S01 Credential state contract | Present; verification passed. | Present; batch assessment records successful T01/T02 execution and durable output checks. | PASS | Known limitation was intentionally closed by later slices. |
+| S02 Claude Keychain repair flow | Present; verification passed. | Present; batch assessment records successful repair API and service/AppModel wiring. | PASS | Production metrics dashboard not added; acceptable because operational plan relied on sanitized state/tests. |
+| S03 ChatGPT session acquisition boundary | Present; verification passed. | Present; verdict PASS, auto-created during validation backfill. | PASS | Assessment is lightweight/backfilled, not manual UAT evidence. |
+| S04 Credential setup and recovery UX | Present; verification passed. | Present; verdict PASS, auto-created during validation backfill. | PASS | Assessment is lightweight/backfilled, not manual UAT evidence. |
+| S05 Credential lifecycle verification | Present; verification passed. | Present; verdict PASS with full Debug test suite, signing settings, and artifact evidence. | PASS | Does not contain manual/browser/runtime UAT action notes. |
+
+Fresh orchestrator check: `gsd_milestone_status` reported all five M002 slices complete with all tasks done. `gsd_exec` evidence `a0c3adff-d521-45c3-80b7-0e24ccd6d068` confirmed all slice assessment files exist and found no UAT indicator lines in assessment artifacts.
+
+## Cross-Slice Integration
+## Reviewer B — Cross-Slice Integration
+
+| Boundary | Producer Summary | Consumer Summary | Status |
+|---|---|---|---|
+| AppSettings and SettingsRepository | S01 established credential-free preference storage and tests. | S02-S05 rely on settings as preference-only state, not credential material; S05 validates redaction/security invariants. | PASS |
+| KeychainRepository | S02 produced Claude credential compatibility and repair/re-save under legacy `com.claudemeter.sessionkey`, scoped update-then-add without broad delete. | S04 exposes repair/recovery controls; S05 verifies repair, clear, invalid, and lifecycle behavior. | PASS |
+| WebView and ChatGPT services | S03 produced Keychain-backed ChatGPT session storage with durable secure cookies, transient access tokens, and sanitized diagnostics. | S04 consumes sanitized ChatGPT status for setup/settings controls; S05 verifies acquisition, reuse, clear, invalid, and redaction flows. | PASS |
+| Setup and Settings UI | S04 produced provider-aware credential status, recovery, repair, reconnect/setup, and clear controls from sanitized AppModel view models. | S05 validates lifecycle behavior across providers using the completed UI/status surfaces. | PASS |
+| Logs, errors, diagnostics | S01/S03/S05 produced sanitized status/diagnostic and redaction boundaries using synthetic credential sentinels. | S04 displays sanitized AppModel view models; S05 security invariant/redaction tests verify no credential material crosses into unsafe surfaces. | PASS |
+
+Verdict: PASS — the slices compose around the S01 credential state contract and downstream provider-aware lifecycle verification.
+
+## Requirement Coverage
+## Reviewer A — Requirements Coverage
+
+| Requirement | Status | Evidence |
+|---|---|---|
+| R001 active product identity rename | COVERED | M002 evidence consistently uses the Pinemeter identity, and S05 preserved Autimo signing settings. Primary validation is mapped to M001, not M002, so no M002 gap is indicated. |
+| R010 durable credential acquisition and retention | COVERED | S01 established provider-aware credential state without persisting secrets; S02 repaired Claude Keychain credentials with legacy compatibility; S03 added Keychain-backed ChatGPT session storage with transient access tokens; S04 exposed provider-aware setup/repair/reconnect/clear UX; S05 explicitly validated R010 with passing tests and security invariant coverage. |
+| R011 provider workflow polish | COVERED AS DEFERRED | S05 documents broader provider workflow polish as a downstream M003/R011 follow-up while preserving M002 credential durability and redaction boundaries. It is not required for M002 closure. |
+
+Verdict: PASS — all M002-relevant requirements are covered or explicitly deferred outside this milestone.
+
+## Verification Class Compliance
+| Class | Planned Check | Evidence | Verdict |
+|---|---|---|---|
+| Contract | Run targeted credential repository, service, app model, and settings tests as slices land, then run `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` for S05. | S01-S05 summaries and assessments record passing targeted tests; S05 assessment records the full Debug test suite command completed successfully. | PASS |
+| Integration | Each slice must consume the shared S01 credential state contract rather than adding provider specific status islands. S05 verifies Claude and ChatGPT lifecycle paths together. | S02 exposes Claude repair through sanitized CredentialState/AppModel; S03 exposes ChatGPT session state through the secure boundary; S04 consumes sanitized AppModel provider status models; S05 verifies combined lifecycle paths. | PASS |
+| Operational | All diagnostic or status surfaces must be sanitized. No raw session key, Cookie header, Bearer token, access token, or credential shaped sentinel may appear in logs, errors, settings persistence, or artifacts. | S01 credential-free settings tests, S03 sanitized diagnostics/transient token boundary, and S05 security invariant/redaction assertions cover these surfaces with synthetic credential sentinels. | PASS |
+| UAT | Manual UAT notes should cover a fresh credential setup, valid reuse, repair after signing identity change, clear, and invalid credential recovery for currently supported providers. | S05 assessment is PASS for automated Debug tests/signing checks, but current assessment artifacts do not contain manual/browser/runtime UAT action notes for fresh setup, valid reuse, signing-identity repair, clear, and invalid recovery. `gsd_exec` evidence `a0c3adff-d521-45c3-80b7-0e24ccd6d068` found no UAT indicator lines in assessment artifacts. | NEEDS-ATTENTION |
+
+
+## Verdict Rationale
+Reviewer A found M002-relevant requirement coverage satisfied, and Reviewer B found the S01-S05 provider credential boundaries integrate end-to-end. The milestone should not be marked full pass yet because the planned UAT verification class lacks concrete manual/browser/runtime action evidence despite passing automated tests and assessments.

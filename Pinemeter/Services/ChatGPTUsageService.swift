@@ -120,7 +120,7 @@ actor ChatGPTUsageService: ChatGPTUsageServiceProtocol {
         }
     }
 
-    /// Accept a raw session token, a full Cookie header, or split NextAuth cookie chunks.
+    /// Accept a raw session token, a full Cookie header, or split NextAuth/Auth.js cookie chunks.
     static func cookieHeader(from rawValue: String) -> String {
         let trimmedValue = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedValue.isEmpty else { return "" }
@@ -132,32 +132,41 @@ actor ChatGPTUsageService: ChatGPTUsageServiceProtocol {
         let cookiePairs = cookiePairs(from: trimmedValue)
         guard !cookiePairs.isEmpty else { return trimmedValue }
 
-        if let unsplitToken = cookiePairs.first(where: { $0.name == "__Secure-next-auth.session-token" })?.value,
-           !unsplitToken.isEmpty {
-            return cookiePairs.map { "\($0.name)=\($0.value)" }.joined(separator: "; ")
-        }
-
-        let splitToken = cookiePairs
-            .compactMap { pair -> (Int, String)? in
-                let prefix = "__Secure-next-auth.session-token."
-                guard pair.name.hasPrefix(prefix),
-                      let index = Int(pair.name.dropFirst(prefix.count)) else {
-                    return nil
-                }
-                return (index, pair.value)
+        for cookieName in sessionCookieNames {
+            if let unsplitToken = cookiePairs.first(where: { $0.name == cookieName })?.value,
+               !unsplitToken.isEmpty {
+                return cookiePairs.map { "\($0.name)=\($0.value)" }.joined(separator: "; ")
             }
-            .sorted { $0.0 < $1.0 }
-            .map(\.1)
-            .joined()
-
-        guard !splitToken.isEmpty else {
-            return cookiePairs.map { "\($0.name)=\($0.value)" }.joined(separator: "; ")
         }
 
-        let otherPairs = cookiePairs.filter { !$0.name.hasPrefix("__Secure-next-auth.session-token.") }
-        return (["__Secure-next-auth.session-token=\(splitToken)"] + otherPairs.map { "\($0.name)=\($0.value)" })
-            .joined(separator: "; ")
+        for cookieName in sessionCookieNames {
+            let splitPrefix = "\(cookieName)."
+            let splitToken = cookiePairs
+                .compactMap { pair -> (Int, String)? in
+                    guard pair.name.hasPrefix(splitPrefix),
+                          let index = Int(pair.name.dropFirst(splitPrefix.count)) else {
+                        return nil
+                    }
+                    return (index, pair.value)
+                }
+                .sorted { $0.0 < $1.0 }
+                .map(\.1)
+                .joined()
+
+            if !splitToken.isEmpty {
+                let otherPairs = cookiePairs.filter { !$0.name.hasPrefix(splitPrefix) }
+                return (["\(cookieName)=\(splitToken)"] + otherPairs.map { "\($0.name)=\($0.value)" })
+                    .joined(separator: "; ")
+            }
+        }
+
+        return cookiePairs.map { "\($0.name)=\($0.value)" }.joined(separator: "; ")
     }
+
+    private static let sessionCookieNames = [
+        "__Secure-next-auth.session-token",
+        "__Secure-authjs.session-token",
+    ]
 
     private static func cookiePairs(from rawValue: String) -> [(name: String, value: String)] {
         rawValue

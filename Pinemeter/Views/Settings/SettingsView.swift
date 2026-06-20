@@ -5,21 +5,17 @@ import AppKit
 struct SettingsView: View {
     @Bindable var appModel: AppModel
 
-    @State private var sessionKey: String = ""
-    @State private var isSessionKeyShown: Bool = false
-    @State private var isValidatingSessionKey: Bool = false
     @State private var isImportingSessionKey: Bool = false
     @State private var sessionKeyValidationMessage: String?
     @State private var offersFullDiskAccessSettings: Bool = false
     @State private var hasSessionKeyValidationSucceeded: Bool = false
 
-    @State private var chatGPTSessionTokenPart0: String = ""
-    @State private var chatGPTSessionTokenPart1: String = ""
-    @State private var chatGPTFullCookieHeader: String = ""
-    @State private var isChatGPTSessionCookieShown: Bool = false
-    @State private var isValidatingChatGPTSessionCookie: Bool = false
+    @State private var isImportingChatGPTSessionCookie: Bool = false
     @State private var chatGPTSessionCookieValidationMessage: String?
     @State private var hasChatGPTSessionCookieValidationSucceeded: Bool = false
+    @State private var isImportingProviderSessions: Bool = false
+    @State private var providerImportMessage: String?
+    @State private var hasProviderImportSucceeded: Bool = false
 
     @State private var isSendingTestNotification: Bool = false
     @State private var testNotificationMessage: String?
@@ -68,8 +64,7 @@ struct SettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 credentialRecoverySection
-                sessionKeySection
-                chatGPTSection
+                chatGPTUsageSection
                 refreshIntervalSection
                 sonnetUsageSection
                 launchAtLoginSection
@@ -91,6 +86,10 @@ struct SettingsView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
 
+            credentialBrowserImportButtons
+
+            Divider()
+
             ForEach(appModel.providerCredentialStatuses) { status in
                 providerCredentialRow(status)
 
@@ -98,14 +97,71 @@ struct SettingsView: View {
                     Divider()
                 }
             }
+
+            credentialActionFeedback
         }
         .padding()
         .background(.quaternary.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
-    private func providerCredentialRow(_ status: AppProviderCredentialStatus) -> some View {
+    private var credentialBrowserImportButtons: some View {
         VStack(alignment: .leading, spacing: 8) {
+            Text("Import signed-in browser sessions")
+                .font(.caption.weight(.semibold))
+
+            ForEach(BrowserImportSource.setupOptions, id: \.self) { source in
+                Button(action: {
+                    Task { await importProviderSessionsFromSettings(source) }
+                }) {
+                    HStack {
+                        if isImportingProviderSessions {
+                            ProgressView()
+                                .controlSize(.small)
+                        }
+                        Text(isImportingProviderSessions ? "Importing from \(source.displayName)..." : source.importButtonTitle)
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .disabled(isCredentialImportBusy)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var credentialActionFeedback: some View {
+        if let providerImportMessage {
+            CopyableErrorText(providerImportMessage,
+                              font: .caption,
+                              foregroundStyle: hasProviderImportSucceeded ? Color.green : Color.orange)
+        }
+
+        if let sessionKeyValidationMessage {
+            CopyableErrorText(sessionKeyValidationMessage,
+                              font: .caption,
+                              foregroundStyle: hasSessionKeyValidationSucceeded ? Color.green : Color.orange)
+        }
+
+        if offersFullDiskAccessSettings {
+            Button("Open Privacy & Security Settings") {
+                SystemSettingsOpener.openFullDiskAccess()
+            }
+            .controlSize(.small)
+        }
+
+        if let chatGPTSessionCookieValidationMessage {
+            CopyableErrorText(chatGPTSessionCookieValidationMessage,
+                              font: .caption,
+                              foregroundStyle: hasChatGPTSessionCookieValidationSucceeded ? Color.green : Color.orange)
+        }
+    }
+
+    private func providerCredentialRow(_ status: AppProviderCredentialStatus) -> some View {
+        let visibleActions = status.actions.filter { $0.kind != .reconnect }
+
+        return VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: credentialStatusIcon(for: status.state.health))
                     .foregroundStyle(credentialStatusColor(for: status.state.health))
@@ -121,16 +177,11 @@ struct SettingsView: View {
                         .fixedSize(horizontal: false, vertical: true)
 
                     if let lastFailureTitle = status.lastFailureTitle {
-                        Text(lastFailureTitle)
-                            .font(.caption2)
-                            .foregroundStyle(.orange)
+                        CopyableErrorText(lastFailureTitle, font: .caption2, foregroundStyle: .orange)
                     }
 
                     if let recoverySuggestion = status.recoverySuggestion {
-                        Text(recoverySuggestion)
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                            .fixedSize(horizontal: false, vertical: true)
+                        CopyableErrorText(recoverySuggestion, font: .caption2, foregroundStyle: .secondary)
                     }
                 }
 
@@ -141,9 +192,9 @@ struct SettingsView: View {
                     .foregroundStyle(credentialStatusColor(for: status.state.health))
             }
 
-            if !status.actions.isEmpty {
+            if !visibleActions.isEmpty {
                 HStack(spacing: 8) {
-                    ForEach(status.actions) { action in
+                    ForEach(visibleActions) { action in
                         Button(action.displayTitle) {
                             handleCredentialAction(action.kind, for: status)
                         }
@@ -188,259 +239,33 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: - Claude Session Section
+    // MARK: - ChatGPT Usage Section
 
-    private var sessionKeySection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Claude Session")
-                        .font(.subheadline)
-
-                    Text("Import from browser or paste your Claude session")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(2)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-
-                Spacer()
-
-                Label(sessionKey.isEmpty ? "Not configured" : "Saved in Keychain", systemImage: sessionKey.isEmpty ? "exclamationmark.circle" : "checkmark.circle")
+    private var chatGPTUsageSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Show ChatGPT Usage")
+                    .font(.subheadline)
+                Text("Optional. Connect ChatGPT from the credential recovery section, then show ChatGPT plan quota usage in the popover.")
                     .font(.caption)
-                    .foregroundStyle(sessionKey.isEmpty ? Color.secondary : Color.green)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
-            HStack {
-                if isSessionKeyShown {
-                    TextField("sk-ant-...", text: $sessionKey)
-                        .textFieldStyle(.roundedBorder)
-                        .font(.system(.body, design: .monospaced))
-                } else {
-                    SecureField("sk-ant-...", text: $sessionKey)
-                        .textFieldStyle(.roundedBorder)
-                        .font(.system(.body, design: .monospaced))
-                }
+            Spacer()
 
-                Button(action: { isSessionKeyShown.toggle() }) {
-                    Image(systemName: isSessionKeyShown ? "eye.slash" : "eye")
-                }
-                .buttonStyle(.borderless)
-                .help(isSessionKeyShown ? "Hide Claude session key" : "Show Claude session key")
-
-                if !sessionKey.isEmpty {
-                    Button(action: clearSessionKey) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.secondary)
-                    }
-                    .buttonStyle(.borderless)
-                    .help("Clear Claude session key")
-                }
-            }
-
-            HStack {
-                Button("Save") {
-                    Task {
-                        await validateAndSaveSessionKey()
+            Toggle("", isOn: $appModel.settings.isChatGPTUsageShown)
+                .labelsHidden()
+                .disabled(!appModel.hasChatGPTSessionCookie)
+                .onChange(of: appModel.settings.isChatGPTUsageShown) { _, isShown in
+                    if isShown {
+                        Task { await appModel.refreshChatGPTUsage() }
                     }
                 }
-                .controlSize(.small)
-                .disabled(sessionKey.isEmpty || isSessionKeyBusy)
-
-                Button("Import from Browser") {
-                    Task {
-                        await importAndSaveSessionKey()
-                    }
-                }
-                .controlSize(.small)
-                .disabled(isSessionKeyBusy)
-
-                if isSessionKeyBusy {
-                    ProgressView()
-                        .controlSize(.small)
-                }
-
-                if let message = sessionKeyValidationMessage, hasSessionKeyValidationSucceeded {
-                    Label(message, systemImage: "checkmark.circle.fill")
-                        .font(.caption)
-                        .foregroundStyle(.green)
-                        .lineLimit(1)
-                        .truncationMode(.tail)
-                }
-
-                Spacer()
-            }
-
-            if let message = sessionKeyValidationMessage, !hasSessionKeyValidationSucceeded {
-                VStack(alignment: .leading, spacing: 6) {
-                    HStack(alignment: .top, spacing: 6) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.red)
-                            .frame(width: 16)
-
-                        Text(message)
-                            .font(.caption)
-                            .foregroundStyle(.red)
-                            .lineLimit(3)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-
-                    if offersFullDiskAccessSettings {
-                        Button("Open Full Disk Access") {
-                            SystemSettingsOpener.openFullDiskAccess()
-                        }
-                        .controlSize(.small)
-                        .padding(.leading, 22)
-                    }
-                }
-            }
         }
         .padding()
         .background(.quaternary.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 8))
-    }
-
-    // MARK: - ChatGPT Section
-
-    private var chatGPTSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("ChatGPT Usage")
-                        .font(.subheadline)
-                    Text("Optional. Stores your ChatGPT session cookie in Keychain and shows ChatGPT plan quota usage in the popover.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-
-                Spacer()
-
-                Toggle("", isOn: $appModel.settings.isChatGPTUsageShown)
-                    .labelsHidden()
-                    .disabled(!appModel.hasChatGPTSessionCookie)
-                    .onChange(of: appModel.settings.isChatGPTUsageShown) { _, isShown in
-                        if isShown {
-                            Task { await appModel.refreshChatGPTUsage() }
-                        }
-                    }
-            }
-
-            VStack(alignment: .leading, spacing: 8) {
-                chatGPTCookieField(
-                    label: "__Secure-next-auth.session-token.0",
-                    placeholder: "Paste value for .0",
-                    text: $chatGPTSessionTokenPart0
-                )
-
-                chatGPTCookieField(
-                    label: "__Secure-next-auth.session-token.1",
-                    placeholder: "Paste value for .1 if present",
-                    text: $chatGPTSessionTokenPart1
-                )
-
-                DisclosureGroup("Or paste a full Cookie header") {
-                    chatGPTCookieInput(placeholder: "Cookie: __Secure-next-auth.session-token.0=...; __Secure-next-auth.session-token.1=...", text: $chatGPTFullCookieHeader)
-                        .padding(.top, 4)
-                }
-                .font(.caption)
-
-                HStack {
-                    Button(action: { isChatGPTSessionCookieShown.toggle() }) {
-                        Label(isChatGPTSessionCookieShown ? "Hide values" : "Show values", systemImage: isChatGPTSessionCookieShown ? "eye.slash" : "eye")
-                    }
-                    .controlSize(.small)
-                    .buttonStyle(.borderless)
-                    .help(isChatGPTSessionCookieShown ? "Hide ChatGPT session cookie values" : "Show ChatGPT session cookie values")
-
-                    Spacer()
-
-                    if hasChatGPTCookieInput || appModel.hasChatGPTSessionCookie {
-                        Button(action: clearChatGPTSessionCookie) {
-                            Label("Clear", systemImage: "xmark.circle.fill")
-                        }
-                        .controlSize(.small)
-                        .buttonStyle(.borderless)
-                        .help("Clear ChatGPT session cookie")
-                    }
-                }
-            }
-
-            HStack(spacing: 8) {
-                Button("Validate & Save") {
-                    Task {
-                        await validateAndSaveChatGPTSessionCookie()
-                    }
-                }
-                .controlSize(.small)
-                .disabled(!hasChatGPTCookieInput || isValidatingChatGPTSessionCookie)
-
-                if isValidatingChatGPTSessionCookie {
-                    ProgressView()
-                        .controlSize(.small)
-                }
-
-                if let message = chatGPTSessionCookieValidationMessage {
-                    Label(message, systemImage: hasChatGPTSessionCookieValidationSucceeded ? "checkmark.circle.fill" : "xmark.circle.fill")
-                        .font(.caption)
-                        .foregroundStyle(hasChatGPTSessionCookieValidationSucceeded ? .green : .red)
-                }
-
-                Spacer()
-            }
-
-            Text("Paste the browser cookie values for .0 and .1 separately. Pinemeter joins them, stores the result only in Keychain, and sends it only to chatgpt.com.")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-
-            if let chatGPTErrorMessage = appModel.chatGPTErrorMessage, appModel.settings.isChatGPTUsageShown {
-                Label(chatGPTErrorMessage, systemImage: "exclamationmark.triangle.fill")
-                    .font(.caption)
-                    .foregroundStyle(.orange)
-            }
-        }
-        .padding()
-        .background(.quaternary.opacity(0.3))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-    }
-
-    private var hasChatGPTCookieInput: Bool {
-        !chatGPTSessionTokenPart0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        || !chatGPTSessionTokenPart1.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        || !chatGPTFullCookieHeader.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    }
-
-    private var joinedChatGPTCookieInput: String {
-        let fullHeader = chatGPTFullCookieHeader.trimmingCharacters(in: .whitespacesAndNewlines)
-        if !fullHeader.isEmpty {
-            return fullHeader
-        }
-
-        return [chatGPTSessionTokenPart0, chatGPTSessionTokenPart1]
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .joined()
-    }
-
-    private func chatGPTCookieField(label: String, placeholder: String, text: Binding<String>) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(label)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-
-            chatGPTCookieInput(placeholder: placeholder, text: text)
-        }
-    }
-
-    private func chatGPTCookieInput(placeholder: String, text: Binding<String>) -> some View {
-        Group {
-            if isChatGPTSessionCookieShown {
-                TextField(placeholder, text: text)
-            } else {
-                SecureField(placeholder, text: text)
-            }
-        }
-        .textFieldStyle(.roundedBorder)
-        .font(.system(.body, design: .monospaced))
     }
 
     // MARK: - Refresh Interval Section
@@ -770,17 +595,19 @@ struct SettingsView: View {
     // MARK: - Actions
 
     private var isSessionKeyBusy: Bool {
-        isValidatingSessionKey || isImportingSessionKey
+        isImportingSessionKey
+    }
+
+    private var isChatGPTSessionCookieBusy: Bool {
+        isImportingChatGPTSessionCookie
+    }
+
+    private var isCredentialImportBusy: Bool {
+        isImportingProviderSessions || isSessionKeyBusy || isChatGPTSessionCookieBusy
     }
 
     private func loadSettings() {
         Task { @MainActor in
-            sessionKey = await appModel.loadSessionKey() ?? ""
-            if let savedChatGPTCookie = await appModel.loadChatGPTSessionCookie() {
-                chatGPTSessionTokenPart0 = savedChatGPTCookie
-                chatGPTSessionTokenPart1 = ""
-                chatGPTFullCookieHeader = ""
-            }
             await updateNotificationStatus()
         }
     }
@@ -799,45 +626,64 @@ struct SettingsView: View {
     }
 
     @MainActor
-    private func validateAndSaveSessionKey() async {
-        guard !sessionKey.isEmpty else {
-            sessionKeyValidationMessage = "Claude session key cannot be empty"
-            hasSessionKeyValidationSucceeded = false
-            return
-        }
-
-        isValidatingSessionKey = true
+    private func importProviderSessionsFromSettings(_ source: BrowserImportSource) async {
+        isImportingProviderSessions = true
+        providerImportMessage = nil
+        hasProviderImportSucceeded = false
         sessionKeyValidationMessage = nil
+        chatGPTSessionCookieValidationMessage = nil
         offersFullDiskAccessSettings = false
-        hasSessionKeyValidationSucceeded = false
 
-        do {
-            let isValid = try await appModel.validateAndSaveSessionKey(sessionKey)
+        let outcome = await appModel.importProviderSessions(from: source)
+        offersFullDiskAccessSettings = outcome.offersFullDiskAccessSettings
 
-            if isValid {
-                sessionKeyValidationMessage = "Claude session key saved"
-                hasSessionKeyValidationSucceeded = true
-
-                Task { @MainActor in
-                    try? await Task.sleep(for: .seconds(2))
-                    sessionKeyValidationMessage = nil
-                    hasSessionKeyValidationSucceeded = false
-                }
-            } else {
-                sessionKeyValidationMessage = "Claude session key validation failed"
-                hasSessionKeyValidationSucceeded = false
-            }
-        } catch let error as SessionKeyError {
-            sessionKeyValidationMessage = error.localizedDescription
-            offersFullDiskAccessSettings = false
-            hasSessionKeyValidationSucceeded = false
-        } catch {
-            sessionKeyValidationMessage = "Validation failed: \(error.localizedDescription)"
-            offersFullDiskAccessSettings = false
-            hasSessionKeyValidationSucceeded = false
+        if outcome.importedCount > 0 {
+            providerImportMessage = settingsBrowserImportSuccessMessage(for: outcome)
+            hasProviderImportSucceeded = true
+        } else {
+            providerImportMessage = settingsBrowserImportFailureMessage(for: outcome)
+            hasProviderImportSucceeded = false
         }
 
-        isValidatingSessionKey = false
+        isImportingProviderSessions = false
+    }
+
+    private func settingsBrowserImportSuccessMessage(for outcome: ProviderBrowserImportOutcome) -> String {
+        let importedProviders = [
+            settingsProviderSuccessName("Claude", outcome.claude),
+            settingsProviderSuccessName("ChatGPT", outcome.chatGPT),
+        ].compactMap { $0 }
+
+        let failureMessage = settingsBrowserImportFailureMessage(for: outcome)
+        let success = "Imported \(importedProviders.joined(separator: " and ")) from \(outcome.source.displayName)."
+        if let failureMessage, outcome.importedCount < 2 {
+            return "\(success) \(failureMessage)"
+        }
+        return success
+    }
+
+    private func settingsProviderSuccessName(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
+        if case .imported = status {
+            return name
+        }
+        return nil
+    }
+
+    private func settingsBrowserImportFailureMessage(for outcome: ProviderBrowserImportOutcome) -> String? {
+        let failures = [
+            settingsProviderFailureMessage("Claude", outcome.claude),
+            settingsProviderFailureMessage("ChatGPT", outcome.chatGPT),
+        ].compactMap { $0 }
+
+        guard !failures.isEmpty else { return nil }
+        return failures.joined(separator: " ")
+    }
+
+    private func settingsProviderFailureMessage(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
+        if case .failed(let message, _) = status {
+            return "\(name): \(message)"
+        }
+        return nil
     }
 
     @MainActor
@@ -849,7 +695,6 @@ struct SettingsView: View {
 
         do {
             let imported = try await appModel.importAndSaveSessionKey()
-            sessionKey = imported.value
             sessionKeyValidationMessage = "Imported from \(imported.sourceDescription)"
             hasSessionKeyValidationSucceeded = true
             offersFullDiskAccessSettings = false
@@ -883,7 +728,6 @@ struct SettingsView: View {
     private func clearSessionKeyFromSettings() async {
         do {
             try await appModel.clearSessionKey()
-            sessionKey = ""
             sessionKeyValidationMessage = nil
             offersFullDiskAccessSettings = false
             hasSessionKeyValidationSucceeded = false
@@ -902,7 +746,6 @@ struct SettingsView: View {
 
         let state = await appModel.repairClaudeSessionKey()
         if state.isUsable {
-            sessionKey = await appModel.loadSessionKey() ?? sessionKey
             sessionKeyValidationMessage = "Claude session key repaired"
             hasSessionKeyValidationSucceeded = true
         } else {
@@ -922,9 +765,7 @@ struct SettingsView: View {
             case (.claude, .clear):
                 await clearSessionKeyFromSettings()
             case (.chatGPT, .reconnect), (.chatGPT, .repair):
-                isChatGPTSessionCookieShown = true
-                chatGPTSessionCookieValidationMessage = "Paste a ChatGPT session cookie below, then validate and save."
-                hasChatGPTSessionCookieValidationSucceeded = false
+                await importAndSaveChatGPTSessionCookie()
             case (.chatGPT, .clear):
                 await clearChatGPTSessionCookieFromSettings()
             }
@@ -940,45 +781,37 @@ struct SettingsView: View {
         case (.claude, .clear):
             return isSessionKeyBusy
         case (.chatGPT, .reconnect), (.chatGPT, .repair):
-            return isValidatingChatGPTSessionCookie
+            return isChatGPTSessionCookieBusy
         case (.chatGPT, .clear):
-            return isValidatingChatGPTSessionCookie
+            return isChatGPTSessionCookieBusy
         }
     }
 
     @MainActor
-    private func validateAndSaveChatGPTSessionCookie() async {
-        guard hasChatGPTCookieInput else {
-            chatGPTSessionCookieValidationMessage = "Session cookie cannot be empty"
-            hasChatGPTSessionCookieValidationSucceeded = false
-            return
-        }
-
-        isValidatingChatGPTSessionCookie = true
+    private func importAndSaveChatGPTSessionCookie() async {
+        isImportingChatGPTSessionCookie = true
         chatGPTSessionCookieValidationMessage = nil
         hasChatGPTSessionCookieValidationSucceeded = false
 
         do {
-            let isValid = try await appModel.validateAndSaveChatGPTSessionCookie(joinedChatGPTCookieInput)
-            if isValid {
-                chatGPTSessionCookieValidationMessage = "ChatGPT session cookie saved"
-                hasChatGPTSessionCookieValidationSucceeded = true
+            let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+            chatGPTSessionCookieValidationMessage = "Imported from \(imported.sourceDescription)"
+            hasChatGPTSessionCookieValidationSucceeded = true
 
-                Task { @MainActor in
-                    try? await Task.sleep(for: .seconds(2))
-                    chatGPTSessionCookieValidationMessage = nil
-                    hasChatGPTSessionCookieValidationSucceeded = false
-                }
-            } else {
-                chatGPTSessionCookieValidationMessage = "ChatGPT session cookie validation failed"
+            Task { @MainActor in
+                try? await Task.sleep(for: .seconds(2))
+                chatGPTSessionCookieValidationMessage = nil
                 hasChatGPTSessionCookieValidationSucceeded = false
             }
+        } catch let error as SessionKeyImportError {
+            chatGPTSessionCookieValidationMessage = error.localizedDescription
+            hasChatGPTSessionCookieValidationSucceeded = false
         } catch {
-            chatGPTSessionCookieValidationMessage = "Validation failed: \(error.localizedDescription)"
+            chatGPTSessionCookieValidationMessage = error.localizedDescription
             hasChatGPTSessionCookieValidationSucceeded = false
         }
 
-        isValidatingChatGPTSessionCookie = false
+        isImportingChatGPTSessionCookie = false
     }
 
     private func clearChatGPTSessionCookie() {
@@ -991,9 +824,6 @@ struct SettingsView: View {
     private func clearChatGPTSessionCookieFromSettings() async {
         do {
             try await appModel.clearChatGPTSessionCookie()
-            chatGPTSessionTokenPart0 = ""
-            chatGPTSessionTokenPart1 = ""
-            chatGPTFullCookieHeader = ""
             chatGPTSessionCookieValidationMessage = nil
             hasChatGPTSessionCookieValidationSucceeded = false
         } catch {

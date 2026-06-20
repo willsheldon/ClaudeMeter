@@ -24,17 +24,17 @@ Consumes S01 state contract and provides a ChatGPT credential state surface comp
 
 ## Tasks
 
-- [ ] **T01: Design ChatGPT secure session repository** `est:medium`
+- [x] **T01: Added a Keychain-backed ChatGPT session repository boundary with transient access-token handling and sanitized acquisition diagnostics.** `est:medium`
   Introduce a repository protocol and implementation for ChatGPT credential equivalent session material. Use a secure storage boundary, avoid AppSettings, and define clear save, load, validate, and clear operations with synthetic test data.
   - Files: `Pinemeter/Repositories/Protocols/ChatGPTSessionRepositoryProtocol.swift`, `Pinemeter/Repositories/ChatGPTSessionRepository.swift`, `PinemeterTests/ChatGPTSessionRepositoryTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/ChatGPTSessionRepositoryTests
 
-- [ ] **T02: Persist WebView acquired ChatGPT sessions** `est:medium`
+- [x] **T02: Connected ChatGPT WebView/session acquisition and usage refresh flows to the secure ChatGPT session repository boundary.** `est:medium`
   Connect WebView session extraction to the secure ChatGPT session repository. Persist only credential equivalent material through the secure boundary and provide clear invalidation behavior when validation fails.
   - Files: `Pinemeter/Services/WebViewNetworkService.swift`, `Pinemeter/Services/ChatGPTUsageService.swift`, `Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift`, `PinemeterTests/ChatGPTUsageServiceTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/ChatGPTUsageServiceTests
 
-- [ ] **T03: Prove ChatGPT redaction invariants** `est:small`
+- [x] **T03: Added ChatGPT credential redaction invariant tests for persisted acquisition diagnostics, AppSettings separation, and user-facing error copy.** `est:small`
   Add tests with synthetic cookie and Bearer token sentinels proving user facing errors, diagnostics, and settings persistence never include ChatGPT credential material.
   - Files: `PinemeterTests/SecurityInvariantTests.swift`, `PinemeterTests/SettingsRepositoryTests.swift`, `PinemeterTests/ProviderErrorWorkflowTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/SecurityInvariantTests -only-testing:PinemeterTests/ProviderErrorWorkflowTests

@@ -4,7 +4,7 @@ estimated_files: 2
 skills_used: []
 ---
 
-# T03: Verify Claude prompt regression path
+# T03: Added SecurityInvariantTests coverage and durable knowledge for the Claude Keychain prompt repair path under the official Autimo signed app identity.
 
 Add tests and documentation evidence for the Keychain prompt scenario: ad hoc signed credentials can be re saved under the official Autimo signed app identity without changing the legacy service identifier.
 

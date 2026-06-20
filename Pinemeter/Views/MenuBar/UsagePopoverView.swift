@@ -55,9 +55,7 @@ struct UsagePopoverView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .foregroundColor(.orange)
-                        Text(errorMessage)
-                            .font(.callout)
-                            .foregroundColor(.primary)
+                        CopyableErrorText(errorMessage)
 
                         Spacer()
                     }
@@ -138,9 +136,7 @@ struct UsagePopoverView: View {
                             HStack(spacing: 8) {
                                 Image(systemName: "exclamationmark.triangle.fill")
                                     .foregroundStyle(.orange)
-                                Text("ChatGPT: \(chatGPTErrorMessage)")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                CopyableErrorText("ChatGPT: \(chatGPTErrorMessage)", font: .caption, foregroundStyle: .secondary)
                                 Spacer()
                             }
                             .padding(12)

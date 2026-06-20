@@ -4,7 +4,7 @@ estimated_files: 4
 skills_used: []
 ---
 
-# T01: Add credential lifecycle regression tests
+# T01: Added credential lifecycle regression tests across Claude and ChatGPT paths.
 
 Add lifecycle tests covering first setup, valid reuse, invalid credential recovery, repair after signing identity change, clear, and re acquisition across Claude and ChatGPT credential paths using synthetic credential material.
 

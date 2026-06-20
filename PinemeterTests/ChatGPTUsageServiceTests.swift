@@ -41,6 +41,14 @@ final class ChatGPTUsageServiceTests: XCTestCase {
         XCTAssertEqual(header, "__Secure-next-auth.session-token=firstsecond")
     }
 
+    func test_cookieHeader_joinsSplitAuthJSSessionTokenCookies() {
+        let header = ChatGPTUsageService.cookieHeader(
+            from: "__Secure-authjs.session-token.0=first; __Secure-authjs.session-token.1=second"
+        )
+
+        XCTAssertEqual(header, "__Secure-authjs.session-token=firstsecond")
+    }
+
     func test_cookieHeader_acceptsCookiePrefixAndNewlineSeparatedSplitCookies() {
         let header = ChatGPTUsageService.cookieHeader(
             from: "Cookie: __Secure-next-auth.session-token.0=first\n__Secure-next-auth.session-token.1=second"

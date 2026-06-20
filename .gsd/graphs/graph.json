@@ -1,8 +1,23 @@
 {
   "nodes": [
     {
+      "id": "milestone:M002",
+      "label": "M002: Durable credential acquisition",
+      "type": "milestone",
+      "description": "Active milestone: M002",
+      "confidence": "EXTRACTED",
+      "sourceFile": "STATE.md"
+    },
+    {
+      "id": "concept:phase:validating-milestone",
+      "label": "Phase: validating-milestone",
+      "type": "concept",
+      "confidence": "EXTRACTED",
+      "sourceFile": "STATE.md"
+    },
+    {
       "id": "milestone:M001",
-      "label": "M001: Ownership safety and review baseline",
+      "label": "M001: Ownership, safety, and review baseline",
       "type": "milestone",
       "confidence": "EXTRACTED",
       "sourceFile": "milestones/M001/M001-ROADMAP.md"
@@ -231,11 +246,129 @@
       "confidence": "EXTRACTED"
     },
     {
-      "id": "milestone:M002",
-      "label": "M002: Durable credential acquisition",
-      "type": "milestone",
+      "id": "slice:M002:S01",
+      "label": "S01: Credential state contract",
+      "type": "slice",
       "confidence": "EXTRACTED",
-      "sourceFile": "milestones/M002/M002-ROADMAP.md"
+      "sourceFile": "milestones/M002/slices/S01/S01-PLAN.md"
+    },
+    {
+      "id": "task:M002:S01:T01",
+      "label": "T01: Added a provider credential state domain model with sanitized health and failure descriptions.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M002:S01:T02",
+      "label": "T02: Added a non-secret credential status service boundary for Claude and ChatGPT credentials.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M002:S01:T03",
+      "label": "T03: Added regression tests that keep AppSettings and SettingsRepository free of credential state and credential material persistence.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "slice:M002:S02",
+      "label": "S02: Claude Keychain repair flow",
+      "type": "slice",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M002/slices/S02/S02-PLAN.md"
+    },
+    {
+      "id": "task:M002:S02:T01",
+      "label": "T01: Added an explicit Claude session key repair API to the Keychain repository with typed create/update outcomes.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M002:S02:T02",
+      "label": "T02: Wired Claude credential repair through the session import service and AppModel state.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M002:S02:T03",
+      "label": "T03: Added SecurityInvariantTests coverage and durable knowledge for the Claude Keychain prompt repair path under the official Autimo signed app identity.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "slice:M002:S03",
+      "label": "S03: ChatGPT session acquisition boundary",
+      "type": "slice",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M002/slices/S03/S03-PLAN.md"
+    },
+    {
+      "id": "task:M002:S03:T01",
+      "label": "T01: Added a Keychain-backed ChatGPT session repository boundary with transient access-token handling and sanitized acquisition diagnostics.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M002:S03:T02",
+      "label": "T02: Connected ChatGPT WebView/session acquisition and usage refresh flows to the secure ChatGPT session repository boundary.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M002:S03:T03",
+      "label": "T03: Added ChatGPT credential redaction invariant tests for persisted acquisition diagnostics, AppSettings separation, and user-facing error copy.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "slice:M002:S04",
+      "label": "S04: Credential setup and recovery UX",
+      "type": "slice",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M002/slices/S04/S04-PLAN.md"
+    },
+    {
+      "id": "task:M002:S04:T01",
+      "label": "T01: Added sanitized provider credential status view models to AppModel for Claude and ChatGPT credential recovery UI.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M002:S04:T02",
+      "label": "T02: Added Settings credential recovery rows for Claude and optional ChatGPT using sanitized provider status view models.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M002:S04:T03",
+      "label": "T03: Updated the setup wizard to use sanitized durable credential status for ready, missing, and repairable Claude session states.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "slice:M002:S05",
+      "label": "S05: Credential lifecycle verification",
+      "type": "slice",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M002/slices/S05/S05-PLAN.md"
+    },
+    {
+      "id": "task:M002:S05:T01",
+      "label": "T01: Added credential lifecycle regression tests across Claude and ChatGPT paths.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M002:S05:T02",
+      "label": "T02: Ran the full Debug credential verification suite and confirmed official Autimo signing settings remain intact.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M002:S05:T03",
+      "label": "T03: Validated R010 with M002/S05 lifecycle evidence and recorded M003 handoff scope for provider workflow polish.",
+      "type": "task",
+      "confidence": "EXTRACTED"
     },
     {
       "id": "milestone:M003",
@@ -257,6 +390,318 @@
       "type": "milestone",
       "confidence": "EXTRACTED",
       "sourceFile": "milestones/M005/M005-ROADMAP.md"
+    },
+    {
+      "id": "decision:M001:1",
+      "label": "Comprehensive identity ownership was the right M001 boundary: Pinemeter now owns the app/project/scheme/module/source/test/docs/site identity wherever feasible, while compatibility-sensitive identifiers were classified instead of blindly renamed.",
+      "type": "decision",
+      "description": "Source: S01-SUMMARY.md/What Happened",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:2",
+      "label": "Durable credential acquisition was intentionally deferred: M001 produced inventory, security review, and invariants, while M002 remains responsible for safer app-owned acquisition, fallback migration, and replace-not-display flows.",
+      "type": "decision",
+      "description": "Source: S02-SUMMARY.md/Follow-ups",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:3",
+      "label": "Architecture review could proceed as an artifact-backed local baseline when external advisor capacity was unavailable, as long as findings were ranked and handed to cleanup/provider-boundary work.",
+      "type": "decision",
+      "description": "Source: M001-VALIDATION.md/Success Criteria Checklist",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:4",
+      "label": "Destructive git history and publication actions require fresh human approval: M001 produced a plan and explicitly avoided filter-repo, reset, remote pushes, releases, site deployment, repository creation, and secret-store mutation.",
+      "type": "decision",
+      "description": "Source: M001-VALIDATION.md/Success Criteria Checklist",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:5",
+      "label": "Public ownership readiness should be sequenced after safety and verification: M001 validated ownership/review baseline, leaving durable credentials, provider-aware workflows, Gemini monitoring, and launch-grade public polish for later milestones.",
+      "type": "decision",
+      "description": "Source: PROJECT.md/Milestone Sequence",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:6",
+      "label": "Retained `claudemeter` Keychain/cache/export/access-group identifiers are compatibility surfaces, not failed rename work; changing them without migration could orphan existing user credentials or usage state.",
+      "type": "decision",
+      "description": "Source: S01-SUMMARY.md/Known limitations",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:7",
+      "label": "Credential risk is not limited to durable settings persistence: M001 established that SettingsRepository remains preference-only, while risk remains in transient UI/app state, Keychain, WebView cookies, ChatGPT session material, and diagnostics.",
+      "type": "decision",
+      "description": "Source: S03-SUMMARY.md/What Happened",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:8",
+      "label": "Provider/error copy can safely improve before full provider redesign when changes are narrow, source-reviewed, and covered by focused XCTest evidence.",
+      "type": "decision",
+      "description": "Source: M001-VALIDATION.md/Success Criteria Checklist",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:9",
+      "label": "Cleanup work must preserve compatibility and security invariants; S06 proved stale ownership cleanup with cache/export compatibility, credential invariants, settings clamp behavior, provider copy, session keys, and redacted diagnostics.",
+      "type": "decision",
+      "description": "Source: M001-VALIDATION.md/Success Criteria Checklist",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:10",
+      "label": "A passing milestone validation still needs current closeout freshness checks: code-change diff evidence, slice completion status, summaries, and requirement transitions were rechecked before marking M001 complete.",
+      "type": "decision",
+      "description": "Source: M001-VALIDATION.md/Verdict Rationale",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:11",
+      "label": "Use build-critical rename first, then classify residual old-identity references as compatibility, history, or release-planning exceptions before downstream inventory and review.",
+      "type": "decision",
+      "description": "Source: S01-SUMMARY.md/Patterns established",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:12",
+      "label": "Credential inventory tables should map account/material/writer/readers/clearer/service attributes so security review and migration planning can proceed without rediscovery.",
+      "type": "decision",
+      "description": "Source: S02-SUMMARY.md/Patterns established",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:13",
+      "label": "Cross-slice review baselines should produce ranked findings plus executable invariants; later cleanup slices can then make safe fixes without widening scope.",
+      "type": "decision",
+      "description": "Source: M001-VALIDATION.md/Cross-Slice Integration",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:14",
+      "label": "Non-destructive public-readiness planning should explicitly list forbidden actions alongside the plan so automatic agents do not rewrite history, push remotes, publish releases, or mutate secrets.",
+      "type": "decision",
+      "description": "Source: M001-VALIDATION.md/Success Criteria Checklist",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:15",
+      "label": "Some of the most important remaining old names are deliberately correct because they preserve existing user data and credentials rather than indicating missed search-and-replace work.",
+      "type": "decision",
+      "description": "Source: S01-SUMMARY.md/Deviations",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:16",
+      "label": "The initial app ownership milestone surfaced enough credential and provider workflow risk to split durable credentials, provider-aware UX, and Gemini support into separate later milestones.",
+      "type": "decision",
+      "description": "Source: PROJECT.md/Milestone Sequence",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "decision:M001:17",
+      "label": "A mostly artifact-based milestone still required executable proof for safety-sensitive cleanup and provider/error changes, not just narrative review reports.",
+      "type": "decision",
+      "description": "Source: M001-VALIDATION.md/Verification Class Compliance",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:1",
+      "label": "Retained `claudemeter` Keychain/cache/export/access-group identifiers are compatibility surfaces, not failed rename work; changing them without migration could orphan existing user credentials or usage state.",
+      "type": "lesson",
+      "description": "Source: S01-SUMMARY.md/Known limitations",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:2",
+      "label": "Credential risk is not limited to durable settings persistence: M001 established that SettingsRepository remains preference-only, while risk remains in transient UI/app state, Keychain, WebView cookies, ChatGPT session material, and diagnostics.",
+      "type": "lesson",
+      "description": "Source: S03-SUMMARY.md/What Happened",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:3",
+      "label": "Provider/error copy can safely improve before full provider redesign when changes are narrow, source-reviewed, and covered by focused XCTest evidence.",
+      "type": "lesson",
+      "description": "Source: M001-VALIDATION.md/Success Criteria Checklist",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:4",
+      "label": "Cleanup work must preserve compatibility and security invariants; S06 proved stale ownership cleanup with cache/export compatibility, credential invariants, settings clamp behavior, provider copy, session keys, and redacted diagnostics.",
+      "type": "lesson",
+      "description": "Source: M001-VALIDATION.md/Success Criteria Checklist",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:5",
+      "label": "A passing milestone validation still needs current closeout freshness checks: code-change diff evidence, slice completion status, summaries, and requirement transitions were rechecked before marking M001 complete.",
+      "type": "lesson",
+      "description": "Source: M001-VALIDATION.md/Verdict Rationale",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:6",
+      "label": "Use build-critical rename first, then classify residual old-identity references as compatibility, history, or release-planning exceptions before downstream inventory and review.",
+      "type": "lesson",
+      "description": "Source: S01-SUMMARY.md/Patterns established",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:7",
+      "label": "Credential inventory tables should map account/material/writer/readers/clearer/service attributes so security review and migration planning can proceed without rediscovery.",
+      "type": "lesson",
+      "description": "Source: S02-SUMMARY.md/Patterns established",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:8",
+      "label": "Cross-slice review baselines should produce ranked findings plus executable invariants; later cleanup slices can then make safe fixes without widening scope.",
+      "type": "lesson",
+      "description": "Source: M001-VALIDATION.md/Cross-Slice Integration",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:9",
+      "label": "Non-destructive public-readiness planning should explicitly list forbidden actions alongside the plan so automatic agents do not rewrite history, push remotes, publish releases, or mutate secrets.",
+      "type": "lesson",
+      "description": "Source: M001-VALIDATION.md/Success Criteria Checklist",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:10",
+      "label": "Some of the most important remaining old names are deliberately correct because they preserve existing user data and credentials rather than indicating missed search-and-replace work.",
+      "type": "lesson",
+      "description": "Source: S01-SUMMARY.md/Deviations",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:11",
+      "label": "The initial app ownership milestone surfaced enough credential and provider workflow risk to split durable credentials, provider-aware UX, and Gemini support into separate later milestones.",
+      "type": "lesson",
+      "description": "Source: PROJECT.md/Milestone Sequence",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "lesson:M001:12",
+      "label": "A mostly artifact-based milestone still required executable proof for safety-sensitive cleanup and provider/error changes, not just narrative review reports.",
+      "type": "lesson",
+      "description": "Source: M001-VALIDATION.md/Verification Class Compliance",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "pattern:M001:1",
+      "label": "Use build-critical rename first, then classify residual old-identity references as compatibility, history, or release-planning exceptions before downstream inventory and review.",
+      "type": "pattern",
+      "description": "Source: S01-SUMMARY.md/Patterns established",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "pattern:M001:2",
+      "label": "Credential inventory tables should map account/material/writer/readers/clearer/service attributes so security review and migration planning can proceed without rediscovery.",
+      "type": "pattern",
+      "description": "Source: S02-SUMMARY.md/Patterns established",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "pattern:M001:3",
+      "label": "Cross-slice review baselines should produce ranked findings plus executable invariants; later cleanup slices can then make safe fixes without widening scope.",
+      "type": "pattern",
+      "description": "Source: M001-VALIDATION.md/Cross-Slice Integration",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "pattern:M001:4",
+      "label": "Non-destructive public-readiness planning should explicitly list forbidden actions alongside the plan so automatic agents do not rewrite history, push remotes, publish releases, or mutate secrets.",
+      "type": "pattern",
+      "description": "Source: M001-VALIDATION.md/Success Criteria Checklist",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "pattern:M001:5",
+      "label": "Some of the most important remaining old names are deliberately correct because they preserve existing user data and credentials rather than indicating missed search-and-replace work.",
+      "type": "pattern",
+      "description": "Source: S01-SUMMARY.md/Deviations",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "pattern:M001:6",
+      "label": "The initial app ownership milestone surfaced enough credential and provider workflow risk to split durable credentials, provider-aware UX, and Gemini support into separate later milestones.",
+      "type": "pattern",
+      "description": "Source: PROJECT.md/Milestone Sequence",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "pattern:M001:7",
+      "label": "A mostly artifact-based milestone still required executable proof for safety-sensitive cleanup and provider/error changes, not just narrative review reports.",
+      "type": "pattern",
+      "description": "Source: M001-VALIDATION.md/Verification Class Compliance",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "surprise:M001:1",
+      "label": "Some of the most important remaining old names are deliberately correct because they preserve existing user data and credentials rather than indicating missed search-and-replace work.",
+      "type": "lesson",
+      "description": "Source: S01-SUMMARY.md/Deviations",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "surprise:M001:2",
+      "label": "The initial app ownership milestone surfaced enough credential and provider workflow risk to split durable credentials, provider-aware UX, and Gemini support into separate later milestones.",
+      "type": "lesson",
+      "description": "Source: PROJECT.md/Milestone Sequence",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
+    },
+    {
+      "id": "surprise:M001:3",
+      "label": "A mostly artifact-based milestone still required executable proof for safety-sensitive cleanup and provider/error changes, not just narrative review reports.",
+      "type": "lesson",
+      "description": "Source: M001-VALIDATION.md/Verification Class Compliance",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M001/M001-LEARNINGS.md"
     }
   ],
   "edges": [
@@ -475,7 +920,361 @@
       "to": "task:M001:S07:T04",
       "type": "contains",
       "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M002",
+      "to": "slice:M002:S01",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S01",
+      "to": "task:M002:S01:T01",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S01",
+      "to": "task:M002:S01:T02",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S01",
+      "to": "task:M002:S01:T03",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M002",
+      "to": "slice:M002:S02",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S02",
+      "to": "task:M002:S02:T01",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S02",
+      "to": "task:M002:S02:T02",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S02",
+      "to": "task:M002:S02:T03",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M002",
+      "to": "slice:M002:S03",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S03",
+      "to": "task:M002:S03:T01",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S03",
+      "to": "task:M002:S03:T02",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S03",
+      "to": "task:M002:S03:T03",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M002",
+      "to": "slice:M002:S04",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S04",
+      "to": "task:M002:S04:T01",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S04",
+      "to": "task:M002:S04:T02",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S04",
+      "to": "task:M002:S04:T03",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M002",
+      "to": "slice:M002:S05",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S05",
+      "to": "task:M002:S05:T01",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S05",
+      "to": "task:M002:S05:T02",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "slice:M002:S05",
+      "to": "task:M002:S05:T03",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:1",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:2",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:3",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:4",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:5",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:6",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:7",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:8",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:9",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:10",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:11",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:12",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:13",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:14",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:15",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:16",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "decision:M001:17",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:1",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:2",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:3",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:4",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:5",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:6",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:7",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:8",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:9",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:10",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:11",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "lesson:M001:12",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "pattern:M001:1",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "pattern:M001:2",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "pattern:M001:3",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "pattern:M001:4",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "pattern:M001:5",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "pattern:M001:6",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "pattern:M001:7",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "surprise:M001:1",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "surprise:M001:2",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M001",
+      "to": "surprise:M001:3",
+      "type": "relates_to",
+      "confidence": "EXTRACTED"
     }
   ],
-  "builtAt": "2026-06-17T16:38:21.974Z"
+  "builtAt": "2026-06-18T22:29:59.503Z"
 }

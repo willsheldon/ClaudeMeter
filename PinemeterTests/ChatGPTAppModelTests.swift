@@ -40,7 +40,7 @@ final class ChatGPTAppModelTests: XCTestCase {
         XCTAssertEqual(appModel.chatGPTCredentialState.failureCategory, .storageUnavailable)
         let status = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .chatGPT })
         XCTAssertEqual(status.lastFailureTitle, "Credential storage unavailable")
-        XCTAssertEqual(status.actions.map(\.kind), [.reconnect, .repair, .clear])
+        XCTAssertEqual(status.actions.map(\.kind), [.reconnect, .clear])
     }
 
     func test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection() async throws {

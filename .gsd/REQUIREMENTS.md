@@ -114,7 +114,7 @@ This file is the explicit capability and coverage contract for the project.
 - Primary owning slice: M002
 - Supporting slices: M001/S02, M001/S03, M002/S05
 - Validation: Validated by M002/S05 lifecycle verification: credential acquisition, reuse, repair, clearing, invalid credential handling, and redaction coverage passed in the Debug test suite. Evidence is recorded in `.gsd/milestones/M002/slices/S05/S05-ASSESSMENT.md` from `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` and the combined signing verification command.
-- Notes: M002 delivered durable credential acquisition coverage across credential state, Claude Keychain repair, ChatGPT session acquisition, setup and recovery UX, and lifecycle verification. Remaining provider-specific workflow polish stays scoped to R011/M003; Gemini monitoring remains R012/M004; open-source polish remains R013/M005; destructive history rewrite and remote push protections remain R014.
+- Notes: M002 delivered durable credential acquisition coverage across credential state, Claude Keychain repair, ChatGPT session acquisition, setup and recovery UX, and lifecycle verification. M002 validation still requires UAT evidence for manual/browser/runtime first-run flows before full milestone closure. Remaining provider-specific workflow polish stays scoped to R011/M003; Gemini monitoring remains R012/M004; open-source polish remains R013/M005; destructive history rewrite and remote push protections remain R014.
 
 ## Deferred
 
@@ -127,7 +127,7 @@ This file is the explicit capability and coverage contract for the project.
 - Primary owning slice: M003
 - Supporting slices: M001/S05
 - Validation: unmapped
-- Notes: M001 audits and fixes obvious stale assumptions; full workflow polish is M003.
+- Notes: M001 audits and fixes obvious stale assumptions; full workflow polish is M003. M002 macvm UAT found the welcome screen still foregrounds manual Claude session key entry; M003 should make app-owned/browser import provider setup the primary path and move raw key entry behind an advanced or recovery affordance if retained.
 
 ### R012 — Gemini usage monitoring is added in the same product family as existing Opus and GPT monitoring.
 - Class: core-capability

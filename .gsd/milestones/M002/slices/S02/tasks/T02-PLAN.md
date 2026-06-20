@@ -4,7 +4,7 @@ estimated_files: 5
 skills_used: []
 ---
 
-# T02: Wire Claude repair through service layer
+# T02: Wired Claude credential repair through the session import service and AppModel state.
 
 Add a Claude credential service operation that checks current state, repairs or re saves the selected account credential, and maps Keychain errors into sanitized credential state failures produced by S01.
 

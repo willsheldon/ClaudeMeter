@@ -245,9 +245,11 @@ final class AppModelTests: XCTestCase {
             checkedAt: Date(timeIntervalSince1970: 0)
         )
         claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
-        XCTAssertTrue(claude.shouldPromptForSetupCredential)
+        XCTAssertFalse(claude.shouldPromptForSetupCredential)
         XCTAssertFalse(claude.isRepairableInSetup)
-        XCTAssertEqual(claude.setupPromptTitle, "Set up Claude session key")
+        XCTAssertEqual(claude.setupPromptTitle, "Connect Claude")
+        XCTAssertFalse(claude.setupPromptDescription.localizedCaseInsensitiveContains("paste"))
+        XCTAssertFalse(claude.setupPromptDescription.localizedCaseInsensitiveContains("manually"))
 
         appModel.claudeCredentialState = CredentialState(
             identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
@@ -371,6 +373,134 @@ final class AppModelTests: XCTestCase {
         XCTAssertEqual(savedKey, TestConstants.sessionKeyValue)
         XCTAssertTrue(appModel.isSetupComplete)
         XCTAssertEqual(appModel.usageData, expectedUsage)
+    }
+
+    func test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT() async throws {
+        let expectedClaudeUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+        let expectedChatGPTUsage = ChatGPTUsageData(
+            rows: [.init(label: "Codex Tasks", usedPercent: 37, resetAt: nil)],
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+        let organization = Organization(
+            id: 1,
+            uuid: TestConstants.organizationUUIDString,
+            name: "Test Org",
+            capabilities: ["chat"]
+        )
+        let keychainRepository = KeychainRepositoryFake()
+        let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+            fetchUsageResult: .success(expectedChatGPTUsage),
+            validateResult: true
+        )
+        let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+        let importService = SessionKeyImportServiceStub(
+            result: .success(ImportedSessionKey(
+                value: TestConstants.sessionKeyValue,
+                sourceDescription: "Chrome Default"
+            )),
+            chatGPTResult: .success(ImportedChatGPTSessionCookie(
+                cookieHeader: "__Secure-authjs.session-token=synthetic-chatgpt-session-cookie",
+                sourceDescription: "Chrome Default"
+            ))
+        )
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: keychainRepository,
+            usageService: UsageServiceStub(
+                fetchUsageResult: .success(expectedClaudeUsage),
+                organizations: [organization]
+            ),
+            chatGPTUsageService: chatGPTUsageService,
+            chatGPTSessionRepository: chatGPTSessionRepository,
+            notificationService: NotificationServiceSpy(),
+            sessionKeyImportService: importService
+        )
+
+        let outcome = await appModel.importProviderSessions(from: .chrome)
+        let savedClaudeKey = try await keychainRepository.retrieve(account: "default")
+        let savedChatGPTSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+
+        XCTAssertEqual(outcome.source, .chrome)
+        XCTAssertEqual(outcome.claude, .imported(sourceDescription: "Chrome Default"))
+        XCTAssertEqual(outcome.chatGPT, .imported(sourceDescription: "Chrome Default"))
+        XCTAssertEqual(savedClaudeKey, TestConstants.sessionKeyValue)
+        XCTAssertEqual(savedChatGPTSession.sessionCookie, "__Secure-authjs.session-token=synthetic-chatgpt-session-cookie")
+        XCTAssertTrue(appModel.isSetupComplete)
+        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+        XCTAssertEqual(appModel.usageData, expectedClaudeUsage)
+        XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+    }
+
+    func test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage() async throws {
+        let expectedUsage = ChatGPTUsageData(
+            rows: [.init(label: "Codex Tasks", usedPercent: 42, resetAt: nil)],
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+        let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+            fetchUsageResult: .success(expectedUsage),
+            validateResult: true
+        )
+        let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+        let importService = SessionKeyImportServiceStub(
+            result: .failure(SessionKeyImportError.noSessionKeyFound),
+            chatGPTResult: .success(ImportedChatGPTSessionCookie(
+                cookieHeader: "__Secure-next-auth.session-token=synthetic-chatgpt-session-cookie",
+                sourceDescription: "Chrome Default"
+            ))
+        )
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            chatGPTUsageService: chatGPTUsageService,
+            chatGPTSessionRepository: chatGPTSessionRepository,
+            notificationService: NotificationServiceSpy(),
+            sessionKeyImportService: importService
+        )
+
+        let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+        let savedSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+
+        XCTAssertEqual(imported.sourceDescription, "Chrome Default")
+        XCTAssertEqual(savedSession.sessionCookie, "__Secure-next-auth.session-token=synthetic-chatgpt-session-cookie")
+        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+        XCTAssertTrue(appModel.settings.isChatGPTUsageShown)
+        XCTAssertEqual(appModel.chatGPTCredentialState.health, .valid)
+        XCTAssertEqual(appModel.chatGPTUsageData, expectedUsage)
+    }
+
+    func test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails() async throws {
+        let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+            fetchUsageResult: .failure(TestError(message: "quota unavailable")),
+            validateResult: false
+        )
+        let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+        let importService = SessionKeyImportServiceStub(
+            result: .failure(SessionKeyImportError.noSessionKeyFound),
+            chatGPTResult: .success(ImportedChatGPTSessionCookie(
+                cookieHeader: "__Secure-authjs.session-token=synthetic-chatgpt-session-cookie",
+                sourceDescription: "Chrome Default"
+            ))
+        )
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            chatGPTUsageService: chatGPTUsageService,
+            chatGPTSessionRepository: chatGPTSessionRepository,
+            notificationService: NotificationServiceSpy(),
+            sessionKeyImportService: importService
+        )
+
+        let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+        let savedSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+
+        XCTAssertEqual(imported.sourceDescription, "Chrome Default")
+        XCTAssertEqual(savedSession.sessionCookie, "__Secure-authjs.session-token=synthetic-chatgpt-session-cookie")
+        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+        XCTAssertTrue(appModel.settings.isChatGPTUsageShown)
+        XCTAssertEqual(appModel.chatGPTCredentialState.health, .valid)
+        XCTAssertEqual(appModel.chatGPTErrorMessage, "quota unavailable")
     }
 
     func test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState() async throws {

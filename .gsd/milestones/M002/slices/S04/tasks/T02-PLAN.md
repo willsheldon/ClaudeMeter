@@ -4,7 +4,7 @@ estimated_files: 2
 skills_used: []
 ---
 
-# T02: Update settings credential recovery controls
+# T02: Added Settings credential recovery rows for Claude and optional ChatGPT using sanitized provider status view models.
 
 Update SettingsView with provider credential rows for status, reconnect, repair, and clear actions. Keep copy Claude first with optional ChatGPT quota visibility and do not imply Gemini support yet.
 

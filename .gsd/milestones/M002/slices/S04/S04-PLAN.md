@@ -24,17 +24,17 @@ Integrates S02 and S03 service surfaces into existing SetupWizardView and Settin
 
 ## Tasks
 
-- [ ] **T01: Add provider credential status view model** `est:medium`
+- [x] **T01: Added sanitized provider credential status view models to AppModel for Claude and ChatGPT credential recovery UI.** `est:medium`
   Add or extend app model state so settings and setup can show Claude and ChatGPT credential health, last sanitized failure, and available actions without reading secrets directly in views.
   - Files: `Pinemeter/App/AppModel.swift`, `PinemeterTests/AppModelTests.swift`, `PinemeterTests/ChatGPTAppModelTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/AppModelTests -only-testing:PinemeterTests/ChatGPTAppModelTests
 
-- [ ] **T02: Update settings credential recovery controls** `est:medium`
+- [x] **T02: Added Settings credential recovery rows for Claude and optional ChatGPT using sanitized provider status view models.** `est:medium`
   Update SettingsView with provider credential rows for status, reconnect, repair, and clear actions. Keep copy Claude first with optional ChatGPT quota visibility and do not imply Gemini support yet.
   - Files: `Pinemeter/Views/Settings/SettingsView.swift`, `PinemeterTests/AppModelTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/AppModelTests
 
-- [ ] **T03: Update setup wizard credential recovery** `est:medium`
+- [x] **T03: Updated the setup wizard to use sanitized durable credential status for ready, missing, and repairable Claude session states.** `est:medium`
   Update SetupWizardView so valid durable credentials skip repeated prompts, missing credentials ask for setup, and repairable credentials offer repair. Add accessibility labels for provider status and actions.
   - Files: `Pinemeter/Views/Setup/SetupWizardView.swift`, `PinemeterTests/AppModelTests.swift`, `PinemeterTests/ProviderErrorWorkflowTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/AppModelTests -only-testing:PinemeterTests/ProviderErrorWorkflowTests

@@ -47,7 +47,7 @@ struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
         case .valid, .refreshRecommended:
             return "Saved \(credentialName) is ready"
         case .missing, .unknown:
-            return "Set up \(credentialName)"
+            return "Connect \(providerName)"
         case .validating:
             return "Checking \(credentialName)"
         case .invalid, .expired, .unavailable:
@@ -60,7 +60,7 @@ struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
         case .valid, .refreshRecommended:
             return "A saved credential is available, so setup can continue without asking you to paste it again."
         case .missing, .unknown:
-            return "Import from a browser signed in to \(providerName), or paste your session manually."
+            return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
         case .validating:
             return "Pinemeter is checking your saved credential."
         case .invalid, .expired, .unavailable:
@@ -73,12 +73,7 @@ struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
     }
 
     var shouldPromptForSetupCredential: Bool {
-        switch state.health {
-        case .unknown, .missing:
-            return true
-        case .validating, .valid, .refreshRecommended, .invalid, .expired, .unavailable:
-            return false
-        }
+        false
     }
 
     var isRepairableInSetup: Bool {
@@ -424,7 +419,11 @@ final class AppModel {
     }
 
     func importAndSaveSessionKey() async throws -> ImportedSessionKey {
-        let imported = try await sessionKeyImportService.importSessionKey()
+        try await importAndSaveSessionKey(from: .defaultBrowser)
+    }
+
+    func importAndSaveSessionKey(from source: BrowserImportSource) async throws -> ImportedSessionKey {
+        let imported = try await sessionKeyImportService.importSessionKey(from: source)
         let isValid = try await validateAndSaveSessionKey(imported.value)
 
         guard isValid else {
@@ -432,6 +431,71 @@ final class AppModel {
         }
 
         return imported
+    }
+
+    func importAndSaveChatGPTSessionCookie() async throws -> ImportedChatGPTSessionCookie {
+        try await importAndSaveChatGPTSessionCookie(from: .defaultBrowser)
+    }
+
+    func importAndSaveChatGPTSessionCookie(from source: BrowserImportSource) async throws -> ImportedChatGPTSessionCookie {
+        let imported = try await sessionKeyImportService.importChatGPTSessionCookie(from: source)
+        let normalizedCookie = ChatGPTUsageService.cookieHeader(from: imported.cookieHeader)
+
+        guard !normalizedCookie.isEmpty else {
+            throw SessionKeyImportError.invalidImportedChatGPTSessionCookie
+        }
+
+        try await chatGPTSessionRepository.save(
+            ChatGPTSession(sessionCookie: normalizedCookie),
+            account: ChatGPTUsageService.defaultSessionAccount
+        )
+        hasChatGPTSessionCookie = true
+        chatGPTCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+            health: .valid,
+            checkedAt: Date()
+        )
+        settings.isChatGPTUsageShown = true
+        await refreshChatGPTUsage()
+
+        return ImportedChatGPTSessionCookie(
+            cookieHeader: normalizedCookie,
+            sourceDescription: imported.sourceDescription
+        )
+    }
+
+    func importProviderSessions(from source: BrowserImportSource) async -> ProviderBrowserImportOutcome {
+        let claudeStatus: ProviderBrowserImportStatus
+        do {
+            let imported = try await importAndSaveSessionKey(from: source)
+            claudeStatus = .imported(sourceDescription: imported.sourceDescription)
+        } catch let error as SessionKeyImportError {
+            claudeStatus = .failed(
+                message: error.localizedDescription,
+                offersFullDiskAccessSettings: error.offersFullDiskAccessSettings
+            )
+        } catch {
+            claudeStatus = .failed(message: error.localizedDescription, offersFullDiskAccessSettings: false)
+        }
+
+        let chatGPTStatus: ProviderBrowserImportStatus
+        do {
+            let imported = try await importAndSaveChatGPTSessionCookie(from: source)
+            chatGPTStatus = .imported(sourceDescription: imported.sourceDescription)
+        } catch let error as SessionKeyImportError {
+            chatGPTStatus = .failed(
+                message: error.localizedDescription,
+                offersFullDiskAccessSettings: error.offersFullDiskAccessSettings
+            )
+        } catch {
+            chatGPTStatus = .failed(message: error.localizedDescription, offersFullDiskAccessSettings: false)
+        }
+
+        return ProviderBrowserImportOutcome(
+            source: source,
+            claude: claudeStatus,
+            chatGPT: chatGPTStatus
+        )
     }
 
     func repairClaudeSessionKey() async -> CredentialState {
@@ -501,7 +565,7 @@ final class AppModel {
         case .valid, .refreshRecommended:
             kinds = [.reconnect, .clear]
         case .invalid, .expired, .unavailable:
-            kinds = [.reconnect, .repair, .clear]
+            kinds = state.identity.provider == .claude ? [.reconnect, .repair, .clear] : [.reconnect, .clear]
         }
         return kinds.map(AppProviderCredentialStatus.Action.init(kind:))
     }

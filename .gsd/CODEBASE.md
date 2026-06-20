@@ -1,7 +1,7 @@
 # Codebase Map
 
-Generated: 2026-06-17T23:49:42Z | Files: 99 | Described: 0/99
-<!-- gsd:codebase-meta {"generatedAt":"2026-06-17T23:49:42Z","fingerprint":"c7fc85a15f938771806cdda510134fdfda7aea08","fileCount":99,"truncated":false} -->
+Generated: 2026-06-18T21:40:05Z | Files: 108 | Described: 0/108
+<!-- gsd:codebase-meta {"generatedAt":"2026-06-18T21:40:05Z","fingerprint":"7cd047ba315bbf0cb2a987b33e1cddb50314628a","fileCount":108,"truncated":false} -->
 
 ### (root)/
 - `.gitignore`
@@ -48,6 +48,7 @@ Generated: 2026-06-17T23:49:42Z | Files: 99 | Described: 0/99
 - `Pinemeter/Models/AppSettings.swift`
 - `Pinemeter/Models/ChatGPTUsageData.swift`
 - `Pinemeter/Models/Constants.swift`
+- `Pinemeter/Models/CredentialState.swift`
 - `Pinemeter/Models/IconStyle.swift`
 - `Pinemeter/Models/NotificationState.swift`
 - `Pinemeter/Models/NotificationThresholds.swift`
@@ -69,11 +70,13 @@ Generated: 2026-06-17T23:49:42Z | Files: 99 | Described: 0/99
 
 ### Pinemeter/Repositories/
 - `Pinemeter/Repositories/CacheRepository.swift`
+- `Pinemeter/Repositories/ChatGPTSessionRepository.swift`
 - `Pinemeter/Repositories/KeychainRepository.swift`
 - `Pinemeter/Repositories/SettingsRepository.swift`
 
 ### Pinemeter/Repositories/Protocols/
 - `Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift`
+- `Pinemeter/Repositories/Protocols/ChatGPTSessionRepositoryProtocol.swift`
 - `Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift`
 - `Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift`
 
@@ -83,6 +86,7 @@ Generated: 2026-06-17T23:49:42Z | Files: 99 | Described: 0/99
 
 ### Pinemeter/Services/
 - `Pinemeter/Services/ChatGPTUsageService.swift`
+- `Pinemeter/Services/CredentialStatusService.swift`
 - `Pinemeter/Services/NetworkService.swift`
 - `Pinemeter/Services/NotificationService.swift`
 - `Pinemeter/Services/SessionKeyImportService.swift`
@@ -91,6 +95,7 @@ Generated: 2026-06-17T23:49:42Z | Files: 99 | Described: 0/99
 
 ### Pinemeter/Services/Protocols/
 - `Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift`
+- `Pinemeter/Services/Protocols/CredentialStatusServiceProtocol.swift`
 - `Pinemeter/Services/Protocols/NetworkServiceProtocol.swift`
 - `Pinemeter/Services/Protocols/NotificationServiceProtocol.swift`
 - `Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift`
@@ -126,7 +131,11 @@ Generated: 2026-06-17T23:49:42Z | Files: 99 | Described: 0/99
 - `PinemeterTests/AppSettingsTests.swift`
 - `PinemeterTests/CacheRepositoryTests.swift`
 - `PinemeterTests/ChatGPTAppModelTests.swift`
+- `PinemeterTests/ChatGPTSessionRepositoryTests.swift`
 - `PinemeterTests/ChatGPTUsageServiceTests.swift`
+- `PinemeterTests/CredentialStateTests.swift`
+- `PinemeterTests/CredentialStatusServiceTests.swift`
+- `PinemeterTests/KeychainRepositoryTests.swift`
 - `PinemeterTests/MenuBarIconRendererTests.swift`
 - `PinemeterTests/NotificationServiceTests.swift`
 - `PinemeterTests/ProviderErrorWorkflowTests.swift`

@@ -145,6 +145,42 @@ final class SecurityInvariantTests: XCTestCase {
         }
     }
 
+    func test_settingsViewDoesNotOfferManualCredentialEntry() throws {
+        let source = try sourceContents(relativePath: "Pinemeter/Views/Settings/SettingsView.swift")
+        let forbiddenSettingsFragments = [
+            "SecureField",
+            "TextField(\"sk-ant-",
+            "__Secure-next-auth.session-token",
+            "chatGPTSessionTokenPart",
+            "chatGPTFullCookieHeader",
+            "paste your Claude session",
+            "Paste a ChatGPT session cookie",
+            "validateAndSaveChatGPTSessionCookie"
+        ]
+
+        for forbiddenFragment in forbiddenSettingsFragments {
+            XCTAssertFalse(
+                source.contains(forbiddenFragment),
+                "Settings must use browser/provider credential actions instead of manual credential entry: \(forbiddenFragment)"
+            )
+        }
+    }
+
+    func test_setupWizardUsesCombinedBrowserImportButtons() throws {
+        let setupSource = try sourceContents(relativePath: "Pinemeter/Views/Setup/SetupWizardView.swift")
+        let importSource = try sourceContents(relativePath: "Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift")
+
+        XCTAssertTrue(setupSource.contains("BrowserImportSource.setupOptions"))
+        XCTAssertTrue(importSource.contains("Import from \\(displayName)"))
+        XCTAssertTrue(importSource.contains("Default Browser"))
+        XCTAssertTrue(importSource.contains("Chrome"))
+        XCTAssertTrue(importSource.contains("Safari"))
+        XCTAssertFalse(setupSource.contains("Open Claude Sign In"))
+        XCTAssertFalse(setupSource.contains("Open ChatGPT Sign In"))
+        XCTAssertFalse(setupSource.contains("Import Claude from"))
+        XCTAssertFalse(setupSource.contains("Import ChatGPT from"))
+    }
+
     func test_userFacingAppErrorDescriptionsDoNotDiscloseCredentialShapedFragments() {
         let errors: [LocalizedError] = [
             AppError.noSessionKey,

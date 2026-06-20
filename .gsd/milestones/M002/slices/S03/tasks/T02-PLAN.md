@@ -4,7 +4,7 @@ estimated_files: 4
 skills_used: []
 ---
 
-# T02: Persist WebView acquired ChatGPT sessions
+# T02: Connected ChatGPT WebView/session acquisition and usage refresh flows to the secure ChatGPT session repository boundary.
 
 Connect WebView session extraction to the secure ChatGPT session repository. Persist only credential equivalent material through the secure boundary and provide clear invalidation behavior when validation fails.
 

@@ -4,7 +4,7 @@ estimated_files: 3
 skills_used: []
 ---
 
-# T01: Design ChatGPT secure session repository
+# T01: Added a Keychain-backed ChatGPT session repository boundary with transient access-token handling and sanitized acquisition diagnostics.
 
 Introduce a repository protocol and implementation for ChatGPT credential equivalent session material. Use a secure storage boundary, avoid AppSettings, and define clear save, load, validate, and clear operations with synthetic test data.
 

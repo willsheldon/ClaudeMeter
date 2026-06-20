@@ -24,17 +24,17 @@ Consumes S01 state contract and exposes Claude repair status to setup or setting
 
 ## Tasks
 
-- [ ] **T01: Add Claude credential repair repository API** `est:medium`
+- [x] **T01: Added an explicit Claude session key repair API to the Keychain repository with typed create/update outcomes.** `est:medium`
   Extend the Keychain repository protocol and implementation with an explicit repair or re save operation for Claude session keys. Preserve the legacy `com.claudemeter.sessionkey` service identifier and avoid broad Keychain deletes.
   - Files: `Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift`, `Pinemeter/Repositories/KeychainRepository.swift`, `PinemeterTests/TestDoubles/KeychainRepositoryFake.swift`, `PinemeterTests/KeychainRepositoryTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/KeychainRepositoryTests
 
-- [ ] **T02: Wire Claude repair through service layer** `est:medium`
+- [x] **T02: Wired Claude credential repair through the session import service and AppModel state.** `est:medium`
   Add a Claude credential service operation that checks current state, repairs or re saves the selected account credential, and maps Keychain errors into sanitized credential state failures produced by S01.
   - Files: `Pinemeter/Services/SessionKeyImportService.swift`, `Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift`, `Pinemeter/App/AppModel.swift`, `PinemeterTests/AppModelTests.swift`, `PinemeterTests/ProviderErrorWorkflowTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/AppModelTests -only-testing:PinemeterTests/ProviderErrorWorkflowTests
 
-- [ ] **T03: Verify Claude prompt regression path** `est:small`
+- [x] **T03: Added SecurityInvariantTests coverage and durable knowledge for the Claude Keychain prompt repair path under the official Autimo signed app identity.** `est:small`
   Add tests and documentation evidence for the Keychain prompt scenario: ad hoc signed credentials can be re saved under the official Autimo signed app identity without changing the legacy service identifier.
   - Files: `PinemeterTests/SecurityInvariantTests.swift`, `.gsd/KNOWLEDGE.md`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/SecurityInvariantTests

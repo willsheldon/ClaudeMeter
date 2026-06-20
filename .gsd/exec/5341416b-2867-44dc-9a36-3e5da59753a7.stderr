@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "<string>", line 4, in <module>
-    print(f'{i}: {lines[i-1]}')
-                  ~~~~~^^^^^
-IndexError: list index out of range

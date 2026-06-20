@@ -4,7 +4,7 @@ estimated_files: 3
 skills_used: []
 ---
 
-# T03: Update setup wizard credential recovery
+# T03: Updated the setup wizard to use sanitized durable credential status for ready, missing, and repairable Claude session states.
 
 Update SetupWizardView so valid durable credentials skip repeated prompts, missing credentials ask for setup, and repairable credentials offer repair. Add accessibility labels for provider status and actions.
 

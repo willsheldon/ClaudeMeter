@@ -4,7 +4,7 @@ estimated_files: 3
 skills_used: []
 ---
 
-# T01: Add provider credential status view model
+# T01: Added sanitized provider credential status view models to AppModel for Claude and ChatGPT credential recovery UI.
 
 Add or extend app model state so settings and setup can show Claude and ChatGPT credential health, last sanitized failure, and available actions without reading secrets directly in views.
 

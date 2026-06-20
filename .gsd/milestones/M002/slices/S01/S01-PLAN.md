@@ -34,7 +34,7 @@ Introduces the shared contract used by later slices but does not change acquisit
   - Files: `Pinemeter/Services/Protocols/CredentialStatusServiceProtocol.swift`, `Pinemeter/Services/CredentialStatusService.swift`, `Pinemeter/App/AppModel.swift`, `PinemeterTests/TestDoubles/KeychainRepositoryFake.swift`, `PinemeterTests/CredentialStatusServiceTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/CredentialStatusServiceTests
 
-- [ ] **T03: Lock credential free settings invariants** `est:small`
+- [x] **T03: Added regression tests that keep AppSettings and SettingsRepository free of credential state and credential material persistence.** `est:small`
   Extend security tests to ensure the new credential state boundary does not cause AppSettings or SettingsRepository to persist credential material, cookies, Bearer tokens, or session key sentinels.
   - Files: `PinemeterTests/SecurityInvariantTests.swift`, `PinemeterTests/SettingsRepositoryTests.swift`
   - Verify: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/SecurityInvariantTests -only-testing:PinemeterTests/SettingsRepositoryTests

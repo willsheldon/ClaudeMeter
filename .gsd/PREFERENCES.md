@@ -37,7 +37,7 @@ git:
   push_branches: false
   pre_merge_check: true
   merge_strategy: squash
-  isolation: none
+  isolation: worktree
   manage_gitignore: true
 unique_milestone_ids: true
 uok:

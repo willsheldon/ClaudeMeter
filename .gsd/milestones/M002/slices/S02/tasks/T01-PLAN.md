@@ -4,7 +4,7 @@ estimated_files: 4
 skills_used: []
 ---
 
-# T01: Add Claude credential repair repository API
+# T01: Added an explicit Claude session key repair API to the Keychain repository with typed create/update outcomes.
 
 Extend the Keychain repository protocol and implementation with an explicit repair or re save operation for Claude session keys. Preserve the legacy `com.claudemeter.sessionkey` service identifier and avoid broad Keychain deletes.
 

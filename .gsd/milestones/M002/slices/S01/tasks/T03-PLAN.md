@@ -4,7 +4,7 @@ estimated_files: 2
 skills_used: []
 ---
 
-# T03: Lock credential free settings invariants
+# T03: Added regression tests that keep AppSettings and SettingsRepository free of credential state and credential material persistence.
 
 Extend security tests to ensure the new credential state boundary does not cause AppSettings or SettingsRepository to persist credential material, cookies, Bearer tokens, or session key sentinels.
 

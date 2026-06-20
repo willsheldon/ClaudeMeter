@@ -12,3 +12,7 @@ Use `mysecrets` to manage secrets for this project.
 
 ssm_path: /ws-claude/claudemeter
 aws_profile: ws-claude-claudemeter
+
+## Host cmux Payload Rule
+
+On cmux hosts, do not use `cmux send` for literal long command text: it is a keystroke API and interprets `\n`, `\r`, and `\t` as Enter, Return, and Tab. For literal payloads, use `cmux set-buffer --name <unique> -- <payload>`, then `cmux paste-buffer --name <unique> --surface <surface>`, then send Enter separately with `cmux send --surface <surface> '\r'`. Canonical notes: `/Users/will/Documents/wiki/gsd-cmux.md`.

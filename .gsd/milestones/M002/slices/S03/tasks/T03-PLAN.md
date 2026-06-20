@@ -4,7 +4,7 @@ estimated_files: 3
 skills_used: []
 ---
 
-# T03: Prove ChatGPT redaction invariants
+# T03: Added ChatGPT credential redaction invariant tests for persisted acquisition diagnostics, AppSettings separation, and user-facing error copy.
 
 Add tests with synthetic cookie and Bearer token sentinels proving user facing errors, diagnostics, and settings persistence never include ChatGPT credential material.
 
