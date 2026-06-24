@@ -1,0 +1,26 @@
+{
+  "id": "b11eefc8-6690-4476-93ba-4daed817eac3",
+  "runtime": "python",
+  "purpose": "UAT M002/S05/UAT-03 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M002",
+    "sliceId": "S05",
+    "checkId": "UAT-03",
+    "intent": "uat-artifact-check",
+    "expected": "R010 is validated with M002/S05 lifecycle evidence."
+  },
+  "script_chars": 534,
+  "started_at": "2026-06-20T04:16:36.755Z",
+  "finished_at": "2026-06-20T04:16:36.807Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 52,
+  "stdout_bytes": 77,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/b11eefc8-6690-4476-93ba-4daed817eac3.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/b11eefc8-6690-4476-93ba-4daed817eac3.stderr"
+}

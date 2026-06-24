@@ -1,7 +1,7 @@
 # Codebase Map
 
-Generated: 2026-06-18T21:40:05Z | Files: 108 | Described: 0/108
-<!-- gsd:codebase-meta {"generatedAt":"2026-06-18T21:40:05Z","fingerprint":"7cd047ba315bbf0cb2a987b33e1cddb50314628a","fileCount":108,"truncated":false} -->
+Generated: 2026-06-24T19:14:28Z | Files: 111 | Described: 0/111
+<!-- gsd:codebase-meta {"generatedAt":"2026-06-24T19:14:28Z","fingerprint":"65523054f78af8fbcc38bcdffa16f8d7e24e3551","fileCount":111,"truncated":false} -->
 
 ### (root)/
 - `.gitignore`
@@ -126,6 +126,9 @@ Generated: 2026-06-18T21:40:05Z | Files: 108 | Described: 0/108
 ### Pinemeter/Views/Setup/
 - `Pinemeter/Views/Setup/SetupWizardView.swift`
 
+### Pinemeter/Views/Shared/
+- `Pinemeter/Views/Shared/CopyableErrorText.swift`
+
 ### PinemeterTests/
 - `PinemeterTests/AppModelTests.swift`
 - `PinemeterTests/AppSettingsTests.swift`
@@ -133,6 +136,7 @@ Generated: 2026-06-18T21:40:05Z | Files: 108 | Described: 0/108
 - `PinemeterTests/ChatGPTAppModelTests.swift`
 - `PinemeterTests/ChatGPTSessionRepositoryTests.swift`
 - `PinemeterTests/ChatGPTUsageServiceTests.swift`
+- `PinemeterTests/CopyableErrorPresentationTests.swift`
 - `PinemeterTests/CredentialStateTests.swift`
 - `PinemeterTests/CredentialStatusServiceTests.swift`
 - `PinemeterTests/KeychainRepositoryTests.swift`
@@ -162,6 +166,7 @@ Generated: 2026-06-18T21:40:05Z | Files: 108 | Described: 0/108
 
 ### scripts/
 - `scripts/demo.sh`
+- `scripts/provider_status_surface_audit.py`
 - `scripts/provider_workflow_copy_audit.py`
 
 ### site/

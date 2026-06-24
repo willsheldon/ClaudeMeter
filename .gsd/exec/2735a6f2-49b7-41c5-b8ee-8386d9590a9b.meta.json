@@ -1,0 +1,18 @@
+{
+  "id": "2735a6f2-49b7-41c5-b8ee-8386d9590a9b",
+  "runtime": "python",
+  "purpose": "summarize M002 validation verdict and gaps",
+  "script_chars": 441,
+  "started_at": "2026-06-20T04:15:11.249Z",
+  "finished_at": "2026-06-20T04:15:11.299Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 50,
+  "stdout_bytes": 11505,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/2735a6f2-49b7-41c5-b8ee-8386d9590a9b.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/2735a6f2-49b7-41c5-b8ee-8386d9590a9b.stderr"
+}

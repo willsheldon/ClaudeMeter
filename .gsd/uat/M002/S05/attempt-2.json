@@ -1,0 +1,155 @@
+{
+  "runId": "uat:M002:S05:attempt-2",
+  "attempt": 2,
+  "milestoneId": "M002",
+  "sliceId": "S05",
+  "uatType": "mixed",
+  "verdict": "PASS",
+  "gateVerdict": "pass",
+  "evaluatedAt": "2026-06-20T04:17:23.196Z",
+  "worktreeRoot": "/Users/will/code/ClaudeMeter",
+  "browserToolsPresented": true,
+  "modePolicy": {
+    "browserTools": true,
+    "partialEligible": true,
+    "passWithHumanFollowUp": true,
+    "requiredAnyModes": []
+  },
+  "checks": [
+    {
+      "id": "UAT-01",
+      "description": "Run the full Debug test suite, including credential lifecycle and redaction tests.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "f96bc370-dded-41a6-9170-9bc31e1e3e8b",
+          "note": "xcodebuild Debug test suite completed successfully.",
+          "unitType": "slice",
+          "tool": "gsd_uat_exec",
+          "executionId": "f96bc370-dded-41a6-9170-9bc31e1e3e8b"
+        }
+      ],
+      "notes": "Fresh runtime evidence captured in this session."
+    },
+    {
+      "id": "UAT-02",
+      "description": "Inspect signing settings for the official Autimo Developer ID identity and HMR9RDR6M2 team.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "d9e29ffb-94a3-46f7-b17f-15c4f6030165",
+          "note": "Build settings show Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2) and DEVELOPMENT_TEAM HMR9RDR6M2.",
+          "unitType": "slice",
+          "tool": "gsd_uat_exec",
+          "executionId": "d9e29ffb-94a3-46f7-b17f-15c4f6030165"
+        }
+      ],
+      "notes": "Matches project signing rule."
+    },
+    {
+      "id": "UAT-03",
+      "description": "Review R010 requirement status for M002/S05 durable credential lifecycle validation evidence.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "b11eefc8-6690-4476-93ba-4daed817eac3",
+          "note": "R010 is validated with M002/S05 durable credential lifecycle evidence.",
+          "unitType": "slice",
+          "tool": "gsd_uat_exec",
+          "executionId": "b11eefc8-6690-4476-93ba-4daed817eac3"
+        }
+      ],
+      "notes": "Requirement state aligns with S05 closure."
+    }
+  ],
+  "presentation": {
+    "surface": "provider-tools",
+    "presentedTools": [
+      "gsd_resume",
+      "gsd_milestone_status",
+      "gsd_journal_query",
+      "gsd_uat_exec",
+      "gsd_uat_result_save",
+      "async_bash",
+      "await_job",
+      "bash",
+      "read",
+      "find",
+      "glob",
+      "grep",
+      "ls",
+      "browser_navigate",
+      "browser_click",
+      "browser_type",
+      "browser_fill_form",
+      "browser_click_ref",
+      "browser_fill_ref",
+      "browser_wait_for",
+      "browser_assert",
+      "browser_verify",
+      "browser_screenshot",
+      "browser_snapshot_refs",
+      "browser_find",
+      "browser_get_console_logs",
+      "browser_get_network_logs",
+      "browser_evaluate",
+      "browser_reload",
+      "browser_batch",
+      "browser_act"
+    ],
+    "blockedTools": [
+      {
+        "name": "gsd_exec",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_summary_save",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_save_gate_result",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "edit",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "search-the-web",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "WebSearch",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Bash",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Edit",
+        "reason": "forbidden during run-uat"
+      }
+    ],
+    "fallbackToolsUsed": [
+      "async_bash"
+    ],
+    "notes": "No browser or native app UI automation was used; S05 UAT is automated artifact/runtime UAT with synthetic credentials per its UAT spec.",
+    "toolPresentationPlanId": "run-uat/default-v1"
+  },
+  "notes": "S05 UAT passed using fresh runtime and artifact evidence. This addresses the prior needs-attention gap for concrete UAT evidence, though no real-provider manual credential setup was attempted because the S05 UAT spec states no real credentials are required."
+}

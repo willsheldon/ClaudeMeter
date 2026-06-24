@@ -1,0 +1,14 @@
+### R010 — The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+- Class: core-capability
+- Status: validated
+- Description: The app obtains and retains credentials or session material without repeatedly asking the user to provide keys again.
+- Why it matters: A smooth product-owned credential flow is central to making Pinemeter usable beyond manual setup.
+- Source: user
+- Primary owning slice: M002
+- Supporting slices: M001/S02, M001/S03, M002/S05
+- Validation: Validated by M002/S05 lifecycle verification: credential acquisition, reuse, repair, clearing, invalid credential handling, and redaction coverage passed in the Debug test suite. Evidence is recorded in `.gsd/milestones/M002/slices/S05/S05-ASSESSMENT.md` from `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` and the combined signing verification command.
+- Notes: M002 delivered durable credential acquisition coverage across credential state, Claude Keychain repair, ChatGPT session acquisition, setup and recovery UX, and lifecycle verification. M002 validation still requires UAT evidence for manual/browser/runtime first-run flows before full milestone closure. Remaining provider-specific workflow polish stays scoped to R011/M003; Gemini monitoring remains R012/M004; open-source polish remains R013/M005; destructive history rewrite and remote push protections remain R014.
+
+## Deferred
+
+### R011 — Setup, status, errors, recovery, and notifications are fully provider-aware across monitored LLM providers.

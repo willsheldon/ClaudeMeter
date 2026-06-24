@@ -56,6 +56,8 @@ auto_supervisor:
   idle_timeout_minutes: 10
   hard_timeout_minutes: 30
 min_request_interval_ms: 1000
+verification_commands:
+  - "xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug"
 verification_auto_fix: true
 verification_max_retries: 2
 per_unit_cost_cap_usd: 5

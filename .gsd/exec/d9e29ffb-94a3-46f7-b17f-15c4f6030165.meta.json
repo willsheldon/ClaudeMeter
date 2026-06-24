@@ -1,0 +1,26 @@
+{
+  "id": "d9e29ffb-94a3-46f7-b17f-15c4f6030165",
+  "runtime": "bash",
+  "purpose": "UAT M002/S05/UAT-02 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M002",
+    "sliceId": "S05",
+    "checkId": "UAT-02",
+    "intent": "uat-artifact-check",
+    "expected": "Official Autimo Developer ID signing identity and HMR9RDR6M2 team remain configured."
+  },
+  "script_chars": 234,
+  "started_at": "2026-06-20T04:16:36.752Z",
+  "finished_at": "2026-06-20T04:16:38.689Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 1937,
+  "stdout_bytes": 117,
+  "stderr_bytes": 258,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/d9e29ffb-94a3-46f7-b17f-15c4f6030165.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/d9e29ffb-94a3-46f7-b17f-15c4f6030165.stderr"
+}

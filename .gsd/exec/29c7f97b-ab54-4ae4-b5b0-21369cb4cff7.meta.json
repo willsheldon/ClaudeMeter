@@ -1,0 +1,18 @@
+{
+  "id": "29c7f97b-ab54-4ae4-b5b0-21369cb4cff7",
+  "runtime": "python",
+  "purpose": "summarize R010 requirement status",
+  "script_chars": 231,
+  "started_at": "2026-06-20T04:15:54.175Z",
+  "finished_at": "2026-06-20T04:15:54.228Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 53,
+  "stdout_bytes": 1587,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/29c7f97b-ab54-4ae4-b5b0-21369cb4cff7.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/29c7f97b-ab54-4ae4-b5b0-21369cb4cff7.stderr"
+}
