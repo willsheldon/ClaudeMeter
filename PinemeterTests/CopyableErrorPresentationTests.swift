@@ -11,10 +11,13 @@ final class CopyableErrorPresentationTests: XCTestCase {
         let expectedUsages = [
             "Pinemeter/Views/MenuBar/UsagePopoverView.swift": [
                 "CopyableErrorText(errorMessage",
-                "CopyableErrorText(\"ChatGPT: \\(chatGPTErrorMessage)\"",
+                "CopyableErrorText(\"\\(provider): \\(message)\"",
+                "providerErrorRow(provider: \"ChatGPT\", message: chatGPTErrorMessage)",
+                "providerErrorRow(provider: \"Gemini\", message: geminiErrorMessage)",
             ],
             "Pinemeter/Views/Setup/SetupWizardView.swift": [
                 "CopyableErrorText(errorMessage",
+                "CopyableErrorText(lastFailureTitle",
             ],
             "Pinemeter/Views/Settings/SettingsView.swift": [
                 "CopyableErrorText(providerImportMessage",

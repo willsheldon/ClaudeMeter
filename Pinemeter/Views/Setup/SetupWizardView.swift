@@ -113,9 +113,7 @@ struct SetupWizardView: View {
                     .fixedSize(horizontal: false, vertical: true)
 
                 if let lastFailureTitle = status.lastFailureTitle {
-                    Text(lastFailureTitle)
-                        .font(.caption2)
-                        .foregroundStyle(.orange)
+                    CopyableErrorText(lastFailureTitle, font: .caption2, foregroundStyle: .orange)
                 }
 
                 providerCredentialStatusActions(for: status)
