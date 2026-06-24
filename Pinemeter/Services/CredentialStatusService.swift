@@ -41,7 +41,7 @@ private extension CredentialProvider {
         case .chatGPT:
             CredentialIdentity(provider: .chatGPT, kind: .sessionCookie)
         case .gemini:
-            CredentialIdentity(provider: .gemini, kind: .accessToken)
+            CredentialIdentity(provider: .gemini, kind: .apiKey)
         }
     }
 

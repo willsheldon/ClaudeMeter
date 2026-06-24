@@ -23,6 +23,7 @@ enum CredentialKind: String, Codable, CaseIterable, Equatable, Hashable, Sendabl
     case sessionKey
     case sessionCookie
     case accessToken
+    case apiKey
 
     var displayName: String {
         switch self {
@@ -32,6 +33,8 @@ enum CredentialKind: String, Codable, CaseIterable, Equatable, Hashable, Sendabl
             return "session cookie"
         case .accessToken:
             return "access token"
+        case .apiKey:
+            return "API key"
         }
     }
 }

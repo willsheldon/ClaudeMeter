@@ -203,7 +203,7 @@ final class AppModelTests: XCTestCase {
 
         let statuses = appModel.providerCredentialStatuses
 
-        XCTAssertEqual(statuses.map(\.id), ["claude.sessionKey", "chatGPT.sessionCookie", "gemini.accessToken"])
+        XCTAssertEqual(statuses.map(\.id), ["claude.sessionKey", "chatGPT.sessionCookie", "gemini.apiKey"])
         let claude = try XCTUnwrap(statuses.first { $0.provider == .claude })
         XCTAssertEqual(claude.providerName, "Claude")
         XCTAssertEqual(claude.credentialName, "Claude session key")
@@ -227,11 +227,11 @@ final class AppModelTests: XCTestCase {
 
         let gemini = try XCTUnwrap(statuses.first { $0.provider == .gemini })
         XCTAssertEqual(gemini.providerName, "Gemini")
-        XCTAssertEqual(gemini.credentialName, "Gemini access token")
+        XCTAssertEqual(gemini.credentialName, "Gemini API key")
         XCTAssertEqual(gemini.stateText, "Unknown")
-        XCTAssertEqual(gemini.detailText, "Sign in to Gemini in your browser, then import the browser session into Pinemeter.")
+        XCTAssertEqual(gemini.detailText, "Add a Gemini API key in Settings.")
         XCTAssertEqual(gemini.setupPromptTitle, "Connect Gemini")
-        XCTAssertEqual(gemini.setupAccessibilityLabel, "Gemini access token status: Unknown. Sign in to Gemini in your browser, then import the browser session into Pinemeter.")
+        XCTAssertEqual(gemini.setupAccessibilityLabel, "Gemini API key status: Unknown. Add a Gemini API key in Settings.")
         XCTAssertEqual(gemini.actions.map(\.displayTitle), ["Reconnect"])
         XCTAssertEqual(gemini.actions.map(\.kind), [.reconnect])
         XCTAssertFalse(gemini.searchableText.contains("sk-ant-secret"))

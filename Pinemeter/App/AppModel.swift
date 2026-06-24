@@ -58,6 +58,9 @@ struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
         case .valid, .refreshRecommended:
             return "Saved \(credentialName) is ready."
         case .missing, .unknown:
+            if kind == .apiKey {
+                return "Add a \(credentialName) in Settings."
+            }
             return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
         case .validating:
             return "Pinemeter is checking your saved \(credentialName)."
@@ -145,7 +148,7 @@ final class AppModel {
         health: .unknown
     )
     var geminiCredentialState: CredentialState = CredentialState(
-        identity: CredentialIdentity(provider: .gemini, kind: .accessToken),
+        identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
         health: .unknown
     )
 

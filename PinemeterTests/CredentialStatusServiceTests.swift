@@ -17,7 +17,7 @@ final class CredentialStatusServiceTests: XCTestCase {
         XCTAssertEqual(statuses, [
             ProviderCredentialStatus(identity: CredentialIdentity(provider: .claude, kind: .sessionKey), state: .missing),
             ProviderCredentialStatus(identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie), state: .missing),
-            ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .accessToken), state: .missing),
+            ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .apiKey), state: .missing),
         ])
         let requestedAccounts = await keychainRepository.recordedRequestedAccounts()
         XCTAssertEqual(requestedAccounts, ["default", "chatgpt", "gemini"])
@@ -32,7 +32,7 @@ final class CredentialStatusServiceTests: XCTestCase {
         XCTAssertEqual(statuses, [
             ProviderCredentialStatus(identity: CredentialIdentity(provider: .claude, kind: .sessionKey), state: .valid),
             ProviderCredentialStatus(identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie), state: .valid),
-            ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .accessToken), state: .valid),
+            ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .apiKey), state: .valid),
         ])
         let retrieveCallCount = await keychainRepository.recordedRetrieveCallCount()
         XCTAssertEqual(retrieveCallCount, 0)
@@ -48,7 +48,7 @@ final class CredentialStatusServiceTests: XCTestCase {
 
         XCTAssertEqual(claudeStatus, ProviderCredentialStatus(identity: CredentialIdentity(provider: .claude, kind: .sessionKey), state: .missing))
         XCTAssertEqual(chatGPTStatus, ProviderCredentialStatus(identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie), state: .valid))
-        XCTAssertEqual(geminiStatus, ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .accessToken), state: .missing))
+        XCTAssertEqual(geminiStatus, ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .apiKey), state: .missing))
     }
 }
 
