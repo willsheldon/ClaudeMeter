@@ -1,0 +1,27 @@
+{
+  "id": "cad39779-38ef-4b13-b27a-10fc459c1067",
+  "runtime": "bash",
+  "purpose": "UAT M003/S03/UAT-S03-SANITIZATION (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S03",
+    "checkId": "UAT-S03-SANITIZATION",
+    "intent": "uat-artifact-check",
+    "expected": "Hidden/unavailable ChatGPT state is sanitized and menu/AppModel user-facing surface does not expose credential material."
+  },
+  "script_chars": 933,
+  "started_at": "2026-06-23T22:27:52.713Z",
+  "finished_at": "2026-06-23T22:27:52.744Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 31,
+  "stdout_bytes": 1504,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/cad39779-38ef-4b13-b27a-10fc459c1067.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/cad39779-38ef-4b13-b27a-10fc459c1067.stderr"
+}

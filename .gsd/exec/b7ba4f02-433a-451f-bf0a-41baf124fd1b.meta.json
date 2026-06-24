@@ -1,0 +1,18 @@
+{
+  "id": "b7ba4f02-433a-451f-bf0a-41baf124fd1b",
+  "runtime": "bash",
+  "purpose": "Run provider status surface audit verification script after fixes",
+  "script_chars": 48,
+  "started_at": "2026-06-20T18:24:03.667Z",
+  "finished_at": "2026-06-20T18:24:03.720Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 53,
+  "stdout_bytes": 133,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/b7ba4f02-433a-451f-bf0a-41baf124fd1b.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/b7ba4f02-433a-451f-bf0a-41baf124fd1b.stderr"
+}

@@ -1,0 +1,3 @@
+PinemeterTests/AppModelTests.swift: missing 'chatGPTOnly'
+PinemeterTests/AppModelTests.swift: missing 'claudeAndChatGPT'
+PinemeterTests/ChatGPTAppModelTests.swift: missing 'Demotes'

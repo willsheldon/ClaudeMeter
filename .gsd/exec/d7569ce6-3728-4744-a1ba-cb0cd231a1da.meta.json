@@ -1,0 +1,27 @@
+{
+  "id": "d7569ce6-3728-4744-a1ba-cb0cd231a1da",
+  "runtime": "bash",
+  "purpose": "UAT M003/S03/UAT-S03-SMOKE (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S03",
+    "checkId": "UAT-S03-SMOKE",
+    "intent": "uat-runtime-check",
+    "expected": "Full XCTest suite exits 0."
+  },
+  "script_chars": 331,
+  "started_at": "2026-06-23T22:27:02.603Z",
+  "finished_at": "2026-06-23T22:27:13.958Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 11355,
+  "stdout_bytes": 32260,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/d7569ce6-3728-4744-a1ba-cb0cd231a1da.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/d7569ce6-3728-4744-a1ba-cb0cd231a1da.stderr"
+}

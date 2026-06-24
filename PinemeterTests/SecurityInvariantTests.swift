@@ -324,6 +324,60 @@ final class SecurityInvariantTests: XCTestCase {
         }
     }
 
+    func test_providerCredentialResetSourcesStayScopedToSafeRepositoryBoundaries() throws {
+        let appModelSource = try sourceContents(relativePath: "Pinemeter/App/AppModel.swift")
+        let settingsSource = try sourceContents(relativePath: "Pinemeter/Views/Settings/SettingsView.swift")
+        let setupSource = try sourceContents(relativePath: "Pinemeter/Views/Setup/SetupWizardView.swift")
+
+        XCTAssertTrue(
+            appModelSource.contains("case (.claude, .clear):\n            try await clearSessionKey()"),
+            "Claude reset must stay routed through AppModel.clearSessionKey so automated checks can use synthetic repository accounts."
+        )
+        XCTAssertTrue(
+            appModelSource.contains("case (.chatGPT, .clear):\n            try await clearChatGPTSessionCookie()"),
+            "ChatGPT reset must stay routed through AppModel.clearChatGPTSessionCookie so automated checks never delete unrelated credentials."
+        )
+
+        let claudeResetBody = try functionBody(
+            named: "clearSessionKey",
+            in: appModelSource,
+            endingBefore: "    // MARK: - Notifications"
+        )
+        XCTAssertTrue(
+            claudeResetBody.contains("try await keychainRepository.delete(account: \"default\")"),
+            "Claude reset should delete only the app's selected Claude account through the repository abstraction."
+        )
+        XCTAssertFalse(
+            claudeResetBody.contains("SecItemDelete"),
+            "Claude reset tests must not rely on broad Keychain deletion APIs."
+        )
+
+        let chatGPTResetBody = try functionBody(
+            named: "clearChatGPTSessionCookie",
+            in: appModelSource,
+            endingBefore: "    // MARK: - Session Key"
+        )
+        XCTAssertTrue(
+            chatGPTResetBody.contains("try await chatGPTSessionRepository.clear(account: ChatGPTUsageService.defaultSessionAccount)"),
+            "ChatGPT reset should delete only the app's selected ChatGPT account through the repository abstraction."
+        )
+        XCTAssertFalse(
+            chatGPTResetBody.contains("keychainRepository.delete"),
+            "ChatGPT reset must not delete Claude session key state."
+        )
+        XCTAssertFalse(
+            chatGPTResetBody.contains("SecItemDelete"),
+            "ChatGPT reset tests must not rely on broad Keychain deletion APIs."
+        )
+
+        for uiSource in [settingsSource, setupSource] {
+            XCTAssertFalse(uiSource.contains("keychainRepository.delete"))
+            XCTAssertFalse(uiSource.contains("chatGPTSessionRepository.clear"))
+            XCTAssertFalse(uiSource.contains("SecItemDelete"))
+            XCTAssertFalse(uiSource.contains("removePersistentDomain"))
+        }
+    }
+
     func test_networkServiceDiagnosticsDoNotLogResponseBodiesOrCredentialFragments() throws {
         let testFile = URL(fileURLWithPath: #filePath)
         let repositoryRoot = testFile.deletingLastPathComponent().deletingLastPathComponent()
@@ -373,6 +427,14 @@ final class SecurityInvariantTests: XCTestCase {
             url.appendingPathComponent(String(component))
         }
         return try String(contentsOf: sourceURL, encoding: .utf8)
+    }
+
+    private func functionBody(named functionName: String, in source: String, endingBefore endMarker: String) throws -> String {
+        let startToken = "func \(functionName)("
+        let startIndex = try XCTUnwrap(source.range(of: startToken)?.lowerBound)
+        let searchRange = startIndex..<source.endIndex
+        let endIndex = try XCTUnwrap(source.range(of: endMarker, range: searchRange)?.lowerBound)
+        return String(source[startIndex..<endIndex])
     }
 
     private func assertNoCredentialDisclosure(in descriptions: [String], file: StaticString = #filePath, line: UInt = #line) {

@@ -1,0 +1,106 @@
+struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
+    struct Action: Identifiable, Equatable, Sendable {
+        let kind: ProviderCredentialActionKind
+
+        var id: String { kind.rawValue }
+        var displayTitle: String { kind.displayTitle }
+    }
+
+    let state: CredentialState
+    let actions: [Action]
+
+    var id: String { state.identity.id }
+    var provider: CredentialProvider { state.identity.provider }
+    var kind: CredentialKind { state.identity.kind }
+    var providerName: String { provider.displayName }
+    var credentialName: String { state.identity.displayName }
+
+    /// Surface-neutral state text shared by setup and settings.
+    var stateText: String { state.health.displayTitle }
+
+    /// Surface-neutral sanitized detail text shared by setup and settings.
+    var detailText: String {
+        switch state.health {
+        case .valid, .refreshRecommended:
+            return "Saved \(credentialName) is ready."
+        case .missing, .unknown:
+            return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
+        case .validating:
+            return "Pinemeter is checking your saved \(credentialName)."
+        case .invalid, .expired, .unavailable:
+            return recoverySuggestion ?? state.displayDescription
+        }
+    }
+
+    var statusTitle: String { stateText }
+    var statusDescription: String { detailText }
+    var lastFailureTitle: String? { state.failureCategory?.displayTitle }
+    var recoverySuggestion: String? { state.recoverySuggestion }
+
+    var setupPromptTitle: String {
+        switch state.health {
+        case .valid, .refreshRecommended:
+            return "Saved \(credentialName) is ready"
+        case .missing, .unknown:
+            return "Connect \(providerName)"
+        case .validating:
+            return "Checking \(credentialName)"
+        case .invalid, .expired, .unavailable:
+            return "Recover \(credentialName)"
+        }
+    }
+
+    var setupPromptDescription: String { detailText }
+
+    var setupAccessibilityLabel: String {
+        "\(credentialName) status: \(stateText). \(detailText)"
+    }
+
+    var shouldPromptForSetupCredential: Bool {
+        false
+    }
+
+    var isRepairableInSetup: Bool {
+        actions.contains { $0.kind == .repair }
+    }
+
+    var searchableText: String {
+        [
+            providerName,
+            credentialName,
+            statusTitle,
+            statusDescription,
+            lastFailureTitle,
+            recoverySuggestion,
+            actions.map(\.displayTitle).joined(separator: " ")
+        ]
+        .compactMap { $0 }
+        .joined(separator: " ")
+    }
+}
+
+/// Main application model for SwiftUI-first architecture.
+@MainActor
+@Observable
+final class AppModel {
+    // MARK: - Published State
+
+    var settings: AppSettings = .default {
+        didSet {
+            guard hasLoadedSettings else { return }
+            scheduleSettingsSave(previous: oldValue)
+        }
+    }
+
+    var usageData: UsageData?
+    var chatGPTUsageData: ChatGPTUsageData?
+    var isLoading: Bool = false
+    var isRefreshing: Bool = false
+    var isRefreshingChatGPT: Bool = false
+    var errorMessage: String?
+    var chatGPTErrorMessage: String?
+    var isSetupComplete: Bool = false
+    var hasChatGPTSessionCookie: Bool = false
+    var isReady: Bool = false
+    var claudeCredentialState: CredentialState = CredentialState(
+        identity: CredentialIdentity(provider: .claude, kind: .sessionKe

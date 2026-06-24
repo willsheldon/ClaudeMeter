@@ -1,0 +1,27 @@
+{
+  "id": "f9c62462-e252-4f51-a747-70d81d8febcb",
+  "runtime": "python",
+  "purpose": "UAT M003/S04/UAT-ARTIFACT-01 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S04",
+    "checkId": "UAT-ARTIFACT-01",
+    "intent": "uat-artifact-check",
+    "expected": "S04-UAT.md contains all six workflow checks, scoped storage identifiers, and no-credential pass criterion."
+  },
+  "script_chars": 671,
+  "started_at": "2026-06-23T22:38:18.818Z",
+  "finished_at": "2026-06-23T22:38:18.898Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 80,
+  "stdout_bytes": 40,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/f9c62462-e252-4f51-a747-70d81d8febcb.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/f9c62462-e252-4f51-a747-70d81d8febcb.stderr"
+}

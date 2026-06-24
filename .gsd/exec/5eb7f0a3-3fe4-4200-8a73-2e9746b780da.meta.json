@@ -1,0 +1,19 @@
+{
+  "id": "5eb7f0a3-3fe4-4200-8a73-2e9746b780da",
+  "runtime": "python",
+  "purpose": "inspect AppModel provider credential status action lines",
+  "script_chars": 259,
+  "started_at": "2026-06-23T21:46:09.182Z",
+  "finished_at": "2026-06-23T21:46:09.239Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 57,
+  "stdout_bytes": 421,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/5eb7f0a3-3fe4-4200-8a73-2e9746b780da.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/5eb7f0a3-3fe4-4200-8a73-2e9746b780da.stderr"
+}

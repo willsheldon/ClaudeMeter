@@ -1,0 +1,19 @@
+{
+  "id": "ede1acfd-e12b-4bcd-88e4-3313e3ce548f",
+  "runtime": "bash",
+  "purpose": "Verify M003/S01/T03 provider status UI focused tests",
+  "script_chars": 274,
+  "started_at": "2026-06-23T17:30:59.393Z",
+  "finished_at": "2026-06-23T17:31:22.118Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 22725,
+  "stdout_bytes": 81053,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/ede1acfd-e12b-4bcd-88e4-3313e3ce548f.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/ede1acfd-e12b-4bcd-88e4-3313e3ce548f.stderr"
+}

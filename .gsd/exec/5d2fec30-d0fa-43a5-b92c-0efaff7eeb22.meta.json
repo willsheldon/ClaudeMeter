@@ -1,0 +1,19 @@
+{
+  "id": "5d2fec30-d0fa-43a5-b92c-0efaff7eeb22",
+  "runtime": "bash",
+  "purpose": "T04 menu copy/provider scan",
+  "script_chars": 116,
+  "started_at": "2026-06-23T22:23:13.863Z",
+  "finished_at": "2026-06-23T22:23:13.890Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 27,
+  "stdout_bytes": 14710,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/5d2fec30-d0fa-43a5-b92c-0efaff7eeb22.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/5d2fec30-d0fa-43a5-b92c-0efaff7eeb22.stderr"
+}

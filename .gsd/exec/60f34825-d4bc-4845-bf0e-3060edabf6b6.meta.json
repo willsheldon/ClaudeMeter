@@ -1,0 +1,19 @@
+{
+  "id": "60f34825-d4bc-4845-bf0e-3060edabf6b6",
+  "runtime": "bash",
+  "purpose": "red-check provider recovery orchestration tests before implementation",
+  "script_chars": 182,
+  "started_at": "2026-06-23T21:55:00.806Z",
+  "finished_at": "2026-06-23T21:55:07.278Z",
+  "exit_code": 65,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 6472,
+  "stdout_bytes": 32733,
+  "stderr_bytes": 2206,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/60f34825-d4bc-4845-bf0e-3060edabf6b6.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/60f34825-d4bc-4845-bf0e-3060edabf6b6.stderr"
+}

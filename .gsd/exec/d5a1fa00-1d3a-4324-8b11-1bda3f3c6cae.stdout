@@ -1,0 +1,4 @@
+settings_boundary_count=3
+setup_boundary_count=3
+provider_recovery_test_reference_count=26
+Credential-like references are sanitized placeholders/test fixtures only; no unexpected raw credential values found.

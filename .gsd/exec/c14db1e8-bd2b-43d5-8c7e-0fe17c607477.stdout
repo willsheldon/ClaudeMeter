@@ -1,0 +1,36 @@
+--- PinemeterTests/AppModelTests.swift ---
+9: let settingsRepository = SettingsRepositoryFake()
+33: let settingsRepository = SettingsRepositoryFake()
+61: let settingsRepository = SettingsRepositoryFake()
+89: let settingsRepository = SettingsRepositoryFake()
+115: let settingsRepository = SettingsRepositoryFake()
+139: let settingsRepository = SettingsRepositoryFake()
+164: let settingsRepository = SettingsRepositoryFake()
+188: let settingsRepository = SettingsRepositoryFake()
+232: let settingsRepository = SettingsRepositoryFake()
+287: let settingsRepository = SettingsRepositoryFake()
+326: settingsRepository: SettingsRepositoryFake(),
+357: settingsRepository: SettingsRepositoryFake(),
+386: settingsRepository: SettingsRepositoryFake(),
+413: settingsRepository: SettingsRepositoryFake(),
+451: let settingsRepository = SettingsRepositoryFake()
+487: let settingsRepository = SettingsRepositoryFake()
+540: settingsRepository: SettingsRepositoryFake(),
+569: settingsRepository: SettingsRepositoryFake(),
+609: settingsRepository: SettingsRepositoryFake(),
+644: func test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff() async {
+646: settingsRepository: SettingsRepositoryFake(),
+668: func test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState() async {
+674: settingsRepository: SettingsRepositoryFake(),
+712: settingsRepository: SettingsRepositoryFake(),
+746: settingsRepository: SettingsRepositoryFake(),
+770: let settingsRepository = SettingsRepositoryFake()
+795: let settingsRepository = SettingsRepositoryFake()
+822: let settingsRepository = SettingsRepositoryFake()
+855: let settingsRepository = SettingsRepositoryFake()
+879: let settingsRepository = SettingsRepositoryFake()
+916: let settingsRepository = SettingsRepositoryFake()
+1001: let settingsRepository = SettingsRepositoryFake()
+1096: let settingsRepository = SettingsRepositoryFake()
+1115: let settingsRepository = SettingsRepositoryFake()
+1133: let settingsRepository = SettingsRepositoryFake()

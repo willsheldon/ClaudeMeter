@@ -1,0 +1,7 @@
+6: enum ProviderCredentialActionKind: String, Equatable, Hashable, Sendable {
+26: let kind: ProviderCredentialActionKind
+33: let actions: [Action]
+141: actions: credentialActions(for: claudeCredentialState)
+145: actions: credentialActions(for: chatGPTCredentialState)
+565: private func credentialActions(for state: CredentialState) -> [AppProviderCredentialStatus.Action] {
+566: let kinds: [ProviderCredentialActionKind]

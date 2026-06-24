@@ -1,0 +1,64 @@
+## test_settingsAndSetupRenderSharedProviderCredentialStatusModel 4852
+                checkedAt: Date(timeIntervalSince1970: 0)
+            ),
+            actions: [.init(kind: .reconnect), .init(kind: .repair), .init(kind: .clear)]
+        )
+
+        XCTAssertEqual(status.setupPromptTitle, "Recover Claude session key")
+        XCTAssertEqual(status.setupPromptDescription, "Check Keychain access and try again.")
+        XCTAssertTrue(status.setupAccessibilityLabel.contains("Claude session key status: Unavailable"))
+        XCTAssertFalse(status.setupAccessibilityLabel.contains("sk-ant-"))
+    }
+
+    func test_settingsAndSetupRenderSharedProviderCredentialStatusModel() throws {
+        let settingsSource = try sourceContents(relativePath: "Pinemeter/Views/Settings/SettingsView.swift")
+        let setupSource = try sourceContents(relativePath: "Pinemeter/Views/Setup/SetupWizardView.swift")
+
+        for source in [settingsSource, setupSource] {
+            XCTAssertTrue(source.contains("providerCredentialStatuses"))
+            XCTAssertTrue(source.contains("status.stateText"))
+            XCTAssertTrue(source.contains("status.detailText"))
+            XCTAssertTrue(source.contains("status.lastFailureTitle"))
+            XCTAssertTrue(source.contains("handleCredentialAction(action.kind, for: status)"))
+            XCTAssertFalse(source.contains("status.setupAccessibilityLabel"))
+            XCTAssertFalse(source.contains("SecureField"))
+            XCTAssertFalse(source.contains("sk-ant-"))
+            XCTAssertFalse(source.contains("__Secure-next-auth.session-token"))
+        }
+    }
+
+## test_setupProviderStatusCardsExposeSharedRepairAndClearActionsWithoutManualCredentials 5859
+            XCTAssertTrue(source.contains("status.detailText"))
+            XCTAssertTrue(source.contains("status.lastFailureTitle"))
+            XCTAssertTrue(source.contains("handleCredentialAction(action.kind, for: status)"))
+            XCTAssertFalse(source.contains("status.setupAccessibilityLabel"))
+            XCTAssertFalse(source.contains("SecureField"))
+            XCTAssertFalse(source.contains("sk-ant-"))
+            XCTAssertFalse(source.contains("__Secure-next-auth.session-token"))
+        }
+    }
+
+    func test_setupProviderStatusCardsExposeSharedRepairAndClearActionsWithoutManualCredentials() throws {
+        let setupSource = try sourceContents(relativePath: "Pinemeter/Views/Setup/SetupWizardView.swift")
+
+        XCTAssertTrue(setupSource.contains("private func providerCredentialStatusActions(for status: AppProviderCredentialStatus) -> some View"))
+        XCTAssertTrue(setupSource.contains("let visibleActions = status.actions.filter { $0.kind != .reconnect }"))
+        XCTAssertTrue(setupSource.contains("case .repair:"))
+        XCTAssertTrue(setupSource.contains("await repairClaudeSessionKey()"))
+        XCTAssertTrue(setupSource.contains("case .clear:"))
+        XCTAssertTrue(setupSource.contains("await clearSavedCredential(for: status.provider)"))
+        XCTAssertTrue(setupSource.contains(".accessibilityElement(children: .contain)"))
+        XCTAssertFalse(setupSource.contains("TextField"))
+        XCTAssertFalse(setupSource.contains("validateAndSaveSessionKey"))
+        XCTAssertFalse(setupSource.contains("validateAndSaveChatGPTSessionCookie"))
+    }
+
+    private func sourceContents(relativePath: String) throws -> String {
+        let testFile = URL(fileURLWithPath: #filePath)
+        let repositoryRoot = testFile.deletingLastPathComponent().deletingLastPathComponent()
+        let sourceURL = relativePath.split(separator: "/").reduce(repositoryRoot) { url, component in
+            url.appendingPathComponent(String(component))
+        }
+        return try String(contentsOf: sourceURL, encoding: .utf8)
+    }
+

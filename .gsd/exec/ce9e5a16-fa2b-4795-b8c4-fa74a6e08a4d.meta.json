@@ -1,0 +1,19 @@
+{
+  "id": "ce9e5a16-fa2b-4795-b8c4-fa74a6e08a4d",
+  "runtime": "bash",
+  "purpose": "S03 inspect provider-aware symbol names for closeout assertions",
+  "script_chars": 490,
+  "started_at": "2026-06-23T22:24:58.168Z",
+  "finished_at": "2026-06-23T22:24:58.225Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 57,
+  "stdout_bytes": 10016,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/ce9e5a16-fa2b-4795-b8c4-fa74a6e08a4d.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/ce9e5a16-fa2b-4795-b8c4-fa74a6e08a4d.stderr"
+}

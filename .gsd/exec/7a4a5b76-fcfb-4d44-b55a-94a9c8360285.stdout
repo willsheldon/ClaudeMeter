@@ -1,0 +1,31 @@
+xcodebuild_status=0
+audit_status=1
+rg_status=0 views_matches=0 test_matches=104
+xcode_result_lines:
+231:** TEST SUCCEEDED **
+audit_output:
+provider status surface audit: FAIL
+- Pinemeter/Views/Settings/SettingsView.swift missing required snippet: Text(status.statusTitle)
+- Pinemeter/Views/Setup/SetupWizardView.swift missing required snippet: Text(status.setupPromptDescription)
+- Pinemeter/Views/Setup/SetupWizardView.swift missing required snippet: Text(status.statusTitle)
+rg_sample:
+PinemeterTests/AppModelTests.swift:186:        let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: "raw sk-ant-secret must not appear")))
+PinemeterTests/AppModelTests.swift:217:        XCTAssertFalse(claude.searchableText.contains("sk-ant-secret"))
+PinemeterTests/AppModelTests.swift:218:        XCTAssertFalse(claude.detailText.contains("sk-ant-secret"))
+PinemeterTests/AppModelTests.swift:222:        XCTAssertEqual(chatGPT.credentialName, "ChatGPT session cookie")
+PinemeterTests/AppModelTests.swift:419:                cookieHeader: "__Secure-authjs.session-token=synthetic-chatgpt-session-cookie",
+PinemeterTests/AppModelTests.swift:444:        XCTAssertEqual(savedChatGPTSession.sessionCookie, "__Secure-authjs.session-token=synthetic-chatgpt-session-cookie")
+PinemeterTests/AppModelTests.swift:464:                cookieHeader: "__Secure-next-auth.session-token=synthetic-chatgpt-session-cookie",
+PinemeterTests/AppModelTests.swift:482:        XCTAssertEqual(savedSession.sessionCookie, "__Secure-next-auth.session-token=synthetic-chatgpt-session-cookie")
+PinemeterTests/AppModelTests.swift:498:                cookieHeader: "__Secure-authjs.session-token=synthetic-chatgpt-session-cookie",
+PinemeterTests/AppModelTests.swift:516:        XCTAssertEqual(savedSession.sessionCookie, "__Secure-authjs.session-token=synthetic-chatgpt-session-cookie")
+PinemeterTests/AppModelTests.swift:775:        let rejected = try await invalidModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+PinemeterTests/AppModelTests.swift:803:        let acquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+PinemeterTests/AppModelTests.swift:812:        XCTAssertEqual(savedChatGPTSession.sessionCookie, "synthetic-chatgpt-session-cookie")
+PinemeterTests/AppModelTests.swift:841:        let reacquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+PinemeterTests/SecurityInvariantTests.swift:6:        "sk-ant-test-synthetic-session-key",
+PinemeterTests/SecurityInvariantTests.swift:7:        "__Secure-next-auth.session-token=synthetic-cookie",
+PinemeterTests/SecurityInvariantTests.swift:52:            "session_cookie",
+PinemeterTests/SecurityInvariantTests.swift:74:                sessionCookie: "__Secure-next-auth.session-token=synthetic-cookie-redaction-sentinel; cf_clearance=synthetic-cookie-redaction-sentinel",
+PinemeterTests/SecurityInvariantTests.swift:110:            XCTFail("Expected blank ChatGPT session cookie to be rejected")
+PinemeterTests/SecurityInvariantTests.swift:136:            "__Secure-next-auth",

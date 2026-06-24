@@ -1,0 +1,19 @@
+{
+  "id": "938ae9cd-48eb-4d0d-8f7f-ef82d85152b1",
+  "runtime": "bash",
+  "purpose": "S03 closeout deterministic menu provider source assertions",
+  "script_chars": 1000,
+  "started_at": "2026-06-23T22:24:46.288Z",
+  "finished_at": "2026-06-23T22:24:46.355Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 67,
+  "stdout_bytes": 248,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/938ae9cd-48eb-4d0d-8f7f-ef82d85152b1.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/938ae9cd-48eb-4d0d-8f7f-ef82d85152b1.stderr"
+}

@@ -1,0 +1,5 @@
+provider status surface audit: PASS
+- AppModel exposes centralized providerCredentialStatuses for Claude and ChatGPT.
+- SettingsView and SetupWizardView render status rows/cards from sanitized status view models.
+- Setup/settings UI sources do not directly read session keys, cookie headers, or raw credential values.
+- Tests include provider status sanitization, prompt, recovery-action, and shared setup/settings rendering coverage.

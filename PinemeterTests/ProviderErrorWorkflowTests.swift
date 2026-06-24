@@ -91,4 +91,113 @@ final class ProviderErrorWorkflowTests: XCTestCase {
         XCTAssertFalse(status.setupAccessibilityLabel.contains("sk-ant-"))
     }
 
+    func test_settingsAndSetupRenderSharedProviderCredentialStatusModel() throws {
+        let settingsSource = try sourceContents(relativePath: "Pinemeter/Views/Settings/SettingsView.swift")
+        let setupSource = try sourceContents(relativePath: "Pinemeter/Views/Setup/SetupWizardView.swift")
+
+        for source in [settingsSource, setupSource] {
+            XCTAssertTrue(source.contains("providerCredentialStatuses"))
+            XCTAssertTrue(source.contains("status.stateText"))
+            XCTAssertTrue(source.contains("status.detailText"))
+            XCTAssertTrue(source.contains("status.lastFailureTitle"))
+            XCTAssertTrue(source.contains("handleCredentialAction(action.kind, for: status)"))
+            XCTAssertFalse(source.contains("status.setupAccessibilityLabel"))
+            XCTAssertFalse(source.contains("SecureField"))
+            XCTAssertFalse(source.contains("sk-ant-"))
+            XCTAssertFalse(source.contains("__Secure-next-auth.session-token"))
+        }
+    }
+
+    func test_setupProviderStatusCardsExposeSharedRepairAndClearActionsWithoutManualCredentials() throws {
+        let settingsSource = try sourceContents(relativePath: "Pinemeter/Views/Settings/SettingsView.swift")
+        let setupSource = try sourceContents(relativePath: "Pinemeter/Views/Setup/SetupWizardView.swift")
+
+        XCTAssertTrue(setupSource.contains("private func providerCredentialStatusActions(for status: AppProviderCredentialStatus) -> some View"))
+        XCTAssertTrue(setupSource.contains("let visibleActions = status.actions.filter { $0.kind != .reconnect }"))
+        XCTAssertTrue(setupSource.contains("activeCredentialActionProvider"))
+        XCTAssertTrue(setupSource.contains("await performProviderCredentialAction(kind, for: status)"))
+        XCTAssertTrue(setupSource.contains("try await appModel.performProviderCredentialAction(kind, for: status.provider)"))
+        XCTAssertTrue(setupSource.contains("Reconnecting credentials from the signed-in browser session."))
+        XCTAssertFalse(setupSource.contains("await importProviderSessions(from: .defaultBrowser)"))
+        XCTAssertFalse(setupSource.contains("await repairClaudeSessionKey()"))
+        XCTAssertFalse(setupSource.contains("await clearSavedCredential(for: status.provider)"))
+        XCTAssertTrue(setupSource.contains(".accessibilityElement(children: .contain)"))
+        XCTAssertFalse(setupSource.contains("TextField"))
+        XCTAssertFalse(setupSource.contains("validateAndSaveSessionKey"))
+        XCTAssertFalse(setupSource.contains("validateAndSaveChatGPTSessionCookie"))
+
+        XCTAssertTrue(settingsSource.contains("activeCredentialActionProvider"))
+        XCTAssertTrue(settingsSource.contains("await performProviderCredentialAction(kind, for: status)"))
+        XCTAssertTrue(settingsSource.contains("try await appModel.performProviderCredentialAction(kind, for: status.provider)"))
+        XCTAssertTrue(settingsSource.contains("Reconnecting credentials from the signed-in browser session."))
+        XCTAssertFalse(settingsSource.contains("case (.claude, .repair):"))
+        XCTAssertFalse(settingsSource.contains("case (.chatGPT, .clear):"))
+        XCTAssertFalse(settingsSource.contains("await repairClaudeSessionKey()"))
+        XCTAssertFalse(settingsSource.contains("await clearSavedCredential(for: status.provider)"))
+        XCTAssertFalse(settingsSource.contains("TextField"))
+        XCTAssertFalse(settingsSource.contains("validateAndSaveSessionKey"))
+        XCTAssertFalse(settingsSource.contains("validateAndSaveChatGPTSessionCookie"))
+    }
+
+    func test_clearCredentialWorkflowCopyIsProviderSpecificAndCredentialFree() {
+        let statuses = [
+            AppProviderCredentialStatus(
+                state: CredentialState(
+                    identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+                    health: .invalid,
+                    failureCategory: .providerRejected,
+                    checkedAt: Date(timeIntervalSince1970: 0)
+                ),
+                actions: [.init(kind: .clear)]
+            ),
+            AppProviderCredentialStatus(
+                state: CredentialState(
+                    identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+                    health: .invalid,
+                    failureCategory: .providerRejected,
+                    checkedAt: Date(timeIntervalSince1970: 0)
+                ),
+                actions: [.init(kind: .clear)]
+            )
+        ]
+        let forbiddenFragments = [
+            "sk-ant-test-reset-sentinel",
+            "__Secure-next-auth.session-token=synthetic-reset-cookie",
+            "Cookie:",
+            "Bearer synthetic-reset-access-token"
+        ]
+
+        XCTAssertEqual(statuses.map(\.providerName), ["Claude", "ChatGPT"])
+        XCTAssertEqual(statuses.map(\.credentialName), ["Claude session key", "ChatGPT session cookie"])
+        XCTAssertEqual(statuses.map { $0.actions.map(\.displayTitle) }, [["Clear"], ["Clear"]])
+
+        let userFacingCopy = statuses.flatMap { status in
+            [
+                status.providerName,
+                status.credentialName,
+                status.setupPromptTitle,
+                status.setupPromptDescription,
+                status.setupAccessibilityLabel
+            ] + status.actions.map(\.displayTitle)
+        }
+
+        for copy in userFacingCopy {
+            for forbiddenFragment in forbiddenFragments {
+                XCTAssertFalse(
+                    copy.contains(forbiddenFragment),
+                    "Credential reset workflow copy must not expose synthetic credential material: \(forbiddenFragment)"
+                )
+            }
+        }
+    }
+
+    private func sourceContents(relativePath: String) throws -> String {
+        let testFile = URL(fileURLWithPath: #filePath)
+        let repositoryRoot = testFile.deletingLastPathComponent().deletingLastPathComponent()
+        let sourceURL = relativePath.split(separator: "/").reduce(repositoryRoot) { url, component in
+            url.appendingPathComponent(String(component))
+        }
+        return try String(contentsOf: sourceURL, encoding: .utf8)
+    }
+
 }

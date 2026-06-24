@@ -1,0 +1,27 @@
+{
+  "id": "d5a1fa00-1d3a-4324-8b11-1bda3f3c6cae",
+  "runtime": "bash",
+  "purpose": "UAT M003/S02/UAT-04D (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S02",
+    "checkId": "UAT-04D",
+    "intent": "uat-artifact-check",
+    "expected": "Settings/setup use AppModel recovery boundary and credential-like references are only sanitized placeholders/test fixtures"
+  },
+  "script_chars": 1338,
+  "started_at": "2026-06-23T22:07:24.080Z",
+  "finished_at": "2026-06-23T22:07:24.159Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 79,
+  "stdout_bytes": 208,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/d5a1fa00-1d3a-4324-8b11-1bda3f3c6cae.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/d5a1fa00-1d3a-4324-8b11-1bda3f3c6cae.stderr"
+}

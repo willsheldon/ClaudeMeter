@@ -1,0 +1,19 @@
+{
+  "id": "e980204a-4e41-4b24-8156-52a63b8d2205",
+  "runtime": "python",
+  "purpose": "extract provider-aware AppModelTests body for targeted edit",
+  "script_chars": 155,
+  "started_at": "2026-06-23T22:20:46.205Z",
+  "finished_at": "2026-06-23T22:20:46.280Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 75,
+  "stdout_bytes": 4206,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/e980204a-4e41-4b24-8156-52a63b8d2205.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/e980204a-4e41-4b24-8156-52a63b8d2205.stderr"
+}

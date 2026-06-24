@@ -1,0 +1,19 @@
+{
+  "id": "c1694802-3baa-4fbf-b516-45dd9d24ddf5",
+  "runtime": "python",
+  "purpose": "inspect AppProviderCredentialStatus and provider workflow test snippets",
+  "script_chars": 606,
+  "started_at": "2026-06-23T21:44:16.510Z",
+  "finished_at": "2026-06-23T21:44:16.575Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 65,
+  "stdout_bytes": 12640,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/c1694802-3baa-4fbf-b516-45dd9d24ddf5.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/c1694802-3baa-4fbf-b516-45dd9d24ddf5.stderr"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "7830a075-cfb7-4626-a478-725a2dd489b1",
+  "runtime": "bash",
+  "purpose": "M003 concise provider workflow audit verdict",
+  "script_chars": 195,
+  "started_at": "2026-06-24T17:34:24.225Z",
+  "finished_at": "2026-06-24T17:34:24.319Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 94,
+  "stdout_bytes": 2072,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/7830a075-cfb7-4626-a478-725a2dd489b1.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/7830a075-cfb7-4626-a478-725a2dd489b1.stderr"
+}

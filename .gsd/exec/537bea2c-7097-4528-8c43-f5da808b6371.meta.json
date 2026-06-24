@@ -1,0 +1,19 @@
+{
+  "id": "537bea2c-7097-4528-8c43-f5da808b6371",
+  "runtime": "bash",
+  "purpose": "Extract T02 xcodebuild failure diagnostics",
+  "script_chars": 470,
+  "started_at": "2026-06-23T22:17:27.751Z",
+  "finished_at": "2026-06-23T22:17:27.863Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 112,
+  "stdout_bytes": 44650,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/537bea2c-7097-4528-8c43-f5da808b6371.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/537bea2c-7097-4528-8c43-f5da808b6371.stderr"
+}

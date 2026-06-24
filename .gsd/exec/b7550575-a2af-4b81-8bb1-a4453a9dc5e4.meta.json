@@ -1,0 +1,27 @@
+{
+  "id": "b7550575-a2af-4b81-8bb1-a4453a9dc5e4",
+  "runtime": "bash",
+  "purpose": "UAT M003/S02/UAT-04 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S02",
+    "checkId": "UAT-04",
+    "intent": "uat-artifact-check",
+    "expected": "Recovery copy is provider-aware, AppModel boundary appears in settings/setup paths, and no raw credential patterns are found"
+  },
+  "script_chars": 895,
+  "started_at": "2026-06-23T22:06:47.491Z",
+  "finished_at": "2026-06-23T22:06:47.565Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 74,
+  "stdout_bytes": 5990,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/b7550575-a2af-4b81-8bb1-a4453a9dc5e4.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/b7550575-a2af-4b81-8bb1-a4453a9dc5e4.stderr"
+}

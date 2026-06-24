@@ -1,0 +1,27 @@
+{
+  "id": "d9332173-7832-46ac-822e-85d29182e69e",
+  "runtime": "bash",
+  "purpose": "UAT M003/S03/UAT-S03-ARTIFACTS (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S03",
+    "checkId": "UAT-S03-ARTIFACTS",
+    "intent": "uat-artifact-check",
+    "expected": "Provider-aware AppModel properties/methods and regression coverage remain present."
+  },
+  "script_chars": 923,
+  "started_at": "2026-06-23T22:27:23.221Z",
+  "finished_at": "2026-06-23T22:27:23.270Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 49,
+  "stdout_bytes": 753,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/d9332173-7832-46ac-822e-85d29182e69e.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/d9332173-7832-46ac-822e-85d29182e69e.stderr"
+}

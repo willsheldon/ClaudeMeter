@@ -1,0 +1,416 @@
+== recovery actions / imports / clears ==
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:25:    func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult
+PinemeterTests/KeychainRepositoryTests.swift:27:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-created", account: account)
+PinemeterTests/KeychainRepositoryTests.swift:39:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-updated", account: account)
+PinemeterTests/KeychainRepositoryTests.swift:52:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-account", account: account)
+PinemeterTests/CredentialStatusServiceTests.swift:62:    func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+Pinemeter/Repositories/KeychainRepository.swift:42:    func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+PinemeterTests/SecurityInvariantTests.swift:158:            "validateAndSaveChatGPTSessionCookie"
+PinemeterTests/SecurityInvariantTests.swift:286:            source.range(of: "func repairClaudeSessionKey")
+PinemeterTests/ProviderErrorWorkflowTests.swift:99:            XCTAssertTrue(source.contains("providerCredentialStatuses"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:117:        XCTAssertTrue(setupSource.contains("await repairClaudeSessionKey()"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:122:        XCTAssertFalse(setupSource.contains("validateAndSaveSessionKey"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:123:        XCTAssertFalse(setupSource.contains("validateAndSaveChatGPTSessionCookie"))
+Pinemeter/App/AppModel.swift:6:enum ProviderCredentialActionKind: String, Equatable, Hashable, Sendable {
+Pinemeter/App/AppModel.swift:26:        let kind: ProviderCredentialActionKind
+Pinemeter/App/AppModel.swift:137:    var providerCredentialStatuses: [AppProviderCredentialStatus] {
+Pinemeter/App/AppModel.swift:141:                actions: credentialActions(for: claudeCredentialState)
+Pinemeter/App/AppModel.swift:145:                actions: credentialActions(for: chatGPTCredentialState)
+Pinemeter/App/AppModel.swift:224:            await refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:228:            await refreshUsage(forceRefresh: true)
+Pinemeter/App/AppModel.swift:240:    func refreshUsage(forceRefresh: Bool = false) async {
+Pinemeter/App/AppModel.swift:272:    func refreshChatGPTUsage() async {
+Pinemeter/App/AppModel.swift:333:    func validateAndSaveChatGPTSessionCookie(_ rawValue: String) async throws -> Bool {
+Pinemeter/App/AppModel.swift:360:        await refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:364:    func clearChatGPTSessionCookie() async throws {
+Pinemeter/App/AppModel.swift:390:    func validateAndSaveSessionKey(_ rawValue: String) async throws -> Bool {
+Pinemeter/App/AppModel.swift:422:        await refreshUsage(forceRefresh: true)
+Pinemeter/App/AppModel.swift:428:    func importAndSaveSessionKey() async throws -> ImportedSessionKey {
+Pinemeter/App/AppModel.swift:429:        try await importAndSaveSessionKey(from: .defaultBrowser)
+Pinemeter/App/AppModel.swift:432:    func importAndSaveSessionKey(from source: BrowserImportSource) async throws -> ImportedSessionKey {
+Pinemeter/App/AppModel.swift:434:        let isValid = try await validateAndSaveSessionKey(imported.value)
+Pinemeter/App/AppModel.swift:443:    func importAndSaveChatGPTSessionCookie() async throws -> ImportedChatGPTSessionCookie {
+Pinemeter/App/AppModel.swift:444:        try await importAndSaveChatGPTSessionCookie(from: .defaultBrowser)
+Pinemeter/App/AppModel.swift:447:    func importAndSaveChatGPTSessionCookie(from source: BrowserImportSource) async throws -> ImportedChatGPTSessionCookie {
+Pinemeter/App/AppModel.swift:466:        await refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:474:    func importProviderSessions(from source: BrowserImportSource) async -> ProviderBrowserImportOutcome {
+Pinemeter/App/AppModel.swift:477:            let imported = try await importAndSaveSessionKey(from: source)
+Pinemeter/App/AppModel.swift:490:            let imported = try await importAndSaveChatGPTSessionCookie(from: source)
+Pinemeter/App/AppModel.swift:508:    func repairClaudeSessionKey() async -> CredentialState {
+Pinemeter/App/AppModel.swift:520:            await refreshUsage(forceRefresh: true)
+Pinemeter/App/AppModel.swift:526:    func clearSessionKey() async throws {
+Pinemeter/App/AppModel.swift:565:    private func credentialActions(for state: CredentialState) -> [AppProviderCredentialStatus.Action] {
+Pinemeter/App/AppModel.swift:566:        let kinds: [ProviderCredentialActionKind]
+Pinemeter/App/AppModel.swift:613:                    await self.refreshUsage()
+Pinemeter/App/AppModel.swift:616:                    await self.refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:628:                    await self.refreshUsage(forceRefresh: true)
+Pinemeter/App/AppModel.swift:631:                    await self.refreshChatGPTUsage()
+PinemeterTests/ChatGPTAppModelTests.swift:41:        let status = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .chatGPT })
+PinemeterTests/ChatGPTAppModelTests.swift:46:    func test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:54:        let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:60:        let status = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .chatGPT })
+PinemeterTests/ChatGPTAppModelTests.swift:64:    func test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:78:        let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:90:    func test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:100:        let result = try await appModel.validateAndSaveChatGPTSessionCookie("chatgpt-session-redacted")
+PinemeterTests/ChatGPTAppModelTests.swift:107:    func test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError() async {
+PinemeterTests/ChatGPTAppModelTests.swift:126:        await appModel.refreshChatGPTUsage()
+PinemeterTests/ChatGPTAppModelTests.swift:134:    func test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:151:        try await appModel.clearChatGPTSessionCookie()
+PinemeterTests/AppModelTests.swift:102:        await appModel.refreshUsage(forceRefresh: true)
+PinemeterTests/AppModelTests.swift:127:        await appModel.refreshUsage(forceRefresh: false)
+PinemeterTests/AppModelTests.swift:152:        await appModel.refreshUsage(forceRefresh: false)
+PinemeterTests/AppModelTests.swift:174:        let result = try await appModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:204:        let statuses = appModel.providerCredentialStatuses
+PinemeterTests/AppModelTests.swift:246:        var claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+PinemeterTests/AppModelTests.swift:260:        claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+PinemeterTests/AppModelTests.swift:275:        claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+PinemeterTests/AppModelTests.swift:284:    func test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates() throws {
+PinemeterTests/AppModelTests.swift:296:        let cases: [(CredentialHealthState, [ProviderCredentialActionKind])] = [
+PinemeterTests/AppModelTests.swift:315:            let claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+PinemeterTests/AppModelTests.swift:345:        let result = try await appModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:386:        let imported = try await appModel.importAndSaveSessionKey()
+PinemeterTests/AppModelTests.swift:436:        let outcome = await appModel.importProviderSessions(from: .chrome)
+PinemeterTests/AppModelTests.swift:478:        let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+PinemeterTests/AppModelTests.swift:512:        let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+PinemeterTests/AppModelTests.swift:539:        let state = await appModel.repairClaudeSessionKey()
+PinemeterTests/AppModelTests.swift:563:        let state = await appModel.repairClaudeSessionKey()
+PinemeterTests/AppModelTests.swift:595:            _ = try await appModel.importAndSaveSessionKey()
+PinemeterTests/AppModelTests.swift:623:            _ = try await appModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:655:        try await appModel.clearSessionKey()
+PinemeterTests/AppModelTests.swift:687:        let rejected = try await invalidModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:714:        let acquired = try await setupModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:736:        try await setupModel.clearSessionKey()
+PinemeterTests/AppModelTests.swift:743:        let reacquired = try await setupModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:775:        let rejected = try await invalidModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+PinemeterTests/AppModelTests.swift:803:        let acquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+PinemeterTests/AppModelTests.swift:832:        try await setupModel.clearChatGPTSessionCookie()
+PinemeterTests/AppModelTests.swift:841:        let reacquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+PinemeterTests/AppModelTests.swift:924:    func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+Pinemeter/Services/SessionKeyImportService.swift:122:            _ = try await keychainRepository.repairClaudeSessionKey(sessionKey.value, account: account)
+Pinemeter/Views/Setup/SetupWizardView.swift:15:        let statuses = appModel.providerCredentialStatuses
+Pinemeter/Views/Setup/SetupWizardView.swift:190:                        await importProviderSessions(from: source)
+Pinemeter/Views/Setup/SetupWizardView.swift:217:    private func importProviderSessions(from source: BrowserImportSource) async {
+Pinemeter/Views/Setup/SetupWizardView.swift:224:        let outcome = await appModel.importProviderSessions(from: source)
+Pinemeter/Views/Setup/SetupWizardView.swift:272:    private func handleCredentialAction(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) {
+Pinemeter/Views/Setup/SetupWizardView.swift:276:                await importProviderSessions(from: .defaultBrowser)
+Pinemeter/Views/Setup/SetupWizardView.swift:279:                    await repairClaudeSessionKey()
+Pinemeter/Views/Setup/SetupWizardView.swift:281:                    await importProviderSessions(from: .defaultBrowser)
+Pinemeter/Views/Setup/SetupWizardView.swift:290:    private func repairClaudeSessionKey() async {
+Pinemeter/Views/Setup/SetupWizardView.swift:297:        let state = await appModel.repairClaudeSessionKey()
+Pinemeter/Views/Setup/SetupWizardView.swift:302:            let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+Pinemeter/Views/Setup/SetupWizardView.swift:320:                try await appModel.clearSessionKey()
+Pinemeter/Views/Setup/SetupWizardView.swift:322:                try await appModel.clearChatGPTSessionCookie()
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:26:    func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:30:                        await appModel.refreshUsage(forceRefresh: true)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:32:                            await appModel.refreshChatGPTUsage()
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:67:                                await appModel.refreshUsage(forceRefresh: true)
+Pinemeter/Views/Settings/SettingsView.swift:93:            ForEach(appModel.providerCredentialStatuses) { status in
+Pinemeter/Views/Settings/SettingsView.swift:96:                if status.id != appModel.providerCredentialStatuses.last?.id {
+Pinemeter/Views/Settings/SettingsView.swift:115:                    Task { await importProviderSessionsFromSettings(source) }
+Pinemeter/Views/Settings/SettingsView.swift:262:                        Task { await appModel.refreshChatGPTUsage() }
+Pinemeter/Views/Settings/SettingsView.swift:629:    private func importProviderSessionsFromSettings(_ source: BrowserImportSource) async {
+Pinemeter/Views/Settings/SettingsView.swift:637:        let outcome = await appModel.importProviderSessions(from: source)
+Pinemeter/Views/Settings/SettingsView.swift:690:    private func importAndSaveSessionKey() async {
+Pinemeter/Views/Settings/SettingsView.swift:697:            let imported = try await appModel.importAndSaveSessionKey()
+Pinemeter/Views/Settings/SettingsView.swift:721:    private func clearSessionKey() {
+Pinemeter/Views/Settings/SettingsView.swift:723:            await clearSessionKeyFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:728:    private func clearSessionKeyFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:730:            try await appModel.clearSessionKey()
+Pinemeter/Views/Settings/SettingsView.swift:742:    private func repairClaudeSessionKeyFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:747:        let state = await appModel.repairClaudeSessionKey()
+Pinemeter/Views/Settings/SettingsView.swift:752:            let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+Pinemeter/Views/Settings/SettingsView.swift:758:    private func handleCredentialAction(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) {
+Pinemeter/Views/Settings/SettingsView.swift:762:                await importAndSaveSessionKey()
+Pinemeter/Views/Settings/SettingsView.swift:764:                await repairClaudeSessionKeyFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:766:                await clearSessionKeyFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:768:                await importAndSaveChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:770:                await clearChatGPTSessionCookieFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:775:    private func isCredentialActionDisabled(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> Bool {
+Pinemeter/Views/Settings/SettingsView.swift:791:    private func importAndSaveChatGPTSessionCookie() async {
+Pinemeter/Views/Settings/SettingsView.swift:797:            let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:817:    private func clearChatGPTSessionCookie() {
+Pinemeter/Views/Settings/SettingsView.swift:819:            await clearChatGPTSessionCookieFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:824:    private func clearChatGPTSessionCookieFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:826:            try await appModel.clearChatGPTSessionCookie()
+
+== views touching app model recovery/session APIs ==
+Pinemeter/Views/Settings/SettingsView.swift:93:            ForEach(appModel.providerCredentialStatuses) { status in
+Pinemeter/Views/Settings/SettingsView.swift:96:                if status.id != appModel.providerCredentialStatuses.last?.id {
+Pinemeter/Views/Settings/SettingsView.swift:115:                    Task { await importProviderSessionsFromSettings(source) }
+Pinemeter/Views/Settings/SettingsView.swift:629:    private func importProviderSessionsFromSettings(_ source: BrowserImportSource) async {
+Pinemeter/Views/Settings/SettingsView.swift:637:        let outcome = await appModel.importProviderSessions(from: source)
+Pinemeter/Views/Settings/SettingsView.swift:690:    private func importAndSaveSessionKey() async {
+Pinemeter/Views/Settings/SettingsView.swift:697:            let imported = try await appModel.importAndSaveSessionKey()
+Pinemeter/Views/Settings/SettingsView.swift:721:    private func clearSessionKey() {
+Pinemeter/Views/Settings/SettingsView.swift:723:            await clearSessionKeyFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:728:    private func clearSessionKeyFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:730:            try await appModel.clearSessionKey()
+Pinemeter/Views/Settings/SettingsView.swift:742:    private func repairClaudeSessionKeyFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:747:        let state = await appModel.repairClaudeSessionKey()
+Pinemeter/Views/Settings/SettingsView.swift:752:            let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+Pinemeter/Views/Settings/SettingsView.swift:762:                await importAndSaveSessionKey()
+Pinemeter/Views/Settings/SettingsView.swift:764:                await repairClaudeSessionKeyFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:766:                await clearSessionKeyFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:768:                await importAndSaveChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:770:                await clearChatGPTSessionCookieFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:791:    private func importAndSaveChatGPTSessionCookie() async {
+Pinemeter/Views/Settings/SettingsView.swift:797:            let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:817:    private func clearChatGPTSessionCookie() {
+Pinemeter/Views/Settings/SettingsView.swift:819:            await clearChatGPTSessionCookieFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:824:    private func clearChatGPTSessionCookieFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:826:            try await appModel.clearChatGPTSessionCookie()
+Pinemeter/Views/Setup/SetupWizardView.swift:15:        let statuses = appModel.providerCredentialStatuses
+Pinemeter/Views/Setup/SetupWizardView.swift:190:                        await importProviderSessions(from: source)
+Pinemeter/Views/Setup/SetupWizardView.swift:217:    private func importProviderSessions(from source: BrowserImportSource) async {
+Pinemeter/Views/Setup/SetupWizardView.swift:224:        let outcome = await appModel.importProviderSessions(from: source)
+Pinemeter/Views/Setup/SetupWizardView.swift:276:                await importProviderSessions(from: .defaultBrowser)
+Pinemeter/Views/Setup/SetupWizardView.swift:279:                    await repairClaudeSessionKey()
+Pinemeter/Views/Setup/SetupWizardView.swift:281:                    await importProviderSessions(from: .defaultBrowser)
+Pinemeter/Views/Setup/SetupWizardView.swift:290:    private func repairClaudeSessionKey() async {
+Pinemeter/Views/Setup/SetupWizardView.swift:297:        let state = await appModel.repairClaudeSessionKey()
+Pinemeter/Views/Setup/SetupWizardView.swift:302:            let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+Pinemeter/Views/Setup/SetupWizardView.swift:320:                try await appModel.clearSessionKey()
+Pinemeter/Views/Setup/SetupWizardView.swift:322:                try await appModel.clearChatGPTSessionCookie()
+
+== negative/error tests around credential/session recovery ==
+PinemeterTests/NotificationServiceTests.swift:8:import XCTest
+PinemeterTests/NotificationServiceTests.swift:9:@testable import Pinemeter
+PinemeterTests/KeychainRepositoryTests.swift:8:import XCTest
+PinemeterTests/KeychainRepositoryTests.swift:9:@testable import Pinemeter
+PinemeterTests/KeychainRepositoryTests.swift:27:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-created", account: account)
+PinemeterTests/KeychainRepositoryTests.swift:31:        XCTAssertEqual(storedKey, "sk-ant-repaired-created")
+PinemeterTests/KeychainRepositoryTests.swift:39:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-updated", account: account)
+PinemeterTests/KeychainRepositoryTests.swift:43:        XCTAssertEqual(storedKey, "sk-ant-repaired-updated")
+PinemeterTests/KeychainRepositoryTests.swift:52:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-account", account: account)
+PinemeterTests/SettingsRepositoryTests.swift:8:import XCTest
+PinemeterTests/SettingsRepositoryTests.swift:9:@testable import Pinemeter
+PinemeterTests/SessionKeyTests.swift:1:import XCTest
+PinemeterTests/SessionKeyTests.swift:2:@testable import Pinemeter
+PinemeterTests/SessionKeyTests.swift:22:        XCTAssertEqual(SessionKeyError.invalidFormat.errorDescription, "Claude session key must start with 'sk-ant-'")
+PinemeterTests/SecurityInvariantTests.swift:1:import XCTest
+PinemeterTests/SecurityInvariantTests.swift:2:@testable import Pinemeter
+PinemeterTests/SecurityInvariantTests.swift:74:                sessionCookie: "__Secure-next-auth.session-token=synthetic-cookie-redaction-sentinel; cf_clearance=synthetic-cookie-redaction-sentinel",
+PinemeterTests/SecurityInvariantTests.swift:92:        try await repository.clear(account: account)
+PinemeterTests/SecurityInvariantTests.swift:111:        } catch ChatGPTSessionRepositoryError.invalidSessionCookie {
+PinemeterTests/SecurityInvariantTests.swift:118:        XCTAssertEqual(status.state, .invalid)
+PinemeterTests/SecurityInvariantTests.swift:119:        XCTAssertEqual(status.lastErrorCategory, .invalidSessionCookie)
+PinemeterTests/SecurityInvariantTests.swift:171:        let importSource = try sourceContents(relativePath: "Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift")
+PinemeterTests/SecurityInvariantTests.swift:174:        XCTAssertTrue(importSource.contains("Import from \\(displayName)"))
+PinemeterTests/SecurityInvariantTests.swift:175:        XCTAssertTrue(importSource.contains("Default Browser"))
+PinemeterTests/SecurityInvariantTests.swift:176:        XCTAssertTrue(importSource.contains("Chrome"))
+PinemeterTests/SecurityInvariantTests.swift:177:        XCTAssertTrue(importSource.contains("Safari"))
+PinemeterTests/SecurityInvariantTests.swift:188:            AppError.networkError(.httpError(statusCode: 401)),
+PinemeterTests/SecurityInvariantTests.swift:190:            AppError.keychainError(.saveFailed(OSStatus: -34018)),
+PinemeterTests/SecurityInvariantTests.swift:191:            AppError.keychainError(.updateFailed(OSStatus: -50)),
+PinemeterTests/SecurityInvariantTests.swift:203:            ChatGPTUsageError.missingSessionCookie,
+PinemeterTests/SecurityInvariantTests.swift:204:            ChatGPTUsageError.invalidSessionCookie,
+PinemeterTests/SecurityInvariantTests.swift:205:            ChatGPTUsageError.invalidResponse,
+PinemeterTests/SecurityInvariantTests.swift:206:            ChatGPTUsageError.httpError(statusCode: 403),
+PinemeterTests/SecurityInvariantTests.swift:207:            ChatGPTUsageError.networkUnavailable
+PinemeterTests/SecurityInvariantTests.swift:215:            NetworkError.invalidURL,
+PinemeterTests/SecurityInvariantTests.swift:216:            NetworkError.invalidResponse,
+PinemeterTests/SecurityInvariantTests.swift:219:            NetworkError.httpError(statusCode: 500),
+PinemeterTests/SecurityInvariantTests.swift:221:            NetworkError.networkUnavailable,
+PinemeterTests/SecurityInvariantTests.swift:223:            KeychainError.saveFailed(OSStatus: -34018),
+PinemeterTests/SecurityInvariantTests.swift:224:            KeychainError.notFound,
+PinemeterTests/SecurityInvariantTests.swift:267:            "Signed Pinemeter builds must use the explicit official identity so Claude Keychain repair runs under the expected trusted app identity."
+PinemeterTests/SecurityInvariantTests.swift:271:            "Claude Keychain repair depends on re-saving credentials under the official Autimo signed app identity, not an ad-hoc or local identity."
+PinemeterTests/SecurityInvariantTests.swift:275:            "The official Autimo team identifier is part of the Keychain access group prefix used when repairing Claude credentials."
+PinemeterTests/SecurityInvariantTests.swift:279:            "Ad-hoc signing must not be the project default for builds that exercise Claude Keychain repair."
+PinemeterTests/SecurityInvariantTests.swift:285:        let repairBody = try XCTUnwrap(
+PinemeterTests/SecurityInvariantTests.swift:286:            source.range(of: "func repairClaudeSessionKey")
+PinemeterTests/SecurityInvariantTests.swift:294:            repairBody.contains("kSecAttrService as String: serviceName"),
+PinemeterTests/SecurityInvariantTests.swift:295:            "Claude credential repair must re-save under the existing legacy service identifier so old prompt-triggering items remain repairable."
+PinemeterTests/SecurityInvariantTests.swift:298:            repairBody.contains("kSecAttrAccessGroup"),
+PinemeterTests/SecurityInvariantTests.swift:302:            repairBody.contains("SecItemDelete"),
+PinemeterTests/SecurityInvariantTests.swift:394:            "cf_clearance=synthetic-cookie-redaction-sentinel",
+PinemeterTests/CopyableErrorPresentationTests.swift:1:import XCTest
+PinemeterTests/AppSettingsTests.swift:1:import XCTest
+PinemeterTests/AppSettingsTests.swift:2:@testable import Pinemeter
+PinemeterTests/ChatGPTAppModelTests.swift:6:import Foundation
+PinemeterTests/ChatGPTAppModelTests.swift:7:import XCTest
+PinemeterTests/ChatGPTAppModelTests.swift:8:@testable import Pinemeter
+PinemeterTests/ChatGPTAppModelTests.swift:31:            state: .storageUnavailable,
+PinemeterTests/ChatGPTAppModelTests.swift:32:            lastErrorCategory: .keychainReadFailed
+PinemeterTests/ChatGPTAppModelTests.swift:40:        XCTAssertEqual(appModel.chatGPTCredentialState.failureCategory, .storageUnavailable)
+PinemeterTests/ChatGPTAppModelTests.swift:43:        XCTAssertEqual(status.actions.map(\.kind), [.reconnect, .clear])
+PinemeterTests/ChatGPTAppModelTests.swift:58:        XCTAssertEqual(appModel.chatGPTCredentialState.health, .invalid)
+PinemeterTests/ChatGPTAppModelTests.swift:59:        XCTAssertEqual(appModel.chatGPTCredentialState.failureCategory, .providerRejected)
+PinemeterTests/ChatGPTAppModelTests.swift:70:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:73:            keychainRepository: keychainRepository,
+PinemeterTests/ChatGPTAppModelTests.swift:83:        await XCTAssertThrowsErrorAsync(try await keychainRepository.retrieve(account: "default"))
+PinemeterTests/ChatGPTAppModelTests.swift:92:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:95:            keychainRepository: keychainRepository,
+PinemeterTests/ChatGPTAppModelTests.swift:110:            fetchUsageResult: .failure(ChatGPTUsageError.networkUnavailable)
+PinemeterTests/ChatGPTAppModelTests.swift:112:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:119:            keychainRepository: keychainRepository,
+PinemeterTests/ChatGPTAppModelTests.swift:134:    func test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:135:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/ChatGPTAppModelTests.swift:136:        try await keychainRepository.save(sessionKey: TestConstants.sessionKeyValue, account: "default")
+PinemeterTests/ChatGPTAppModelTests.swift:143:            keychainRepository: keychainRepository,
+PinemeterTests/ChatGPTAppModelTests.swift:151:        try await appModel.clearChatGPTSessionCookie()
+PinemeterTests/ChatGPTAppModelTests.swift:153:        let savedClaudeKey = try await keychainRepository.retrieve(account: "default")
+PinemeterTests/ChatGPTAppModelTests.swift:163:        keychainRepository: KeychainRepositoryFake = KeychainRepositoryFake(),
+PinemeterTests/ChatGPTAppModelTests.swift:169:            keychainRepository: keychainRepository,
+PinemeterTests/ChatGPTAppModelTests.swift:180:    private var status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+PinemeterTests/ChatGPTAppModelTests.swift:189:            status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+PinemeterTests/ChatGPTAppModelTests.swift:190:            throw ChatGPTSessionRepositoryError.notFound
+PinemeterTests/ChatGPTAppModelTests.swift:203:    func clear(account: String) async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:205:        status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+PinemeterTests/MenuBarIconRendererTests.swift:8:import XCTest
+PinemeterTests/MenuBarIconRendererTests.swift:9:@testable import Pinemeter
+PinemeterTests/TestDoubles/UsageServiceStub.swift:8:import Foundation
+PinemeterTests/TestDoubles/UsageServiceStub.swift:9:@testable import Pinemeter
+PinemeterTests/TestSupport/MenuBarIconSnapshotRenderer.swift:8:import AppKit
+PinemeterTests/TestSupport/MenuBarIconSnapshotRenderer.swift:9:import SwiftUI
+PinemeterTests/TestSupport/MenuBarIconSnapshotRenderer.swift:10:@testable import Pinemeter
+PinemeterTests/TestDoubles/SettingsRepositoryFake.swift:8:import Foundation
+PinemeterTests/TestDoubles/SettingsRepositoryFake.swift:9:@testable import Pinemeter
+PinemeterTests/TestDoubles/NetworkServiceStub.swift:8:import Foundation
+PinemeterTests/TestDoubles/NetworkServiceStub.swift:9:@testable import Pinemeter
+PinemeterTests/TestSupport/TestConstants.swift:8:import Foundation
+PinemeterTests/ChatGPTUsageServiceTests.swift:6:import Foundation
+PinemeterTests/ChatGPTUsageServiceTests.swift:7:import XCTest
+PinemeterTests/ChatGPTUsageServiceTests.swift:8:@testable import Pinemeter
+PinemeterTests/ChatGPTUsageServiceTests.swift:107:            XCTFail("Expected missing session cookie error")
+PinemeterTests/ChatGPTUsageServiceTests.swift:108:        } catch ChatGPTUsageError.missingSessionCookie {
+PinemeterTests/ChatGPTUsageServiceTests.swift:176:            XCTFail("Expected missing session cookie error")
+PinemeterTests/ChatGPTUsageServiceTests.swift:177:        } catch ChatGPTUsageError.missingSessionCookie {
+PinemeterTests/ChatGPTUsageServiceTests.swift:179:            XCTAssertEqual(status.state, .missing)
+PinemeterTests/ChatGPTUsageServiceTests.swift:180:            XCTAssertEqual(status.lastErrorCategory, .notFound)
+PinemeterTests/ChatGPTUsageServiceTests.swift:196:            XCTFail("Expected invalid session cookie error")
+PinemeterTests/ChatGPTUsageServiceTests.swift:197:        } catch ChatGPTUsageError.invalidSessionCookie {
+PinemeterTests/ChatGPTUsageServiceTests.swift:198:            let clearCalled = await repository.clearCalled
+PinemeterTests/ChatGPTUsageServiceTests.swift:200:            XCTAssertTrue(clearCalled)
+PinemeterTests/ChatGPTUsageServiceTests.swift:201:            XCTAssertEqual(status.state, .missing)
+PinemeterTests/ChatGPTUsageServiceTests.swift:202:            XCTAssertEqual(status.lastErrorCategory, .notFound)
+PinemeterTests/ChatGPTUsageServiceTests.swift:210:        try await repository.save(ChatGPTSession(sessionCookie: "expired-session-token-redacted"), account: ChatGPTUsageService.defaultSessionAccount)
+PinemeterTests/ChatGPTUsageServiceTests.swift:211:        let invalidHTTPClient = ChatGPTHTTPClientStub(responses: ["auth": #"{}"#.data(using: .utf8)!])
+PinemeterTests/ChatGPTUsageServiceTests.swift:212:        let invalidService = ChatGPTUsageService(httpClient: invalidHTTPClient, sessionRepository: repository)
+PinemeterTests/ChatGPTUsageServiceTests.swift:215:            _ = try await invalidService.fetchUsage()
+PinemeterTests/ChatGPTUsageServiceTests.swift:216:            XCTFail("Expected invalid session cookie error")
+PinemeterTests/ChatGPTUsageServiceTests.swift:217:        } catch ChatGPTUsageError.invalidSessionCookie {
+PinemeterTests/ChatGPTUsageServiceTests.swift:219:            XCTAssertEqual(status.state, .missing)
+PinemeterTests/ChatGPTUsageServiceTests.swift:220:            XCTAssertEqual(status.lastErrorCategory, .notFound)
+PinemeterTests/ChatGPTUsageServiceTests.swift:253:            XCTFail("Expected invalid session cookie error")
+PinemeterTests/ChatGPTUsageServiceTests.swift:254:        } catch ChatGPTUsageError.invalidSessionCookie {
+PinemeterTests/ChatGPTUsageServiceTests.swift:264:    private(set) var clearCalled = false
+PinemeterTests/ChatGPTUsageServiceTests.swift:265:    private(set) var status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+PinemeterTests/ChatGPTUsageServiceTests.swift:274:            status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+PinemeterTests/ChatGPTUsageServiceTests.swift:275:            throw ChatGPTSessionRepositoryError.notFound
+PinemeterTests/ChatGPTUsageServiceTests.swift:284:    func clear(account: String) async throws {
+PinemeterTests/ChatGPTUsageServiceTests.swift:286:        clearCalled = true
+PinemeterTests/ChatGPTUsageServiceTests.swift:287:        status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+PinemeterTests/ChatGPTUsageServiceTests.swift:321:            throw ChatGPTUsageError.invalidResponse
+PinemeterTests/UsageServiceTests.swift:8:import XCTest
+PinemeterTests/UsageServiceTests.swift:9:@testable import Pinemeter
+PinemeterTests/UsageServiceTests.swift:15:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:21:            keychainRepository: keychainRepository,
+PinemeterTests/UsageServiceTests.swift:39:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:45:            keychainRepository: keychainRepository,
+PinemeterTests/UsageServiceTests.swift:49:        try await keychainRepository.save(
+PinemeterTests/UsageServiceTests.swift:78:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:84:            keychainRepository: keychainRepository,
+PinemeterTests/UsageServiceTests.swift:88:        try await keychainRepository.save(
+PinemeterTests/UsageServiceTests.swift:120:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:126:            keychainRepository: keychainRepository,
+PinemeterTests/UsageServiceTests.swift:130:        try await keychainRepository.save(
+PinemeterTests/UsageServiceTests.swift:157:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:163:            keychainRepository: keychainRepository,
+PinemeterTests/UsageServiceTests.swift:167:        try await keychainRepository.save(
+PinemeterTests/UsageServiceTests.swift:196:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:202:            keychainRepository: keychainRepository,
+PinemeterTests/UsageServiceTests.swift:206:        try await keychainRepository.save(
+PinemeterTests/UsageServiceTests.swift:237:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:243:            keychainRepository: keychainRepository,
+PinemeterTests/UsageServiceTests.swift:247:        try await keychainRepository.save(
+PinemeterTests/UsageServiceTests.swift:258:            XCTFail("Expected invalidResponse error")
+PinemeterTests/UsageServiceTests.swift:260:            if case .invalidResponse = networkError {
+PinemeterTests/UsageServiceTests.swift:263:            XCTFail("Expected invalidResponse error")
+PinemeterTests/UsageServiceTests.swift:281:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/UsageServiceTests.swift:287:            keychainRepository: keychainRepository,
+PinemeterTests/UsageServiceTests.swift:291:        try await keychainRepository.save(
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:8:import Foundation
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:9:@testable import Pinemeter
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:26:    func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+PinemeterTests/TestDoubles/KeychainRepositoryFake.swift:34:            throw KeychainError.notFound
+PinemeterTests/TestSupport/TestError.swift:8:import Foundation
+PinemeterTests/ProviderErrorWorkflowTests.swift:1:import XCTest
+PinemeterTests/ProviderErrorWorkflowTests.swift:2:@testable import Pinemeter
+PinemeterTests/ProviderErrorWorkflowTests.swift:11:        XCTAssertEqual(AppError.sessionKeyInvalid.errorDescription, "Claude session key is invalid or expired. Please update in settings.")
+PinemeterTests/ProviderErrorWorkflowTests.swift:16:        XCTAssertEqual(NetworkError.authenticationFailed.errorDescription, "Claude session key is invalid or expired")
+PinemeterTests/ProviderErrorWorkflowTests.swift:20:        XCTAssertTrue(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "Claude session key is invalid or expired"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:23:        XCTAssertFalse(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "ChatGPT session token is invalid"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:40:            ChatGPTUsageError.missingSessionCookie.localizedDescription,
+PinemeterTests/ProviderErrorWorkflowTests.swift:41:            ChatGPTUsageError.invalidSessionCookie.localizedDescription,
+PinemeterTests/ProviderErrorWorkflowTests.swift:42:            ChatGPTUsageError.invalidResponse.localizedDescription,
+PinemeterTests/ProviderErrorWorkflowTests.swift:43:            ChatGPTUsageError.httpError(statusCode: 401).localizedDescription,
+PinemeterTests/ProviderErrorWorkflowTests.swift:44:            ChatGPTUsageError.networkUnavailable.localizedDescription
+PinemeterTests/ProviderErrorWorkflowTests.swift:61:                health: .invalid,
+PinemeterTests/ProviderErrorWorkflowTests.swift:62:                failureCategory: .providerRejected,
+PinemeterTests/ProviderErrorWorkflowTests.swift:65:            actions: [.init(kind: .reconnect), .init(kind: .clear)]
+PinemeterTests/ProviderErrorWorkflowTests.swift:82:                failureCategory: .storageUnavailable,
+PinemeterTests/ProviderErrorWorkflowTests.swift:85:            actions: [.init(kind: .reconnect), .init(kind: .repair), .init(kind: .clear)]
+PinemeterTests/ProviderErrorWorkflowTests.swift:116:        XCTAssertTrue(setupSource.contains("case .repair:"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:117:        XCTAssertTrue(setupSource.contains("await repairClaudeSessionKey()"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:118:        XCTAssertTrue(setupSource.contains("case .clear:"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:119:        XCTAssertTrue(setupSource.contains("await clearSavedCredential(for: status.provider)"))
+PinemeterTests/CacheRepositoryTests.swift:6:import XCTest
+PinemeterTests/CacheRepositoryTests.swift:7:@testable import Pinemeter
+PinemeterTests/CacheRepositoryTests.swift:81:    func test_invalidateRemovesPrivateCacheAndPublicExportArtifacts() async throws {
+PinemeterTests/CacheRepositoryTests.swift:86:        await repository.invalidate()
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:1:import Foundation
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:2:@testable import Pinemeter
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:7:    let repairState: CredentialState
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:13:        repairState: CredentialState = CredentialState(
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:20:        self.repairState = repairState
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:23:    func importSessionKey() async throws -> ImportedSessionKey {
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:24:        try await importSessionKey(from: .defaultBrowser)
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:27:    func importSessionKey(from source: BrowserImportSource) async throws -> ImportedSessionKey {
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:30:        case .success(let imported):
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:31:            return imported
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:37:    func importChatGPTSessionCookie() async throws -> ImportedChatGPTSessionCookie {
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:38:        try await importChatGPTSessionCookie(from: .defaultBrowser)
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:41:    func importChatGPTSessionCookie(from source: BrowserImportSource) async throws -> ImportedChatGPTSessionCookie {
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:44:        case .success(let imported):
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:45:            return imported
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:51:    func repairSavedSessionKey(account: String) async -> CredentialState {
+PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift:52:        repairState
+PinemeterTests/CredentialStateTests.swift:1:import XCTest
+PinemeterTests/CredentialStateTests.swift:2:@testable import Pinemeter
+PinemeterTests/CredentialStateTests.swift:19:        XCTAssertFalse(CredentialHealthState.missing.isUsable)
+PinemeterTests/CredentialStateTests.swift:20:        XCTAssertFalse(CredentialHealthState.invalid.isUsable)
+PinemeterTests/CredentialStateTests.swift:21:        XCTAssertFalse(CredentialHealthState.expired.isUsable)
+PinemeterTests/CredentialStateTests.swift:50:        XCTAssertEqual(CredentialFailureCategory.invalidFormat.displayTitle, "Credential format is invalid")
+PinemeterTests/CredentialStateTests.swift:51:        XCTAssertEqual(CredentialFailureCategory.providerRejected.displayDescription, "The provider rejected the saved credential.")
+PinemeterTests/CredentialStateTests.swift:52:        XCTAssertEqual(CredentialFailureCategory.storageUnavailable.recoverySuggestion, "Check Keychain access and try again.")
+PinemeterTests/CredentialStateTests.swift:58:            health: .invalid,
+PinemeterTests/CredentialStateTests.swift:59:            failureCategory: .providerRejected
+PinemeterTests/CredentialStateTests.swift:82:            health: .expired,
+PinemeterTests/CredentialStateTests.swift:83:            failureCategory: .expired,
+PinemeterTests/TestDoubles/CacheRepositoryFake.swift:8:import Foundation
+PinemeterTests/TestDoubles/CacheRepositoryFake.swift:9:@testable import Pinemeter
+PinemeterTests/TestDoubles/CacheRepositoryFake.swift:24:    func invalidate() async {
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:8:import XCTest
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:9:@testable import Pinemeter
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:17:            try? await repository.clear(account: account)
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:65:        XCTAssertEqual(status.state, .missing)
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:66:        XCTAssertEqual(status.lastErrorCategory, .notFound)
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:77:        } catch ChatGPTSessionRepositoryError.invalidSessionCookie {
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:84:        XCTAssertEqual(status.state, .invalid)
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:85:        XCTAssertEqual(status.lastErrorCategory, .invalidSessionCookie)
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:89:    func test_clearRemovesDurableCookieAndTransientAccessToken() async throws {
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:97:        try await repository.clear(account: account)
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:101:            XCTFail("Expected cleared ChatGPT session to be absent")
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:102:        } catch ChatGPTSessionRepositoryError.notFound {
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:109:        XCTAssertEqual(status.state, .missing)
+PinemeterTests/ChatGPTSessionRepositoryTests.swift:110:        XCTAssertEqual(status.lastErrorCategory, .notFound)
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:8:import Foundation
+PinemeterTests/TestDoubles/NotificationServiceSpy.swift:9:@testable import Pinemeter
+PinemeterTests/AppModelTests.swift:1:import XCTest
+PinemeterTests/AppModelTests.swift:2:@testable import Pinemeter
+PinemeterTests/AppModelTests.swift:10:        let keychainRepository = KeychainRepositoryFake()
+PinemeterTests/AppModelTests.swift:14:            keychainRepository: keychainRepository,
+PinemeterTests/AppModelTests.swift:19:        try? await keychainRepository.delete(account: "default")
+PinemeterTests/AppModelTests.swift:34:        let keychainRepository = KeychainRepositoryFake()

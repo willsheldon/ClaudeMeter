@@ -1,0 +1,2 @@
+provider_contract_files=4 marker_checks=16 missing=4
+missing=Pinemeter/Views/Settings/SettingsView.swift:CredentialStatusRow;Pinemeter/Views/Setup/SetupWizardView.swift:providerStatusRow;Pinemeter/Views/MenuBar/MenuBarPopoverView.swift:Claude Code;Pinemeter/Views/MenuBar/MenuBarPopoverView.swift:ChatGPT

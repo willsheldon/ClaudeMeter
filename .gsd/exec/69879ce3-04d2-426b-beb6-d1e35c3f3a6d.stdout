@@ -1,0 +1,52 @@
+## fail
+267: Failed frontend command:
+295: Testing failed:
+306: 	Testing cancelled because the build failed.
+308: ** TEST FAILED **
+311: The following build commands failed:
+315: (3 failures)
+## error
+221: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:623:43: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+227: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:624:50: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+233: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:632:43: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+239: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:633:43: error: actor-isolated property 'forceRefreshValues' can not be referenced from the main actor
+245: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:634:50: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+251: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:623:24: error: 'await' in an autoclosure that does not support concurrency
+254: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:624:24: error: 'await' in an autoclosure that does not support concurrency
+257: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:632:24: error: 'await' in an autoclosure that does not support concurrency
+260: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:633:24: error: 'await' in an autoclosure that does not support concurrency
+263: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:634:24: error: 'await' in an autoclosure that does not support concurrency
+268: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -c /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/CacheRepositoryFake.swift /Users/will/code/Claude
+## Testing failed
+295: Testing failed:
+## Test Case
+(none)
+## CompileSwift
+(none)
+## SwiftCompile
+67: SwiftCompile normal arm64 Compiling\ UsagePopoverView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/UsagePopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+69: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/UsagePopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+79: SwiftCompile normal arm64 Compiling\ AppModel.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppModel.swift (in target 'Pinemeter' from project 'Pinemeter')
+80: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppModel.swift (in target 'Pinemeter' from project 'Pinemeter')
+84: SwiftCompile normal arm64 Compiling\ MenuBarPopoverView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarPopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+86: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarPopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+96: SwiftCompile normal arm64 Compiling\ SetupWizardView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Setup/SetupWizardView.swift (in target 'Pinemeter' from project 'Pinemeter')
+98: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Setup/SetupWizardView.swift (in target 'Pinemeter' from project 'Pinemeter')
+102: SwiftCompile normal arm64 Compiling\ MenuBarManager.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarManager.swift (in target 'Pinemeter' from project 'Pinemeter')
+104: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarManager.swift (in target 'Pinemeter' from project 'Pinemeter')
+108: SwiftCompile normal arm64 Compiling\ PinemeterApp.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/PinemeterApp.swift (in target 'Pinemeter' from project 'Pinemeter')
+110: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/PinemeterApp.swift (in target 'Pinemeter' from project 'Pinemeter')
+114: SwiftCompile normal arm64 Compiling\ DemoDataFactory.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Utilities/DemoDataFactory.swift (in target 'Pinemeter' from project 'Pinemeter')
+116: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Utilities/DemoDataFactory.swift (in target 'Pinemeter' from project 'Pinemeter')
+120: SwiftCompile normal arm64 Compiling\ SettingsView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Settings/SettingsView.swift (in target 'Pinemeter' from project 'Pinemeter')
+121: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Settings/SettingsView.swift (in target 'Pinemeter' from project 'Pinemeter')
+125: SwiftCompile normal arm64 Compiling\ AppDelegate.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppDelegate.swift (in target 'Pinemeter' from project 'Pinemeter')
+127: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppDelegate.swift (in target 'Pinemeter' from project 'Pinemeter')
+200: SwiftCompile normal arm64 Compiling\ UsageServiceStub.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift (in target 'PinemeterTests' from project 'Pinemeter')
+202: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift (in target 'PinemeterTests' from project 'Pinemeter')
+## Command failed
+(none)
+## Issue
+(none)
+## Unexpected
+(none)

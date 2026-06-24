@@ -1,0 +1,22 @@
+menu-provider-audit
+setup_gate: FOUND Pinemeter/Views/MenuBar/MenuBarPopoverView.swift:16
+claude_header: FOUND Pinemeter/Views/MenuBar/UsagePopoverView.swift:21
+refresh_claude_first: FOUND Pinemeter/Views/MenuBar/UsagePopoverView.swift:30
+chatgpt_conditional: FOUND Pinemeter/Views/MenuBar/UsagePopoverView.swift:31
+loading_copy: FOUND Pinemeter/Views/MenuBar/UsagePopoverView.swift:153
+claude_error_banner: FOUND Pinemeter/Views/MenuBar/UsagePopoverView.swift:53
+chatgpt_error_banner: FOUND Pinemeter/Views/MenuBar/UsagePopoverView.swift:135
+bootstrap_claude_setup: FOUND Pinemeter/App/AppModel.swift:222
+bootstrap_chatgpt_validate: FOUND Pinemeter/App/AppModel.swift:229
+refresh_loop_either_provider: FOUND Pinemeter/App/AppModel.swift:640
+icon_dual_bars: FOUND Pinemeter/Views/MenuBar/MenuBarIconView.swift:21
+claude_card_title_param: FOUND Pinemeter/Views/MenuBar/UsageCardView.swift:12
+chatgpt_card_fixed_title: FOUND Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:19
+test_without_session_setup_false: FOUND PinemeterTests/AppModelTests.swift:6
+test_chatgpt_import: FOUND PinemeterTests/AppModelTests.swift:366
+matrix: none -> MenuBarPopoverView shows SetupWizard because isSetupComplete is false even if ChatGPT absent
+matrix: claude-only -> UsagePopoverView shown, Claude section when usageData exists, header says Claude Usage
+matrix: chatgpt-only -> AppModel refresh loop can run with hasChatGPTSessionCookie, but popover gate remains isSetupComplete-only so setup wizard is shown
+matrix: both -> UsagePopoverView shown, Claude and ChatGPT sections render when both data objects exist and ChatGPT setting enabled
+matrix: loading -> single Loading usage data copy when no usage data/error; refresh spinner keyed only to isRefreshing not isRefreshingChatGPT
+matrix: error -> Claude top banner from errorMessage; ChatGPT inline banner from chatGPTErrorMessage when setting enabled

@@ -1,0 +1,4 @@
+provider status surface audit: FAIL
+- Pinemeter/App/AppModel.swift missing required snippet: accessibilityLabel
+- Pinemeter/Views/Settings/SettingsView.swift missing required snippet: Saved credential values are never shown.
+- Pinemeter/Views/Settings/SettingsView.swift missing required snippet: Text(status.recoverySuggestion)

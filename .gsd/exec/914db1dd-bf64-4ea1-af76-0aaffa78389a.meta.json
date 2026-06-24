@@ -1,0 +1,19 @@
+{
+  "id": "914db1dd-bf64-4ea1-af76-0aaffa78389a",
+  "runtime": "bash",
+  "purpose": "T05 final full xcode test suite",
+  "script_chars": 83,
+  "started_at": "2026-06-23T21:46:28.674Z",
+  "finished_at": "2026-06-23T21:46:41.782Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 13108,
+  "stdout_bytes": 31936,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/914db1dd-bf64-4ea1-af76-0aaffa78389a.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/914db1dd-bf64-4ea1-af76-0aaffa78389a.stderr"
+}

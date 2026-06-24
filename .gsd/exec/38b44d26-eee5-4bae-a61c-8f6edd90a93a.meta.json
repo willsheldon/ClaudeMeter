@@ -1,0 +1,19 @@
+{
+  "id": "38b44d26-eee5-4bae-a61c-8f6edd90a93a",
+  "runtime": "bash",
+  "purpose": "Search T02 xcodebuild saved log for compiler diagnostics",
+  "script_chars": 417,
+  "started_at": "2026-06-23T22:17:53.206Z",
+  "finished_at": "2026-06-23T22:17:53.281Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 75,
+  "stdout_bytes": 18260,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/38b44d26-eee5-4bae-a61c-8f6edd90a93a.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/38b44d26-eee5-4bae-a61c-8f6edd90a93a.stderr"
+}

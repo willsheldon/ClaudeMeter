@@ -1,0 +1,2 @@
+provider status surface audit: FAIL
+- Pinemeter/App/AppModel.swift missing required snippet: let actions: [ProviderCredentialAction]

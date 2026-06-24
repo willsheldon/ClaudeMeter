@@ -1,0 +1,27 @@
+{
+  "id": "9609d562-59bf-424a-a4c7-7360493f932c",
+  "runtime": "bash",
+  "purpose": "UAT M003/S04/UAT-AUTO-TEST-02 (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S04",
+    "checkId": "UAT-AUTO-TEST-02",
+    "intent": "uat-runtime-check",
+    "expected": "Security invariant tests pass for scoped provider clearing and no credential material in settings/errors."
+  },
+  "script_chars": 413,
+  "started_at": "2026-06-23T22:40:44.155Z",
+  "finished_at": "2026-06-23T22:40:49.442Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 5287,
+  "stdout_bytes": 10707,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/9609d562-59bf-424a-a4c7-7360493f932c.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/9609d562-59bf-424a-a4c7-7360493f932c.stderr"
+}

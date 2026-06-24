@@ -1,0 +1,7 @@
+rg: regex parse error:
+    (?:(sk-ant-[A-Za-z0-9_-]{16,}|sessionKey=(?!sk-ant-\*)[^;[:space:]]{16,}|Cookie: .*sessionKey=|access[_-]?token[=:][[:space:]]*[A-Za-z0-9._-]{20,}))
+                                             ^^^
+error: look-around, including look-ahead and look-behind, is not supported
+
+Consider enabling PCRE2 with the --pcre2 flag, which can handle backreferences
+and look-around.

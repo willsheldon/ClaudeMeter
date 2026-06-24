@@ -1,0 +1,19 @@
+{
+  "id": "4b4fcfc3-4a83-4d9e-8d25-4414a564bb3c",
+  "runtime": "python",
+  "purpose": "Summarize provider recovery copy and redaction review",
+  "script_chars": 1981,
+  "started_at": "2026-06-23T22:03:41.485Z",
+  "finished_at": "2026-06-23T22:03:41.601Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 116,
+  "stdout_bytes": 921,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/4b4fcfc3-4a83-4d9e-8d25-4414a564bb3c.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/4b4fcfc3-4a83-4d9e-8d25-4414a564bb3c.stderr"
+}

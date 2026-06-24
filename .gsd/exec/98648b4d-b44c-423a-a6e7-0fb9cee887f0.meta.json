@@ -1,0 +1,19 @@
+{
+  "id": "98648b4d-b44c-423a-a6e7-0fb9cee887f0",
+  "runtime": "bash",
+  "purpose": "Review provider recovery copy and credential-shaped fragments",
+  "script_chars": 621,
+  "started_at": "2026-06-23T22:02:47.026Z",
+  "finished_at": "2026-06-23T22:02:47.181Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 155,
+  "stdout_bytes": 108739,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/98648b4d-b44c-423a-a6e7-0fb9cee887f0.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/98648b4d-b44c-423a-a6e7-0fb9cee887f0.stderr"
+}

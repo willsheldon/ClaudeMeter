@@ -1,0 +1,224 @@
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:16:            "Pinemeter will ask macOS Keychain for \"\(context.label)\" so it can decrypt your Claude browser session cookie.",
+Pinemeter/App/AppModel.swift:63:            return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
+Pinemeter/App/AppModel.swift:112:    var chatGPTUsageData: ChatGPTUsageData?
+Pinemeter/App/AppModel.swift:115:    var isRefreshingChatGPT: Bool = false
+Pinemeter/App/AppModel.swift:119:    var hasChatGPTSessionCookie: Bool = false
+Pinemeter/App/AppModel.swift:122:        identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:126:        identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:130:    var providerCredentialStatuses: [AppProviderCredentialStatus] {
+Pinemeter/App/AppModel.swift:146:    @ObservationIgnored private let keychainRepository: KeychainRepositoryProtocol
+Pinemeter/App/AppModel.swift:148:    @ObservationIgnored private let chatGPTUsageService: ChatGPTUsageServiceProtocol
+Pinemeter/App/AppModel.swift:149:    @ObservationIgnored private let chatGPTSessionRepository: any ChatGPTSessionRepositoryProtocol
+Pinemeter/App/AppModel.swift:151:    @ObservationIgnored private let sessionKeyImportService: SessionKeyImportServiceProtocol
+Pinemeter/App/AppModel.swift:165:        keychainRepository: KeychainRepositoryProtocol = KeychainRepository(),
+Pinemeter/App/AppModel.swift:167:        chatGPTUsageService: ChatGPTUsageServiceProtocol? = nil,
+Pinemeter/App/AppModel.swift:168:        chatGPTSessionRepository: (any ChatGPTSessionRepositoryProtocol)? = nil,
+Pinemeter/App/AppModel.swift:170:        sessionKeyImportService: SessionKeyImportServiceProtocol? = nil
+Pinemeter/App/AppModel.swift:173:        self.keychainRepository = keychainRepository
+Pinemeter/App/AppModel.swift:174:        let chatGPTSessionRepository = chatGPTSessionRepository ?? ChatGPTSessionRepository()
+Pinemeter/App/AppModel.swift:176:        self.sessionKeyImportService = sessionKeyImportService ?? SessionKeyImportService(
+Pinemeter/App/AppModel.swift:177:            keychainRepository: keychainRepository
+Pinemeter/App/AppModel.swift:185:            keychainRepository: keychainRepository,
+Pinemeter/App/AppModel.swift:189:        self.chatGPTUsageService = chatGPTUsageService ?? ChatGPTUsageService(sessionRepository: chatGPTSessionRepository)
+Pinemeter/App/AppModel.swift:204:        isSetupComplete = await keychainRepository.exists(account: "default")
+Pinemeter/App/AppModel.swift:206:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:211:        let chatGPTStatus = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount)
+Pinemeter/App/AppModel.swift:212:        hasChatGPTSessionCookie = chatGPTStatus.state == .available
+Pinemeter/App/AppModel.swift:216:        if hasChatGPTSessionCookie && settings.isChatGPTUsageShown {
+Pinemeter/App/AppModel.swift:217:            await refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:224:        if isSetupComplete || hasChatGPTSessionCookie {
+Pinemeter/App/AppModel.swift:263:    // MARK: - ChatGPT Usage
+Pinemeter/App/AppModel.swift:265:    func refreshChatGPTUsage() async {
+Pinemeter/App/AppModel.swift:266:        if !hasChatGPTSessionCookie {
+Pinemeter/App/AppModel.swift:267:            let status = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount)
+Pinemeter/App/AppModel.swift:268:            hasChatGPTSessionCookie = status.state == .available
+Pinemeter/App/AppModel.swift:271:        guard hasChatGPTSessionCookie else {
+Pinemeter/App/AppModel.swift:275:        guard !isRefreshingChatGPT else { return }
+Pinemeter/App/AppModel.swift:277:        isRefreshingChatGPT = true
+Pinemeter/App/AppModel.swift:281:            isRefreshingChatGPT = false
+Pinemeter/App/AppModel.swift:286:            hasChatGPTSessionCookie = true
+Pinemeter/App/AppModel.swift:288:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:292:        } catch ChatGPTUsageError.missingSessionCookie {
+Pinemeter/App/AppModel.swift:293:            hasChatGPTSessionCookie = false
+Pinemeter/App/AppModel.swift:295:            chatGPTErrorMessage = ChatGPTUsageError.missingSessionCookie.localizedDescription
+Pinemeter/App/AppModel.swift:297:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:302:        } catch ChatGPTUsageError.invalidSessionCookie {
+Pinemeter/App/AppModel.swift:303:            hasChatGPTSessionCookie = false
+Pinemeter/App/AppModel.swift:305:            chatGPTErrorMessage = ChatGPTUsageError.invalidSessionCookie.localizedDescription
+Pinemeter/App/AppModel.swift:307:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:318:    func loadChatGPTSessionCookie() async -> String? {
+Pinemeter/App/AppModel.swift:320:            return try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount).sessionCookie
+Pinemeter/App/AppModel.swift:326:    func validateAndSaveChatGPTSessionCookie(_ rawValue: String) async throws -> Bool {
+Pinemeter/App/AppModel.swift:332:            hasChatGPTSessionCookie = false
+Pinemeter/App/AppModel.swift:334:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:343:            ChatGPTSession(sessionCookie: trimmedCookie),
+Pinemeter/App/AppModel.swift:344:            account: ChatGPTUsageService.defaultSessionAccount
+Pinemeter/App/AppModel.swift:346:        hasChatGPTSessionCookie = true
+Pinemeter/App/AppModel.swift:348:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:352:        settings.isChatGPTUsageShown = true
+Pinemeter/App/AppModel.swift:353:        await refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:357:    func clearChatGPTSessionCookie() async throws {
+Pinemeter/App/AppModel.swift:358:        try await chatGPTSessionRepository.clear(account: ChatGPTUsageService.defaultSessionAccount)
+Pinemeter/App/AppModel.swift:359:        hasChatGPTSessionCookie = false
+Pinemeter/App/AppModel.swift:360:        settings.isChatGPTUsageShown = false
+Pinemeter/App/AppModel.swift:364:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:375:            return try await keychainRepository.retrieve(account: "default")
+Pinemeter/App/AppModel.swift:384:        let sessionKey = try SessionKey(rawValue)
+Pinemeter/App/AppModel.swift:385:        let isValid = try await usageService.validateSessionKey(sessionKey)
+Pinemeter/App/AppModel.swift:389:                identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:397:        let organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
+Pinemeter/App/AppModel.swift:398:        // Prefer organization with chat capability (Claude.ai usage), fall back to first
+Pinemeter/App/AppModel.swift:404:        try await keychainRepository.save(sessionKey: sessionKey.value, account: "default")
+Pinemeter/App/AppModel.swift:406:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:426:        let imported = try await sessionKeyImportService.importSessionKey(from: source)
+Pinemeter/App/AppModel.swift:436:    func importAndSaveChatGPTSessionCookie() async throws -> ImportedChatGPTSessionCookie {
+Pinemeter/App/AppModel.swift:437:        try await importAndSaveChatGPTSessionCookie(from: .defaultBrowser)
+Pinemeter/App/AppModel.swift:440:    func importAndSaveChatGPTSessionCookie(from source: BrowserImportSource) async throws -> ImportedChatGPTSessionCookie {
+Pinemeter/App/AppModel.swift:441:        let imported = try await sessionKeyImportService.importChatGPTSessionCookie(from: source)
+Pinemeter/App/AppModel.swift:442:        let normalizedCookie = ChatGPTUsageService.cookieHeader(from: imported.cookieHeader)
+Pinemeter/App/AppModel.swift:445:            throw SessionKeyImportError.invalidImportedChatGPTSessionCookie
+Pinemeter/App/AppModel.swift:449:            ChatGPTSession(sessionCookie: normalizedCookie),
+Pinemeter/App/AppModel.swift:450:            account: ChatGPTUsageService.defaultSessionAccount
+Pinemeter/App/AppModel.swift:452:        hasChatGPTSessionCookie = true
+Pinemeter/App/AppModel.swift:454:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:458:        settings.isChatGPTUsageShown = true
+Pinemeter/App/AppModel.swift:459:        await refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:461:        return ImportedChatGPTSessionCookie(
+Pinemeter/App/AppModel.swift:462:            cookieHeader: normalizedCookie,
+Pinemeter/App/AppModel.swift:483:            let imported = try await importAndSaveChatGPTSessionCookie(from: source)
+Pinemeter/App/AppModel.swift:501:    func repairClaudeSessionKey() async -> CredentialState {
+Pinemeter/App/AppModel.swift:503:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:508:        let repairedState = await sessionKeyImportService.repairSavedSessionKey(account: "default")
+Pinemeter/App/AppModel.swift:520:        try await keychainRepository.delete(account: "default")
+Pinemeter/App/AppModel.swift:525:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:574:        from status: ChatGPTSessionAcquisitionStatus,
+Pinemeter/App/AppModel.swift:578:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:598:        guard isSetupComplete || hasChatGPTSessionCookie else { return }
+Pinemeter/App/AppModel.swift:608:                if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+Pinemeter/App/AppModel.swift:609:                    await self.refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:623:                if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+Pinemeter/App/AppModel.swift:624:                    await self.refreshChatGPTUsage()
+Pinemeter/Views/MenuBar/UsageCardView.swift:109:            windowDuration: Constants.Pacing.sessionWindow
+Pinemeter/Views/Settings/SettingsView.swift:9:    @State private var sessionKeyValidationMessage: String?
+Pinemeter/Views/Settings/SettingsView.swift:13:    @State private var isImportingChatGPTSessionCookie: Bool = false
+Pinemeter/Views/Settings/SettingsView.swift:15:    @State private var hasChatGPTSessionCookieValidationSucceeded: Bool = false
+Pinemeter/Views/Settings/SettingsView.swift:83:                Text("Claude appears first. Status and recovery actions never show saved credential values.")
+Pinemeter/Views/Settings/SettingsView.swift:93:            ForEach(appModel.providerCredentialStatuses) { status in
+Pinemeter/Views/Settings/SettingsView.swift:94:                providerCredentialRow(status)
+Pinemeter/Views/Settings/SettingsView.swift:96:                if status.id != appModel.providerCredentialStatuses.last?.id {
+Pinemeter/Views/Settings/SettingsView.swift:110:            Text("Import signed-in browser sessions")
+Pinemeter/Views/Settings/SettingsView.swift:141:        if let sessionKeyValidationMessage {
+Pinemeter/Views/Settings/SettingsView.swift:142:            CopyableErrorText(sessionKeyValidationMessage,
+Pinemeter/Views/Settings/SettingsView.swift:157:                              foregroundStyle: hasChatGPTSessionCookieValidationSucceeded ? Color.green : Color.orange)
+Pinemeter/Views/Settings/SettingsView.swift:161:    private func providerCredentialRow(_ status: AppProviderCredentialStatus) -> some View {
+Pinemeter/Views/Settings/SettingsView.swift:242:    // MARK: - ChatGPT Usage Section
+Pinemeter/Views/Settings/SettingsView.swift:247:                Text("Show ChatGPT Usage")
+Pinemeter/Views/Settings/SettingsView.swift:249:                Text("Optional. Connect ChatGPT from the credential recovery section, then show ChatGPT plan quota usage in the popover.")
+Pinemeter/Views/Settings/SettingsView.swift:257:            Toggle("", isOn: $appModel.settings.isChatGPTUsageShown)
+Pinemeter/Views/Settings/SettingsView.swift:259:                .disabled(!appModel.hasChatGPTSessionCookie)
+Pinemeter/Views/Settings/SettingsView.swift:260:                .onChange(of: appModel.settings.isChatGPTUsageShown) { _, isShown in
+Pinemeter/Views/Settings/SettingsView.swift:262:                        Task { await appModel.refreshChatGPTUsage() }
+Pinemeter/Views/Settings/SettingsView.swift:367:                    Text("Get notified when session usage thresholds are reached")
+Pinemeter/Views/Settings/SettingsView.swift:418:                Text("Get notified when session usage reaches this percentage")
+Pinemeter/Views/Settings/SettingsView.swift:443:                Text("Get urgent notification when session usage reaches this percentage")
+Pinemeter/Views/Settings/SettingsView.swift:574:                Text("Monitor your Claude.ai usage limits")
+Pinemeter/Views/Settings/SettingsView.swift:601:    private var isChatGPTSessionCookieBusy: Bool {
+Pinemeter/Views/Settings/SettingsView.swift:602:        isImportingChatGPTSessionCookie
+Pinemeter/Views/Settings/SettingsView.swift:606:        isImportingProviderSessions || isSessionKeyBusy || isChatGPTSessionCookieBusy
+Pinemeter/Views/Settings/SettingsView.swift:633:        sessionKeyValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:653:            settingsProviderSuccessName("Claude", outcome.claude),
+Pinemeter/Views/Settings/SettingsView.swift:654:            settingsProviderSuccessName("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Settings/SettingsView.swift:674:            settingsProviderFailureMessage("Claude", outcome.claude),
+Pinemeter/Views/Settings/SettingsView.swift:675:            settingsProviderFailureMessage("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Settings/SettingsView.swift:692:        sessionKeyValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:698:            sessionKeyValidationMessage = "Imported from \(imported.sourceDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:704:                sessionKeyValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:709:            sessionKeyValidationMessage = error.localizedDescription
+Pinemeter/Views/Settings/SettingsView.swift:713:            sessionKeyValidationMessage = error.localizedDescription
+Pinemeter/Views/Settings/SettingsView.swift:731:            sessionKeyValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:735:            sessionKeyValidationMessage = "Failed to clear: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:742:    private func repairClaudeSessionKeyFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:743:        sessionKeyValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:747:        let state = await appModel.repairClaudeSessionKey()
+Pinemeter/Views/Settings/SettingsView.swift:749:            sessionKeyValidationMessage = "Claude session key repaired"
+Pinemeter/Views/Settings/SettingsView.swift:752:            let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+Pinemeter/Views/Settings/SettingsView.swift:753:            sessionKeyValidationMessage = status?.recoverySuggestion ?? status?.statusDescription ?? "Claude session key repair failed"
+Pinemeter/Views/Settings/SettingsView.swift:764:                await repairClaudeSessionKeyFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:768:                await importAndSaveChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:770:                await clearChatGPTSessionCookieFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:784:            return isChatGPTSessionCookieBusy
+Pinemeter/Views/Settings/SettingsView.swift:786:            return isChatGPTSessionCookieBusy
+Pinemeter/Views/Settings/SettingsView.swift:791:    private func importAndSaveChatGPTSessionCookie() async {
+Pinemeter/Views/Settings/SettingsView.swift:792:        isImportingChatGPTSessionCookie = true
+Pinemeter/Views/Settings/SettingsView.swift:794:        hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:797:            let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:799:            hasChatGPTSessionCookieValidationSucceeded = true
+Pinemeter/Views/Settings/SettingsView.swift:804:                hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:808:            hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:811:            hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:814:        isImportingChatGPTSessionCookie = false
+Pinemeter/Views/Settings/SettingsView.swift:817:    private func clearChatGPTSessionCookie() {
+Pinemeter/Views/Settings/SettingsView.swift:819:            await clearChatGPTSessionCookieFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:824:    private func clearChatGPTSessionCookieFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:826:            try await appModel.clearChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:828:            hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:831:            hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:21:                Text("Claude Usage")
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:31:                        if appModel.hasChatGPTSessionCookie && appModel.settings.isChatGPTUsageShown {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:32:                            await appModel.refreshChatGPTUsage()
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:46:                .keyboardShortcut("r", modifiers: .command)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:72:                        // Update Key button for Claude credential authentication errors
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:73:                        if ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: errorMessage) {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:74:                            Button(ClaudeCredentialRecoveryCopy.updateButtonTitle) {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:92:                            UsageMetricSection(title: "Claude", icon: "sparkles") {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:95:                                    subtitle: "Resets \(usageData.sessionUsage.resetDescription)",
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:96:                                    percentage: usageData.sessionUsage.percentage,
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:97:                                    status: usageData.sessionUsage.status,
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:121:                        if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:122:                            UsageMetricSection(title: "ChatGPT", icon: "message.badge.waveform") {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:135:                        if appModel.settings.isChatGPTUsageShown, let chatGPTErrorMessage = appModel.chatGPTErrorMessage {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:139:                                CopyableErrorText("ChatGPT: \(chatGPTErrorMessage)", font: .caption, foregroundStyle: .secondary)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:169:                .keyboardShortcut(",", modifiers: .command)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:178:                .keyboardShortcut("q", modifiers: .command)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:191:        if let keyWindow = NSApp.keyWindow, keyWindow.level != .normal {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:192:            keyWindow.orderOut(nil)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:198:    private func chatGPTQuotaSubtitle(for row: ChatGPTUsageData.LimitRow) -> String {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:209:    private func status(for row: ChatGPTUsageData.LimitRow) -> UsageStatus {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:221:enum ClaudeCredentialRecoveryCopy {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:222:    static let updateButtonTitle = "Update Claude Session Key"
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:228:        return normalized.contains("session key")
+Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift:17:/// Multi-bar menu bar icon showing Claude and ChatGPT quota buckets.
+Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift:31:            return [MenuBarQuotaBar(label: "Claude 5h", percentage: percentage, status: status)]
+Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift:111:                MenuBarQuotaBar(label: "Claude 5h", percentage: 65, status: .warning),
+Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift:112:                MenuBarQuotaBar(label: "Claude weekly", percentage: 35, status: .safe),
+Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift:113:                MenuBarQuotaBar(label: "ChatGPT Pro", percentage: 82, status: .warning),
+Pinemeter/Views/MenuBar/IconStyles/DualBarIcon.swift:114:                MenuBarQuotaBar(label: "ChatGPT 4o", percentage: 20, status: .safe),
+Pinemeter/Views/Setup/SetupWizardView.swift:15:        let statuses = appModel.providerCredentialStatuses
+Pinemeter/Views/Setup/SetupWizardView.swift:33:                Text("Connect browser sessions to monitor LLM plan usage.")
+Pinemeter/Views/Setup/SetupWizardView.swift:159:            Text("Import signed-in browser sessions")
+Pinemeter/Views/Setup/SetupWizardView.swift:162:            Text("Choose the browser where you are already signed in. Each import button checks both Claude and ChatGPT without showing credential values.")
+Pinemeter/Views/Setup/SetupWizardView.swift:185:                .accessibilityHint("Imports both Claude and ChatGPT sessions from \(source.displayName) without showing credential values")
+Pinemeter/Views/Setup/SetupWizardView.swift:221:            providerSuccessName("Claude", outcome.claude),
+Pinemeter/Views/Setup/SetupWizardView.swift:222:            providerSuccessName("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Setup/SetupWizardView.swift:237:            providerFailureMessage("Claude", outcome.claude),
+Pinemeter/Views/Setup/SetupWizardView.swift:238:            providerFailureMessage("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Setup/SetupWizardView.swift:253:    private func repairClaudeSessionKey() async {
+Pinemeter/Views/Setup/SetupWizardView.swift:260:        let state = await appModel.repairClaudeSessionKey()
+Pinemeter/Views/Setup/SetupWizardView.swift:262:            successMessage = "Claude access repaired."
+Pinemeter/Views/Setup/SetupWizardView.swift:265:            let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+Pinemeter/Views/Setup/SetupWizardView.swift:285:                try await appModel.clearChatGPTSessionCookie()
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:2://  ChatGPTUsageCardView.swift
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:8:/// Quota-oriented usage card for ChatGPT plan limits.
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:9:struct ChatGPTUsageCardView: View {
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:10:    let usageData: ChatGPTUsageData
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:19:                Text("ChatGPT Usage")
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:89:    private func status(for row: ChatGPTUsageData.LimitRow) -> UsageStatus {
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:102:            return "ChatGPT usage unavailable"
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:104:        return "ChatGPT Usage: highest quota bucket is \(Int(percentage.rounded())) percent used"
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:109:    ChatGPTUsageCardView(
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:110:        usageData: ChatGPTUsageData(
+Pinemeter/Views/MenuBar/MenuBarManager.swift:104:            _ = appModel.settings.isChatGPTUsageShown
+Pinemeter/Views/MenuBar/MenuBarManager.swift:118:        let percentage = clamped(appModel.usageData?.sessionUsage.percentage ?? 0)
+Pinemeter/Views/MenuBar/MenuBarManager.swift:174:            bars.append(MenuBarQuotaBar(label: "Claude 5h", percentage: clamped(usageData.sessionUsage.percentage), status: usageData.sessionUsage.status))
+Pinemeter/Views/MenuBar/MenuBarManager.swift:175:            bars.append(MenuBarQuotaBar(label: "Claude weekly", percentage: clamped(usageData.weeklyUsage.percentage), status: usageData.weeklyUsage.status))
+Pinemeter/Views/MenuBar/MenuBarManager.swift:178:        if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {

@@ -1,0 +1,19 @@
+{
+  "id": "1de411b4-4ab3-4580-92ce-77f69f91ac69",
+  "runtime": "python",
+  "purpose": "inspect provider status contract snippets",
+  "script_chars": 538,
+  "started_at": "2026-06-23T21:44:05.006Z",
+  "finished_at": "2026-06-23T21:44:05.066Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 60,
+  "stdout_bytes": 3235,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/1de411b4-4ab3-4580-92ce-77f69f91ac69.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/1de411b4-4ab3-4580-92ce-77f69f91ac69.stderr"
+}

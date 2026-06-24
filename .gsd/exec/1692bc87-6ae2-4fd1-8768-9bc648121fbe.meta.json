@@ -1,0 +1,27 @@
+{
+  "id": "1692bc87-6ae2-4fd1-8768-9bc648121fbe",
+  "runtime": "bash",
+  "purpose": "UAT M003/S03/UAT-S03-COVERAGE-DISCOVERY (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S03",
+    "checkId": "UAT-S03-COVERAGE-DISCOVERY",
+    "intent": "uat-artifact-check",
+    "expected": "Discover exact provider-aware test and source coverage names for S03 UAT case mapping."
+  },
+  "script_chars": 641,
+  "started_at": "2026-06-23T22:27:31.114Z",
+  "finished_at": "2026-06-23T22:27:31.140Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 26,
+  "stdout_bytes": 2120,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/1692bc87-6ae2-4fd1-8768-9bc648121fbe.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/1692bc87-6ae2-4fd1-8768-9bc648121fbe.stderr"
+}

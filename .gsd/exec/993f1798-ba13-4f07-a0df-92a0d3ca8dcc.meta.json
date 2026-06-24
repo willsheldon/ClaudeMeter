@@ -1,0 +1,27 @@
+{
+  "id": "993f1798-ba13-4f07-a0df-92a0d3ca8dcc",
+  "runtime": "bash",
+  "purpose": "UAT M003/S04/UAT-ARTIFACT-PROVIDER-SCOPED-ACTIONS (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S04",
+    "checkId": "UAT-ARTIFACT-PROVIDER-SCOPED-ACTIONS",
+    "intent": "uat-artifact-check",
+    "expected": "Source/tests contain provider-specific workflow actions and storage scope markers"
+  },
+  "script_chars": 626,
+  "started_at": "2026-06-23T22:46:55.436Z",
+  "finished_at": "2026-06-23T22:46:55.517Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 81,
+  "stdout_bytes": 406,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/993f1798-ba13-4f07-a0df-92a0d3ca8dcc.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/993f1798-ba13-4f07-a0df-92a0d3ca8dcc.stderr"
+}

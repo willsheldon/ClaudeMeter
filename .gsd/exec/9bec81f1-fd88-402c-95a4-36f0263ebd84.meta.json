@@ -1,0 +1,27 @@
+{
+  "id": "9bec81f1-fd88-402c-95a4-36f0263ebd84",
+  "runtime": "python",
+  "purpose": "UAT M003/S04/UAT-CONTRACT-01 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S04",
+    "checkId": "UAT-CONTRACT-01",
+    "intent": "uat-artifact-check",
+    "expected": "Source exposes separate Claude and ChatGPT credential states and provider-specific status rows in settings/setup/menu surfaces."
+  },
+  "script_chars": 1067,
+  "started_at": "2026-06-23T22:38:29.763Z",
+  "finished_at": "2026-06-23T22:38:29.844Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 81,
+  "stdout_bytes": 642,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/9bec81f1-fd88-402c-95a4-36f0263ebd84.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/9bec81f1-fd88-402c-95a4-36f0263ebd84.stderr"
+}

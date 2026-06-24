@@ -1,0 +1,19 @@
+{
+  "id": "fa46d63f-1641-4f08-aad7-51e09fcf0f08",
+  "runtime": "python",
+  "purpose": "inspect provider workflow test assertions for audit alignment",
+  "script_chars": 508,
+  "started_at": "2026-06-23T21:45:03.217Z",
+  "finished_at": "2026-06-23T21:45:03.281Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 64,
+  "stdout_bytes": 3772,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/fa46d63f-1641-4f08-aad7-51e09fcf0f08.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/fa46d63f-1641-4f08-aad7-51e09fcf0f08.stderr"
+}

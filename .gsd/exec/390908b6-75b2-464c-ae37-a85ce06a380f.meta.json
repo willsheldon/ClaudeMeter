@@ -1,0 +1,19 @@
+{
+  "id": "390908b6-75b2-464c-ae37-a85ce06a380f",
+  "runtime": "bash",
+  "purpose": "Query latest xcresult failures for T02 verification",
+  "script_chars": 437,
+  "started_at": "2026-06-23T22:17:43.169Z",
+  "finished_at": "2026-06-23T22:17:43.315Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 146,
+  "stdout_bytes": 587,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/390908b6-75b2-464c-ae37-a85ce06a380f.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/390908b6-75b2-464c-ae37-a85ce06a380f.stderr"
+}

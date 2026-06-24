@@ -1,0 +1,35 @@
+Boundary references in UI and tests:
+Pinemeter/Views/Setup/SetupWizardView.swift:278:            await performProviderCredentialAction(kind, for: status)
+Pinemeter/Views/Setup/SetupWizardView.swift:283:    private func performProviderCredentialAction(
+Pinemeter/Views/Setup/SetupWizardView.swift:296:            let state = try await appModel.performProviderCredentialAction(kind, for: status.provider)
+Pinemeter/Views/Settings/SettingsView.swift:772:            await performProviderCredentialAction(kind, for: status)
+Pinemeter/Views/Settings/SettingsView.swift:777:    private func performProviderCredentialAction(
+Pinemeter/Views/Settings/SettingsView.swift:791:            let state = try await appModel.performProviderCredentialAction(kind, for: status.provider)
+Pinemeter/App/AppModel.swift:485:    func performProviderCredentialAction(
+PinemeterTests/ProviderErrorWorkflowTests.swift:118:        XCTAssertTrue(setupSource.contains("await performProviderCredentialAction(kind, for: status)"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:119:        XCTAssertTrue(setupSource.contains("try await appModel.performProviderCredentialAction(kind, for: status.provider)"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:130:        XCTAssertTrue(settingsSource.contains("await performProviderCredentialAction(kind, for: status)"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:131:        XCTAssertTrue(settingsSource.contains("try await appModel.performProviderCredentialAction(kind, for: status.provider)"))
+PinemeterTests/SecurityInvariantTests.swift:6:        "sk-ant-test-synthetic-session-key",
+PinemeterTests/SecurityInvariantTests.swift:9:        "Bearer synthetic-access-token",
+PinemeterTests/SecurityInvariantTests.swift:75:                accessToken: "Bearer synthetic-access-token-redaction-sentinel"
+PinemeterTests/SecurityInvariantTests.swift:106:                    accessToken: "Bearer synthetic-access-token-redaction-sentinel"
+PinemeterTests/SecurityInvariantTests.swift:315:            "sk-ant-test-session-key",
+PinemeterTests/SecurityInvariantTests.swift:316:            "Bearer synthetic-access-token"
+PinemeterTests/SecurityInvariantTests.swift:396:            "Bearer synthetic-access-token-redaction-sentinel",
+PinemeterTests/SecurityInvariantTests.swift:443:        "Synthetic upstream failure with sk-ant-test-synthetic-session-key, Cookie: __Secure-next-auth.session-token=synthetic-cookie, Bearer synthetic-access-token, access-token-synthetic-secret"
+PinemeterTests/SettingsRepositoryTests.swift:80:          "session_key": "sk-ant-test-synthetic-session-key",
+PinemeterTests/SettingsRepositoryTests.swift:82:          "access_token": "Bearer synthetic-access-token"
+PinemeterTests/SettingsRepositoryTests.swift:98:            "sk-ant-test-synthetic-session-key",
+PinemeterTests/SettingsRepositoryTests.swift:100:            "Bearer synthetic-access-token"
+PinemeterTests/KeychainRepositoryTests.swift:27:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-created", account: account)
+PinemeterTests/KeychainRepositoryTests.swift:31:        XCTAssertEqual(storedKey, "sk-ant-repaired-created")
+PinemeterTests/KeychainRepositoryTests.swift:39:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-updated", account: account)
+PinemeterTests/KeychainRepositoryTests.swift:43:        XCTAssertEqual(storedKey, "sk-ant-repaired-updated")
+PinemeterTests/KeychainRepositoryTests.swift:50:        try await repository.save(sessionKey: "sk-ant-other-account", account: otherAccount)
+PinemeterTests/KeychainRepositoryTests.swift:52:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-account", account: account)
+PinemeterTests/KeychainRepositoryTests.swift:56:        XCTAssertEqual(otherStoredKey, "sk-ant-other-account")
+PinemeterTests/ProviderErrorWorkflowTests.swift:36:            "Bearer synthetic-access-token-redaction-sentinel",
+PinemeterTests/ChatGPTUsageServiceTests.swift:140:        XCTAssertEqual(requests[1].authorization, "Bearer access-token-redacted")
+PinemeterTests/TestSupport/TestConstants.swift:20:    static let sessionKeyValue = "sk-ant-test-session-key"
+Concrete credential-looking material found.

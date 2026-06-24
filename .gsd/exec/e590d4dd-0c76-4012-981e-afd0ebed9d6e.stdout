@@ -1,0 +1,126 @@
+## accessibility
+name: accessibility description: Audit and improve web accessibility following WCAG 2.1 guidelines. Use when asked to "improve accessibility", "a11y audit", "WCAG compliance", "screen reader support", "keyboard navigation", or "make accessible". license: MIT metadata: author: web-quality-skills version: "1.0"
+
+## agent-browser
+name: agent-browser description: Browser automation CLI for AI agents. Use when interacting with websites — navigating pages, filling forms, clicking buttons, taking screenshots, scraping/extracting data, logging in, or testing web apps. Triggers on "open a website", "fill out a form", "take a screenshot", "scrape data from a page", "test this web app", "automate browser actions", or any programmatic web interaction. allowed-tools: Bash(npx agent-browser:*), Bash(agent-browser:*) # Browser Autom
+
+## api-design
+name: api-design description: Design or review an HTTP/REST/GraphQL API for versioning, pagination, error shapes, idempotency, auth, status codes, cache headers, and breaking-change management. Use when asked to "design an API", "shape the endpoints", "design the schema", "add a new endpoint", "review this API", or when building/modifying a public or internal HTTP surface. HTTP-specific complement to `design-an-interface`. <objective> Shape an HTTP or GraphQL API so callers get predictable, evol
+
+## best-practices
+name: best-practices description: Apply modern web development best practices for security, compatibility, and code quality. Use when asked to "apply best practices", "security audit", "modernize code", "code quality review", or "check for vulnerabilities". license: MIT metadata: author: web-quality-skills version: "1.0"
+
+## btw
+name: btw description: Ask a quick side question about your current work without derailing the main task. Answers from existing conversation context only — no tool calls, no file reads, single concise response. Use when you need a fast answer from what is already in this session. <objective> Answer a quick side question using only what is already present in the current conversation context. Do not read files, run commands, search, or use any tools. Give a single, concise response and return focu
+
+## code-optimizer
+name: code-optimizer description: > Deep code optimization audit using parallel specialist agents that hunt performance anti-patterns via pattern-based detection, avoiding anchoring bias. Covers DB queries, memory leaks, algorithmic complexity, concurrency, bundle size, dead code, I/O/network, rendering, caching, and build config. Use when asked to optimize code, find performance
+
+## condition-based-waiting
+name: condition-based-waiting description: Replace arbitrary timeouts with condition polling for reliable async tests. Use this skill whenever you see setTimeout/sleep/time.sleep in tests, tests are flaky or inconsistent across machines or CI, tests timeout under parallel load, or you're waiting for async operations like events, state changes, DOM updates, file writes, or API responses. Also use when debugging race conditions, investigating "why does this test sometimes fail", or looking for tes
+
+## create-gsd-extension
+name: create-gsd-extension description: Create, debug, and iterate on GSD extensions (TypeScript modules adding tools, commands, event hooks, custom UI, and providers). Use when asked to build an extension, add a tool the LLM can call, register a slash command, hook into GSD events, create custom TUI components, or modify GSD behavior. Triggers on "create/build extension", "add a tool", "register command", "hook into gsd", "gsd plugin". <essential_principles> **Extensions are TypeScript modules*
+
+## create-mcp-server
+name: create-mcp-server description: Build, iterate, and evaluate Model Context Protocol (MCP) servers that expose external services as tools an LLM can call. Covers schema/tool design, error handling, pagination, MCP Inspector testing, and an eval set. Use when asked to "build an MCP server", "create an MCP tool", "wrap this API as MCP", "expose X to Claude", or when extending GSD with custom tool integrations. <objective> Produce a high-quality MCP server that an LLM can actually use — not one
+
+## create-skill
+name: create-skill description: Expert guidance for creating, writing, building, and refining GSD skills. Use when working with SKILL.md files, authoring new skills, improving existing skills, or understanding skill structure and best practices. <essential_principles> ## How Skills Work Skills are modular, filesystem-based capabilities that provide domain expertise on demand. This skill teaches how to create effective skills. ### 1. Skills Are Prompts
+
+## creating-prompts
+name: creating-prompts description: Create structured prompts for Do/Plan/Research/Refine workflows with dependency management metadata: when_to_use: when you need to create focused, reusable prompts for specific tasks, research, planning, or refinement workflows version: 5.1.0 languages: all
+
+## debug-like-expert
+name: debug-like-expert description: Deep analysis debugging mode for complex issues. Activates methodical investigation protocol with evidence gathering, hypothesis testing, and rigorous verification. Use when standard troubleshooting fails or when issues require systematic root cause analysis. <objective> Deep analysis debugging mode for complex issues. This skill activates methodical investigation protocols with evidence gathering, hypothesis testing, and rigorous verification when standard t
+
+## dependency-upgrade
+name: dependency-upgrade description: Plan, batch, and verify dependency upgrades safely. Triages outdated packages into risk tiers, upgrades in order (dev/minor/patch first, runtime majors last), verifies each batch, and produces an auditable commit sequence. Use when asked to "upgrade deps", "bump packages", "update node_modules", "fix vulnerabilities", "upgrade React/Node/TypeScript", or after `/gsd start dep-upgrade`. <objective> Turn a pile of outdated packages into a series of small, verif
+
+## dispatching-parallel-agents
+name: dispatching-parallel-agents description: Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies. Invoke this skill whenever you have multiple unrelated problems, parallel research tasks, independent features, or concurrent investigations where agents can work simultaneously without interfering with each other. metadata: version: 1.3.0 languages: all context: AI-assisted development (Claude Code or similar)
+
+## executing-plans
+name: executing-plans description: Use when you have a written implementation plan to execute in a separate session with review checkpoints. Use this skill whenever a user opens a session with a plan file, says "execute this plan", "implement this plan", or hands you a plan document to work through. This is the parallel-session counterpart to subagent-driven-development — use it when the human wants to work in a separate context window with batch checkpoints rather than staying in the planning s
+
+## forensics
+name: forensics description: Post-mortem a failed GSD auto-mode run. Traces symptom to root cause via `.gsd/` activity, journal, metrics, and lock artifacts, producing a filing-ready bug report with file:line refs and a fix suggestion. Use when asked to "forensics", "post-mortem", "why did auto-mode fail", "trace the stuck loop", "debug the crash", after `/gsd forensics`, or when a session ended in an unexpected terminal state. Reads artifacts only — re-runs nothing. <objective> Turn scattered G
+
+## frontend-design
+name: frontend-design description: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics. license: Complete terms in LICENSE.txt This skill guides creation
+
+## github-workflows
+name: github-workflows description: Work with GitHub Actions CI/CD workflows - read live syntax, monitor runs, and debug failures. Use when writing, running, or debugging GitHub Actions workflows. # GitHub Workflows **Mission:** Work with GitHub Actions without using stale training data. All syntax, versions, and parameters come from live sources. ## Structural Principle **All CI operations go through ci_monitor.cjs.** Never reach for `gh` CLI directly — the script wraps it with observable outpu
+
+## grill-me
+name: grill-me description: Relentless sequential interview that stress-tests a plan or design until every decision branch is resolved. Use when the user wants to "grill me", "stress-test the plan", "interrogate my design", "resolve the decision tree", or whenever a plan feels hand-wavy, under-specified, or carries hidden coupling that planning phases must surface before execution. Pairs with the discuss phase and blocks execution until alignment is reached. <objective> Interview the user one qu
+
+## handoff
+name: handoff description: Prepare a clean cross-session handoff so the next agent can pick up where you left off. Writes a focused `continue.md` in the active slice dir and ensures `STATE.md` + summary artifacts are current. Use when asked to "hand off", "prepare handoff", "pause work", "bookmark this", "I'll come back to this later", before running out of context budget, or ending a long session with unfinished work. <objective> Leave the project in a state where a fresh agent with no memory o
+
+## inversion-exercise
+name: inversion-exercise description: Flip core assumptions to reveal hidden constraints and alternative approaches. Use this when stuck on "the only way" to solve a problem, during architecture or design decisions, at code review or project pre-mortems, when a solution feels forced, or anytime assumptions need stress-testing. Inversion bypasses confirmation bias by asking "how would this fail?" instead of "how do we succeed?" — a mental move that surfaces what forward thinking misses. Apply it 
+
+## lint
+name: lint description: Lint and format code. Auto-detects ESLint, Biome, Prettier, or language-native formatters and runs them with auto-fix. Reports remaining issues with actionable suggestions. <objective> Lint and format code in the current project. Auto-detect the project's linter and formatter toolchain, run them against the target files, and report results grouped by severity with actionable fix suggestions. </objective> <working_directory_awareness>
+
+## paseo-advisor
+name: paseo-advisor description: Spin up a single agent as an advisor — second opinion on the current task. Use when the user says "advisor", "second opinion", "what does X think", or wants an outside take without delegating the work itself. user-invocable: true argument-hint: "[--provider <name>] <question or topic>" # Paseo Advisor Single agent. Reads the situation you're in. Gives a judgment. You decide what to do — the advisor doesn't drive the work.
+
+## paseo-epic
+name: paseo-epic description: Heavy-ceremony orchestration for big work — research, planning, adversarial review, phased implementation, audit, delivery. Use when the user says "epic", "long task", "build this end to end", or wants a feature that runs all night. user-invocable: true argument-hint: "[--autopilot] [--worktree] <task>" # Paseo Epic Heavy-ceremony orchestrator. Runs research → plan → implement → deliver as one resumable flow. The plan file at `~/.paseo/plans/<slug>.md` is the source
+
+## paseo-handoff
+name: paseo-handoff description: Hand off the current task to another agent with full context. Use when the user says "handoff", "hand off", "hand this to", or wants to pass work to another agent. user-invocable: true # Handoff Skill Transfer the current task — context, decisions, failed attempts, constraints — to a fresh agent. The receiving agent starts with **zero context**, so the handoff prompt must be a self-contained briefing. **User's arguments:** $ARGUMENTS
+
+## preserving-productive-tensions
+name: preserving-productive-tensions description: Recognizes when tensions between valid approaches are features rather than bugs, and preserves multiple valid approaches instead of forcing premature consensus. Invoke when oscillating between two approaches across messages, when stakeholders have conflicting but equally valid concerns, when someone says "just pick one" without a clear reason, when implementation approaches optimize for different legitimate priorities, or when forcing a choice wo
+
+## root-cause-tracing
+name: root-cause-tracing description: Systematically trace bugs backward through the call chain to find the original trigger — not just where the error appears. Use this skill when an error surfaces deep in execution, a symptom keeps recurring after fixes, invalid data arrives at a function from an unknown source, or a test fails but the failure point isn't the true cause. Covers synchronous and async traces, cross-process tracing, bisecting regressions, and identifying far-from-origin bug patte
+
+## scale-game
+name: scale-game description: Test at extremes (1000x bigger/smaller, instant/year-long) to expose fundamental truths hidden at normal scales. Use this skill whenever someone asks "will this scale?", "what happens at production load?", "what if 1000 users hit this simultaneously?", or when validating architecture, reviewing algorithms, designing systems, or reasoning about capacity. Also use proactively when you see O(n²) algorithms, shared mutable state, synchronous APIs, or in-memory data accu
+
+## security-review
+name: security-review description: Threat-model-driven security review of a change, feature, or subsystem. Runs a STRIDE-style pass over the actual code and produces a filing-ready report with severity, exploit scenario, and remediation. Use when asked to "security review", "threat model", "check for vulnerabilities", "audit for security", "secure this", or before shipping changes touching auth, input handling, data access, or external surfaces. <objective> Produce a security review that names s
+
+## setup-skills
+name: setup-skills description: Run superpowers-agent setup-skills to initialize the skills infrastructure for a project. Use whenever starting a new project with AI agents, when skills symlinks are missing, when AGENTS.md lacks skills configuration, when a user asks to "set up skills", "install skills", "bootstrap skills", or "initialize superpowers". Also use when skills aren't being discovered or when you're about to create project-specific skills and the infrastructure doesn't exist yet. If 
+
+## simplification-cascades
+name: simplification-cascades description: Find one insight that eliminates multiple components - "if this is true, we don't need X, Y, or Z". Use when you see the same concept implemented multiple ways, a growing list of special cases, complexity spiraling with each new requirement, or code that keeps needing "one more" conditional branch. Also use when refactoring feels like whack-a-mole, when a config file keeps growing, or when you suspect a unifying abstraction exists but can't see it yet. 
+
+## subagent-driven-development
+name: subagent-driven-development description: Use when executing implementation plans with independent tasks in the current session metadata: when_to_use: when executing implementation plans with independent tasks in the current session, using fresh subagents with review gates version: 2.2.0 # Subagent-Driven Development
+
+## tdd
+name: tdd description: Test-driven development with red-green-refactor loops around vertical slices (tracer bullets), not horizontal layers. Use when asked to "use TDD", "write test-first", "red-green-refactor", "build this with tests", or when a feature has a clear observable contract. The discipline complement to the test/add-tests skills (the mechanics). <objective> Drive feature implementation through one red-green-refactor cycle per vertical slice. Each cycle produces a single failing test 
+
+## test
+name: test description: Generate or run tests. Auto-detects test framework, generates comprehensive tests for source files, or runs existing test suites with failure analysis. <objective> Generate or run tests for the current project. This skill auto-detects the test framework in use, generates comprehensive tests for source files, or runs existing test suites and analyzes failures. Accepts optional arguments: - A file path: generate tests for that source file
+
+## testing-anti-patterns
+name: testing-anti-patterns description: Identifies and corrects dangerous testing anti-patterns including testing mock behavior instead of real behavior, adding test-only methods to production classes, mocking without understanding dependencies, writing brittle implementation-coupled tests, and sharing mutable state across tests. Use when writing or changing tests, adding mocks, designing test fixtures, debugging flaky tests, or tempted to add test-only methods to production code. metadata: ver
+
+## using-git-worktrees
+name: using-git-worktrees description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - creates isolated git worktrees with smart directory selection and safety verification metadata: when_to_use: when starting feature work that needs isolation from current workspace, before executing implementation plans version: 1.2.0 # Using Git Worktrees
+
+## web-design-guidelines
+name: web-design-guidelines description: Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check accessibility", "audit design", "review UX", or "check my site against best practices". metadata: author: vercel version: "1.0.0" argument-hint: <file-or-pattern>
+
+## web-quality-audit
+name: web-quality-audit description: Comprehensive web quality audit covering performance, accessibility, SEO, and best practices. Use when asked to "audit my site", "review web quality", "run lighthouse audit", "check page quality", or "optimize my website". license: MIT metadata: author: web-quality-skills version: "1.0"
+
+## write-docs
+name: write-docs description: >- Collaborative authoring workflow for proposals, technical specs, decision docs, READMEs, ADRs, and long-form prose that must work for fresh readers. Three stages: gather context, iterate on structure, reader-test for a stranger. Use when asked to "write the docs", "draft a proposal", "write a spec", "write an RFC", "write the README", or when a doc must be understandable without this session's context. <objective> Produce documentation that works for a reader lan
+
+## write-milestone-brief
+name: write-milestone-brief description: Synthesize the current conversation into a milestone brief (PRD). Writes to `M###-CONTEXT.md` by default, or files a GitHub issue only with explicit user confirmation. Use when asked to "turn this into a PRD", "draft a milestone brief", "capture this context", "write it up", or when enough has been discussed to commit the plan to paper. Does not interview — it synthesizes what is already known. <objective> Take everything established in the current conver
+
+## writing-plans
+name: writing-plans description: Use when you have a spec or requirements for a multi-step task, before touching code. Trigger this whenever a user says "write a plan", "create an implementation plan", "plan this out", "spec this task", or is about to implement something with multiple moving parts. Also use proactively when brainstorming has just completed and the next step is implementation. # Writing Plans ## Overview Write comprehensive implementation plans assuming the engineer has zero cont
+
+## writing-prompts
+name: writing-prompts description: Use when creating custom slash commands or prompt files for GitHub Copilot, Cursor, or Claude, when repeating same instructions 2+ times, when tempted to defer command creation, or when unsure about platform-specific formats - guides creation of reusable AI commands with platform-specific syntax, file locations, and best practices for effective prompt engineering # Writing Prompts ## Overview Create reusable custom commands (slash commands) for GitHub Copilot, 
+

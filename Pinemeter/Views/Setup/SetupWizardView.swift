@@ -10,6 +10,8 @@ struct SetupWizardView: View {
     @State private var offersFullDiskAccessSettings: Bool = false
     @State private var hasValidationSucceeded: Bool = false
     @State private var successMessage: String?
+    @State private var activeCredentialActionProvider: CredentialProvider?
+    @State private var activeCredentialActionKind: ProviderCredentialActionKind?
 
     var body: some View {
         let statuses = appModel.providerCredentialStatuses
@@ -100,12 +102,12 @@ struct SetupWizardView: View {
                     Text(status.setupPromptTitle)
                         .font(.headline)
                     Spacer()
-                    Text(status.statusTitle)
+                    Text(status.stateText)
                         .font(.caption.monospacedDigit())
                         .foregroundStyle(credentialStatusColor(for: status.state.health))
                 }
 
-                Text(status.setupPromptDescription)
+                Text(status.detailText)
                     .font(.caption)
                     .foregroundColor(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -115,13 +117,33 @@ struct SetupWizardView: View {
                         .font(.caption2)
                         .foregroundStyle(.orange)
                 }
+
+                providerCredentialStatusActions(for: status)
             }
         }
         .padding(12)
         .background(Color(nsColor: .controlBackgroundColor).opacity(0.7))
         .clipShape(RoundedRectangle(cornerRadius: 8))
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(status.setupAccessibilityLabel)
+        .accessibilityElement(children: .contain)
+    }
+
+    @ViewBuilder
+    private func providerCredentialStatusActions(for status: AppProviderCredentialStatus) -> some View {
+        let visibleActions = status.actions.filter { $0.kind != .reconnect }
+
+        if !visibleActions.isEmpty {
+            HStack(spacing: 8) {
+                ForEach(visibleActions) { action in
+                    Button(credentialActionTitle(action.kind, for: status)) {
+                        handleCredentialAction(action.kind, for: status)
+                    }
+                    .controlSize(.small)
+                    .disabled(isCredentialActionDisabled(for: status))
+                }
+
+                Spacer()
+            }
+        }
     }
 
     private func credentialStatusIcon(for health: CredentialHealthState) -> String {
@@ -190,12 +212,14 @@ struct SetupWizardView: View {
     }
 
     private var isBusy: Bool {
-        isValidating || isImporting
+        isValidating || isImporting || activeCredentialActionProvider != nil
     }
 
     @MainActor
     private func importProviderSessions(from source: BrowserImportSource) async {
         isImporting = true
+        activeCredentialActionProvider = nil
+        activeCredentialActionKind = nil
         errorMessage = nil
         offersFullDiskAccessSettings = false
         hasValidationSucceeded = false
@@ -249,45 +273,86 @@ struct SetupWizardView: View {
         return nil
     }
 
-    @MainActor
-    private func repairClaudeSessionKey() async {
-        isValidating = true
-        errorMessage = nil
-        offersFullDiskAccessSettings = false
-        hasValidationSucceeded = false
-        successMessage = nil
-
-        let state = await appModel.repairClaudeSessionKey()
-        if state.isUsable {
-            successMessage = "Claude access repaired."
-            hasValidationSucceeded = true
-        } else {
-            let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
-            errorMessage = status?.recoverySuggestion ?? status?.statusDescription
+    private func handleCredentialAction(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) {
+        Task { @MainActor in
+            await performProviderCredentialAction(kind, for: status)
         }
-
-        isValidating = false
     }
 
     @MainActor
-    private func clearSavedCredential(for provider: CredentialProvider) async {
+    private func performProviderCredentialAction(
+        _ kind: ProviderCredentialActionKind,
+        for status: AppProviderCredentialStatus
+    ) async {
         isValidating = true
+        activeCredentialActionProvider = status.provider
+        activeCredentialActionKind = kind
         errorMessage = nil
         offersFullDiskAccessSettings = false
         hasValidationSucceeded = false
-        successMessage = nil
+        successMessage = "\(status.providerName): \(progressMessage(for: kind))"
 
         do {
-            switch provider {
-            case .claude:
-                try await appModel.clearSessionKey()
-            case .chatGPT:
-                try await appModel.clearChatGPTSessionCookie()
+            let state = try await appModel.performProviderCredentialAction(kind, for: status.provider)
+            if state.isUsable {
+                successMessage = "\(status.providerName): \(successDetailMessage(for: kind, credentialName: status.credentialName))"
+                hasValidationSucceeded = true
+            } else if kind == .clear {
+                successMessage = "\(status.providerName): Cleared saved \(status.credentialName)."
+                hasValidationSucceeded = true
+            } else {
+                let refreshedStatus = appModel.providerCredentialStatuses.first { $0.provider == status.provider }
+                successMessage = nil
+                errorMessage = "\(status.providerName): \(refreshedStatus?.recoverySuggestion ?? refreshedStatus?.detailText ?? "Recovery action did not restore access.")"
             }
         } catch {
-            errorMessage = "Failed to clear saved credential: \(error.localizedDescription)"
+            successMessage = nil
+            errorMessage = "\(status.providerName): Failed to \(kind.displayTitle.lowercased()) \(status.credentialName): \(error.localizedDescription)"
         }
 
+        activeCredentialActionProvider = nil
+        activeCredentialActionKind = nil
         isValidating = false
+    }
+
+    private func credentialActionTitle(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> String {
+        guard activeCredentialActionProvider == status.provider && activeCredentialActionKind == kind else {
+            return kind.displayTitle
+        }
+
+        switch kind {
+        case .reconnect:
+            return "Reconnecting \(status.providerName)..."
+        case .repair:
+            return "Repairing \(status.providerName)..."
+        case .clear:
+            return "Clearing \(status.providerName)..."
+        }
+    }
+
+    private func isCredentialActionDisabled(for status: AppProviderCredentialStatus) -> Bool {
+        isBusy || status.state.health == .validating
+    }
+
+    private func progressMessage(for kind: ProviderCredentialActionKind) -> String {
+        switch kind {
+        case .reconnect:
+            return "Reconnecting credentials from the signed-in browser session."
+        case .repair:
+            return "Repairing saved credential access."
+        case .clear:
+            return "Clearing saved credential."
+        }
+    }
+
+    private func successDetailMessage(for kind: ProviderCredentialActionKind, credentialName: String) -> String {
+        switch kind {
+        case .reconnect:
+            return "Reconnected saved \(credentialName)."
+        case .repair:
+            return "Repaired saved \(credentialName)."
+        case .clear:
+            return "Cleared saved \(credentialName)."
+        }
     }
 }

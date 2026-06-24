@@ -1,0 +1,39 @@
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:macOS, arch:arm64, id:00006001-000C58DC26F8801E, name:My Mac }
+{ platform:macOS, arch:x86_64, id:00006001-000C58DC26F8801E, name:My Mac }
+{ platform:macOS, name:Any Mac }
+Testing failed:
+	Value of type 'AppModel' has no member 'performProviderCredentialAction'
+	Cannot infer contextual base in reference to member 'repair'
+	Cannot infer contextual base in reference to member 'claude'
+	Type 'Equatable' has no member 'valid'
+	Value of type 'AppModel' has no member 'performProviderCredentialAction'
+	Cannot infer contextual base in reference to member 'reconnect'
+	Cannot infer contextual base in reference to member 'chatGPT'
+	Type 'Equatable' has no member 'valid'
+	Value of type 'AppModel' has no member 'performProviderCredentialAction'
+	Cannot infer contextual base in reference to member 'clear'
+	Cannot infer contextual base in reference to member 'chatGPT'
+	Type 'Equatable' has no member 'missing'
+	Type 'Equatable' has no member 'missing'
+	'XCTAssertThrowsErrorAsync' is inaccessible due to 'private' protection level
+	Value of type 'AppModel' has no member 'performProviderCredentialAction'
+	Cannot infer contextual base in reference to member 'repair'
+	Cannot infer contextual base in reference to member 'chatGPT'
+	Cannot find 'AppProviderCredentialActionError' in scope
+	'let' binding pattern cannot appear in an expression
+	'let' binding pattern cannot appear in an expression
+	Type 'Equatable' has no member 'chatGPT'
+	Type 'Equatable' has no member 'repair'
+	Expansion of macro 'error' requires leading '#'
+	Value of type '(String) -> ()' has no member 'localizedDescription'
+	Testing cancelled because the build failed.
+
+** TEST FAILED **
+
+
+The following build commands failed:
+	SwiftCompile normal arm64 Compiling\ AppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+	SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+	Testing project Pinemeter with scheme Pinemeter
+(3 failures)

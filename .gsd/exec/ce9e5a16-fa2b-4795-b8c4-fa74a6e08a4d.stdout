@@ -1,0 +1,136 @@
+
+## Pinemeter/App/AppModel.swift
+/// Recovery action that can be shown for a provider credential without exposing credential material.
+enum ProviderCredentialActionKind: String, Equatable, Hashable, Sendable {
+/// Sanitized provider credential action failure that never includes credential material.
+enum AppProviderCredentialActionError: LocalizedError, Equatable, Sendable {
+    case unsupportedAction(provider: CredentialProvider, action: ProviderCredentialActionKind)
+        case .unsupportedAction(let provider, let action):
+            return "\(action.displayTitle) is not available for \(provider.displayName) credentials."
+struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
+        let kind: ProviderCredentialActionKind
+    var provider: CredentialProvider { state.identity.provider }
+    var providerName: String { provider.displayName }
+            return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
+            return "Connect \(providerName)"
+            providerName,
+        identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+        identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+    var providerCredentialStatuses: [AppProviderCredentialStatus] {
+            AppProviderCredentialStatus(
+            AppProviderCredentialStatus(
+    var hasConfiguredUsageProvider: Bool {
+    var configuredUsageProviderNames: [String] {
+            names.append(CredentialProvider.claude.displayName)
+            names.append(CredentialProvider.chatGPT.displayName)
+        let names = configuredUsageProviderNames
+        if names == [CredentialProvider.claude.displayName] {
+        if names == [CredentialProvider.chatGPT.displayName] {
+        let names = configuredUsageProviderNames
+        return "Loading \(Self.joinedProviderNames(names)) usage data..."
+    var isRefreshingConfiguredUsage: Bool {
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+    func refreshConfiguredUsageProviders(forceRefresh: Bool = false) async {
+                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+                failureCategory: .providerRejected,
+                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+                failureCategory: .providerRejected,
+            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+                identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+                failureCategory: .providerRejected,
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+    func performProviderCredentialAction(
+        _ action: ProviderCredentialActionKind,
+        for provider: CredentialProvider
+        switch (provider, action) {
+            throw AppProviderCredentialActionError.unsupportedAction(provider: provider, action: action)
+    func importProviderSessions(from source: BrowserImportSource) async -> ProviderBrowserImportOutcome {
+        let claudeStatus: ProviderBrowserImportStatus
+        let chatGPTStatus: ProviderBrowserImportStatus
+        return ProviderBrowserImportOutcome(
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+    private func credentialActions(for state: CredentialState) -> [AppProviderCredentialStatus.Action] {
+        let kinds: [ProviderCredentialActionKind]
+            kinds = state.identity.provider == .claude ? [.reconnect, .repair, .clear] : [.reconnect, .clear]
+        return kinds.map(AppProviderCredentialStatus.Action.init(kind:))
+            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+    private static func joinedProviderNames(_ names: [String]) -> String {
+
+## Pinemeter/Views/MenuBar/UsagePopoverView.swift
+                        await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+                    if appModel.isRefreshingConfiguredUsage {
+                .disabled(appModel.isRefreshingConfiguredUsage)
+                                await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+
+## PinemeterTests/AppModelTests.swift
+        XCTAssertEqual(appModel.claudeCredentialState.failureCategory, .providerRejected)
+    func test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState() async throws {
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+        let statuses = appModel.providerCredentialStatuses
+        let claude = try XCTUnwrap(statuses.first { $0.provider == .claude })
+        XCTAssertEqual(claude.providerName, "Claude")
+        let chatGPT = try XCTUnwrap(statuses.first { $0.provider == .chatGPT })
+        XCTAssertEqual(chatGPT.providerName, "ChatGPT")
+    func test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials() throws {
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+        var claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+        claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+        claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+    func test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates() throws {
+        let cases: [(CredentialHealthState, [ProviderCredentialActionKind])] = [
+                identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+                failureCategory: health == .valid ? nil : .providerRejected,
+            let claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+    func test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair() async throws {
+        let result = try await appModel.performProviderCredentialAction(.repair, for: .claude)
+    func test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary() async throws {
+        let result = try await appModel.performProviderCredentialAction(.reconnect, for: .chatGPT)
+        XCTAssertFalse(appModel.providerCredentialStatuses[1].searchableText.contains("synthetic-chatgpt-session-cookie"))
+    func test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential() async throws {
+        let result = try await appModel.performProviderCredentialAction(.clear, for: .chatGPT)
+    func test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak() async throws {
+            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+            failureCategory: .providerRejected,
+            _ = try await appModel.performProviderCredentialAction(.repair, for: .chatGPT)
+        } catch let actionError as AppProviderCredentialActionError {
+            XCTAssertEqual(actionError, .unsupportedAction(provider: .chatGPT, action: .repair))
+        XCTAssertEqual(appModel.chatGPTCredentialState.failureCategory, .providerRejected)
+    func test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT() async throws {
+        let outcome = await appModel.importProviderSessions(from: .chrome)
+    func test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface() async {
+        XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+        XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT"])
+        XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "ChatGPT"])
+    func test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders() async {
+        await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+        await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+    func test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff() async {
+        XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+        XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude"])
+    func test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState() async {
+        await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+        XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(invalidModel.claudeCredentialState.failureCategory, .providerRejected)
+        XCTAssertEqual(invalidModel.chatGPTCredentialState.failureCategory, .providerRejected)
+
+## PinemeterTests/ChatGPTAppModelTests.swift
+        let status = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .chatGPT })
+        XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+        XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+    func test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection() async throws {
+        XCTAssertEqual(appModel.chatGPTCredentialState.failureCategory, .providerRejected)
+        let status = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .chatGPT })

@@ -1,0 +1,93 @@
+Recovery copy and provider references:
+PinemeterTests/SecurityInvariantTests.swift:7:        "__Secure-next-auth.session-token=synthetic-cookie",
+PinemeterTests/SecurityInvariantTests.swift:24:        settings.isChatGPTUsageShown = true
+PinemeterTests/SecurityInvariantTests.swift:52:            "session_cookie",
+PinemeterTests/SecurityInvariantTests.swift:65:        let suiteName = "SecurityInvariantTests.ChatGPTStatus.\(UUID().uuidString)"
+PinemeterTests/SecurityInvariantTests.swift:69:        let account = "SecurityInvariantTests.ChatGPTStatus.\(UUID().uuidString)"
+PinemeterTests/SecurityInvariantTests.swift:70:        let repository = ChatGPTSessionRepository(userDefaults: userDefaults)
+PinemeterTests/SecurityInvariantTests.swift:73:            ChatGPTSession(
+PinemeterTests/SecurityInvariantTests.swift:74:                sessionCookie: "__Secure-next-auth.session-token=synthetic-cookie-redaction-sentinel; cf_clearance=synthetic-cookie-redaction-sentinel",
+PinemeterTests/SecurityInvariantTests.swift:89:        XCTAssertNil(persistedAppSettingsPayload, "ChatGPT acquisition diagnostics must not be stored inside AppSettings persistence.")
+PinemeterTests/SecurityInvariantTests.swift:90:        assertNoChatGPTCredentialDisclosure(in: [String(describing: status), status.debugDescription, persistedDiagnosticPayload])
+PinemeterTests/SecurityInvariantTests.swift:96:        let suiteName = "SecurityInvariantTests.ChatGPTInvalidStatus.\(UUID().uuidString)"
+PinemeterTests/SecurityInvariantTests.swift:100:        let account = "SecurityInvariantTests.ChatGPTInvalidStatus.\(UUID().uuidString)"
+PinemeterTests/SecurityInvariantTests.swift:101:        let repository = ChatGPTSessionRepository(userDefaults: userDefaults)
+PinemeterTests/SecurityInvariantTests.swift:104:                ChatGPTSession(
+PinemeterTests/SecurityInvariantTests.swift:110:            XCTFail("Expected blank ChatGPT session cookie to be rejected")
+PinemeterTests/SecurityInvariantTests.swift:111:        } catch ChatGPTSessionRepositoryError.invalidSessionCookie {
+PinemeterTests/SecurityInvariantTests.swift:122:        assertNoChatGPTCredentialDisclosure(in: [String(describing: status), status.debugDescription, String(describing: persistedDomain)])
+PinemeterTests/SecurityInvariantTests.swift:156:            "paste your Claude session",
+PinemeterTests/SecurityInvariantTests.swift:157:            "Paste a ChatGPT session cookie",
+PinemeterTests/SecurityInvariantTests.swift:158:            "validateAndSaveChatGPTSessionCookie"
+PinemeterTests/SecurityInvariantTests.swift:178:        XCTAssertFalse(setupSource.contains("Open Claude Sign In"))
+PinemeterTests/SecurityInvariantTests.swift:179:        XCTAssertFalse(setupSource.contains("Open ChatGPT Sign In"))
+PinemeterTests/SecurityInvariantTests.swift:180:        XCTAssertFalse(setupSource.contains("Import Claude from"))
+PinemeterTests/SecurityInvariantTests.swift:181:        XCTAssertFalse(setupSource.contains("Import ChatGPT from"))
+PinemeterTests/SecurityInvariantTests.swift:201:    func test_userFacingChatGPTErrorDescriptionsDoNotDiscloseCredentialShapedFragments() {
+PinemeterTests/SecurityInvariantTests.swift:203:            ChatGPTUsageError.missingSessionCookie,
+PinemeterTests/SecurityInvariantTests.swift:204:            ChatGPTUsageError.invalidSessionCookie,
+PinemeterTests/SecurityInvariantTests.swift:205:            ChatGPTUsageError.invalidResponse,
+PinemeterTests/SecurityInvariantTests.swift:206:            ChatGPTUsageError.httpError(statusCode: 403),
+PinemeterTests/SecurityInvariantTests.swift:207:            ChatGPTUsageError.networkUnavailable
+PinemeterTests/SecurityInvariantTests.swift:240:            source.contains("legacy ClaudeMeter") &&
+PinemeterTests/SecurityInvariantTests.swift:243:            "The Keychain service identifier must document why the legacy ClaudeMeter value is intentionally retained."
+PinemeterTests/SecurityInvariantTests.swift:255:            source.contains("legacy ClaudeMeter") &&
+PinemeterTests/SecurityInvariantTests.swift:258:            "The Keychain access group must document why the legacy ClaudeMeter value is intentionally retained."
+PinemeterTests/SecurityInvariantTests.swift:262:    func test_signedPinemeterBuildsUseOfficialAutimoIdentityForClaudeKeychainRepair() throws {
+PinemeterTests/SecurityInvariantTests.swift:267:            "Signed Pinemeter builds must use the explicit official identity so Claude Keychain repair runs under the expected trusted app identity."
+PinemeterTests/SecurityInvariantTests.swift:271:            "Claude Keychain repair depends on re-saving credentials under the official Autimo signed app identity, not an ad-hoc or local identity."
+PinemeterTests/SecurityInvariantTests.swift:275:            "The official Autimo team identifier is part of the Keychain access group prefix used when repairing Claude credentials."
+PinemeterTests/SecurityInvariantTests.swift:279:            "Ad-hoc signing must not be the project default for builds that exercise Claude Keychain repair."
+PinemeterTests/SecurityInvariantTests.swift:283:    func test_claudeSessionRepairKeepsLegacyServiceIdentifierAndAvoidsAccessGroupRewrite() throws {
+PinemeterTests/SecurityInvariantTests.swift:286:            source.range(of: "func repairClaudeSessionKey")
+PinemeterTests/SecurityInvariantTests.swift:288:                    source.range(of: "    /// Retrieve session key from Keychain", range: startRange.lowerBound..<source.endIndex)
+PinemeterTests/SecurityInvariantTests.swift:295:            "Claude credential repair must re-save under the existing legacy service identifier so old prompt-triggering items remain repairable."
+PinemeterTests/SecurityInvariantTests.swift:299:            "Repair must not rewrite credentials into a new hard-coded access group; the signed app identity and entitlements should scope access."
+PinemeterTests/SecurityInvariantTests.swift:303:            "Repair must not delete broad Keychain state while recovering from an ad-hoc-to-official signing prompt path."
+PinemeterTests/SecurityInvariantTests.swift:310:            try sourceContents(relativePath: "Pinemeter/Services/ChatGPTUsageService.swift"),
+PinemeterTests/SecurityInvariantTests.swift:314:            "synthetic-chatgpt-session-cookie",
+PinemeterTests/SecurityInvariantTests.swift:391:    private func assertNoChatGPTCredentialDisclosure(in descriptions: [String], file: StaticString = #filePath, line: UInt = #line) {
+PinemeterTests/SecurityInvariantTests.swift:392:        let forbiddenChatGPTFragments = [
+PinemeterTests/SecurityInvariantTests.swift:393:            "__Secure-next-auth.session-token=synthetic-cookie-redaction-sentinel",
+PinemeterTests/SecurityInvariantTests.swift:394:            "cf_clearance=synthetic-cookie-redaction-sentinel",
+PinemeterTests/SecurityInvariantTests.swift:395:            "synthetic-cookie-redaction-sentinel",
+PinemeterTests/SecurityInvariantTests.swift:401:            for forbiddenFragment in forbiddenChatGPTFragments {
+PinemeterTests/SecurityInvariantTests.swift:404:                    "ChatGPT diagnostics and persisted settings must not include credential material: \(forbiddenFragment)",
+PinemeterTests/SecurityInvariantTests.swift:422:            "session_cookie",
+PinemeterTests/SecurityInvariantTests.swift:443:        "Synthetic upstream failure with sk-ant-test-synthetic-session-key, Cookie: __Secure-next-auth.session-token=synthetic-cookie, Bearer synthetic-access-token, access-token-synthetic-secret"
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:10:/// Protocol for Claude.ai usage operations
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:19:    /// Fetch list of organizations with explicit session key (for setup)
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:22:    /// Validate session key with Claude API
+PinemeterTests/SettingsRepositoryTests.swift:25:        settings.isChatGPTUsageShown = true
+PinemeterTests/SettingsRepositoryTests.swift:55:    func test_defaultSettings_hideChatGPTUsage() {
+PinemeterTests/SettingsRepositoryTests.swift:56:        XCTAssertFalse(AppSettings.default.isChatGPTUsageShown)
+PinemeterTests/SettingsRepositoryTests.swift:81:          "session_cookie": "__Secure-next-auth.session-token=synthetic-cookie",
+PinemeterTests/SettingsRepositoryTests.swift:96:            "session_cookie",
+PinemeterTests/SettingsRepositoryTests.swift:99:            "__Secure-next-auth.session-token=synthetic-cookie",
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:2://  ChatGPTUsageServiceProtocol.swift
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:8:protocol ChatGPTUsageServiceProtocol: Sendable {
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:9:    func fetchUsage() async throws -> ChatGPTUsageData
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:10:    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:14:protocol ChatGPTHTTPClientProtocol: Sendable {
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:17:        cookieHeader: String,
+PinemeterTests/AppModelTests.swift:85:    func test_refreshingUsage_showsLatestUsageAndClearsError() async {
+PinemeterTests/AppModelTests.swift:185:    func test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState() async throws {
+PinemeterTests/AppModelTests.swift:208:        XCTAssertEqual(claude.providerName, "Claude")
+PinemeterTests/AppModelTests.swift:209:        XCTAssertEqual(claude.credentialName, "Claude session key")
+PinemeterTests/AppModelTests.swift:215:        XCTAssertEqual(claude.actions.map(\.displayTitle), ["Reconnect", "Repair", "Clear"])
+PinemeterTests/AppModelTests.swift:221:        XCTAssertEqual(chatGPT.providerName, "ChatGPT")
+PinemeterTests/AppModelTests.swift:222:        XCTAssertEqual(chatGPT.credentialName, "ChatGPT session cookie")
+PinemeterTests/AppModelTests.swift:224:        XCTAssertEqual(chatGPT.detailText, "Sign in to ChatGPT in your browser, then import the browser session into Pinemeter.")
+PinemeterTests/AppModelTests.swift:225:        XCTAssertEqual(chatGPT.actions.map(\.displayTitle), ["Reconnect"])
+Unexpected concrete credential-looking material found:
+PinemeterTests/SecurityInvariantTests.swift:9:        "Bearer synthetic-access-token",
+PinemeterTests/SecurityInvariantTests.swift:316:            "Bearer synthetic-access-token"
+PinemeterTests/SettingsRepositoryTests.swift:82:          "access_token": "Bearer synthetic-access-token"
+PinemeterTests/SettingsRepositoryTests.swift:100:            "Bearer synthetic-access-token"
+PinemeterTests/KeychainRepositoryTests.swift:27:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-created", account: account)
+PinemeterTests/KeychainRepositoryTests.swift:31:        XCTAssertEqual(storedKey, "sk-ant-repaired-created")
+PinemeterTests/KeychainRepositoryTests.swift:39:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-updated", account: account)
+PinemeterTests/KeychainRepositoryTests.swift:43:        XCTAssertEqual(storedKey, "sk-ant-repaired-updated")
+PinemeterTests/KeychainRepositoryTests.swift:50:        try await repository.save(sessionKey: "sk-ant-other-account", account: otherAccount)
+PinemeterTests/KeychainRepositoryTests.swift:52:        let result = try await repository.repairClaudeSessionKey("sk-ant-repaired-account", account: account)
+PinemeterTests/KeychainRepositoryTests.swift:56:        XCTAssertEqual(otherStoredKey, "sk-ant-other-account")

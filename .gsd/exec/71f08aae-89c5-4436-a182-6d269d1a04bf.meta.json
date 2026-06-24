@@ -1,0 +1,27 @@
+{
+  "id": "71f08aae-89c5-4436-a182-6d269d1a04bf",
+  "runtime": "bash",
+  "purpose": "UAT M003/S04/UAT-AUTO-AUDIT-01 (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S04",
+    "checkId": "UAT-AUTO-AUDIT-01",
+    "intent": "uat-runtime-check",
+    "expected": "Provider status and workflow copy audits pass without credential disclosure failures."
+  },
+  "script_chars": 99,
+  "started_at": "2026-06-23T22:41:12.748Z",
+  "finished_at": "2026-06-23T22:41:12.935Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 187,
+  "stdout_bytes": 2492,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/71f08aae-89c5-4436-a182-6d269d1a04bf.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/71f08aae-89c5-4436-a182-6d269d1a04bf.stderr"
+}

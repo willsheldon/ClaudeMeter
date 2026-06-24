@@ -1,0 +1,14 @@
+INFO: sensitive terms found only as forbidden/test/audit needles:
+PinemeterTests/ProviderErrorWorkflowTests.swift:        XCTAssertEqual(AppError.noSessionKey.errorDescription, "No Claude session key found. Please complete setup.")
+PinemeterTests/ProviderErrorWorkflowTests.swift:        XCTAssertEqual(AppError.sessionKeyInvalid.errorDescription, "Claude session key is invalid or expired. Please update in settings.")
+PinemeterTests/ProviderErrorWorkflowTests.swift:        XCTAssertEqual(NetworkError.authenticationFailed.errorDescription, "Claude session key is invalid or expired")
+PinemeterTests/ProviderErrorWorkflowTests.swift:        XCTAssertTrue(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "Claude session key is invalid or expired"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:        XCTAssertEqual(status.setupPromptTitle, "Recover Claude session key")
+PinemeterTests/ProviderErrorWorkflowTests.swift:        XCTAssertTrue(status.setupAccessibilityLabel.contains("Claude session key status: Unavailable"))
+PinemeterTests/ProviderErrorWorkflowTests.swift:        XCTAssertEqual(statuses.map(\.credentialName), ["Claude session key", "ChatGPT session cookie"])
+PinemeterTests/SecurityInvariantTests.swift:                    source.range(of: "    /// Retrieve session key from Keychain", range: startRange.lowerBound..<source.endIndex)
+PinemeterTests/SecurityInvariantTests.swift:            "ChatGPT reset must not delete Claude session key state."
+scripts/provider_workflow_copy_audit.py:        "session key",
+scripts/provider_workflow_copy_audit.py:            if "chatgpt" in lower_line or "claude session key" in lower_line:
+scripts/provider_workflow_copy_audit.py:                    message="Claude credential copy should say 'Claude session key' instead of provider-ambiguous key/session-key wording.",
+PASS: sanitized diagnostic/status coverage is present in tests/audits; any credential terms are audit/test needles rather than captured secret values.

@@ -1,0 +1,4 @@
+provider status surface audit: FAIL
+- Pinemeter/Views/Settings/SettingsView.swift missing required snippet: Text(status.statusTitle)
+- Pinemeter/Views/Setup/SetupWizardView.swift missing required snippet: Text(status.setupPromptDescription)
+- Pinemeter/Views/Setup/SetupWizardView.swift missing required snippet: Text(status.statusTitle)

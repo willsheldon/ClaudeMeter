@@ -16,6 +16,10 @@ struct SettingsView: View {
     @State private var isImportingProviderSessions: Bool = false
     @State private var providerImportMessage: String?
     @State private var hasProviderImportSucceeded: Bool = false
+    @State private var activeCredentialActionProvider: CredentialProvider?
+    @State private var activeCredentialActionKind: ProviderCredentialActionKind?
+    @State private var providerCredentialActionMessage: String?
+    @State private var hasProviderCredentialActionSucceeded: Bool = false
 
     @State private var isSendingTestNotification: Bool = false
     @State private var testNotificationMessage: String?
@@ -138,6 +142,12 @@ struct SettingsView: View {
                               foregroundStyle: hasProviderImportSucceeded ? Color.green : Color.orange)
         }
 
+        if let providerCredentialActionMessage {
+            CopyableErrorText(providerCredentialActionMessage,
+                              font: .caption,
+                              foregroundStyle: hasProviderCredentialActionSucceeded ? Color.green : Color.orange)
+        }
+
         if let sessionKeyValidationMessage {
             CopyableErrorText(sessionKeyValidationMessage,
                               font: .caption,
@@ -171,7 +181,7 @@ struct SettingsView: View {
                     Text(status.providerName)
                         .font(.caption.weight(.semibold))
 
-                    Text(status.statusDescription)
+                    Text(status.detailText)
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -180,14 +190,14 @@ struct SettingsView: View {
                         CopyableErrorText(lastFailureTitle, font: .caption2, foregroundStyle: .orange)
                     }
 
-                    if let recoverySuggestion = status.recoverySuggestion {
+                    if let recoverySuggestion = status.recoverySuggestion, recoverySuggestion != status.detailText {
                         CopyableErrorText(recoverySuggestion, font: .caption2, foregroundStyle: .secondary)
                     }
                 }
 
                 Spacer()
 
-                Text(status.statusTitle)
+                Text(status.stateText)
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(credentialStatusColor(for: status.state.health))
             }
@@ -195,7 +205,7 @@ struct SettingsView: View {
             if !visibleActions.isEmpty {
                 HStack(spacing: 8) {
                     ForEach(visibleActions) { action in
-                        Button(action.displayTitle) {
+                        Button(credentialActionTitle(action.kind, for: status)) {
                             handleCredentialAction(action.kind, for: status)
                         }
                         .controlSize(.small)
@@ -632,6 +642,8 @@ struct SettingsView: View {
         hasProviderImportSucceeded = false
         sessionKeyValidationMessage = nil
         chatGPTSessionCookieValidationMessage = nil
+        providerCredentialActionMessage = nil
+        hasProviderCredentialActionSucceeded = false
         offersFullDiskAccessSettings = false
 
         let outcome = await appModel.importProviderSessions(from: source)
@@ -750,41 +762,102 @@ struct SettingsView: View {
             hasSessionKeyValidationSucceeded = true
         } else {
             let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
-            sessionKeyValidationMessage = status?.recoverySuggestion ?? status?.statusDescription ?? "Claude session key repair failed"
+            sessionKeyValidationMessage = status?.recoverySuggestion ?? status?.detailText ?? "Claude session key repair failed"
             hasSessionKeyValidationSucceeded = false
         }
     }
 
     private func handleCredentialAction(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) {
         Task { @MainActor in
-            switch (status.provider, kind) {
-            case (.claude, .reconnect):
-                await importAndSaveSessionKey()
-            case (.claude, .repair):
-                await repairClaudeSessionKeyFromSettings()
-            case (.claude, .clear):
-                await clearSessionKeyFromSettings()
-            case (.chatGPT, .reconnect), (.chatGPT, .repair):
-                await importAndSaveChatGPTSessionCookie()
-            case (.chatGPT, .clear):
-                await clearChatGPTSessionCookieFromSettings()
+            await performProviderCredentialAction(kind, for: status)
+        }
+    }
+
+    @MainActor
+    private func performProviderCredentialAction(
+        _ kind: ProviderCredentialActionKind,
+        for status: AppProviderCredentialStatus
+    ) async {
+        activeCredentialActionProvider = status.provider
+        activeCredentialActionKind = kind
+        providerCredentialActionMessage = "\(status.providerName): \(progressMessage(for: kind))"
+        hasProviderCredentialActionSucceeded = false
+        providerImportMessage = nil
+        sessionKeyValidationMessage = nil
+        chatGPTSessionCookieValidationMessage = nil
+        offersFullDiskAccessSettings = false
+
+        do {
+            let state = try await appModel.performProviderCredentialAction(kind, for: status.provider)
+            if state.isUsable {
+                providerCredentialActionMessage = "\(status.providerName): \(successMessage(for: kind, credentialName: status.credentialName))"
+                hasProviderCredentialActionSucceeded = true
+            } else if kind == .clear {
+                providerCredentialActionMessage = "\(status.providerName): Cleared saved \(status.credentialName)."
+                hasProviderCredentialActionSucceeded = true
+            } else {
+                let refreshedStatus = appModel.providerCredentialStatuses.first { $0.provider == status.provider }
+                providerCredentialActionMessage = "\(status.providerName): \(refreshedStatus?.recoverySuggestion ?? refreshedStatus?.detailText ?? "Recovery action did not restore access.")"
+                hasProviderCredentialActionSucceeded = false
             }
+        } catch {
+            providerCredentialActionMessage = "\(status.providerName): Failed to \(kind.displayTitle.lowercased()) \(status.credentialName): \(error.localizedDescription)"
+            hasProviderCredentialActionSucceeded = false
+        }
+
+        activeCredentialActionProvider = nil
+        activeCredentialActionKind = nil
+    }
+
+    private func credentialActionTitle(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> String {
+        guard isCredentialActionActive(kind, for: status) else {
+            return kind.displayTitle
+        }
+        return "\(progressButtonTitle(for: kind)) \(status.providerName)..."
+    }
+
+    private func isCredentialActionActive(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> Bool {
+        activeCredentialActionProvider == status.provider && activeCredentialActionKind == kind
+    }
+
+    private func progressButtonTitle(for kind: ProviderCredentialActionKind) -> String {
+        switch kind {
+        case .reconnect:
+            return "Reconnecting"
+        case .repair:
+            return "Repairing"
+        case .clear:
+            return "Clearing"
+        }
+    }
+
+    private func progressMessage(for kind: ProviderCredentialActionKind) -> String {
+        switch kind {
+        case .reconnect:
+            return "Reconnecting credentials from the signed-in browser session."
+        case .repair:
+            return "Repairing saved credential access."
+        case .clear:
+            return "Clearing saved credential."
+        }
+    }
+
+    private func successMessage(for kind: ProviderCredentialActionKind, credentialName: String) -> String {
+        switch kind {
+        case .reconnect:
+            return "Reconnected saved \(credentialName)."
+        case .repair:
+            return "Repaired saved \(credentialName)."
+        case .clear:
+            return "Cleared saved \(credentialName)."
         }
     }
 
     private func isCredentialActionDisabled(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> Bool {
-        switch (status.provider, kind) {
-        case (.claude, .reconnect):
-            return isSessionKeyBusy
-        case (.claude, .repair):
-            return isSessionKeyBusy || status.state.health == .validating
-        case (.claude, .clear):
-            return isSessionKeyBusy
-        case (.chatGPT, .reconnect), (.chatGPT, .repair):
-            return isChatGPTSessionCookieBusy
-        case (.chatGPT, .clear):
-            return isChatGPTSessionCookieBusy
+        if activeCredentialActionProvider != nil || isCredentialImportBusy || status.state.health == .validating {
+            return true
         }
+        return false
     }
 
     @MainActor

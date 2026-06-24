@@ -1,0 +1,19 @@
+{
+  "id": "461b9833-f022-4b5a-b4ac-e1b7458a2313",
+  "runtime": "bash",
+  "purpose": "Full Pinemeter test suite for provider recovery workflows",
+  "script_chars": 101,
+  "started_at": "2026-06-23T22:02:52.912Z",
+  "finished_at": "2026-06-23T22:03:02.891Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 9979,
+  "stdout_bytes": 32597,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/461b9833-f022-4b5a-b4ac-e1b7458a2313.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/461b9833-f022-4b5a-b4ac-e1b7458a2313.stderr"
+}

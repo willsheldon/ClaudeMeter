@@ -1,0 +1,4 @@
+Pinemeter/App/AppModel.swift: missing 'menuUsageTitle'
+Pinemeter/Views/MenuBar/UsagePopoverView.swift: missing 'menuUsageTitle'
+PinemeterTests/AppModelTests.swift: missing 'ChatGPT-only'
+PinemeterTests/ChatGPTAppModelTests.swift: missing 'demotes'

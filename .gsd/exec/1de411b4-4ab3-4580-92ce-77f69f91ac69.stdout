@@ -1,0 +1,44 @@
+## Pinemeter/App/AppModel.swift
+24: struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
+42: var stateText: String { state.health.displayTitle }
+45: var detailText: String {
+58: var statusTitle: String { stateText }
+59: var statusDescription: String { detailText }
+76: var setupPromptDescription: String { detailText }
+78: var setupAccessibilityLabel: String {
+79: "\(credentialName) status: \(stateText). \(detailText)"
+137: var providerCredentialStatuses: [AppProviderCredentialStatus] {
+## PinemeterTests/AppModelTests.swift
+185: func test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState() async throws {
+204: let statuses = appModel.providerCredentialStatuses
+210: XCTAssertEqual(claude.stateText, "Unavailable")
+211: XCTAssertEqual(claude.statusTitle, claude.stateText)
+212: XCTAssertEqual(claude.detailText, "Check Keychain access and try again.")
+213: XCTAssertEqual(claude.statusDescription, claude.detailText)
+218: XCTAssertFalse(claude.detailText.contains("sk-ant-secret"))
+223: XCTAssertEqual(chatGPT.stateText, "Unknown")
+224: XCTAssertEqual(chatGPT.detailText, "Sign in to ChatGPT in your browser, then import the browser session into Pinemeter.")
+229: func test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials() throws {
+246: var claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+250: XCTAssertEqual(claude.detailText, "Saved Claude session key is ready.")
+251: XCTAssertEqual(claude.setupPromptDescription, claude.detailText)
+252: XCTAssertTrue(claude.setupAccessibilityLabel.contains("Claude session key status: Ready"))
+260: claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+264: XCTAssertEqual(claude.detailText, "Sign in to Claude in your browser, then import the browser session into Pinemeter.")
+265: XCTAssertEqual(claude.setupPromptDescription, claude.detailText)
+275: claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+279: XCTAssertEqual(claude.detailText, "Check Keychain access and try again.")
+280: XCTAssertEqual(claude.setupPromptDescription, claude.detailText)
+281: XCTAssertFalse(claude.setupAccessibilityLabel.contains(TestConstants.sessionKeyValue))
+284: func test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates() throws {
+315: let claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+## PinemeterTests/ProviderErrorWorkflowTests.swift
+73: XCTAssertTrue(status.setupAccessibilityLabel.contains("ChatGPT session cookie status: Invalid"))
+74: XCTAssertFalse(status.setupAccessibilityLabel.contains("synthetic-chatgpt-session-cookie"))
+90: XCTAssertTrue(status.setupAccessibilityLabel.contains("Claude session key status: Unavailable"))
+91: XCTAssertFalse(status.setupAccessibilityLabel.contains("sk-ant-"))
+94: func test_settingsAndSetupRenderSharedProviderCredentialStatusModel() throws {
+99: XCTAssertTrue(source.contains("providerCredentialStatuses"))
+100: XCTAssertTrue(source.contains("status.stateText"))
+101: XCTAssertTrue(source.contains("status.detailText"))
+104: XCTAssertFalse(source.contains("status.setupAccessibilityLabel"))

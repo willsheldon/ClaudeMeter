@@ -18,7 +18,7 @@ struct UsagePopoverView: View {
         VStack(spacing: 0) {
             // Header
             HStack {
-                Text("Claude Usage")
+                Text(appModel.usageDashboardTitle)
                     .font(.title2)
                     .fontWeight(.bold)
 
@@ -27,13 +27,10 @@ struct UsagePopoverView: View {
                 // Refresh button
                 Button(action: {
                     Task {
-                        await appModel.refreshUsage(forceRefresh: true)
-                        if appModel.hasChatGPTSessionCookie && appModel.settings.isChatGPTUsageShown {
-                            await appModel.refreshChatGPTUsage()
-                        }
+                        await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
                     }
                 }) {
-                    if appModel.isRefreshing {
+                    if appModel.isRefreshingConfiguredUsage {
                         ProgressView()
                             .controlSize(.small)
                     } else {
@@ -41,7 +38,7 @@ struct UsagePopoverView: View {
                     }
                 }
                 .buttonStyle(.plain)
-                .disabled(appModel.isRefreshing)
+                .disabled(appModel.isRefreshingConfiguredUsage)
                 .help("Refresh usage data")
                 .keyboardShortcut("r", modifiers: .command)
             }
@@ -64,7 +61,7 @@ struct UsagePopoverView: View {
                         // Retry button for recoverable errors
                         Button("Retry") {
                             Task {
-                                await appModel.refreshUsage(forceRefresh: true)
+                                await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
                             }
                         }
                         .buttonStyle(.bordered)
@@ -150,7 +147,7 @@ struct UsagePopoverView: View {
                 // Loading state
                 VStack(spacing: 16) {
                     ProgressView()
-                    Text("Loading usage data...")
+                    Text(appModel.usageLoadingMessage)
                         .font(.callout)
                         .foregroundColor(.secondary)
                 }
@@ -183,7 +180,7 @@ struct UsagePopoverView: View {
         .frame(width: 380, height: 520)
         .background(Color(nsColor: .windowBackgroundColor))
         .accessibilityElement(children: .contain)
-        .accessibilityLabel("Usage Dashboard")
+        .accessibilityLabel(appModel.usageDashboardTitle)
     }
 
     private func openSettingsFront() {

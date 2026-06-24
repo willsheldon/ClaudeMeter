@@ -1,0 +1,19 @@
+{
+  "id": "ef459e1e-ddb9-4871-bc53-235d4238976e",
+  "runtime": "bash",
+  "purpose": "Verify T03 provider recovery UI wiring focused tests",
+  "script_chars": 274,
+  "started_at": "2026-06-23T22:01:23.322Z",
+  "finished_at": "2026-06-23T22:01:37.791Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 14469,
+  "stdout_bytes": 82118,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/ef459e1e-ddb9-4871-bc53-235d4238976e.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/ef459e1e-ddb9-4871-bc53-235d4238976e.stderr"
+}

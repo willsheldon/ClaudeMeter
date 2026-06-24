@@ -1,0 +1,77 @@
+567:     func test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface() async {
+568:         let appModel = AppModel(
+569:             settingsRepository: SettingsRepositoryFake(),
+570:             keychainRepository: KeychainRepositoryFake(),
+571:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+572:             notificationService: NotificationServiceSpy()
+573:         )
+574: 
+575:         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+576:         XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+577:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+578:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude or ChatGPT to see usage data.")
+579: 
+580:         appModel.hasChatGPTSessionCookie = true
+581:         appModel.settings.isChatGPTUsageShown = true
+582: 
+583:         XCTAssertFalse(appModel.isSetupComplete)
+584:         XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+585:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT"])
+586:         XCTAssertEqual(appModel.usageDashboardTitle, "ChatGPT Usage")
+587:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading ChatGPT usage data...")
+588: 
+589:         appModel.isSetupComplete = true
+590: 
+591:         XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+592:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "ChatGPT"])
+593:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+594:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude and ChatGPT usage data...")
+595:     }
+596: 
+597:     func test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders() async {
+598:         let expectedClaudeUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+599:         let expectedChatGPTUsage = ChatGPTUsageData(
+600:             rows: [.init(label: "Codex Tasks", usedPercent: 42, resetAt: nil)],
+601:             lastUpdated: Date(timeIntervalSince1970: 0)
+602:         )
+603:         let usageService = UsageServiceStub(fetchUsageResult: .success(expectedClaudeUsage))
+604:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+605:             fetchUsageResult: .success(expectedChatGPTUsage),
+606:             validateResult: true
+607:         )
+608:         let appModel = AppModel(
+609:             settingsRepository: SettingsRepositoryFake(),
+610:             keychainRepository: KeychainRepositoryFake(),
+611:             usageService: usageService,
+612:             chatGPTUsageService: chatGPTUsageService,
+613:             notificationService: NotificationServiceSpy()
+614:         )
+615: 
+616:         appModel.hasChatGPTSessionCookie = true
+617:         appModel.settings.isChatGPTUsageShown = true
+618: 
+619:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+620: 
+621:         let claudeFetchCountAfterChatGPTOnlyRefresh = await usageService.fetchUsageCallCount
+622:         let chatGPTFetchCountAfterChatGPTOnlyRefresh = await chatGPTUsageService.fetchUsageCallCount
+623: 
+624:         XCTAssertNil(appModel.usageData)
+625:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+626:         XCTAssertEqual(claudeFetchCountAfterChatGPTOnlyRefresh, 0)
+627:         XCTAssertEqual(chatGPTFetchCountAfterChatGPTOnlyRefresh, 1)
+628: 
+629:         appModel.isSetupComplete = true
+630: 
+631:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+632: 
+633:         let claudeFetchCountAfterBothRefresh = await usageService.fetchUsageCallCount
+634:         let claudeForceRefreshValues = await usageService.forceRefreshValues
+635:         let chatGPTFetchCountAfterBothRefresh = await chatGPTUsageService.fetchUsageCallCount
+636: 
+637:         XCTAssertEqual(appModel.usageData, expectedClaudeUsage)
+638:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+639:         XCTAssertEqual(claudeFetchCountAfterBothRefresh, 1)
+640:         XCTAssertEqual(claudeForceRefreshValues, [true])
+641:         XCTAssertEqual(chatGPTFetchCountAfterBothRefresh, 2)
+642:     }
+643: 

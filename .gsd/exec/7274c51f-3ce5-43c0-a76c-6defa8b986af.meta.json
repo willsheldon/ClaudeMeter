@@ -1,0 +1,27 @@
+{
+  "id": "7274c51f-3ce5-43c0-a76c-6defa8b986af",
+  "runtime": "bash",
+  "purpose": "UAT M003/S01/UAT-05 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S01",
+    "checkId": "UAT-05",
+    "intent": "uat-artifact-check",
+    "expected": "No matches under Pinemeter/Views; any matches are confined to tests as synthetic fixtures, cookie terminology assertions, or negative security checks."
+  },
+  "script_chars": 588,
+  "started_at": "2026-06-23T21:49:50.198Z",
+  "finished_at": "2026-06-23T21:49:50.240Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 42,
+  "stdout_bytes": 13182,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/7274c51f-3ce5-43c0-a76c-6defa8b986af.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/7274c51f-3ce5-43c0-a76c-6defa8b986af.stderr"
+}

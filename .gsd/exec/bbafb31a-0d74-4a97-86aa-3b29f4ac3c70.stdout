@@ -1,0 +1,41 @@
+--- func test_ ---
+6: func test_bootstrap_withoutSessionKey_showsSetupState() async {
+29: func test_userWithSessionKey_seesUsageAfterLaunch() async {
+57: func test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch() async {
+85: func test_refreshingUsage_showsLatestUsageAndClearsError() async {
+111: func test_refreshingUsage_showsErrorWhenFetchFails() async {
+136: func test_refreshingUsage_hidesUsageWhenSetupIncomplete() async {
+158: func test_userWithInvalidSessionKey_staysInSetup() async throws {
+185: func test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState() async throws {
+229: func test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials() throws {
+284: func test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates() throws {
+321: func test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair() async throws {
+343: func test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary() async throws {
+377: func test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential() async throws {
+411: func test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak() async throws {
+437: func test_userWithValidSessionKey_entersUsageAndLoadsData() async throws {
+473: func test_importingSessionKey_savesImportedKeyAndLoadsData() async throws {
+511: func test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT() async throws {
+567: func test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface() async {
+597: func test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders() async {
+644: func test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage() async throws {
+682: func test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails() async throws {
+716: func test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState() async throws {
+742: func test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure() async throws {
+765: func test_importingSessionKey_whenImportedKeyInvalid_staysInSetup() async throws {
+798: func test_userWithValidSessionKeyWithoutOrganization_staysInSetup() async {
+826: func test_userClearsSession_returnsToSetupState() async throws {
+857: func test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+946: func test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+1042: func test_userWithNotificationPermission_doesNotSeePermissionPrompt() async {
+1061: func test_userWithoutNotificationPermission_isPromptedForPermission() async {
+1080: func test_userSendsTestNotification_triggersNotificationService() async throws {
+--- private func ---
+1188: private func makeUsageData(percentage: Double) -> UsageData {
+--- actor  ---
+1102: private actor RepairFailingKeychainRepository: KeychainRepositoryProtocol {
+1132: private actor AppModelChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+1161: private actor AppModelChatGPTSessionRepositoryFake: ChatGPTSessionRepositoryProtocol {
+--- class  ---
+5: final class AppModelTests: XCTestCase {
+--- struct  ---

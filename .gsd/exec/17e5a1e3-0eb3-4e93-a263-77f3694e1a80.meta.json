@@ -1,0 +1,19 @@
+{
+  "id": "17e5a1e3-0eb3-4e93-a263-77f3694e1a80",
+  "runtime": "bash",
+  "purpose": "T05 final credential leakage grep",
+  "script_chars": 72,
+  "started_at": "2026-06-23T21:46:47.609Z",
+  "finished_at": "2026-06-23T21:46:47.640Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 31,
+  "stdout_bytes": 13017,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/17e5a1e3-0eb3-4e93-a263-77f3694e1a80.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/17e5a1e3-0eb3-4e93-a263-77f3694e1a80.stderr"
+}

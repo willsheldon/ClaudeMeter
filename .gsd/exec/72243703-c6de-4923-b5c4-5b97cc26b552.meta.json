@@ -1,0 +1,19 @@
+{
+  "id": "72243703-c6de-4923-b5c4-5b97cc26b552",
+  "runtime": "bash",
+  "purpose": "T05 verify repaired provider status surface audit",
+  "script_chars": 48,
+  "started_at": "2026-06-23T21:45:31.440Z",
+  "finished_at": "2026-06-23T21:45:31.541Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 101,
+  "stdout_bytes": 133,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/72243703-c6de-4923-b5c4-5b97cc26b552.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/72243703-c6de-4923-b5c4-5b97cc26b552.stderr"
+}

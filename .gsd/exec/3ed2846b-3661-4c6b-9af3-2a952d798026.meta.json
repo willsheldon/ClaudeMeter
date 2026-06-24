@@ -1,0 +1,19 @@
+{
+  "id": "3ed2846b-3661-4c6b-9af3-2a952d798026",
+  "runtime": "bash",
+  "purpose": "S01 xcodebuild failure summary",
+  "script_chars": 285,
+  "started_at": "2026-06-23T21:42:38.417Z",
+  "finished_at": "2026-06-23T21:42:38.435Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 18,
+  "stdout_bytes": 7845,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/3ed2846b-3661-4c6b-9af3-2a952d798026.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/3ed2846b-3661-4c6b-9af3-2a952d798026.stderr"
+}

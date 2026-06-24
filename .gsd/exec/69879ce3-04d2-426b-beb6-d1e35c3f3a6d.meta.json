@@ -1,0 +1,19 @@
+{
+  "id": "69879ce3-04d2-426b-beb6-d1e35c3f3a6d",
+  "runtime": "bash",
+  "purpose": "Summarize failing T02 verification log keywords",
+  "script_chars": 529,
+  "started_at": "2026-06-23T22:18:11.522Z",
+  "finished_at": "2026-06-23T22:18:11.598Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 76,
+  "stdout_bytes": 6115,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/69879ce3-04d2-426b-beb6-d1e35c3f3a6d.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/69879ce3-04d2-426b-beb6-d1e35c3f3a6d.stderr"
+}

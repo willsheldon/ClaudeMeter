@@ -1,0 +1,19 @@
+{
+  "id": "57df1912-8ae3-4521-9574-5bf08b1839a8",
+  "runtime": "bash",
+  "purpose": "slice S04 closeout verification: final tests and provider audits",
+  "script_chars": 944,
+  "started_at": "2026-06-23T22:44:34.370Z",
+  "finished_at": "2026-06-23T22:44:46.025Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 11655,
+  "stdout_bytes": 1739,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/57df1912-8ae3-4521-9574-5bf08b1839a8.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/57df1912-8ae3-4521-9574-5bf08b1839a8.stderr"
+}

@@ -1,0 +1,383 @@
+--- lines 65-71 ---
+65:     builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name Pinemeter -Onone @/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -target arm64-apple-macos14.0 -g -module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/PackageFrameworks -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug -emit-localized-strings -emit-localized-strings-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/will/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.5-25F70-e082c4a02f00227109f4ed75e425c832.sdkstatcache -output-file-map /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter_const_extract_protocols.json -Xcc -iquote -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter-generated-files.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter-own-target-headers.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter-f15b75f3ca50df7d8813a0665bad54e4-VFS/all-product-headers.yaml -Xcc -iquote -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter-project-headers.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/include -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/DerivedSources-normal/arm64 -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/DerivedSources/arm64 -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter-Swift.h -working-directory /Users/will/code/ClaudeMeter/.gsd/worktrees/M003 -experimental-emit-module-separately -disable-cmo
+66: 
+67: SwiftCompile normal arm64 Compiling\ UsagePopoverView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/UsagePopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+68: 
+69: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/UsagePopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+70:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+71:     
+--- lines 67-73 ---
+67: SwiftCompile normal arm64 Compiling\ UsagePopoverView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/UsagePopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+68: 
+69: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/UsagePopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+70:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+71:     
+72: 
+73: SwiftEmitModule normal arm64 Emitting\ module\ for\ Pinemeter (in target 'Pinemeter' from project 'Pinemeter')
+--- lines 77-83 ---
+77:     
+78: 
+79: SwiftCompile normal arm64 Compiling\ AppModel.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppModel.swift (in target 'Pinemeter' from project 'Pinemeter')
+80: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppModel.swift (in target 'Pinemeter' from project 'Pinemeter')
+81:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+82:     
+83: 
+--- lines 78-84 ---
+78: 
+79: SwiftCompile normal arm64 Compiling\ AppModel.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppModel.swift (in target 'Pinemeter' from project 'Pinemeter')
+80: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppModel.swift (in target 'Pinemeter' from project 'Pinemeter')
+81:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+82:     
+83: 
+84: SwiftCompile normal arm64 Compiling\ MenuBarPopoverView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarPopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+--- lines 82-88 ---
+82:     
+83: 
+84: SwiftCompile normal arm64 Compiling\ MenuBarPopoverView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarPopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+85: 
+86: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarPopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+87:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+88:     
+--- lines 84-90 ---
+84: SwiftCompile normal arm64 Compiling\ MenuBarPopoverView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarPopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+85: 
+86: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarPopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+87:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+88:     
+89: 
+90: SwiftDriverJobDiscovery normal arm64 Compiling MenuBarPopoverView.swift (in target 'Pinemeter' from project 'Pinemeter')
+--- lines 94-100 ---
+94: SwiftDriverJobDiscovery normal arm64 Compiling AppModel.swift (in target 'Pinemeter' from project 'Pinemeter')
+95: 
+96: SwiftCompile normal arm64 Compiling\ SetupWizardView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Setup/SetupWizardView.swift (in target 'Pinemeter' from project 'Pinemeter')
+97: 
+98: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Setup/SetupWizardView.swift (in target 'Pinemeter' from project 'Pinemeter')
+99:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+100:     
+--- lines 96-102 ---
+96: SwiftCompile normal arm64 Compiling\ SetupWizardView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Setup/SetupWizardView.swift (in target 'Pinemeter' from project 'Pinemeter')
+97: 
+98: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Setup/SetupWizardView.swift (in target 'Pinemeter' from project 'Pinemeter')
+99:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+100:     
+101: 
+102: SwiftCompile normal arm64 Compiling\ MenuBarManager.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarManager.swift (in target 'Pinemeter' from project 'Pinemeter')
+--- lines 100-106 ---
+100:     
+101: 
+102: SwiftCompile normal arm64 Compiling\ MenuBarManager.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarManager.swift (in target 'Pinemeter' from project 'Pinemeter')
+103: 
+104: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarManager.swift (in target 'Pinemeter' from project 'Pinemeter')
+105:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+106:     
+--- lines 102-108 ---
+102: SwiftCompile normal arm64 Compiling\ MenuBarManager.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarManager.swift (in target 'Pinemeter' from project 'Pinemeter')
+103: 
+104: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/MenuBar/MenuBarManager.swift (in target 'Pinemeter' from project 'Pinemeter')
+105:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+106:     
+107: 
+108: SwiftCompile normal arm64 Compiling\ PinemeterApp.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/PinemeterApp.swift (in target 'Pinemeter' from project 'Pinemeter')
+--- lines 106-112 ---
+106:     
+107: 
+108: SwiftCompile normal arm64 Compiling\ PinemeterApp.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/PinemeterApp.swift (in target 'Pinemeter' from project 'Pinemeter')
+109: 
+110: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/PinemeterApp.swift (in target 'Pinemeter' from project 'Pinemeter')
+111:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+112:     
+--- lines 108-114 ---
+108: SwiftCompile normal arm64 Compiling\ PinemeterApp.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/PinemeterApp.swift (in target 'Pinemeter' from project 'Pinemeter')
+109: 
+110: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/PinemeterApp.swift (in target 'Pinemeter' from project 'Pinemeter')
+111:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+112:     
+113: 
+114: SwiftCompile normal arm64 Compiling\ DemoDataFactory.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Utilities/DemoDataFactory.swift (in target 'Pinemeter' from project 'Pinemeter')
+--- lines 112-118 ---
+112:     
+113: 
+114: SwiftCompile normal arm64 Compiling\ DemoDataFactory.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Utilities/DemoDataFactory.swift (in target 'Pinemeter' from project 'Pinemeter')
+115: 
+116: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Utilities/DemoDataFactory.swift (in target 'Pinemeter' from project 'Pinemeter')
+117:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+118:     
+--- lines 114-120 ---
+114: SwiftCompile normal arm64 Compiling\ DemoDataFactory.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Utilities/DemoDataFactory.swift (in target 'Pinemeter' from project 'Pinemeter')
+115: 
+116: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Utilities/DemoDataFactory.swift (in target 'Pinemeter' from project 'Pinemeter')
+117:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+118:     
+119: 
+120: SwiftCompile normal arm64 Compiling\ SettingsView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Settings/SettingsView.swift (in target 'Pinemeter' from project 'Pinemeter')
+--- lines 118-124 ---
+118:     
+119: 
+120: SwiftCompile normal arm64 Compiling\ SettingsView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Settings/SettingsView.swift (in target 'Pinemeter' from project 'Pinemeter')
+121: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Settings/SettingsView.swift (in target 'Pinemeter' from project 'Pinemeter')
+122:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+123:     
+124: 
+--- lines 119-125 ---
+119: 
+120: SwiftCompile normal arm64 Compiling\ SettingsView.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Settings/SettingsView.swift (in target 'Pinemeter' from project 'Pinemeter')
+121: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/Views/Settings/SettingsView.swift (in target 'Pinemeter' from project 'Pinemeter')
+122:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+123:     
+124: 
+125: SwiftCompile normal arm64 Compiling\ AppDelegate.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppDelegate.swift (in target 'Pinemeter' from project 'Pinemeter')
+--- lines 123-129 ---
+123:     
+124: 
+125: SwiftCompile normal arm64 Compiling\ AppDelegate.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppDelegate.swift (in target 'Pinemeter' from project 'Pinemeter')
+126: 
+127: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppDelegate.swift (in target 'Pinemeter' from project 'Pinemeter')
+128:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+129:     
+--- lines 125-131 ---
+125: SwiftCompile normal arm64 Compiling\ AppDelegate.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppDelegate.swift (in target 'Pinemeter' from project 'Pinemeter')
+126: 
+127: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter/App/AppDelegate.swift (in target 'Pinemeter' from project 'Pinemeter')
+128:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+129:     
+130: 
+131: SwiftDriverJobDiscovery normal arm64 Compiling DemoDataFactory.swift (in target 'Pinemeter' from project 'Pinemeter')
+--- lines 198-204 ---
+198:     builtin-infoPlistUtility /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/empty-PinemeterTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -platform macosx -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Info.plist
+199: 
+200: SwiftCompile normal arm64 Compiling\ UsageServiceStub.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift (in target 'PinemeterTests' from project 'Pinemeter')
+201: 
+202: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift (in target 'PinemeterTests' from project 'Pinemeter')
+203:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+204:     
+--- lines 200-206 ---
+200: SwiftCompile normal arm64 Compiling\ UsageServiceStub.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift (in target 'PinemeterTests' from project 'Pinemeter')
+201: 
+202: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift (in target 'PinemeterTests' from project 'Pinemeter')
+203:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+204:     
+205: 
+206: SwiftCompile normal arm64 Compiling\ ChatGPTAppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTAppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+--- lines 204-210 ---
+204:     
+205: 
+206: SwiftCompile normal arm64 Compiling\ ChatGPTAppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTAppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+207: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTAppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+208:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+209:     
+210: 
+--- lines 205-211 ---
+205: 
+206: SwiftCompile normal arm64 Compiling\ ChatGPTAppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTAppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+207: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTAppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+208:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+209:     
+210: 
+211: SwiftEmitModule normal arm64 Emitting\ module\ for\ PinemeterTests (in target 'PinemeterTests' from project 'Pinemeter')
+--- lines 215-221 ---
+215:     
+216: 
+217: SwiftCompile normal arm64 Compiling\ AppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+218: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+219:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+220:     
+221: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:623:43: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+--- lines 216-222 ---
+216: 
+217: SwiftCompile normal arm64 Compiling\ AppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+218: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+219:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+220:     
+221: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:623:43: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+222:         XCTAssertEqual(await usageService.fetchUsageCallCount, 0)
+--- lines 219-225 ---
+219:     cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+220:     
+221: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:623:43: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+222:         XCTAssertEqual(await usageService.fetchUsageCallCount, 0)
+223:                                           ^
+224: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift:15:22: note: property declared here
+225:     private(set) var fetchUsageCallCount = 0
+--- lines 220-226 ---
+220:     
+221: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:623:43: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+222:         XCTAssertEqual(await usageService.fetchUsageCallCount, 0)
+223:                                           ^
+224: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift:15:22: note: property declared here
+225:     private(set) var fetchUsageCallCount = 0
+226:                      ^
+--- lines 225-231 ---
+225:     private(set) var fetchUsageCallCount = 0
+226:                      ^
+227: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:624:50: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+228:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 1)
+229:                                                  ^
+230: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:1128:22: note: property declared here
+231:     private(set) var fetchUsageCallCount = 0
+--- lines 226-232 ---
+226:                      ^
+227: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:624:50: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+228:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 1)
+229:                                                  ^
+230: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:1128:22: note: property declared here
+231:     private(set) var fetchUsageCallCount = 0
+232:                      ^
+--- lines 231-237 ---
+231:     private(set) var fetchUsageCallCount = 0
+232:                      ^
+233: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:632:43: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+234:         XCTAssertEqual(await usageService.fetchUsageCallCount, 1)
+235:                                           ^
+236: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift:15:22: note: property declared here
+237:     private(set) var fetchUsageCallCount = 0
+--- lines 232-238 ---
+232:                      ^
+233: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:632:43: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+234:         XCTAssertEqual(await usageService.fetchUsageCallCount, 1)
+235:                                           ^
+236: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift:15:22: note: property declared here
+237:     private(set) var fetchUsageCallCount = 0
+238:                      ^
+--- lines 237-243 ---
+237:     private(set) var fetchUsageCallCount = 0
+238:                      ^
+239: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:633:43: error: actor-isolated property 'forceRefreshValues' can not be referenced from the main actor
+240:         XCTAssertEqual(await usageService.forceRefreshValues, [true])
+241:                                           ^
+242: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift:16:22: note: property declared here
+243:     private(set) var forceRefreshValues: [Bool] = []
+--- lines 238-244 ---
+238:                      ^
+239: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:633:43: error: actor-isolated property 'forceRefreshValues' can not be referenced from the main actor
+240:         XCTAssertEqual(await usageService.forceRefreshValues, [true])
+241:                                           ^
+242: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift:16:22: note: property declared here
+243:     private(set) var forceRefreshValues: [Bool] = []
+244:                      ^
+--- lines 243-249 ---
+243:     private(set) var forceRefreshValues: [Bool] = []
+244:                      ^
+245: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:634:50: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+246:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 2)
+247:                                                  ^
+248: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:1128:22: note: property declared here
+249:     private(set) var fetchUsageCallCount = 0
+--- lines 244-250 ---
+244:                      ^
+245: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:634:50: error: actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+246:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 2)
+247:                                                  ^
+248: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:1128:22: note: property declared here
+249:     private(set) var fetchUsageCallCount = 0
+250:                      ^
+--- lines 249-255 ---
+249:     private(set) var fetchUsageCallCount = 0
+250:                      ^
+251: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:623:24: error: 'await' in an autoclosure that does not support concurrency
+252:         XCTAssertEqual(await usageService.fetchUsageCallCount, 0)
+253:                        ^
+254: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:624:24: error: 'await' in an autoclosure that does not support concurrency
+255:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 1)
+--- lines 250-256 ---
+250:                      ^
+251: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:623:24: error: 'await' in an autoclosure that does not support concurrency
+252:         XCTAssertEqual(await usageService.fetchUsageCallCount, 0)
+253:                        ^
+254: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:624:24: error: 'await' in an autoclosure that does not support concurrency
+255:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 1)
+256:                        ^
+--- lines 252-258 ---
+252:         XCTAssertEqual(await usageService.fetchUsageCallCount, 0)
+253:                        ^
+254: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:624:24: error: 'await' in an autoclosure that does not support concurrency
+255:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 1)
+256:                        ^
+257: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:632:24: error: 'await' in an autoclosure that does not support concurrency
+258:         XCTAssertEqual(await usageService.fetchUsageCallCount, 1)
+--- lines 253-259 ---
+253:                        ^
+254: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:624:24: error: 'await' in an autoclosure that does not support concurrency
+255:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 1)
+256:                        ^
+257: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:632:24: error: 'await' in an autoclosure that does not support concurrency
+258:         XCTAssertEqual(await usageService.fetchUsageCallCount, 1)
+259:                        ^
+--- lines 255-261 ---
+255:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 1)
+256:                        ^
+257: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:632:24: error: 'await' in an autoclosure that does not support concurrency
+258:         XCTAssertEqual(await usageService.fetchUsageCallCount, 1)
+259:                        ^
+260: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:633:24: error: 'await' in an autoclosure that does not support concurrency
+261:         XCTAssertEqual(await usageService.forceRefreshValues, [true])
+--- lines 256-262 ---
+256:                        ^
+257: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:632:24: error: 'await' in an autoclosure that does not support concurrency
+258:         XCTAssertEqual(await usageService.fetchUsageCallCount, 1)
+259:                        ^
+260: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:633:24: error: 'await' in an autoclosure that does not support concurrency
+261:         XCTAssertEqual(await usageService.forceRefreshValues, [true])
+262:                        ^
+--- lines 258-264 ---
+258:         XCTAssertEqual(await usageService.fetchUsageCallCount, 1)
+259:                        ^
+260: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:633:24: error: 'await' in an autoclosure that does not support concurrency
+261:         XCTAssertEqual(await usageService.forceRefreshValues, [true])
+262:                        ^
+263: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:634:24: error: 'await' in an autoclosure that does not support concurrency
+264:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 2)
+--- lines 259-265 ---
+259:                        ^
+260: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:633:24: error: 'await' in an autoclosure that does not support concurrency
+261:         XCTAssertEqual(await usageService.forceRefreshValues, [true])
+262:                        ^
+263: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:634:24: error: 'await' in an autoclosure that does not support concurrency
+264:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 2)
+265:                        ^
+--- lines 261-267 ---
+261:         XCTAssertEqual(await usageService.forceRefreshValues, [true])
+262:                        ^
+263: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:634:24: error: 'await' in an autoclosure that does not support concurrency
+264:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 2)
+265:                        ^
+266: 
+267: Failed frontend command:
+--- lines 262-268 ---
+262:                        ^
+263: /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:634:24: error: 'await' in an autoclosure that does not support concurrency
+264:         XCTAssertEqual(await chatGPTUsageService.fetchUsageCallCount, 2)
+265:                        ^
+266: 
+267: Failed frontend command:
+268: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -c /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/CacheRepositoryFake.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/KeychainRepositoryFake.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/NetworkServiceStub.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/NotificationCenterSpy.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/NotificationServiceSpy.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/SettingsRepositoryFake.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestSupport/MenuBarIconSnapshotRenderer.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestSupport/TestConstants.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestSupport/TestError.swift -primary-file /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppSettingsTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/CacheRepositoryTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTAppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTSessionRepositoryTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTUsageServiceTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/CopyableErrorPresentationTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/CredentialStateTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/CredentialStatusServiceTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/KeychainRepositoryTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/MenuBarIconRendererTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/NotificationServiceTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ProviderErrorWorkflowTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/SecurityInvariantTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/SessionKeyTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/SettingsRepositoryTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/UsageLimitRiskTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/UsageServiceTests.swift -emit-dependencies-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.d -emit-const-values-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.swiftconstvalues -emit-reference-dependencies-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.swiftdeps -serialize-diagnostics-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.dia -target arm64-apple-macos14.0 -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libFoundationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#FoundationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libObservationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#ObservationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libPreviewsMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#PreviewsMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libSwiftMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#SwiftMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libSwiftUIMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#SwiftUIMacros -disable-implicit-swift-modules -Xcc -fno-implicit-modules -Xcc -fno-implicit-module-maps -explicit-swift-module-map-file /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests-dependencies-1.json -debug-module-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests.swiftmodule -Xllvm -aarch64-use-tbi -enable-objc-interop -stack-check -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -I /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/PackageFrameworks -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/PackageFrameworks -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=4 -module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -profile-generate -profile-coverage-mapping -swift-version 5 -Onone -D DEBUG -serialize-debugging-options -const-gather-protocols-file /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests_const_extract_protocols.json -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/will/code/ClaudeMeter/.gsd/worktrees/M003 -enable-anonymous-context-mangled-names -file-compilation-dir /Users/will/code/ClaudeMeter/.gsd/worktrees/M003 -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -ivfsstatcache -Xcc /Users/will/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.5-25F70-e082c4a02f00227109f4ed75e425c832.sdkstatcache -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-generated-files.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-own-target-headers.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter-f15b75f3ca50df7d8813a0665bad54e4-VFS/all-product-headers.yaml -Xcc -iquote -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-project-headers.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/include -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources-normal/arm64 -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources/arm64 -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources -Xcc -DDEBUG\=1 -no-auto-bridging-header-chaining -module-name PinemeterTests -frontend-parseable-output -disable-clang-spi -clang-target arm64-apple-macos26.5 -target-sdk-version 26.5 -target-sdk-name macosx26.5 -in-process-plugin-server-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.o -index-unit-output-path /Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.o -index-store-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Index.noindex/DataStore -index-system-modules
+--- lines 293-299 ---
+293: 	/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Logs/Test/Test-Pinemeter-2026.06.23_15-17-11--0700.xcresult
+294: 
+295: Testing failed:
+296: 	Actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+297: 	Actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+298: 	Actor-isolated property 'fetchUsageCallCount' can not be referenced from the main actor
+299: 	Actor-isolated property 'forceRefreshValues' can not be referenced from the main actor
+--- lines 309-315 ---
+309: 
+310: 
+311: The following build commands failed:
+312: 	SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+313: 	SwiftCompile normal arm64 Compiling\ AppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+314: 	Testing project Pinemeter with scheme Pinemeter
+315: (3 failures)
+--- lines 310-316 ---
+310: 
+311: The following build commands failed:
+312: 	SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+313: 	SwiftCompile normal arm64 Compiling\ AppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+314: 	Testing project Pinemeter with scheme Pinemeter
+315: (3 failures)
+316: xcodebuild_exit=65
+--- lines 311-316 ---
+311: The following build commands failed:
+312: 	SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+313: 	SwiftCompile normal arm64 Compiling\ AppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+314: 	Testing project Pinemeter with scheme Pinemeter
+315: (3 failures)
+316: xcodebuild_exit=65

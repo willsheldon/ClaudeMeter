@@ -1,0 +1,8 @@
+ProviderErrorWorkflowTests count=12
+SecurityInvariantTests count=18
+unsupported count=0
+ChatGPT count=5
+Claude count=11
+clear count=0
+repair count=2
+Focused test log includes provider workflow/security suites and provider-specific recovery/edge-case coverage.

@@ -1,0 +1,120 @@
+Pinemeter/App/AppModel.swift:129:    var usageData: UsageData?
+Pinemeter/App/AppModel.swift:130:    var chatGPTUsageData: ChatGPTUsageData?
+Pinemeter/App/AppModel.swift:161:    var isClaudeUsageConfigured: Bool {
+Pinemeter/App/AppModel.swift:165:    var isChatGPTUsageConfigured: Bool {
+Pinemeter/App/AppModel.swift:166:        hasChatGPTSessionCookie && settings.isChatGPTUsageShown
+Pinemeter/App/AppModel.swift:169:    var hasConfiguredUsageProvider: Bool {
+Pinemeter/App/AppModel.swift:170:        isClaudeUsageConfigured || isChatGPTUsageConfigured
+Pinemeter/App/AppModel.swift:173:    var configuredUsageProviderNames: [String] {
+Pinemeter/App/AppModel.swift:175:        if isClaudeUsageConfigured {
+Pinemeter/App/AppModel.swift:178:        if isChatGPTUsageConfigured {
+Pinemeter/App/AppModel.swift:185:        let names = configuredUsageProviderNames
+Pinemeter/App/AppModel.swift:187:            return "Claude Usage"
+Pinemeter/App/AppModel.swift:190:            return "ChatGPT Usage"
+Pinemeter/App/AppModel.swift:192:        return "Usage Dashboard"
+Pinemeter/App/AppModel.swift:196:        let names = configuredUsageProviderNames
+Pinemeter/App/AppModel.swift:203:    var isRefreshingConfiguredUsage: Bool {
+Pinemeter/App/AppModel.swift:204:        (isClaudeUsageConfigured && isRefreshing) || (isChatGPTUsageConfigured && isRefreshingChatGPT)
+Pinemeter/App/AppModel.swift:211:    @ObservationIgnored private let usageService: UsageServiceProtocol
+Pinemeter/App/AppModel.swift:212:    @ObservationIgnored private let chatGPTUsageService: ChatGPTUsageServiceProtocol
+Pinemeter/App/AppModel.swift:230:        usageService: UsageServiceProtocol? = nil,
+Pinemeter/App/AppModel.swift:231:        chatGPTUsageService: ChatGPTUsageServiceProtocol? = nil,
+Pinemeter/App/AppModel.swift:246:        let usageService = usageService ?? UsageService(
+Pinemeter/App/AppModel.swift:253:        self.chatGPTUsageService = chatGPTUsageService ?? ChatGPTUsageService(sessionRepository: chatGPTSessionRepository)
+Pinemeter/App/AppModel.swift:275:        let chatGPTStatus = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount)
+Pinemeter/App/AppModel.swift:280:        if hasChatGPTSessionCookie && settings.isChatGPTUsageShown {
+Pinemeter/App/AppModel.swift:281:            await refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:285:            await refreshUsage(forceRefresh: true)
+Pinemeter/App/AppModel.swift:295:    // MARK: - Usage
+Pinemeter/App/AppModel.swift:297:    func refreshConfiguredUsageProviders(forceRefresh: Bool = false) async {
+Pinemeter/App/AppModel.swift:298:        if isClaudeUsageConfigured {
+Pinemeter/App/AppModel.swift:299:            await refreshUsage(forceRefresh: forceRefresh)
+Pinemeter/App/AppModel.swift:301:        if isChatGPTUsageConfigured {
+Pinemeter/App/AppModel.swift:302:            await refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:306:    func refreshUsage(forceRefresh: Bool = false) async {
+Pinemeter/App/AppModel.swift:325:            let data = try await usageService.fetchUsage(forceRefresh: forceRefresh)
+Pinemeter/App/AppModel.swift:336:    // MARK: - ChatGPT Usage
+Pinemeter/App/AppModel.swift:338:    func refreshChatGPTUsage() async {
+Pinemeter/App/AppModel.swift:340:            let status = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount)
+Pinemeter/App/AppModel.swift:345:            chatGPTUsageData = nil
+Pinemeter/App/AppModel.swift:358:            chatGPTUsageData = try await chatGPTUsageService.fetchUsage()
+Pinemeter/App/AppModel.swift:365:        } catch ChatGPTUsageError.missingSessionCookie {
+Pinemeter/App/AppModel.swift:367:            chatGPTUsageData = nil
+Pinemeter/App/AppModel.swift:368:            chatGPTErrorMessage = ChatGPTUsageError.missingSessionCookie.localizedDescription
+Pinemeter/App/AppModel.swift:375:        } catch ChatGPTUsageError.invalidSessionCookie {
+Pinemeter/App/AppModel.swift:377:            chatGPTUsageData = nil
+Pinemeter/App/AppModel.swift:378:            chatGPTErrorMessage = ChatGPTUsageError.invalidSessionCookie.localizedDescription
+Pinemeter/App/AppModel.swift:386:            chatGPTUsageData = nil
+Pinemeter/App/AppModel.swift:393:            return try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount).sessionCookie
+Pinemeter/App/AppModel.swift:403:        let isValid = try await chatGPTUsageService.validateSessionCookie(trimmedCookie)
+Pinemeter/App/AppModel.swift:417:            account: ChatGPTUsageService.defaultSessionAccount
+Pinemeter/App/AppModel.swift:425:        settings.isChatGPTUsageShown = true
+Pinemeter/App/AppModel.swift:426:        await refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:431:        try await chatGPTSessionRepository.clear(account: ChatGPTUsageService.defaultSessionAccount)
+Pinemeter/App/AppModel.swift:433:        settings.isChatGPTUsageShown = false
+Pinemeter/App/AppModel.swift:434:        chatGPTUsageData = nil
+Pinemeter/App/AppModel.swift:488:        await refreshUsage(forceRefresh: true)
+Pinemeter/App/AppModel.swift:515:        let normalizedCookie = ChatGPTUsageService.cookieHeader(from: imported.cookieHeader)
+Pinemeter/App/AppModel.swift:523:            account: ChatGPTUsageService.defaultSessionAccount
+Pinemeter/App/AppModel.swift:531:        settings.isChatGPTUsageShown = true
+Pinemeter/App/AppModel.swift:532:        await refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:610:            await refreshUsage(forceRefresh: true)
+Pinemeter/App/AppModel.swift:716:                    await self.refreshUsage()
+Pinemeter/App/AppModel.swift:718:                if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+Pinemeter/App/AppModel.swift:719:                    await self.refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:731:                    await self.refreshUsage(forceRefresh: true)
+Pinemeter/App/AppModel.swift:733:                if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+Pinemeter/App/AppModel.swift:734:                    await self.refreshChatGPTUsage()
+Pinemeter/App/AppModel.swift:746:        usageData: UsageData?,
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:2://  UsagePopoverView.swift
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:11:/// Usage popover view with detailed metrics
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:12:struct UsagePopoverView: View {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:30:                        await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:33:                    if appModel.isRefreshingConfiguredUsage {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:41:                .disabled(appModel.isRefreshingConfiguredUsage)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:64:                                await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:85:            if appModel.usageData != nil || appModel.chatGPTUsageData != nil || appModel.chatGPTErrorMessage != nil {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:89:                            UsageMetricSection(title: "Claude", icon: "sparkles") {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:90:                                UsageMetricBar(
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:92:                                    subtitle: "Resets \(usageData.sessionUsage.resetDescription)",
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:93:                                    percentage: usageData.sessionUsage.percentage,
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:94:                                    status: usageData.sessionUsage.status,
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:98:                                UsageMetricBar(
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:100:                                    subtitle: "Resets \(usageData.weeklyUsage.resetDescription)",
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:101:                                    percentage: usageData.weeklyUsage.percentage,
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:102:                                    status: usageData.weeklyUsage.status,
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:106:                                if appModel.settings.isSonnetUsageShown, let sonnetUsage = usageData.sonnetUsage {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:107:                                    UsageMetricBar(
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:109:                                        subtitle: "Resets \(sonnetUsage.resetDescription)",
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:110:                                        percentage: sonnetUsage.percentage,
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:111:                                        status: sonnetUsage.status,
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:118:                        if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:119:                            UsageMetricSection(title: "ChatGPT", icon: "message.badge.waveform") {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:120:                                ForEach(chatGPTUsageData.rows) { row in
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:121:                                    UsageMetricBar(
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:132:                        if appModel.settings.isChatGPTUsageShown, let chatGPTErrorMessage = appModel.chatGPTErrorMessage {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:195:    private func chatGPTQuotaSubtitle(for row: ChatGPTUsageData.LimitRow) -> String {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:206:    private func status(for row: ChatGPTUsageData.LimitRow) -> UsageStatus {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:232:private struct UsageMetricSection<Content: View>: View {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:257:private struct UsageMetricBar: View {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:261:    let status: UsageStatus
+PinemeterTests/ChatGPTAppModelTests.swift:16:            account: ChatGPTUsageService.defaultSessionAccount
+PinemeterTests/ChatGPTAppModelTests.swift:44:        XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+PinemeterTests/ChatGPTAppModelTests.swift:45:        XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+PinemeterTests/ChatGPTAppModelTests.swift:46:        XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+PinemeterTests/ChatGPTAppModelTests.swift:50:    func test_bootstrap_withExistingChatGPTSessionButUsageHiddenLeavesMenuInSetupState() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:54:            account: ChatGPTUsageService.defaultSessionAccount
+PinemeterTests/ChatGPTAppModelTests.swift:57:        appModel.settings.isChatGPTUsageShown = false
+PinemeterTests/ChatGPTAppModelTests.swift:63:        XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+PinemeterTests/ChatGPTAppModelTests.swift:64:        XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+PinemeterTests/ChatGPTAppModelTests.swift:65:        XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+PinemeterTests/ChatGPTAppModelTests.swift:67:        XCTAssertNil(appModel.chatGPTUsageData)
+PinemeterTests/ChatGPTAppModelTests.swift:71:        let chatGPTService = ChatGPTUsageServiceStub(isSessionCookieValid: false)
+PinemeterTests/ChatGPTAppModelTests.swift:74:            chatGPTUsageService: chatGPTService,
+PinemeterTests/ChatGPTAppModelTests.swift:88:    func test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage() async throws {
+PinemeterTests/ChatGPTAppModelTests.swift:89:        let expectedUsage = makeChatGPTUsage(percentage: 25)
+PinemeterTests/ChatGPTAppModelTests.swift:90:        let chatGPTService = ChatGPTUsageServiceStub(
+PinemeterTests/ChatGPTAppModelTests.swift:91:            fetchUsageResult: .success(expectedUsage),
+PinemeterTests/ChatGPTAppModelTests.swift:98:            chatGPTUsageService: chatGPTService,
+PinemeterTests/ChatGPTAppModelTests.swift:105:        let savedChatGPTSession = try await sessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+PinemeterTests/ChatGPTAppModelTests.swift:109:        XCTAssertTrue(appModel.settings.isChatGPTUsageShown)

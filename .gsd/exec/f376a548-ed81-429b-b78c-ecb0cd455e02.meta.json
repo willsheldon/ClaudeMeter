@@ -1,0 +1,19 @@
+{
+  "id": "f376a548-ed81-429b-b78c-ecb0cd455e02",
+  "runtime": "bash",
+  "purpose": "T04 full Pinemeter test suite",
+  "script_chars": 100,
+  "started_at": "2026-06-23T22:23:19.530Z",
+  "finished_at": "2026-06-23T22:23:26.572Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 7042,
+  "stdout_bytes": 31580,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/f376a548-ed81-429b-b78c-ecb0cd455e02.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/f376a548-ed81-429b-b78c-ecb0cd455e02.stderr"
+}

@@ -1,0 +1,16 @@
+provider_recovery_source_review
+Pinemeter/App/AppModel.swift: recovery_terms=79
+Pinemeter/Views/Settings/SettingsView.swift: recovery_terms=52
+Pinemeter/Views/Setup/SetupWizardView.swift: recovery_terms=18
+PinemeterTests/ProviderErrorWorkflowTests.swift: recovery_terms=53
+PinemeterTests/SecurityInvariantTests.swift: recovery_terms=60
+Pinemeter/App/AppModel.swift: source_forbidden_fragments=none
+Pinemeter/Views/Settings/SettingsView.swift: source_forbidden_fragments=none
+Pinemeter/Views/Setup/SetupWizardView.swift: source_forbidden_fragments=none
+Pinemeter/Views/Settings/SettingsView.swift: manual_credential_entry_fragments=none
+Pinemeter/Views/Setup/SetupWizardView.swift: manual_credential_entry_fragments=none
+AppModel shared boundary present= True
+ChatGPT repair unsupported sanitized= True
+Settings routes provider actions= True
+Setup routes provider actions= True
+test_negative_redaction_cases_present= True

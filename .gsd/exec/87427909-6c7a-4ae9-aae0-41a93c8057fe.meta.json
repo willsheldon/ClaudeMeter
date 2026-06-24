@@ -1,0 +1,18 @@
+{
+  "id": "87427909-6c7a-4ae9-aae0-41a93c8057fe",
+  "runtime": "bash",
+  "purpose": "T01 provider credential status surface audit",
+  "script_chars": 106,
+  "started_at": "2026-06-20T18:19:45.849Z",
+  "finished_at": "2026-06-20T18:19:45.889Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 40,
+  "stdout_bytes": 25391,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/87427909-6c7a-4ae9-aae0-41a93c8057fe.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/87427909-6c7a-4ae9-aae0-41a93c8057fe.stderr"
+}

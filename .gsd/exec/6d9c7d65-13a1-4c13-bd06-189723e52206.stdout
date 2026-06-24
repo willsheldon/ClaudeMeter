@@ -1,0 +1,7 @@
+provider status surface audit: FAIL
+- Pinemeter/App/AppModel.swift missing required snippet: var actions: [ProviderCredentialAction]
+- PinemeterTests/ProviderErrorWorkflowTests.swift missing required snippet: XCTAssertTrue(settingsSource.contains("providerCredentialStatuses"))
+- PinemeterTests/ProviderErrorWorkflowTests.swift missing required snippet: XCTAssertTrue(settingsSource.contains("status.stateText"))
+- PinemeterTests/ProviderErrorWorkflowTests.swift missing required snippet: XCTAssertTrue(settingsSource.contains("status.detailText"))
+- PinemeterTests/ProviderErrorWorkflowTests.swift missing required snippet: XCTAssertTrue(setupSource.contains("providerCredentialStatusActions(for: status)"))
+- PinemeterTests/ProviderErrorWorkflowTests.swift missing required snippet: XCTAssertFalse(setupSource.contains("SecureField"))

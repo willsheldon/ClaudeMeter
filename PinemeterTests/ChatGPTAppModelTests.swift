@@ -41,6 +41,30 @@ final class ChatGPTAppModelTests: XCTestCase {
         let status = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .chatGPT })
         XCTAssertEqual(status.lastFailureTitle, "Credential storage unavailable")
         XCTAssertEqual(status.actions.map(\.kind), [.reconnect, .clear])
+        XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+        XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+        XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude or ChatGPT to see usage data.")
+    }
+
+    func test_bootstrap_withExistingChatGPTSessionButUsageHiddenLeavesMenuInSetupState() async throws {
+        let sessionRepository = ChatGPTSessionRepositoryFake()
+        try await sessionRepository.save(
+            ChatGPTSession(sessionCookie: "chatgpt-session-redacted"),
+            account: ChatGPTUsageService.defaultSessionAccount
+        )
+        let appModel = makeAppModel(chatGPTSessionRepository: sessionRepository)
+        appModel.settings.isChatGPTUsageShown = false
+
+        await appModel.bootstrap()
+
+        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+        XCTAssertFalse(appModel.isSetupComplete)
+        XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+        XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+        XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude or ChatGPT to see usage data.")
+        XCTAssertNil(appModel.chatGPTUsageData)
     }
 
     func test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection() async throws {

@@ -1,0 +1,28 @@
+provider status surface audit: PASS
+- AppModel exposes centralized providerCredentialStatuses for Claude and ChatGPT.
+- SettingsView and SetupWizardView render status rows/cards from sanitized status view models.
+- Setup/settings UI sources do not directly read session keys, cookie headers, or raw credential values.
+- Tests include provider status sanitization, prompt, recovery-action, and shared setup/settings rendering coverage.
+Provider workflow copy audit
+Mode: enforce
+Files scanned: 11 fixed allowlist
+
+[ChatGPT copy review] 151 finding(s)
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:85 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: if appModel.usageData != nil || appModel.chatGPTUsageData != nil || appModel.chatGPTErrorMessage != nil {
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:118 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:119 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: UsageMetricSection(title: "ChatGPT", icon: "message.badge.waveform") {
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:120 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: ForEach(chatGPTUsageData.rows) { row in
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:123 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: subtitle: chatGPTQuotaSubtitle(for: row),
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:132 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: if appModel.settings.isChatGPTUsageShown, let chatGPTErrorMessage = appModel.chatGPTErrorMessage {
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:136 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: CopyableErrorText("ChatGPT: \(chatGPTErrorMessage)", font: .caption, foregroundStyle: .secondary)
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:195 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: private func chatGPTQuotaSubtitle(for row: ChatGPTUsageData.LimitRow) -> String {
+- ... 143 more
+

@@ -1,0 +1,14 @@
+PASS: ChatGPT tests cover unavailable/sanitized credential state
+FAIL: credential-bearing terms appear in menu/AppModel UI surface:
+Pinemeter/App/AppModel.swift:140:        identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:215:    @ObservationIgnored private let sessionKeyImportService: SessionKeyImportServiceProtocol
+Pinemeter/App/AppModel.swift:234:        sessionKeyImportService: SessionKeyImportServiceProtocol? = nil
+Pinemeter/App/AppModel.swift:240:        self.sessionKeyImportService = sessionKeyImportService ?? SessionKeyImportService(
+Pinemeter/App/AppModel.swift:270:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:457:        let sessionKey = try SessionKey(rawValue)
+Pinemeter/App/AppModel.swift:458:        let isValid = try await usageService.validateSessionKey(sessionKey)
+Pinemeter/App/AppModel.swift:462:                identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:470:        let organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
+Pinemeter/App/AppModel.swift:477:        try await keychainRepository.save(sessionKey: sessionKey.value, account: "default")
+Pinemeter/App/AppModel.swift:479:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:499:        let imported = try await sessionKeyImportService.importSessionKey(from: source)

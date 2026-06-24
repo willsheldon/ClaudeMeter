@@ -1,0 +1,65 @@
+# S01: Provider status surfaces
+
+**Goal:** Centralize and polish provider credential state presentation across setup and settings.
+**Demo:** Settings and setup show sanitized Claude and ChatGPT credential status with provider-specific next actions.
+
+## Must-Haves
+
+- Settings and setup render provider status from AppModel sanitized provider status models.
+- Claude and ChatGPT status rows have clear configured, missing, invalid, and action states.
+- Tests prove views and model helpers do not expose raw credential material.
+
+## Proof Level
+
+- This slice proves: contract
+
+## Integration Closure
+
+AppModel, SettingsView, SetupWizardView, CredentialState, and related tests are aligned around the same provider status model.
+
+## Verification
+
+- Improves diagnostic status visibility without logging or displaying secrets.
+
+## Tasks
+
+- [x] **T01: Repaired T01's verification contract so auto-mode can discover and run host-owned checks.** `est:small`
+  Map current AppModel credential state helpers and every SettingsView/SetupWizardView usage that presents provider credential state. Identify direct provider-specific formatting, stale Claude-only copy, and any path that could display raw credential material.
+  - Files: `Pinemeter/App/AppModel.swift`, `Pinemeter/Views/Settings/SettingsView.swift`, `Pinemeter/Views/Setup/SetupWizardView.swift`, `PinemeterTests/AppModelTests.swift`, `scripts/provider_status_surface_audit.py`
+  - Verify: python3 scripts/provider_status_surface_audit.py
+xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/AppModelTests
+rg -n "session|cookie|key|Claude|ChatGPT|providerCredential" Pinemeter/Views Pinemeter/App
+
+- [x] **T02: Unified provider credential status presentation text for setup and settings without exposing credential material.** `est:medium`
+  Refine AppModel sanitized provider credential status helpers so setup and settings can render the same provider name, credential name, state text, detail text, and actions for Claude and ChatGPT without access to raw credentials.
+  - Files: `Pinemeter/App/AppModel.swift`, `Pinemeter/Models/CredentialState.swift`, `PinemeterTests/AppModelTests.swift`, `PinemeterTests/CredentialStateTests.swift`
+  - Verify: `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/AppModelTests -only-testing:PinemeterTests/CredentialStateTests`
+
+- [x] **T03: Rendered shared provider credential status actions in setup and pinned setup/settings status surfaces to the sanitized shared model.** `est:medium`
+  Update SettingsView and SetupWizardView to consume AppModel provider credential statuses for Claude and ChatGPT, removing duplicated stale copy where possible and keeping all secret material out of SwiftUI state.
+  - Files: `Pinemeter/Views/Settings/SettingsView.swift`, `Pinemeter/Views/Setup/SetupWizardView.swift`, `PinemeterTests/ProviderErrorWorkflowTests.swift`, `PinemeterTests/SecurityInvariantTests.swift`
+  - Verify: `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/ProviderErrorWorkflowTests -only-testing:PinemeterTests/SecurityInvariantTests`
+
+- [x] **T04: Ran full provider status verification and confirmed setup/settings credential status surfaces remain sanitized.** `est:small`
+  Run the full test suite and inspect provider status strings for stale Claude-only assumptions or secret leakage. Fix only issues directly tied to this slice.
+  - Files: `Pinemeter/App/AppModel.swift`, `Pinemeter/Views/Settings/SettingsView.swift`, `Pinemeter/Views/Setup/SetupWizardView.swift`, `PinemeterTests/AppModelTests.swift`, `PinemeterTests/ProviderErrorWorkflowTests.swift`
+  - Verify: `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` plus `rg -n "sk-|session-token|__Secure|cookie" Pinemeter/Views PinemeterTests` with findings reviewed for test fixtures only.
+
+- [x] **T05: Reconciled the provider status surface audit with the final shared sanitized setup/settings presentation contract.** `est:small`
+  Update the host-owned provider status surface audit so it checks the final shared AppProviderCredentialStatus presentation contract used by SettingsView and SetupWizardView instead of stale pre-refactor snippets. Do not relax secret-leakage checks; the audit should still prove setup/settings consume sanitized provider status models and do not expose credential material. Rerun the audit, full tests, and credential leakage grep after the audit contract is repaired.
+  - Files: `scripts/provider_status_surface_audit.py`, `Pinemeter/Views/Settings/SettingsView.swift`, `Pinemeter/Views/Setup/SetupWizardView.swift`
+  - Verify: python3 scripts/provider_status_surface_audit.py
+xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+rg -n "sk-|session-token|__Secure|cookie" Pinemeter/Views PinemeterTests
+
+## Files Likely Touched
+
+- Pinemeter/App/AppModel.swift
+- Pinemeter/Views/Settings/SettingsView.swift
+- Pinemeter/Views/Setup/SetupWizardView.swift
+- PinemeterTests/AppModelTests.swift
+- scripts/provider_status_surface_audit.py
+- Pinemeter/Models/CredentialState.swift
+- PinemeterTests/CredentialStateTests.swift
+- PinemeterTests/ProviderErrorWorkflowTests.swift
+- PinemeterTests/SecurityInvariantTests.swift

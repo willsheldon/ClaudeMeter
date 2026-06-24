@@ -1,0 +1,27 @@
+{
+  "id": "2fbb3101-a0db-4c86-be63-6e9591433e08",
+  "runtime": "bash",
+  "purpose": "UAT M003/S01/UAT-SMOKE-01 (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S01",
+    "checkId": "UAT-SMOKE-01",
+    "intent": "uat-runtime-check",
+    "expected": "Audit exits 0 and reports the centralized AppModel provider status contract, sanitized setup/settings rendering, no direct raw credential UI reads, and required test coverage."
+  },
+  "script_chars": 48,
+  "started_at": "2026-06-23T21:49:29.311Z",
+  "finished_at": "2026-06-23T21:49:29.388Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 77,
+  "stdout_bytes": 435,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/2fbb3101-a0db-4c86-be63-6e9591433e08.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/2fbb3101-a0db-4c86-be63-6e9591433e08.stderr"
+}

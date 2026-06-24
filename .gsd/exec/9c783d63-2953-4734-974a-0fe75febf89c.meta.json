@@ -1,0 +1,19 @@
+{
+  "id": "9c783d63-2953-4734-974a-0fe75febf89c",
+  "runtime": "bash",
+  "purpose": "S01 slice closeout verification: full tests and credential leakage audit",
+  "script_chars": 942,
+  "started_at": "2026-06-23T21:42:13.490Z",
+  "finished_at": "2026-06-23T21:42:21.379Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 7889,
+  "stdout_bytes": 0,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/9c783d63-2953-4734-974a-0fe75febf89c.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/9c783d63-2953-4734-974a-0fe75febf89c.stderr"
+}

@@ -20,7 +20,18 @@ enum ProviderCredentialActionKind: String, Equatable, Hashable, Sendable {
     }
 }
 
-/// Sanitized credential status view model for setup/settings surfaces.
+/// Sanitized provider credential action failure that never includes credential material.
+enum AppProviderCredentialActionError: LocalizedError, Equatable, Sendable {
+    case unsupportedAction(provider: CredentialProvider, action: ProviderCredentialActionKind)
+
+    var errorDescription: String? {
+        switch self {
+        case .unsupportedAction(let provider, let action):
+            return "\(action.displayTitle) is not available for \(provider.displayName) credentials."
+        }
+    }
+}
+
 struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
     struct Action: Identifiable, Equatable, Sendable {
         let kind: ProviderCredentialActionKind
@@ -37,8 +48,26 @@ struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
     var kind: CredentialKind { state.identity.kind }
     var providerName: String { provider.displayName }
     var credentialName: String { state.identity.displayName }
-    var statusTitle: String { state.health.displayTitle }
-    var statusDescription: String { state.displayDescription }
+
+    /// Surface-neutral state text shared by setup and settings.
+    var stateText: String { state.health.displayTitle }
+
+    /// Surface-neutral sanitized detail text shared by setup and settings.
+    var detailText: String {
+        switch state.health {
+        case .valid, .refreshRecommended:
+            return "Saved \(credentialName) is ready."
+        case .missing, .unknown:
+            return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
+        case .validating:
+            return "Pinemeter is checking your saved \(credentialName)."
+        case .invalid, .expired, .unavailable:
+            return recoverySuggestion ?? state.displayDescription
+        }
+    }
+
+    var statusTitle: String { stateText }
+    var statusDescription: String { detailText }
     var lastFailureTitle: String? { state.failureCategory?.displayTitle }
     var recoverySuggestion: String? { state.recoverySuggestion }
 
@@ -55,21 +84,10 @@ struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
         }
     }
 
-    var setupPromptDescription: String {
-        switch state.health {
-        case .valid, .refreshRecommended:
-            return "A saved credential is available, so setup can continue without asking you to paste it again."
-        case .missing, .unknown:
-            return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
-        case .validating:
-            return "Pinemeter is checking your saved credential."
-        case .invalid, .expired, .unavailable:
-            return recoverySuggestion ?? statusDescription
-        }
-    }
+    var setupPromptDescription: String { detailText }
 
     var setupAccessibilityLabel: String {
-        "\(credentialName) status: \(statusTitle). \(setupPromptDescription)"
+        "\(credentialName) status: \(stateText). \(detailText)"
     }
 
     var shouldPromptForSetupCredential: Bool {
@@ -138,6 +156,52 @@ final class AppModel {
                 actions: credentialActions(for: chatGPTCredentialState)
             )
         ]
+    }
+
+    var isClaudeUsageConfigured: Bool {
+        isSetupComplete
+    }
+
+    var isChatGPTUsageConfigured: Bool {
+        hasChatGPTSessionCookie && settings.isChatGPTUsageShown
+    }
+
+    var hasConfiguredUsageProvider: Bool {
+        isClaudeUsageConfigured || isChatGPTUsageConfigured
+    }
+
+    var configuredUsageProviderNames: [String] {
+        var names: [String] = []
+        if isClaudeUsageConfigured {
+            names.append(CredentialProvider.claude.displayName)
+        }
+        if isChatGPTUsageConfigured {
+            names.append(CredentialProvider.chatGPT.displayName)
+        }
+        return names
+    }
+
+    var usageDashboardTitle: String {
+        let names = configuredUsageProviderNames
+        if names == [CredentialProvider.claude.displayName] {
+            return "Claude Usage"
+        }
+        if names == [CredentialProvider.chatGPT.displayName] {
+            return "ChatGPT Usage"
+        }
+        return "Usage Dashboard"
+    }
+
+    var usageLoadingMessage: String {
+        let names = configuredUsageProviderNames
+        guard !names.isEmpty else {
+            return "Connect Claude or ChatGPT to see usage data."
+        }
+        return "Loading \(Self.joinedProviderNames(names)) usage data..."
+    }
+
+    var isRefreshingConfiguredUsage: Bool {
+        (isClaudeUsageConfigured && isRefreshing) || (isChatGPTUsageConfigured && isRefreshingChatGPT)
     }
 
     // MARK: - Dependencies
@@ -229,6 +293,15 @@ final class AppModel {
     }
 
     // MARK: - Usage
+
+    func refreshConfiguredUsageProviders(forceRefresh: Bool = false) async {
+        if isClaudeUsageConfigured {
+            await refreshUsage(forceRefresh: forceRefresh)
+        }
+        if isChatGPTUsageConfigured {
+            await refreshChatGPTUsage()
+        }
+    }
 
     func refreshUsage(forceRefresh: Bool = false) async {
         guard isSetupComplete else {
@@ -464,6 +537,30 @@ final class AppModel {
         )
     }
 
+    func performProviderCredentialAction(
+        _ action: ProviderCredentialActionKind,
+        for provider: CredentialProvider
+    ) async throws -> CredentialState {
+        switch (provider, action) {
+        case (.claude, .reconnect):
+            _ = try await importAndSaveSessionKey()
+            return claudeCredentialState
+        case (.claude, .repair):
+            return await repairClaudeSessionKey()
+        case (.claude, .clear):
+            try await clearSessionKey()
+            return claudeCredentialState
+        case (.chatGPT, .reconnect):
+            _ = try await importAndSaveChatGPTSessionCookie()
+            return chatGPTCredentialState
+        case (.chatGPT, .clear):
+            try await clearChatGPTSessionCookie()
+            return chatGPTCredentialState
+        case (.chatGPT, .repair):
+            throw AppProviderCredentialActionError.unsupportedAction(provider: provider, action: action)
+        }
+    }
+
     func importProviderSessions(from source: BrowserImportSource) async -> ProviderBrowserImportOutcome {
         let claudeStatus: ProviderBrowserImportStatus
         do {
@@ -580,6 +677,19 @@ final class AppModel {
             failureCategory: status.lastErrorCategory?.credentialFailureCategory ?? status.state.defaultFailureCategory,
             checkedAt: checkedAt
         )
+    }
+
+    private static func joinedProviderNames(_ names: [String]) -> String {
+        switch names.count {
+        case 0:
+            return ""
+        case 1:
+            return names[0]
+        case 2:
+            return "\(names[0]) and \(names[1])"
+        default:
+            return "\(names.dropLast().joined(separator: ", ")), and \(names[names.count - 1])"
+        }
     }
 
     private func scheduleSettingsSave(previous: AppSettings) {

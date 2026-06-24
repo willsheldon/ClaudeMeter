@@ -1,0 +1,19 @@
+{
+  "id": "b91a6096-224f-4d5e-ac87-0a645739db58",
+  "runtime": "bash",
+  "purpose": "targeted T03 verification xcodebuild test",
+  "script_chars": 230,
+  "started_at": "2026-06-23T22:21:48.132Z",
+  "finished_at": "2026-06-23T22:21:57.135Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 9003,
+  "stdout_bytes": 52465,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/b91a6096-224f-4d5e-ac87-0a645739db58.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/b91a6096-224f-4d5e-ac87-0a645739db58.stderr"
+}

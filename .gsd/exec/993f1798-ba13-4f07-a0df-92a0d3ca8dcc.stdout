@@ -1,0 +1,4 @@
+Pinemeter/Repositories/ChatGPTSessionRepository.swift:    private let serviceName = "com.pinemeter.chatgpt.session"
+Pinemeter/Repositories/KeychainRepository.swift:    private let serviceName = "com.claudemeter.sessionkey"
+PinemeterTests/SecurityInvariantTests.swift:            source.contains("com.claudemeter.sessionkey"),
+PASS: provider-scoped workflow/storage markers are present in source and tests.

@@ -1,0 +1,19 @@
+{
+  "id": "4dfc60df-2614-4397-b406-a1b9d2a2531e",
+  "runtime": "bash",
+  "purpose": "focused verification for AppModel provider recovery orchestration after implementation",
+  "script_chars": 182,
+  "started_at": "2026-06-23T21:56:05.390Z",
+  "finished_at": "2026-06-23T21:56:20.302Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 14912,
+  "stdout_bytes": 98336,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/4dfc60df-2614-4397-b406-a1b9d2a2531e.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/4dfc60df-2614-4397-b406-a1b9d2a2531e.stderr"
+}

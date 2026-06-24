@@ -1,0 +1,19 @@
+{
+  "id": "7f4b9544-f2c3-4db2-8af7-3b25c2f627ba",
+  "runtime": "bash",
+  "purpose": "T04 full provider status xcodebuild test",
+  "script_chars": 530,
+  "started_at": "2026-06-23T21:40:51.088Z",
+  "finished_at": "2026-06-23T21:41:05.329Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 14241,
+  "stdout_bytes": 23,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/7f4b9544-f2c3-4db2-8af7-3b25c2f627ba.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/7f4b9544-f2c3-4db2-8af7-3b25c2f627ba.stderr"
+}

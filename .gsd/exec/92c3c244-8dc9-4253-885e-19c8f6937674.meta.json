@@ -1,0 +1,27 @@
+{
+  "id": "92c3c244-8dc9-4253-885e-19c8f6937674",
+  "runtime": "bash",
+  "purpose": "UAT M003/S02/UAT-02-03-EDGE (uat-log-inspection)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S02",
+    "checkId": "UAT-02-03-EDGE",
+    "intent": "uat-log-inspection",
+    "expected": "Focused test output demonstrates provider workflow/security suites passed and includes Claude/ChatGPT recovery edge-case coverage"
+  },
+  "script_chars": 851,
+  "started_at": "2026-06-23T22:07:33.669Z",
+  "finished_at": "2026-06-23T22:07:33.795Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 126,
+  "stdout_bytes": 260,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/92c3c244-8dc9-4253-885e-19c8f6937674.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/92c3c244-8dc9-4253-885e-19c8f6937674.stderr"
+}

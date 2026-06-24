@@ -1,0 +1,19 @@
+{
+  "id": "eacdf9ba-9e06-47bf-b82d-5c59c784431f",
+  "runtime": "bash",
+  "purpose": "T02 targeted AppModel and ChatGPTAppModel verification",
+  "script_chars": 305,
+  "started_at": "2026-06-23T22:17:09.329Z",
+  "finished_at": "2026-06-23T22:17:18.544Z",
+  "exit_code": 65,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 9215,
+  "stdout_bytes": 76036,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/eacdf9ba-9e06-47bf-b82d-5c59c784431f.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/eacdf9ba-9e06-47bf-b82d-5c59c784431f.stderr"
+}

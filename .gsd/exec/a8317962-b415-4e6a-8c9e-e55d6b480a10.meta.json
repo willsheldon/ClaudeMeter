@@ -1,0 +1,19 @@
+{
+  "id": "a8317962-b415-4e6a-8c9e-e55d6b480a10",
+  "runtime": "bash",
+  "purpose": "slice S04 closeout verification: UAT artifact safety and required markers",
+  "script_chars": 683,
+  "started_at": "2026-06-23T22:44:52.948Z",
+  "finished_at": "2026-06-23T22:44:53.007Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 59,
+  "stdout_bytes": 132,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/a8317962-b415-4e6a-8c9e-e55d6b480a10.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/a8317962-b415-4e6a-8c9e-e55d6b480a10.stderr"
+}

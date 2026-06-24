@@ -1,0 +1,27 @@
+{
+  "id": "1c4bb564-13ac-4a45-963e-3aeb4891a7d1",
+  "runtime": "bash",
+  "purpose": "UAT M003/S02/UAT-04B (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S02",
+    "checkId": "UAT-04B",
+    "intent": "uat-artifact-check",
+    "expected": "Settings/setup use performProviderCredentialAction and concrete raw credential strings are not present"
+  },
+  "script_chars": 1365,
+  "started_at": "2026-06-23T22:07:00.201Z",
+  "finished_at": "2026-06-23T22:07:00.260Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 59,
+  "stdout_bytes": 4241,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/1c4bb564-13ac-4a45-963e-3aeb4891a7d1.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/1c4bb564-13ac-4a45-963e-3aeb4891a7d1.stderr"
+}

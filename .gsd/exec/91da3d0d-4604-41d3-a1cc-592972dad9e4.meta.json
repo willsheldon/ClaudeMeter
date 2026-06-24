@@ -1,0 +1,19 @@
+{
+  "id": "91da3d0d-4604-41d3-a1cc-592972dad9e4",
+  "runtime": "bash",
+  "purpose": "T04 provider credential leak scan",
+  "script_chars": 686,
+  "started_at": "2026-06-23T21:41:16.347Z",
+  "finished_at": "2026-06-23T21:41:16.405Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 58,
+  "stdout_bytes": 13169,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/91da3d0d-4604-41d3-a1cc-592972dad9e4.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/91da3d0d-4604-41d3-a1cc-592972dad9e4.stderr"
+}

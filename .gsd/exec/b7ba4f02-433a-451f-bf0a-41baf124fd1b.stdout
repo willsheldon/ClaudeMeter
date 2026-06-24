@@ -1,0 +1,2 @@
+provider status surface audit: FAIL
+- Pinemeter/Views/Settings/SettingsView.swift missing required snippet: Text(recoverySuggestion)

@@ -1,0 +1,27 @@
+{
+  "id": "7ddf2b5d-dd97-4857-8d22-f070225f9f45",
+  "runtime": "bash",
+  "purpose": "UAT M003/S04/UAT-ARTIFACT-SANITIZED-DIAGNOSTICS (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S04",
+    "checkId": "UAT-ARTIFACT-SANITIZED-DIAGNOSTICS",
+    "intent": "uat-artifact-check",
+    "expected": "Sanitized diagnostic/status coverage exists and credential strings are only used as test/audit needles"
+  },
+  "script_chars": 803,
+  "started_at": "2026-06-23T22:46:47.170Z",
+  "finished_at": "2026-06-23T22:46:47.240Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 70,
+  "stdout_bytes": 1993,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/7ddf2b5d-dd97-4857-8d22-f070225f9f45.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/7ddf2b5d-dd97-4857-8d22-f070225f9f45.stderr"
+}

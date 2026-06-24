@@ -1,0 +1,18 @@
+{
+  "id": "4165d25e-6e2b-457d-b26a-82c9ed44472c",
+  "runtime": "bash",
+  "purpose": "Run focused AppModel provider credential status tests",
+  "script_chars": 126,
+  "started_at": "2026-06-20T18:24:20.461Z",
+  "finished_at": "2026-06-20T18:24:49.296Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "duration_ms": 28835,
+  "stdout_bytes": 274720,
+  "stderr_bytes": 626,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/4165d25e-6e2b-457d-b26a-82c9ed44472c.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/4165d25e-6e2b-457d-b26a-82c9ed44472c.stderr"
+}

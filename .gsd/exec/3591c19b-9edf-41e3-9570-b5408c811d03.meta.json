@@ -1,0 +1,19 @@
+{
+  "id": "3591c19b-9edf-41e3-9570-b5408c811d03",
+  "runtime": "bash",
+  "purpose": "baseline provider status audit failure",
+  "script_chars": 48,
+  "started_at": "2026-06-23T21:44:23.372Z",
+  "finished_at": "2026-06-23T21:44:23.429Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 57,
+  "stdout_bytes": 338,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/3591c19b-9edf-41e3-9570-b5408c811d03.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/3591c19b-9edf-41e3-9570-b5408c811d03.stderr"
+}

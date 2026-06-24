@@ -12,6 +12,8 @@ actor UsageServiceStub: UsageServiceProtocol {
     let fetchUsageResult: Result<UsageData, Error>
     let isSessionKeyValid: Bool
     let organizations: [Organization]
+    private(set) var fetchUsageCallCount = 0
+    private(set) var forceRefreshValues: [Bool] = []
 
     init(
         fetchUsageResult: Result<UsageData, Error>,
@@ -24,6 +26,8 @@ actor UsageServiceStub: UsageServiceProtocol {
     }
 
     func fetchUsage(forceRefresh: Bool) async throws -> UsageData {
+        fetchUsageCallCount += 1
+        forceRefreshValues.append(forceRefresh)
         switch fetchUsageResult {
         case .success(let data):
             return data

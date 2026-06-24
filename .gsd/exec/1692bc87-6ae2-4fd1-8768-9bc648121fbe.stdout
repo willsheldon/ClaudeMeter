@@ -1,0 +1,26 @@
+AppModelTests provider/menu test names:
+29:    func test_userWithSessionKey_seesUsageAfterLaunch() async {
+57:    func test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch() async {
+85:    func test_refreshingUsage_showsLatestUsageAndClearsError() async {
+111:    func test_refreshingUsage_showsErrorWhenFetchFails() async {
+136:    func test_refreshingUsage_hidesUsageWhenSetupIncomplete() async {
+437:    func test_userWithValidSessionKey_entersUsageAndLoadsData() async throws {
+567:    func test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface() async {
+597:    func test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders() async {
+644:    func test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff() async {
+668:    func test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState() async {
+694:    func test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage() async throws {
+732:    func test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails() async throws {
+996:    func test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+
+ChatGPTAppModelTests relevant test names:
+
+AppModel provider-aware source lines:
+Pinemeter/App/AppModel.swift:169:    var hasConfiguredUsageProvider: Bool {
+Pinemeter/App/AppModel.swift:184:    var usageDashboardTitle: String {
+Pinemeter/App/AppModel.swift:297:    func refreshConfiguredUsageProviders(forceRefresh: Bool = false) async {
+Pinemeter/Views/MenuBar/MenuBarPopoverView.swift:16:        if appModel.hasConfiguredUsageProvider {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:21:                Text(appModel.usageDashboardTitle)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:30:                        await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:64:                                await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:183:        .accessibilityLabel(appModel.usageDashboardTitle)

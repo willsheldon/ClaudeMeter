@@ -1,0 +1,25 @@
+latest_xcresult=/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Logs/Test/Test-Pinemeter-2026.06.23_15-17-11--0700.xcresult
+{
+  "devicesAndConfigurations" : [
+
+  ],
+  "environmentDescription" : "Pinemeter · Built with macOS 26.5.1",
+  "expectedFailures" : 0,
+  "failedTests" : 0,
+  "finishTime" : 1782253038.486,
+  "passedTests" : 0,
+  "result" : "unknown",
+  "skippedTests" : 0,
+  "startTime" : 1782253031.462,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+
+  ],
+  "title" : "Test - Pinemeter",
+  "topInsights" : [
+
+  ],
+  "totalTestCount" : 0
+}

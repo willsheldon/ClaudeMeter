@@ -1,0 +1,168 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug "-only-testing:PinemeterTests/AppModelTests" "-only-testing:PinemeterTests/ProviderErrorWorkflowTests"
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  swift-snapshot-testing: https://github.com/pointfreeco/swift-snapshot-testing @ 1.18.7
+  SweetCookieKit: https://github.com/steipete/SweetCookieKit @ 0.4.1
+  xctest-dynamic-overlay: https://github.com/pointfreeco/xctest-dynamic-overlay @ 1.8.1
+  swift-syntax: https://github.com/swiftlang/swift-syntax @ 602.0.0
+  swift-custom-dump: https://github.com/pointfreeco/swift-custom-dump @ 1.3.3
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (6 targets)
+    Target 'PinemeterTests' in project 'Pinemeter'
+        ➜ Explicit dependency on target 'Pinemeter' in project 'Pinemeter'
+        ➜ Explicit dependency on target 'SnapshotTesting' in project 'swift-snapshot-testing'
+    Target 'SnapshotTesting' in project 'swift-snapshot-testing'
+        ➜ Explicit dependency on target 'SnapshotTesting' in project 'swift-snapshot-testing'
+    Target 'SnapshotTesting' in project 'swift-snapshot-testing' (no dependencies)
+    Target 'Pinemeter' in project 'Pinemeter'
+        ➜ Explicit dependency on target 'SweetCookieKit' in project 'SweetCookieKit'
+    Target 'SweetCookieKit' in project 'SweetCookieKit'
+        ➜ Explicit dependency on target 'SweetCookieKit' in project 'SweetCookieKit'
+    Target 'SweetCookieKit' in project 'SweetCookieKit' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ReadFileContents /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/docc/features.json
+
+Build description signature: 56b6cbef8aa5071b6a1610c9381ee8fd
+Build description path: /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/XCBuildData/56b6cbef8aa5071b6a1610c9381ee8fd.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk /Users/will/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.5-25F70-e082c4a02f00227109f4ed75e425c832.sdkstatcache
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/Pinemeter.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -o /Users/will/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.5-25F70-e082c4a02f00227109f4ed75e425c832.sdkstatcache
+
+CopySwiftLibs /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+    builtin-swiftStdLibTool --copy --verbose --sign 34EA6EC553B1B71EE4E70FEB61D91A51A0A2597C --scan-executable /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter.debug.dylib --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/Library/SystemExtensions --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/Extensions --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os --back-deploy-swift-span
+
+ProcessInfoPlistFile /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/Info.plist /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/empty-Pinemeter.plist (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+    builtin-infoPlistUtility /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/empty-Pinemeter.plist -producttype com.apple.product-type.application -genpkginfo /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/PkgInfo -expandbuildsettings -platform macosx -additionalcontentfile /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/assetcatalog_generated_info.plist -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/Info.plist
+
+SwiftDriver PinemeterTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name PinemeterTests -Onone @/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests.SwiftFileList -DDEBUG -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -target arm64-apple-macos14.0 -g -module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/PackageFrameworks -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/PackageFrameworks -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/will/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.5-25F70-e082c4a02f00227109f4ed75e425c832.sdkstatcache -output-file-map /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests_const_extract_protocols.json -Xcc -iquote -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-generated-files.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-own-target-headers.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter-f15b75f3ca50df7d8813a0665bad54e4-VFS/all-product-headers.yaml -Xcc -iquote -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-project-headers.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/include -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources-normal/arm64 -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources/arm64 -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests-Swift.h -working-directory /Users/will/code/ClaudeMeter/.gsd/worktrees/M003 -experimental-emit-module-separately -disable-cmo
+
+ProcessInfoPlistFile /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Info.plist /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/empty-PinemeterTests.plist (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+    builtin-infoPlistUtility /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/empty-PinemeterTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -platform macosx -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Info.plist
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ PinemeterTests (in target 'PinemeterTests' from project 'Pinemeter')
+
+EmitSwiftModule normal arm64 (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+    
+
+SwiftCompile normal arm64 Compiling\ AppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+Failed frontend command:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -c /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/CacheRepositoryFake.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/KeychainRepositoryFake.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/NetworkServiceStub.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/NotificationCenterSpy.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/NotificationServiceSpy.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/SessionKeyImportServiceStub.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/SettingsRepositoryFake.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestDoubles/UsageServiceStub.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestSupport/MenuBarIconSnapshotRenderer.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestSupport/TestConstants.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/TestSupport/TestError.swift -primary-file /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppSettingsTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/CacheRepositoryTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTAppModelTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTSessionRepositoryTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTUsageServiceTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/CopyableErrorPresentationTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/CredentialStateTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/CredentialStatusServiceTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/KeychainRepositoryTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/MenuBarIconRendererTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/NotificationServiceTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ProviderErrorWorkflowTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/SecurityInvariantTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/SessionKeyTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/SettingsRepositoryTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/UsageLimitRiskTests.swift /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/UsageServiceTests.swift -emit-dependencies-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.d -emit-const-values-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.swiftconstvalues -emit-reference-dependencies-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.swiftdeps -serialize-diagnostics-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.dia -target arm64-apple-macos14.0 -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libFoundationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#FoundationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libObservationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#ObservationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libPreviewsMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#PreviewsMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libSwiftMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#SwiftMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libSwiftUIMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#SwiftUIMacros -disable-implicit-swift-modules -Xcc -fno-implicit-modules -Xcc -fno-implicit-module-maps -explicit-swift-module-map-file /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests-dependencies-1.json -debug-module-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests.swiftmodule -Xllvm -aarch64-use-tbi -enable-objc-interop -stack-check -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -I /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/PackageFrameworks -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/PackageFrameworks -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=4 -module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -profile-generate -profile-coverage-mapping -swift-version 5 -Onone -D DEBUG -serialize-debugging-options -const-gather-protocols-file /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests_const_extract_protocols.json -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/will/code/ClaudeMeter/.gsd/worktrees/M003 -enable-anonymous-context-mangled-names -file-compilation-dir /Users/will/code/ClaudeMeter/.gsd/worktrees/M003 -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -ivfsstatcache -Xcc /Users/will/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.5-25F70-e082c4a02f00227109f4ed75e425c832.sdkstatcache -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-generated-files.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-own-target-headers.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter-f15b75f3ca50df7d8813a0665bad54e4-VFS/all-product-headers.yaml -Xcc -iquote -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-project-headers.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Products/Debug/include -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources-normal/arm64 -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources/arm64 -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources -Xcc -DDEBUG\=1 -no-auto-bridging-header-chaining -module-name PinemeterTests -frontend-parseable-output -disable-clang-spi -clang-target arm64-apple-macos26.5 -target-sdk-version 26.5 -target-sdk-name macosx26.5 -in-process-plugin-server-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.o -index-unit-output-path /Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/AppModelTests.o -index-store-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Index.noindex/DataStore -index-system-modules
+
+SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M003
+    
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:333:41: error: value of type 'AppModel' has no member 'performProviderCredentialAction'
+        let result = try await appModel.performProviderCredentialAction(.repair, for: .claude)
+                               ~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:333:74: error: cannot infer contextual base in reference to member 'repair'
+        let result = try await appModel.performProviderCredentialAction(.repair, for: .claude)
+                                                                        ~^~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:333:88: error: cannot infer contextual base in reference to member 'claude'
+        let result = try await appModel.performProviderCredentialAction(.repair, for: .claude)
+                                                                                      ~^~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:336:40: error: type 'Equatable' has no member 'valid'
+        XCTAssertEqual(result.health, .valid)
+                                      ~^~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:366:41: error: value of type 'AppModel' has no member 'performProviderCredentialAction'
+        let result = try await appModel.performProviderCredentialAction(.reconnect, for: .chatGPT)
+                               ~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:366:74: error: cannot infer contextual base in reference to member 'reconnect'
+        let result = try await appModel.performProviderCredentialAction(.reconnect, for: .chatGPT)
+                                                                        ~^~~~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:366:91: error: cannot infer contextual base in reference to member 'chatGPT'
+        let result = try await appModel.performProviderCredentialAction(.reconnect, for: .chatGPT)
+                                                                                         ~^~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:369:40: error: type 'Equatable' has no member 'valid'
+        XCTAssertEqual(result.health, .valid)
+                                      ~^~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:395:41: error: value of type 'AppModel' has no member 'performProviderCredentialAction'
+        let result = try await appModel.performProviderCredentialAction(.clear, for: .chatGPT)
+                               ~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:395:74: error: cannot infer contextual base in reference to member 'clear'
+        let result = try await appModel.performProviderCredentialAction(.clear, for: .chatGPT)
+                                                                        ~^~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:395:87: error: cannot infer contextual base in reference to member 'chatGPT'
+        let result = try await appModel.performProviderCredentialAction(.clear, for: .chatGPT)
+                                                                                     ~^~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:398:40: error: type 'Equatable' has no member 'missing'
+        XCTAssertEqual(result.health, .missing)
+                                      ~^~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:399:49: error: type 'Equatable' has no member 'missing'
+        XCTAssertEqual(result.failureCategory, .missing)
+                                               ~^~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:401:15: error: 'XCTAssertThrowsErrorAsync' is inaccessible due to 'private' protection level
+        await XCTAssertThrowsErrorAsync(try await sessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount))
+              ^
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/ChatGPTAppModelTests.swift:263:14: note: 'XCTAssertThrowsErrorAsync(_:file:line:)' declared here
+private func XCTAssertThrowsErrorAsync(
+             ^
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:421:36: error: value of type 'AppModel' has no member 'performProviderCredentialAction'
+            _ = try await appModel.performProviderCredentialAction(.repair, for: .chatGPT)
+                          ~~~~~~~~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:421:69: error: cannot infer contextual base in reference to member 'repair'
+            _ = try await appModel.performProviderCredentialAction(.repair, for: .chatGPT)
+                                                                   ~^~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:421:83: error: cannot infer contextual base in reference to member 'chatGPT'
+            _ = try await appModel.performProviderCredentialAction(.repair, for: .chatGPT)
+                                                                                 ~^~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:423:17: error: cannot find 'AppProviderCredentialActionError' in scope
+        } catch AppProviderCredentialActionError.unsupportedAction(let provider, let action) {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:423:68: error: 'let' binding pattern cannot appear in an expression
+        } catch AppProviderCredentialActionError.unsupportedAction(let provider, let action) {
+                                                                   ^
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:423:82: error: 'let' binding pattern cannot appear in an expression
+        } catch AppProviderCredentialActionError.unsupportedAction(let provider, let action) {
+                                                                                 ^
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:424:39: error: type 'Equatable' has no member 'chatGPT'
+            XCTAssertEqual(provider, .chatGPT)
+                                     ~^~~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:425:37: error: type 'Equatable' has no member 'repair'
+            XCTAssertEqual(action, .repair)
+                                   ~^~~~~~
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:426:28: error: expansion of macro 'error' requires leading '#'
+            XCTAssertFalse(error.localizedDescription.contains("chatgpt-session-redacted"))
+                           ^
+                           #
+/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/PinemeterTests/AppModelTests.swift:426:34: error: value of type '(String) -> ()' has no member 'localizedDescription'
+            XCTAssertFalse(error.localizedDescription.contains("chatgpt-session-redacted"))
+                           ~~~~~ ^~~~~~~~~~~~~~~~~~~~
+
+
+Test session results, code coverage, and logs:
+	/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Logs/Test/Test-Pinemeter-2026.06.23_14-55-02--0700.xcresult
+

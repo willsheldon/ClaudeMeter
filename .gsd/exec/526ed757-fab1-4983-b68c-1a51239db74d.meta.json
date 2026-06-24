@@ -1,0 +1,19 @@
+{
+  "id": "526ed757-fab1-4983-b68c-1a51239db74d",
+  "runtime": "python",
+  "purpose": "inspect AppProviderCredentialStatus actions declaration",
+  "script_chars": 243,
+  "started_at": "2026-06-23T21:45:37.849Z",
+  "finished_at": "2026-06-23T21:45:37.917Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 68,
+  "stdout_bytes": 3501,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/526ed757-fab1-4983-b68c-1a51239db74d.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/526ed757-fab1-4983-b68c-1a51239db74d.stderr"
+}

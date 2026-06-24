@@ -1,0 +1,27 @@
+{
+  "id": "44484669-ad13-4873-a02d-5cfb770b8034",
+  "runtime": "bash",
+  "purpose": "UAT M003/S02/UAT-01 (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M003",
+    "sliceId": "S02",
+    "checkId": "UAT-01",
+    "intent": "uat-runtime-check",
+    "expected": "xcodebuild exits 0 and focused provider workflow/security invariant tests pass"
+  },
+  "script_chars": 510,
+  "started_at": "2026-06-23T22:06:27.978Z",
+  "finished_at": "2026-06-23T22:06:33.834Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 5856,
+  "stdout_bytes": 12988,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/44484669-ad13-4873-a02d-5cfb770b8034.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/44484669-ad13-4873-a02d-5cfb770b8034.stderr"
+}

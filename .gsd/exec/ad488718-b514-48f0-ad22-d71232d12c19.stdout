@@ -1,0 +1,10 @@
+PASS: Claude-only AppModel route/copy/refresh tests present
+PASS: ChatGPT-only AppModel configured-route test present
+PASS: Mixed-provider dashboard/refresh tests present
+PASS: Hidden/unavailable ChatGPT tests present
+PASS: Missing ChatGPT session demotion test present
+PASS: No-provider configured state test present
+PASS: AppModel exposes generalized configured-provider routing
+PASS: AppModel exposes provider-aware dashboard title
+PASS: AppModel exposes configured-provider refresh fan-out
+PASS: Menu views consume generalized configured-provider routing/title/refresh

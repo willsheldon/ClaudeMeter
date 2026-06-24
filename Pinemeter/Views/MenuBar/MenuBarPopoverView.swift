@@ -13,7 +13,7 @@ struct MenuBarPopoverView: View {
     let onRequestClose: () -> Void
 
     var body: some View {
-        if appModel.isSetupComplete {
+        if appModel.hasConfiguredUsageProvider {
             UsagePopoverView(appModel: appModel, onRequestClose: onRequestClose)
         } else {
             SetupWizardView(appModel: appModel)

@@ -1,0 +1,19 @@
+{
+  "id": "31b278b0-ad98-4174-9c3e-09be6cbf2534",
+  "runtime": "bash",
+  "purpose": "Verify T02 provider status presentation tests",
+  "script_chars": 176,
+  "started_at": "2026-06-23T03:11:01.031Z",
+  "finished_at": "2026-06-23T03:11:21.052Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 20021,
+  "stdout_bytes": 82218,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/31b278b0-ad98-4174-9c3e-09be6cbf2534.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/31b278b0-ad98-4174-9c3e-09be6cbf2534.stderr"
+}

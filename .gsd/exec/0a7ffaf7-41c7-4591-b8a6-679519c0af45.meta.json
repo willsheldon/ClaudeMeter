@@ -1,0 +1,19 @@
+{
+  "id": "0a7ffaf7-41c7-4591-b8a6-679519c0af45",
+  "runtime": "bash",
+  "purpose": "Inspect T02 failing xcodebuild log tail",
+  "script_chars": 242,
+  "started_at": "2026-06-23T22:17:35.190Z",
+  "finished_at": "2026-06-23T22:17:35.266Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 76,
+  "stdout_bytes": 62476,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/0a7ffaf7-41c7-4591-b8a6-679519c0af45.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003/.gsd/exec/0a7ffaf7-41c7-4591-b8a6-679519c0af45.stderr"
+}

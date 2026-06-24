@@ -1,0 +1,6 @@
+provider-aware route: PASS
+ChatGPT-only title: PASS
+multi-provider title: PASS
+no-provider prompt: PASS
+refresh fan-out: PASS
+Claude recovery scoped: PASS

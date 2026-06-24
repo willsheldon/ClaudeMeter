@@ -1,0 +1,80 @@
+Test case 'CacheRepositoryTests.test_getLastKnownMigratesLegacyPrivateCacheWhenNewCacheIsAbsent()' passed on 'My Mac - Pinemeter (57532)' (0.014 seconds)
+Test suite 'CredentialStatusServiceTests' started on 'My Mac - Pinemeter (57458)'
+Test case 'CredentialStatusServiceTests.test_status_reportsSingleProviderCredentialState()' passed on 'My Mac - Pinemeter (57458)' (0.010 seconds)
+Test case 'CacheRepositoryTests.test_getLastKnownPrefersNewPrivateCacheWhenBothNewAndLegacyExist()' passed on 'My Mac - Pinemeter (57532)' (0.006 seconds)
+Test case 'CacheRepositoryTests.test_invalidateRemovesPrivateCacheAndPublicExportArtifacts()' passed on 'My Mac - Pinemeter (57532)' (0.006 seconds)
+Test suite 'ChatGPTAppModelTests' started on 'My Mac - Pinemeter (57539)'
+Test case 'ChatGPTAppModelTests.test_bootstrap_detectsExistingChatGPTSessionWithoutRequiringClaudeSetup()' passed on 'My Mac - Pinemeter (57539)' (0.003 seconds)
+Test suite 'NotificationServiceTests' started on 'My Mac - Pinemeter (57556)'
+Test case 'ChatGPTAppModelTests.test_bootstrap_withChatGPTStorageUnavailablePublishesSanitizedStatus()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test case 'ChatGPTAppModelTests.test_bootstrap_withExistingChatGPTSessionButUsageHiddenLeavesMenuInSetupState()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test case 'ChatGPTAppModelTests.test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test case 'CacheRepositoryTests.test_setWritesPrivateCacheAndPublicExportsToPinemeterPathsWhilePreservingLegacyPublicExport()' passed on 'My Mac - Pinemeter (57532)' (0.005 seconds)
+Test suite 'UsageLimitRiskTests' started on 'My Mac - Pinemeter (57532)'
+Test case 'UsageLimitRiskTests.test_isAtRisk_whenBeforeWindowStart_returnsFalse()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test suite 'MenuBarIconRendererTests' started on 'My Mac - Pinemeter (57538)'
+Test case 'ChatGPTAppModelTests.test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_isAtRisk_whenPastResetTime_returnsFalse()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_isAtRisk_whenSlightlyAboveThreshold_returnsTrue()' passed on 'My Mac - Pinemeter (57532)' (0.003 seconds)
+Test case 'MenuBarIconRendererTests.test_menuBarIconIsRenderedAsNonTemplateImage()' passed on 'My Mac - Pinemeter (57538)' (0.002 seconds)
+Test case 'UsageLimitRiskTests.test_isAtRisk_whenUsingAtSustainablePace_returnsFalse()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_isAtRisk_whenUsingFasterThanSustainable_returnsTrue()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_resetDescription_whenExactlyWholeDays_omitsZeroHours()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test case 'MenuBarIconRendererTests.test_menuBarIconIsRenderedAsNon2026-06-23 15:24:37.284 xcodebuild[57204:112087247] [MT] IDETestOperationsObserverDebug: 3.087 elapsed -- Testing started completed.
+2026-06-23 15:24:37.284 xcodebuild[57204:112087247] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-06-23 15:24:37.284 xcodebuild[57204:112087247] [MT] IDETestOperationsObserverDebug: 3.087 sec, +3.087 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-cpolunhqyyecywfhstptwsoaxaeq/Logs/Test/Test-Pinemeter-2026.06.23_15-24-32--0700.xcresult
+
+** TEST SUCCEEDED **
+
+TemplateImageWhenColorModeSelected()' passed on 'My Mac - Pinemeter (57538)' (0.001 seconds)
+Test case 'MenuBarIconRendererTests.test_menuBarIconIsRenderedAsTemplateImageWhenMonochromeModeSelected()' passed on 'My Mac - Pinemeter (57538)' (0.001 seconds)
+Test case 'MenuBarIconRendererTests.test_menuBarIconRendersMeterStyle()' passed on 'My Mac - Pinemeter (57538)' (0.001 seconds)
+Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_resetDescription_whenOverOneDay_showsDaysAndHours()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_resetDescription_whenPastResetTime_showsNow()' passed on 'My Mac - Pinemeter (57532)' (0.019 seconds)
+Test case 'UsageLimitRiskTests.test_resetDescription_whenUnderOneDay_showsRoundedUpHours()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test case 'MenuBarIconRendererTests.test_menuBarIconRendersWhenLoadingOrStale()' passed on 'My Mac - Pinemeter (57538)' (0.002 seconds)
+Test suite 'AppSettingsTests' started on 'My Mac - Pinemeter (57539)'
+Test case 'AppSettingsTests.test_setRefreshInterval_clampsAboveMaximumToRefreshMaximum()' passed on 'My Mac - Pinemeter (57539)' (0.014 seconds)
+Test case 'AppSettingsTests.test_setRefreshInterval_clampsBelowMinimumToRefreshMinimum()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test case 'AppSettingsTests.test_setRefreshInterval_keepsInRangeValue()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test case 'NotificationServiceTests.test_userCrossesCriticalThreshold_receivesCriticalNotification()' passed on 'My Mac - Pinemeter (57556)' (0.055 seconds)
+Test case 'UsageLimitRiskTests.test_resetDescription_whenUnderOneHour_showsRoundedUpMinutes()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test suite 'CredentialStateTests' started on 'My Mac - Pinemeter (57532)'
+Test case 'CredentialStateTests.test_credentialHealthState_marksOnlyUsableStatesAsUsable()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test case 'CredentialStateTests.test_credentialIdentity_describesProviderAndKindWithoutCredentialMaterial()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test suite 'SessionKeyTests' started on 'My Mac - Pinemeter (57539)'
+Test case 'SessionKeyTests.test_sessionKey_acceptsRawSessionKey()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test case 'SessionKeyTests.test_sessionKey_extractsValueFromCookieHeader()' passed on 'My Mac - Pinemeter (57539)' (0.002 seconds)
+Test case 'SessionKeyTests.test_sessionKey_rejectsCookieHeaderWithoutSessionKey()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test suite 'ProviderErrorWorkflowTests' started on 'My Mac - Pinemeter (57538)'
+Test case 'ProviderErrorWorkflowTests.test_appError_noSessionKey_usesClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (57538)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_appError_sessionKeyInvalid_usesClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (57538)' (0.001 seconds)
+Test case 'CredentialStateTests.test_credentialState_prefersFailureDescriptionWhenPresent()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test case 'CredentialStateTests.test_credentialState_roundTripsThroughCodable()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test case 'CredentialStateTests.test_credentialState_usesHealthDescriptionWhenNoFailureIsPresent()' passed on 'My Mac - Pinemeter (57532)' (0.000 seconds)
+Test case 'SessionKeyTests.test_sessionKeyErrorDescriptions_useClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (57539)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_chatGPTInvalidCredentialStatusKeepsRecoveryProviderSpecificAndSanitized()' passed on 'My Mac - Pinemeter (57538)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_chatGPTUsageErrorsDoNotEchoCookieOrBearerTokenSentinels()' passed on 'My Mac - Pinemeter (57538)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_claudeRecoveryCopy_detectsOnlyClaudeCredentialAuthenticationMessages()' passed on 'My Mac - Pinemeter (57538)' (0.000 seconds)
+Test case 'CredentialStateTests.test_failureCategories_exposeSanitizedUserFacingDescriptions()' passed on 'My Mac - Pinemeter (57532)' (0.001 seconds)
+Test suite 'CopyableErrorPresentationTests' started on 'My Mac - Pinemeter (57539)'
+Test case 'CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()' passed on 'My Mac - Pinemeter (57539)' (0.003 seconds)
+Test case 'CredentialStatusServiceTests.test_statuses_reportAvailableProvidersWithoutRetrievingSecretValues()' passed on 'My Mac - Pinemeter (57458)' (0.103 seconds)
+Test case 'CredentialStatusServiceTests.test_statuses_reportMissingProvidersWhenNoCredentialsExist()' passed on 'My Mac - Pinemeter (57458)' (0.002 seconds)
+Test case 'ProviderErrorWorkflowTests.test_claudeRecoveryCopy_usesClaudeSpecificButtonLabel()' passed on 'My Mac - Pinemeter (57538)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_credentialRecoverySetupCopyDoesNotExposeRawCredentialMaterial()' passed on 'My Mac - Pinemeter (57538)' (0.047 seconds)
+Test case 'ProviderErrorWorkflowTests.test_networkAuthenticationFailed_usesClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (57538)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_providerStatusActionsUseSharedAppModelRecoveryBoundaryWithoutManualCredentials()' passed on 'My Mac - Pinemeter (57538)' (0.012 seconds)
+Test case 'ProviderErrorWorkflowTests.test_settingsAndSetupRenderSharedProviderCredentialStatusModel()' passed on 'My Mac - Pinemeter (57538)' (0.008 seconds)
+Test case 'NotificationServiceTests.test_userDoesNotReceiveDuplicateWarningWithoutDroppingBelowThreshold()' passed on 'My Mac - Pinemeter (57556)' (0.103 seconds)
+Test case 'NotificationServiceTests.test_userReceivesResetNotificationWhenUsageResets()' passed on 'My Mac - Pinemeter (57556)' (0.042 seconds)
+Test case 'NotificationServiceTests.test_userReceivesWarningAgainAfterDroppingBelowThreshold()' passed on 'My Mac - Pinemeter (57556)' (0.002 seconds)
+Test case 'NotificationServiceTests.test_userReceivesWarningNotificationWhenUsageCrossesThreshold()' passed on 'My Mac - Pinemeter (57556)' (0.102 seconds)
+Test case 'NotificationServiceTests.test_userWithNotificationsDisabled_doesNotReceiveThresholdNotification()' passed on 'My Mac - Pinemeter (57556)' (0.001 seconds)
+Test case 'NotificationServiceTests.test_userWithoutSystemPermission_doesNotReceiveNotification()' passed on 'My Mac - Pinemeter (57556)' (0.029 seconds)
