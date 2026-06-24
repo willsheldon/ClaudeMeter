@@ -212,3 +212,54 @@
 - App Store notarization, release signing, or distribution packaging.
 - Long-duration background refresh behavior beyond the runtime checks captured in this slice.
 - Accessibility conformance beyond the listed keyboard/discoverability human follow-up checks.
+
+## Recorded UAT Results
+
+| Check | Mode | Result | Evidence | Notes |
+|---|---|---|---|---|
+| UAT-01 | artifact | PASS | `.gsd/exec/164ca404-cff0-4042-a48a-24b93e900652.stdout` | Confirmed this UAT artifact contains the required Gemini workflow groups and review sections. |
+| UAT-02 | artifact | PASS | `.gsd/exec/2e3ab55e-c070-4e5f-b2b9-319f82f2b3eb.stdout` | Confirmed tracked Swift source/tests contain Gemini credential boundary, failure mapping, provider copy, and coexistence coverage. |
+| UAT-03 | runtime | PASS | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` | Targeted `GeminiUsageServiceTests`, `GeminiCredentialBoundaryTests`, and `ProviderErrorWorkflowTests` passed under Debug. |
+| UAT-04 | runtime | NEEDS-HUMAN | N/A | Live real-credential Gemini setup/refresh/recovery was not run because autonomous execution cannot collect or use real secrets. |
+| UAT-05 | browser | NEEDS-HUMAN | N/A | Native macOS menu bar UX checks require interactive human observation of the running app. |
+
+### Validation Notes By Class
+
+- **Contract:** `GeminiUsageServiceTests` and `GeminiCredentialBoundaryTests` prove credential value normalization, missing/invalid credential handling, sanitized diagnostics, and dedicated Keychain-backed credential namespace.
+- **Integration:** `ProviderErrorWorkflowTests` prove Gemini participates in shared provider credential status rendering and provider-specific recovery copy without regressing Claude or ChatGPT copy paths.
+- **Operational:** The UAT artifact keeps real-credential-only work as explicit `NEEDS-HUMAN`, preserving the secret-handling boundary and leaving evidence paths for future reruns.
+- **UAT:** The checklist now distinguishes automated artifact checks, targeted runtime tests, and human follow-up checks for setup, refresh, invalid credential, clear/reconnect, Gemini-only, and all-provider workflows.
+
+## Failure Modes
+
+| Dependency | Failure Path | Evidence | Handling |
+|---|---|---|---|
+| Gemini credential repository / Keychain boundary | Missing, blank, whitespace-padded, cleared, or invalid stored API key | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` includes `test_fetchUsage_withMissingStoredAPIKeyThrowsMissingAPIKey`, `test_geminiAPIKeyRejectsBlankValueBeforeRepositoryBoundary`, `test_apiKeyTrimsWhitespaceAndRedactsDebugOutput`, and `test_geminiCredentialStorageUsesDedicatedKeychainNamespace`. | Invalid or absent credentials are rejected or mapped to provider-scoped states; diagnostics redact credential material and stay outside `AppSettings`. |
+| Gemini service/API seam | Auth rejection, empty quota response, network/data failure classes, malformed or unavailable usage data | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` includes `test_fetchUsage_mapsHTTPForbiddenToInvalidAPIKey`, `test_fetchUsage_mapsInvalidAPIKeyAndClearsStoredCredential`, `test_fetchUsage_mapsEmptyQuotaResponseToQuotaUnavailable`, and `test_validateAPIKeyReturnsFalseForAuthFailures`. | Credential failures become invalid Gemini credential states; quota/data unavailability is sanitized and provider-scoped rather than leaking raw responses or credential fragments. |
+| Provider UI/status composition | One provider missing or invalid while others remain configured | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` includes `ProviderErrorWorkflowTests` for Gemini statuses, shared provider cards, and provider-specific recovery copy. | Recovery and clear actions remain provider-specific; Gemini errors do not imply Claude or ChatGPT credential failure. |
+| Full-suite test harness | `xcodebuild test` all tests returned exit 65 once while capped tail showed no failure markers | `.gsd/exec/bbc6dbcf-efb3-4f5c-9796-594a3d141210.stdout` and classifier `.gsd/exec/d6a3d2d4-f956-42ce-8798-99359c5e0367.stdout`. | Treated as inconclusive for UAT; targeted Gemini/provider regression suite was rerun and passed with objective evidence. |
+
+## Load Profile
+
+This task records UAT evidence and has no runtime service, queue, cache, pagination, or sustained load dimension of its own. Gemini runtime load protection remains covered indirectly by actor/repository/service tests in the implementation tasks; no 10x breakpoint is introduced by writing this evidence artifact.
+
+## Negative Tests
+
+| Negative Scenario | Evidence | Covered Behavior |
+|---|---|---|
+| Missing Gemini API key | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` → `test_fetchUsage_withMissingStoredAPIKeyThrowsMissingAPIKey` | Missing credentials are explicit and provider-scoped. |
+| Blank or whitespace-padded Gemini API key | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` → `test_geminiAPIKeyRejectsBlankValueBeforeRepositoryBoundary`, `test_apiKeyTrimsWhitespaceAndRedactsDebugOutput` | Invalid local input is rejected before persistence and redacted in debug output. |
+| Gemini auth rejection / invalid key | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` → `test_fetchUsage_mapsHTTPForbiddenToInvalidAPIKey`, `test_fetchUsage_mapsInvalidAPIKeyAndClearsStoredCredential`, `test_validateAPIKeyReturnsFalseForAuthFailures` | Provider rejection maps to invalid Gemini credential state and clears/withholds unsafe credential use. |
+| Empty quota response | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` → `test_fetchUsage_mapsEmptyQuotaResponseToQuotaUnavailable` | Unavailable quota is not misreported as valid usage. |
+| Credential material leakage | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` → `test_acquisitionStatusDoesNotDiscloseAPIKey`, `test_geminiUsageErrorDescriptionsDoNotDiscloseCredentialMaterial`, and provider sanitized-copy tests. | User-facing errors and diagnostics avoid raw API keys, cookies, bearer tokens, or credential fragments. |
+| Cross-provider regression | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` → `ProviderErrorWorkflowTests` shared/provider-specific copy cases. | Gemini recovery states coexist with Claude and ChatGPT without provider confusion. |
+
+## Verification Evidence
+
+| # | Command | Exit Code | Verdict | Duration |
+|---|---|---:|---|---:|
+| 1 | `python` artifact structure check for `.gsd/milestones/M004/slices/S05/S05-UAT.md` | 0 | PASS | 71ms |
+| 2 | `python` tracked Swift Gemini source/test coverage check | 0 | PASS | 91ms |
+| 3 | `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` | 65 | INCONCLUSIVE | 23245ms |
+| 4 | `python` classifier for full-suite saved output | 0 | PASS | 84ms |
+| 5 | `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/GeminiUsageServiceTests -only-testing:PinemeterTests/GeminiCredentialBoundaryTests -only-testing:PinemeterTests/ProviderErrorWorkflowTests` | 0 | PASS | 5972ms |
