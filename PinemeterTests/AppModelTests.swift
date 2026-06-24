@@ -736,6 +736,143 @@ final class AppModelTests: XCTestCase {
         XCTAssertTrue(appModel.hasUsagePopoverContent)
     }
 
+    func test_providerDisplayCombinations_includeGeminiOnly() {
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            notificationService: NotificationServiceSpy()
+        )
+
+        appModel.hasGeminiAPIKey = true
+        appModel.geminiUsageData = GeminiUsageData(
+            label: "Gemini API quota",
+            usedPercent: 18,
+            resetAt: nil,
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+
+        XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, ["Gemini"])
+        XCTAssertEqual(appModel.usageDashboardTitle, "Gemini Usage")
+        XCTAssertEqual(appModel.usageLoadingMessage, "Loading Gemini usage data...")
+        XCTAssertTrue(appModel.hasUsagePopoverContent)
+    }
+
+    func test_providerDisplayCombinations_includeClaudePlusGemini() {
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            notificationService: NotificationServiceSpy()
+        )
+
+        appModel.isSetupComplete = true
+        appModel.usageData = makeUsageData(percentage: TestConstants.sessionPercentage)
+        appModel.hasGeminiAPIKey = true
+        appModel.geminiUsageData = GeminiUsageData(
+            label: "Gemini API quota",
+            usedPercent: 22,
+            resetAt: nil,
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+
+        XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "Gemini"])
+        XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+        XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude and Gemini usage data...")
+        XCTAssertTrue(appModel.hasUsagePopoverContent)
+    }
+
+    func test_providerDisplayCombinations_includeChatGPTPlusGemini() {
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            notificationService: NotificationServiceSpy()
+        )
+
+        appModel.hasChatGPTSessionCookie = true
+        appModel.settings.isChatGPTUsageShown = true
+        appModel.chatGPTUsageData = ChatGPTUsageData(
+            rows: [.init(label: "Codex Tasks", usedPercent: 41, resetAt: nil)],
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+        appModel.hasGeminiAPIKey = true
+        appModel.geminiUsageData = GeminiUsageData(
+            label: "Gemini API quota",
+            usedPercent: 29,
+            resetAt: nil,
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+
+        XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT", "Gemini"])
+        XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+        XCTAssertEqual(appModel.usageLoadingMessage, "Loading ChatGPT and Gemini usage data...")
+        XCTAssertTrue(appModel.hasUsagePopoverContent)
+    }
+
+    func test_providerDisplayCombinations_includeAllProviders() {
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            notificationService: NotificationServiceSpy()
+        )
+
+        appModel.isSetupComplete = true
+        appModel.usageData = makeUsageData(percentage: TestConstants.sessionPercentage)
+        appModel.hasChatGPTSessionCookie = true
+        appModel.settings.isChatGPTUsageShown = true
+        appModel.chatGPTUsageData = ChatGPTUsageData(
+            rows: [.init(label: "Codex Tasks", usedPercent: 41, resetAt: nil)],
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+        appModel.hasGeminiAPIKey = true
+        appModel.geminiUsageData = GeminiUsageData(
+            label: "Gemini API quota",
+            usedPercent: 29,
+            resetAt: nil,
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+
+        XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "ChatGPT", "Gemini"])
+        XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+        XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude, ChatGPT, and Gemini usage data...")
+        XCTAssertTrue(appModel.hasUsagePopoverContent)
+    }
+
+    func test_providerDisplayCombinations_includeGeminiErrorState() async {
+        let geminiUsageService = AppModelGeminiUsageServiceStub(
+            fetchUsageResult: .failure(GeminiUsageError.networkUnavailable),
+            validateResult: true
+        )
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            geminiUsageService: geminiUsageService,
+            notificationService: NotificationServiceSpy()
+        )
+        appModel.hasGeminiAPIKey = true
+
+        await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+
+        let geminiFetchCount = await geminiUsageService.fetchUsageCallCount
+        XCTAssertEqual(geminiFetchCount, 1)
+        XCTAssertTrue(appModel.hasGeminiAPIKey)
+        XCTAssertNil(appModel.geminiUsageData)
+        XCTAssertEqual(appModel.geminiErrorMessage, GeminiUsageError.networkUnavailable.localizedDescription)
+        XCTAssertEqual(appModel.geminiCredentialState.health, .unavailable)
+        XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+        XCTAssertEqual(appModel.configuredUsageProviderNames, ["Gemini"])
+        XCTAssertEqual(appModel.usageDashboardTitle, "Gemini Usage")
+        XCTAssertEqual(appModel.usageLoadingMessage, "Loading Gemini usage data...")
+        XCTAssertTrue(appModel.hasUsagePopoverContent)
+    }
+
     func test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders() async {
         let expectedClaudeUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
         let expectedChatGPTUsage = ChatGPTUsageData(
