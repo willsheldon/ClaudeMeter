@@ -1,0 +1,250 @@
+{
+  "runId": "uat:M003:S04:attempt-1",
+  "attempt": 1,
+  "milestoneId": "M003",
+  "sliceId": "S04",
+  "uatType": "mixed",
+  "verdict": "PARTIAL",
+  "gateVerdict": "flag",
+  "evaluatedAt": "2026-06-23T22:43:14.510Z",
+  "worktreeRoot": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003",
+  "browserToolsPresented": true,
+  "modePolicy": {
+    "browserTools": true,
+    "partialEligible": true,
+    "passWithHumanFollowUp": true,
+    "requiredAnyModes": []
+  },
+  "checks": [
+    {
+      "id": "UAT-01",
+      "description": "Clean first-run reset shows both providers missing/not connected without exposing credential values.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "f9c62462-e252-4f51-a747-70d81d8febcb",
+          "note": "Checklist contains clean first-run reset coverage, exact storage identifiers, and no-credential pass criteria.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "f9c62462-e252-4f51-a747-70d81d8febcb"
+        }
+      ],
+      "notes": "Live confirmation requires quitting the app and deleting scoped UserDefaults and Keychain items, which was intentionally not performed under the non-destructive task constraint.",
+      "nonAutomatable": true
+    },
+    {
+      "id": "UAT-02",
+      "description": "Claude-only configured state keeps ChatGPT missing/not connected and does not remove Claude credentials during ChatGPT retry/clear.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "383246e6-dd0d-40a1-bb3a-ab80f3af873f",
+          "note": "Provider workflow tests passed for provider-specific copy, shared provider status rendering, and action surfaces.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "383246e6-dd0d-40a1-bb3a-ab80f3af873f"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "9609d562-59bf-424a-a4c7-7360493f932c",
+          "note": "Security invariant tests passed for scoped provider clearing and no credential disclosure.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "9609d562-59bf-424a-a4c7-7360493f932c"
+        }
+      ],
+      "notes": "Automated isolation and copy checks passed; live Claude browser import and menu/settings confirmation still require human-safe credential flow.",
+      "nonAutomatable": true
+    },
+    {
+      "id": "UAT-03",
+      "description": "ChatGPT-only configured state keeps Claude missing/not connected and does not remove ChatGPT credentials during Claude retry/clear.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "383246e6-dd0d-40a1-bb3a-ab80f3af873f",
+          "note": "Provider workflow tests passed for provider-specific copy, shared provider status rendering, and action surfaces.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "383246e6-dd0d-40a1-bb3a-ab80f3af873f"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "9609d562-59bf-424a-a4c7-7360493f932c",
+          "note": "Security invariant tests passed for scoped provider clearing and no credential disclosure.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "9609d562-59bf-424a-a4c7-7360493f932c"
+        }
+      ],
+      "notes": "Automated isolation and copy checks passed; live ChatGPT browser import and menu/settings confirmation still require human-safe credential flow.",
+      "nonAutomatable": true
+    },
+    {
+      "id": "UAT-04",
+      "description": "Both providers configured show distinct settings/menu usage states with provider-scoped loading, refresh, error, retry, clear, and reconnect behavior.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "383246e6-dd0d-40a1-bb3a-ab80f3af873f",
+          "note": "ProviderErrorWorkflowTests passed for shared status rendering and safe action surfaces.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "383246e6-dd0d-40a1-bb3a-ab80f3af873f"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "71f08aae-89c5-4436-a182-6d269d1a04bf",
+          "note": "Provider status surface and workflow copy audits exited 0 with advisory-only ChatGPT copy review findings.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "71f08aae-89c5-4436-a182-6d269d1a04bf"
+        }
+      ],
+      "notes": "Automated surface/audit evidence passed; live two-provider UI confirmation requires valid user sessions and was not performed.",
+      "nonAutomatable": true
+    },
+    {
+      "id": "UAT-05",
+      "description": "Expired ChatGPT session reports sanitized invalid/expired state, preserves Claude state, persists sanitized diagnostic status, and reconnects cleanly.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "9609d562-59bf-424a-a4c7-7360493f932c",
+          "note": "No-credential persistence/error tests passed for settings and diagnostics surfaces.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "9609d562-59bf-424a-a4c7-7360493f932c"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "71f08aae-89c5-4436-a182-6d269d1a04bf",
+          "note": "Workflow copy audit exited 0 with advisory-only findings.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "71f08aae-89c5-4436-a182-6d269d1a04bf"
+        }
+      ],
+      "notes": "Automated sanitized diagnostic checks passed; forcing or using an expired live ChatGPT session requires a human-safe app-supported path.",
+      "nonAutomatable": true
+    },
+    {
+      "id": "UAT-06",
+      "description": "Provider clear and reconnect removes/restores only the selected provider credential and updates settings/menu states without full reset.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "9609d562-59bf-424a-a4c7-7360493f932c",
+          "note": "Scoped provider clearing tests passed and verified repository-boundary resets without broad Keychain deletes.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "9609d562-59bf-424a-a4c7-7360493f932c"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "383246e6-dd0d-40a1-bb3a-ab80f3af873f",
+          "note": "Provider workflow tests passed for safe repair/clear actions without manual credential fields.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "383246e6-dd0d-40a1-bb3a-ab80f3af873f"
+        }
+      ],
+      "notes": "Automated scoped-clear evidence passed; live clear/reconnect requires deliberate credential mutation and was left for human follow-up.",
+      "nonAutomatable": true
+    }
+  ],
+  "presentation": {
+    "surface": "provider-tools",
+    "presentedTools": [
+      "gsd_uat_exec",
+      "gsd_uat_result_save",
+      "gsd_resume",
+      "gsd_milestone_status",
+      "gsd_journal_query",
+      "find",
+      "glob",
+      "grep",
+      "ls",
+      "read",
+      "browser_navigate",
+      "browser_click",
+      "browser_type",
+      "browser_fill_form",
+      "browser_click_ref",
+      "browser_fill_ref",
+      "browser_wait_for",
+      "browser_assert",
+      "browser_verify",
+      "browser_screenshot",
+      "browser_snapshot_refs",
+      "browser_find",
+      "browser_get_console_logs",
+      "browser_get_network_logs",
+      "browser_evaluate",
+      "browser_reload",
+      "browser_batch",
+      "browser_act"
+    ],
+    "blockedTools": [
+      {
+        "name": "gsd_exec",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_summary_save",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_save_gate_result",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "edit",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "search-the-web",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "WebSearch",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Bash",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Edit",
+        "reason": "forbidden during run-uat"
+      }
+    ],
+    "fallbackToolsUsed": [
+      "read",
+      "bash"
+    ],
+    "notes": "Non-destructive UAT execution only; no UserDefaults or Keychain reset commands were run. Source inspection and artifact editing were performed outside the run-uat tool presentation surface.",
+    "toolPresentationPlanId": "run-uat/default-v1"
+  },
+  "notes": "Partial UAT verdict: all non-destructive automated evidence passed, while destructive reset, live browser import, expired-session, and clear/reconnect workflows remain documented human follow-up items."
+}

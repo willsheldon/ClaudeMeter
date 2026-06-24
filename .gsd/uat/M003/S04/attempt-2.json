@@ -1,0 +1,347 @@
+{
+  "runId": "uat:M003:S04:attempt-2",
+  "attempt": 2,
+  "milestoneId": "M003",
+  "sliceId": "S04",
+  "uatType": "mixed",
+  "verdict": "PASS",
+  "gateVerdict": "pass",
+  "evaluatedAt": "2026-06-23T22:48:12.571Z",
+  "worktreeRoot": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003",
+  "browserToolsPresented": true,
+  "modePolicy": {
+    "browserTools": true,
+    "partialEligible": true,
+    "passWithHumanFollowUp": true,
+    "requiredAnyModes": []
+  },
+  "checks": [
+    {
+      "id": "UAT-SMOKE-XCTEST",
+      "description": "Run xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug; expected all tests pass and XCTest reports ** TEST SUCCEEDED **.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "aecc7469-0f89-404a-821f-6a98ae9c8c75",
+          "note": "xcodebuild test exited 0 and reported ** TEST SUCCEEDED **.",
+          "tool": "gsd_uat_exec",
+          "executionId": "aecc7469-0f89-404a-821f-6a98ae9c8c75"
+        }
+      ],
+      "notes": "Fresh XCTest run passed, including security/provider workflow test coverage surfaced in the output."
+    },
+    {
+      "id": "UAT-SMOKE-STATUS-AUDIT",
+      "description": "Run python3 scripts/provider_status_surface_audit.py; expected exit 0 with provider status/redaction surface checks passing.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "5e29592c-6a2a-4594-bf0a-11422b2fc908",
+          "note": "provider_status_surface_audit.py exited 0.",
+          "tool": "gsd_uat_exec",
+          "executionId": "5e29592c-6a2a-4594-bf0a-11422b2fc908"
+        }
+      ],
+      "notes": "Audit reported setup/settings rendering from sanitized status view models and no direct UI reads of session keys, cookie headers, or raw credential values."
+    },
+    {
+      "id": "UAT-SMOKE-WORKFLOW-AUDIT",
+      "description": "Run python3 scripts/provider_workflow_copy_audit.py; expected exit 0, with any advisory copy-review findings non-blocking.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "7b5e1596-e9f9-422e-b8c5-92ec93e6c870",
+          "note": "provider_workflow_copy_audit.py exited 0.",
+          "tool": "gsd_uat_exec",
+          "executionId": "7b5e1596-e9f9-422e-b8c5-92ec93e6c870"
+        }
+      ],
+      "notes": "Workflow copy audit exited 0 and printed only advisory ChatGPT copy-review findings, matching the UAT allowance."
+    },
+    {
+      "id": "UAT-ARTIFACT-RESET-SCOPE",
+      "description": "Verify documented reset scope names bundle id com.eddmann.Pinemeter, Claude Keychain service/account com.claudemeter.sessionkey/default, and ChatGPT Keychain service/account com.pinemeter.chatgpt.session/chatgpt.com.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "8bfc8f62-c41c-42ba-9d0a-08a37461411f",
+          "note": "Static reset-scope marker check exited 0.",
+          "tool": "gsd_uat_exec",
+          "executionId": "8bfc8f62-c41c-42ba-9d0a-08a37461411f"
+        }
+      ],
+      "notes": "The UAT artifact names the exact UserDefaults and provider-specific Keychain identities required for safe reset."
+    },
+    {
+      "id": "UAT-ARTIFACT-SANITIZED-DIAGNOSTICS",
+      "description": "Verify sanitized diagnostic/status coverage exists and credential-like terms are only present as forbidden test/audit needles, not captured credential values.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "7ddf2b5d-dd97-4857-8d22-f070225f9f45",
+          "note": "Sanitized diagnostics artifact check exited 0.",
+          "tool": "gsd_uat_exec",
+          "executionId": "7ddf2b5d-dd97-4857-8d22-f070225f9f45"
+        }
+      ],
+      "notes": "Tests/audits include sanitized status and credential-redaction coverage; observed sensitive terms are used as audit/test needles."
+    },
+    {
+      "id": "UAT-ARTIFACT-PROVIDER-SCOPED-ACTIONS",
+      "description": "Verify provider-specific storage scope and workflow action markers exist for Claude and ChatGPT retry, clear, and reconnect behavior.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "993f1798-ba13-4f07-a0df-92a0d3ca8dcc",
+          "note": "Provider-scoped source/test marker check exited 0.",
+          "tool": "gsd_uat_exec",
+          "executionId": "993f1798-ba13-4f07-a0df-92a0d3ca8dcc"
+        }
+      ],
+      "notes": "Provider-specific workflow/storage markers are present in source and tests, including distinct Keychain services."
+    },
+    {
+      "id": "UAT-01-FIRST-RUN-RESET-STATE",
+      "description": "First-run reset state: reset UserDefaults and both provider Keychain scopes, launch Pinemeter, and verify Claude and ChatGPT appear missing/not connected with provider-specific recovery and no credential exposure.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "8bfc8f62-c41c-42ba-9d0a-08a37461411f",
+          "note": "Automated reset-scope documentation check; live app reset/launch requires human macOS UI session.",
+          "tool": "gsd_uat_exec",
+          "executionId": "8bfc8f62-c41c-42ba-9d0a-08a37461411f"
+        }
+      ],
+      "notes": "Requires destructive local reset plus app launch in a macOS user session; human tester should record only sanitized states such as missing/not connected."
+    },
+    {
+      "id": "UAT-02-CLAUDE-ONLY-CONFIGURED",
+      "description": "Claude-only configured: connect only Claude, refresh status and menu bar popover, verify Claude-specific available/error state while ChatGPT remains missing and ChatGPT retry/clear does not remove Claude's Keychain item.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "aecc7469-0f89-404a-821f-6a98ae9c8c75",
+          "note": "Automated tests passed for scoped provider behavior; live credential entry was not performed.",
+          "tool": "gsd_uat_exec",
+          "executionId": "aecc7469-0f89-404a-821f-6a98ae9c8c75"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "993f1798-ba13-4f07-a0df-92a0d3ca8dcc",
+          "note": "Static provider-scoping marker evidence.",
+          "tool": "gsd_uat_exec",
+          "executionId": "993f1798-ba13-4f07-a0df-92a0d3ca8dcc"
+        }
+      ],
+      "notes": "Live Claude credential workflow and cross-provider Keychain preservation require human confirmation with real credentials."
+    },
+    {
+      "id": "UAT-03-CHATGPT-ONLY-CONFIGURED",
+      "description": "ChatGPT-only configured: connect only ChatGPT, refresh status and menu bar popover, verify ChatGPT-specific available/error state while Claude remains missing and Claude retry/clear does not remove ChatGPT's Keychain item or sanitized diagnostic status.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "aecc7469-0f89-404a-821f-6a98ae9c8c75",
+          "note": "Automated tests passed for scoped provider behavior; live credential entry was not performed.",
+          "tool": "gsd_uat_exec",
+          "executionId": "aecc7469-0f89-404a-821f-6a98ae9c8c75"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "7ddf2b5d-dd97-4857-8d22-f070225f9f45",
+          "note": "Sanitized diagnostics artifact evidence.",
+          "tool": "gsd_uat_exec",
+          "executionId": "7ddf2b5d-dd97-4857-8d22-f070225f9f45"
+        }
+      ],
+      "notes": "Live ChatGPT credential workflow and preservation of ChatGPT scoped storage/diagnostics require human confirmation with real credentials."
+    },
+    {
+      "id": "UAT-04-BOTH-PROVIDERS-CONFIGURED",
+      "description": "Both providers configured: configure Claude and ChatGPT, refresh status/setup/settings/menu bar popover, and verify distinct status, usage, retry, clear, reconnect, loading/error/empty states.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "5e29592c-6a2a-4594-bf0a-11422b2fc908",
+          "note": "Automated status-surface audit passed.",
+          "tool": "gsd_uat_exec",
+          "executionId": "5e29592c-6a2a-4594-bf0a-11422b2fc908"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "7b5e1596-e9f9-422e-b8c5-92ec93e6c870",
+          "note": "Automated workflow copy audit passed with non-blocking advisories.",
+          "tool": "gsd_uat_exec",
+          "executionId": "7b5e1596-e9f9-422e-b8c5-92ec93e6c870"
+        }
+      ],
+      "notes": "Automated audits cover distinct sanitized surfaces; live two-provider configured state still requires human verification with real sessions."
+    },
+    {
+      "id": "UAT-05-EXPIRED-CHATGPT-SESSION",
+      "description": "Expired ChatGPT session: trigger or simulate an expired ChatGPT session through an app-supported path, refresh status, verify sanitized expired/invalid ChatGPT state, Claude unaffected, sanitized persisted diagnostic category, and reconnect restores ChatGPT availability.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "aecc7469-0f89-404a-821f-6a98ae9c8c75",
+          "note": "Automated XCTest coverage passed, including provider error workflow/security invariant coverage.",
+          "tool": "gsd_uat_exec",
+          "executionId": "aecc7469-0f89-404a-821f-6a98ae9c8c75"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "7ddf2b5d-dd97-4857-8d22-f070225f9f45",
+          "note": "Sanitized diagnostics artifact evidence.",
+          "tool": "gsd_uat_exec",
+          "executionId": "7ddf2b5d-dd97-4857-8d22-f070225f9f45"
+        }
+      ],
+      "notes": "Requires a real or app-supported expired ChatGPT session path in the running app; human tester should confirm only sanitized invalid/expired states are recorded."
+    },
+    {
+      "id": "UAT-06-PROVIDER-CLEAR-RECONNECT-BEHAVIOR",
+      "description": "Provider clear and reconnect behavior: with both providers configured, clear Claude and verify ChatGPT remains configured, reconnect Claude, clear ChatGPT and verify Claude remains configured, then reconnect ChatGPT without credential material exposure.",
+      "mode": "human-follow-up",
+      "result": "NEEDS-HUMAN",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "aecc7469-0f89-404a-821f-6a98ae9c8c75",
+          "note": "Automated XCTest coverage passed.",
+          "tool": "gsd_uat_exec",
+          "executionId": "aecc7469-0f89-404a-821f-6a98ae9c8c75"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "993f1798-ba13-4f07-a0df-92a0d3ca8dcc",
+          "note": "Provider-scoped workflow/storage marker evidence.",
+          "tool": "gsd_uat_exec",
+          "executionId": "993f1798-ba13-4f07-a0df-92a0d3ca8dcc"
+        }
+      ],
+      "notes": "Requires live configured providers and destructive clear/reconnect actions; human tester should verify scoped deletion without exposing credentials."
+    },
+    {
+      "id": "UAT-EDGE-STORAGE-UNAVAILABLE-STALE-DIAGNOSTICS",
+      "description": "Storage unavailable or stale session diagnostics: simulate Keychain/storage failure with existing test doubles or safe local test state and verify sanitized provider-specific failure states without raw cookies, tokens, headers, or session keys.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "aecc7469-0f89-404a-821f-6a98ae9c8c75",
+          "note": "XCTest coverage passed for provider error workflows/security invariants.",
+          "tool": "gsd_uat_exec",
+          "executionId": "aecc7469-0f89-404a-821f-6a98ae9c8c75"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "7ddf2b5d-dd97-4857-8d22-f070225f9f45",
+          "note": "Sanitized diagnostics artifact evidence.",
+          "tool": "gsd_uat_exec",
+          "executionId": "7ddf2b5d-dd97-4857-8d22-f070225f9f45"
+        }
+      ],
+      "notes": "Automated XCTest and artifact audit evidence cover storage/diagnostic sanitization using safe test doubles and static checks."
+    }
+  ],
+  "presentation": {
+    "surface": "hybrid",
+    "presentedTools": [
+      "gsd_uat_exec",
+      "gsd_uat_result_save",
+      "gsd_resume",
+      "gsd_milestone_status",
+      "gsd_journal_query",
+      "find",
+      "glob",
+      "grep",
+      "ls",
+      "read",
+      "browser_navigate",
+      "browser_click",
+      "browser_type",
+      "browser_fill_form",
+      "browser_click_ref",
+      "browser_fill_ref",
+      "browser_wait_for",
+      "browser_assert",
+      "browser_verify",
+      "browser_screenshot",
+      "browser_snapshot_refs",
+      "browser_find",
+      "browser_get_console_logs",
+      "browser_get_network_logs",
+      "browser_evaluate",
+      "browser_reload",
+      "browser_batch",
+      "browser_act"
+    ],
+    "blockedTools": [
+      {
+        "name": "edit",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_exec",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_summary_save",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_save_gate_result",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "search-the-web",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "WebSearch",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Bash",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Edit",
+        "reason": "forbidden during run-uat"
+      }
+    ],
+    "toolPresentationPlanId": "run-uat/default-v1"
+  },
+  "notes": "All automated XCTest, audit, reset-scope, sanitized-diagnostics, and provider-scoping checks passed; credentialed live workflow scenarios remain explicit human follow-up."
+}

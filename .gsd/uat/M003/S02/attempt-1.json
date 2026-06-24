@@ -1,0 +1,248 @@
+{
+  "runId": "uat:M003:S02:attempt-1",
+  "attempt": 1,
+  "milestoneId": "M003",
+  "sliceId": "S02",
+  "uatType": "runtime-executable",
+  "verdict": "PASS",
+  "gateVerdict": "pass",
+  "evaluatedAt": "2026-06-23T22:08:23.156Z",
+  "worktreeRoot": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M003",
+  "browserToolsPresented": false,
+  "modePolicy": {
+    "browserTools": false,
+    "partialEligible": false,
+    "passWithHumanFollowUp": false,
+    "requiredAnyModes": [
+      "runtime"
+    ]
+  },
+  "checks": [
+    {
+      "id": "UAT-01",
+      "description": "Smoke test: run focused provider workflow tests and security invariant tests; expected xcodebuild exits 0 and provider recovery/security invariant tests pass.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "44484669-ad13-4873-a02d-5cfb770b8034",
+          "note": "xcodebuild focused test run exited 0 and reported ProviderErrorWorkflowTests/SecurityInvariantTests passed.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "44484669-ad13-4873-a02d-5cfb770b8034"
+        }
+      ],
+      "notes": "Focused xcodebuild test command exited 0; digest reported provider workflow and security invariant tests passed."
+    },
+    {
+      "id": "UAT-02",
+      "description": "Provider recovery actions route through AppModel; settings and setup action paths invoke the shared AppModel provider credential action boundary and unsupported provider/action combinations are rejected with sanitized provider-scoped errors.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "d5a1fa00-1d3a-4324-8b11-1bda3f3c6cae",
+          "note": "Artifact scan found performProviderCredentialAction in Settings and Setup paths.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "d5a1fa00-1d3a-4324-8b11-1bda3f3c6cae"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "44484669-ad13-4873-a02d-5cfb770b8034",
+          "note": "Provider workflow tests passed.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "44484669-ad13-4873-a02d-5cfb770b8034"
+        }
+      ],
+      "notes": "Settings boundary count was 3 and setup boundary count was 3; focused provider workflow tests passed."
+    },
+    {
+      "id": "UAT-03",
+      "description": "Claude recovery preserves safe credential boundaries; Claude reconnect, repair, retry, and clear coverage remains scoped through service/repository behavior and user-facing state is sanitized.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "44484669-ad13-4873-a02d-5cfb770b8034",
+          "note": "Focused runtime tests passed.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "44484669-ad13-4873-a02d-5cfb770b8034"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "92c3c244-8dc9-4253-885e-19c8f6937674",
+          "note": "Log inspection found Claude provider coverage in focused test output.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "92c3c244-8dc9-4253-885e-19c8f6937674"
+        }
+      ],
+      "notes": "Runtime test log inspection found Claude references and repair coverage while the focused suites passed."
+    },
+    {
+      "id": "UAT-04",
+      "description": "ChatGPT recovery preserves repository boundaries; ChatGPT reconnect, retry, clear, and unsupported repair behavior remains provider-specific and sanitized.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "44484669-ad13-4873-a02d-5cfb770b8034",
+          "note": "Focused runtime tests passed.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "44484669-ad13-4873-a02d-5cfb770b8034"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "92c3c244-8dc9-4253-885e-19c8f6937674",
+          "note": "Log inspection found ChatGPT provider coverage in focused test output.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "92c3c244-8dc9-4253-885e-19c8f6937674"
+        }
+      ],
+      "notes": "Runtime test log inspection found ChatGPT references and provider workflow/security suites passed, covering unsupported repair behavior through the focused test suite."
+    },
+    {
+      "id": "UAT-05",
+      "description": "Recovery copy and redaction invariants hold; recovery copy is provider-aware, credential references are instructional only, and tests do not reveal raw credential material.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "d5a1fa00-1d3a-4324-8b11-1bda3f3c6cae",
+          "note": "Artifact scan verified provider-aware boundary references and no unexpected raw credential values.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "d5a1fa00-1d3a-4324-8b11-1bda3f3c6cae"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "44484669-ad13-4873-a02d-5cfb770b8034",
+          "note": "SecurityInvariantTests passed as part of the focused runtime run.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "44484669-ad13-4873-a02d-5cfb770b8034"
+        }
+      ],
+      "notes": "The accepted artifact scan reported credential-like references are sanitized placeholders/test fixtures only and no unexpected raw credential values were found."
+    },
+    {
+      "id": "UAT-06",
+      "description": "Unsupported ChatGPT repair fails with a sanitized provider/action error and does not attempt direct repository mutation or browser reconnect fallback.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "44484669-ad13-4873-a02d-5cfb770b8034",
+          "note": "Focused provider workflow tests passed.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "44484669-ad13-4873-a02d-5cfb770b8034"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "92c3c244-8dc9-4253-885e-19c8f6937674",
+          "note": "Focused test output included ChatGPT and repair coverage.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "92c3c244-8dc9-4253-885e-19c8f6937674"
+        }
+      ],
+      "notes": "The provider workflow test suite passed and log inspection confirmed ChatGPT/repair coverage in the executed focused tests."
+    },
+    {
+      "id": "UAT-07",
+      "description": "Clearing provider credentials routes through the shared AppModel boundary and clears the selected provider via the appropriate repository/service boundary with sanitized provider feedback.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "44484669-ad13-4873-a02d-5cfb770b8034",
+          "note": "Focused provider workflow tests passed.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "44484669-ad13-4873-a02d-5cfb770b8034"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "d5a1fa00-1d3a-4324-8b11-1bda3f3c6cae",
+          "note": "Settings/setup AppModel boundary references were present.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "d5a1fa00-1d3a-4324-8b11-1bda3f3c6cae"
+        }
+      ],
+      "notes": "Focused provider workflow tests passed and both settings/setup paths use performProviderCredentialAction, establishing clear actions use the shared boundary."
+    }
+  ],
+  "presentation": {
+    "surface": "mcp",
+    "presentedTools": [
+      "gsd_uat_exec",
+      "gsd_uat_result_save",
+      "gsd_resume",
+      "gsd_milestone_status",
+      "gsd_journal_query",
+      "find",
+      "glob",
+      "grep",
+      "ls",
+      "read"
+    ],
+    "blockedTools": [
+      {
+        "name": "edit",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_exec",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_summary_save",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_save_gate_result",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "search-the-web",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "WebSearch",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Bash",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Edit",
+        "reason": "forbidden during run-uat"
+      }
+    ],
+    "toolPresentationPlanId": "run-uat/default-v1"
+  },
+  "notes": "All automatable runtime and artifact checks passed: focused provider workflow/security tests exited 0, shared AppModel boundary references are present, and redaction scans found only sanitized placeholders/test fixtures."
+}
