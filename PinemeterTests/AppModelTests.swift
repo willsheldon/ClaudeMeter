@@ -232,10 +232,19 @@ final class AppModelTests: XCTestCase {
         XCTAssertEqual(gemini.detailText, "Add a Gemini API key in Settings.")
         XCTAssertEqual(gemini.setupPromptTitle, "Connect Gemini")
         XCTAssertEqual(gemini.setupAccessibilityLabel, "Gemini API key status: Unknown. Add a Gemini API key in Settings.")
-        XCTAssertEqual(gemini.actions.map(\.displayTitle), ["Reconnect"])
-        XCTAssertEqual(gemini.actions.map(\.kind), [.reconnect])
+        XCTAssertTrue(gemini.actions.isEmpty)
         XCTAssertFalse(gemini.searchableText.contains("sk-ant-secret"))
         XCTAssertFalse(gemini.searchableText.contains("AIza"))
+
+        appModel.geminiCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+            health: .invalid,
+            failureCategory: .providerRejected,
+            checkedAt: Date(timeIntervalSince1970: 1)
+        )
+        let invalidGemini = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .gemini })
+        XCTAssertEqual(invalidGemini.actions.map(\.displayTitle), ["Clear"])
+        XCTAssertEqual(invalidGemini.actions.map(\.kind), [.clear])
     }
 
     func test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials() throws {
@@ -444,6 +453,32 @@ final class AppModelTests: XCTestCase {
             XCTFail("Unexpected error: \\(error)")
         }
         XCTAssertEqual(appModel.chatGPTCredentialState.failureCategory, .providerRejected)
+    }
+
+    func test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectWithoutCredentialLeak() async throws {
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            notificationService: NotificationServiceSpy()
+        )
+        appModel.geminiCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+            health: .invalid,
+            failureCategory: .providerRejected,
+            checkedAt: Date(timeIntervalSince1970: 0)
+        )
+
+        do {
+            _ = try await appModel.performProviderCredentialAction(.reconnect, for: .gemini)
+            XCTFail("Expected unsupported action to throw")
+        } catch let actionError as AppProviderCredentialActionError {
+            XCTAssertEqual(actionError, .unsupportedAction(provider: .gemini, action: .reconnect))
+            XCTAssertFalse(actionError.localizedDescription.contains("AIza"))
+        } catch {
+            XCTFail("Unexpected error: \\(error)")
+        }
+        XCTAssertEqual(appModel.geminiCredentialState.failureCategory, .providerRejected)
     }
 
     func test_userWithValidSessionKey_entersUsageAndLoadsData() async throws {

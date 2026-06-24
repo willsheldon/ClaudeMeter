@@ -812,15 +812,24 @@ final class AppModel {
 
     private func credentialActions(for state: CredentialState) -> [AppProviderCredentialStatus.Action] {
         let kinds: [ProviderCredentialActionKind]
-        switch state.health {
-        case .unknown, .missing:
-            kinds = [.reconnect]
-        case .validating:
-            kinds = []
-        case .valid, .refreshRecommended:
-            kinds = [.reconnect, .clear]
-        case .invalid, .expired, .unavailable:
-            kinds = state.identity.provider == .claude ? [.reconnect, .repair, .clear] : [.reconnect, .clear]
+        if state.identity.kind == .apiKey {
+            switch state.health {
+            case .unknown, .missing, .validating:
+                kinds = []
+            case .valid, .refreshRecommended, .invalid, .expired, .unavailable:
+                kinds = [.clear]
+            }
+        } else {
+            switch state.health {
+            case .unknown, .missing:
+                kinds = [.reconnect]
+            case .validating:
+                kinds = []
+            case .valid, .refreshRecommended:
+                kinds = [.reconnect, .clear]
+            case .invalid, .expired, .unavailable:
+                kinds = state.identity.provider == .claude ? [.reconnect, .repair, .clear] : [.reconnect, .clear]
+            }
         }
         return kinds.map(AppProviderCredentialStatus.Action.init(kind:))
     }

@@ -32,7 +32,7 @@ struct SetupWizardView: View {
                     .font(.title)
                     .fontWeight(.bold)
 
-                Text("Connect browser sessions to monitor LLM plan usage.")
+                Text("Connect browser sessions or API keys to monitor LLM plan usage.")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
@@ -181,7 +181,7 @@ struct SetupWizardView: View {
             Text("Import signed-in browser sessions")
                 .font(.subheadline.weight(.semibold))
 
-            Text("Choose the browser where you are already signed in. Each import button checks both Claude and ChatGPT without showing credential values.")
+            Text("Choose the browser where you are already signed in. Each import button checks Claude and ChatGPT; Gemini API key status appears above without showing credential values.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)

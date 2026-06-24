@@ -84,7 +84,7 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Credential Recovery")
                     .font(.subheadline)
-                Text("Claude appears first. Status and recovery actions never show saved credential values.")
+                Text("Claude appears first. Browser session and API key status never show saved credential values.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -113,6 +113,11 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Import signed-in browser sessions")
                 .font(.caption.weight(.semibold))
+
+            Text("Checks Claude and ChatGPT browser sessions. Add Gemini API keys in Settings; their status appears below.")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
 
             ForEach(BrowserImportSource.setupOptions, id: \.self) { source in
                 Button(action: {
