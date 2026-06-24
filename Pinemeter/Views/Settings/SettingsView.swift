@@ -84,7 +84,7 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Credential Recovery")
                     .font(.subheadline)
-                Text("Claude appears first. Browser session and API key status never show saved credential values.")
+                Text("Claude session key status appears first. Provider credential statuses never show saved credential values.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)

@@ -32,7 +32,7 @@ struct SetupWizardView: View {
                     .font(.title)
                     .fontWeight(.bold)
 
-                Text("Connect browser sessions or API keys to monitor LLM plan usage.")
+                Text("Connect your Claude session key and provider credentials to monitor LLM plan usage.")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
