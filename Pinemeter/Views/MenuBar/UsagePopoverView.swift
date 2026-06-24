@@ -82,7 +82,7 @@ struct UsagePopoverView: View {
             }
 
             // Content
-            if appModel.usageData != nil || appModel.chatGPTUsageData != nil || appModel.chatGPTErrorMessage != nil {
+            if appModel.hasUsagePopoverContent {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 14) {
                         if let usageData = appModel.usageData {
@@ -130,15 +130,23 @@ struct UsagePopoverView: View {
                         }
 
                         if appModel.settings.isChatGPTUsageShown, let chatGPTErrorMessage = appModel.chatGPTErrorMessage {
-                            HStack(spacing: 8) {
-                                Image(systemName: "exclamationmark.triangle.fill")
-                                    .foregroundStyle(.orange)
-                                CopyableErrorText("ChatGPT: \(chatGPTErrorMessage)", font: .caption, foregroundStyle: .secondary)
-                                Spacer()
+                            providerErrorRow(provider: "ChatGPT", message: chatGPTErrorMessage)
+                        }
+
+                        if appModel.isGeminiUsageConfigured, let geminiUsageData = appModel.geminiUsageData {
+                            UsageMetricSection(title: "Gemini", icon: "diamond") {
+                                UsageMetricBar(
+                                    title: geminiUsageData.label,
+                                    subtitle: geminiQuotaSubtitle(for: geminiUsageData),
+                                    percentage: geminiUsageData.percentage,
+                                    status: geminiUsageData.status,
+                                    icon: "gauge.with.dots.needle.bottom.50percent"
+                                )
                             }
-                            .padding(12)
-                            .background(Color.orange.opacity(0.1))
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+
+                        if appModel.isGeminiUsageConfigured, let geminiErrorMessage = appModel.geminiErrorMessage {
+                            providerErrorRow(provider: "Gemini", message: geminiErrorMessage)
                         }
                     }
                     .padding(14)
@@ -190,6 +198,26 @@ struct UsagePopoverView: View {
         }
         NSApp.activate(ignoringOtherApps: true)
         openSettings()
+    }
+
+    private func providerErrorRow(provider: String, message: String) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundStyle(.orange)
+            CopyableErrorText("\(provider): \(message)", font: .caption, foregroundStyle: .secondary)
+            Spacer()
+        }
+        .padding(12)
+        .background(Color.orange.opacity(0.1))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+
+    private func geminiQuotaSubtitle(for usageData: GeminiUsageData) -> String {
+        guard let resetAt = usageData.resetAt else {
+            return "Quota usage"
+        }
+
+        return "Resets \(resetAt.formatted(.relative(presentation: .named)))"
     }
 
     private func chatGPTQuotaSubtitle(for row: ChatGPTUsageData.LimitRow) -> String {

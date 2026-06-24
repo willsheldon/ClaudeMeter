@@ -710,6 +710,32 @@ final class AppModelTests: XCTestCase {
         XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude, ChatGPT, and Gemini usage data...")
     }
 
+    func test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors() {
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            notificationService: NotificationServiceSpy()
+        )
+
+        XCTAssertFalse(appModel.hasUsagePopoverContent)
+
+        appModel.hasGeminiAPIKey = true
+        appModel.geminiUsageData = GeminiUsageData(
+            label: "Gemini API quota",
+            usedPercent: 42,
+            resetAt: nil,
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+
+        XCTAssertTrue(appModel.hasUsagePopoverContent)
+
+        appModel.geminiUsageData = nil
+        appModel.geminiErrorMessage = "Gemini quota data is unavailable."
+
+        XCTAssertTrue(appModel.hasUsagePopoverContent)
+    }
+
     func test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders() async {
         let expectedClaudeUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
         let expectedChatGPTUsage = ChatGPTUsageData(

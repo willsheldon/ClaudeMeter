@@ -231,6 +231,12 @@ final class AppModel {
             || (isGeminiUsageConfigured && isRefreshingGemini)
     }
 
+    var hasUsagePopoverContent: Bool {
+        usageData != nil
+            || (settings.isChatGPTUsageShown && (chatGPTUsageData != nil || chatGPTErrorMessage != nil))
+            || (isGeminiUsageConfigured && (geminiUsageData != nil || geminiErrorMessage != nil))
+    }
+
     // MARK: - Dependencies
 
     @ObservationIgnored private let settingsRepository: SettingsRepositoryProtocol
