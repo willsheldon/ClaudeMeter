@@ -74,6 +74,64 @@ final class ProviderErrorWorkflowTests: XCTestCase {
         XCTAssertFalse(status.setupAccessibilityLabel.contains("synthetic-chatgpt-session-cookie"))
     }
 
+    func test_geminiCredentialStatusesCoverMissingConfiguredInvalidAndRetryCopy() {
+        let missing = AppProviderCredentialStatus(
+            state: CredentialState(
+                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+                health: .missing,
+                failureCategory: .missing,
+                checkedAt: Date(timeIntervalSince1970: 0)
+            ),
+            actions: []
+        )
+        let configured = AppProviderCredentialStatus(
+            state: CredentialState(
+                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+                health: .valid,
+                checkedAt: Date(timeIntervalSince1970: 1)
+            ),
+            actions: [.init(kind: .clear)]
+        )
+        let invalid = AppProviderCredentialStatus(
+            state: CredentialState(
+                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+                health: .invalid,
+                failureCategory: .providerRejected,
+                checkedAt: Date(timeIntervalSince1970: 2)
+            ),
+            actions: [.init(kind: .clear)]
+        )
+        let retryLater = AppProviderCredentialStatus(
+            state: CredentialState(
+                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+                health: .unavailable,
+                failureCategory: .networkUnavailable,
+                checkedAt: Date(timeIntervalSince1970: 3)
+            ),
+            actions: [.init(kind: .clear)]
+        )
+
+        XCTAssertEqual(missing.setupPromptTitle, "Connect Gemini")
+        XCTAssertEqual(missing.setupPromptDescription, "Add a Gemini API key in Settings.")
+        XCTAssertTrue(missing.actions.isEmpty)
+
+        XCTAssertEqual(configured.setupPromptTitle, "Saved Gemini API key is ready")
+        XCTAssertEqual(configured.setupPromptDescription, "Saved Gemini API key is ready.")
+        XCTAssertEqual(configured.actions.map(\.kind), [.clear])
+
+        XCTAssertEqual(invalid.setupPromptTitle, "Recover Gemini API key")
+        XCTAssertEqual(invalid.setupPromptDescription, "Update the credential and try again.")
+        XCTAssertEqual(invalid.lastFailureTitle, "Credential rejected")
+        XCTAssertEqual(invalid.actions.map(\.displayTitle), ["Clear"])
+
+        XCTAssertEqual(retryLater.setupPromptDescription, "Try again later.")
+        XCTAssertEqual(retryLater.actions.map(\.kind), [.clear])
+        for status in [missing, configured, invalid, retryLater] {
+            XCTAssertFalse(status.searchableText.contains("AIza"))
+            XCTAssertFalse(status.setupAccessibilityLabel.contains("gemini-api-key-redaction-sentinel"))
+        }
+    }
+
     func test_credentialRecoverySetupCopyDoesNotExposeRawCredentialMaterial() {
         let status = AppProviderCredentialStatus(
             state: CredentialState(

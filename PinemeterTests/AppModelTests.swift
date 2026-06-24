@@ -429,6 +429,66 @@ final class AppModelTests: XCTestCase {
         XCTAssertFalse(appModel.settings.isChatGPTUsageShown)
     }
 
+    func test_performProviderCredentialAction_clearsGeminiWithoutChangingMixedProviderState() async throws {
+        let keychainRepository = KeychainRepositoryFake()
+        try await keychainRepository.save(sessionKey: TestConstants.sessionKeyValue, account: "default")
+        let sessionRepository = AppModelChatGPTSessionRepositoryFake()
+        try await sessionRepository.save(
+            ChatGPTSession(sessionCookie: "chatgpt-session-redacted"),
+            account: ChatGPTUsageService.defaultSessionAccount
+        )
+        let geminiAPIKeyRepository = AppModelGeminiAPIKeyRepositoryFake()
+        try await geminiAPIKeyRepository.save(
+            try GeminiAPIKey("gemini-api-key-redaction-sentinel"),
+            account: GeminiUsageService.defaultAPIKeyAccount
+        )
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: keychainRepository,
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            chatGPTSessionRepository: sessionRepository,
+            geminiAPIKeyRepository: geminiAPIKeyRepository,
+            notificationService: NotificationServiceSpy()
+        )
+        appModel.isSetupComplete = true
+        appModel.hasChatGPTSessionCookie = true
+        appModel.settings.isChatGPTUsageShown = true
+        appModel.hasGeminiAPIKey = true
+        appModel.geminiUsageData = GeminiUsageData(
+            label: "Gemini API quota",
+            usedPercent: 42,
+            resetAt: nil,
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+        appModel.geminiCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+            health: .valid,
+            checkedAt: Date(timeIntervalSince1970: 0)
+        )
+
+        let result = try await appModel.performProviderCredentialAction(.clear, for: .gemini)
+        let savedClaudeKey = try await keychainRepository.retrieve(account: "default")
+        let savedChatGPTSession = try await sessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+
+        XCTAssertEqual(result.health, .missing)
+        XCTAssertEqual(result.failureCategory, .missing)
+        XCTAssertFalse(appModel.hasGeminiAPIKey)
+        XCTAssertNil(appModel.geminiUsageData)
+        XCTAssertNil(appModel.geminiErrorMessage)
+        XCTAssertEqual(savedClaudeKey, TestConstants.sessionKeyValue)
+        XCTAssertEqual(savedChatGPTSession.sessionCookie, "chatgpt-session-redacted")
+        XCTAssertTrue(appModel.isSetupComplete)
+        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+        do {
+            _ = try await geminiAPIKeyRepository.load(account: GeminiUsageService.defaultAPIKeyAccount)
+            XCTFail("Expected Gemini API key to be cleared")
+        } catch GeminiAPIKeyRepositoryError.notFound {
+            // Expected: clearing Gemini removes only Gemini credential material.
+        } catch {
+            XCTFail("Unexpected error: \\(error)")
+        }
+    }
+
     func test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak() async throws {
         let appModel = AppModel(
             settingsRepository: SettingsRepositoryFake(),
@@ -455,7 +515,7 @@ final class AppModelTests: XCTestCase {
         XCTAssertEqual(appModel.chatGPTCredentialState.failureCategory, .providerRejected)
     }
 
-    func test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectWithoutCredentialLeak() async throws {
+    func test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectAndRepairWithoutCredentialLeak() async throws {
         let appModel = AppModel(
             settingsRepository: SettingsRepositoryFake(),
             keychainRepository: KeychainRepositoryFake(),
@@ -469,14 +529,17 @@ final class AppModelTests: XCTestCase {
             checkedAt: Date(timeIntervalSince1970: 0)
         )
 
-        do {
-            _ = try await appModel.performProviderCredentialAction(.reconnect, for: .gemini)
-            XCTFail("Expected unsupported action to throw")
-        } catch let actionError as AppProviderCredentialActionError {
-            XCTAssertEqual(actionError, .unsupportedAction(provider: .gemini, action: .reconnect))
-            XCTAssertFalse(actionError.localizedDescription.contains("AIza"))
-        } catch {
-            XCTFail("Unexpected error: \\(error)")
+        for action in [ProviderCredentialActionKind.reconnect, .repair] {
+            do {
+                _ = try await appModel.performProviderCredentialAction(action, for: .gemini)
+                XCTFail("Expected unsupported action to throw")
+            } catch let actionError as AppProviderCredentialActionError {
+                XCTAssertEqual(actionError, .unsupportedAction(provider: .gemini, action: action))
+                XCTAssertFalse(actionError.localizedDescription.contains("gemini-api-key-redaction-sentinel"))
+                XCTAssertFalse(actionError.localizedDescription.contains("AIza"))
+            } catch {
+                XCTFail("Unexpected error: \\(error)")
+            }
         }
         XCTAssertEqual(appModel.geminiCredentialState.failureCategory, .providerRejected)
     }
