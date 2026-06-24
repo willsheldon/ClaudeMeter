@@ -17,13 +17,14 @@ final class CredentialStatusServiceTests: XCTestCase {
         XCTAssertEqual(statuses, [
             ProviderCredentialStatus(identity: CredentialIdentity(provider: .claude, kind: .sessionKey), state: .missing),
             ProviderCredentialStatus(identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie), state: .missing),
+            ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .accessToken), state: .missing),
         ])
         let requestedAccounts = await keychainRepository.recordedRequestedAccounts()
-        XCTAssertEqual(requestedAccounts, ["default", "chatgpt"])
+        XCTAssertEqual(requestedAccounts, ["default", "chatgpt", "gemini"])
     }
 
     func test_statuses_reportAvailableProvidersWithoutRetrievingSecretValues() async throws {
-        let keychainRepository = CredentialStatusKeychainRepositoryStub(existingAccounts: ["default", "chatgpt"])
+        let keychainRepository = CredentialStatusKeychainRepositoryStub(existingAccounts: ["default", "chatgpt", "gemini"])
         let service = CredentialStatusService(keychainRepository: keychainRepository)
 
         let statuses = await service.statuses()
@@ -31,6 +32,7 @@ final class CredentialStatusServiceTests: XCTestCase {
         XCTAssertEqual(statuses, [
             ProviderCredentialStatus(identity: CredentialIdentity(provider: .claude, kind: .sessionKey), state: .valid),
             ProviderCredentialStatus(identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie), state: .valid),
+            ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .accessToken), state: .valid),
         ])
         let retrieveCallCount = await keychainRepository.recordedRetrieveCallCount()
         XCTAssertEqual(retrieveCallCount, 0)
@@ -42,9 +44,11 @@ final class CredentialStatusServiceTests: XCTestCase {
 
         let claudeStatus = await service.status(for: .claude)
         let chatGPTStatus = await service.status(for: .chatGPT)
+        let geminiStatus = await service.status(for: .gemini)
 
         XCTAssertEqual(claudeStatus, ProviderCredentialStatus(identity: CredentialIdentity(provider: .claude, kind: .sessionKey), state: .missing))
         XCTAssertEqual(chatGPTStatus, ProviderCredentialStatus(identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie), state: .valid))
+        XCTAssertEqual(geminiStatus, ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .accessToken), state: .missing))
     }
 }
 

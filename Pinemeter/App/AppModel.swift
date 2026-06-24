@@ -144,6 +144,10 @@ final class AppModel {
         identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
         health: .unknown
     )
+    var geminiCredentialState: CredentialState = CredentialState(
+        identity: CredentialIdentity(provider: .gemini, kind: .accessToken),
+        health: .unknown
+    )
 
     var providerCredentialStatuses: [AppProviderCredentialStatus] {
         [
@@ -154,6 +158,10 @@ final class AppModel {
             AppProviderCredentialStatus(
                 state: chatGPTCredentialState,
                 actions: credentialActions(for: chatGPTCredentialState)
+            ),
+            AppProviderCredentialStatus(
+                state: geminiCredentialState,
+                actions: credentialActions(for: geminiCredentialState)
             )
         ]
     }
@@ -556,7 +564,7 @@ final class AppModel {
         case (.chatGPT, .clear):
             try await clearChatGPTSessionCookie()
             return chatGPTCredentialState
-        case (.chatGPT, .repair):
+        case (.chatGPT, .repair), (.gemini, .reconnect), (.gemini, .repair), (.gemini, .clear):
             throw AppProviderCredentialActionError.unsupportedAction(provider: provider, action: action)
         }
     }
