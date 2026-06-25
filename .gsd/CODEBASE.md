@@ -1,7 +1,7 @@
 # Codebase Map
 
-Generated: 2026-06-24T19:14:28Z | Files: 111 | Described: 0/111
-<!-- gsd:codebase-meta {"generatedAt":"2026-06-24T19:14:28Z","fingerprint":"65523054f78af8fbcc38bcdffa16f8d7e24e3551","fileCount":111,"truncated":false} -->
+Generated: 2026-06-24T20:35:16Z | Files: 117 | Described: 0/117
+<!-- gsd:codebase-meta {"generatedAt":"2026-06-24T20:35:16Z","fingerprint":"b8f5e5f61b85eb9109ca7c53369c8cf711c62f17","fileCount":117,"truncated":false} -->
 
 ### (root)/
 - `.gitignore`
@@ -71,12 +71,14 @@ Generated: 2026-06-24T19:14:28Z | Files: 111 | Described: 0/111
 ### Pinemeter/Repositories/
 - `Pinemeter/Repositories/CacheRepository.swift`
 - `Pinemeter/Repositories/ChatGPTSessionRepository.swift`
+- `Pinemeter/Repositories/GeminiAPIKeyRepository.swift`
 - `Pinemeter/Repositories/KeychainRepository.swift`
 - `Pinemeter/Repositories/SettingsRepository.swift`
 
 ### Pinemeter/Repositories/Protocols/
 - `Pinemeter/Repositories/Protocols/CacheRepositoryProtocol.swift`
 - `Pinemeter/Repositories/Protocols/ChatGPTSessionRepositoryProtocol.swift`
+- `Pinemeter/Repositories/Protocols/GeminiAPIKeyRepositoryProtocol.swift`
 - `Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift`
 - `Pinemeter/Repositories/Protocols/SettingsRepositoryProtocol.swift`
 
@@ -87,6 +89,7 @@ Generated: 2026-06-24T19:14:28Z | Files: 111 | Described: 0/111
 ### Pinemeter/Services/
 - `Pinemeter/Services/ChatGPTUsageService.swift`
 - `Pinemeter/Services/CredentialStatusService.swift`
+- `Pinemeter/Services/GeminiUsageService.swift`
 - `Pinemeter/Services/NetworkService.swift`
 - `Pinemeter/Services/NotificationService.swift`
 - `Pinemeter/Services/SessionKeyImportService.swift`
@@ -96,6 +99,7 @@ Generated: 2026-06-24T19:14:28Z | Files: 111 | Described: 0/111
 ### Pinemeter/Services/Protocols/
 - `Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift`
 - `Pinemeter/Services/Protocols/CredentialStatusServiceProtocol.swift`
+- `Pinemeter/Services/Protocols/GeminiUsageServiceProtocol.swift`
 - `Pinemeter/Services/Protocols/NetworkServiceProtocol.swift`
 - `Pinemeter/Services/Protocols/NotificationServiceProtocol.swift`
 - `Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift`
@@ -139,6 +143,8 @@ Generated: 2026-06-24T19:14:28Z | Files: 111 | Described: 0/111
 - `PinemeterTests/CopyableErrorPresentationTests.swift`
 - `PinemeterTests/CredentialStateTests.swift`
 - `PinemeterTests/CredentialStatusServiceTests.swift`
+- `PinemeterTests/GeminiCredentialBoundaryTests.swift`
+- `PinemeterTests/GeminiUsageServiceTests.swift`
 - `PinemeterTests/KeychainRepositoryTests.swift`
 - `PinemeterTests/MenuBarIconRendererTests.swift`
 - `PinemeterTests/NotificationServiceTests.swift`
