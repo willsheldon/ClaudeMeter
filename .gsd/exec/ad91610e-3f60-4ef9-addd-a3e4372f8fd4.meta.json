@@ -1,0 +1,19 @@
+{
+  "id": "ad91610e-3f60-4ef9-addd-a3e4372f8fd4",
+  "runtime": "python",
+  "purpose": "Print AppModelTests exact insertion anchors for Gemini tests and fakes",
+  "script_chars": 708,
+  "started_at": "2026-06-24T20:39:31.465Z",
+  "finished_at": "2026-06-24T20:39:31.542Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 77,
+  "stdout_bytes": 20806,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/ad91610e-3f60-4ef9-addd-a3e4372f8fd4.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/ad91610e-3f60-4ef9-addd-a3e4372f8fd4.stderr"
+}

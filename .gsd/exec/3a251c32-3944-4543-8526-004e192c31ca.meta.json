@@ -1,0 +1,19 @@
+{
+  "id": "3a251c32-3944-4543-8526-004e192c31ca",
+  "runtime": "python",
+  "purpose": "Inspect S05 UAT workflow headings and check labels",
+  "script_chars": 274,
+  "started_at": "2026-06-24T22:00:02.429Z",
+  "finished_at": "2026-06-24T22:00:02.468Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 39,
+  "stdout_bytes": 9063,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/3a251c32-3944-4543-8526-004e192c31ca.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/3a251c32-3944-4543-8526-004e192c31ca.stderr"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "89a4c462-9dcf-4cbe-a722-87b157ded29d",
+  "runtime": "python",
+  "purpose": "Check current AppModelTests Gemini edit state and exact fakes anchor",
+  "script_chars": 1102,
+  "started_at": "2026-06-24T20:42:00.362Z",
+  "finished_at": "2026-06-24T20:42:00.400Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 38,
+  "stdout_bytes": 15982,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/89a4c462-9dcf-4cbe-a722-87b157ded29d.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/89a4c462-9dcf-4cbe-a722-87b157ded29d.stderr"
+}

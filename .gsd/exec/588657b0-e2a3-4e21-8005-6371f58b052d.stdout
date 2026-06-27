@@ -1,0 +1,3 @@
+Running: xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/AppModelTests -only-testing:PinemeterTests/SecurityInvariantTests -only-testing:PinemeterTests/GeminiUsageServiceTests -only-testing:PinemeterTests/GeminiCredentialBoundaryTests
+** TEST SUCCEEDED **
+S02 verification passed: focused AppModel, SecurityInvariant, Gemini service/boundary tests succeeded; static scans found no Gemini secret persistence in AppSettings/models and no Gemini secret logging patterns. durationMs=5000

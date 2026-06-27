@@ -1,0 +1,99 @@
+- Why this mode is sufficient: Gemini touches persisted credential state, actor-backed usage refresh, settings/setup UI, and menu bar presentation. Automated artifact checks verify the checklist and s
+- Use only synthetic, placeholder, or mock Gemini credentials unless a real credential is explicitly collected through approved secret handling. Never paste or store a real API key in this UAT artifac
+- Start from a clean provider state for each workflow when possible: Claude, ChatGPT, and Gemini credentials absent unless the case explicitly requires them.
+2. **Runtime:** Launch the app with no Gemini credential and confirm Gemini is represented as missing/not configured, without exposing any credential material.
+3. **Expected:** Gemini appears as a first-class provider, missing credentials are diagnosable, and no secret-shaped value appears in user-facing copy or logs.
+### 1. Clean Gemini setup
+#### Automated Checks
+1. Verify tests cover Gemini credential state transitions from missing to valid.
+2. Verify security tests assert Gemini credential material is not persisted in `AppSettings` or diagnostic state.
+3. Verify setup/settings copy refers to Gemini as an API-key credential and does not include example real keys.
+#### Runtime Checks
+1. Start with no Gemini credential present.
+2. Open setup or settings provider credentials.
+3. Enter a synthetic Gemini API key value supplied by a test double, fixture, or mock credential flow.
+5. **Expected:** Gemini transitions from missing/not configured to configured/valid, success copy names Gemini, and no raw credential value is displayed.
+#### Human Follow-up Checks
+3. Confirm keyboard navigation can reach the Gemini credential controls.
+### 2. Gemini refresh
+#### Automated Checks
+#### Runtime Checks
+1. Configure Gemini with a synthetic or mocked valid credential.
+#### Human Follow-up Checks
+### 3. Invalid Gemini credential
+#### Automated Checks
+1. Verify tests cover `invalidAPIKey` mapping to an invalid Gemini credential state.
+2. Verify user-facing invalid-credential errors are sanitized and contain no credential fragments.
+3. Verify invalid Gemini credentials do not mark Claude or ChatGPT as invalid.
+#### Runtime Checks
+1. Configure Gemini with a synthetic credential that the mock service rejects.
+3. **Expected:** Gemini shows an invalid/provider-rejected state with actionable recovery controls, Gemini usage is cleared or withheld, and no raw credential value appears in UI, logs, or persisted d
+#### Human Follow-up Checks
+1. Confirm invalid-credential copy tells the user what to do next without exposing implementation details.
+3. Confirm the failure is not confused with network outage or missing credential copy.
+### 4. Clear and reconnect Gemini
+#### Automated Checks
+1. Verify tests cover clearing the Gemini API key from the credential repository.
+2. Verify tests cover reconnecting or re-entering Gemini credentials after a clear.
+3. Verify clearing Gemini credentials does not remove Claude session keys or ChatGPT session cookies.
+#### Runtime Checks
+1. Start with Gemini configured using a synthetic or mocked valid credential.
+4. Reconnect Gemini using a synthetic or mocked valid credential.
+6. **Expected:** Clear removes only Gemini credential state, reconnect restores Gemini usage, and provider-specific success/failure copy names Gemini.
+#### Human Follow-up Checks
+### 5. Gemini-only state
+#### Automated Checks
+2. Verify menu bar/provider aggregation logic does not assume Claude or ChatGPT credentials exist.
+#### Runtime Checks
+1. Remove or mock absent Claude and ChatGPT credentials.
+2. Configure only Gemini with a synthetic or mocked valid credential.
+#### Human Follow-up Checks
+### 6. All-provider state
+#### Automated Checks
+1. Verify tests cover coexistence of Claude, ChatGPT, and Gemini credential states.
+3. Verify provider-specific errors and usage summaries cannot leak credential material across provider boundaries.
+#### Runtime Checks
+1. Configure Claude, ChatGPT, and Gemini using existing test doubles, synthetic credentials, or approved secret handling for any real credential material.
+#### Human Follow-up Checks
+### Missing Gemini credential after prior success
+#### Automated Checks
+1. Verify missing Gemini credential clears stale successful usage or clearly marks it stale/unavailable.
+2. Verify missing credential diagnostics are persisted without credential material.
+#### Runtime Checks
+1. Configure Gemini successfully with a synthetic or mocked credential.
+2. Clear the credential outside the current UI path or simulate repository loss.
+4. **Expected:** Gemini reports missing credentials, stale success is not presented as current usage, and the recovery path is clear.
+#### Human Follow-up Checks
+1. Confirm the UI does not imply Gemini is still connected when the credential is gone.
+### Gemini network or decoding failure
+#### Automated Checks
+2. Verify non-credential failures do not offer misleading credential-only recovery.
+#### Runtime Checks
+1. Configure Gemini with a synthetic or mocked valid credential.
+3. **Expected:** Gemini shows a provider-scoped service/data failure, credential state is not downgraded to invalid, and retry remains possible.
+#### Human Follow-up Checks
+1. Confirm copy distinguishes temporary service failures from credential problems.
+## Failure Signals
+- Gemini credential values, fragments, or secret-shaped examples appear in UI, logs, screenshots, persisted diagnostics, or this artifact.
+- Invalid Gemini credential copy exposes raw key material or gives no recovery action.
+- Clear removes credentials for the wrong provider or requires app restart before reconnect works.
+- M004 success criterion: Gemini has an explicit provider identity, credential state, storage boundary, and settings/setup presentation consistent with existing providers.
+- M004 success criterion: Gemini usage acquisition is implemented through actor service and repository seams with sanitized diagnostics and no secret persistence outside the credential boundary.
+- Live Gemini API quota accuracy against a real Google account unless a real credential is supplied through approved secret handling and live-runtime UAT is explicitly run.
+| UAT-02 | artifact | PASS | `.gsd/exec/2e3ab55e-c070-4e5f-b2b9-319f82f2b3eb.stdout` | Confirmed tracked Swift source/tests contain Gemini credential boundary, failure mapping, provider copy, and coex
+| UAT-03 | runtime | PASS | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` | Targeted `GeminiUsageServiceTests`, `GeminiCredentialBoundaryTests`, and `ProviderErrorWorkflowTests` passed under
+| UAT-04 | runtime | NEEDS-HUMAN | N/A | Live real-credential Gemini setup/refresh/recovery was not run because autonomous execution cannot collect or use real secrets. |
+### Validation Notes By Class
+- **Contract:** `GeminiUsageServiceTests` and `GeminiCredentialBoundaryTests` prove credential value normalization, missing/invalid credential handling, sanitized diagnostics, and dedicated Keychain-b
+- **Integration:** `ProviderErrorWorkflowTests` prove Gemini participates in shared provider credential status rendering and provider-specific recovery copy without regressing Claude or ChatGPT copy p
+- **Operational:** The UAT artifact keeps real-credential-only work as explicit `NEEDS-HUMAN`, preserving the secret-handling boundary and leaving evidence paths for future reruns.
+- **UAT:** The checklist now distinguishes automated artifact checks, targeted runtime tests, and human follow-up checks for setup, refresh, invalid credential, clear/reconnect, Gemini-only, and all-p
+## Failure Modes
+| Dependency | Failure Path | Evidence | Handling |
+| Gemini credential repository / Keychain boundary | Missing, blank, whitespace-padded, cleared, or invalid stored API key | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` includes `test_fetc
+| Gemini service/API seam | Auth rejection, empty quota response, network/data failure classes, malformed or unavailable usage data | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` includes `
+| Provider UI/status composition | One provider missing or invalid while others remain configured | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` includes `ProviderErrorWorkflowTests` for Ge
+| Missing Gemini API key | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` → `test_fetchUsage_withMissingStoredAPIKeyThrowsMissingAPIKey` | Missing credentials are explicit and provider-scoped
+| Gemini auth rejection / invalid key | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` → `test_fetchUsage_mapsHTTPForbiddenToInvalidAPIKey`, `test_fetchUsage_mapsInvalidAPIKeyAndClearsStoredC
+| Credential material leakage | `.gsd/exec/d8de1348-ee2c-4805-a6b1-d67b134587db.stdout` → `test_acquisitionStatusDoesNotDiscloseAPIKey`, `test_geminiUsageErrorDescriptionsDoNotDiscloseCredentialMateri
+| 5 | `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/GeminiUsageServiceTests -only-testing:PinemeterTests/GeminiCredentialBoundaryTes

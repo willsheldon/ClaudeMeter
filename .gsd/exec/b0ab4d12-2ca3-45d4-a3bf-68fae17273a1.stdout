@@ -1,0 +1,24 @@
+Provider workflow copy audit
+Mode: enforce
+Files scanned: 11 fixed allowlist
+
+[ChatGPT copy review] 154 finding(s)
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:118 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:119 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: UsageMetricSection(title: "ChatGPT", icon: "message.badge.waveform") {
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:120 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: ForEach(chatGPTUsageData.rows) { row in
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:123 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: subtitle: chatGPTQuotaSubtitle(for: row),
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:132 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: if appModel.settings.isChatGPTUsageShown, let chatGPTErrorMessage = appModel.chatGPTErrorMessage {
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:133 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: providerErrorRow(provider: "ChatGPT", message: chatGPTErrorMessage)
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:140 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: subtitle: geminiQuotaSubtitle(for: geminiUsageData),
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:215 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: private func geminiQuotaSubtitle(for usageData: GeminiUsageData) -> String {
+- ... 146 more
+
+provider_workflow_copy_audit_exit=0

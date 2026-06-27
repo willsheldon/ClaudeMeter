@@ -1,0 +1,19 @@
+{
+  "id": "e6477428-b08d-4513-8c69-445d29aa8d39",
+  "runtime": "bash",
+  "purpose": "S03 slice closeout verification: full test suite and provider copy scan",
+  "script_chars": 1308,
+  "started_at": "2026-06-24T21:22:58.685Z",
+  "finished_at": "2026-06-24T21:23:15.856Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 17171,
+  "stdout_bytes": 213,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/e6477428-b08d-4513-8c69-445d29aa8d39.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/e6477428-b08d-4513-8c69-445d29aa8d39.stderr"
+}

@@ -1,0 +1,13 @@
+        let reacquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+
+        XCTAssertTrue(reacquired)
+        XCTAssertTrue(setupModel.hasChatGPTSessionCookie)
+        XCTAssertEqual(setupModel.chatGPTCredentialState.health, .valid)
+        XCTAssertEqual(setupModel.chatGPTUsageData, expectedUsage)
+    }
+
+    func test_userWithNotificationPermission_doesNotSeePermissionPrompt() async {
+        let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+        let notificationService = NotificationServiceSpy()
+        notificationService.hasPermission = true
+        let settingsRe

@@ -1,0 +1,19 @@
+{
+  "id": "ab3fd307-db2c-4974-a2f6-746961794a45",
+  "runtime": "python",
+  "purpose": "extract AppModel provider credential methods",
+  "script_chars": 316,
+  "started_at": "2026-06-24T21:08:32.801Z",
+  "finished_at": "2026-06-24T21:08:32.883Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 82,
+  "stdout_bytes": 4632,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/ab3fd307-db2c-4974-a2f6-746961794a45.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/ab3fd307-db2c-4974-a2f6-746961794a45.stderr"
+}

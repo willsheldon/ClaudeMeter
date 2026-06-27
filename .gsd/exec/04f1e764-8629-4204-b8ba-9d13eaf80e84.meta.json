@@ -1,0 +1,27 @@
+{
+  "id": "04f1e764-8629-4204-b8ba-9d13eaf80e84",
+  "runtime": "bash",
+  "purpose": "UAT M004/S04/UAT-S04-03B (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S04",
+    "checkId": "UAT-S04-03B",
+    "intent": "uat-artifact-check",
+    "expected": "Locate actual Gemini refresh-error regression assertions in AppModelTests."
+  },
+  "script_chars": 141,
+  "started_at": "2026-06-24T21:41:38.929Z",
+  "finished_at": "2026-06-24T21:41:38.943Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 14,
+  "stdout_bytes": 411,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/04f1e764-8629-4204-b8ba-9d13eaf80e84.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/04f1e764-8629-4204-b8ba-9d13eaf80e84.stderr"
+}

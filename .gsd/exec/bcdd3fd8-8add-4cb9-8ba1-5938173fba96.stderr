@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "<string>", line 4, in <module>
+    end=text.index('    func test_bootstrap_withPermission_doesNotSeePermissionPrompt')
+ValueError: substring not found

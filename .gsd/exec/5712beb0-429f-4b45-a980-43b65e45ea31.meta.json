@@ -1,0 +1,27 @@
+{
+  "id": "5712beb0-429f-4b45-a980-43b65e45ea31",
+  "runtime": "bash",
+  "purpose": "UAT M004/S03/UAT-COPY-PROVIDERS (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S03",
+    "checkId": "UAT-COPY-PROVIDERS",
+    "intent": "uat-artifact-check",
+    "expected": "Gemini appears alongside Claude and ChatGPT in setup/settings/status copy"
+  },
+  "script_chars": 1094,
+  "started_at": "2026-06-24T21:24:28.719Z",
+  "finished_at": "2026-06-24T21:24:28.802Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 83,
+  "stdout_bytes": 539,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/5712beb0-429f-4b45-a980-43b65e45ea31.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/5712beb0-429f-4b45-a980-43b65e45ea31.stderr"
+}

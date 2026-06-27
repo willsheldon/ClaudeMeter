@@ -1,0 +1,19 @@
+{
+  "id": "9932467b-d64a-42fc-98d1-652baa77a767",
+  "runtime": "bash",
+  "purpose": "Slice S01 verification: full Debug test suite",
+  "script_chars": 90,
+  "started_at": "2026-06-24T20:17:34.808Z",
+  "finished_at": "2026-06-24T20:17:45.232Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 10424,
+  "stdout_bytes": 23906,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/9932467b-d64a-42fc-98d1-652baa77a767.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/9932467b-d64a-42fc-98d1-652baa77a767.stderr"
+}

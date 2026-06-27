@@ -1,0 +1,45 @@
+1081:         XCTAssertFalse(rejected)
+1082:         XCTAssertFalse(invalidModel.hasChatGPTSessionCookie)
+1083:         XCTAssertEqual(invalidModel.chatGPTCredentialState.health, .invalid)
+1084:         XCTAssertEqual(invalidModel.chatGPTCredentialState.failureCategory, .providerRejected)
+1085:         do {
+1086:             _ = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+1087:             XCTFail("Expected missing ChatGPT session after invalid validation")
+1088:         } catch ChatGPTSessionRepositoryError.notFound {
+1089:             // Expected
+1090:         } catch {
+1091:             XCTFail("Unexpected error: \(error)")
+1092:         }
+1093: 
+1094:         let validChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+1095:             fetchUsageResult: .success(expectedUsage),
+1096:             validateResult: true
+1097:         )
+1098:         let setupModel = AppModel(
+1099:             settingsRepository: settingsRepository,
+1100:             keychainRepository: keychainRepository,
+1101:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+1102:             chatGPTUsageService: validChatGPTUsageService,
+1103:             chatGPTSessionRepository: chatGPTSessionRepository,
+1104:             notificationService: notificationService
+1105:         )
+1106: 
+1107:         let acquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+1108: 
+1109:         XCTAssertTrue(acquired)
+1110:         XCTAssertTrue(setupModel.hasChatGPTSessionCookie)
+1111:         XCTAssertTrue(setupModel.settings.isChatGPTUsageShown)
+1112:         let savedChatGPTSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+1113: 
+1114:         XCTAssertEqual(setupModel.chatGPTCredentialState.health, .valid)
+1115:         XCTAssertEqual(setupModel.chatGPTUsageData, expectedUsage)
+1116:         XCTAssertEqual(savedChatGPTSession.sessionCookie, "synthetic-chatgpt-session-cookie")
+1117: 
+1118:         var reuseSettings = AppSettings.default
+1119:         reuseSettings.isChatGPTUsageShown = true
+1120:         try await settingsRepository.save(reuseSettings)
+1121:         let reuseModel = AppModel(
+1122:             settingsRepository: settingsRepository,
+1123:             keychainRepository: keychainRepository,
+1124:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+1125:             chatGPTUsageService: validChatGPTUsageService,

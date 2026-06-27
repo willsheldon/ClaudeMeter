@@ -1,0 +1,46 @@
+PASS: AppModel tests mention Gemini
+PASS: Gemini action display/state path covered
+PASS: Gemini unsupported behavior covered
+PASS: Gemini actions are displayable from state but unsupported in AppModel tests until implementation slices
+PinemeterTests/AppModelTests.swift:206:        XCTAssertEqual(statuses.map(\.id), ["claude.sessionKey", "chatGPT.sessionCookie", "gemini.accessToken"])
+PinemeterTests/AppModelTests.swift:215:        XCTAssertEqual(claude.actions.map(\.displayTitle), ["Reconnect", "Repair", "Clear"])
+PinemeterTests/AppModelTests.swift:216:        XCTAssertEqual(claude.actions.map(\.kind), [.reconnect, .repair, .clear])
+PinemeterTests/AppModelTests.swift:225:        XCTAssertEqual(chatGPT.actions.map(\.displayTitle), ["Reconnect"])
+PinemeterTests/AppModelTests.swift:226:        XCTAssertEqual(chatGPT.actions.map(\.kind), [.reconnect])
+PinemeterTests/AppModelTests.swift:228:        let gemini = try XCTUnwrap(statuses.first { $0.provider == .gemini })
+PinemeterTests/AppModelTests.swift:229:        XCTAssertEqual(gemini.providerName, "Gemini")
+PinemeterTests/AppModelTests.swift:230:        XCTAssertEqual(gemini.credentialName, "Gemini access token")
+PinemeterTests/AppModelTests.swift:231:        XCTAssertEqual(gemini.stateText, "Unknown")
+PinemeterTests/AppModelTests.swift:232:        XCTAssertEqual(gemini.detailText, "Sign in to Gemini in your browser, then import the browser session into Pinemeter.")
+PinemeterTests/AppModelTests.swift:233:        XCTAssertEqual(gemini.setupPromptTitle, "Connect Gemini")
+PinemeterTests/AppModelTests.swift:234:        XCTAssertEqual(gemini.setupAccessibilityLabel, "Gemini access token status: Unknown. Sign in to Gemini in your browser, then import the browser session into Pinemeter.")
+PinemeterTests/AppModelTests.swift:235:        XCTAssertEqual(gemini.actions.map(\.displayTitle), ["Reconnect"])
+PinemeterTests/AppModelTests.swift:236:        XCTAssertEqual(gemini.actions.map(\.kind), [.reconnect])
+PinemeterTests/AppModelTests.swift:237:        XCTAssertFalse(gemini.searchableText.contains("sk-ant-secret"))
+PinemeterTests/AppModelTests.swift:238:        XCTAssertFalse(gemini.searchableText.contains("AIza"))
+PinemeterTests/AppModelTests.swift:328:            XCTAssertEqual(claude.actions.map(\.kind), expectedActions, "Unexpected actions for \\(health)")
+PinemeterTests/AppModelTests.swift:439:            XCTFail("Expected unsupported action to throw")
+PinemeterTests/AppModelTests.swift:440:        } catch let actionError as AppProviderCredentialActionError {
+PinemeterTests/AppModelTests.swift:441:            XCTAssertEqual(actionError, .unsupportedAction(provider: .chatGPT, action: .repair))
+PinemeterTests/AppModelTests.swift:442:            XCTAssertFalse(actionError.localizedDescription.contains("chatgpt-session-redacted"))
+PinemeterTests/AppModelTests.swift:1172:        throw KeychainError.saveFailed(OSStatus: OSStatus(errSecInteractionNotAllowed))
+PinemeterTests/AppModelTests.swift:1180:        throw KeychainError.saveFailed(OSStatus: OSStatus(errSecInteractionNotAllowed))
+PinemeterTests/AppModelTests.swift:1184:        throw KeychainError.updateFailed(OSStatus: OSStatus(errSecInteractionNotAllowed))
+Pinemeter/App/AppModel.swift:5:/// Recovery action that can be shown for a provider credential without exposing credential material.
+Pinemeter/App/AppModel.swift:23:/// Sanitized provider credential action failure that never includes credential material.
+Pinemeter/App/AppModel.swift:25:    case unsupportedAction(provider: CredentialProvider, action: ProviderCredentialActionKind)
+Pinemeter/App/AppModel.swift:29:        case .unsupportedAction(let provider, let action):
+Pinemeter/App/AppModel.swift:30:            return "\(action.displayTitle) is not available for \(provider.displayName) credentials."
+Pinemeter/App/AppModel.swift:44:    let actions: [Action]
+Pinemeter/App/AppModel.swift:98:        actions.contains { $0.kind == .repair }
+Pinemeter/App/AppModel.swift:109:            actions.map(\.displayTitle).joined(separator: " ")
+Pinemeter/App/AppModel.swift:147:    var geminiCredentialState: CredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:148:        identity: CredentialIdentity(provider: .gemini, kind: .accessToken),
+Pinemeter/App/AppModel.swift:156:                actions: credentialActions(for: claudeCredentialState)
+Pinemeter/App/AppModel.swift:160:                actions: credentialActions(for: chatGPTCredentialState)
+Pinemeter/App/AppModel.swift:163:                state: geminiCredentialState,
+Pinemeter/App/AppModel.swift:164:                actions: credentialActions(for: geminiCredentialState)
+Pinemeter/App/AppModel.swift:549:        _ action: ProviderCredentialActionKind,
+Pinemeter/App/AppModel.swift:552:        switch (provider, action) {
+Pinemeter/App/AppModel.swift:567:        case (.chatGPT, .repair), (.gemini, .reconnect), (.gemini, .repair), (.gemini, .clear):
+Pinemeter/App/AppModel.swift:568:            throw AppProviderCredentialActionError.unsupportedAction(provider: provider, action: action)

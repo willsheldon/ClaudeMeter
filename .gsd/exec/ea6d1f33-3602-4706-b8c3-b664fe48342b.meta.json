@@ -1,0 +1,27 @@
+{
+  "id": "ea6d1f33-3602-4706-b8c3-b664fe48342b",
+  "runtime": "bash",
+  "purpose": "UAT M004/S01/UAT-02 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S01",
+    "checkId": "UAT-02",
+    "intent": "uat-artifact-check",
+    "expected": "Gemini state is represented through sanitized labels, status, and diagnostics only."
+  },
+  "script_chars": 1777,
+  "started_at": "2026-06-24T20:19:10.177Z",
+  "finished_at": "2026-06-24T20:19:10.230Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 53,
+  "stdout_bytes": 14142,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/ea6d1f33-3602-4706-b8c3-b664fe48342b.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/ea6d1f33-3602-4706-b8c3-b664fe48342b.stderr"
+}

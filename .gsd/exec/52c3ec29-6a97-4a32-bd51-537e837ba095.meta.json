@@ -1,0 +1,27 @@
+{
+  "id": "52c3ec29-6a97-4a32-bd51-537e837ba095",
+  "runtime": "bash",
+  "purpose": "UAT M004/S03/UAT-COEXISTENCE-TESTS (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S03",
+    "checkId": "UAT-COEXISTENCE-TESTS",
+    "intent": "uat-runtime-check",
+    "expected": "Existing Claude/ChatGPT behavior and security invariants remain compatible with Gemini-aware provider matrix"
+  },
+  "script_chars": 612,
+  "started_at": "2026-06-24T21:25:21.622Z",
+  "finished_at": "2026-06-24T21:25:26.860Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 5238,
+  "stdout_bytes": 12446,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/52c3ec29-6a97-4a32-bd51-537e837ba095.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/52c3ec29-6a97-4a32-bd51-537e837ba095.stderr"
+}

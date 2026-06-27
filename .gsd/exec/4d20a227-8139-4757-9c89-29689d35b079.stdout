@@ -1,0 +1,115 @@
+5: final class AppModelTests: XCTestCase {
+6:     func test_bootstrap_withoutSessionKey_showsSetupState() async {
+29:     func test_userWithSessionKey_seesUsageAfterLaunch() async {
+57:     func test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch() async {
+85:     func test_refreshingUsage_showsLatestUsageAndClearsError() async {
+111:     func test_refreshingUsage_showsErrorWhenFetchFails() async {
+136:     func test_refreshingUsage_hidesUsageWhenSetupIncomplete() async {
+158:     func test_userWithInvalidSessionKey_staysInSetup() async throws {
+185:     func test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState() async throws {
+204:         let statuses = appModel.providerCredentialStatuses
+229:         XCTAssertEqual(gemini.providerName, "Gemini")
+230:         XCTAssertEqual(gemini.credentialName, "Gemini API key")
+232:         XCTAssertEqual(gemini.detailText, "Add a Gemini API key in Settings.")
+233:         XCTAssertEqual(gemini.setupPromptTitle, "Connect Gemini")
+234:         XCTAssertEqual(gemini.setupAccessibilityLabel, "Gemini API key status: Unknown. Add a Gemini API key in Settings.")
+245:         let invalidGemini = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .gemini })
+246:         XCTAssertEqual(invalidGemini.actions.map(\.displayTitle), ["Clear"])
+247:         XCTAssertEqual(invalidGemini.actions.map(\.kind), [.clear])
+250:     func test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials() throws {
+267:         var claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+281:         claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+296:         claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+305:     func test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates() throws {
+336:             let claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+342:     func test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair() async throws {
+354:         let result = try await appModel.performProviderCredentialAction(.repair, for: .claude)
+364:     func test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary() async throws {
+387:         let result = try await appModel.performProviderCredentialAction(.reconnect, for: .chatGPT)
+395:         XCTAssertFalse(appModel.providerCredentialStatuses[1].searchableText.contains("synthetic-chatgpt-session-cookie"))
+398:     func test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential() async throws {
+416:         let result = try await appModel.performProviderCredentialAction(.clear, for: .chatGPT)
+432:     func test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak() async throws {
+447:             _ = try await appModel.performProviderCredentialAction(.repair, for: .chatGPT)
+458:     func test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectWithoutCredentialLeak() async throws {
+473:             _ = try await appModel.performProviderCredentialAction(.reconnect, for: .gemini)
+484:     func test_userWithValidSessionKey_entersUsageAndLoadsData() async throws {
+520:     func test_importingSessionKey_savesImportedKeyAndLoadsData() async throws {
+558:     func test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT() async throws {
+614:     func test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface() async {
+625:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+636:         appModel.hasGeminiAPIKey = true
+638:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT", "Gemini"])
+640:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading ChatGPT and Gemini usage data...")
+645:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "ChatGPT", "Gemini"])
+647:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude, ChatGPT, and Gemini usage data...")
+650:     func test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders() async {
+656:         let expectedGeminiUsage = GeminiUsageData(
+657:             label: "Gemini API quota",
+667:         let geminiUsageService = AppModelGeminiUsageServiceStub(
+668:             fetchUsageResult: .success(expectedGeminiUsage),
+682:         appModel.hasGeminiAPIKey = true
+692:         XCTAssertEqual(appModel.geminiUsageData, expectedGeminiUsage)
+708:         XCTAssertEqual(appModel.geminiUsageData, expectedGeminiUsage)
+715:     func test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff() async {
+729:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+739:     func test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState() async {
+762:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+765:     func test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState() async {
+766:         let geminiUsageService = AppModelGeminiUsageServiceStub(
+767:             fetchUsageResult: .failure(GeminiUsageError.missingAPIKey),
+777:         appModel.hasGeminiAPIKey = true
+783:         XCTAssertFalse(appModel.hasGeminiAPIKey)
+787:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+790:     func test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage() async throws {
+828:     func test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails() async throws {
+862:     func test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState() async throws {
+888:     func test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure() async throws {
+911:     func test_importingSessionKey_whenImportedKeyInvalid_staysInSetup() async throws {
+944:     func test_userWithValidSessionKeyWithoutOrganization_staysInSetup() async {
+972:     func test_userClearsSession_returnsToSetupState() async throws {
+1003:     func test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+1092:     func test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+1188:     func test_geminiCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+1189:         let expectedUsage = GeminiUsageData(
+1190:             label: "Gemini API quota",
+1198:         let geminiAPIKeyRepository = AppModelGeminiAPIKeyRepositoryFake()
+1199:         let invalidGeminiUsageService = AppModelGeminiUsageServiceStub(
+1207:             geminiUsageService: invalidGeminiUsageService,
+1212:         let rejected = try await invalidModel.validateAndSaveGeminiAPIKey("gemini-api-key-redaction-sentinel")
+1215:         XCTAssertFalse(invalidModel.hasGeminiAPIKey)
+1219:             _ = try await geminiAPIKeyRepository.load(account: GeminiUsageService.defaultAPIKeyAccount)
+1220:             XCTFail("Expected missing Gemini API key after invalid validation")
+1221:         } catch GeminiAPIKeyRepositoryError.notFound {
+1227:         let validGeminiUsageService = AppModelGeminiUsageServiceStub(
+1235:             geminiUsageService: validGeminiUsageService,
+1240:         let acquired = try await setupModel.validateAndSaveGeminiAPIKey(" gemini-api-key-redaction-sentinel ")
+1243:         XCTAssertTrue(setupModel.hasGeminiAPIKey)
+1244:         let savedGeminiAPIKey = try await geminiAPIKeyRepository.load(account: GeminiUsageService.defaultAPIKeyAccount)
+1248:         XCTAssertEqual(savedGeminiAPIKey.value, "gemini-api-key-redaction-sentinel")
+1254:             geminiUsageService: validGeminiUsageService,
+1261:         XCTAssertTrue(reuseModel.hasGeminiAPIKey)
+1265:         try await setupModel.clearGeminiAPIKey()
+1267:         XCTAssertFalse(setupModel.hasGeminiAPIKey)
+1273:         let reacquired = try await setupModel.validateAndSaveGeminiAPIKey("gemini-api-key-redaction-sentinel")
+1276:         XCTAssertTrue(setupModel.hasGeminiAPIKey)
+1281:     func test_userWithNotificationPermission_doesNotSeePermissionPrompt() async {
+1300:     func test_userWithoutNotificationPermission_isPromptedForPermission() async {
+1319:     func test_userSendsTestNotification_triggersNotificationService() async throws {
+1427: private actor AppModelGeminiUsageServiceStub: GeminiUsageServiceProtocol {
+1428:     private let fetchUsageResult: Result<GeminiUsageData, Error>
+1432:     init(fetchUsageResult: Result<GeminiUsageData, Error>, validateResult: Bool) {
+1437:     func fetchUsage() async throws -> GeminiUsageData {
+1447:     func fetchUsage(apiKey: GeminiAPIKey) async throws -> GeminiUsageData {
+1451:     func validateAPIKey(_ apiKey: GeminiAPIKey) async throws -> Bool {
+1456: private actor AppModelGeminiAPIKeyRepositoryFake: GeminiAPIKeyRepositoryProtocol {
+1457:     private var apiKeys: [String: GeminiAPIKey] = [:]
+1458:     private var status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1460:     func save(_ apiKey: GeminiAPIKey, account: String) async throws {
+1462:         status = GeminiAPIKeyAcquisitionStatus(state: .available, lastErrorCategory: nil)
+1465:     func load(account: String) async throws -> GeminiAPIKey {
+1467:             status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1468:             throw GeminiAPIKeyRepositoryError.notFound
+1473:     func validate(account: String) async -> GeminiAPIKeyAcquisitionStatus {
+1479:         status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1483: private func makeUsageData(percentage: Double) -> UsageData {

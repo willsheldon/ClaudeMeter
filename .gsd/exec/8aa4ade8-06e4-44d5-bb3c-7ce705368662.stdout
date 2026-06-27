@@ -1,0 +1,5 @@
+PASS: required workflow groups present — all present
+PASS: no secret-like values recorded — none found
+PASS: real credential work remains human-bounded — human boundary text present
+__EXIT_CODE__=0
+__DURATION_MS__=1

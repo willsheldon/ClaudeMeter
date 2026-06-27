@@ -1,0 +1,5 @@
+checked=.gsd/milestones/M004/slices/S05/S05-UAT.md
+missing_sections=[]
+missing_evidence_refs=[]
+needs_human_count=3
+PASS: Gemini UAT artifact records automated evidence, gate sections, and human-only boundaries.

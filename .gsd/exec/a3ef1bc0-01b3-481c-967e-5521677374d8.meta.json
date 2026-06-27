@@ -1,0 +1,27 @@
+{
+  "id": "a3ef1bc0-01b3-481c-967e-5521677374d8",
+  "runtime": "python",
+  "purpose": "UAT M004/S04/UAT-S04-02C (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S04",
+    "checkId": "UAT-S04-02C",
+    "intent": "uat-artifact-check",
+    "expected": "Structured AppModelTests scan confirms Gemini-only, Claude+Gemini, ChatGPT+Gemini, all-provider, names/titles/loading/popover content assertions exist."
+  },
+  "script_chars": 1478,
+  "started_at": "2026-06-24T21:40:35.684Z",
+  "finished_at": "2026-06-24T21:40:35.779Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 95,
+  "stdout_bytes": 2572,
+  "stderr_bytes": 141,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/a3ef1bc0-01b3-481c-967e-5521677374d8.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/a3ef1bc0-01b3-481c-967e-5521677374d8.stderr"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "48b65181-9c66-4d16-b560-a5753ecf5f6f",
+  "runtime": "python",
+  "purpose": "UAT M004/S05/UAT-04 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S05",
+    "checkId": "UAT-04",
+    "intent": "uat-artifact-check",
+    "expected": "S05 UAT artifact contains all workflow coverage, smoke commands, human-only boundaries, and no secret-like values."
+  },
+  "script_chars": 1246,
+  "started_at": "2026-06-24T22:02:04.183Z",
+  "finished_at": "2026-06-24T22:02:04.238Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 55,
+  "stdout_bytes": 140,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/48b65181-9c66-4d16-b560-a5753ecf5f6f.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/48b65181-9c66-4d16-b560-a5753ecf5f6f.stderr"
+}

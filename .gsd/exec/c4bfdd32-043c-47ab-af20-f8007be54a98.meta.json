@@ -1,0 +1,19 @@
+{
+  "id": "c4bfdd32-043c-47ab-af20-f8007be54a98",
+  "runtime": "bash",
+  "purpose": "Identify failing assertion details and audited files",
+  "script_chars": 688,
+  "started_at": "2026-06-24T21:55:46.925Z",
+  "finished_at": "2026-06-24T21:55:46.989Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 64,
+  "stdout_bytes": 10543,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/c4bfdd32-043c-47ab-af20-f8007be54a98.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/c4bfdd32-043c-47ab-af20-f8007be54a98.stderr"
+}

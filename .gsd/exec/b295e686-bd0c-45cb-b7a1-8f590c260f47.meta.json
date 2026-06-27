@@ -1,0 +1,19 @@
+{
+  "id": "b295e686-bd0c-45cb-b7a1-8f590c260f47",
+  "runtime": "python",
+  "purpose": "Recover exact AppModelTests lifecycle close and fake anchors",
+  "script_chars": 227,
+  "started_at": "2026-06-24T20:43:19.172Z",
+  "finished_at": "2026-06-24T20:43:19.207Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 35,
+  "stdout_bytes": 3416,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/b295e686-bd0c-45cb-b7a1-8f590c260f47.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/b295e686-bd0c-45cb-b7a1-8f590c260f47.stderr"
+}

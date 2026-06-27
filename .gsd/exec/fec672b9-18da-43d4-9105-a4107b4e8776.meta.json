@@ -1,0 +1,27 @@
+{
+  "id": "fec672b9-18da-43d4-9105-a4107b4e8776",
+  "runtime": "bash",
+  "purpose": "UAT M004/S04/UAT-S04-02B (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S04",
+    "checkId": "UAT-S04-02B",
+    "intent": "uat-artifact-check",
+    "expected": "Show Gemini-related AppModel test coverage so UAT can assess exact current names instead of brittle text patterns."
+  },
+  "script_chars": 423,
+  "started_at": "2026-06-24T21:40:22.609Z",
+  "finished_at": "2026-06-24T21:40:22.629Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 20,
+  "stdout_bytes": 9887,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/fec672b9-18da-43d4-9105-a4107b4e8776.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/fec672b9-18da-43d4-9105-a4107b4e8776.stderr"
+}

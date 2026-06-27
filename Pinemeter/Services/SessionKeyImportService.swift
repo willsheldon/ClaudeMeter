@@ -1,6 +1,10 @@
 import AppKit
+import CommonCrypto
+import CryptoKit
 import Foundation
 import os
+import Security
+import SQLite3
 import SweetCookieKit
 
 /// Imports Claude session keys from local browser cookies.
@@ -105,6 +109,10 @@ actor SessionKeyImportService: SessionKeyImportServiceProtocol {
         if let deniedKeychainBrowserName {
             throw SessionKeyImportError.browserKeychainAccessDenied(deniedKeychainBrowserName)
         }
+        if let imported = ChatGPTChromiumCookieFallbackImporter.importSessionCookie(from: browsers(for: source)) {
+            return imported
+        }
+
         if sawAccessDenied {
             throw SessionKeyImportError.accessDenied
         }
@@ -258,6 +266,295 @@ actor SessionKeyImportService: SessionKeyImportServiceProtocol {
             "__Secure-next-auth.session-token",
             "__Secure-authjs.session-token",
         ]
+    }
+}
+
+struct ChatGPTChromiumCookieFallbackImporter {
+    struct BrowserCookie: Equatable {
+        let hostKey: String
+        let name: String
+        let value: String
+    }
+
+    private struct CookieStore {
+        let browser: Browser
+        let profileName: String
+        let label: String
+        let databaseURL: URL
+    }
+
+    static func importSessionCookie(from browsers: [Browser]) -> ImportedChatGPTSessionCookie? {
+        for browser in browsers where browser.usesChromiumProfileStore {
+            guard let key = chromiumSafeStorageKey(for: browser) else { continue }
+            for store in cookieStores(for: browser) {
+                let cookies = readableCookies(in: store, key: key)
+                guard let cookieHeader = normalizedCookieHeader(from: cookies) else { continue }
+                return ImportedChatGPTSessionCookie(
+                    cookieHeader: cookieHeader,
+                    sourceDescription: store.label
+                )
+            }
+        }
+        return nil
+    }
+
+    static func normalizedCookieHeader(from cookies: [BrowserCookie]) -> String? {
+        let matchingCookies = cookies
+            .filter { isChatGPTCookieName($0.name) || $0.name == "oai-did" || $0.name == "oai-sc" || $0.name == "_puid" }
+            .sorted { lhs, rhs in
+                if lhs.name == rhs.name { return lhs.hostKey < rhs.hostKey }
+                return chatGPTCookieSortKey(lhs.name) < chatGPTCookieSortKey(rhs.name)
+            }
+
+        let rawHeader = matchingCookies
+            .map { "\($0.name)=\($0.value)" }
+            .joined(separator: "; ")
+        let normalizedHeader = ChatGPTUsageService.cookieHeader(from: rawHeader)
+        guard sessionCookieNames.contains(where: { cookieName in
+            normalizedHeader.contains("\(cookieName)=")
+        }) else {
+            return nil
+        }
+        return normalizedHeader
+    }
+
+    static func decodedChromePlaintext(_ plaintext: Data, hostKey: String) -> String? {
+        if plaintext.starts(with: hostDigest(for: hostKey)) {
+            return String(data: plaintext.dropFirst(32), encoding: .utf8)
+        }
+        return String(data: plaintext, encoding: .utf8)
+    }
+
+    static func hostDigest(for hostKey: String) -> Data {
+        Data(SHA256.hash(data: Data(hostKey.utf8)))
+    }
+
+    private static let sessionCookieNames = [
+        "__Secure-next-auth.session-token",
+        "__Secure-authjs.session-token",
+    ]
+
+    private static func isChatGPTCookieName(_ name: String) -> Bool {
+        sessionCookieNames.contains { cookieName in
+            name == cookieName || name.hasPrefix("\(cookieName).")
+        }
+    }
+
+    private static func chatGPTCookieSortKey(_ name: String) -> Int {
+        for (cookieIndex, cookieName) in sessionCookieNames.enumerated() {
+            let prefix = "\(cookieName)."
+            if name == cookieName { return cookieIndex * 1_000 }
+            if name.hasPrefix(prefix), let chunkIndex = Int(name.dropFirst(prefix.count)) {
+                return cookieIndex * 1_000 + chunkIndex + 1
+            }
+        }
+        return 10_000
+    }
+
+    private static func cookieStores(for browser: Browser) -> [CookieStore] {
+        guard let profileRoot = browser.chromiumProfileRelativePath else { return [] }
+        let root = FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent("Library")
+            .appendingPathComponent("Application Support")
+            .appendingPathComponent(profileRoot)
+        guard let entries = try? FileManager.default.contentsOfDirectory(
+            at: root,
+            includingPropertiesForKeys: [.isDirectoryKey],
+            options: [.skipsHiddenFiles]
+        ) else {
+            return []
+        }
+
+        return entries
+            .filter { url in
+                guard let isDirectory = try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory else {
+                    return false
+                }
+                let name = url.lastPathComponent
+                return isDirectory && (name == "Default" || name.hasPrefix("Profile ") || name.hasPrefix("user-"))
+            }
+            .sorted { $0.lastPathComponent < $1.lastPathComponent }
+            .flatMap { profileDirectory -> [CookieStore] in
+                let profileName = profileDirectory.lastPathComponent
+                let labelBase = "\(browser.displayName) \(profileName)"
+                return [
+                    CookieStore(
+                        browser: browser,
+                        profileName: profileName,
+                        label: "\(labelBase) (Network)",
+                        databaseURL: profileDirectory.appendingPathComponent("Network").appendingPathComponent("Cookies")
+                    ),
+                    CookieStore(
+                        browser: browser,
+                        profileName: profileName,
+                        label: labelBase,
+                        databaseURL: profileDirectory.appendingPathComponent("Cookies")
+                    ),
+                ]
+            }
+            .filter { FileManager.default.fileExists(atPath: $0.databaseURL.path) }
+    }
+
+    private static func readableCookies(in store: CookieStore, key: Data) -> [BrowserCookie] {
+        let tempDirectory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("pinemeter-chatgpt-cookies-\(UUID().uuidString)", isDirectory: true)
+        let copiedDatabase = tempDirectory.appendingPathComponent("Cookies")
+
+        do {
+            try FileManager.default.createDirectory(at: tempDirectory, withIntermediateDirectories: true)
+            try FileManager.default.copyItem(at: store.databaseURL, to: copiedDatabase)
+            for suffix in ["-wal", "-shm"] {
+                let source = URL(fileURLWithPath: store.databaseURL.path + suffix)
+                guard FileManager.default.fileExists(atPath: source.path) else { continue }
+                try? FileManager.default.copyItem(at: source, to: URL(fileURLWithPath: copiedDatabase.path + suffix))
+            }
+            defer { try? FileManager.default.removeItem(at: tempDirectory) }
+            return readCookies(from: copiedDatabase, key: key)
+        } catch {
+            try? FileManager.default.removeItem(at: tempDirectory)
+            return []
+        }
+    }
+
+    private static func readCookies(from databaseURL: URL, key: Data) -> [BrowserCookie] {
+        var database: OpaquePointer?
+        guard sqlite3_open_v2(databaseURL.path, &database, SQLITE_OPEN_READONLY | SQLITE_OPEN_FULLMUTEX, nil) == SQLITE_OK,
+              let database else {
+            return []
+        }
+        defer { sqlite3_close(database) }
+
+        let sql = """
+        SELECT host_key, name, value, encrypted_value
+        FROM cookies
+        WHERE host_key LIKE '%chatgpt.com%' OR host_key LIKE '%openai.com%'
+        """
+        var statement: OpaquePointer?
+        guard sqlite3_prepare_v2(database, sql, -1, &statement, nil) == SQLITE_OK else { return [] }
+        defer { sqlite3_finalize(statement) }
+
+        var cookies: [BrowserCookie] = []
+        while sqlite3_step(statement) == SQLITE_ROW {
+            let hostKey = textColumn(statement, index: 0) ?? ""
+            let name = textColumn(statement, index: 1) ?? ""
+            let plaintextValue = textColumn(statement, index: 2)
+            let encryptedValue = dataColumn(statement, index: 3)
+
+            let value: String?
+            if let plaintextValue, !plaintextValue.isEmpty {
+                value = plaintextValue
+            } else if let encryptedValue, !encryptedValue.isEmpty {
+                value = decryptedChromiumValue(encryptedValue, hostKey: hostKey, key: key)
+            } else {
+                value = nil
+            }
+
+            guard let value, !value.isEmpty else { continue }
+            cookies.append(BrowserCookie(hostKey: hostKey, name: name, value: value))
+        }
+        return cookies
+    }
+
+    private static func textColumn(_ statement: OpaquePointer?, index: Int32) -> String? {
+        guard sqlite3_column_type(statement, index) != SQLITE_NULL,
+              let cString = sqlite3_column_text(statement, index) else {
+            return nil
+        }
+        return String(cString: cString)
+    }
+
+    private static func dataColumn(_ statement: OpaquePointer?, index: Int32) -> Data? {
+        guard sqlite3_column_type(statement, index) != SQLITE_NULL,
+              let bytes = sqlite3_column_blob(statement, index) else {
+            return nil
+        }
+        return Data(bytes: bytes, count: Int(sqlite3_column_bytes(statement, index)))
+    }
+
+    static func decryptedChromiumValue(_ encryptedValue: Data, hostKey: String, key: Data) -> String? {
+        guard encryptedValue.count > 3,
+              String(data: encryptedValue.prefix(3), encoding: .utf8) == "v10" else {
+            return nil
+        }
+        let payload = encryptedValue.dropFirst(3)
+        let iv = Data(repeating: 0x20, count: kCCBlockSizeAES128)
+        let outputCapacity = payload.count + kCCBlockSizeAES128
+        var output = Data(count: outputCapacity)
+        var outputLength = 0
+
+        let status = output.withUnsafeMutableBytes { outputBytes in
+            payload.withUnsafeBytes { payloadBytes in
+                key.withUnsafeBytes { keyBytes in
+                    iv.withUnsafeBytes { ivBytes in
+                        CCCrypt(
+                            CCOperation(kCCDecrypt),
+                            CCAlgorithm(kCCAlgorithmAES),
+                            CCOptions(kCCOptionPKCS7Padding),
+                            keyBytes.bindMemory(to: UInt8.self).baseAddress,
+                            key.count,
+                            ivBytes.bindMemory(to: UInt8.self).baseAddress,
+                            payloadBytes.bindMemory(to: UInt8.self).baseAddress,
+                            payload.count,
+                            outputBytes.bindMemory(to: UInt8.self).baseAddress,
+                            outputCapacity,
+                            &outputLength
+                        )
+                    }
+                }
+            }
+        }
+        guard status == kCCSuccess else { return nil }
+        output.removeSubrange(outputLength..<output.count)
+        return decodedChromePlaintext(output, hostKey: hostKey)
+    }
+
+    private static func chromiumSafeStorageKey(for browser: Browser) -> Data? {
+        for label in browser.safeStorageLabels {
+            guard let password = keychainPassword(service: label.service, account: label.account) else { continue }
+            return deriveChromiumKey(from: password)
+        }
+        return nil
+    }
+
+    private static func keychainPassword(service: String, account: String) -> String? {
+        let query: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrService as String: service,
+            kSecAttrAccount as String: account,
+            kSecMatchLimit as String: kSecMatchLimitOne,
+            kSecReturnData as String: true,
+        ]
+        var result: CFTypeRef?
+        guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess,
+              let data = result as? Data else {
+            return nil
+        }
+        return String(data: data, encoding: .utf8)
+    }
+
+    private static func deriveChromiumKey(from password: String) -> Data? {
+        let salt = Data("saltysalt".utf8)
+        let keyLength = kCCKeySizeAES128
+        var key = Data(count: keyLength)
+        let status = key.withUnsafeMutableBytes { keyBytes in
+            password.utf8CString.withUnsafeBytes { passwordBytes in
+                salt.withUnsafeBytes { saltBytes in
+                    CCKeyDerivationPBKDF(
+                        CCPBKDFAlgorithm(kCCPBKDF2),
+                        passwordBytes.bindMemory(to: Int8.self).baseAddress,
+                        passwordBytes.count - 1,
+                        saltBytes.bindMemory(to: UInt8.self).baseAddress,
+                        salt.count,
+                        CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA1),
+                        1003,
+                        keyBytes.bindMemory(to: UInt8.self).baseAddress,
+                        keyLength
+                    )
+                }
+            }
+        }
+        guard status == kCCSuccess else { return nil }
+        return key
     }
 }
 

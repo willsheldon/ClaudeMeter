@@ -1,0 +1,74 @@
+134:     var geminiUsageData: GeminiUsageData?
+138:     var isRefreshingGemini: Bool = false
+144:     var hasGeminiAPIKey: Bool = false
+154:     var geminiCredentialState: CredentialState = CredentialState(
+159:     var providerCredentialStatuses: [AppProviderCredentialStatus] {
+170:                 state: geminiCredentialState,
+171:                 actions: credentialActions(for: geminiCredentialState)
+184:     var isGeminiUsageConfigured: Bool {
+185:         hasGeminiAPIKey
+189:         isClaudeUsageConfigured || isChatGPTUsageConfigured || isGeminiUsageConfigured
+200:         if isGeminiUsageConfigured {
+215:             return "Gemini Usage"
+223:             return "Connect Claude, ChatGPT, or Gemini to see usage data."
+231:             || (isGeminiUsageConfigured && isRefreshingGemini)
+241:     @ObservationIgnored private let geminiUsageService: GeminiUsageServiceProtocol
+242:     @ObservationIgnored private let geminiAPIKeyRepository: any GeminiAPIKeyRepositoryProtocol
+262:         geminiUsageService: GeminiUsageServiceProtocol? = nil,
+263:         geminiAPIKeyRepository: (any GeminiAPIKeyRepositoryProtocol)? = nil,
+271:         let geminiAPIKeyRepository = geminiAPIKeyRepository ?? GeminiAPIKeyRepository()
+287:         self.geminiUsageService = geminiUsageService ?? GeminiUsageService(apiKeyRepository: geminiAPIKeyRepository)
+312:         let geminiStatus = await geminiAPIKeyRepository.validate(account: GeminiUsageService.defaultAPIKeyAccount)
+313:         hasGeminiAPIKey = geminiStatus.state == .available
+314:         geminiCredentialState = Self.credentialState(from: geminiStatus, checkedAt: Date())
+321:         if hasGeminiAPIKey {
+322:             await refreshGeminiUsage()
+329:         if isSetupComplete || hasChatGPTSessionCookie || hasGeminiAPIKey {
+345:         if isGeminiUsageConfigured {
+346:             await refreshGeminiUsage()
+488:     // MARK: - Gemini Usage
+490:     func refreshGeminiUsage() async {
+491:         if !hasGeminiAPIKey {
+492:             let status = await geminiAPIKeyRepository.validate(account: GeminiUsageService.defaultAPIKeyAccount)
+493:             hasGeminiAPIKey = status.state == .available
+494:             geminiCredentialState = Self.credentialState(from: status, checkedAt: Date())
+496:         guard hasGeminiAPIKey else {
+500:         guard !isRefreshingGemini else { return }
+502:         isRefreshingGemini = true
+506:             isRefreshingGemini = false
+511:             hasGeminiAPIKey = true
+512:             geminiCredentialState = CredentialState(
+517:         } catch GeminiUsageError.missingAPIKey {
+518:             hasGeminiAPIKey = false
+520:             geminiErrorMessage = GeminiUsageError.missingAPIKey.localizedDescription
+521:             geminiCredentialState = CredentialState(
+527:         } catch GeminiUsageError.invalidAPIKey {
+528:             hasGeminiAPIKey = false
+530:             geminiErrorMessage = GeminiUsageError.invalidAPIKey.localizedDescription
+531:             geminiCredentialState = CredentialState(
+537:         } catch GeminiUsageError.networkUnavailable {
+539:             geminiErrorMessage = GeminiUsageError.networkUnavailable.localizedDescription
+540:             geminiCredentialState = CredentialState(
+552:     func loadGeminiAPIKey() async -> String? {
+554:             return try await geminiAPIKeyRepository.load(account: GeminiUsageService.defaultAPIKeyAccount).value
+560:     func validateAndSaveGeminiAPIKey(_ rawValue: String) async throws -> Bool {
+561:         let apiKey = try GeminiAPIKey(rawValue)
+564:             hasGeminiAPIKey = false
+565:             geminiCredentialState = CredentialState(
+574:         try await geminiAPIKeyRepository.save(apiKey, account: GeminiUsageService.defaultAPIKeyAccount)
+575:         hasGeminiAPIKey = true
+576:         geminiCredentialState = CredentialState(
+581:         await refreshGeminiUsage()
+586:     func clearGeminiAPIKey() async throws {
+587:         try await geminiAPIKeyRepository.clear(account: GeminiUsageService.defaultAPIKeyAccount)
+588:         hasGeminiAPIKey = false
+591:         geminiCredentialState = CredentialState(
+695:     func performProviderCredentialAction(
+715:             try await clearGeminiAPIKey()
+716:             return geminiCredentialState
+850:         from status: GeminiAPIKeyAcquisitionStatus,
+887:         guard isSetupComplete || hasChatGPTSessionCookie || hasGeminiAPIKey else { return }
+900:                 if self.hasGeminiAPIKey {
+901:                     await self.refreshGeminiUsage()
+918:                 if self.hasGeminiAPIKey {
+919:                     await self.refreshGeminiUsage()

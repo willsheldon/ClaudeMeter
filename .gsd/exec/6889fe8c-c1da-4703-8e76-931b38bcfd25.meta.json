@@ -1,0 +1,19 @@
+{
+  "id": "6889fe8c-c1da-4703-8e76-931b38bcfd25",
+  "runtime": "python",
+  "purpose": "extract exact failing CopyableErrorPresentation assertion",
+  "script_chars": 410,
+  "started_at": "2026-06-24T21:35:53.501Z",
+  "finished_at": "2026-06-24T21:35:53.542Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 41,
+  "stdout_bytes": 347,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/6889fe8c-c1da-4703-8e76-931b38bcfd25.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/6889fe8c-c1da-4703-8e76-931b38bcfd25.stderr"
+}

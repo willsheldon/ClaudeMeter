@@ -1,0 +1,27 @@
+{
+  "id": "42ea0364-f6c0-4efc-a833-94db7f397755",
+  "runtime": "bash",
+  "purpose": "UAT M004/S01/UAT-05 (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S01",
+    "checkId": "UAT-05",
+    "intent": "uat-runtime-check",
+    "expected": "Full Debug test suite exits 0; existing Claude and ChatGPT provider workflow/security tests continue to pass."
+  },
+  "script_chars": 108,
+  "started_at": "2026-06-24T20:20:14.720Z",
+  "finished_at": "2026-06-24T20:20:24.805Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 10085,
+  "stdout_bytes": 23906,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/42ea0364-f6c0-4efc-a833-94db7f397755.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/42ea0364-f6c0-4efc-a833-94db7f397755.stderr"
+}

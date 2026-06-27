@@ -1,0 +1,19 @@
+{
+  "id": "dbeca7b9-ee99-48a2-ab7a-60fb241548f7",
+  "runtime": "bash",
+  "purpose": "Run full Debug xcodebuild test suite for final Gemini closeout verification",
+  "script_chars": 385,
+  "started_at": "2026-06-24T21:57:31.444Z",
+  "finished_at": "2026-06-24T21:57:40.188Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 8744,
+  "stdout_bytes": 41300,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/dbeca7b9-ee99-48a2-ab7a-60fb241548f7.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/dbeca7b9-ee99-48a2-ab7a-60fb241548f7.stderr"
+}

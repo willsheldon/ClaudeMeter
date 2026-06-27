@@ -1,0 +1,19 @@
+{
+  "id": "a3148881-8a78-4940-b4d5-39f01449af00",
+  "runtime": "python",
+  "purpose": "Get current exact AppModelTests tail around ChatGPT lifecycle and fakes for final targeted edits",
+  "script_chars": 410,
+  "started_at": "2026-06-24T20:43:43.697Z",
+  "finished_at": "2026-06-24T20:43:43.743Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 46,
+  "stdout_bytes": 2871,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/a3148881-8a78-4940-b4d5-39f01449af00.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/a3148881-8a78-4940-b4d5-39f01449af00.stderr"
+}

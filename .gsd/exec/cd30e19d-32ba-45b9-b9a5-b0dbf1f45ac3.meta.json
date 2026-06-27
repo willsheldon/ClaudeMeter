@@ -1,0 +1,27 @@
+{
+  "id": "cd30e19d-32ba-45b9-b9a5-b0dbf1f45ac3",
+  "runtime": "bash",
+  "purpose": "UAT M004/S02/UAT-S02-02-CREDENTIAL-BOUNDARY (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S02",
+    "checkId": "UAT-S02-02-CREDENTIAL-BOUNDARY",
+    "intent": "uat-runtime-check",
+    "expected": "Security invariant and Gemini credential boundary tests pass; Gemini API-key material is stored only through the Gemini Keychain repository boundary and is absent from AppSettings/Codable diagnostics."
+  },
+  "script_chars": 210,
+  "started_at": "2026-06-24T20:48:52.384Z",
+  "finished_at": "2026-06-24T20:48:57.277Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 4893,
+  "stdout_bytes": 14266,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/cd30e19d-32ba-45b9-b9a5-b0dbf1f45ac3.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/cd30e19d-32ba-45b9-b9a5-b0dbf1f45ac3.stderr"
+}

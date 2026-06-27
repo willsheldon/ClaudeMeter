@@ -1,0 +1,19 @@
+{
+  "id": "640d0a33-8374-47ed-919b-a3a5682c1ddf",
+  "runtime": "python",
+  "purpose": "inspect xcodebuild failure lines for T03 verification",
+  "script_chars": 532,
+  "started_at": "2026-06-24T21:35:40.306Z",
+  "finished_at": "2026-06-24T21:35:40.419Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 113,
+  "stdout_bytes": 73923,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/640d0a33-8374-47ed-919b-a3a5682c1ddf.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/640d0a33-8374-47ed-919b-a3a5682c1ddf.stderr"
+}

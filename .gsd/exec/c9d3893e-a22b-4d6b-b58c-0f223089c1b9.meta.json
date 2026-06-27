@@ -1,0 +1,19 @@
+{
+  "id": "c9d3893e-a22b-4d6b-b58c-0f223089c1b9",
+  "runtime": "python",
+  "purpose": "M004 S01 T01 provider audit verification corrected",
+  "script_chars": 1947,
+  "started_at": "2026-06-24T20:07:27.037Z",
+  "finished_at": "2026-06-24T20:07:27.129Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 92,
+  "stdout_bytes": 588,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/c9d3893e-a22b-4d6b-b58c-0f223089c1b9.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/c9d3893e-a22b-4d6b-b58c-0f223089c1b9.stderr"
+}

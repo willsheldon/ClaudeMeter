@@ -1,0 +1,19 @@
+{
+  "id": "7abfc63f-c6fc-4e6f-bb43-a8e3b851a1fc",
+  "runtime": "bash",
+  "purpose": "Verify targeted CopyableErrorPresentationTests regression after copyable error surface fix",
+  "script_chars": 504,
+  "started_at": "2026-06-24T21:57:06.415Z",
+  "finished_at": "2026-06-24T21:57:18.210Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 11795,
+  "stdout_bytes": 74444,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/7abfc63f-c6fc-4e6f-bb43-a8e3b851a1fc.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/7abfc63f-c6fc-4e6f-bb43-a8e3b851a1fc.stderr"
+}

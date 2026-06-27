@@ -1,0 +1,5 @@
+PASS: status service enumerates CredentialProvider.allCases
+PASS: status tests mention Gemini
+PASS: status tests still mention Claude
+PASS: status tests still mention ChatGPT
+FAIL: provider count expectation updated

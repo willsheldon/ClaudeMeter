@@ -1,0 +1,27 @@
+{
+  "id": "91302073-ec10-4078-9f32-a4f34bef8224",
+  "runtime": "python",
+  "purpose": "UAT M004/S02/UAT-S02-05-STATIC-SECRET-SCAN (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S02",
+    "checkId": "UAT-S02-05-STATIC-SECRET-SCAN",
+    "intent": "uat-artifact-check",
+    "expected": "No Gemini API-key/token/secret/cookie fields are present in AppSettings and no production logging statements include Gemini credential-like material."
+  },
+  "script_chars": 1304,
+  "started_at": "2026-06-24T20:49:35.613Z",
+  "finished_at": "2026-06-24T20:49:35.725Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 112,
+  "stdout_bytes": 103,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/91302073-ec10-4078-9f32-a4f34bef8224.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/91302073-ec10-4078-9f32-a4f34bef8224.stderr"
+}

@@ -1,0 +1,22 @@
+Gemini-only provider state: PASS
+  found: func test_providerDisplayCombinations_includeGeminiOnly()
+  found: configuredUsageProviderNames, ["Gemini"]
+  found: usageDashboardTitle, "Gemini Usage"
+  found: usageLoadingMessage, "Loading Gemini usage data..."
+Claude plus Gemini provider state: PASS
+  found: func test_providerDisplayCombinations_includeClaudePlusGemini()
+  found: configuredUsageProviderNames, ["Claude", "Gemini"]
+  found: usageLoadingMessage, "Loading Claude and Gemini usage data..."
+ChatGPT plus Gemini provider state: PASS
+  found: func test_providerDisplayCombinations_includeChatGPTPlusGemini()
+  found: configuredUsageProviderNames, ["ChatGPT", "Gemini"]
+  found: usageLoadingMessage, "Loading ChatGPT and Gemini usage data..."
+All-provider state: PASS
+  found: func test_providerDisplayCombinations_includeAllProviders()
+  found: configuredUsageProviderNames, ["Claude", "ChatGPT", "Gemini"]
+  found: usageLoadingMessage, "Loading Claude, ChatGPT, and Gemini usage data..."
+Popover availability includes Gemini data/errors: PASS
+  found: func test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors()
+  found: geminiUsageData = GeminiUsageData
+  found: geminiErrorMessage = "Gemini quota data is unavailable."
+  found: XCTAssertTrue(appModel.hasUsagePopoverContent)

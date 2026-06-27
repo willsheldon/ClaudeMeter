@@ -1,0 +1,25 @@
+gemini_swift_files=18
+- PinemeterTests/CredentialStateTests.swift
+- PinemeterTests/CredentialStatusServiceTests.swift
+- PinemeterTests/GeminiUsageServiceTests.swift
+- PinemeterTests/ProviderErrorWorkflowTests.swift
+- PinemeterTests/GeminiCredentialBoundaryTests.swift
+- PinemeterTests/ChatGPTAppModelTests.swift
+- PinemeterTests/AppModelTests.swift
+- PinemeterTests/SecurityInvariantTests.swift
+- Pinemeter/App/AppModel.swift
+- Pinemeter/Repositories/GeminiAPIKeyRepository.swift
+- Pinemeter/Models/CredentialState.swift
+- Pinemeter/Services/CredentialStatusService.swift
+- Pinemeter/Services/GeminiUsageService.swift
+- Pinemeter/Services/Protocols/GeminiUsageServiceProtocol.swift
+- Pinemeter/Views/Settings/SettingsView.swift
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift
+- Pinemeter/Views/Setup/SetupWizardView.swift
+- Pinemeter/Repositories/Protocols/GeminiAPIKeyRepositoryProtocol.swift
+repository_boundary_hits=0 sample=[]
+service_failures_hits=2 sample=['PinemeterTests/SecurityInvariantTests.swift', 'Pinemeter/Services/GeminiUsageService.swift']
+provider_isolation_hits=11 sample=['PinemeterTests/CredentialStateTests.swift', 'PinemeterTests/ProviderErrorWorkflowTests.swift', 'PinemeterTests/ChatGPTAppModelTests.swift', 'PinemeterTests/AppModelTests.swift', 'PinemeterTests/SecurityInvariantTests.swift', 'Pinemeter/App/AppModel.swift', 'Pinemeter/Models/CredentialState.swift', 'Pinemeter/Views/Settings/SettingsView.swift']
+ui_copy_hits=0 sample=[]
+tests_hits=7 sample=['PinemeterTests/CredentialStateTests.swift', 'PinemeterTests/GeminiUsageServiceTests.swift', 'PinemeterTests/ProviderErrorWorkflowTests.swift', 'PinemeterTests/GeminiCredentialBoundaryTests.swift', 'PinemeterTests/ChatGPTAppModelTests.swift', 'PinemeterTests/AppModelTests.swift', 'PinemeterTests/SecurityInvariantTests.swift']
+PASS: tracked Swift source/tests contain Gemini credential boundary, failures, UI copy, and coexistence coverage.

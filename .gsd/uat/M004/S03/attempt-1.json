@@ -1,0 +1,172 @@
+{
+  "runId": "uat:M004:S03:attempt-1",
+  "attempt": 1,
+  "milestoneId": "M004",
+  "sliceId": "S03",
+  "uatType": "artifact-driven",
+  "verdict": "PASS",
+  "gateVerdict": "pass",
+  "evaluatedAt": "2026-06-24T21:25:54.571Z",
+  "worktreeRoot": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004",
+  "browserToolsPresented": false,
+  "modePolicy": {
+    "browserTools": false,
+    "partialEligible": false,
+    "passWithHumanFollowUp": false,
+    "requiredAnyModes": []
+  },
+  "checks": [
+    {
+      "id": "UAT-SMOKE",
+      "description": "Run `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug`. Expected: command exits 0 and reports `** TEST SUCCEEDED **`.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "c65e178f-ca05-4332-a07c-8ccb129ed2d1",
+          "note": "Full Debug XCTest suite exited 0 and reported TEST SUCCEEDED.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "c65e178f-ca05-4332-a07c-8ccb129ed2d1"
+        }
+      ],
+      "notes": "Full Debug XCTest suite passed and reported `** TEST SUCCEEDED **`."
+    },
+    {
+      "id": "UAT-COPY-PROVIDERS",
+      "description": "Inspect provider status rendering in Settings and Setup views via the provider-copy scan; confirm Gemini appears alongside Claude and ChatGPT in provider-aware copy and status rows.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "8b490a6f-4c2f-46e1-ae9c-267be661a1f2",
+          "note": "Provider UI/model copy scan found Gemini alongside Claude and ChatGPT in setup/settings/status scope.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "8b490a6f-4c2f-46e1-ae9c-267be661a1f2"
+        }
+      ],
+      "notes": "Static scan showed the shared provider UI/model scope includes Gemini and existing providers; an earlier exploratory exact-phrase check was too strict, so this check used the UAT's provider-presence requirement rather than an invented exact string."
+    },
+    {
+      "id": "UAT-WORKFLOW-TESTS",
+      "description": "Run `PinemeterTests/ProviderErrorWorkflowTests` and `PinemeterTests/AppModelTests` as part of the full suite; exercise missing, configured, invalid, retry, reconnect, clear, and mixed-provider cases through tests.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "be5c156b-ec7b-4fc9-97c4-49b9c1090c23",
+          "note": "Targeted ProviderErrorWorkflowTests and AppModelTests exited 0 and reported TEST SUCCEEDED.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "be5c156b-ec7b-4fc9-97c4-49b9c1090c23"
+        }
+      ],
+      "notes": "Targeted provider recovery/status workflow tests passed, covering the Gemini recovery and shared provider state flows specified by the UAT."
+    },
+    {
+      "id": "UAT-COEXISTENCE",
+      "description": "Run the full Debug test suite and confirm ChatGPT bootstrap and provider matrix expectations match the three-provider state; existing Claude and ChatGPT behavior remains compatible with Gemini-aware status collections.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "c65e178f-ca05-4332-a07c-8ccb129ed2d1",
+          "note": "Full Debug XCTest suite passed.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "c65e178f-ca05-4332-a07c-8ccb129ed2d1"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "52c3ec29-6a97-4a32-bd51-537e837ba095",
+          "note": "Targeted ChatGPTAppModelTests and SecurityInvariantTests exited 0 and reported TEST SUCCEEDED.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "52c3ec29-6a97-4a32-bd51-537e837ba095"
+        }
+      ],
+      "notes": "Full and targeted tests passed for ChatGPT coexistence/bootstrap and security invariants under the three-provider matrix."
+    },
+    {
+      "id": "UAT-STALE-SECRET-COPY",
+      "description": "Run `rg -n \"Claude|ChatGPT|Gemini|provider|cookie|key\" Pinemeter/Views/Settings Pinemeter/Views/Setup` and stale phrase checks for `both providers`, `two providers`, `Claude and ChatGPT only`, `Claude/ChatGPT`, and `Claude or ChatGPT`; expected: no stale two-provider phrases and no credential material disclosure.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "aa227743-a460-4cb6-82be-912009ee5dc7",
+          "note": "Setup/settings copy scan found no stale two-provider phrases or credential-shaped literals.",
+          "unitType": "uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "aa227743-a460-4cb6-82be-912009ee5dc7"
+        }
+      ],
+      "notes": "Provider copy scan found expected provider/security references but no stale two-provider assumptions and no credential-shaped literal disclosure."
+    }
+  ],
+  "presentation": {
+    "surface": "mcp",
+    "presentedTools": [
+      "gsd_uat_exec",
+      "gsd_uat_result_save",
+      "gsd_resume",
+      "gsd_milestone_status",
+      "gsd_journal_query",
+      "find",
+      "glob",
+      "grep",
+      "ls",
+      "read"
+    ],
+    "blockedTools": [
+      {
+        "name": "edit",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_exec",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_summary_save",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_save_gate_result",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "search-the-web",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "WebSearch",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Bash",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Edit",
+        "reason": "forbidden during run-uat"
+      }
+    ],
+    "toolPresentationPlanId": "run-uat/default-v1"
+  },
+  "notes": "All automatable artifact-driven UAT checks passed: full and targeted XCTest runs succeeded, provider copy includes Gemini with Claude and ChatGPT, stale two-provider phrases are absent, and setup/settings copy does not expose credential-shaped material."
+}

@@ -1,0 +1,19 @@
+{
+  "id": "308566d2-617c-45ae-a252-cbceb9c6aa72",
+  "runtime": "bash",
+  "purpose": "T03 focused AppModel provider display verification",
+  "script_chars": 126,
+  "started_at": "2026-06-24T21:36:00.157Z",
+  "finished_at": "2026-06-24T21:36:06.808Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 6651,
+  "stdout_bytes": 21204,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/308566d2-617c-45ae-a252-cbceb9c6aa72.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/308566d2-617c-45ae-a252-cbceb9c6aa72.stderr"
+}

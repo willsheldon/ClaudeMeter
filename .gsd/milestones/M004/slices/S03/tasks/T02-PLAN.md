@@ -4,7 +4,7 @@ estimated_files: 3
 skills_used: []
 ---
 
-# T02: Add Gemini recovery UI tests
+# T02: Added Gemini recovery UI and model tests for missing, configured, invalid, retry, reconnect, clear, and mixed-provider behavior.
 
 Add or update tests covering Gemini missing, configured, invalid, reconnect, clear, and retry UI/model behavior, including mixed provider states.
 

@@ -1,0 +1,19 @@
+{
+  "id": "e25072a3-4093-447c-876e-e74756e19df2",
+  "runtime": "bash",
+  "purpose": "T03 full verification retry xcodebuild test Pinemeter",
+  "script_chars": 83,
+  "started_at": "2026-06-24T21:36:12.851Z",
+  "finished_at": "2026-06-24T21:36:33.276Z",
+  "exit_code": 65,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 20425,
+  "stdout_bytes": 38138,
+  "stderr_bytes": 750,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/e25072a3-4093-447c-876e-e74756e19df2.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/e25072a3-4093-447c-876e-e74756e19df2.stderr"
+}

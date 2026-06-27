@@ -4,7 +4,7 @@ estimated_files: 3
 skills_used: []
 ---
 
-# T01: Extend provider status UI to Gemini
+# T01: Extended shared provider credential status behavior and setup/settings copy so Gemini API-key status appears beside Claude and ChatGPT without exposing credential material.
 
 Update setup and settings provider status sections to include Gemini through shared provider status collections rather than one-off Gemini-specific UI blocks where avoidable.
 

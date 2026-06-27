@@ -1,0 +1,19 @@
+{
+  "id": "f6cf6e5c-48f8-4a7d-87cf-32cc799007c7",
+  "runtime": "python",
+  "purpose": "print targeted ProviderErrorWorkflowTests ranges",
+  "script_chars": 286,
+  "started_at": "2026-06-24T21:00:30.701Z",
+  "finished_at": "2026-06-24T21:00:30.779Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 78,
+  "stdout_bytes": 11984,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/f6cf6e5c-48f8-4a7d-87cf-32cc799007c7.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/f6cf6e5c-48f8-4a7d-87cf-32cc799007c7.stderr"
+}

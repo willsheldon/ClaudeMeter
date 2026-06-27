@@ -1,0 +1,27 @@
+** TEST FAILED **: 0
+Testing failed:: 0
+Test Suite: 0
+Failing tests:: 0
+error:: 0
+failed on: 0
+last_lines:
+Test case 'ProviderErrorWorkflowTests.test_settingsAndSetupRenderSharedProviderCredentialStatusModel()' passed on 'My Mac - Pinemeter (83320)' (0.010 seconds)
+Test case 'GeminiUsageServiceTests.test_geminiAPIKeyRepository_persistsKeyAndSanitizedStatusOutsideSettings()' passed on 'My Mac - Pinemeter (83324)' (0.087 seconds)
+Test case 'GeminiUsageServiceTests.test_validateAPIKeyReturnsFalseForAuthFailures()' passed on 'My Mac - Pinemeter (83324)' (0.001 seconds)
+Test suite 'GeminiCredentialBoundaryTests' started on 'My Mac - Pinemeter (83324)'
+Test case 'GeminiCredentialBoundaryTests.test_acquisitionStatusDoesNotDiscloseAPIKey()' passed on 'My Mac - Pinemeter (83324)' (0.001 seconds)
+Test case 'MenuBarIconRendererTests.test_menuBarIconRendersMeterStyle()' passed on 'My Mac - Pinemeter (83326)' (0.001 seconds)
+Test case 'MenuBarIconRendererTests.test_menuBarIconRendersWhenLoadingOrStale()' passed on 'My Mac - Pinemeter (83326)' (0.002 seconds)
+Test case 'NotificationServiceTests.test_userReceivesResetNotificationWhenUsageResets()' passed on 'My Mac - Pinemeter (83325)' (0.001 seconds)
+Test case 'NotificationServiceTests.test_userReceivesWarningAgainAfterDroppingBelowThreshold()' passed on 'My Mac - Pinemeter (83325)' (0.120 seconds)
+Test case 'NotificationServiceTests.test_userReceivesWarningNotificationWhenUsageCrossesThreshold()' passed on 'My Mac - Pinemeter (83325)' (0.001 seconds)
+Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave()' passed on 'My Mac - Pinemeter (83323)' (0.034 seconds)
+Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection()' passed on 'My Mac - Pinemeter (83323)' (0.064 seconds)
+Test case 'ProviderErrorWorkflowTests.test_setupProviderStatusCardsExposeSharedRepairAndClearActionsWithoutManualCredentials()' passed on 'My Mac - Pinemeter (83320)' (0.013 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_apiKeyTrimsWhitespaceAndRedactsDebugOutput()' passed on 'My Mac - Pinemeter (83324)' (0.001 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_emptyAPIKeyIsRejected()' passed on 'My Mac - Pinemeter (83324)' (0.001 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_geminiCredentialHealthMapsToSanitizedHealthStates()' passed on 'My Mac - Pinemeter (83324)' (0.000 seconds)
+Test case 'NotificationServiceTests.test_userWithNotificationsDisabled_doesNotReceiveThresholdNotification()' passed on 'My Mac - Pinemeter (83325)' (0.030 seconds)
+Test case 'NotificationServiceTests.test_userWithoutSystemPermission_doesNotReceiveNotification()' passed on 'My Mac - Pinemeter (83325)' (0.003 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_geminiCredentialStorageUsesDedicatedKeychainNamespace()' passed on 'My Mac - Pinemeter (83324)' (0.000 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_geminiUsageErrorDescriptionsDoNotDiscloseCredentialMaterial()' passed on 'My Mac - Pinemeter (83324)' (0.114 seconds)

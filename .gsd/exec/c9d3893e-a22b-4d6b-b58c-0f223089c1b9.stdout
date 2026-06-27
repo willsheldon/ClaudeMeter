@@ -1,0 +1,8 @@
+CredentialProvider cases: PASS (Pinemeter/Models/CredentialState.swift)
+Provider status array hard-coded: PASS (Pinemeter/App/AppModel.swift)
+Separate usage protocols: PASS (Pinemeter/App/AppModel.swift)
+ChatGPT setting key: PASS (Pinemeter/Models/AppSettings.swift)
+Negative sanitized tests: PASS (PinemeterTests/ProviderErrorWorkflowTests.swift)
+ChatGPT fixture seams: PASS (PinemeterTests/ChatGPTAppModelTests.swift)
+Claude fixture seam: PASS (PinemeterTests/TestDoubles/UsageServiceStub.swift)
+Audit verification PASS: source seams, fixture seams, and negative-test coverage located.

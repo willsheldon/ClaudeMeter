@@ -1,0 +1,10 @@
+meter style renderer test: PASS
+  found: func test_menuBarIconRendersMeterStyle()
+  found: MenuBarIconRenderer
+loading or stale renderer test: PASS
+  found: func test_menuBarIconRendersWhenLoadingOrStale()
+  found: isLoading: true
+  found: isStale: true
+normal state renderer inputs: FAIL
+  missing: usedPercent:
+  missing: colorScheme: .light

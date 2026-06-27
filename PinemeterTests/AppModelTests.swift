@@ -1,3 +1,4 @@
+import CommonCrypto
 import XCTest
 @testable import Pinemeter
 
@@ -1559,6 +1560,80 @@ final class AppModelTests: XCTestCase {
 
         XCTAssertEqual(notificationService.sentThresholdType, .warning)
         XCTAssertEqual(notificationService.sentThresholdPercentage, 85.0)
+    }
+
+    func test_chatGPTChromiumFallback_stripsChromeHostDigestFromDecryptedCookieValue() {
+        let token = "chatgpt-session-token"
+        var payload = ChatGPTChromiumCookieFallbackImporter.hostDigest(for: ".chatgpt.com")
+        payload.append(Data(token.utf8))
+
+        XCTAssertEqual(
+            ChatGPTChromiumCookieFallbackImporter.decodedChromePlaintext(payload, hostKey: ".chatgpt.com"),
+            token
+        )
+    }
+
+    func test_chatGPTChromiumFallback_decryptsChromeV10CookieValueWithHostDigest() throws {
+        let key = Data("0123456789abcdef".utf8)
+        let token = "chatgpt-session-token"
+        var plaintext = ChatGPTChromiumCookieFallbackImporter.hostDigest(for: ".chatgpt.com")
+        plaintext.append(Data(token.utf8))
+        let encryptedValue = try encryptedChromiumTestValue(plaintext, key: key)
+
+        XCTAssertEqual(
+            ChatGPTChromiumCookieFallbackImporter.decryptedChromiumValue(
+                encryptedValue,
+                hostKey: ".chatgpt.com",
+                key: key
+            ),
+            token
+        )
+    }
+
+    func test_chatGPTChromiumFallback_reconstructsSplitSessionCookieChunks() {
+        let header = ChatGPTChromiumCookieFallbackImporter.normalizedCookieHeader(from: [
+            .init(hostKey: ".chatgpt.com", name: "__Secure-next-auth.session-token.1", value: "second"),
+            .init(hostKey: ".chatgpt.com", name: "__Secure-next-auth.session-token.0", value: "first"),
+            .init(hostKey: ".chatgpt.com", name: "oai-did", value: "device-id"),
+        ])
+
+        XCTAssertEqual(
+            header,
+            "__Secure-next-auth.session-token=firstsecond; oai-did=device-id"
+        )
+    }
+
+    private func encryptedChromiumTestValue(_ plaintext: Data, key: Data) throws -> Data {
+        let iv = Data(repeating: 0x20, count: kCCBlockSizeAES128)
+        let outputCapacity = plaintext.count + kCCBlockSizeAES128
+        var output = Data(count: outputCapacity)
+        var outputLength = 0
+        let status = output.withUnsafeMutableBytes { outputBytes in
+            plaintext.withUnsafeBytes { plaintextBytes in
+                key.withUnsafeBytes { keyBytes in
+                    iv.withUnsafeBytes { ivBytes in
+                        CCCrypt(
+                            CCOperation(kCCEncrypt),
+                            CCAlgorithm(kCCAlgorithmAES),
+                            CCOptions(kCCOptionPKCS7Padding),
+                            keyBytes.bindMemory(to: UInt8.self).baseAddress,
+                            key.count,
+                            ivBytes.bindMemory(to: UInt8.self).baseAddress,
+                            plaintextBytes.bindMemory(to: UInt8.self).baseAddress,
+                            plaintext.count,
+                            outputBytes.bindMemory(to: UInt8.self).baseAddress,
+                            outputCapacity,
+                            &outputLength
+                        )
+                    }
+                }
+            }
+        }
+        XCTAssertEqual(status, CCCryptorStatus(kCCSuccess))
+        output.removeSubrange(outputLength..<output.count)
+        var encryptedValue = Data("v10".utf8)
+        encryptedValue.append(output)
+        return encryptedValue
     }
 }
 

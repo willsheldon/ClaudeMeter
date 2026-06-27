@@ -1,0 +1,27 @@
+{
+  "id": "71d53795-f423-46e2-9669-c87a72c23208",
+  "runtime": "python",
+  "purpose": "UAT M004/S02/UAT-S02-06-COVERAGE-LOG-INSPECTION (uat-log-inspection)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S02",
+    "checkId": "UAT-S02-06-COVERAGE-LOG-INSPECTION",
+    "intent": "uat-log-inspection",
+    "expected": "Captured test output includes evidence that usage tests exercised success/auth/quota/network/sanitized outcomes and AppModel tests exercised Gemini configuration, refresh, and clear behavior."
+  },
+  "script_chars": 1349,
+  "started_at": "2026-06-24T20:49:49.020Z",
+  "finished_at": "2026-06-24T20:49:49.053Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 33,
+  "stdout_bytes": 124,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/71d53795-f423-46e2-9669-c87a72c23208.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/71d53795-f423-46e2-9669-c87a72c23208.stderr"
+}

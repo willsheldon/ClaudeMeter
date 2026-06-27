@@ -1,0 +1,19 @@
+{
+  "id": "6be8a6cc-df55-43ac-83d6-22916bb539f2",
+  "runtime": "python",
+  "purpose": "Final Gemini UAT artifact integrity check",
+  "script_chars": 861,
+  "started_at": "2026-06-24T21:51:35.426Z",
+  "finished_at": "2026-06-24T21:51:35.505Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 79,
+  "stdout_bytes": 212,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/6be8a6cc-df55-43ac-83d6-22916bb539f2.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/6be8a6cc-df55-43ac-83d6-22916bb539f2.stderr"
+}

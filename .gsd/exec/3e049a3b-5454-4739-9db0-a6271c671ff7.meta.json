@@ -1,0 +1,19 @@
+{
+  "id": "3e049a3b-5454-4739-9db0-a6271c671ff7",
+  "runtime": "bash",
+  "purpose": "Locate CopyableErrorPresentationTests and copyable error helpers",
+  "script_chars": 165,
+  "started_at": "2026-06-24T21:55:34.725Z",
+  "finished_at": "2026-06-24T21:55:34.766Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 41,
+  "stdout_bytes": 3058,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/3e049a3b-5454-4739-9db0-a6271c671ff7.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/3e049a3b-5454-4739-9db0-a6271c671ff7.stderr"
+}

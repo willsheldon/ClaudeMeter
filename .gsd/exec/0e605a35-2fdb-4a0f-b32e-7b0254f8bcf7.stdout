@@ -1,0 +1,14 @@
+PASS: gemini provider modeled
+PASS: gemini display label
+PASS: gemini sanitized credential kind
+PASS: configured state/action coverage present
+PASS: missing state/action coverage present
+PASS: invalid state/action coverage present
+PASS: loading state/action coverage present
+PASS: unavailable-style coverage present
+PASS: unsupported action coverage present
+Redaction proof lines: 3
+XCTAssertFalse(claude.searchableText.contains("sk-ant-secret"))
+XCTAssertFalse(claude.detailText.contains("sk-ant-secret"))
+XCTAssertFalse(gemini.searchableText.contains("sk-ant-secret"))
+PASS: Gemini contract coverage is sanitized; any dummy secret-like fixture is used only to prove redaction/exclusion

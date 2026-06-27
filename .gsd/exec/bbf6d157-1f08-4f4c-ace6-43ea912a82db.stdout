@@ -1,0 +1,216 @@
+--- root Pinemeter
+Pinemeter/Repositories/GeminiAPIKeyRepository.swift
+  2: //  GeminiAPIKeyRepository.swift
+  11: /// Secure boundary for Gemini API key material.
+  16: actor GeminiAPIKeyRepository: GeminiAPIKeyRepositoryProtocol {
+  18:     private let statusKeyPrefix = "GeminiAPIKeyRepository.status"
+  25:     func save(_ apiKey: GeminiAPIKey, account: String) async throws {
+  29:             throw GeminiAPIKeyRepositoryError.invalidAPIKey
+  46:             throw GeminiAPIKeyRepositoryError.secureStorageUnavailable(.keychainWriteFailed)
+  52:     func load(account: String) async throws -> GeminiAPIKey {
+  67:             throw GeminiAPIKeyRepositoryError.notFound
+  72:             throw GeminiAPIKeyRepositoryError.secureStorageUnavailable(.keychainReadFailed)
+  80:             throw GeminiAPIKeyRepositoryError.invalidAPIKey
+  84:             let apiKey = try GeminiAPIKey(rawValue)
+  87:         } catch GeminiAPIKeyRepositoryError.invalidAPIKey {
+  89:             throw GeminiAPIKeyRepositoryError.invalidAPIKey
+  92:             throw GeminiAPIKeyRepositoryError.invalidAPIKey
+  96:     func validate(account: String) async -> GeminiAPIKeyAcquisitionStatus {
+  103:             return GeminiAPIKeyAcquisitionStatus(state: .available, lastErrorCategory: nil)
+  104:         } catch GeminiAPIKeyRepositoryError.notFound {
+  108:             return GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+  109:         } catch GeminiAPIKeyRepositoryError.invalidAPIKey {
+  110:             return GeminiAPIKeyAcquisitionStatus(state: .invalid, lastErrorCategory: .invalidAPIKey)
+  111:         } catch GeminiAPIKeyRepositoryError.secureStorageUnavailable(let category) {
+  112:             return GeminiAPIKeyAcquisitionStatus(state: .storageUnavailable, lastErrorCategory: category)
+  114:             return GeminiAPIKeyAcquisitionStatus(state: .storageUnavailable, lastErrorCategory: .keychainReadFailed)
+  131:             throw GeminiAPIKeyRepositoryError.secureStorageUnavailable(.keychainDeleteFailed)
+  151:             throw GeminiAPIKeyRepositoryError.secureStorageUnavailable(.keychainWriteFailed)
+  155:     private func persistStatus(_ status: GeminiAPIKeyAcquisitionStatus, account: String) {
+  163:     private func persistedStatus(account: String) -> GeminiAPIKeyAcquisitionStatus? {
+  166:               let state = GeminiAPIKeyAcquisitionState(rawValue: stateValue) else {
+  171:             value.isEmpty ? nil : GeminiAPIKeyFailureCategory(rawValue: value)
+  174:         return GeminiAPIKeyAcquisitionStatus(state: state, lastErrorCategory: category)
+Pinemeter/Models/CredentialState.swift
+  16:             return "Gemini"
+Pinemeter/Services/GeminiUsageService.swift
+  2: //  GeminiUsageService.swift
+  10: /// Normalized Gemini quota usage data.
+  11: struct GeminiUsageData: Codable, Equatable, Sendable {
+  33: /// Flexible response for Gemini quota/usage endpoints.
+  35: /// The first integration ships with defensive decoding because Gemini quota
+  39: struct GeminiUsageAPIResponse: Decodable, Equatable, Sendable {
+  43:     let models: [GeminiModelResponse]?
+  53: struct GeminiModelResponse: Decodable, Equatable, Sendable {
+  57: extension GeminiUsageAPIResponse {
+  58:     func toDomain(lastUpdated: Date = Date()) throws -> GeminiUsageData {
+  60:             return GeminiUsageData(
+  61:                 label: limitLabel?.trimmingCharacters(in: .whitespacesAndNewlines).nilIfEmpty ?? "Gemini API quota",
+  68:         throw GeminiUsageError.quotaUnavailable
+  72: actor GeminiUsageService: GeminiUsageServiceProtocol {
+  75:     private let httpClient: GeminiHTTPClientProtocol
+  76:     private let apiKeyRepository: any GeminiAPIKeyRepositoryProtocol
+  81:         httpClient: GeminiHTTPClientProtocol = GeminiHTTPClient(),
+  82:         apiKeyRepository: any GeminiAPIKeyRepositoryProtocol = GeminiAPIKeyRepository(),
+  90:     func fetchUsage() async throws -> GeminiUsageData {
+  91:         let apiKey: GeminiAPIKey
+  94:         } catch GeminiAPIKeyRepositoryError.notFound {
+  95:             throw GeminiUsageError.missingAPIKey
+  96:         } catch GeminiAPIKeyRepositoryError.invalidAPIKey {
+  97:             throw GeminiUsageError.invalidAPIKey
+  98:         } catch GeminiAPIKeyRepositoryError.secureStorageUnavailable {
+  99:             throw GeminiUsageError.networkUnavailable
+  104:         } catch GeminiUsageError.invalidAPIKey {
+  106:             throw GeminiUsageError.invalidAPIKey
+  110:     func fetchUsage(apiKey: GeminiAPIKey) async throws -> GeminiUsageData {
+  112:             let response: GeminiUsageAPIResponse = try await httpClient.request(
+  117:         } catch GeminiUsageError.httpError(let statusCode) where statusCode == 401 || statusCode == 403 {
+  118:             throw GeminiUsageError.invalidAPIKey
+  119:         } catch let error as GeminiUsageError {
+  122:             throw GeminiUsageError.networkUnavailable
+  126:     func validateAPIKey(_ apiKey: GeminiAPIKey) async throws -> Bool {
+  130:         } catch GeminiUsageError.invalidAPIKey, GeminiUsageError.missingAPIKey {
+  132:         } catch GeminiUsageError.httpError(let statusCode) where statusCode == 401 || statusCode == 403 {
+  134:         } catch GeminiUsageError.quotaUnavailable {
+  140: actor GeminiHTTPClient: GeminiHTTPClientProtocol {
+  149:     func request<T: Decodable>(_ endpoint: String, apiKey: GeminiAPIKey) async throws -> T {
+  151:             throw GeminiUsageError.invalidResponse
+  159:             throw GeminiUsageError.invalidResponse
+  170:                 throw GeminiUsageError.invalidResponse
+  175:                     throw GeminiUsageError.invalidAPIKey
+  177:                 throw GeminiUsageError.httpError(statusCode: httpResponse.statusCode)
+  185:                 throw GeminiUsageError.invalidResponse
+  187:         } catch let error as GeminiUsageError {
+  190:             throw GeminiUsageError.networkUnavailable
+Pinemeter/Services/Protocols/GeminiUsageServiceProtocol.swift
+  2: //  GeminiUsageServiceProtocol.swift
+  10: /// Sanitized Gemini monitoring errors. Cases must never include raw API keys or response bodies that
+  12: enum GeminiUsageError: LocalizedError, Equatable, Sendable {
+  23:             return "No Gemini API key found. Add one in Settings."
+  25:             return "Gemini API key is invalid. Update it in Settings."
+  27:             return "Gemini quota data is unavailable for this credential."
+  29:             return "Unable to parse Gemini usage data."
+  31:             return "Gemini quota request failed with HTTP \(statusCode)."
+  33:             return "Gemini quota data is unavailable. Check your connection and try again."
+  38: protocol GeminiUsageServiceProtocol: Sendable {
+  39:     func fetchUsage() async throws -> GeminiUsageData
+  40:     func fetchUsage(apiKey: GeminiAPIKey) async throws -> GeminiUsageData
+  41:     func validateAPIKey(_ apiKey: GeminiAPIKey) async throws -> Bool
+  44: protocol GeminiHTTPClientProtocol: Sendable {
+  47:         apiKey: GeminiAPIKey
+Pinemeter/Repositories/Protocols/GeminiAPIKeyRepositoryProtocol.swift
+  2: //  GeminiAPIKeyRepositoryProtocol.swift
+  10: /// Stable Gemini credential storage identifiers.
+  12: /// The service name is part of the security boundary: durable Gemini API keys belong in a dedicated
+  15: enum GeminiAPIKeyStorage {
+  20: /// Credential-equivalent Gemini API key material.
+  24: struct GeminiAPIKey: Equatable, Sendable, CustomDebugStringConvertible {
+  30:             throw GeminiAPIKeyRepositoryError.invalidAPIKey
+  36:         "GeminiAPIKey(<redacted>)"
+  41: struct GeminiAPIKeyAcquisitionStatus: Equatable, Sendable, CustomDebugStringConvertible {
+  42:     let state: GeminiAPIKeyAcquisitionState
+  43:     let lastErrorCategory: GeminiAPIKeyFailureCategory?
+  46:         "GeminiAPIKeyAcquisitionStatus(state: \(state), lastErrorCategory: \(String(describing: lastErrorCategory)))"
+  50: enum GeminiAPIKeyAcquisitionState: String, Equatable, Sendable {
+  57: enum GeminiAPIKeyFailureCategory: String, Equatable, Sendable {
+  65: extension GeminiAPIKeyAcquisitionState {
+  93: extension GeminiAPIKeyFailureCategory {
+  106: enum GeminiAPIKeyRepositoryError: LocalizedError, Equatable {
+  109:     case secureStorageUnavailable(GeminiAPIKeyFailureCategory)
+  114:             return "Gemini API key is empty or invalid."
+  116:             return "Gemini API key is not stored."
+  118:             return "Gemini secure API key storage failed: \(category)."
+  123: /// Secure boundary for Gemini API key material.
+  126: /// `GeminiAPIKeyStorage.serviceName`. Status methods must return sanitized enum state only.
+  127: protocol GeminiAPIKeyRepositoryProtocol: Actor {
+  128:     func save(_ apiKey: GeminiAPIKey, account: String) async throws
+  129:     func load(account: String) async throws -> GeminiAPIKey
+  130:     func validate(account: String) async -> GeminiAPIKeyAcquisitionStatus
+--- root PinemeterTests
+PinemeterTests/CredentialStateTests.swift
+  15:         XCTAssertEqual(geminiIdentity.displayName, "Gemini API key")
+  110:         XCTAssertEqual(decoded.displayTitle, "Gemini API key: Credential format is invalid")
+PinemeterTests/GeminiUsageServiceTests.swift
+  2: //  GeminiUsageServiceTests.swift
+  10: final class GeminiUsageServiceTests: XCTestCase {
+  14:         let repository = GeminiAPIKeyRepository()
+  23:         let suiteName = "GeminiUsageServiceTests.Status.\(UUID().uuidString)"
+  28:         let repository = GeminiAPIKeyRepository(userDefaults: userDefaults)
+  30:         try await repository.save(try GeminiAPIKey(" gemini-api-key-redaction-sentinel \n"), account: account)
+  46:         XCTAssertThrowsError(try GeminiAPIKey("   ")) { error in
+  47:             XCTAssertEqual(error as? GeminiAPIKeyRepositoryError, .invalidAPIKey)
+  52:         let repository = GeminiAPIKeyRepositoryStub()
+  53:         try await repository.save(try GeminiAPIKey("gemini-api-key-redaction-sentinel"), account: GeminiUsageService.defaultAPIKeyAccount)
+  55:         let httpClient = GeminiHTTPClientStub(response: #"""
+  58:           "limitLabel": "Gemini API quota",
+  62:         let service = GeminiUsageService(httpClient: httpClient, apiKeyRepository: repository, now: { now })
+  66:         XCTAssertEqual(usage.label, "Gemini API quota")
+  82:         let repository = GeminiAPIKeyRepositoryStub()
+  83:         let service = GeminiUsageService(httpClient: GeminiHTTPClientStub(), apiKeyRepository: repository)
+  88:         } catch GeminiUsageError.missingAPIKey {
+  98:         let repository = GeminiAPIKeyRepositoryStub()
+  99:         try await repository.save(try GeminiAPIKey("gemini-api-key-redaction-sentinel"), account: GeminiUsageService.defaultAPIKeyAccount)
+  100:         let httpClient = GeminiHTTPClientStub(error: GeminiUsageError.invalidAPIKey)
+  101:         let service = GeminiUsageService(httpClient: httpClient, apiKeyRepository: repository)
+  106:         } catch GeminiUsageError.invalidAPIKey {
+  118:         let service = GeminiUsageService(httpClient: GeminiHTTPClientStub(error: GeminiUsageError.httpError(statusCode: 403)))
+  121:             _ = try await service.fetchUsage(apiKey: try GeminiAPIKey("gemini-api-key-redaction-sentinel"))
+  123:         } catch GeminiUsageError.invalidAPIKey {
+  131:         let httpClient = GeminiHTTPClientStub(response: #"{"models":[]}"#.data(using: .utf8)!)
+  132:         let service = GeminiUsageService(httpClient: httpClient)
+  135:             _ = try await service.fetchUsage(apiKey: try GeminiAPIKey("gemini-api-key-redaction-sentinel"))
+  137:         } catch GeminiUsageError.quotaUnavailable {
+  145:         let service = GeminiUsageService(httpClient: GeminiHTTPClientStub(error: GeminiUsageError.invalidAPIKey))
+  147:         let isValid = try await service.validateAPIKey(try GeminiAPIKey("gemini-api-key-redaction-sentinel"))
+  153:         "GeminiUsageServiceTests.\(UUID().uuidString)"
+  157: private actor GeminiAPIKeyRepositoryStub: GeminiAPIKeyRepositoryProtocol {
+  158:     private var apiKeys: [String: GeminiAPIKey] = [:]
+  160:     private(set) var status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+  162:     func save(_ apiKey: GeminiAPIKey, account: String) async throws {
+  164:         status = GeminiAPIKeyAcquisitionStatus(state: .available, lastErrorCategory: nil)
+  167:     func load(account: String) async throws -> GeminiAPIKey {
+  169:             status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+  170:             throw GeminiAPIKeyRepositoryError.notFound
+  175:     func validate(account: String) async -> GeminiAPIKeyAcquisitionStatus {
+  182:         status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+  186: private actor GeminiHTTPClientStub: GeminiHTTPClientProtocol {
+  189:         let apiKey: GeminiAPIKey
+  201:     func request<T: Decodable>(_ endpoint: String, apiKey: GeminiAPIKey) async throws -> T {
+  209:             throw GeminiUsageError.invalidResponse
+PinemeterTests/GeminiCredentialBoundaryTests.swift
+  2: //  GeminiCredentialBoundaryTests.swift
+  11: final class GeminiCredentialBoundaryTests: XCTestCase {
+  13:         let apiKey = try GeminiAPIKey("  AIzaSySyntheticGeminiCredential  ")
+  15:         XCTAssertEqual(apiKey.value, "AIzaSySyntheticGeminiCredential")
+  16:         XCTAssertEqual(apiKey.debugDescription, "GeminiAPIKey(<redacted>)")
+  21:         XCTAssertThrowsError(try GeminiAPIKey("   ")) { error in
+  22:             XCTAssertEqual(error as? GeminiAPIKeyRepositoryError, .invalidAPIKey)
+  27:         let apiKey = try GeminiAPIKey("AIzaSySyntheticGeminiCredential")
+  28:         let status = GeminiAPIKeyAcquisitionStatus(state: .invalid, lastErrorCategory: .invalidAPIKey)
+  34:         XCTAssertEqual(GeminiAPIKeyStorage.serviceName, "com.pinemeter.gemini.api-key")
+  35:         XCTAssertEqual(GeminiAPIKeyStorage.defaultAccount, "gemini")
+  39:         XCTAssertEqual(GeminiAPIKeyAcquisitionState.available.credentialHealth, .valid)
+  40:         XCTAssertEqual(GeminiAPIKeyAcquisitionState.missing.credentialHealth, .missing)
+  41:         XCTAssertEqual(GeminiAPIKeyAcquisitionState.invalid.credentialHealth, .invalid)
+  42:         XCTAssertEqual(GeminiAPIKeyAcquisitionState.storageUnavailable.credentialHealth, .unavailable)
+  46:         let forbiddenCredential = "AIzaSySyntheticGeminiCredential"
+  48:             GeminiUsageError.missingAPIKey,
+PinemeterTests/AppModelTests.swift
+  229:         XCTAssertEqual(gemini.providerName, "Gemini")
+  230:         XCTAssertEqual(gemini.credentialName, "Gemini API key")
+  232:         XCTAssertEqual(gemini.detailText, "Add a Gemini API key in Settings.")
+  233:         XCTAssertEqual(gemini.setupPromptTitle, "Connect Gemini")
+  234:         XCTAssertEqual(gemini.setupAccessibilityLabel, "Gemini API key status: Unknown. Add a Gemini API key in Settings.")
+PinemeterTests/SecurityInvariantTests.swift
+  127:         let suiteName = "SecurityInvariantTests.GeminiStatus.\(UUID().uuidString)"
+  131:         let account = "SecurityInvariantTests.GeminiStatus.\(UUID().uuidString)"
+  132:         let repository = GeminiAPIKeyRepository(userDefaults: userDefaults)
+  134:         try await repository.save(try GeminiAPIKey("gemini-api-key-redaction-sentinel"), account: account)
+  145:         XCTAssertNil(persistedAppSettingsPayload, "Gemini acquisition diagnostics must not be stored inside AppSettings persistence.")
+  151:     func test_userFacingGeminiErrorDescriptionsDoNotDiscloseCredentialShapedFragments() {
+  153:             GeminiUsageError.missingAPIKey,
+  154:             GeminiUsageError.invalidAPIKey,
+  155:             GeminiUsageError.quotaUnavailable,
+  156:             GeminiUsageError.invalidResponse,
+  157:             GeminiUsageError.httpError(statusCode: 403),
+  158:             GeminiUsageError.networkUnavailable

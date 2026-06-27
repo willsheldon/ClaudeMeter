@@ -4,7 +4,7 @@ estimated_files: 4
 skills_used: []
 ---
 
-# T02: Render Gemini in menu popover
+# T02: Gemini usage and error states now render in the menu popover alongside configured providers.
 
 Update UsagePopoverView and related provider card components to render Gemini usage, unavailable, loading, and error states alongside other configured providers.
 

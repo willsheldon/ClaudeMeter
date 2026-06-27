@@ -1,0 +1,19 @@
+{
+  "id": "bcdd3fd8-8add-4cb9-8ba1-5938173fba96",
+  "runtime": "python",
+  "purpose": "Capture exact AppModelTests snippets for final Gemini test insertions",
+  "script_chars": 463,
+  "started_at": "2026-06-24T20:43:33.248Z",
+  "finished_at": "2026-06-24T20:43:33.323Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 75,
+  "stdout_bytes": 0,
+  "stderr_bytes": 194,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/bcdd3fd8-8add-4cb9-8ba1-5938173fba96.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/bcdd3fd8-8add-4cb9-8ba1-5938173fba96.stderr"
+}

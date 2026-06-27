@@ -1,0 +1,27 @@
+{
+  "id": "9e81ca4f-9c69-4b75-b13e-ff416b909599",
+  "runtime": "bash",
+  "purpose": "UAT M004/S04/UAT-S04-02 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S04",
+    "checkId": "UAT-S04-02",
+    "intent": "uat-artifact-check",
+    "expected": "AppModelTests contain Gemini-only, Claude+Gemini, ChatGPT+Gemini, and all-provider assertions for names/titles/loading/popover content."
+  },
+  "script_chars": 841,
+  "started_at": "2026-06-24T21:40:15.263Z",
+  "finished_at": "2026-06-24T21:40:15.278Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 15,
+  "stdout_bytes": 51,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/9e81ca4f-9c69-4b75-b13e-ff416b909599.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/9e81ca4f-9c69-4b75-b13e-ff416b909599.stderr"
+}

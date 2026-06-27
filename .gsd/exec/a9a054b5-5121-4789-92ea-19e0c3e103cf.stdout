@@ -1,0 +1,19 @@
+uat_semantic_missing= none
+secret_like_values= none
+xcodebuild_exit=0
+copy_audit_exit=0
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:119 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:120 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:123 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:132 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:133 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:140 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:215 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+- ... 146 more
+status_audit_exit=0
+provider status surface audit: PASS
+- AppModel exposes centralized providerCredentialStatuses for Claude and ChatGPT.
+- SettingsView and SetupWizardView render status rows/cards from sanitized status view models.
+- Setup/settings UI sources do not directly read session keys, cookie headers, or raw credential values.
+- Tests include provider status sanitization, prompt, recovery-action, and shared setup/settings rendering coverage.
+uat_artifact_exit=0

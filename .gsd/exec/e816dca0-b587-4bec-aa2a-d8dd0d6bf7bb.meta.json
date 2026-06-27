@@ -1,0 +1,27 @@
+{
+  "id": "e816dca0-b587-4bec-aa2a-d8dd0d6bf7bb",
+  "runtime": "python",
+  "purpose": "UAT M004/S04/UAT-S04-04B (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S04",
+    "checkId": "UAT-S04-04B",
+    "intent": "uat-artifact-check",
+    "expected": "MenuBarIconRendererTests include normal meter-style and loading/stale rendering coverage executed by the targeted test run."
+  },
+  "script_chars": 1010,
+  "started_at": "2026-06-24T21:42:17.420Z",
+  "finished_at": "2026-06-24T21:42:17.461Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 41,
+  "stdout_bytes": 589,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/e816dca0-b587-4bec-aa2a-d8dd0d6bf7bb.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/e816dca0-b587-4bec-aa2a-d8dd0d6bf7bb.stderr"
+}

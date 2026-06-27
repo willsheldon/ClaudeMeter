@@ -1,0 +1,11 @@
+Gemini error-state regression test exists: PASS
+  found: func test_providerDisplayCombinations_includeGeminiErrorState() async
+  found: fetchUsageResult: .failure(GeminiUsageError.networkUnavailable)
+refresh error modeled and exposed: PASS
+  found: await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+  found: XCTAssertEqual(appModel.geminiErrorMessage, GeminiUsageError.networkUnavailable.localizedDescription)
+  found: XCTAssertEqual(appModel.geminiCredentialState.health, .unavailable)
+Gemini error remains user-visible menu state: PASS
+  found: XCTAssertEqual(appModel.configuredUsageProviderNames, ["Gemini"])
+  found: XCTAssertEqual(appModel.usageDashboardTitle, "Gemini Usage")
+  found: XCTAssertTrue(appModel.hasUsagePopoverContent)

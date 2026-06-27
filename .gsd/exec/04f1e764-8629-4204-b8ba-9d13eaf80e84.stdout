@@ -1,0 +1,5 @@
+477:        XCTAssertNil(appModel.geminiErrorMessage)
+734:        appModel.geminiErrorMessage = "Gemini quota data is unavailable."
+867:        XCTAssertEqual(appModel.geminiErrorMessage, GeminiUsageError.networkUnavailable.localizedDescription)
+991:    func test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState() async {
+1495:        XCTAssertNil(setupModel.geminiErrorMessage)

@@ -1,0 +1,27 @@
+{
+  "id": "389adef5-7dde-4882-a7f7-e677fa0a24e1",
+  "runtime": "bash",
+  "purpose": "UAT M004/S01/UAT-02B (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S01",
+    "checkId": "UAT-02B",
+    "intent": "uat-artifact-check",
+    "expected": "Gemini status/action tests cover configured, missing, invalid, loading, and unavailable-style states without raw secret fields."
+  },
+  "script_chars": 1860,
+  "started_at": "2026-06-24T20:19:25.714Z",
+  "finished_at": "2026-06-24T20:19:25.762Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 48,
+  "stdout_bytes": 452,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/389adef5-7dde-4882-a7f7-e677fa0a24e1.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/389adef5-7dde-4882-a7f7-e677fa0a24e1.stderr"
+}

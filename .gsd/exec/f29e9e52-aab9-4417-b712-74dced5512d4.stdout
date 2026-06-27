@@ -1,0 +1,8 @@
+workflow_contract_checks=6
+setup_prompt=MISSING
+gemini_only_refresh=MISSING
+invalid_credential_recovery=PASS
+clear_reconnect=PASS
+all_provider_coexistence=PASS
+copyable_error_rows=PASS
+missing_terms={'setup_prompt': ['Gemini', 'SetupWizardView', 'not configured'], 'gemini_only_refresh': ['GeminiUsageService', 'GeminiUsageRepository', 'Gemini']}

@@ -1,0 +1,121 @@
+--- PinemeterTests/CopyableErrorPresentationTests.swift exists=True lines=44
+4:     func test_userFacingErrorSurfacesUseCopyableErrorText() throws {
+7:         let componentSource = try readSource("Pinemeter/Views/Shared/CopyableErrorText.swift", root: root)
+8:         XCTAssertTrue(componentSource.contains(".textSelection(.enabled)"), "CopyableErrorText must make error text selectable.")
+9:         XCTAssertTrue(componentSource.contains("NSPasteboard.general"), "CopyableErrorText must provide an explicit clipboard fallback.")
+13:                 "CopyableErrorText(errorMessage",
+14:                 "CopyableErrorText(\"ChatGPT: \\(chatGPTErrorMessage)\"",
+17:                 "CopyableErrorText(errorMessage",
+20:                 "CopyableErrorText(providerImportMessage",
+21:                 "CopyableErrorText(sessionKeyValidationMessage",
+22:                 "CopyableErrorText(chatGPTSessionCookieValidationMessage",
+23:                 "CopyableErrorText(lastFailureTitle",
+24:                 "CopyableErrorText(recoverySuggestion",
+--- Pinemeter/Views/Setup/SetupWizardView.swift exists=True lines=358
+13:     @State private var activeCredentialActionProvider: CredentialProvider?
+14:     @State private var activeCredentialActionKind: ProviderCredentialActionKind?
+17:         let statuses = appModel.providerCredentialStatuses
+54:                         CopyableErrorText(errorMessage, font: .callout, foregroundStyle: .orange, lineLimit: 3)
+94:     private func credentialStatusCard(_ status: AppProviderCredentialStatus) -> some View {
+121:                 providerCredentialStatusActions(for: status)
+131:     private func providerCredentialStatusActions(for status: AppProviderCredentialStatus) -> some View {
+138:                         handleCredentialAction(action.kind, for: status)
+141:                     .disabled(isCredentialActionDisabled(for: status))
+149:     private func credentialStatusIcon(for health: CredentialHealthState) -> String {
+164:     private func credentialStatusColor(for health: CredentialHealthState) -> Color {
+184:             Text("Choose the browser where you are already signed in. Each import button checks Claude and ChatGPT; Gemini API key status appears above without showing credential values.")
+215:         isValidating || isImporting || activeCredentialActionProvider != nil
+221:         activeCredentialActionProvider = nil
+222:         activeCredentialActionKind = nil
+261:             providerFailureMessage("Claude", outcome.claude),
+262:             providerFailureMessage("ChatGPT", outcome.chatGPT),
+269:     private func providerFailureMessage(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
+276:     private func handleCredentialAction(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) {
+278:             await performProviderCredentialAction(kind, for: status)
+283:     private func performProviderCredentialAction(
+284:         _ kind: ProviderCredentialActionKind,
+285:         for status: AppProviderCredentialStatus
+288:         activeCredentialActionProvider = status.provider
+289:         activeCredentialActionKind = kind
+296:             let state = try await appModel.performProviderCredentialAction(kind, for: status.provider)
+304:                 let refreshedStatus = appModel.providerCredentialStatuses.first { $0.provider == status.provider }
+306:                 errorMessage = "\(status.providerName): \(refreshedStatus?.recoverySuggestion ?? refreshedStatus?.detailText ?? "Recovery action did not restore access.")"
+313:         activeCredentialActionProvider = nil
+314:         activeCredentialActionKind = nil
+318:     private func credentialActionTitle(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> String {
+319:         guard activeCredentialActionProvider == status.provider && activeCredentialActionKind == kind else {
+333:     private func isCredentialActionDisabled(for status: AppProviderCredentialStatus) -> Bool {
+337:     private func progressMessage(for kind: ProviderCredentialActionKind) -> String {
+348:     private func successDetailMessage(for kind: ProviderCredentialActionKind, credentialName: String) -> String {
+--- Pinemeter/Views/Settings/SettingsView.swift exists=True lines=970
+19:     @State private var activeCredentialActionProvider: CredentialProvider?
+20:     @State private var activeCredentialActionKind: ProviderCredentialActionKind?
+21:     @State private var providerCredentialActionMessage: String?
+22:     @State private var hasProviderCredentialActionSucceeded: Bool = false
+80:     // MARK: - Credential Recovery Section
+85:                 Text("Credential Recovery")
+97:             ForEach(appModel.providerCredentialStatuses) { status in
+98:                 providerCredentialRow(status)
+100:                 if status.id != appModel.providerCredentialStatuses.last?.id {
+117:             Text("Checks Claude and ChatGPT browser sessions. Add Gemini API keys in Settings; their status appears below.")
+137:                 .disabled(isCredentialImportBusy)
+145:             CopyableErrorText(providerImportMessage,
+150:         if let providerCredentialActionMessage {
+151:             CopyableErrorText(providerCredentialActionMessage,
+153:                               foregroundStyle: hasProviderCredentialActionSucceeded ? Color.green : Color.orange)
+157:             CopyableErrorText(sessionKeyValidationMessage,
+170:             CopyableErrorText(chatGPTSessionCookieValidationMessage,
+176:     private func providerCredentialRow(_ status: AppProviderCredentialStatus) -> some View {
+195:                         CopyableErrorText(lastFailureTitle, font: .caption2, foregroundStyle: .orange)
+198:                     if let recoverySuggestion = status.recoverySuggestion, recoverySuggestion != status.detailText {
+199:                         CopyableErrorText(recoverySuggestion, font: .caption2, foregroundStyle: .secondary)
+214:                             handleCredentialAction(action.kind, for: status)
+217:                         .disabled(isCredentialActionDisabled(action.kind, for: status))
+227:     private func credentialStatusIcon(for health: CredentialHealthState) -> String {
+242:     private func credentialStatusColor(for health: CredentialHealthState) -> Color {
+620:     private var isCredentialImportBusy: Bool {
+650:         providerCredentialActionMessage = nil
+651:         hasProviderCredentialActionSucceeded = false
+769:             let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+770:             sessionKeyValidationMessage = status?.recoverySuggestion ?? status?.detailText ?? "Claude session key repair failed"
+775:     private func handleCredentialAction(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) {
+777:             await performProviderCredentialAction(kind, for: status)
+782:     private func performProviderCredentialAction(
+783:         _ kind: ProviderCredentialActionKind,
+784:         for status: AppProviderCredentialStatus
+786:         activeCredentialActionProvider = status.provider
+787:         activeCredentialActionKind = kind
+788:         providerCredentialActionMessage = "\(status.providerName): \(progressMessage(for: kind))"
+789:         hasProviderCredentialActionSucceeded = false
+796:             let state = try await appModel.performProviderCredentialAction(kind, for: status.provider)
+798:                 providerCredentialActionMessage = "\(status.providerName): \(successMessage(for: kind, credentialName: status.credentialName))"
+799:                 hasProviderCredentialActionSucceeded = true
+801:                 providerCredentialActionMessage = "\(status.providerName): Cleared saved \(status.credentialName)."
+802:                 hasProviderCredentialActionSucceeded = true
+804:                 let refreshedStatus = appModel.providerCredentialStatuses.first { $0.provider == status.provider }
+805:                 providerCredentialActionMessage = "\(status.providerName): \(refreshedStatus?.recoverySuggestion ?? refreshedStatus?.detailText ?? "Recovery action did not restore access.")"
+806:                 hasProviderCredentialActionSucceeded = false
+809:             providerCredentialActionMessage = "\(status.providerName): Failed to \(kind.displayTitle.lowercased()) \(status.credentialName): \(error.localizedDescription)"
+810:             hasProviderCredentialActionSucceeded = false
+813:         activeCredentialActionProvider = nil
+814:         activeCredentialActionKind = nil
+817:     private func credentialActionTitle(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> String {
+818:         guard isCredentialActionActive(kind, for: status) else {
+824:     private func isCredentialActionActive(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> Bool {
+825:         activeCredentialActionProvider == status.provider && activeCredentialActionKind == kind
+828:     private func progressButtonTitle(for kind: ProviderCredentialActionKind) -> String {
+839:     private func progressMessage(for kind: ProviderCredentialActionKind) -> String {
+850:     private func successMessage(for kind: ProviderCredentialActionKind, credentialName: String) -> String {
+861:     private func isCredentialActionDisabled(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> Bool {
+862:         if activeCredentialActionProvider != nil || isCredentialImportBusy || status.state.health == .validating {
+--- Pinemeter/Views/MenuBar/UsagePopoverView.swift exists=True lines=339
+55:                         CopyableErrorText(errorMessage)
+70:                         if ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: errorMessage) {
+71:                             Button(ClaudeCredentialRecoveryCopy.updateButtonTitle) {
+136:                         if appModel.isGeminiUsageConfigured, let geminiUsageData = appModel.geminiUsageData {
+137:                             UsageMetricSection(title: "Gemini", icon: "diamond") {
+148:                         if appModel.isGeminiUsageConfigured, let geminiErrorMessage = appModel.geminiErrorMessage {
+149:                             providerErrorRow(provider: "Gemini", message: geminiErrorMessage)
+207:             CopyableErrorText("\(provider): \(message)", font: .caption, foregroundStyle: .secondary)
+215:     private func geminiQuotaSubtitle(for usageData: GeminiUsageData) -> String {
+246: enum ClaudeCredentialRecoveryCopy {

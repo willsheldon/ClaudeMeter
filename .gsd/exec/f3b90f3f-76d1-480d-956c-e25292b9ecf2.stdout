@@ -1,0 +1,4 @@
+163                 actions: credentialActions(for: claudeCredentialState)
+167                 actions: credentialActions(for: chatGPTCredentialState)
+171                 actions: credentialActions(for: geminiCredentialState)
+813     private func credentialActions(for state: CredentialState) -> [AppProviderCredentialStatus.Action] {

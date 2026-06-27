@@ -1,0 +1,27 @@
+{
+  "id": "8b490a6f-4c2f-46e1-ae9c-267be661a1f2",
+  "runtime": "bash",
+  "purpose": "UAT M004/S03/UAT-COPY-PROVIDERS-DETAIL (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S03",
+    "checkId": "UAT-COPY-PROVIDERS-DETAIL",
+    "intent": "uat-artifact-check",
+    "expected": "Provider UI/model scope includes Gemini alongside existing providers"
+  },
+  "script_chars": 950,
+  "started_at": "2026-06-24T21:24:46.509Z",
+  "finished_at": "2026-06-24T21:24:46.586Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 77,
+  "stdout_bytes": 23043,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/8b490a6f-4c2f-46e1-ae9c-267be661a1f2.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/8b490a6f-4c2f-46e1-ae9c-267be661a1f2.stderr"
+}

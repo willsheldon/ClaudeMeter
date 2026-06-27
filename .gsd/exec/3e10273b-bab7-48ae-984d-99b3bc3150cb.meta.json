@@ -1,0 +1,19 @@
+{
+  "id": "3e10273b-bab7-48ae-984d-99b3bc3150cb",
+  "runtime": "bash",
+  "purpose": "Reproduce S05 failing copyable error presentation test",
+  "script_chars": 622,
+  "started_at": "2026-06-24T21:53:42.641Z",
+  "finished_at": "2026-06-24T21:54:01.393Z",
+  "exit_code": 65,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 18752,
+  "stdout_bytes": 167,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/3e10273b-bab7-48ae-984d-99b3bc3150cb.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/3e10273b-bab7-48ae-984d-99b3bc3150cb.stderr"
+}

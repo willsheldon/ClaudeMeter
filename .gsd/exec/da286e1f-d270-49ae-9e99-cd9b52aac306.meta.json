@@ -1,0 +1,19 @@
+{
+  "id": "da286e1f-d270-49ae-9e99-cd9b52aac306",
+  "runtime": "python",
+  "purpose": "Inspect AppSettings Gemini fields and AppModelTests helper definitions",
+  "script_chars": 522,
+  "started_at": "2026-06-24T20:36:19.147Z",
+  "finished_at": "2026-06-24T20:36:19.188Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 41,
+  "stdout_bytes": 12410,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/da286e1f-d270-49ae-9e99-cd9b52aac306.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/da286e1f-d270-49ae-9e99-cd9b52aac306.stderr"
+}

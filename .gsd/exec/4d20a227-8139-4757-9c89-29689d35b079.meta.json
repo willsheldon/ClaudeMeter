@@ -1,0 +1,19 @@
+{
+  "id": "4d20a227-8139-4757-9c89-29689d35b079",
+  "runtime": "python",
+  "purpose": "summarize AppModelTests functions and helper types",
+  "script_chars": 407,
+  "started_at": "2026-06-24T21:03:04.382Z",
+  "finished_at": "2026-06-24T21:03:04.442Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 60,
+  "stdout_bytes": 9922,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/4d20a227-8139-4757-9c89-29689d35b079.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/4d20a227-8139-4757-9c89-29689d35b079.stderr"
+}

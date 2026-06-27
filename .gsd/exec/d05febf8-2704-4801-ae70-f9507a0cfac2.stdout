@@ -1,0 +1,379 @@
+--- lines 660-735 ---
+660:         )
+661: 
+662:         let outcome = await appModel.importProviderSessions(from: .chrome)
+663:         let savedClaudeKey = try await keychainRepository.retrieve(account: "default")
+664:         let savedChatGPTSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+665: 
+666:         XCTAssertEqual(outcome.source, .chrome)
+667:         XCTAssertEqual(outcome.claude, .imported(sourceDescription: "Chrome Default"))
+668:         XCTAssertEqual(outcome.chatGPT, .imported(sourceDescription: "Chrome Default"))
+669:         XCTAssertEqual(savedClaudeKey, TestConstants.sessionKeyValue)
+670:         XCTAssertEqual(savedChatGPTSession.sessionCookie, "__Secure-authjs.session-token=synthetic-chatgpt-session-cookie")
+671:         XCTAssertTrue(appModel.isSetupComplete)
+672:         XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+673:         XCTAssertEqual(appModel.usageData, expectedClaudeUsage)
+674:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+675:     }
+676: 
+677:     func test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface() async {
+678:         let appModel = AppModel(
+679:             settingsRepository: SettingsRepositoryFake(),
+680:             keychainRepository: KeychainRepositoryFake(),
+681:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+682:             notificationService: NotificationServiceSpy()
+683:         )
+684: 
+685:         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+686:         XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+687:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+688:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+689: 
+690:         appModel.hasChatGPTSessionCookie = true
+691:         appModel.settings.isChatGPTUsageShown = true
+692: 
+693:         XCTAssertFalse(appModel.isSetupComplete)
+694:         XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+695:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT"])
+696:         XCTAssertEqual(appModel.usageDashboardTitle, "ChatGPT Usage")
+697:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading ChatGPT usage data...")
+698: 
+699:         appModel.hasGeminiAPIKey = true
+700: 
+701:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT", "Gemini"])
+702:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+703:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading ChatGPT and Gemini usage data...")
+704: 
+705:         appModel.isSetupComplete = true
+706: 
+707:         XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+708:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "ChatGPT", "Gemini"])
+709:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+710:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude, ChatGPT, and Gemini usage data...")
+711:     }
+712: 
+713:     func test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors() {
+714:         let appModel = AppModel(
+715:             settingsRepository: SettingsRepositoryFake(),
+716:             keychainRepository: KeychainRepositoryFake(),
+717:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+718:             notificationService: NotificationServiceSpy()
+719:         )
+720: 
+721:         XCTAssertFalse(appModel.hasUsagePopoverContent)
+722: 
+723:         appModel.hasGeminiAPIKey = true
+724:         appModel.geminiUsageData = GeminiUsageData(
+725:             label: "Gemini API quota",
+726:             usedPercent: 42,
+727:             resetAt: nil,
+728:             lastUpdated: Date(timeIntervalSince1970: 0)
+729:         )
+730: 
+731:         XCTAssertTrue(appModel.hasUsagePopoverContent)
+732: 
+733:         appModel.geminiUsageData = nil
+734:         appModel.geminiErrorMessage = "Gemini quota data is unavailable."
+735: 
+--- lines 735-890 ---
+735: 
+736:         XCTAssertTrue(appModel.hasUsagePopoverContent)
+737:     }
+738: 
+739:     func test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders() async {
+740:         let expectedClaudeUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+741:         let expectedChatGPTUsage = ChatGPTUsageData(
+742:             rows: [.init(label: "Codex Tasks", usedPercent: 42, resetAt: nil)],
+743:             lastUpdated: Date(timeIntervalSince1970: 0)
+744:         )
+745:         let expectedGeminiUsage = GeminiUsageData(
+746:             label: "Gemini API quota",
+747:             usedPercent: 12,
+748:             resetAt: nil,
+749:             lastUpdated: Date(timeIntervalSince1970: 0)
+750:         )
+751:         let usageService = UsageServiceStub(fetchUsageResult: .success(expectedClaudeUsage))
+752:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+753:             fetchUsageResult: .success(expectedChatGPTUsage),
+754:             validateResult: true
+755:         )
+756:         let geminiUsageService = AppModelGeminiUsageServiceStub(
+757:             fetchUsageResult: .success(expectedGeminiUsage),
+758:             validateResult: true
+759:         )
+760:         let appModel = AppModel(
+761:             settingsRepository: SettingsRepositoryFake(),
+762:             keychainRepository: KeychainRepositoryFake(),
+763:             usageService: usageService,
+764:             chatGPTUsageService: chatGPTUsageService,
+765:             geminiUsageService: geminiUsageService,
+766:             notificationService: NotificationServiceSpy()
+767:         )
+768: 
+769:         appModel.hasChatGPTSessionCookie = true
+770:         appModel.settings.isChatGPTUsageShown = true
+771:         appModel.hasGeminiAPIKey = true
+772: 
+773:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+774: 
+775:         let claudeFetchCountAfterProviderOnlyRefresh = await usageService.fetchUsageCallCount
+776:         let chatGPTFetchCountAfterProviderOnlyRefresh = await chatGPTUsageService.fetchUsageCallCount
+777:         let geminiFetchCountAfterProviderOnlyRefresh = await geminiUsageService.fetchUsageCallCount
+778: 
+779:         XCTAssertNil(appModel.usageData)
+780:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+781:         XCTAssertEqual(appModel.geminiUsageData, expectedGeminiUsage)
+782:         XCTAssertEqual(claudeFetchCountAfterProviderOnlyRefresh, 0)
+783:         XCTAssertEqual(chatGPTFetchCountAfterProviderOnlyRefresh, 1)
+784:         XCTAssertEqual(geminiFetchCountAfterProviderOnlyRefresh, 1)
+785: 
+786:         appModel.isSetupComplete = true
+787: 
+788:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+789: 
+790:         let claudeFetchCountAfterAllRefresh = await usageService.fetchUsageCallCount
+791:         let claudeForceRefreshValues = await usageService.forceRefreshValues
+792:         let chatGPTFetchCountAfterAllRefresh = await chatGPTUsageService.fetchUsageCallCount
+793:         let geminiFetchCountAfterAllRefresh = await geminiUsageService.fetchUsageCallCount
+794: 
+795:         XCTAssertEqual(appModel.usageData, expectedClaudeUsage)
+796:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+797:         XCTAssertEqual(appModel.geminiUsageData, expectedGeminiUsage)
+798:         XCTAssertEqual(claudeFetchCountAfterAllRefresh, 1)
+799:         XCTAssertEqual(claudeForceRefreshValues, [true])
+800:         XCTAssertEqual(chatGPTFetchCountAfterAllRefresh, 2)
+801:         XCTAssertEqual(geminiFetchCountAfterAllRefresh, 2)
+802:     }
+803: 
+804:     func test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff() async {
+805:         let appModel = AppModel(
+806:             settingsRepository: SettingsRepositoryFake(),
+807:             keychainRepository: KeychainRepositoryFake(),
+808:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+809:             notificationService: NotificationServiceSpy()
+810:         )
+811: 
+812:         appModel.hasChatGPTSessionCookie = true
+813:         appModel.settings.isChatGPTUsageShown = false
+814: 
+815:         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+816:         XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+817:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+818:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+819: 
+820:         appModel.isSetupComplete = true
+821: 
+822:         XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+823:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude"])
+824:         XCTAssertEqual(appModel.usageDashboardTitle, "Claude Usage")
+825:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude usage data...")
+826:     }
+827: 
+828:     func test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState() async {
+829:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+830:             fetchUsageResult: .failure(ChatGPTUsageError.missingSessionCookie),
+831:             validateResult: false
+832:         )
+833:         let appModel = AppModel(
+834:             settingsRepository: SettingsRepositoryFake(),
+835:             keychainRepository: KeychainRepositoryFake(),
+836:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+837:             chatGPTUsageService: chatGPTUsageService,
+838:             notificationService: NotificationServiceSpy()
+839:         )
+840:         appModel.hasChatGPTSessionCookie = true
+841:         appModel.settings.isChatGPTUsageShown = true
+842: 
+843:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+844: 
+845:         let chatGPTFetchCount = await chatGPTUsageService.fetchUsageCallCount
+846:         XCTAssertEqual(chatGPTFetchCount, 1)
+847:         XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+848:         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+849:         XCTAssertNil(appModel.chatGPTUsageData)
+850:         XCTAssertEqual(appModel.chatGPTCredentialState.health, .missing)
+851:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+852:     }
+853: 
+854:     func test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState() async {
+855:         let geminiUsageService = AppModelGeminiUsageServiceStub(
+856:             fetchUsageResult: .failure(GeminiUsageError.missingAPIKey),
+857:             validateResult: false
+858:         )
+859:         let appModel = AppModel(
+860:             settingsRepository: SettingsRepositoryFake(),
+861:             keychainRepository: KeychainRepositoryFake(),
+862:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+863:             geminiUsageService: geminiUsageService,
+864:             notificationService: NotificationServiceSpy()
+865:         )
+866:         appModel.hasGeminiAPIKey = true
+867: 
+868:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+869: 
+870:         let geminiFetchCount = await geminiUsageService.fetchUsageCallCount
+871:         XCTAssertEqual(geminiFetchCount, 1)
+872:         XCTAssertFalse(appModel.hasGeminiAPIKey)
+873:         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+874:         XCTAssertNil(appModel.geminiUsageData)
+875:         XCTAssertEqual(appModel.geminiCredentialState.health, .missing)
+876:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+877:     }
+878: 
+879:     func test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage() async throws {
+880:         let expectedUsage = ChatGPTUsageData(
+881:             rows: [.init(label: "Codex Tasks", usedPercent: 42, resetAt: nil)],
+882:             lastUpdated: Date(timeIntervalSince1970: 0)
+883:         )
+884:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+885:             fetchUsageResult: .success(expectedUsage),
+886:             validateResult: true
+887:         )
+888:         let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+889:         let importService = SessionKeyImportServiceStub(
+890:             result: .failure(SessionKeyImportError.noSessionKeyFound),
+--- lines 1440-1680 ---
+1440: 
+1441:     func retrieve(account: String) async throws -> String {
+1442:         sessionKey
+1443:     }
+1444: 
+1445:     func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+1446:         throw KeychainError.saveFailed(OSStatus: OSStatus(errSecInteractionNotAllowed))
+1447:     }
+1448: 
+1449:     func update(sessionKey: String, account: String) async throws {
+1450:         throw KeychainError.updateFailed(OSStatus: OSStatus(errSecInteractionNotAllowed))
+1451:     }
+1452: 
+1453:     func delete(account: String) async throws {}
+1454: 
+1455:     func exists(account: String) async -> Bool {
+1456:         true
+1457:     }
+1458: }
+1459: 
+1460: private actor AppModelChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+1461:     private let fetchUsageResult: Result<ChatGPTUsageData, Error>
+1462:     private let validateResult: Bool
+1463:     private(set) var fetchUsageCallCount = 0
+1464: 
+1465:     init(fetchUsageResult: Result<ChatGPTUsageData, Error>, validateResult: Bool) {
+1466:         self.fetchUsageResult = fetchUsageResult
+1467:         self.validateResult = validateResult
+1468:     }
+1469: 
+1470:     func fetchUsage() async throws -> ChatGPTUsageData {
+1471:         fetchUsageCallCount += 1
+1472:         switch fetchUsageResult {
+1473:         case .success(let data):
+1474:             return data
+1475:         case .failure(let error):
+1476:             throw error
+1477:         }
+1478:     }
+1479: 
+1480:     func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+1481:         try await fetchUsage()
+1482:     }
+1483: 
+1484:     func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+1485:         validateResult
+1486:     }
+1487: }
+1488: 
+1489: private actor AppModelChatGPTSessionRepositoryFake: ChatGPTSessionRepositoryProtocol {
+1490:     private var sessions: [String: ChatGPTSession] = [:]
+1491:     private var status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1492: 
+1493:     func save(_ session: ChatGPTSession, account: String) async throws {
+1494:         sessions[account] = session
+1495:         status = ChatGPTSessionAcquisitionStatus(state: .available, lastErrorCategory: nil)
+1496:     }
+1497: 
+1498:     func load(account: String) async throws -> ChatGPTSession {
+1499:         guard let session = sessions[account] else {
+1500:             status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1501:             throw ChatGPTSessionRepositoryError.notFound
+1502:         }
+1503:         return session
+1504:     }
+1505: 
+1506:     func validate(account: String) async -> ChatGPTSessionAcquisitionStatus {
+1507:         status
+1508:     }
+1509: 
+1510:     func clear(account: String) async throws {
+1511:         sessions[account] = nil
+1512:         status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1513:     }
+1514: }
+1515: 
+1516: private actor AppModelGeminiUsageServiceStub: GeminiUsageServiceProtocol {
+1517:     private let fetchUsageResult: Result<GeminiUsageData, Error>
+1518:     private let validateResult: Bool
+1519:     private(set) var fetchUsageCallCount = 0
+1520: 
+1521:     init(fetchUsageResult: Result<GeminiUsageData, Error>, validateResult: Bool) {
+1522:         self.fetchUsageResult = fetchUsageResult
+1523:         self.validateResult = validateResult
+1524:     }
+1525: 
+1526:     func fetchUsage() async throws -> GeminiUsageData {
+1527:         fetchUsageCallCount += 1
+1528:         switch fetchUsageResult {
+1529:         case .success(let data):
+1530:             return data
+1531:         case .failure(let error):
+1532:             throw error
+1533:         }
+1534:     }
+1535: 
+1536:     func fetchUsage(apiKey: GeminiAPIKey) async throws -> GeminiUsageData {
+1537:         try await fetchUsage()
+1538:     }
+1539: 
+1540:     func validateAPIKey(_ apiKey: GeminiAPIKey) async throws -> Bool {
+1541:         validateResult
+1542:     }
+1543: }
+1544: 
+1545: private actor AppModelGeminiAPIKeyRepositoryFake: GeminiAPIKeyRepositoryProtocol {
+1546:     private var apiKeys: [String: GeminiAPIKey] = [:]
+1547:     private var status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1548: 
+1549:     func save(_ apiKey: GeminiAPIKey, account: String) async throws {
+1550:         apiKeys[account] = apiKey
+1551:         status = GeminiAPIKeyAcquisitionStatus(state: .available, lastErrorCategory: nil)
+1552:     }
+1553: 
+1554:     func load(account: String) async throws -> GeminiAPIKey {
+1555:         guard let apiKey = apiKeys[account] else {
+1556:             status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1557:             throw GeminiAPIKeyRepositoryError.notFound
+1558:         }
+1559:         return apiKey
+1560:     }
+1561: 
+1562:     func validate(account: String) async -> GeminiAPIKeyAcquisitionStatus {
+1563:         status
+1564:     }
+1565: 
+1566:     func clear(account: String) async throws {
+1567:         apiKeys[account] = nil
+1568:         status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1569:     }
+1570: }
+1571: 
+1572: private func makeUsageData(percentage: Double) -> UsageData {
+1573:     let resetDate = Date().addingTimeInterval(TestConstants.oneHourInterval)
+1574:     let sessionUsage = UsageLimit(utilization: percentage, resetAt: resetDate)
+1575:     let weeklyUsage = UsageLimit(utilization: TestConstants.weeklyPercentage, resetAt: resetDate)
+1576: 
+1577:     return UsageData(
+1578:         sessionUsage: sessionUsage,
+1579:         weeklyUsage: weeklyUsage,
+1580:         sonnetUsage: nil,
+1581:         lastUpdated: Date()
+1582:     )
+1583: }

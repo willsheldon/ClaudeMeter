@@ -1,0 +1,12 @@
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:macOS, arch:arm64, id:00006001-000C58DC26F8801E, name:My Mac }
+{ platform:macOS, arch:x86_64, id:00006001-000C58DC26F8801E, name:My Mac }
+{ platform:macOS, name:Any Mac }
+2026-06-24 14:37:11.249 xcodebuild[34960:122640377] [MT] IDETestOperationsObserverDebug: 6.716 elapsed -- Testing started completed.
+2026-06-24 14:37:11.249 xcodebuild[34960:122640377] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-06-24 14:37:11.249 xcodebuild[34960:122640377] [MT] IDETestOperationsObserverDebug: 6.716 sec, +6.716 sec -- end
+Failing tests:
+	CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()
+
+** TEST FAILED **
+

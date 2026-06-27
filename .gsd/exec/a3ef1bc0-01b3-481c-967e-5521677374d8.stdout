@@ -1,0 +1,38 @@
+gemini enum/config references: PASS
+  found: .gemini
+  found: Gemini Usage
+  found: Loading Gemini usage data
+gemini-only configured provider: FAIL
+  missing: configuredUsageProviders: [.gemini]
+  found: configuredUsageProviderNames, ["Gemini"]
+claude plus gemini combination: FAIL
+  missing: configuredUsageProviders: [.claude, .gemini]
+  found: configuredUsageProviderNames, ["Claude", "Gemini"]
+chatgpt plus gemini combination: FAIL
+  missing: configuredUsageProviders: [.chatGPT, .gemini]
+  found: configuredUsageProviderNames, ["ChatGPT", "Gemini"]
+all-provider combination: FAIL
+  missing: configuredUsageProviders: [.claude, .chatGPT, .gemini]
+  found: configuredUsageProviderNames, ["Claude", "ChatGPT", "Gemini"]
+popover content availability: PASS
+  found: hasUsagePopoverContent
+688: XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+701: XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT", "Gemini"])
+703: XCTAssertEqual(appModel.usageLoadingMessage, "Loading ChatGPT and Gemini usage data...")
+708: XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "ChatGPT", "Gemini"])
+710: XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude, ChatGPT, and Gemini usage data...")
+756: XCTAssertEqual(appModel.configuredUsageProviderNames, ["Gemini"])
+757: XCTAssertEqual(appModel.usageDashboardTitle, "Gemini Usage")
+758: XCTAssertEqual(appModel.usageLoadingMessage, "Loading Gemini usage data...")
+781: XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "Gemini"])
+783: XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude and Gemini usage data...")
+810: XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT", "Gemini"])
+812: XCTAssertEqual(appModel.usageLoadingMessage, "Loading ChatGPT and Gemini usage data...")
+841: XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "ChatGPT", "Gemini"])
+843: XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude, ChatGPT, and Gemini usage data...")
+870: XCTAssertEqual(appModel.configuredUsageProviderNames, ["Gemini"])
+871: XCTAssertEqual(appModel.usageDashboardTitle, "Gemini Usage")
+872: XCTAssertEqual(appModel.usageLoadingMessage, "Loading Gemini usage data...")
+955: XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+988: XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+1013: XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")

@@ -1,0 +1,19 @@
+{
+  "id": "bbf6d157-1f08-4f4c-ace6-43ea912a82db",
+  "runtime": "python",
+  "purpose": "Search Gemini references and AppSettings usage toggles",
+  "script_chars": 420,
+  "started_at": "2026-06-24T20:36:04.947Z",
+  "finished_at": "2026-06-24T20:36:05.011Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 64,
+  "stdout_bytes": 15959,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/bbf6d157-1f08-4f4c-ace6-43ea912a82db.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/bbf6d157-1f08-4f4c-ace6-43ea912a82db.stderr"
+}

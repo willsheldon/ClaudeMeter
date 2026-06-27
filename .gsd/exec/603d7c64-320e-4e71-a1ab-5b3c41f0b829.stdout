@@ -1,0 +1,26 @@
+246: 2026-06-24 14:53:10.904 xcodebuild[94572:122824969] [MT] IDETestOperationsObserverDebug: 13.526 sec, +13.526 sec -- end
+247: 
+248: Test session results, code coverage, and logs:
+249: 	/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Logs/Test/Test-Pinemeter-2026.06.24_14-52-54--0700.xcresult
+250: 
+251: Failing tests:
+252: 	CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()
+253: 
+254: ** TEST FAILED **
+255: 
+256: r (94981)' (0.002 seconds)
+257: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage()' passed on 'My Mac - Pinemeter (95020)' (0.002 seconds)
+258: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave()' passed on 'My Mac - Pinemeter (95020)' (0.037 seconds)
+259: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection()' passed on 'My Mac - Pinemeter (95020)' (0.001 seconds)
+260: Test case 'CredentialStateTests.test_geminiCredentialStateUsesSanitizedProviderDiagnostics()' passed on 'My Mac - Pinemeter (95025)' (0.001 seconds)
+MATCH 81: Test case 'CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()' failed on 'My Mac - Pinemeter (94981)' (0.081 seconds)
+MATCH 85: Test case 'ChatGPTSessionRepositoryTests.test_saveRejectsBlankCookieAndRecordsSanitizedFailureCategory()' passed on 'My Mac - Pinemeter (94981)' (0.008 seconds)
+MATCH 96: Test case 'GeminiUsageServiceTests.test_validateAPIKeyReturnsFalseForAuthFailures()' passed on 'My Mac - Pinemeter (94981)' (0.336 seconds)
+MATCH 119: Test case 'SecurityInvariantTests.test_chatGPTInvalidAcquisitionDiagnosticsPersistOnlyFailureCategory()' passed on 'My Mac - Pinemeter (94981)' (0.004 seconds)
+MATCH 182: Test case 'ProviderErrorWorkflowTests.test_networkAuthenticationFailed_usesClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (95020)' (0.001 seconds)
+MATCH 204: Test case 'AppModelTests.test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure()' passed on 'My Mac - Pinemeter (95016)' (0.002 seconds)
+MATCH 228: Test case 'CredentialStateTests.test_credentialState_prefersFailureDescriptionWhenPresent()' passed on 'My Mac - Pinemeter (95025)' (0.001 seconds)
+MATCH 230: Test case 'CredentialStateTests.test_credentialState_usesHealthDescriptionWhenNoFailureIsPresent()' passed on 'My Mac - Pinemeter (95025)' (0.001 seconds)
+MATCH 231: Test case 'CredentialStateTests.test_failureCategories_exposeSanitizedUserFacingDescriptions()' passed on 'My Mac - Pinemeter (95025)' (0.001 seconds)
+MATCH 234: Test case 'ChatGPTAppModelTests.test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError()' passed on 'My Mac - Pinemeter (95020)' (0.001 seconds)
+MATCH 254: ** TEST FAILED **
