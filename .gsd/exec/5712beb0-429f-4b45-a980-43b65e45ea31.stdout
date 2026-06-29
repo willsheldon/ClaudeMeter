@@ -1,0 +1,6 @@
+Claude matches: 23
+ChatGPT matches: 108
+Gemini matches: 61
+Pinemeter/Views/Setup/SetupWizardView.swift:184:            Text("Choose the browser where you are already signed in. Each import button checks Claude and ChatGPT; Gemini API key status appears above without showing credential values.")
+Pinemeter/Views/Settings/SettingsView.swift:117:            Text("Checks Claude and ChatGPT browser sessions. Add Gemini API keys in Settings; their status appears below.")
+RESULT: missing required Gemini provider copy: Gemini usage is active

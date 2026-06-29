@@ -1,0 +1,19 @@
+{
+  "id": "8b516717-4f3b-433b-9525-10cadacbb3a5",
+  "runtime": "bash",
+  "purpose": "T03 full verification xcodebuild test Pinemeter",
+  "script_chars": 83,
+  "started_at": "2026-06-24T21:34:53.746Z",
+  "finished_at": "2026-06-24T21:35:23.375Z",
+  "exit_code": 65,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 29629,
+  "stdout_bytes": 72721,
+  "stderr_bytes": 750,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/8b516717-4f3b-433b-9525-10cadacbb3a5.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/8b516717-4f3b-433b-9525-10cadacbb3a5.stderr"
+}

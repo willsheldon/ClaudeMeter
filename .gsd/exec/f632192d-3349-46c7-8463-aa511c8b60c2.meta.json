@@ -1,0 +1,19 @@
+{
+  "id": "f632192d-3349-46c7-8463-aa511c8b60c2",
+  "runtime": "python",
+  "purpose": "Extract assertion details for CopyableErrorPresentationTests failure",
+  "script_chars": 429,
+  "started_at": "2026-06-24T21:54:10.095Z",
+  "finished_at": "2026-06-24T21:54:10.144Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 49,
+  "stdout_bytes": 2817,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/f632192d-3349-46c7-8463-aa511c8b60c2.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/f632192d-3349-46c7-8463-aa511c8b60c2.stderr"
+}

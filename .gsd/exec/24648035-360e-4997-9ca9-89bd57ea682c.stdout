@@ -1,0 +1,91 @@
+1081:         XCTAssertFalse(rejected)
+1082:         XCTAssertFalse(invalidModel.hasChatGPTSessionCookie)
+1083:         XCTAssertEqual(invalidModel.chatGPTCredentialState.health, .invalid)
+1084:         XCTAssertEqual(invalidModel.chatGPTCredentialState.failureCategory, .providerRejected)
+1085:         do {
+1086:             _ = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+1087:             XCTFail("Expected missing ChatGPT session after invalid validation")
+1088:         } catch ChatGPTSessionRepositoryError.notFound {
+1089:             // Expected
+1090:         } catch {
+1091:             XCTFail("Unexpected error: \(error)")
+1092:         }
+1093: 
+1094:         let validChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+1095:             fetchUsageResult: .success(expectedUsage),
+1096:             validateResult: true
+1097:         )
+1098:         let setupModel = AppModel(
+1099:             settingsRepository: settingsRepository,
+1100:             keychainRepository: keychainRepository,
+1101:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+1102:             chatGPTUsageService: validChatGPTUsageService,
+1103:             chatGPTSessionRepository: chatGPTSessionRepository,
+1104:             notificationService: notificationService
+1105:         )
+1106: 
+1107:         let acquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+1108: 
+1109:         XCTAssertTrue(acquired)
+1110:         XCTAssertTrue(setupModel.hasChatGPTSessionCookie)
+1111:         XCTAssertTrue(setupModel.settings.isChatGPTUsageShown)
+1112:         let savedChatGPTSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+1113: 
+1114:         XCTAssertEqual(setupModel.chatGPTCredentialState.health, .valid)
+1115:         XCTAssertEqual(setupModel.chatGPTUsageData, expectedUsage)
+1116:         XCTAssertEqual(savedChatGPTSession.sessionCookie, "synthetic-chatgpt-session-cookie")
+1117: 
+1118:         var reuseSettings = AppSettings.default
+1119:         reuseSettings.isChatGPTUsageShown = true
+1120:         try await settingsRepository.save(reuseSettings)
+1121:         let reuseModel = AppModel(
+1122:             settingsRepository: settingsRepository,
+1123:             keychainRepository: keychainRepository,
+1124:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+1125:             chatGPTUsageService: validChatGPTUsageService,
+--- tail fakes anchor
+1211: // MARK: - Helpers
+1212: 
+1213: private actor RepairFailingKeychainRepository: KeychainRepositoryProtocol {
+1214:     private let sessionKey: String
+1215: 
+1216:     init(sessionKey: String) {
+1217:         self.sessionKey = sessionKey
+1218:     }
+1219: 
+1220:     func save(sessionKey: String, account: String) async throws {
+1221:         throw KeychainError.saveFailed(OSStatus: OSStatus(errSecInteractionNotAllowed))
+1222:     }
+1223: 
+1224:     func retrieve(account: String) async throws -> String {
+1225:         sessionKey
+1226:     }
+1227: 
+1228:     func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+1229:         throw KeychainError.saveFailed(OSStatus: OSStatus(errSecInteractionNotAllowed))
+1230:     }
+1231: 
+1232:     func update(sessionKey: String, account: String) async throws {
+1233:         throw KeychainError.updateFailed(OSStatus: OSStatus(errSecInteractionNotAllowed))
+1234:     }
+1235: 
+1236:     func delete(account: String) async throws {}
+1237: 
+1238:     func exists(account: String) async -> Bool {
+1239:         true
+1240:     }
+1241: }
+1242: 
+1243: private actor AppModelChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+1244:     private let fetchUsageResult: Result<ChatGPTUsageData, Error>
+1245:     private let validateResult: Bool
+1246:     private(set) var fetchUsageCallCount = 0
+1247: 
+1248:     init(fetchUsageResult: Result<ChatGPTUsageData, Error>, validateResult: Bool) {
+1249:         self.fetchUsageResult = fetchUsageResult
+1250:         self.validateResult = validateResult
+1251:     }
+1252: 
+1253:     func fetchUsage() async throws -> ChatGPTUsageData {
+1254:         fetchUsageCallCount += 1
+1255:         switch fetchUsageResult {

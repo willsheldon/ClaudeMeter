@@ -1,0 +1,19 @@
+{
+  "id": "d6a3d2d4-f956-42ce-8798-99359c5e0367",
+  "runtime": "python",
+  "purpose": "Classify full test failure evidence",
+  "script_chars": 487,
+  "started_at": "2026-06-24T21:50:11.912Z",
+  "finished_at": "2026-06-24T21:50:11.996Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 84,
+  "stdout_bytes": 3108,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/d6a3d2d4-f956-42ce-8798-99359c5e0367.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/d6a3d2d4-f956-42ce-8798-99359c5e0367.stderr"
+}

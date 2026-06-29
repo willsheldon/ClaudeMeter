@@ -1,0 +1,34 @@
+--- .gsd/exec/e25072a3-4093-447c-876e-e74756e19df2.stdout ---
+@@ 81
+76: Test session results, code coverage, and logs:
+77: 	/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Logs/Test/Test-Pinemeter-2026.06.24_14-36-14--0700.xcresult
+78: 
+79: Testing started
+80: Test suite 'CopyableErrorPresentationTests' started on 'My Mac - Pinemeter (32587)'
+81: Test case 'CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()' failed on 'My Mac - Pinemeter (32587)' (0.083 seconds)
+82: Test suite 'CredentialStatusServiceTests' started on 'My Mac - Pinemeter (32587)'
+83: Test case 'CredentialStatusServiceTests.test_status_reportsSingleProviderCredentialState()' passed on 'My Mac - Pinemeter (32587)' (0.003 seconds)
+84: Test case 'CredentialStatusServiceTests.test_statuses_reportAvailableProvidersWithoutRetrievingSecretValues()' passed on 'My Mac - Pinemeter (32587)' (0.010 seconds)
+85: Test case 'CredentialStatusServiceTests.test_statuses_reportMissingProvidersWhenNoCredentialsExist()' passed on 'My Mac - Pinemeter (32587)' (0.002 seconds)
+86: Test suite 'KeychainRepositoryTests' started on 'My Mac - Pinemeter (32587)'
+@@ 183
+178: Test case 'UsageServiceTests.test_userWithCachedUsage_seesCachedValueWithoutNetworkCall()' passed on 'My Mac - Pinemeter (32621)' (0.001 seconds)
+179: Test case 'SessionKeyTests.test_sessionKeyErrorDescriptions_useClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (32616)' (0.001 seconds)
+180: Test case 'ProviderErrorWorkflowTests.test_clearCredentialWorkflowCopyIsProviderSpecificAndCredentialFree()' passed on 'My Mac - Pinemeter (32625)' (0.001 seconds)
+181: Test case 'ProviderErrorWorkflowTests.test_credentialRecoverySetupCopyDoesNotExposeRawCredentialMaterial()' passed on 'My Mac - Pinemeter (32625)' (0.001 seconds)
+182: Test case 'ProviderErrorWorkflowTests.test_geminiCredentialStatusesCoverMissingConfiguredInvalidAndRetryCopy()' passed on 'My Mac - Pinemeter (32625)' (0.001 seconds)
+183: Test case 'ProviderErrorWorkflowTests.test_networkAuthenticationFailed_usesClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (32625)' (0.001 seconds)
+184: Test case 'ProviderErrorWorkflowTests.test_settingsAndSetupRenderSharedProviderCredentialStatusModel()' passed on 'My Mac - Pinemeter (32625)' (0.012 seconds)
+185: Test case 'ProviderErrorWorkflowTests.test_setupProviderStatusCardsExposeSharedRepairAndClearActionsWithoutManualCredentials()' passed on 'My Mac - Pinemeter (32625)' (0.012 seconds)
+186: Test suite 'GeminiCredentialBoundaryTests' started on 'My Mac - Pinemeter (32621)'
+187: Test case 'GeminiCredentialBoundaryTests.test_acquisitionStatusDoesNotDiscloseAPIKey()' passed on 'My Mac - Pinemeter (32621)' (0.001 seconds)
+188: Test case 'GeminiCredentialBoundaryTests.test_apiKeyTrimsWhitespaceAndRedactsDebugOutput()' passed on 'My Mac - Pinemeter (32621)' (0.001 seconds)
+--- .gsd/exec/e25072a3-4093-447c-876e-e74756e19df2.stderr ---
+@@ 11
+6: 2026-06-24 14:36:30.396 xcodebuild[32405:122626860] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+7: 2026-06-24 14:36:30.396 xcodebuild[32405:122626860] [MT] IDETestOperationsObserverDebug: 13.928 sec, +13.928 sec -- end
+8: Failing tests:
+9: 	CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()
+10: 
+11: ** TEST FAILED **
+12: 

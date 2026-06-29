@@ -1,0 +1,11 @@
+PASS: gemini provider modeled
+PASS: gemini display label
+PASS: gemini sanitized credential kind
+PASS: gemini configured state coverage
+PASS: gemini missing state coverage
+PASS: gemini invalid state coverage
+PASS: gemini loading state coverage
+PASS: gemini unavailable state coverage
+PASS: gemini unsupported action coverage
+FAIL: Gemini-specific lines contain potential raw secret terms:
+XCTAssertFalse(gemini.searchableText.contains("sk-ant-secret"))

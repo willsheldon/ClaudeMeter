@@ -1,0 +1,19 @@
+{
+  "id": "d05febf8-2704-4801-ae70-f9507a0cfac2",
+  "runtime": "python",
+  "purpose": "inspect AppModelTests relevant snippets",
+  "script_chars": 282,
+  "started_at": "2026-06-24T21:33:35.898Z",
+  "finished_at": "2026-06-24T21:33:35.979Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 81,
+  "stdout_bytes": 18465,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/d05febf8-2704-4801-ae70-f9507a0cfac2.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/d05febf8-2704-4801-ae70-f9507a0cfac2.stderr"
+}

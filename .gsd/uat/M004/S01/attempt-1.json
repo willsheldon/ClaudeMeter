@@ -1,0 +1,164 @@
+{
+  "runId": "uat:M004:S01:attempt-1",
+  "attempt": 1,
+  "milestoneId": "M004",
+  "sliceId": "S01",
+  "uatType": "artifact-driven",
+  "verdict": "PASS",
+  "gateVerdict": "pass",
+  "evaluatedAt": "2026-06-24T20:20:55.409Z",
+  "worktreeRoot": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004",
+  "browserToolsPresented": false,
+  "modePolicy": {
+    "browserTools": false,
+    "partialEligible": false,
+    "passWithHumanFollowUp": false,
+    "requiredAnyModes": []
+  },
+  "checks": [
+    {
+      "id": "UAT-01",
+      "description": "Gemini provider identity exists: confirm CredentialProvider includes Gemini with user-facing display text without removing or renaming Claude or ChatGPT identities.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "c12684e2-b874-4af6-b27b-d374207ba18a",
+          "note": "CredentialProvider source inspection found Claude, ChatGPT, and Gemini identities/display text.",
+          "unitType": "run-uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "c12684e2-b874-4af6-b27b-d374207ba18a"
+        }
+      ],
+      "notes": "CredentialState.swift includes Gemini as a first-class provider while retaining existing Claude and ChatGPT identities."
+    },
+    {
+      "id": "UAT-02",
+      "description": "Gemini credential contract is sanitized: confirm Gemini status/action tests cover configured, missing, invalid, loading, and unavailable-style states without raw secret fields.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "0e605a35-2fdb-4a0f-b32e-7b0254f8bcf7",
+          "note": "Artifact check found Gemini sanitized credential kind and state/action coverage for configured, missing, invalid, loading, unavailable, and unsupported behavior.",
+          "unitType": "run-uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "0e605a35-2fdb-4a0f-b32e-7b0254f8bcf7"
+        }
+      ],
+      "notes": "Gemini contract coverage is represented through sanitized state/action labels; dummy secret-like fixtures are used only for redaction/exclusion assertions."
+    },
+    {
+      "id": "UAT-03",
+      "description": "Provider enumeration includes Gemini: confirm CredentialStatusService and tests account for Gemini so status reporting does not silently omit it or break existing providers.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "f8f39185-3332-4570-89e2-68b72a2399f2",
+          "note": "Artifact check found CredentialProvider.allCases enumeration and provider tests covering Gemini, Claude, and ChatGPT.",
+          "unitType": "run-uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "f8f39185-3332-4570-89e2-68b72a2399f2"
+        }
+      ],
+      "notes": "Credential status enumeration includes Gemini and tests retain coverage for the existing providers."
+    },
+    {
+      "id": "UAT-04",
+      "description": "Gemini actions before implementation: confirm Gemini actions can be displayed from state but remain unsupported until later slices implement real setup/refresh flows.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "10e7ab21-3d87-4492-87ef-e919ba742444",
+          "note": "Artifact check found AppModel tests and implementation paths for Gemini action state and unsupported action behavior.",
+          "unitType": "run-uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "10e7ab21-3d87-4492-87ef-e919ba742444"
+        }
+      ],
+      "notes": "Gemini actions are present in state/action handling and intentionally throw unsupported action errors until later implementation slices."
+    },
+    {
+      "id": "UAT-05",
+      "description": "Smoke test and existing provider compatibility: run the full Debug test suite and confirm existing Claude and ChatGPT provider workflow/security tests continue to pass.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "42ea0364-f6c0-4efc-a833-94db7f397755",
+          "note": "xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -quiet exited 0.",
+          "unitType": "run-uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "42ea0364-f6c0-4efc-a833-94db7f397755"
+        }
+      ],
+      "notes": "The full Debug test suite exited 0, covering the UAT smoke test and regression protection for existing providers."
+    }
+  ],
+  "presentation": {
+    "surface": "mcp",
+    "presentedTools": [
+      "gsd_uat_exec",
+      "gsd_uat_result_save",
+      "gsd_resume",
+      "gsd_milestone_status",
+      "gsd_journal_query",
+      "find",
+      "glob",
+      "grep",
+      "ls",
+      "read"
+    ],
+    "blockedTools": [
+      {
+        "name": "edit",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_exec",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_summary_save",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_save_gate_result",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "search-the-web",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "WebSearch",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Bash",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Edit",
+        "reason": "forbidden during run-uat"
+      }
+    ],
+    "toolPresentationPlanId": "run-uat/default-v1"
+  },
+  "notes": "All artifact-driven acceptance checks passed, and the full Debug xcodebuild test suite exited 0."
+}

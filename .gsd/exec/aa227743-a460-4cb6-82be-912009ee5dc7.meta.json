@@ -1,0 +1,27 @@
+{
+  "id": "aa227743-a460-4cb6-82be-912009ee5dc7",
+  "runtime": "bash",
+  "purpose": "UAT M004/S03/UAT-STALE-SECRET-COPY (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S03",
+    "checkId": "UAT-STALE-SECRET-COPY",
+    "intent": "uat-artifact-check",
+    "expected": "No stale two-provider copy and no credential-shaped material in setup/settings text"
+  },
+  "script_chars": 828,
+  "started_at": "2026-06-24T21:24:55.718Z",
+  "finished_at": "2026-06-24T21:24:55.764Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 46,
+  "stdout_bytes": 16046,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/aa227743-a460-4cb6-82be-912009ee5dc7.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/aa227743-a460-4cb6-82be-912009ee5dc7.stderr"
+}

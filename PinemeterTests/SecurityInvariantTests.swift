@@ -7,7 +7,8 @@ final class SecurityInvariantTests: XCTestCase {
         "__Secure-next-auth.session-token=synthetic-cookie",
         "Cookie:",
         "Bearer synthetic-access-token",
-        "access-token-synthetic-secret"
+        "access-token-synthetic-secret",
+        "gemini-api-key-redaction-sentinel"
     ]
 
     func test_appSettingsPersistenceDoesNotEncodeCredentialMaterial() async throws {
@@ -120,6 +121,44 @@ final class SecurityInvariantTests: XCTestCase {
 
         let persistedDomain = userDefaults.persistentDomain(forName: suiteName) ?? [:]
         assertNoChatGPTCredentialDisclosure(in: [String(describing: status), status.debugDescription, String(describing: persistedDomain)])
+    }
+
+    func test_geminiAcquisitionStatusPersistenceIsSanitizedAndSeparateFromAppSettings() async throws {
+        let suiteName = "SecurityInvariantTests.GeminiStatus.\(UUID().uuidString)"
+        let userDefaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        defer { userDefaults.removePersistentDomain(forName: suiteName) }
+
+        let account = "SecurityInvariantTests.GeminiStatus.\(UUID().uuidString)"
+        let repository = GeminiAPIKeyRepository(userDefaults: userDefaults)
+
+        try await repository.save(try GeminiAPIKey("gemini-api-key-redaction-sentinel"), account: account)
+
+        let status = await repository.validate(account: account)
+        XCTAssertEqual(status.state, .available)
+        XCTAssertNil(status.lastErrorCategory)
+
+        let persistedDomain = userDefaults.persistentDomain(forName: suiteName) ?? [:]
+        let persistedDiagnosticPayload = String(describing: persistedDomain)
+        let persistedAppSettingsPayload = userDefaults.data(forKey: "app_settings")
+            .flatMap { String(data: $0, encoding: .utf8) }
+
+        XCTAssertNil(persistedAppSettingsPayload, "Gemini acquisition diagnostics must not be stored inside AppSettings persistence.")
+        assertNoCredentialDisclosure(in: [String(describing: status), status.debugDescription, persistedDiagnosticPayload])
+
+        try await repository.clear(account: account)
+    }
+
+    func test_userFacingGeminiErrorDescriptionsDoNotDiscloseCredentialShapedFragments() {
+        let errors: [LocalizedError] = [
+            GeminiUsageError.missingAPIKey,
+            GeminiUsageError.invalidAPIKey,
+            GeminiUsageError.quotaUnavailable,
+            GeminiUsageError.invalidResponse,
+            GeminiUsageError.httpError(statusCode: 403),
+            GeminiUsageError.networkUnavailable
+        ]
+
+        assertNoCredentialDisclosure(in: errors.map { $0.localizedDescription })
     }
 
     func test_settingsRepositoryDoesNotReferenceCredentialStateOrCredentialMaterial() throws {

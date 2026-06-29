@@ -1,0 +1,15 @@
+meter style renderer test: PASS
+  found: func test_menuBarIconRendersMeterStyle()
+  found: MenuBarIconRenderer
+  found: renderer.render(
+loading or stale renderer test: PASS
+  found: func test_menuBarIconRendersWhenLoadingOrStale()
+  found: isLoading: true
+  found: isStale: true
+normal state renderer inputs: PASS
+  found: percentage: TestConstants.sessionPercentage
+  found: weeklyPercentage: TestConstants.weeklyPercentage
+  found: status: .safe
+render output asserted visible: PASS
+  found: XCTAssertGreaterThan(image.size.width, 0)
+  found: XCTAssertGreaterThan(image.size.height, 0)

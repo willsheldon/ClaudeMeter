@@ -1,0 +1,27 @@
+{
+  "id": "895e768b-7f2b-4ebe-af01-3310e1da4af6",
+  "runtime": "bash",
+  "purpose": "UAT M004/S01/UAT-03 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S01",
+    "checkId": "UAT-03",
+    "intent": "uat-artifact-check",
+    "expected": "Adding .gemini to all provider cases does not silently omit it from status reporting or break existing providers."
+  },
+  "script_chars": 1047,
+  "started_at": "2026-06-24T20:19:50.795Z",
+  "finished_at": "2026-06-24T20:19:50.857Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 62,
+  "stdout_bytes": 216,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/895e768b-7f2b-4ebe-af01-3310e1da4af6.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/895e768b-7f2b-4ebe-af01-3310e1da4af6.stderr"
+}

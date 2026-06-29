@@ -4,7 +4,7 @@ estimated_files: 5
 skills_used: []
 ---
 
-# T01: Audit provider model extension points
+# T01: Mapped the current Claude and ChatGPT provider seams that Gemini must neutralize before implementation.
 
 Map current provider identity, credential state, usage data, settings, and test fixture seams before adding Gemini. Identify where Claude and ChatGPT assumptions must become provider-neutral.
 

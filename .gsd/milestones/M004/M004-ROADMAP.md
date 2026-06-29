@@ -11,19 +11,19 @@
 
 ## Slices
 
-- [ ] **S01: Gemini provider contract** `risk:high` `depends:[]`
+- [x] **S01: Gemini provider contract** `risk:high` `depends:[]`
   > After this: The app has a Gemini provider identity, model contract, and failing tests that define credential and usage states.
 
-- [ ] **S02: Gemini credential and usage service** `risk:high` `depends:[S01]`
+- [x] **S02: Gemini credential and usage service** `risk:high` `depends:[S01]`
   > After this: A Gemini service can acquire or consume credential material through a secure boundary and return normalized usage or sanitized errors under tests.
 
-- [ ] **S03: Gemini setup and settings UI** `risk:medium` `depends:[S02]`
+- [x] **S03: Gemini setup and settings UI** `risk:medium` `depends:[S02]`
   > After this: Settings and setup display Gemini status and actions beside Claude and ChatGPT.
 
-- [ ] **S04: Gemini menu usage integration** `risk:medium` `depends:[S02,S03]`
+- [x] **S04: Gemini menu usage integration** `risk:medium` `depends:[S02,S03]`
   > After this: The menu bar popover refreshes and displays Gemini usage alongside other configured providers.
 
-- [ ] **S05: Gemini workflow UAT** `risk:medium` `depends:[S04]`
+- [x] **S05: Gemini workflow UAT** `risk:medium` `depends:[S04]`
   > After this: A repeatable UAT proves Gemini setup, refresh, recovery, and coexistence with Claude and ChatGPT.
 
 ## Boundary Map

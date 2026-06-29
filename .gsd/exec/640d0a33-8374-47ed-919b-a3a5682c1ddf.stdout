@@ -1,0 +1,526 @@
+--- .gsd/exec/8b516717-4f3b-433b-9525-10cadacbb3a5.stdout ---
+@@ 81
+78:     cd /Users/will/code/ClaudeMeter/.gsd-worktrees/M004
+79:     
+80: 
+81: SwiftCompile normal arm64 Compiling\ AppModelTests.swift /Users/will/code/ClaudeMeter/.gsd-worktrees/M004/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+82: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd-worktrees/M004/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+83:     cd /Users/will/code/ClaudeMeter/.gsd-worktrees/M004
+84:     
+85: 
+@@ 82
+79:     
+80: 
+81: SwiftCompile normal arm64 Compiling\ AppModelTests.swift /Users/will/code/ClaudeMeter/.gsd-worktrees/M004/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+82: SwiftCompile normal arm64 /Users/will/code/ClaudeMeter/.gsd-worktrees/M004/PinemeterTests/AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+83:     cd /Users/will/code/ClaudeMeter/.gsd-worktrees/M004
+84:     
+85: 
+86: SwiftDriverJobDiscovery normal arm64 Emitting module for PinemeterTests (in target 'PinemeterTests' from project 'Pinemeter')
+@@ 104
+101:     cd /Users/will/code/ClaudeMeter/.gsd-worktrees/M004
+102:     builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests.abi.json /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Products/Debug/PinemeterTests.swiftmodule/arm64-apple-macos.abi.json
+103: 
+104: SwiftDriverJobDiscovery normal arm64 Compiling AppModelTests.swift (in target 'PinemeterTests' from project 'Pinemeter')
+105: 
+106: SwiftDriver\ Compilation PinemeterTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'PinemeterTests' from project 'Pinemeter')
+107:     cd /Users/will/code/ClaudeMeter/.gsd-worktrees/M004
+108:     builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name PinemeterTests -Onone @/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests.SwiftFileList -DDEBUG -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -target arm64-apple-macos14.0 -g -module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Products/Debug -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Products/Debug/PackageFrameworks -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Products/Debug/PackageFrameworks -F /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Products/Debug -F /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/will/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.5-25F70-e082c4a02f00227109f4ed75e425c832.sdkstatcache -output-file-map /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/will/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests_const_extract_protocols.json -Xcc -iquote -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-generated-files.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-own-target-headers.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-all-non-framework-target-headers.hmap -Xcc -ivfsoverlay -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter-f15b75f3ca50df7d8813a0665bad54e4-VFS/all-product-headers.yaml -Xcc -iquote -Xcc /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests-project-headers.hmap -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Products/Debug/include -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources-normal/arm64 -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources/arm64 -Xcc -I/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests-Swift.h -working-directory /Users/will/code/ClaudeMeter/.gsd-worktrees/M004 -experimental-emit-module-separately -disable-cmo
+@@ 168
+165: 	/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Logs/Test/Test-Pinemeter-2026.06.24_14-34-56--0700.xcresult
+166: 
+167: Testing started
+168: Test suite 'AppModelTests' started on 'My Mac - Pinemeter (28575)'
+169: Test case 'AppModelTests.test_bootstrap_withoutSessionKey_showsSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.082 seconds)
+170: Test case 'AppModelTests.test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.008 seconds)
+171: Test case 'AppModelTests.test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.006 seconds)
+172: Test case 'AppModelTests.test_geminiCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+@@ 169
+166: 
+167: Testing started
+168: Test suite 'AppModelTests' started on 'My Mac - Pinemeter (28575)'
+169: Test case 'AppModelTests.test_bootstrap_withoutSessionKey_showsSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.082 seconds)
+170: Test case 'AppModelTests.test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.008 seconds)
+171: Test case 'AppModelTests.test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.006 seconds)
+172: Test case 'AppModelTests.test_geminiCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+173: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 170
+167: Testing started
+168: Test suite 'AppModelTests' started on 'My Mac - Pinemeter (28575)'
+169: Test case 'AppModelTests.test_bootstrap_withoutSessionKey_showsSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.082 seconds)
+170: Test case 'AppModelTests.test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.008 seconds)
+171: Test case 'AppModelTests.test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.006 seconds)
+172: Test case 'AppModelTests.test_geminiCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+173: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+174: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+@@ 171
+168: Test suite 'AppModelTests' started on 'My Mac - Pinemeter (28575)'
+169: Test case 'AppModelTests.test_bootstrap_withoutSessionKey_showsSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.082 seconds)
+170: Test case 'AppModelTests.test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.008 seconds)
+171: Test case 'AppModelTests.test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.006 seconds)
+172: Test case 'AppModelTests.test_geminiCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+173: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+174: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+175: Test case 'AppModelTests.test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+@@ 172
+169: Test case 'AppModelTests.test_bootstrap_withoutSessionKey_showsSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.082 seconds)
+170: Test case 'AppModelTests.test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.008 seconds)
+171: Test case 'AppModelTests.test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.006 seconds)
+172: Test case 'AppModelTests.test_geminiCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+173: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+174: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+175: Test case 'AppModelTests.test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+176: Test case 'AppModelTests.test_importingSessionKey_savesImportedKeyAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+@@ 173
+170: Test case 'AppModelTests.test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.008 seconds)
+171: Test case 'AppModelTests.test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.006 seconds)
+172: Test case 'AppModelTests.test_geminiCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+173: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+174: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+175: Test case 'AppModelTests.test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+176: Test case 'AppModelTests.test_importingSessionKey_savesImportedKeyAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+177: Test case 'AppModelTests.test_importingSessionKey_whenImportedKeyInvalid_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+@@ 174
+171: Test case 'AppModelTests.test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.006 seconds)
+172: Test case 'AppModelTests.test_geminiCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+173: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+174: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+175: Test case 'AppModelTests.test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+176: Test case 'AppModelTests.test_importingSessionKey_savesImportedKeyAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+177: Test case 'AppModelTests.test_importingSessionKey_whenImportedKeyInvalid_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+178: Test case 'AppModelTests.test_performProviderCredentialAction_clearsGeminiWithoutChangingMixedProviderState()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+@@ 175
+172: Test case 'AppModelTests.test_geminiCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+173: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+174: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+175: Test case 'AppModelTests.test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+176: Test case 'AppModelTests.test_importingSessionKey_savesImportedKeyAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+177: Test case 'AppModelTests.test_importingSessionKey_whenImportedKeyInvalid_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+178: Test case 'AppModelTests.test_performProviderCredentialAction_clearsGeminiWithoutChangingMixedProviderState()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+179: Test case 'AppModelTests.test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+@@ 176
+173: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+174: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+175: Test case 'AppModelTests.test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+176: Test case 'AppModelTests.test_importingSessionKey_savesImportedKeyAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+177: Test case 'AppModelTests.test_importingSessionKey_whenImportedKeyInvalid_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+178: Test case 'AppModelTests.test_performProviderCredentialAction_clearsGeminiWithoutChangingMixedProviderState()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+179: Test case 'AppModelTests.test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+180: Test case 'AppModelTests.test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+@@ 177
+174: Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+175: Test case 'AppModelTests.test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+176: Test case 'AppModelTests.test_importingSessionKey_savesImportedKeyAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+177: Test case 'AppModelTests.test_importingSessionKey_whenImportedKeyInvalid_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+178: Test case 'AppModelTests.test_performProviderCredentialAction_clearsGeminiWithoutChangingMixedProviderState()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+179: Test case 'AppModelTests.test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+180: Test case 'AppModelTests.test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+181: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 178
+175: Test case 'AppModelTests.test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+176: Test case 'AppModelTests.test_importingSessionKey_savesImportedKeyAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+177: Test case 'AppModelTests.test_importingSessionKey_whenImportedKeyInvalid_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+178: Test case 'AppModelTests.test_performProviderCredentialAction_clearsGeminiWithoutChangingMixedProviderState()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+179: Test case 'AppModelTests.test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+180: Test case 'AppModelTests.test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+181: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+182: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectAndRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 179
+176: Test case 'AppModelTests.test_importingSessionKey_savesImportedKeyAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+177: Test case 'AppModelTests.test_importingSessionKey_whenImportedKeyInvalid_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+178: Test case 'AppModelTests.test_performProviderCredentialAction_clearsGeminiWithoutChangingMixedProviderState()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+179: Test case 'AppModelTests.test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+180: Test case 'AppModelTests.test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+181: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+182: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectAndRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+183: Test case 'AppModelTests.test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+@@ 180
+177: Test case 'AppModelTests.test_importingSessionKey_whenImportedKeyInvalid_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+178: Test case 'AppModelTests.test_performProviderCredentialAction_clearsGeminiWithoutChangingMixedProviderState()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+179: Test case 'AppModelTests.test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+180: Test case 'AppModelTests.test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+181: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+182: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectAndRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+183: Test case 'AppModelTests.test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+184: Test case 'AppModelTests.test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+@@ 181
+178: Test case 'AppModelTests.test_performProviderCredentialAction_clearsGeminiWithoutChangingMixedProviderState()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+179: Test case 'AppModelTests.test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+180: Test case 'AppModelTests.test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+181: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+182: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectAndRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+183: Test case 'AppModelTests.test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+184: Test case 'AppModelTests.test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+185: Test case 'AppModelTests.test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 182
+179: Test case 'AppModelTests.test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+180: Test case 'AppModelTests.test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+181: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+182: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectAndRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+183: Test case 'AppModelTests.test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+184: Test case 'AppModelTests.test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+185: Test case 'AppModelTests.test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+186: Test case 'AppModelTests.test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+@@ 183
+180: Test case 'AppModelTests.test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+181: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+182: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectAndRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+183: Test case 'AppModelTests.test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+184: Test case 'AppModelTests.test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+185: Test case 'AppModelTests.test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+186: Test case 'AppModelTests.test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+187: Test case 'AppModelTests.test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 184
+181: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+182: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectAndRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+183: Test case 'AppModelTests.test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+184: Test case 'AppModelTests.test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+185: Test case 'AppModelTests.test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+186: Test case 'AppModelTests.test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+187: Test case 'AppModelTests.test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+188: Test case 'AppModelTests.test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+@@ 185
+182: Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectAndRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+183: Test case 'AppModelTests.test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+184: Test case 'AppModelTests.test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+185: Test case 'AppModelTests.test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+186: Test case 'AppModelTests.test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+187: Test case 'AppModelTests.test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+188: Test case 'AppModelTests.test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+189: Test case 'AppModelTests.test_providerDisplayCombinations_includeAllProviders()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 186
+183: Test case 'AppModelTests.test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+184: Test case 'AppModelTests.test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+185: Test case 'AppModelTests.test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+186: Test case 'AppModelTests.test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+187: Test case 'AppModelTests.test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+188: Test case 'AppModelTests.test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+189: Test case 'AppModelTests.test_providerDisplayCombinations_includeAllProviders()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+190: Test case 'AppModelTests.test_providerDisplayCombinations_includeChatGPTPlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 187
+184: Test case 'AppModelTests.test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+185: Test case 'AppModelTests.test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+186: Test case 'AppModelTests.test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+187: Test case 'AppModelTests.test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+188: Test case 'AppModelTests.test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+189: Test case 'AppModelTests.test_providerDisplayCombinations_includeAllProviders()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+190: Test case 'AppModelTests.test_providerDisplayCombinations_includeChatGPTPlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+191: Test case 'AppModelTests.test_providerDisplayCombinations_includeClaudePlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 188
+185: Test case 'AppModelTests.test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+186: Test case 'AppModelTests.test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+187: Test case 'AppModelTests.test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+188: Test case 'AppModelTests.test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+189: Test case 'AppModelTests.test_providerDisplayCombinations_includeAllProviders()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+190: Test case 'AppModelTests.test_providerDisplayCombinations_includeChatGPTPlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+191: Test case 'AppModelTests.test_providerDisplayCombinations_includeClaudePlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+192: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiErrorState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+@@ 189
+186: Test case 'AppModelTests.test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+187: Test case 'AppModelTests.test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+188: Test case 'AppModelTests.test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+189: Test case 'AppModelTests.test_providerDisplayCombinations_includeAllProviders()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+190: Test case 'AppModelTests.test_providerDisplayCombinations_includeChatGPTPlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+191: Test case 'AppModelTests.test_providerDisplayCombinations_includeClaudePlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+192: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiErrorState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+193: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiOnly()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 190
+187: Test case 'AppModelTests.test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+188: Test case 'AppModelTests.test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+189: Test case 'AppModelTests.test_providerDisplayCombinations_includeAllProviders()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+190: Test case 'AppModelTests.test_providerDisplayCombinations_includeChatGPTPlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+191: Test case 'AppModelTests.test_providerDisplayCombinations_includeClaudePlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+192: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiErrorState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+193: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiOnly()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+194: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+@@ 191
+188: Test case 'AppModelTests.test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+189: Test case 'AppModelTests.test_providerDisplayCombinations_includeAllProviders()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+190: Test case 'AppModelTests.test_providerDisplayCombinations_includeChatGPTPlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+191: Test case 'AppModelTests.test_providerDisplayCombinations_includeClaudePlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+192: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiErrorState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+193: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiOnly()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+194: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+195: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+@@ 192
+189: Test case 'AppModelTests.test_providerDisplayCombinations_includeAllProviders()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+190: Test case 'AppModelTests.test_providerDisplayCombinations_includeChatGPTPlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+191: Test case 'AppModelTests.test_providerDisplayCombinations_includeClaudePlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+192: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiErrorState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+193: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiOnly()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+194: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+195: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+196: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+@@ 193
+190: Test case 'AppModelTests.test_providerDisplayCombinations_includeChatGPTPlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+191: Test case 'AppModelTests.test_providerDisplayCombinations_includeClaudePlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+192: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiErrorState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+193: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiOnly()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+194: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+195: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+196: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+197: Test case 'AppModelTests.test_refreshingUsage_hidesUsageWhenSetupIncomplete()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 194
+191: Test case 'AppModelTests.test_providerDisplayCombinations_includeClaudePlusGemini()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+192: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiErrorState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+193: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiOnly()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+194: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+195: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+196: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+197: Test case 'AppModelTests.test_refreshingUsage_hidesUsageWhenSetupIncomplete()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+198: Test case 'AppModelTests.test_refreshingUsage_showsErrorWhenFetchFails()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 195
+192: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiErrorState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+193: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiOnly()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+194: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+195: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+196: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+197: Test case 'AppModelTests.test_refreshingUsage_hidesUsageWhenSetupIncomplete()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+198: Test case 'AppModelTests.test_refreshingUsage_showsErrorWhenFetchFails()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+199: Test case 'AppModelTests.test_refreshingUsage_showsLatestUsageAndClearsError()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 196
+193: Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiOnly()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+194: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+195: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+196: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+197: Test case 'AppModelTests.test_refreshingUsage_hidesUsageWhenSetupIncomplete()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+198: Test case 'AppModelTests.test_refreshingUsage_showsErrorWhenFetchFails()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+199: Test case 'AppModelTests.test_refreshingUsage_showsLatestUsageAndClearsError()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+200: Test case 'AppModelTests.test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 197
+194: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+195: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+196: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+197: Test case 'AppModelTests.test_refreshingUsage_hidesUsageWhenSetupIncomplete()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+198: Test case 'AppModelTests.test_refreshingUsage_showsErrorWhenFetchFails()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+199: Test case 'AppModelTests.test_refreshingUsage_showsLatestUsageAndClearsError()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+200: Test case 'AppModelTests.test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+201: Test case 'AppModelTests.test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure()' passed on 'My Mac - Pinemeter (28575)' (0.027 seconds)
+@@ 198
+195: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+196: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+197: Test case 'AppModelTests.test_refreshingUsage_hidesUsageWhenSetupIncomplete()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+198: Test case 'AppModelTests.test_refreshingUsage_showsErrorWhenFetchFails()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+199: Test case 'AppModelTests.test_refreshingUsage_showsLatestUsageAndClearsError()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+200: Test case 'AppModelTests.test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+201: Test case 'AppModelTests.test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure()' passed on 'My Mac - Pinemeter (28575)' (0.027 seconds)
+202: Test case 'AppModelTests.test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 199
+196: Test case 'AppModelTests.test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+197: Test case 'AppModelTests.test_refreshingUsage_hidesUsageWhenSetupIncomplete()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+198: Test case 'AppModelTests.test_refreshingUsage_showsErrorWhenFetchFails()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+199: Test case 'AppModelTests.test_refreshingUsage_showsLatestUsageAndClearsError()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+200: Test case 'AppModelTests.test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+201: Test case 'AppModelTests.test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure()' passed on 'My Mac - Pinemeter (28575)' (0.027 seconds)
+202: Test case 'AppModelTests.test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+203: Test case 'AppModelTests.test_userClearsSession_returnsToSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 200
+197: Test case 'AppModelTests.test_refreshingUsage_hidesUsageWhenSetupIncomplete()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+198: Test case 'AppModelTests.test_refreshingUsage_showsErrorWhenFetchFails()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+199: Test case 'AppModelTests.test_refreshingUsage_showsLatestUsageAndClearsError()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+200: Test case 'AppModelTests.test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+201: Test case 'AppModelTests.test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure()' passed on 'My Mac - Pinemeter (28575)' (0.027 seconds)
+202: Test case 'AppModelTests.test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+203: Test case 'AppModelTests.test_userClearsSession_returnsToSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+204: Test case 'AppModelTests.test_userSendsTestNotification_triggersNotificationService()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 201
+198: Test case 'AppModelTests.test_refreshingUsage_showsErrorWhenFetchFails()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+199: Test case 'AppModelTests.test_refreshingUsage_showsLatestUsageAndClearsError()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+200: Test case 'AppModelTests.test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+201: Test case 'AppModelTests.test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure()' passed on 'My Mac - Pinemeter (28575)' (0.027 seconds)
+202: Test case 'AppModelTests.test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+203: Test case 'AppModelTests.test_userClearsSession_returnsToSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+204: Test case 'AppModelTests.test_userSendsTestNotification_triggersNotificationService()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+205: Test case 'AppModelTests.test_userWithInvalidSessionKey_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+@@ 202
+199: Test case 'AppModelTests.test_refreshingUsage_showsLatestUsageAndClearsError()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+200: Test case 'AppModelTests.test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+201: Test case 'AppModelTests.test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure()' passed on 'My Mac - Pinemeter (28575)' (0.027 seconds)
+202: Test case 'AppModelTests.test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+203: Test case 'AppModelTests.test_userClearsSession_returnsToSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+204: Test case 'AppModelTests.test_userSendsTestNotification_triggersNotificationService()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+205: Test case 'AppModelTests.test_userWithInvalidSessionKey_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+206: Test case 'AppModelTests.test_userWithNotificationPermission_doesNotSeePermissionPrompt()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+@@ 203
+200: Test case 'AppModelTests.test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+201: Test case 'AppModelTests.test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure()' passed on 'My Mac - Pinemeter (28575)' (0.027 seconds)
+202: Test case 'AppModelTests.test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+203: Test case 'AppModelTests.test_userClearsSession_returnsToSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+204: Test case 'AppModelTests.test_userSendsTestNotification_triggersNotificationService()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+205: Test case 'AppModelTests.test_userWithInvalidSessionKey_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+206: Test case 'AppModelTests.test_userWithNotificationPermission_doesNotSeePermissionPrompt()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+207: Test case 'AppModelTests.test_userWithoutNotificationPermission_isPromptedForPermission()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+@@ 204
+201: Test case 'AppModelTests.test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure()' passed on 'My Mac - Pinemeter (28575)' (0.027 seconds)
+202: Test case 'AppModelTests.test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+203: Test case 'AppModelTests.test_userClearsSession_returnsToSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+204: Test case 'AppModelTests.test_userSendsTestNotification_triggersNotificationService()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+205: Test case 'AppModelTests.test_userWithInvalidSessionKey_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+206: Test case 'AppModelTests.test_userWithNotificationPermission_doesNotSeePermissionPrompt()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+207: Test case 'AppModelTests.test_userWithoutNotificationPermission_isPromptedForPermission()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+208: Test case 'AppModelTests.test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+@@ 205
+202: Test case 'AppModelTests.test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+203: Test case 'AppModelTests.test_userClearsSession_returnsToSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+204: Test case 'AppModelTests.test_userSendsTestNotification_triggersNotificationService()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+205: Test case 'AppModelTests.test_userWithInvalidSessionKey_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+206: Test case 'AppModelTests.test_userWithNotificationPermission_doesNotSeePermissionPrompt()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+207: Test case 'AppModelTests.test_userWithoutNotificationPermission_isPromptedForPermission()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+208: Test case 'AppModelTests.test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+209: Test case 'AppModelTests.test_userWithSessionKey_seesUsageAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+@@ 206
+203: Test case 'AppModelTests.test_userClearsSession_returnsToSetupState()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+204: Test case 'AppModelTests.test_userSendsTestNotification_triggersNotificationService()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+205: Test case 'AppModelTests.test_userWithInvalidSessionKey_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+206: Test case 'AppModelTests.test_userWithNotificationPermission_doesNotSeePermissionPrompt()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+207: Test case 'AppModelTests.test_userWithoutNotificationPermission_isPromptedForPermission()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+208: Test case 'AppModelTests.test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+209: Test case 'AppModelTests.test_userWithSessionKey_seesUsageAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+210: Test case 'AppModelTests.test_userWithValidSessionKey_entersUsageAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+@@ 207
+204: Test case 'AppModelTests.test_userSendsTestNotification_triggersNotificationService()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+205: Test case 'AppModelTests.test_userWithInvalidSessionKey_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+206: Test case 'AppModelTests.test_userWithNotificationPermission_doesNotSeePermissionPrompt()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+207: Test case 'AppModelTests.test_userWithoutNotificationPermission_isPromptedForPermission()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+208: Test case 'AppModelTests.test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+209: Test case 'AppModelTests.test_userWithSessionKey_seesUsageAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+210: Test case 'AppModelTests.test_userWithValidSessionKey_entersUsageAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+211: Test case 'AppModelTests.test_userWithValidSessionKeyWithoutOrganization_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+@@ 208
+205: Test case 'AppModelTests.test_userWithInvalidSessionKey_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+206: Test case 'AppModelTests.test_userWithNotificationPermission_doesNotSeePermissionPrompt()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+207: Test case 'AppModelTests.test_userWithoutNotificationPermission_isPromptedForPermission()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+208: Test case 'AppModelTests.test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+209: Test case 'AppModelTests.test_userWithSessionKey_seesUsageAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+210: Test case 'AppModelTests.test_userWithValidSessionKey_entersUsageAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+211: Test case 'AppModelTests.test_userWithValidSessionKeyWithoutOrganization_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+212: Test suite 'ChatGPTSessionRepositoryTests' started on 'My Mac - Pinemeter (28575)'
+@@ 209
+206: Test case 'AppModelTests.test_userWithNotificationPermission_doesNotSeePermissionPrompt()' passed on 'My Mac - Pinemeter (28575)' (0.002 seconds)
+207: Test case 'AppModelTests.test_userWithoutNotificationPermission_isPromptedForPermission()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+208: Test case 'AppModelTests.test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+209: Test case 'AppModelTests.test_userWithSessionKey_seesUsageAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+210: Test case 'AppModelTests.test_userWithValidSessionKey_entersUsageAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+211: Test case 'AppModelTests.test_userWithValidSessionKeyWithoutOrganization_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+212: Test suite 'ChatGPTSessionRepositoryTests' started on 'My Mac - Pinemeter (28575)'
+213: Test case 'ChatGPTSessionRepositoryTests.test_clearRemovesDurableCookieAndTransientAccessToken()' passed on 'My Mac - Pinemeter (28575)' (0.081 seconds)
+@@ 210
+207: Test case 'AppModelTests.test_userWithoutNotificationPermission_isPromptedForPermission()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+208: Test case 'AppModelTests.test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+209: Test case 'AppModelTests.test_userWithSessionKey_seesUsageAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+210: Test case 'AppModelTests.test_userWithValidSessionKey_entersUsageAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+211: Test case 'AppModelTests.test_userWithValidSessionKeyWithoutOrganization_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+212: Test suite 'ChatGPTSessionRepositoryTests' started on 'My Mac - Pinemeter (28575)'
+213: Test case 'ChatGPTSessionRepositoryTests.test_clearRemovesDurableCookieAndTransientAccessToken()' passed on 'My Mac - Pinemeter (28575)' (0.081 seconds)
+214: Test case 'ChatGPTSessionRepositoryTests.test_saveAndLoadPersistsCookieButKeepsAccessTokenTransient()' passed on 'My Mac - Pinemeter (28575)' (0.056 seconds)
+@@ 211
+208: Test case 'AppModelTests.test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.004 seconds)
+209: Test case 'AppModelTests.test_userWithSessionKey_seesUsageAfterLaunch()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+210: Test case 'AppModelTests.test_userWithValidSessionKey_entersUsageAndLoadsData()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+211: Test case 'AppModelTests.test_userWithValidSessionKeyWithoutOrganization_staysInSetup()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+212: Test suite 'ChatGPTSessionRepositoryTests' started on 'My Mac - Pinemeter (28575)'
+213: Test case 'ChatGPTSessionRepositoryTests.test_clearRemovesDurableCookieAndTransientAccessToken()' passed on 'My Mac - Pinemeter (28575)' (0.081 seconds)
+214: Test case 'ChatGPTSessionRepositoryTests.test_saveAndLoadPersistsCookieButKeepsAccessTokenTransient()' passed on 'My Mac - Pinemeter (28575)' (0.056 seconds)
+215: Test case 'ChatGPTSessionRepositoryTests.test_saveRejectsBlankCookieAndRecordsSanitizedFailureCategory()' passed on 'My Mac - Pinemeter (28575)' (0.005 seconds)
+@@ 270
+267: Test case 'GeminiCredentialBoundaryTests.test_geminiUsageErrorDescriptionsDoNotDiscloseCredentialMaterial()' passed on 'My Mac - Pinemeter (28575)' (0.001 seconds)
+268: Test suite 'CacheRepositoryTests' started on 'My Mac - Pinemeter (28575)'
+269: Test case 'CacheRepositoryTests.test_getLastKnownMigratesLegacyPrivateCacheWhenNewCacheIsAbsent()' passed on 'My Mac - Pinemeter (28575)' (0.009 seconds)
+270: Test suite 'ChatGPTAppModelTests' started on 'My Mac - Pinemeter (28674)'
+271: Test case 'ChatGPTAppModelTests.test_bootstrap_detectsExistingChatGPTSessionWithoutRequiringClaudeSetup()' passed on 'My Mac - Pinemeter (28674)' (0.007 seconds)
+272: Test case 'ChatGPTAppModelTests.test_bootstrap_withChatGPTStorageUnavailablePublishesSanitizedStatus()' passed on 'My Mac - Pinemeter (28674)' (0.003 seconds)
+273: Test case 'GeminiUsageServiceTests.test_fetchUsage_withMissingStoredAPIKeyThrowsMissingAPIKey()' passed on 'My Mac - Pinemeter (28675)' (0.001 seconds)
+274: Test suite 'NotificationServiceTests' started on 'My Mac - Pinemeter (28677)'
+@@ 271
+268: Test suite 'CacheRepositoryTests' started on 'My Mac - Pinemeter (28575)'
+269: Test case 'CacheRepositoryTests.test_getLastKnownMigratesLegacyPrivateCacheWhenNewCacheIsAbsent()' passed on 'My Mac - Pinemeter (28575)' (0.009 seconds)
+270: Test suite 'ChatGPTAppModelTests' started on 'My Mac - Pinemeter (28674)'
+271: Test case 'ChatGPTAppModelTests.test_bootstrap_detectsExistingChatGPTSessionWithoutRequiringClaudeSetup()' passed on 'My Mac - Pinemeter (28674)' (0.007 seconds)
+272: Test case 'ChatGPTAppModelTests.test_bootstrap_withChatGPTStorageUnavailablePublishesSanitizedStatus()' passed on 'My Mac - Pinemeter (28674)' (0.003 seconds)
+273: Test case 'GeminiUsageServiceTests.test_fetchUsage_withMissingStoredAPIKeyThrowsMissingAPIKey()' passed on 'My Mac - Pinemeter (28675)' (0.001 seconds)
+274: Test suite 'NotificationServiceTests' started on 'My Mac - Pinemeter (28677)'
+275: Test suite 'SettingsRepositoryTests' started on 'My Mac - Pinemeter (28676)'
+@@ 272
+269: Test case 'CacheRepositoryTests.test_getLastKnownMigratesLegacyPrivateCacheWhenNewCacheIsAbsent()' passed on 'My Mac - Pinemeter (28575)' (0.009 seconds)
+270: Test suite 'ChatGPTAppModelTests' started on 'My Mac - Pinemeter (28674)'
+271: Test case 'ChatGPTAppModelTests.test_bootstrap_detectsExistingChatGPTSessionWithoutRequiringClaudeSetup()' passed on 'My Mac - Pinemeter (28674)' (0.007 seconds)
+272: Test case 'ChatGPTAppModelTests.test_bootstrap_withChatGPTStorageUnavailablePublishesSanitizedStatus()' passed on 'My Mac - Pinemeter (28674)' (0.003 seconds)
+273: Test case 'GeminiUsageServiceTests.test_fetchUsage_withMissingStoredAPIKeyThrowsMissingAPIKey()' passed on 'My Mac - Pinemeter (28675)' (0.001 seconds)
+274: Test suite 'NotificationServiceTests' started on 'My Mac - Pinemeter (28677)'
+275: Test suite 'SettingsRepositoryTests' started on 'My Mac - Pinemeter (28676)'
+276: Test suite 'ProviderErrorWorkflowTests' started on 'My Mac - Pinemeter (28679)'
+@@ 280
+277: Test case 'CacheRepositoryTests.test_getLastKnownPrefersNewPrivateCacheWhenBothNewAndLegacyExist()' passed on 'My Mac - Pinemeter (28575)' (0.019 seconds)
+278: Test case 'CacheRepositoryTests.test_invalidateRemovesPrivateCacheAndPublicExportArtifacts()' passed on 'My Mac - Pinemeter (28575)' (0.008 seconds)
+279: Test case 'CacheRepositoryTests.test_setWritesPrivateCacheAndPublicExportsToPinemeterPathsWhilePreservingLegacyPublicExport()' passed on 'My Mac - Pinemeter (28575)' (0.009 seconds)
+280: Test case 'ChatGPTAppModelTests.test_bootstrap_withExistingChatGPTSessionButUsageHiddenLeavesMenuInSetupState()' passed on 'My Mac - Pinemeter (28674)' (0.004 seconds)
+281: Test case 'ChatGPTAppModelTests.test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage()' passed on 'My Mac - Pinemeter (28674)' (0.002 seconds)
+282: Test case 'ChatGPTAppModelTests.test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError()' passed on 'My Mac - Pinemeter (28674)' (0.002 seconds)
+283: Test case 'GeminiUsageServiceTests.test_fetchUsage_withStoredAPIKey_returnsNormalizedUsageAndSavesSanitizedStatus()' passed on 'My Mac - Pinemeter (28675)' (0.025 seconds)
+284: Test case 'GeminiUsageServiceTests.test_geminiAPIKeyRejectsBlankValueBeforeRepositoryBoundary()' passed on 'My Mac - Pinemeter (28675)' (0.033 seconds)
+@@ 281
+278: Test case 'CacheRepositoryTests.test_invalidateRemovesPrivateCacheAndPublicExportArtifacts()' passed on 'My Mac - Pinemeter (28575)' (0.008 seconds)
+279: Test case 'CacheRepositoryTests.test_setWritesPrivateCacheAndPublicExportsToPinemeterPathsWhilePreservingLegacyPublicExport()' passed on 'My Mac - Pinemeter (28575)' (0.009 seconds)
+280: Test case 'ChatGPTAppModelTests.test_bootstrap_withExistingChatGPTSessionButUsageHiddenLeavesMenuInSetupState()' passed on 'My Mac - Pinemeter (28674)' (0.004 seconds)
+281: Test case 'ChatGPTAppModelTests.test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage()' passed on 'My Mac - Pinemeter (28674)' (0.002 seconds)
+282: Test case 'ChatGPTAppModelTests.test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError()' passed on 'My Mac - Pinemeter (28674)' (0.002 seconds)
+283: Test case 'GeminiUsageServiceTests.test_fetchUsage_withStoredAPIKey_returnsNormalizedUsageAndSavesSanitizedStatus()' passed on 'My Mac - Pinemeter (28675)' (0.025 seconds)
+284: Test case 'GeminiUsageServiceTests.test_geminiAPIKeyRejectsBlankValueBeforeRepositoryBoundary()' passed on 'My Mac - Pinemeter (28675)' (0.033 seconds)
+285: Test case 'SettingsRepositoryTests.test_defaultSettings_hideChatGPTUsage()' passed on 'My Mac - Pinemeter (28676)' (0.001 seconds)
+@@ 282
+279: Test case 'CacheRepositoryTests.test_setWritesPrivateCacheAndPublicExportsToPinemeterPathsWhilePreservingLegacyPublicExport()' passed on 'My Mac - Pinemeter (28575)' (0.009 seconds)
+280: Test case 'ChatGPTAppModelTests.test_bootstrap_withExistingChatGPTSessionButUsageHiddenLeavesMenuInSetupState()' passed on 'My Mac - Pinemeter (28674)' (0.004 seconds)
+281: Test case 'ChatGPTAppModelTests.test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage()' passed on 'My Mac - Pinemeter (28674)' (0.002 seconds)
+282: Test case 'ChatGPTAppModelTests.test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError()' passed on 'My Mac - Pinemeter (28674)' (0.002 seconds)
+283: Test case 'GeminiUsageServiceTests.test_fetchUsage_withStoredAPIKey_returnsNormalizedUsageAndSavesSanitizedStatus()' passed on 'My Mac - Pinemeter (28675)' (0.025 seconds)
+284: Test case 'GeminiUsageServiceTests.test_geminiAPIKeyRejectsBlankValueBeforeRepositoryBoundary()' passed on 'My Mac - Pinemeter (28675)' (0.033 seconds)
+285: Test case 'SettingsRepositoryTests.test_defaultSettings_hideChatGPTUsage()' passed on 'My Mac - Pinemeter (28676)' (0.001 seconds)
+286: Test case 'SettingsRepositoryTests.test_loadingLegacyPayloadWithCredentialShapedKeysDropsCredentialMaterialOnSave()' passed on 'My Mac - Pinemeter (28676)' (0.005 seconds)
+@@ 301
+298: Test suite 'UsageServiceTests' started on 'My Mac - Pinemeter (28575)'
+299: Test case 'UsageServiceTests.test_usageFetch_requiresSessionKey()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+300: Test case 'UsageServiceTests.test_usageFetch_showsUsageFromApiResponse()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+301: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage()' passed on 'My Mac - Pinemeter (28674)' (0.004 seconds)
+302: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave()' passed on 'My Mac - Pinemeter (28674)' (0.220 seconds)
+303: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection()' passed on 'My Mac - Pinemeter (28674)' (0.001 seconds)
+304: Test suite 'CredentialStateTests' started on 'My Mac - Pinemeter (28674)'
+305: Test case 'GeminiUsageServiceTests.test_geminiAPIKeyRepository_persistsKeyAndSanitizedStatusOutsideSettings()' passed on 'My Mac - Pinemeter (28675)' (0.090 seconds)
+@@ 302
+299: Test case 'UsageServiceTests.test_usageFetch_requiresSessionKey()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+300: Test case 'UsageServiceTests.test_usageFetch_showsUsageFromApiResponse()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+301: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage()' passed on 'My Mac - Pinemeter (28674)' (0.004 seconds)
+302: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave()' passed on 'My Mac - Pinemeter (28674)' (0.220 seconds)
+303: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection()' passed on 'My Mac - Pinemeter (28674)' (0.001 seconds)
+304: Test suite 'CredentialStateTests' started on 'My Mac - Pinemeter (28674)'
+305: Test case 'GeminiUsageServiceTests.test_geminiAPIKeyRepository_persistsKeyAndSanitizedStatusOutsideSettings()' passed on 'My Mac - Pinemeter (28675)' (0.090 seconds)
+306: Test case 'GeminiUsageServiceTests.test_validateAPIKeyReturnsFalseForAuthFailures()' passed on 'My Mac - Pinemeter (28675)' (0.028 seconds)
+@@ 303
+300: Test case 'UsageServiceTests.test_usageFetch_showsUsageFromApiResponse()' passed on 'My Mac - Pinemeter (28575)' (0.003 seconds)
+301: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage()' passed on 'My Mac - Pinemeter (28674)' (0.004 seconds)
+302: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave()' passed on 'My Mac - Pinemeter (28674)' (0.220 seconds)
+303: Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection()' passed on 'My Mac - Pinemeter (28674)' (0.001 seconds)
+304: Test suite 'CredentialStateTests' started on 'My Mac - Pinemeter (28674)'
+305: Test case 'GeminiUsageServiceTests.test_geminiAPIKeyRepository_persistsKeyAndSanitizedStatusOutsideSettings()' passed on 'My Mac - Pinemeter (28675)' (0.090 seconds)
+306: Test case 'GeminiUsageServiceTests.test_validateAPIKeyReturnsFalseForAuthFailures()' passed on 'My Mac - Pinemeter (28675)' (0.028 seconds)
+307: Test suite 'MenuBarIconRendererTests' started on 'My Mac - Pinemeter (28675)'
+@@ 334
+331: Test case 'ProviderErrorWorkflowTests.test_clearCredentialWorkflowCopyIsProviderSpecificAndCredentialFree()' passed on 'My Mac - Pinemeter (28679)' (0.001 seconds)
+332: Test case 'ProviderErrorWorkflowTests.test_credentialRecoverySetupCopyDoesNotExposeRawCredentialMaterial()' passed on 'My Mac - Pinemeter (28679)' (0.122 seconds)
+333: Test case 'ProviderErrorWorkflowTests.test_geminiCredentialStatusesCoverMissingConfiguredInvalidAndRetryCopy()' passed on 'My Mac - Pinemeter (28679)' (0.001 seconds)
+334: Test case 'ProviderErrorWorkflowTests.test_networkAuthenticationFailed_usesClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (28679)' (0.000 seconds)
+335: Test case 'ChatGPTUsageServiceTests.test_fetchUsage_afterInvalidSessionClearCanReacquirePersistedSession()' passed on 'My Mac - Pinemeter (28678)' (0.001 seconds)
+336: Test case 'ChatGPTUsageServiceTests.test_fetchUsage_exchangesCookieForAccessTokenThenFetchesWhamUsage()' passed on 'My Mac - Pinemeter (28678)' (0.010 seconds)
+337: Test case 'ChatGPTUsageServiceTests.test_fetchUsage_loadsPersistedSessionAndStoresTransientAccessToken()' passed on 'My Mac - Pinemeter (28678)' (0.002 seconds)
+338: Test case 'NotificationServiceTests.test_userWithoutSystemPermission_doesNotReceiveNotification()' passed on 'My Mac - Pinemeter (28677)' (0.001 seconds)
+@@ 362
+359: Test case 'AppSettingsTests.test_setRefreshInterval_keepsInRangeValue()' passed on 'My Mac - Pinemeter (28675)' (0.001 seconds)
+360: Test case 'ChatGPTUsageServiceTests.test_fetchUsage_withPersistedSessionClearsRepositoryWhenSessionIsInvalid()' passed on 'My Mac - Pinemeter (28678)' (0.001 seconds)
+361: Test case 'ChatGPTUsageServiceTests.test_whamToDomain_classifiesMenuBarRowsAndPreservesUnknownRows()' passed on 'My Mac - Pinemeter (28678)' (0.001 seconds)
+362: Test case 'CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()' failed on 'My Mac - Pinemeter (28676)' (1.159 seconds)
+--- .gsd/exec/8b516717-4f3b-433b-9525-10cadacbb3a5.stderr ---
+@@ 11
+8: Failing tests:
+9: 	CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()
+10: 
+11: ** TEST FAILED **
+12: 

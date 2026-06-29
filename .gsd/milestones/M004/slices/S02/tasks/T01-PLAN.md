@@ -4,7 +4,7 @@ estimated_files: 3
 skills_used: []
 ---
 
-# T01: Research and define Gemini credential boundary
+# T01: Defined the Gemini credential boundary as an API-key Keychain repository/service seam with sanitized diagnostics and no AppSettings persistence.
 
 Determine the minimal Gemini credential/session abstraction needed for monitoring, using current docs or repo evidence. Define repository/service protocols that keep credential-equivalent material out of AppSettings and logs.
 

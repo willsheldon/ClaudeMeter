@@ -1,0 +1,144 @@
+--- Pinemeter/Models/AppSettings.swift
+## isChatGPTUsageShown
+31:     var isChatGPTUsageShown: Bool
+46:         isChatGPTUsageShown: false,
+58:         case isChatGPTUsageShown = "show_chatgpt_usage"
+76:         isChatGPTUsageShown = try container.decodeIfPresent(Bool.self, forKey: .isChatGPTUsageShown)
+78:             ?? defaults.isChatGPTUsageShown
+90:         isChatGPTUsageShown: Bool,
+99:         self.isChatGPTUsageShown = isChatGPTUsageShown
+112:         try container.encode(isChatGPTUsageShown, forKey: .isChatGPTUsageShown)
+--- PinemeterTests/AppModelTests.swift
+## Gemini
+229:         XCTAssertEqual(gemini.providerName, "Gemini")
+230:         XCTAssertEqual(gemini.credentialName, "Gemini API key")
+232:         XCTAssertEqual(gemini.detailText, "Add a Gemini API key in Settings.")
+233:         XCTAssertEqual(gemini.setupPromptTitle, "Connect Gemini")
+234:         XCTAssertEqual(gemini.setupAccessibilityLabel, "Gemini API key status: Unknown. Add a Gemini API key in Settings.")
+## isChatGPTUsageShown
+405:         appModel.settings.isChatGPTUsageShown = true
+420:         XCTAssertFalse(appModel.settings.isChatGPTUsageShown)
+593:         appModel.settings.isChatGPTUsageShown = true
+629:         appModel.settings.isChatGPTUsageShown = true
+665:         appModel.settings.isChatGPTUsageShown = false
+693:         appModel.settings.isChatGPTUsageShown = true
+739:         XCTAssertTrue(appModel.settings.isChatGPTUsageShown)
+773:         XCTAssertTrue(appModel.settings.isChatGPTUsageShown)
+1062:         XCTAssertTrue(setupModel.settings.isChatGPTUsageShown)
+1070:         reuseSettings.isChatGPTUsageShown = true
+1090:         XCTAssertFalse(setupModel.settings.isChatGPTUsageShown)
+## AppModelChatGPTUsageServiceStub
+372:             chatGPTUsageService: AppModelChatGPTUsageServiceStub(fetchUsageResult: .success(expectedUsage), validateResult: true),
+536:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+616:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+681:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+711:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+745:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+1017:         let invalidChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+1045:         let validChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+1194: private actor AppModelChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+## UsageServiceStub
+7:         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+31:         let usageService = UsageServiceStub(fetchUsageResult: .success(expectedUsage))
+59:         let usageService = UsageServiceStub(fetchUsageResult: .failure(failure))
+87:         let usageService = UsageServiceStub(fetchUsageResult: .success(expectedUsage))
+113:         let usageService = UsageServiceStub(fetchUsageResult: .failure(failure))
+137:         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+159:         let usageService = UsageServiceStub(
+186:         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: "raw sk-ant-secret must not appear")))
+242:         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+297:         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+340:             usageService: UsageServiceStub(fetchUsageResult: .success(expectedUsage)),
+371:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+372:             chatGPTUsageService: AppModelChatGPTUsageServiceStub(fetchUsageResult: .success(expectedUsage), validateResult: true),
+400:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+427:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+457:         let usageService = UsageServiceStub(
+493:         let usageService = UsageServiceStub(
+536:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+554:             usageService: UsageServiceStub(
+583:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+615:         let usageService = UsageServiceStub(fetchUsageResult: .success(expectedClaudeUsage))
+616:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+660:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+681:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+688:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+711:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+726:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+745:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+760:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+780:         let usageService = UsageServiceStub(fetchUsageResult: .success(expectedUsage))
+805:         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+828:         let usageService = UsageServiceStub(
+861:         let usageService = UsageServiceStub(
+889:         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+930:         let invalidUsageService = UsageServiceStub(
+957:         let validUsageService = UsageServiceStub(
+1017:         let invalidChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+1024:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+1045:         let validChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+1052:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+## TestConstants
+7:         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+30:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+44:             sessionKey: TestConstants.sessionKeyValue,
+58:         let failure = TestError(message: TestConstants.fetchFailureMessage)
+72:             sessionKey: TestConstants.sessionKeyValue,
+86:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+100:         appModel.errorMessage = TestConstants.previousErrorMessage
+112:         let failure = TestError(message: TestConstants.fetchFailureMessage)
+137:         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+150:         appModel.usageData = makeUsageData(percentage: TestConstants.cachedPercentage)
+160:             fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)),
+174:         let result = try await appModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+242:         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+293:         XCTAssertFalse(claude.setupAccessibilityLabel.contains(TestConstants.sessionKeyValue))
+297:         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
+329:             XCTAssertFalse(claude.searchableText.contains(TestConstants.sessionKeyValue))
+334:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+336:         try await keychainRepository.save(sessionKey: TestConstants.sessionKeyValue, account: "default")
+351:         XCTAssertEqual(savedKey, TestConstants.sessionKeyValue)
+371:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+391:         try await keychainRepository.save(sessionKey: TestConstants.sessionKeyValue, account: "default")
+400:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+412:         XCTAssertEqual(savedClaudeKey, TestConstants.sessionKeyValue)
+427:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+450:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+453:             uuid: TestConstants.organizationUUIDString,
+473:         let result = try await appModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+480:             UUID(uuidString: TestConstants.organizationUUIDString)
+486:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+489:             uuid: TestConstants.organizationUUIDString,
+502:             value: TestConstants.sessionKeyValue,
+518:         XCTAssertEqual(savedKey, TestConstants.sessionKeyValue)
+524:         let expectedClaudeUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+531:             uuid: TestConstants.organizationUUIDString,
+543:                 value: TestConstants.sessionKeyValue,
+571:         XCTAssertEqual(savedClaudeKey, TestConstants.sessionKeyValue)
+583:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+610:         let expectedClaudeUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+660:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+688:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+## makeUsageData
+30:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+86:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+150:         appModel.usageData = makeUsageData(percentage: TestConstants.cachedPercentage)
+334:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+450:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+486:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+524:         let expectedClaudeUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+610:         let expectedClaudeUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+779:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+902:         appModel.usageData = makeUsageData(percentage: TestConstants.cachedPercentage)
+920:         let expectedUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+1250: private func makeUsageData(percentage: Double) -> UsageData {
+## providerCredentialStatus
+185:     func test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState() async throws {
+204:         let statuses = appModel.providerCredentialStatuses
+241:     func test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials() throws {
+258:         var claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+272:         claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+287:         claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+296:     func test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates() throws {
+327:             let claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+386:         XCTAssertFalse(appModel.providerCredentialStatuses[1].searchableText.contains("synthetic-chatgpt-session-cookie"))

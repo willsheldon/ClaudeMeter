@@ -1,0 +1,27 @@
+{
+  "id": "63c957af-875d-4e11-97b9-9ba83d7825d3",
+  "runtime": "python",
+  "purpose": "UAT M004/S05/UAT-06 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S05",
+    "checkId": "UAT-06",
+    "intent": "uat-artifact-check",
+    "expected": "Source and test artifacts map to each automatable Gemini workflow case without requiring real credentials."
+  },
+  "script_chars": 1245,
+  "started_at": "2026-06-24T22:02:29.399Z",
+  "finished_at": "2026-06-24T22:02:29.482Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 83,
+  "stdout_bytes": 1746,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/63c957af-875d-4e11-97b9-9ba83d7825d3.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/63c957af-875d-4e11-97b9-9ba83d7825d3.stderr"
+}

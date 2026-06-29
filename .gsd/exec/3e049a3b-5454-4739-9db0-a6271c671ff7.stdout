@@ -1,0 +1,25 @@
+test files:
+Pinemeter/Views/Shared/CopyableErrorText.swift:4:/// User-facing error text that can be selected and copied.
+Pinemeter/Views/Shared/CopyableErrorText.swift:8:struct CopyableErrorText: View {
+Pinemeter/Views/Setup/SetupWizardView.swift:54:                        CopyableErrorText(errorMessage, font: .callout, foregroundStyle: .orange, lineLimit: 3)
+Pinemeter/Views/Settings/SettingsView.swift:145:            CopyableErrorText(providerImportMessage,
+Pinemeter/Views/Settings/SettingsView.swift:151:            CopyableErrorText(providerCredentialActionMessage,
+Pinemeter/Views/Settings/SettingsView.swift:157:            CopyableErrorText(sessionKeyValidationMessage,
+Pinemeter/Views/Settings/SettingsView.swift:170:            CopyableErrorText(chatGPTSessionCookieValidationMessage,
+Pinemeter/Views/Settings/SettingsView.swift:195:                        CopyableErrorText(lastFailureTitle, font: .caption2, foregroundStyle: .orange)
+Pinemeter/Views/Settings/SettingsView.swift:199:                        CopyableErrorText(recoverySuggestion, font: .caption2, foregroundStyle: .secondary)
+PinemeterTests/CopyableErrorPresentationTests.swift:3:final class CopyableErrorPresentationTests: XCTestCase {
+PinemeterTests/CopyableErrorPresentationTests.swift:4:    func test_userFacingErrorSurfacesUseCopyableErrorText() throws {
+PinemeterTests/CopyableErrorPresentationTests.swift:7:        let componentSource = try readSource("Pinemeter/Views/Shared/CopyableErrorText.swift", root: root)
+PinemeterTests/CopyableErrorPresentationTests.swift:8:        XCTAssertTrue(componentSource.contains(".textSelection(.enabled)"), "CopyableErrorText must make error text selectable.")
+PinemeterTests/CopyableErrorPresentationTests.swift:9:        XCTAssertTrue(componentSource.contains("NSPasteboard.general"), "CopyableErrorText must provide an explicit clipboard fallback.")
+PinemeterTests/CopyableErrorPresentationTests.swift:13:                "CopyableErrorText(errorMessage",
+PinemeterTests/CopyableErrorPresentationTests.swift:14:                "CopyableErrorText(\"ChatGPT: \\(chatGPTErrorMessage)\"",
+PinemeterTests/CopyableErrorPresentationTests.swift:17:                "CopyableErrorText(errorMessage",
+PinemeterTests/CopyableErrorPresentationTests.swift:20:                "CopyableErrorText(providerImportMessage",
+PinemeterTests/CopyableErrorPresentationTests.swift:21:                "CopyableErrorText(sessionKeyValidationMessage",
+PinemeterTests/CopyableErrorPresentationTests.swift:22:                "CopyableErrorText(chatGPTSessionCookieValidationMessage",
+PinemeterTests/CopyableErrorPresentationTests.swift:23:                "CopyableErrorText(lastFailureTitle",
+PinemeterTests/CopyableErrorPresentationTests.swift:24:                "CopyableErrorText(recoverySuggestion",
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:55:                        CopyableErrorText(errorMessage)
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:207:            CopyableErrorText("\(provider): \(message)", font: .caption, foregroundStyle: .secondary)

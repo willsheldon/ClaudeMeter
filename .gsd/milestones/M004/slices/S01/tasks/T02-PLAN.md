@@ -4,7 +4,7 @@ estimated_files: 4
 skills_used: []
 ---
 
-# T02: Add Gemini provider contract tests
+# T02: Added Gemini provider credential contract coverage and minimal provider status support.
 
 Write failing then passing tests for Gemini provider identity, credential state labels, action availability, usage status states, and sanitized diagnostic categories.
 

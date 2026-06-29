@@ -1,0 +1,77 @@
+        try await setupModel.clearChatGPTSessionCookie()
+
+        XCTAssertFalse(setupModel.hasChatGPTSessionCookie)
+        XCTAssertFalse(setupModel.settings.isChatGPTUsageShown)
+        XCTAssertNil(setupModel.chatGPTUsageData)
+        XCTAssertNil(setupModel.chatGPTErrorMessage)
+        XCTAssertEqual(setupModel.chatGPTCredentialState.health, .missing)
+        XCTAssertEqual(setupModel.chatGPTCredentialState.failureCategory, .missing)
+
+        let reacquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+
+        XCTAssertTrue(reacquired)
+        XCTAssertTrue(setupModel.hasChatGPTSessionCookie)
+        XCTAssertEqual(setupModel.chatGPTCredentialState.health, .valid)
+        XCTAssertEqual(setupModel.chatGPTUsageData, expectedUsage)
+    }
+
+    func test_userWithNotificationPermission_doesNotSeePermissionPrompt() async {
+        let usag
+--- fake anchor ---
+private actor AppModelChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+    private let fetchUsageResult: Result<ChatGPTUsageData, Error>
+    private let validateResult: Bool
+    private(set) var fetchUsageCallCount = 0
+
+    init(fetchUsageResult: Result<ChatGPTUsageData, Error>, validateResult: Bool) {
+        self.fetchUsageResult = fetchUsageResult
+        self.validateResult = validateResult
+    }
+
+    func fetchUsage() async throws -> ChatGPTUsageData {
+        fetchUsageCallCount += 1
+        switch fetchUsageResult {
+        case .success(let data):
+            return data
+        case .failure(let error):
+            throw error
+        }
+    }
+
+    func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+        try await fetchUsage()
+    }
+
+    func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+        validateResult
+    }
+}
+
+private actor AppModelChatGPTSessionRepositoryFake: ChatGPTSessionRepositoryProtocol {
+    private var sessions: [String: ChatGPTSession] = [:]
+    private var status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+
+    func save(_ session: ChatGPTSession, account: String) async throws {
+        sessions[account] = session
+        status = ChatGPTSessionAcquisitionStatus(state: .available, lastErrorCategory: nil)
+    }
+
+    func load(account: String) async throws -> ChatGPTSession {
+        guard let session = sessions[account] else {
+            status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+            throw ChatGPTSessionRepositoryError.notFound
+        }
+        return session
+    }
+
+    func validate(account: String) async -> ChatGPTSessionAcquisitionStatus {
+        status
+    }
+
+    func clear(account: String) async throws {
+        sessions[account] = nil
+        status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+    }
+}
+
+

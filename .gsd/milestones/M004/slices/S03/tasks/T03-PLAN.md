@@ -4,7 +4,7 @@ estimated_files: 3
 skills_used: []
 ---
 
-# T03: Verify setup and settings provider matrix
+# T03: Verified setup/settings provider copy and aligned ChatGPT bootstrap tests with the Gemini-aware provider matrix.
 
 Run full tests and inspect setup/settings copy for stale two-provider assumptions, secret terms, and unclear Gemini next actions.
 

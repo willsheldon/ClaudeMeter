@@ -1,0 +1,9 @@
+Gemini refresh error regression test exists: FAIL
+  missing: func test_refreshAllUsageSurfacesGeminiRefreshErrors()
+  missing: geminiUsageService: GeminiUsageServiceStub(fetchUsageResult: .failure
+refresh error modeled and exposed: FAIL
+  missing: await appModel.refreshAllUsage()
+  missing: XCTAssertEqual(appModel.geminiErrorMessage, "Gemini quota unavailable")
+popover remains available for configured Gemini error: PASS
+  found: appModel.hasGeminiAPIKey = true
+  found: XCTAssertTrue(appModel.hasUsagePopoverContent)

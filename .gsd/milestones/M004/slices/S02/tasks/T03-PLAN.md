@@ -4,7 +4,7 @@ estimated_files: 4
 skills_used: []
 ---
 
-# T03: Integrate Gemini service into AppModel
+# T03: Integrated Gemini API-key backed usage state into AppModel refresh, credential status, and clear/reconnect surfaces with focused AppModel coverage.
 
 Wire Gemini repository/service dependencies into AppModel initialization, refresh orchestration, credential status, and clear/reconnect surfaces while preserving existing providers.
 

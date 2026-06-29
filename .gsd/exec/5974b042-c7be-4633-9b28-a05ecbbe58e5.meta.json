@@ -1,0 +1,27 @@
+{
+  "id": "5974b042-c7be-4633-9b28-a05ecbbe58e5",
+  "runtime": "python",
+  "purpose": "UAT M004/S02/UAT-S02-06-COVERAGE-SOURCE-INSPECTION (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S02",
+    "checkId": "UAT-S02-06-COVERAGE-SOURCE-INSPECTION",
+    "intent": "uat-artifact-check",
+    "expected": "Focused test sources contain test coverage signals for the UAT's success, auth failure, quota unavailable, network failure, sanitized diagnostics, AppModel configuration, refresh, and clear requirements."
+  },
+  "script_chars": 1491,
+  "started_at": "2026-06-24T20:50:04.108Z",
+  "finished_at": "2026-06-24T20:50:04.145Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 37,
+  "stdout_bytes": 299,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/5974b042-c7be-4633-9b28-a05ecbbe58e5.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/5974b042-c7be-4633-9b28-a05ecbbe58e5.stderr"
+}

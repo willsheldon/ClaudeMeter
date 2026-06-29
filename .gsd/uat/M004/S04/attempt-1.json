@@ -1,0 +1,180 @@
+{
+  "runId": "uat:M004:S04:attempt-1",
+  "attempt": 1,
+  "milestoneId": "M004",
+  "sliceId": "S04",
+  "uatType": "artifact-driven",
+  "verdict": "PASS",
+  "gateVerdict": "pass",
+  "evaluatedAt": "2026-06-24T21:43:17.329Z",
+  "worktreeRoot": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004",
+  "browserToolsPresented": false,
+  "modePolicy": {
+    "browserTools": false,
+    "partialEligible": false,
+    "passWithHumanFollowUp": false,
+    "requiredAnyModes": []
+  },
+  "checks": [
+    {
+      "id": "UAT-S04-01",
+      "description": "Smoke test: targeted AppModelTests and MenuBarIconRendererTests pass under the Pinemeter Debug test scheme.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "567b5fa6-68b0-40d9-b482-74da2db74a4f",
+          "note": "xcodebuild targeted AppModelTests/MenuBarIconRendererTests exited 0 and reported MenuBarIconRenderer test cases passed.",
+          "tool": "gsd_uat_exec",
+          "executionId": "567b5fa6-68b0-40d9-b482-74da2db74a4f"
+        }
+      ],
+      "notes": "`xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/AppModelTests -only-testing:PinemeterTests/MenuBarIconRendererTests` exited 0."
+    },
+    {
+      "id": "UAT-S04-02",
+      "description": "Gemini participates in menu state combinations: Gemini-only, Claude plus Gemini, ChatGPT plus Gemini, and all-provider display state include user-visible names, dashboard titles, loading copy, and popover content availability.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "657a81a8-c50f-4e77-8dd9-ec28b4792f3d",
+          "note": "Structured scan of PinemeterTests/AppModelTests.swift confirmed the Gemini provider-combination tests and assertions.",
+          "tool": "gsd_uat_exec",
+          "executionId": "657a81a8-c50f-4e77-8dd9-ec28b4792f3d"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "567b5fa6-68b0-40d9-b482-74da2db74a4f",
+          "note": "The targeted AppModelTests runtime run exited 0.",
+          "tool": "gsd_uat_exec",
+          "executionId": "567b5fa6-68b0-40d9-b482-74da2db74a4f"
+        }
+      ],
+      "notes": "AppModelTests contain and passed coverage for `test_providerDisplayCombinations_includeGeminiOnly`, `includeClaudePlusGemini`, `includeChatGPTPlusGemini`, `includeAllProviders`, and Gemini popover data/error availability."
+    },
+    {
+      "id": "UAT-S04-03",
+      "description": "Gemini refresh error is visible in popover state: AppModel exposes Gemini error display state suitable for the menu popover instead of hiding it behind other providers.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "32886cd6-bf2f-44f5-b1f9-f9d5a90b75d7",
+          "note": "Structured scan confirmed Gemini error-state regression asserts refresh failure, geminiErrorMessage, unavailable credential health, Gemini display names/titles, and popover availability.",
+          "tool": "gsd_uat_exec",
+          "executionId": "32886cd6-bf2f-44f5-b1f9-f9d5a90b75d7"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "567b5fa6-68b0-40d9-b482-74da2db74a4f",
+          "note": "The targeted AppModelTests runtime run exited 0.",
+          "tool": "gsd_uat_exec",
+          "executionId": "567b5fa6-68b0-40d9-b482-74da2db74a4f"
+        }
+      ],
+      "notes": "`test_providerDisplayCombinations_includeGeminiErrorState` models `GeminiUsageError.networkUnavailable` and asserts the resulting AppModel popover state remains visible for Gemini."
+    },
+    {
+      "id": "UAT-S04-04",
+      "description": "Menu renderer remains stable with provider state changes: MenuBarIconRendererTests pass for normal, loading, and stale states.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "e816dca0-b587-4bec-aa2a-d8dd0d6bf7bb",
+          "note": "Structured scan confirmed normal, loading, and stale renderer coverage exists.",
+          "tool": "gsd_uat_exec",
+          "executionId": "e816dca0-b587-4bec-aa2a-d8dd0d6bf7bb"
+        },
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "567b5fa6-68b0-40d9-b482-74da2db74a4f",
+          "note": "The targeted MenuBarIconRendererTests runtime run exited 0.",
+          "tool": "gsd_uat_exec",
+          "executionId": "567b5fa6-68b0-40d9-b482-74da2db74a4f"
+        }
+      ],
+      "notes": "MenuBarIconRendererTests include normal meter-style output assertions and loading/stale rendering inputs; the targeted renderer tests passed in the smoke run."
+    },
+    {
+      "id": "UAT-S04-05",
+      "description": "Unrelated full-suite blocker: run the isolated known failing CopyableErrorPresentationTests test and treat its failure as outside S04 Gemini menu integration if it reproduces independently.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "83ab50fc-a876-46fa-9d05-9b53b13cdf8f",
+          "note": "Isolated CopyableErrorPresentationTests command observed xcodebuild_exit=65 and `TEST FAILED`, reproducing independently of S04 targeted checks.",
+          "tool": "gsd_uat_exec",
+          "executionId": "83ab50fc-a876-46fa-9d05-9b53b13cdf8f"
+        }
+      ],
+      "notes": "The isolated CopyableErrorPresentationTests failure reproduced (`xcodebuild_exit=65`) as expected by the UAT edge case; it is recorded as outside the S04 Gemini menu integration surface because targeted S04 tests passed."
+    }
+  ],
+  "presentation": {
+    "surface": "mcp",
+    "presentedTools": [
+      "gsd_uat_exec",
+      "gsd_uat_result_save",
+      "gsd_resume",
+      "gsd_milestone_status",
+      "gsd_journal_query",
+      "find",
+      "glob",
+      "grep",
+      "ls",
+      "read"
+    ],
+    "blockedTools": [
+      {
+        "name": "edit",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_exec",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_summary_save",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_save_gate_result",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "search-the-web",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "WebSearch",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Bash",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Edit",
+        "reason": "forbidden during run-uat"
+      }
+    ],
+    "toolPresentationPlanId": "run-uat/default-v1"
+  },
+  "notes": "All S04 automatable Gemini menu integration checks passed; the isolated CopyableErrorPresentationTests failure reproduced as the UAT-defined unrelated blocker and does not affect the S04 verdict."
+}

@@ -1,0 +1,27 @@
+{
+  "id": "be5c156b-ec7b-4fc9-97c4-49b9c1090c23",
+  "runtime": "bash",
+  "purpose": "UAT M004/S03/UAT-WORKFLOW-TESTS (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S03",
+    "checkId": "UAT-WORKFLOW-TESTS",
+    "intent": "uat-runtime-check",
+    "expected": "ProviderErrorWorkflowTests and AppModelTests pass for Gemini recovery/status workflows"
+  },
+  "script_chars": 586,
+  "started_at": "2026-06-24T21:25:06.070Z",
+  "finished_at": "2026-06-24T21:25:12.156Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 6086,
+  "stdout_bytes": 16596,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/be5c156b-ec7b-4fc9-97c4-49b9c1090c23.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/be5c156b-ec7b-4fc9-97c4-49b9c1090c23.stderr"
+}

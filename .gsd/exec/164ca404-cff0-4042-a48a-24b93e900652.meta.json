@@ -1,0 +1,19 @@
+{
+  "id": "164ca404-cff0-4042-a48a-24b93e900652",
+  "runtime": "python",
+  "purpose": "Gemini UAT artifact structure evidence",
+  "script_chars": 704,
+  "started_at": "2026-06-24T21:49:09.187Z",
+  "finished_at": "2026-06-24T21:49:09.258Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 71,
+  "stdout_bytes": 180,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/164ca404-cff0-4042-a48a-24b93e900652.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/164ca404-cff0-4042-a48a-24b93e900652.stderr"
+}

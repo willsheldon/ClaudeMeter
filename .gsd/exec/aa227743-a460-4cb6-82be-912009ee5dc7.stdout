@@ -1,0 +1,128 @@
+Provider/security copy scan:
+Pinemeter/Views/Setup/SetupWizardView.swift:17:        let statuses = appModel.providerCredentialStatuses
+Pinemeter/Views/Setup/SetupWizardView.swift:35:                Text("Connect browser sessions or API keys to monitor LLM plan usage.")
+Pinemeter/Views/Setup/SetupWizardView.swift:43:                    credentialStatusCard(status)
+Pinemeter/Views/Setup/SetupWizardView.swift:94:    private func credentialStatusCard(_ status: AppProviderCredentialStatus) -> some View {
+Pinemeter/Views/Setup/SetupWizardView.swift:96:            Image(systemName: credentialStatusIcon(for: status.state.health))
+Pinemeter/Views/Setup/SetupWizardView.swift:97:                .foregroundStyle(credentialStatusColor(for: status.state.health))
+Pinemeter/Views/Setup/SetupWizardView.swift:107:                        .foregroundStyle(credentialStatusColor(for: status.state.health))
+Pinemeter/Views/Setup/SetupWizardView.swift:121:                providerCredentialStatusActions(for: status)
+Pinemeter/Views/Setup/SetupWizardView.swift:131:    private func providerCredentialStatusActions(for status: AppProviderCredentialStatus) -> some View {
+Pinemeter/Views/Setup/SetupWizardView.swift:137:                    Button(credentialActionTitle(action.kind, for: status)) {
+Pinemeter/Views/Setup/SetupWizardView.swift:149:    private func credentialStatusIcon(for health: CredentialHealthState) -> String {
+Pinemeter/Views/Setup/SetupWizardView.swift:164:    private func credentialStatusColor(for health: CredentialHealthState) -> Color {
+Pinemeter/Views/Setup/SetupWizardView.swift:184:            Text("Choose the browser where you are already signed in. Each import button checks Claude and ChatGPT; Gemini API key status appears above without showing credential values.")
+Pinemeter/Views/Setup/SetupWizardView.swift:207:                .accessibilityHint("Imports both Claude and ChatGPT sessions from \(source.displayName) without showing credential values")
+Pinemeter/Views/Setup/SetupWizardView.swift:245:            providerSuccessName("Claude", outcome.claude),
+Pinemeter/Views/Setup/SetupWizardView.swift:246:            providerSuccessName("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Setup/SetupWizardView.swift:252:    private func providerSuccessName(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
+Pinemeter/Views/Setup/SetupWizardView.swift:261:            providerFailureMessage("Claude", outcome.claude),
+Pinemeter/Views/Setup/SetupWizardView.swift:262:            providerFailureMessage("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Setup/SetupWizardView.swift:269:    private func providerFailureMessage(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
+Pinemeter/Views/Setup/SetupWizardView.swift:288:        activeCredentialActionProvider = status.provider
+Pinemeter/Views/Setup/SetupWizardView.swift:293:        successMessage = "\(status.providerName): \(progressMessage(for: kind))"
+Pinemeter/Views/Setup/SetupWizardView.swift:296:            let state = try await appModel.performProviderCredentialAction(kind, for: status.provider)
+Pinemeter/Views/Setup/SetupWizardView.swift:298:                successMessage = "\(status.providerName): \(successDetailMessage(for: kind, credentialName: status.credentialName))"
+Pinemeter/Views/Setup/SetupWizardView.swift:301:                successMessage = "\(status.providerName): Cleared saved \(status.credentialName)."
+Pinemeter/Views/Setup/SetupWizardView.swift:304:                let refreshedStatus = appModel.providerCredentialStatuses.first { $0.provider == status.provider }
+Pinemeter/Views/Setup/SetupWizardView.swift:306:                errorMessage = "\(status.providerName): \(refreshedStatus?.recoverySuggestion ?? refreshedStatus?.detailText ?? "Recovery action did not restore access.")"
+Pinemeter/Views/Setup/SetupWizardView.swift:310:            errorMessage = "\(status.providerName): Failed to \(kind.displayTitle.lowercased()) \(status.credentialName): \(error.localizedDescription)"
+Pinemeter/Views/Setup/SetupWizardView.swift:318:    private func credentialActionTitle(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> String {
+Pinemeter/Views/Setup/SetupWizardView.swift:319:        guard activeCredentialActionProvider == status.provider && activeCredentialActionKind == kind else {
+Pinemeter/Views/Setup/SetupWizardView.swift:325:            return "Reconnecting \(status.providerName)..."
+Pinemeter/Views/Setup/SetupWizardView.swift:327:            return "Repairing \(status.providerName)..."
+Pinemeter/Views/Setup/SetupWizardView.swift:329:            return "Clearing \(status.providerName)..."
+Pinemeter/Views/Setup/SetupWizardView.swift:340:            return "Reconnecting credentials from the signed-in browser session."
+Pinemeter/Views/Setup/SetupWizardView.swift:342:            return "Repairing saved credential access."
+Pinemeter/Views/Setup/SetupWizardView.swift:344:            return "Clearing saved credential."
+Pinemeter/Views/Setup/SetupWizardView.swift:348:    private func successDetailMessage(for kind: ProviderCredentialActionKind, credentialName: String) -> String {
+Pinemeter/Views/Setup/SetupWizardView.swift:351:            return "Reconnected saved \(credentialName)."
+Pinemeter/Views/Setup/SetupWizardView.swift:353:            return "Repaired saved \(credentialName)."
+Pinemeter/Views/Setup/SetupWizardView.swift:355:            return "Cleared saved \(credentialName)."
+Pinemeter/Views/Settings/SettingsView.swift:13:    @State private var isImportingChatGPTSessionCookie: Bool = false
+Pinemeter/Views/Settings/SettingsView.swift:15:    @State private var hasChatGPTSessionCookieValidationSucceeded: Bool = false
+Pinemeter/Views/Settings/SettingsView.swift:17:    @State private var providerImportMessage: String?
+Pinemeter/Views/Settings/SettingsView.swift:21:    @State private var providerCredentialActionMessage: String?
+Pinemeter/Views/Settings/SettingsView.swift:70:                credentialRecoverySection
+Pinemeter/Views/Settings/SettingsView.swift:82:    private var credentialRecoverySection: some View {
+Pinemeter/Views/Settings/SettingsView.swift:87:                Text("Claude appears first. Browser session and API key status never show saved credential values.")
+Pinemeter/Views/Settings/SettingsView.swift:93:            credentialBrowserImportButtons
+Pinemeter/Views/Settings/SettingsView.swift:97:            ForEach(appModel.providerCredentialStatuses) { status in
+Pinemeter/Views/Settings/SettingsView.swift:98:                providerCredentialRow(status)
+Pinemeter/Views/Settings/SettingsView.swift:100:                if status.id != appModel.providerCredentialStatuses.last?.id {
+Pinemeter/Views/Settings/SettingsView.swift:105:            credentialActionFeedback
+Pinemeter/Views/Settings/SettingsView.swift:112:    private var credentialBrowserImportButtons: some View {
+Pinemeter/Views/Settings/SettingsView.swift:117:            Text("Checks Claude and ChatGPT browser sessions. Add Gemini API keys in Settings; their status appears below.")
+Pinemeter/Views/Settings/SettingsView.swift:143:    private var credentialActionFeedback: some View {
+Pinemeter/Views/Settings/SettingsView.swift:144:        if let providerImportMessage {
+Pinemeter/Views/Settings/SettingsView.swift:145:            CopyableErrorText(providerImportMessage,
+Pinemeter/Views/Settings/SettingsView.swift:150:        if let providerCredentialActionMessage {
+Pinemeter/Views/Settings/SettingsView.swift:151:            CopyableErrorText(providerCredentialActionMessage,
+Pinemeter/Views/Settings/SettingsView.swift:172:                              foregroundStyle: hasChatGPTSessionCookieValidationSucceeded ? Color.green : Color.orange)
+Pinemeter/Views/Settings/SettingsView.swift:176:    private func providerCredentialRow(_ status: AppProviderCredentialStatus) -> some View {
+Pinemeter/Views/Settings/SettingsView.swift:181:                Image(systemName: credentialStatusIcon(for: status.state.health))
+Pinemeter/Views/Settings/SettingsView.swift:182:                    .foregroundStyle(credentialStatusColor(for: status.state.health))
+Pinemeter/Views/Settings/SettingsView.swift:186:                    Text(status.providerName)
+Pinemeter/Views/Settings/SettingsView.swift:207:                    .foregroundStyle(credentialStatusColor(for: status.state.health))
+Pinemeter/Views/Settings/SettingsView.swift:213:                        Button(credentialActionTitle(action.kind, for: status)) {
+Pinemeter/Views/Settings/SettingsView.swift:227:    private func credentialStatusIcon(for health: CredentialHealthState) -> String {
+Pinemeter/Views/Settings/SettingsView.swift:242:    private func credentialStatusColor(for health: CredentialHealthState) -> Color {
+Pinemeter/Views/Settings/SettingsView.swift:257:    // MARK: - ChatGPT Usage Section
+Pinemeter/Views/Settings/SettingsView.swift:262:                Text("Show ChatGPT Usage")
+Pinemeter/Views/Settings/SettingsView.swift:264:                Text("Optional. Connect ChatGPT from the credential recovery section, then show ChatGPT plan quota usage in the popover.")
+Pinemeter/Views/Settings/SettingsView.swift:272:            Toggle("", isOn: $appModel.settings.isChatGPTUsageShown)
+Pinemeter/Views/Settings/SettingsView.swift:274:                .disabled(!appModel.hasChatGPTSessionCookie)
+Pinemeter/Views/Settings/SettingsView.swift:275:                .onChange(of: appModel.settings.isChatGPTUsageShown) { _, isShown in
+Pinemeter/Views/Settings/SettingsView.swift:277:                        Task { await appModel.refreshChatGPTUsage() }
+Pinemeter/Views/Settings/SettingsView.swift:589:                Text("Monitor your Claude.ai usage limits")
+Pinemeter/Views/Settings/SettingsView.swift:616:    private var isChatGPTSessionCookieBusy: Bool {
+Pinemeter/Views/Settings/SettingsView.swift:617:        isImportingChatGPTSessionCookie
+Pinemeter/Views/Settings/SettingsView.swift:621:        isImportingProviderSessions || isSessionKeyBusy || isChatGPTSessionCookieBusy
+Pinemeter/Views/Settings/SettingsView.swift:646:        providerImportMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:650:        providerCredentialActionMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:658:            providerImportMessage = settingsBrowserImportSuccessMessage(for: outcome)
+Pinemeter/Views/Settings/SettingsView.swift:661:            providerImportMessage = settingsBrowserImportFailureMessage(for: outcome)
+Pinemeter/Views/Settings/SettingsView.swift:670:            settingsProviderSuccessName("Claude", outcome.claude),
+Pinemeter/Views/Settings/SettingsView.swift:671:            settingsProviderSuccessName("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Settings/SettingsView.swift:691:            settingsProviderFailureMessage("Claude", outcome.claude),
+Pinemeter/Views/Settings/SettingsView.swift:692:            settingsProviderFailureMessage("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Settings/SettingsView.swift:759:    private func repairClaudeSessionKeyFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:764:        let state = await appModel.repairClaudeSessionKey()
+Pinemeter/Views/Settings/SettingsView.swift:766:            sessionKeyValidationMessage = "Claude session key repaired"
+Pinemeter/Views/Settings/SettingsView.swift:769:            let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+Pinemeter/Views/Settings/SettingsView.swift:770:            sessionKeyValidationMessage = status?.recoverySuggestion ?? status?.detailText ?? "Claude session key repair failed"
+Pinemeter/Views/Settings/SettingsView.swift:786:        activeCredentialActionProvider = status.provider
+Pinemeter/Views/Settings/SettingsView.swift:788:        providerCredentialActionMessage = "\(status.providerName): \(progressMessage(for: kind))"
+Pinemeter/Views/Settings/SettingsView.swift:790:        providerImportMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:796:            let state = try await appModel.performProviderCredentialAction(kind, for: status.provider)
+Pinemeter/Views/Settings/SettingsView.swift:798:                providerCredentialActionMessage = "\(status.providerName): \(successMessage(for: kind, credentialName: status.credentialName))"
+Pinemeter/Views/Settings/SettingsView.swift:801:                providerCredentialActionMessage = "\(status.providerName): Cleared saved \(status.credentialName)."
+Pinemeter/Views/Settings/SettingsView.swift:804:                let refreshedStatus = appModel.providerCredentialStatuses.first { $0.provider == status.provider }
+Pinemeter/Views/Settings/SettingsView.swift:805:                providerCredentialActionMessage = "\(status.providerName): \(refreshedStatus?.recoverySuggestion ?? refreshedStatus?.detailText ?? "Recovery action did not restore access.")"
+Pinemeter/Views/Settings/SettingsView.swift:809:            providerCredentialActionMessage = "\(status.providerName): Failed to \(kind.displayTitle.lowercased()) \(status.credentialName): \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:817:    private func credentialActionTitle(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> String {
+Pinemeter/Views/Settings/SettingsView.swift:821:        return "\(progressButtonTitle(for: kind)) \(status.providerName)..."
+Pinemeter/Views/Settings/SettingsView.swift:825:        activeCredentialActionProvider == status.provider && activeCredentialActionKind == kind
+Pinemeter/Views/Settings/SettingsView.swift:842:            return "Reconnecting credentials from the signed-in browser session."
+Pinemeter/Views/Settings/SettingsView.swift:844:            return "Repairing saved credential access."
+Pinemeter/Views/Settings/SettingsView.swift:846:            return "Clearing saved credential."
+Pinemeter/Views/Settings/SettingsView.swift:850:    private func successMessage(for kind: ProviderCredentialActionKind, credentialName: String) -> String {
+Pinemeter/Views/Settings/SettingsView.swift:853:            return "Reconnected saved \(credentialName)."
+Pinemeter/Views/Settings/SettingsView.swift:855:            return "Repaired saved \(credentialName)."
+Pinemeter/Views/Settings/SettingsView.swift:857:            return "Cleared saved \(credentialName)."
+Pinemeter/Views/Settings/SettingsView.swift:869:    private func importAndSaveChatGPTSessionCookie() async {
+Pinemeter/Views/Settings/SettingsView.swift:870:        isImportingChatGPTSessionCookie = true
+Pinemeter/Views/Settings/SettingsView.swift:872:        hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:875:            let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:877:            hasChatGPTSessionCookieValidationSucceeded = true
+Pinemeter/Views/Settings/SettingsView.swift:882:                hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:886:            hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:889:            hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:892:        isImportingChatGPTSessionCookie = false
+Pinemeter/Views/Settings/SettingsView.swift:895:    private func clearChatGPTSessionCookie() {
+Pinemeter/Views/Settings/SettingsView.swift:897:            await clearChatGPTSessionCookieFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:902:    private func clearChatGPTSessionCookieFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:904:            try await appModel.clearChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:906:            hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:909:            hasChatGPTSessionCookieValidationSucceeded = false
+RESULT: no stale two-provider phrases or credential-shaped literals found in setup/settings copy

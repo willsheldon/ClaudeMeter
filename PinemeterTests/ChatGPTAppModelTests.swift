@@ -44,7 +44,7 @@ final class ChatGPTAppModelTests: XCTestCase {
         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
         XCTAssertEqual(appModel.configuredUsageProviderNames, [])
         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
-        XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude or ChatGPT to see usage data.")
+        XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
     }
 
     func test_bootstrap_withExistingChatGPTSessionButUsageHiddenLeavesMenuInSetupState() async throws {
@@ -63,7 +63,7 @@ final class ChatGPTAppModelTests: XCTestCase {
         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
         XCTAssertEqual(appModel.configuredUsageProviderNames, [])
         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
-        XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude or ChatGPT to see usage data.")
+        XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
         XCTAssertNil(appModel.chatGPTUsageData)
     }
 

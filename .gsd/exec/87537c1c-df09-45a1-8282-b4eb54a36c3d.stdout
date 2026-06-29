@@ -1,0 +1,212 @@
+1: import XCTest
+2: @testable import Pinemeter
+3: 
+4: final class ProviderErrorWorkflowTests: XCTestCase {
+5:     func test_appError_noSessionKey_usesClaudeSpecificCredentialCopy() {
+6:         XCTAssertEqual(AppError.noSessionKey.errorDescription, "No Claude session key found. Please complete setup.")
+7:         XCTAssertEqual(AppError.noSessionKey.recoveryAction, "Complete Claude Setup")
+8:     }
+9: 
+10:     func test_appError_sessionKeyInvalid_usesClaudeSpecificCredentialCopy() {
+11:         XCTAssertEqual(AppError.sessionKeyInvalid.errorDescription, "Claude session key is invalid or expired. Please update in settings.")
+12:         XCTAssertEqual(AppError.sessionKeyInvalid.recoveryAction, "Update Claude Session Key")
+13:     }
+14: 
+15:     func test_networkAuthenticationFailed_usesClaudeSpecificCredentialCopy() {
+16:         XCTAssertEqual(NetworkError.authenticationFailed.errorDescription, "Claude session key is invalid or expired")
+17:     }
+18: 
+19:     func test_claudeRecoveryCopy_detectsOnlyClaudeCredentialAuthenticationMessages() {
+20:         XCTAssertTrue(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "Claude session key is invalid or expired"))
+21:         XCTAssertTrue(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "Claude authentication failed"))
+22: 
+23:         XCTAssertFalse(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "ChatGPT session token is invalid"))
+24:         XCTAssertFalse(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "ChatGPT authentication failed"))
+25:         XCTAssertFalse(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "Network timeout"))
+26:     }
+27: 
+28:     func test_claudeRecoveryCopy_usesClaudeSpecificButtonLabel() {
+29:         XCTAssertEqual(ClaudeCredentialRecoveryCopy.updateButtonTitle, "Update Claude Session Key")
+30:     }
+31: 
+32:     func test_chatGPTUsageErrorsDoNotEchoCookieOrBearerTokenSentinels() {
+33:         let forbiddenFragments = [
+34:             "__Secure-next-auth.session-token=synthetic-cookie-redaction-sentinel",
+35:             "synthetic-cookie-redaction-sentinel",
+36:             "Bearer synthetic-access-token-redaction-sentinel",
+37:             "synthetic-access-token-redaction-sentinel"
+38:         ]
+39:         let descriptions = [
+40:             ChatGPTUsageError.missingSessionCookie.localizedDescription,
+41:             ChatGPTUsageError.invalidSessionCookie.localizedDescription,
+42:             ChatGPTUsageError.invalidResponse.localizedDescription,
+43:             ChatGPTUsageError.httpError(statusCode: 401).localizedDescription,
+44:             ChatGPTUsageError.networkUnavailable.localizedDescription
+45:         ]
+46: 
+47:         for description in descriptions {
+48:             for forbiddenFragment in forbiddenFragments {
+49:                 XCTAssertFalse(
+50:                     description.contains(forbiddenFragment),
+51:                     "ChatGPT user-facing errors must not echo credential material: \(forbiddenFragment)"
+52:                 )
+53:             }
+54:         }
+55:     }
+56: 
+57:     func test_chatGPTInvalidCredentialStatusKeepsRecoveryProviderSpecificAndSanitized() {
+58:         let status = AppProviderCredentialStatus(
+59:             state: CredentialState(
+60:                 identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+61:                 health: .invalid,
+62:                 failureCategory: .providerRejected,
+63:                 checkedAt: Date(timeIntervalSince1970: 0)
+64:             ),
+65:             actions: [.init(kind: .reconnect), .init(kind: .clear)]
+66:         )
+67: 
+68:         XCTAssertEqual(status.providerName, "ChatGPT")
+69:         XCTAssertEqual(status.credentialName, "ChatGPT session cookie")
+70:         XCTAssertEqual(status.setupPromptTitle, "Recover ChatGPT session cookie")
+71:         XCTAssertEqual(status.setupPromptDescription, "Update the credential and try again.")
+72:         XCTAssertEqual(status.actions.map { $0.displayTitle }, ["Reconnect", "Clear"])
+73:         XCTAssertTrue(status.setupAccessibilityLabel.contains("ChatGPT session cookie status: Invalid"))
+74:         XCTAssertFalse(status.setupAccessibilityLabel.contains("synthetic-chatgpt-session-cookie"))
+75:     }
+76: 
+77:     func test_credentialRecoverySetupCopyDoesNotExposeRawCredentialMaterial() {
+78:         let status = AppProviderCredentialStatus(
+79:             state: CredentialState(
+80:                 identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+
+---CUT---
+
+81:                 health: .unavailable,
+82:                 failureCategory: .storageUnavailable,
+83:                 checkedAt: Date(timeIntervalSince1970: 0)
+84:             ),
+85:             actions: [.init(kind: .reconnect), .init(kind: .repair), .init(kind: .clear)]
+86:         )
+87: 
+88:         XCTAssertEqual(status.setupPromptTitle, "Recover Claude session key")
+89:         XCTAssertEqual(status.setupPromptDescription, "Check Keychain access and try again.")
+90:         XCTAssertTrue(status.setupAccessibilityLabel.contains("Claude session key status: Unavailable"))
+91:         XCTAssertFalse(status.setupAccessibilityLabel.contains("sk-ant-"))
+92:     }
+93: 
+94:     func test_settingsAndSetupRenderSharedProviderCredentialStatusModel() throws {
+95:         let settingsSource = try sourceContents(relativePath: "Pinemeter/Views/Settings/SettingsView.swift")
+96:         let setupSource = try sourceContents(relativePath: "Pinemeter/Views/Setup/SetupWizardView.swift")
+97: 
+98:         for source in [settingsSource, setupSource] {
+99:             XCTAssertTrue(source.contains("providerCredentialStatuses"))
+100:             XCTAssertTrue(source.contains("status.stateText"))
+101:             XCTAssertTrue(source.contains("status.detailText"))
+102:             XCTAssertTrue(source.contains("status.lastFailureTitle"))
+103:             XCTAssertTrue(source.contains("handleCredentialAction(action.kind, for: status)"))
+104:             XCTAssertFalse(source.contains("status.setupAccessibilityLabel"))
+105:             XCTAssertFalse(source.contains("SecureField"))
+106:             XCTAssertFalse(source.contains("sk-ant-"))
+107:             XCTAssertFalse(source.contains("__Secure-next-auth.session-token"))
+108:         }
+109:     }
+110: 
+111:     func test_setupProviderStatusCardsExposeSharedRepairAndClearActionsWithoutManualCredentials() throws {
+112:         let settingsSource = try sourceContents(relativePath: "Pinemeter/Views/Settings/SettingsView.swift")
+113:         let setupSource = try sourceContents(relativePath: "Pinemeter/Views/Setup/SetupWizardView.swift")
+114: 
+115:         XCTAssertTrue(setupSource.contains("private func providerCredentialStatusActions(for status: AppProviderCredentialStatus) -> some View"))
+116:         XCTAssertTrue(setupSource.contains("let visibleActions = status.actions.filter { $0.kind != .reconnect }"))
+117:         XCTAssertTrue(setupSource.contains("activeCredentialActionProvider"))
+118:         XCTAssertTrue(setupSource.contains("await performProviderCredentialAction(kind, for: status)"))
+119:         XCTAssertTrue(setupSource.contains("try await appModel.performProviderCredentialAction(kind, for: status.provider)"))
+120:         XCTAssertTrue(setupSource.contains("Reconnecting credentials from the signed-in browser session."))
+121:         XCTAssertFalse(setupSource.contains("await importProviderSessions(from: .defaultBrowser)"))
+122:         XCTAssertFalse(setupSource.contains("await repairClaudeSessionKey()"))
+123:         XCTAssertFalse(setupSource.contains("await clearSavedCredential(for: status.provider)"))
+124:         XCTAssertTrue(setupSource.contains(".accessibilityElement(children: .contain)"))
+125:         XCTAssertFalse(setupSource.contains("TextField"))
+126:         XCTAssertFalse(setupSource.contains("validateAndSaveSessionKey"))
+127:         XCTAssertFalse(setupSource.contains("validateAndSaveChatGPTSessionCookie"))
+128: 
+129:         XCTAssertTrue(settingsSource.contains("activeCredentialActionProvider"))
+130:         XCTAssertTrue(settingsSource.contains("await performProviderCredentialAction(kind, for: status)"))
+131:         XCTAssertTrue(settingsSource.contains("try await appModel.performProviderCredentialAction(kind, for: status.provider)"))
+132:         XCTAssertTrue(settingsSource.contains("Reconnecting credentials from the signed-in browser session."))
+133:         XCTAssertFalse(settingsSource.contains("case (.claude, .repair):"))
+134:         XCTAssertFalse(settingsSource.contains("case (.chatGPT, .clear):"))
+135:         XCTAssertFalse(settingsSource.contains("await repairClaudeSessionKey()"))
+136:         XCTAssertFalse(settingsSource.contains("await clearSavedCredential(for: status.provider)"))
+137:         XCTAssertFalse(settingsSource.contains("TextField"))
+138:         XCTAssertFalse(settingsSource.contains("validateAndSaveSessionKey"))
+139:         XCTAssertFalse(settingsSource.contains("validateAndSaveChatGPTSessionCookie"))
+140:     }
+141: 
+142:     func test_clearCredentialWorkflowCopyIsProviderSpecificAndCredentialFree() {
+143:         let statuses = [
+144:             AppProviderCredentialStatus(
+145:                 state: CredentialState(
+146:                     identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+147:                     health: .invalid,
+148:                     failureCategory: .providerRejected,
+149:                     checkedAt: Date(timeIntervalSince1970: 0)
+150:                 ),
+
+---CUT---
+
+151:                 actions: [.init(kind: .clear)]
+152:             ),
+153:             AppProviderCredentialStatus(
+154:                 state: CredentialState(
+155:                     identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+156:                     health: .invalid,
+157:                     failureCategory: .providerRejected,
+158:                     checkedAt: Date(timeIntervalSince1970: 0)
+159:                 ),
+160:                 actions: [.init(kind: .clear)]
+161:             )
+162:         ]
+163:         let forbiddenFragments = [
+164:             "sk-ant-test-reset-sentinel",
+165:             "__Secure-next-auth.session-token=synthetic-reset-cookie",
+166:             "Cookie:",
+167:             "Bearer synthetic-reset-access-token"
+168:         ]
+169: 
+170:         XCTAssertEqual(statuses.map(\.providerName), ["Claude", "ChatGPT"])
+171:         XCTAssertEqual(statuses.map(\.credentialName), ["Claude session key", "ChatGPT session cookie"])
+172:         XCTAssertEqual(statuses.map { $0.actions.map(\.displayTitle) }, [["Clear"], ["Clear"]])
+173: 
+174:         let userFacingCopy = statuses.flatMap { status in
+175:             [
+176:                 status.providerName,
+177:                 status.credentialName,
+178:                 status.setupPromptTitle,
+179:                 status.setupPromptDescription,
+180:                 status.setupAccessibilityLabel
+181:             ] + status.actions.map(\.displayTitle)
+182:         }
+183: 
+184:         for copy in userFacingCopy {
+185:             for forbiddenFragment in forbiddenFragments {
+186:                 XCTAssertFalse(
+187:                     copy.contains(forbiddenFragment),
+188:                     "Credential reset workflow copy must not expose synthetic credential material: \(forbiddenFragment)"
+189:                 )
+190:             }
+191:         }
+192:     }
+193: 
+194:     private func sourceContents(relativePath: String) throws -> String {
+195:         let testFile = URL(fileURLWithPath: #filePath)
+196:         let repositoryRoot = testFile.deletingLastPathComponent().deletingLastPathComponent()
+197:         let sourceURL = relativePath.split(separator: "/").reduce(repositoryRoot) { url, component in
+198:             url.appendingPathComponent(String(component))
+199:         }
+200:         return try String(contentsOf: sourceURL, encoding: .utf8)
+201:     }
+202: 
+203: }
+
+---CUT---
+

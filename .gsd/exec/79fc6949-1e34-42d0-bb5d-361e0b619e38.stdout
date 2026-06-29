@@ -1,0 +1,248 @@
+
+## PinemeterTests/ProviderErrorWorkflowTests.swift
+5:     func test_appError_noSessionKey_usesClaudeSpecificCredentialCopy() {
+10:     func test_appError_sessionKeyInvalid_usesClaudeSpecificCredentialCopy() {
+15:     func test_networkAuthenticationFailed_usesClaudeSpecificCredentialCopy() {
+19:     func test_claudeRecoveryCopy_detectsOnlyClaudeCredentialAuthenticationMessages() {
+20:         XCTAssertTrue(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "Claude session key is invalid or expired"))
+21:         XCTAssertTrue(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "Claude authentication failed"))
+23:         XCTAssertFalse(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "ChatGPT session token is invalid"))
+24:         XCTAssertFalse(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "ChatGPT authentication failed"))
+25:         XCTAssertFalse(ClaudeCredentialRecoveryCopy.shouldShowUpdateButton(for: "Network timeout"))
+28:     func test_claudeRecoveryCopy_usesClaudeSpecificButtonLabel() {
+29:         XCTAssertEqual(ClaudeCredentialRecoveryCopy.updateButtonTitle, "Update Claude Session Key")
+32:     func test_chatGPTUsageErrorsDoNotEchoCookieOrBearerTokenSentinels() {
+40:             ChatGPTUsageError.missingSessionCookie.localizedDescription,
+41:             ChatGPTUsageError.invalidSessionCookie.localizedDescription,
+42:             ChatGPTUsageError.invalidResponse.localizedDescription,
+43:             ChatGPTUsageError.httpError(statusCode: 401).localizedDescription,
+44:             ChatGPTUsageError.networkUnavailable.localizedDescription
+51:                     "ChatGPT user-facing errors must not echo credential material: \(forbiddenFragment)"
+57:     func test_chatGPTInvalidCredentialStatusKeepsRecoveryProviderSpecificAndSanitized() {
+58:         let status = AppProviderCredentialStatus(
+68:         XCTAssertEqual(status.providerName, "ChatGPT")
+69:         XCTAssertEqual(status.credentialName, "ChatGPT session cookie")
+70:         XCTAssertEqual(status.setupPromptTitle, "Recover ChatGPT session cookie")
+73:         XCTAssertTrue(status.setupAccessibilityLabel.contains("ChatGPT session cookie status: Invalid"))
+77:     func test_credentialRecoverySetupCopyDoesNotExposeRawCredentialMaterial() {
+78:         let status = AppProviderCredentialStatus(
+94:     func test_settingsAndSetupRenderSharedProviderCredentialStatusModel() throws {
+99:             XCTAssertTrue(source.contains("providerCredentialStatuses"))
+111:     func test_setupProviderStatusCardsExposeSharedRepairAndClearActionsWithoutManualCredentials() throws {
+115:         XCTAssertTrue(setupSource.contains("private func providerCredentialStatusActions(for status: AppProviderCredentialStatus) -> some View"))
+127:         XCTAssertFalse(setupSource.contains("validateAndSaveChatGPTSessionCookie"))
+139:         XCTAssertFalse(settingsSource.contains("validateAndSaveChatGPTSessionCookie"))
+142:     func test_clearCredentialWorkflowCopyIsProviderSpecificAndCredentialFree() {
+144:             AppProviderCredentialStatus(
+153:             AppProviderCredentialStatus(
+170:         XCTAssertEqual(statuses.map(\.providerName), ["Claude", "ChatGPT"])
+171:         XCTAssertEqual(statuses.map(\.credentialName), ["Claude session key", "ChatGPT session cookie"])
+
+## PinemeterTests/AppModelTests.swift
+6:     func test_bootstrap_withoutSessionKey_showsSetupState() async {
+29:     func test_userWithSessionKey_seesUsageAfterLaunch() async {
+57:     func test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch() async {
+85:     func test_refreshingUsage_showsLatestUsageAndClearsError() async {
+111:     func test_refreshingUsage_showsErrorWhenFetchFails() async {
+136:     func test_refreshingUsage_hidesUsageWhenSetupIncomplete() async {
+158:     func test_userWithInvalidSessionKey_staysInSetup() async throws {
+185:     func test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState() async throws {
+204:         let statuses = appModel.providerCredentialStatuses
+221:         XCTAssertEqual(chatGPT.providerName, "ChatGPT")
+222:         XCTAssertEqual(chatGPT.credentialName, "ChatGPT session cookie")
+224:         XCTAssertEqual(chatGPT.detailText, "Sign in to ChatGPT in your browser, then import the browser session into Pinemeter.")
+229:         XCTAssertEqual(gemini.providerName, "Gemini")
+230:         XCTAssertEqual(gemini.credentialName, "Gemini API key")
+232:         XCTAssertEqual(gemini.detailText, "Add a Gemini API key in Settings.")
+233:         XCTAssertEqual(gemini.setupPromptTitle, "Connect Gemini")
+234:         XCTAssertEqual(gemini.setupAccessibilityLabel, "Gemini API key status: Unknown. Add a Gemini API key in Settings.")
+245:         let invalidGemini = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .gemini })
+246:         XCTAssertEqual(invalidGemini.actions.map(\.displayTitle), ["Clear"])
+247:         XCTAssertEqual(invalidGemini.actions.map(\.kind), [.clear])
+250:     func test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials() throws {
+267:         var claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+281:         claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+296:         claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+305:     func test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates() throws {
+336:             let claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+342:     func test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair() async throws {
+364:     func test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary() async throws {
+365:         let expectedUsage = ChatGPTUsageData(
+369:         let sessionRepository = AppModelChatGPTSessionRepositoryFake()
+372:             chatGPTResult: .success(ImportedChatGPTSessionCookie(
+381:             chatGPTUsageService: AppModelChatGPTUsageServiceStub(fetchUsageResult: .success(expectedUsage), validateResult: true),
+388:         let savedSession = try await sessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+395:         XCTAssertFalse(appModel.providerCredentialStatuses[1].searchableText.contains("synthetic-chatgpt-session-cookie"))
+398:     func test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential() async throws {
+401:         let sessionRepository = AppModelChatGPTSessionRepositoryFake()
+403:             ChatGPTSession(sessionCookie: "chatgpt-session-redacted"),
+404:             account: ChatGPTUsageService.defaultSessionAccount
+413:         appModel.hasChatGPTSessionCookie = true
+414:         appModel.settings.isChatGPTUsageShown = true
+423:             _ = try await sessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+424:             XCTFail("Expected ChatGPT session cookie to be cleared")
+428:         XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+429:         XCTAssertFalse(appModel.settings.isChatGPTUsageShown)
+432:     func test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak() async throws {
+458:     func test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectWithoutCredentialLeak() async throws {
+484:     func test_userWithValidSessionKey_entersUsageAndLoadsData() async throws {
+520:     func test_importingSessionKey_savesImportedKeyAndLoadsData() async throws {
+558:     func test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT() async throws {
+560:         let expectedChatGPTUsage = ChatGPTUsageData(
+571:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+572:             fetchUsageResult: .success(expectedChatGPTUsage),
+575:         let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+581:             chatGPTResult: .success(ImportedChatGPTSessionCookie(
+601:         let savedChatGPTSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+607:         XCTAssertEqual(savedChatGPTSession.sessionCookie, "__Secure-authjs.session-token=synthetic-chatgpt-session-cookie")
+609:         XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+611:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+614:     func test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface() async {
+625:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+627:         appModel.hasChatGPTSessionCookie = true
+628:         appModel.settings.isChatGPTUsageShown = true
+632:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT"])
+633:         XCTAssertEqual(appModel.usageDashboardTitle, "ChatGPT Usage")
+634:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading ChatGPT usage data...")
+636:         appModel.hasGeminiAPIKey = true
+638:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT", "Gemini"])
+640:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading ChatGPT and Gemini usage data...")
+645:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "ChatGPT", "Gemini"])
+647:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude, ChatGPT, and Gemini usage data...")
+650:     func test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders() async {
+652:         let expectedChatGPTUsage = ChatGPTUsageData(
+656:         let expectedGeminiUsage = GeminiUsageData(
+657:             label: "Gemini API quota",
+663:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+664:             fetchUsageResult: .success(expectedChatGPTUsage),
+667:         let geminiUsageService = AppModelGeminiUsageServiceStub(
+668:             fetchUsageResult: .success(expectedGeminiUsage),
+680:         appModel.hasChatGPTSessionCookie = true
+681:         appModel.settings.isChatGPTUsageShown = true
+682:         appModel.hasGeminiAPIKey = true
+691:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+692:         XCTAssertEqual(appModel.geminiUsageData, expectedGeminiUsage)
+707:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+708:         XCTAssertEqual(appModel.geminiUsageData, expectedGeminiUsage)
+715:     func test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff() async {
+723:         appModel.hasChatGPTSessionCookie = true
+724:         appModel.settings.isChatGPTUsageShown = false
+729:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+739:     func test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState() async {
+740:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+741:             fetchUsageResult: .failure(ChatGPTUsageError.missingSessionCookie),
+751:         appModel.hasChatGPTSessionCookie = true
+752:         appModel.settings.isChatGPTUsageShown = true
+758:         XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+762:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+765:     func test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState() async {
+766:         let geminiUsageService = AppModelGeminiUsageServiceStub(
+767:             fetchUsageResult: .failure(GeminiUsageError.missingAPIKey),
+777:         appModel.hasGeminiAPIKey = true
+783:         XCTAssertFalse(appModel.hasGeminiAPIKey)
+787:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+790:     func test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage() async throws {
+791:         let expectedUsage = ChatGPTUsageData(
+795:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+799:         let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+802:             chatGPTResult: .success(ImportedChatGPTSessionCookie(
+817:         let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+818:         let savedSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+822:         XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+823:         XCTAssertTrue(appModel.settings.isChatGPTUsageShown)
+828:     func test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails() async throws {
+829:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+833:         let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+836:             chatGPTResult: .success(ImportedChatGPTSessionCookie(
+851:         let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+852:         let savedSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+856:         XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+857:         XCTAssertTrue(appModel.settings.isChatGPTUsageShown)
+862:     func test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState() async throws {
+888:     func test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure() async throws {
+911:     func test_importingSessionKey_whenImportedKeyInvalid_staysInSetup() async throws {
+944:     func test_userWithValidSessionKeyWithoutOrganization_staysInSetup() async {
+972:     func test_userClearsSession_returnsToSetupState() async throws {
+1003:     func test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+1092:     func test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+1093:         let expectedUsage = ChatGPTUsageData(
+1100:         let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+1101:         let invalidChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+1109:             chatGPTUsageService: invalidChatGPTUsageService,
+1114:         let rejected = try await invalidModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+1117:         XCTAssertFalse(invalidModel.hasChatGPTSessionCookie)
+1121:             _ = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+1122:             XCTFail("Expected missing ChatGPT session after invalid validation")
+1123:         } catch ChatGPTSessionRepositoryError.notFound {
+1129:         let validChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+1137:             chatGPTUsageService: validChatGPTUsageService,
+1142:         let acquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+1145:         XCTAssertTrue(setupModel.hasChatGPTSessionCookie)
+1146:         XCTAssertTrue(setupModel.settings.isChatGPTUsageShown)
+1147:         let savedChatGPTSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+1151:         XCTAssertEqual(savedChatGPTSession.sessionCookie, "synthetic-chatgpt-session-cookie")
+1154:         reuseSettings.isChatGPTUsageShown = true
+1160:             chatGPTUsageService: validChatGPTUsageService,
+1167:         XCTAssertTrue(reuseModel.hasChatGPTSessionCookie)
+1171:         try await setupModel.clearChatGPTSessionCookie()
+1173:         XCTAssertFalse(setupModel.hasChatGPTSessionCookie)
+1174:         XCTAssertFalse(setupModel.settings.isChatGPTUsageShown)
+1180:         let reacquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+1183:         XCTAssertTrue(setupModel.hasChatGPTSessionCookie)
+1188:     func test_geminiCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+1189:         let expectedUsage = GeminiUsageData(
+1190:             label: "Gemini API quota",
+1198:         let geminiAPIKeyRepository = AppModelGeminiAPIKeyRepositoryFake()
+1199:         let invalidGeminiUsageService = AppModelGeminiUsageServiceStub(
+1207:             geminiUsageService: invalidGeminiUsageService,
+1212:         let rejected = try await invalidModel.validateAndSaveGeminiAPIKey("gemini-api-key-redaction-sentinel")
+1215:         XCTAssertFalse(invalidModel.hasGeminiAPIKey)
+1219:             _ = try await geminiAPIKeyRepository.load(account: GeminiUsageService.defaultAPIKeyAccount)
+1220:             XCTFail("Expected missing Gemini API key after invalid validation")
+1221:         } catch GeminiAPIKeyRepositoryError.notFound {
+1227:         let validGeminiUsageService = AppModelGeminiUsageServiceStub(
+1235:             geminiUsageService: validGeminiUsageService,
+1240:         let acquired = try await setupModel.validateAndSaveGeminiAPIKey(" gemini-api-key-redaction-sentinel ")
+1243:         XCTAssertTrue(setupModel.hasGeminiAPIKey)
+1244:         let savedGeminiAPIKey = try await geminiAPIKeyRepository.load(account: GeminiUsageService.defaultAPIKeyAccount)
+1248:         XCTAssertEqual(savedGeminiAPIKey.value, "gemini-api-key-redaction-sentinel")
+1254:             geminiUsageService: validGeminiUsageService,
+1261:         XCTAssertTrue(reuseModel.hasGeminiAPIKey)
+1265:         try await setupModel.clearGeminiAPIKey()
+1267:         XCTAssertFalse(setupModel.hasGeminiAPIKey)
+1273:         let reacquired = try await setupModel.validateAndSaveGeminiAPIKey("gemini-api-key-redaction-sentinel")
+1276:         XCTAssertTrue(setupModel.hasGeminiAPIKey)
+1281:     func test_userWithNotificationPermission_doesNotSeePermissionPrompt() async {
+1300:     func test_userWithoutNotificationPermission_isPromptedForPermission() async {
+1319:     func test_userSendsTestNotification_triggersNotificationService() async throws {
+1371: private actor AppModelChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+1372:     private let fetchUsageResult: Result<ChatGPTUsageData, Error>
+1376:     init(fetchUsageResult: Result<ChatGPTUsageData, Error>, validateResult: Bool) {
+1381:     func fetchUsage() async throws -> ChatGPTUsageData {
+1391:     func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+1400: private actor AppModelChatGPTSessionRepositoryFake: ChatGPTSessionRepositoryProtocol {
+1401:     private var sessions: [String: ChatGPTSession] = [:]
+1402:     private var status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1404:     func save(_ session: ChatGPTSession, account: String) async throws {
+1406:         status = ChatGPTSessionAcquisitionStatus(state: .available, lastErrorCategory: nil)
+1409:     func load(account: String) async throws -> ChatGPTSession {
+1411:             status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1412:             throw ChatGPTSessionRepositoryError.notFound
+1417:     func validate(account: String) async -> ChatGPTSessionAcquisitionStatus {
+1423:         status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1427: private actor AppModelGeminiUsageServiceStub: GeminiUsageServiceProtocol {
+1428:     private let fetchUsageResult: Result<GeminiUsageData, Error>
+1432:     init(fetchUsageResult: Result<GeminiUsageData, Error>, validateResult: Bool) {
+1437:     func fetchUsage() async throws -> GeminiUsageData {
+1447:     func fetchUsage(apiKey: GeminiAPIKey) async throws -> GeminiUsageData {
+1451:     func validateAPIKey(_ apiKey: GeminiAPIKey) async throws -> Bool {
+1456: private actor AppModelGeminiAPIKeyRepositoryFake: GeminiAPIKeyRepositoryProtocol {
+1457:     private var apiKeys: [String: GeminiAPIKey] = [:]
+1458:     private var status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1460:     func save(_ apiKey: GeminiAPIKey, account: String) async throws {
+1462:         status = GeminiAPIKeyAcquisitionStatus(state: .available, lastErrorCategory: nil)
+1465:     func load(account: String) async throws -> GeminiAPIKey {
+1467:             status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1468:             throw GeminiAPIKeyRepositoryError.notFound
+1473:     func validate(account: String) async -> GeminiAPIKeyAcquisitionStatus {
+1479:         status = GeminiAPIKeyAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)

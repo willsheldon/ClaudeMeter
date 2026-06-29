@@ -1,0 +1,19 @@
+{
+  "id": "450adfb4-1e2b-44f8-8ac8-72f0a40f639e",
+  "runtime": "python",
+  "purpose": "Summarize current AppModelTests Gemini additions and bottom fakes after edits",
+  "script_chars": 818,
+  "started_at": "2026-06-24T20:41:49.350Z",
+  "finished_at": "2026-06-24T20:41:49.400Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 50,
+  "stdout_bytes": 30823,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/450adfb4-1e2b-44f8-8ac8-72f0a40f639e.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/450adfb4-1e2b-44f8-8ac8-72f0a40f639e.stderr"
+}

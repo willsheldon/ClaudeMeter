@@ -1,0 +1,19 @@
+{
+  "id": "ad680a04-46f3-4605-80ed-2a75e43aa3ae",
+  "runtime": "bash",
+  "purpose": "characterize unrelated full-suite failure",
+  "script_chars": 192,
+  "started_at": "2026-06-24T21:37:00.716Z",
+  "finished_at": "2026-06-24T21:37:14.144Z",
+  "exit_code": 65,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 13428,
+  "stdout_bytes": 8492,
+  "stderr_bytes": 747,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/ad680a04-46f3-4605-80ed-2a75e43aa3ae.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/ad680a04-46f3-4605-80ed-2a75e43aa3ae.stderr"
+}

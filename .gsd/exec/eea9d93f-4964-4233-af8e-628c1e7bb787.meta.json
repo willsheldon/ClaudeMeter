@@ -1,0 +1,27 @@
+{
+  "id": "eea9d93f-4964-4233-af8e-628c1e7bb787",
+  "runtime": "python",
+  "purpose": "UAT M004/S04/UAT-S04-03 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S04",
+    "checkId": "UAT-S04-03",
+    "intent": "uat-artifact-check",
+    "expected": "AppModelTests contain a Gemini refresh-error regression proving appModel.geminiErrorMessage and popover content availability are exposed after refresh failure."
+  },
+  "script_chars": 947,
+  "started_at": "2026-06-24T21:41:34.249Z",
+  "finished_at": "2026-06-24T21:41:34.310Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 61,
+  "stdout_bytes": 521,
+  "stderr_bytes": 111,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/eea9d93f-4964-4233-af8e-628c1e7bb787.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/eea9d93f-4964-4233-af8e-628c1e7bb787.stderr"
+}

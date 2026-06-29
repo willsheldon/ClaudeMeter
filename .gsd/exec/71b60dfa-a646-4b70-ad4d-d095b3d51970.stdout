@@ -1,0 +1,27 @@
+## refreshChatGPTUsage
+315             await refreshChatGPTUsage()
+340             await refreshChatGPTUsage()
+379     func refreshChatGPTUsage() async {
+467         await refreshChatGPTUsage()
+573         await refreshChatGPTUsage()
+760                     await self.refreshChatGPTUsage()
+775                     await self.refreshChatGPTUsage()
+## clearChatGPTSessionCookie
+471     func clearChatGPTSessionCookie() async throws {
+598             try await clearChatGPTSessionCookie()
+## performProviderCredentialAction
+581     func performProviderCredentialAction(
+## credentialState(
+        from status: ChatGPT
+308         chatGPTCredentialState = Self.credentialState(from: chatGPTStatus, checkedAt: Date())
+311         geminiCredentialState = Self.credentialState(from: geminiStatus, checkedAt: Date())
+383             chatGPTCredentialState = Self.credentialState(from: status, checkedAt: Date())
+711     private static func credentialState(
+## startRefreshLoop
+327             startRefreshLoop()
+530         startRefreshLoop()
+743             startRefreshLoop()
+747     private func startRefreshLoop() {
+## startWakeObserver
+330         startWakeObserver()
+766     private func startWakeObserver() {

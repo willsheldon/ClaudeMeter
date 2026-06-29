@@ -4,7 +4,7 @@ estimated_files: 4
 skills_used: []
 ---
 
-# T03: Verify provider display combinations
+# T03: Added AppModel regression tests for Gemini-only, mixed Gemini provider combinations, all-provider display state, and Gemini refresh error display state.
 
 Add tests for Gemini-only, Claude plus Gemini, ChatGPT plus Gemini, all providers, and Gemini error states, then run full verification.
 

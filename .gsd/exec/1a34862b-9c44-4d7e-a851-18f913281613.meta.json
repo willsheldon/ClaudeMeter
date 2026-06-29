@@ -1,0 +1,19 @@
+{
+  "id": "1a34862b-9c44-4d7e-a851-18f913281613",
+  "runtime": "bash",
+  "purpose": "Verify M004 S02 T03 focused AppModel and SecurityInvariant tests",
+  "script_chars": 178,
+  "started_at": "2026-06-24T20:45:46.690Z",
+  "finished_at": "2026-06-24T20:45:59.944Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 13254,
+  "stdout_bytes": 90483,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/1a34862b-9c44-4d7e-a851-18f913281613.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/1a34862b-9c44-4d7e-a851-18f913281613.stderr"
+}

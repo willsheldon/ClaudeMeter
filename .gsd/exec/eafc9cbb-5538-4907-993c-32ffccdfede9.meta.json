@@ -1,0 +1,27 @@
+{
+  "id": "eafc9cbb-5538-4907-993c-32ffccdfede9",
+  "runtime": "bash",
+  "purpose": "UAT M004/S05/UAT-01 (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S05",
+    "checkId": "UAT-01",
+    "intent": "uat-runtime-check",
+    "expected": "Full Debug XCTest suite exits 0 for Gemini workflow regression coverage without exposing secrets."
+  },
+  "script_chars": 229,
+  "started_at": "2026-06-24T22:01:32.074Z",
+  "finished_at": "2026-06-24T22:01:41.423Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 9349,
+  "stdout_bytes": 16718,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/eafc9cbb-5538-4907-993c-32ffccdfede9.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/eafc9cbb-5538-4907-993c-32ffccdfede9.stderr"
+}

@@ -4,7 +4,7 @@ estimated_files: 4
 skills_used: []
 ---
 
-# T01: Add Gemini usage display state
+# T01: Added AppModel popover-content state that accounts for Gemini usage and Gemini errors.
 
 Add Gemini usage state and refresh state to AppModel/menu state in a way that composes with Claude and ChatGPT rather than branching every provider combination manually.
 

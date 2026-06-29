@@ -1,0 +1,27 @@
+{
+  "id": "f29e9e52-aab9-4417-b712-74dced5512d4",
+  "runtime": "python",
+  "purpose": "UAT M004/S05/UAT-05 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S05",
+    "checkId": "UAT-05",
+    "intent": "uat-artifact-check",
+    "expected": "Static mapping confirms source and XCTest artifacts cover Gemini setup, refresh, invalid credential recovery, clear/reconnect, all-provider coexistence, and copyable error rows."
+  },
+  "script_chars": 1300,
+  "started_at": "2026-06-24T22:02:16.011Z",
+  "finished_at": "2026-06-24T22:02:16.077Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 66,
+  "stdout_bytes": 347,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/f29e9e52-aab9-4417-b712-74dced5512d4.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/f29e9e52-aab9-4417-b712-74dced5512d4.stderr"
+}

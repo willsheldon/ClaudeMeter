@@ -1,0 +1,170 @@
+## CredentialProvider (16 hits)
+Pinemeter/App/AppModel.swift:25:case unsupportedAction(provider: CredentialProvider, action: ProviderCredentialActionKind)
+Pinemeter/App/AppModel.swift:47:var provider: CredentialProvider { state.identity.provider }
+Pinemeter/App/AppModel.swift:176:names.append(CredentialProvider.claude.displayName)
+Pinemeter/App/AppModel.swift:179:names.append(CredentialProvider.chatGPT.displayName)
+Pinemeter/App/AppModel.swift:186:if names == [CredentialProvider.claude.displayName] {
+Pinemeter/App/AppModel.swift:189:if names == [CredentialProvider.chatGPT.displayName] {
+Pinemeter/App/AppModel.swift:542:for provider: CredentialProvider
+Pinemeter/Models/CredentialState.swift:4:enum CredentialProvider: String, Codable, CaseIterable, Equatable, Hashable, Sendable {
+Pinemeter/Models/CredentialState.swift:38:let provider: CredentialProvider
+Pinemeter/Services/CredentialStatusService.swift:16:func status(for provider: CredentialProvider) async -> ProviderCredentialStatus {
+Pinemeter/Services/CredentialStatusService.swift:26:results.reserveCapacity(CredentialProvider.allCases.count)
+Pinemeter/Services/CredentialStatusService.swift:28:for provider in CredentialProvider.allCases {
+Pinemeter/Services/CredentialStatusService.swift:36:private extension CredentialProvider {
+Pinemeter/Services/Protocols/CredentialStatusServiceProtocol.swift:16:func status(for provider: CredentialProvider) async -> ProviderCredentialStatus
+Pinemeter/Views/Settings/SettingsView.swift:19:@State private var activeCredentialActionProvider: CredentialProvider?
+Pinemeter/Views/Setup/SetupWizardView.swift:13:@State private var activeCredentialActionProvider: CredentialProvider?
+## CredentialState (94 hits)
+Pinemeter/App/AppModel.swift:43:let state: CredentialState
+Pinemeter/App/AppModel.swift:139:var claudeCredentialState: CredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:143:var chatGPTCredentialState: CredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:151:state: claudeCredentialState,
+Pinemeter/App/AppModel.swift:152:actions: credentialActions(for: claudeCredentialState)
+Pinemeter/App/AppModel.swift:155:state: chatGPTCredentialState,
+Pinemeter/App/AppModel.swift:156:actions: credentialActions(for: chatGPTCredentialState)
+Pinemeter/App/AppModel.swift:269:claudeCredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:277:chatGPTCredentialState = Self.credentialState(from: chatGPTStatus, checkedAt: Date())
+Pinemeter/App/AppModel.swift:342:chatGPTCredentialState = Self.credentialState(from: status, checkedAt: Date())
+Pinemeter/App/AppModel.swift:360:chatGPTCredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:369:chatGPTCredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:379:chatGPTCredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:406:chatGPTCredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:420:chatGPTCredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:436:chatGPTCredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:461:claudeCredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:478:claudeCredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:526:chatGPTCredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:543:) async throws -> CredentialState {
+... 74 more
+## UsageData (167 hits)
+Pinemeter/App/AppModel.swift:129:var usageData: UsageData?
+Pinemeter/App/AppModel.swift:130:var chatGPTUsageData: ChatGPTUsageData?
+Pinemeter/App/AppModel.swift:345:chatGPTUsageData = nil
+Pinemeter/App/AppModel.swift:358:chatGPTUsageData = try await chatGPTUsageService.fetchUsage()
+Pinemeter/App/AppModel.swift:367:chatGPTUsageData = nil
+Pinemeter/App/AppModel.swift:377:chatGPTUsageData = nil
+Pinemeter/App/AppModel.swift:386:chatGPTUsageData = nil
+Pinemeter/App/AppModel.swift:434:chatGPTUsageData = nil
+Pinemeter/App/AppModel.swift:746:usageData: UsageData?,
+Pinemeter/Repositories/CacheRepository.swift:12:private var memoryCache: UsageData?
+Pinemeter/Repositories/CacheRepository.swift:58:func get() async -> UsageData? {
+Pinemeter/Repositories/CacheRepository.swift:71:func set(_ data: UsageData) async {
+Pinemeter/Repositories/CacheRepository.swift:88:func getLastKnown() async -> UsageData? {
+Pinemeter/Repositories/CacheRepository.swift:94:private func saveToDisk(_ data: UsageData) async {
+Pinemeter/Repositories/CacheRepository.swift:114:private func saveToPublicJSON(_ data: UsageData) {
+Pinemeter/Repositories/CacheRepository.swift:135:private func loadFromDisk() async -> UsageData? {
+Pinemeter/Repositories/CacheRepository.swift:136:if let data = loadUsageData(from: diskCacheURL) {
+Pinemeter/Repositories/CacheRepository.swift:140:guard let legacyData = loadUsageData(from: legacyDiskCacheURL) else {
+Pinemeter/Repositories/CacheRepository.swift:148:private func loadUsageData(from url: URL) -> UsageData? {
+Pinemeter/Repositories/CacheRepository.swift:157:return try decoder.decode(UsageData.self, from: jsonData)
+... 147 more
+## ChatGPTUsageData (40 hits)
+Pinemeter/App/AppModel.swift:130:var chatGPTUsageData: ChatGPTUsageData?
+Pinemeter/Models/ChatGPTUsageData.swift:2://  ChatGPTUsageData.swift
+Pinemeter/Models/ChatGPTUsageData.swift:9:struct ChatGPTUsageData: Codable, Equatable, Sendable {
+Pinemeter/Models/ChatGPTUsageData.swift:69:extension ChatGPTUsageData {
+Pinemeter/Services/ChatGPTUsageService.swift:49:func fetchUsage() async throws -> ChatGPTUsageData {
+Pinemeter/Services/ChatGPTUsageService.swift:77:func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+Pinemeter/Services/ChatGPTUsageService.swift:82:private func fetchUsageAndAccessToken(sessionCookie: String) async throws -> (ChatGPTUsageData, String) {
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:9:func fetchUsage() async throws -> ChatGPTUsageData
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:10:func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:10:let usageData: ChatGPTUsageData
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:89:private func status(for row: ChatGPTUsageData.LimitRow) -> UsageStatus {
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:110:usageData: ChatGPTUsageData(
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:195:private func chatGPTQuotaSubtitle(for row: ChatGPTUsageData.LimitRow) -> String {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:206:private func status(for row: ChatGPTUsageData.LimitRow) -> UsageStatus {
+Pinemeter/Models/API/ChatGPTAPIResponses.swift:59:func toDomain(lastUpdated: Date = Date()) throws -> ChatGPTUsageData {
+Pinemeter/Models/API/ChatGPTAPIResponses.swift:60:var rows: [ChatGPTUsageData.LimitRow] = []
+Pinemeter/Models/API/ChatGPTAPIResponses.swift:75:displayLabel: ChatGPTUsageData.MenuBarQuotaRole.chatGPTWeekly.menuBarLabel,
+Pinemeter/Models/API/ChatGPTAPIResponses.swift:110:return ChatGPTUsageData(rows: rows, lastUpdated: lastUpdated)
+Pinemeter/Models/API/ChatGPTAPIResponses.swift:118:menuBarRole: ChatGPTUsageData.MenuBarQuotaRole?
+Pinemeter/Models/API/ChatGPTAPIResponses.swift:119:) -> ChatGPTUsageData.LimitRow? {
+... 20 more
+## isChatGPTUsageShown (39 hits)
+Pinemeter/App/AppModel.swift:166:hasChatGPTSessionCookie && settings.isChatGPTUsageShown
+Pinemeter/App/AppModel.swift:280:if hasChatGPTSessionCookie && settings.isChatGPTUsageShown {
+Pinemeter/App/AppModel.swift:425:settings.isChatGPTUsageShown = true
+Pinemeter/App/AppModel.swift:433:settings.isChatGPTUsageShown = false
+Pinemeter/App/AppModel.swift:531:settings.isChatGPTUsageShown = true
+Pinemeter/App/AppModel.swift:718:if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+Pinemeter/App/AppModel.swift:733:if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+Pinemeter/Models/AppSettings.swift:31:var isChatGPTUsageShown: Bool
+Pinemeter/Models/AppSettings.swift:46:isChatGPTUsageShown: false,
+Pinemeter/Models/AppSettings.swift:58:case isChatGPTUsageShown = "show_chatgpt_usage"
+Pinemeter/Models/AppSettings.swift:76:isChatGPTUsageShown = try container.decodeIfPresent(Bool.self, forKey: .isChatGPTUsageShown)
+Pinemeter/Models/AppSettings.swift:78:?? defaults.isChatGPTUsageShown
+Pinemeter/Models/AppSettings.swift:90:isChatGPTUsageShown: Bool,
+Pinemeter/Models/AppSettings.swift:99:self.isChatGPTUsageShown = isChatGPTUsageShown
+Pinemeter/Models/AppSettings.swift:112:try container.encode(isChatGPTUsageShown, forKey: .isChatGPTUsageShown)
+Pinemeter/Views/Settings/SettingsView.swift:267:Toggle("", isOn: $appModel.settings.isChatGPTUsageShown)
+Pinemeter/Views/Settings/SettingsView.swift:270:.onChange(of: appModel.settings.isChatGPTUsageShown) { _, isShown in
+Pinemeter/Views/MenuBar/MenuBarManager.swift:104:_ = appModel.settings.isChatGPTUsageShown
+Pinemeter/Views/MenuBar/MenuBarManager.swift:178:if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:118:if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
+... 19 more
+## isSetupComplete (52 hits)
+Pinemeter/App/AppModel.swift:136:var isSetupComplete: Bool = false
+Pinemeter/App/AppModel.swift:162:isSetupComplete
+Pinemeter/App/AppModel.swift:268:isSetupComplete = await keychainRepository.exists(account: "default")
+Pinemeter/App/AppModel.swift:271:health: isSetupComplete ? .valid : .missing,
+Pinemeter/App/AppModel.swift:272:failureCategory: isSetupComplete ? nil : .missing,
+Pinemeter/App/AppModel.swift:284:if isSetupComplete {
+Pinemeter/App/AppModel.swift:288:if isSetupComplete || hasChatGPTSessionCookie {
+Pinemeter/App/AppModel.swift:307:guard isSetupComplete else {
+Pinemeter/App/AppModel.swift:486:isSetupComplete = true
+Pinemeter/App/AppModel.swift:609:isSetupComplete = true
+Pinemeter/App/AppModel.swift:620:isSetupComplete = false
+Pinemeter/App/AppModel.swift:708:guard isSetupComplete || hasChatGPTSessionCookie else { return }
+Pinemeter/App/AppModel.swift:715:if self.isSetupComplete {
+Pinemeter/App/AppModel.swift:730:if self.isSetupComplete {
+Pinemeter/App/AppModel.swift:747:isSetupComplete: Bool,
+Pinemeter/App/AppModel.swift:752:self.isSetupComplete = isSetupComplete
+Pinemeter/Utilities/DemoDataFactory.swift:20:isSetupComplete: true,
+Pinemeter/Utilities/DemoDataFactory.swift:28:isSetupComplete: true,
+Pinemeter/Utilities/DemoDataFactory.swift:36:isSetupComplete: true,
+Pinemeter/Utilities/DemoDataFactory.swift:44:isSetupComplete: true,
+... 32 more
+## providerCredentialStatuses (17 hits)
+Pinemeter/App/AppModel.swift:148:var providerCredentialStatuses: [AppProviderCredentialStatus] {
+Pinemeter/Views/Settings/SettingsView.swift:97:ForEach(appModel.providerCredentialStatuses) { status in
+Pinemeter/Views/Settings/SettingsView.swift:100:if status.id != appModel.providerCredentialStatuses.last?.id {
+Pinemeter/Views/Settings/SettingsView.swift:764:let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+Pinemeter/Views/Settings/SettingsView.swift:799:let refreshedStatus = appModel.providerCredentialStatuses.first { $0.provider == status.provider }
+Pinemeter/Views/Setup/SetupWizardView.swift:17:let statuses = appModel.providerCredentialStatuses
+Pinemeter/Views/Setup/SetupWizardView.swift:304:let refreshedStatus = appModel.providerCredentialStatuses.first { $0.provider == status.provider }
+PinemeterTests/ProviderErrorWorkflowTests.swift:99:XCTAssertTrue(source.contains("providerCredentialStatuses"))
+PinemeterTests/ChatGPTAppModelTests.swift:41:let status = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .chatGPT })
+PinemeterTests/ChatGPTAppModelTests.swift:84:let status = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .chatGPT })
+PinemeterTests/AppModelTests.swift:204:let statuses = appModel.providerCredentialStatuses
+PinemeterTests/AppModelTests.swift:246:var claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+PinemeterTests/AppModelTests.swift:260:claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+PinemeterTests/AppModelTests.swift:275:claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+PinemeterTests/AppModelTests.swift:284:func test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates() throws {
+PinemeterTests/AppModelTests.swift:315:let claude = try XCTUnwrap(appModel.providerCredentialStatuses.first { $0.provider == .claude })
+PinemeterTests/AppModelTests.swift:374:XCTAssertFalse(appModel.providerCredentialStatuses[1].searchableText.contains("synthetic-chatgpt-session-cookie"))
+## UsageServiceProtocol (14 hits)
+Pinemeter/App/AppModel.swift:211:@ObservationIgnored private let usageService: UsageServiceProtocol
+Pinemeter/App/AppModel.swift:212:@ObservationIgnored private let chatGPTUsageService: ChatGPTUsageServiceProtocol
+Pinemeter/App/AppModel.swift:230:usageService: UsageServiceProtocol? = nil,
+Pinemeter/App/AppModel.swift:231:chatGPTUsageService: ChatGPTUsageServiceProtocol? = nil,
+Pinemeter/Services/ChatGPTUsageService.swift:31:actor ChatGPTUsageService: ChatGPTUsageServiceProtocol {
+Pinemeter/Services/UsageService.swift:12:actor UsageService: UsageServiceProtocol {
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:2://  ChatGPTUsageServiceProtocol.swift
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:8:protocol ChatGPTUsageServiceProtocol: Sendable {
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:2://  UsageServiceProtocol.swift
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:11:protocol UsageServiceProtocol: Actor {
+PinemeterTests/ChatGPTAppModelTests.swift:188:chatGPTUsageService: ChatGPTUsageServiceProtocol = ChatGPTUsageServiceStub(),
+PinemeterTests/ChatGPTAppModelTests.swift:233:private actor ChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+PinemeterTests/AppModelTests.swift:1182:private actor AppModelChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+PinemeterTests/TestDoubles/UsageServiceStub.swift:11:actor UsageServiceStub: UsageServiceProtocol {
+## ChatGPTUsageServiceProtocol (8 hits)
+Pinemeter/App/AppModel.swift:212:@ObservationIgnored private let chatGPTUsageService: ChatGPTUsageServiceProtocol
+Pinemeter/App/AppModel.swift:231:chatGPTUsageService: ChatGPTUsageServiceProtocol? = nil,
+Pinemeter/Services/ChatGPTUsageService.swift:31:actor ChatGPTUsageService: ChatGPTUsageServiceProtocol {
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:2://  ChatGPTUsageServiceProtocol.swift
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:8:protocol ChatGPTUsageServiceProtocol: Sendable {
+PinemeterTests/ChatGPTAppModelTests.swift:188:chatGPTUsageService: ChatGPTUsageServiceProtocol = ChatGPTUsageServiceStub(),
+PinemeterTests/ChatGPTAppModelTests.swift:233:private actor ChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+PinemeterTests/AppModelTests.swift:1182:private actor AppModelChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+## Mock (0 hits)

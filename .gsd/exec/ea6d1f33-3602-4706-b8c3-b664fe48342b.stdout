@@ -1,0 +1,150 @@
+Gemini-focused credential state/status/action test references:
+Pinemeter/Models/CredentialState.swift:7:    case gemini
+Pinemeter/Models/CredentialState.swift:15:        case .gemini:
+Pinemeter/Models/CredentialState.swift:16:            return "Gemini"
+Pinemeter/Models/CredentialState.swift:25:    case accessToken
+Pinemeter/Models/CredentialState.swift:33:        case .accessToken:
+Pinemeter/Models/CredentialState.swift:56:    case missing
+Pinemeter/Models/CredentialState.swift:60:    case invalid
+Pinemeter/Models/CredentialState.swift:62:    case unavailable
+Pinemeter/Models/CredentialState.swift:68:        case .unknown, .missing, .validating, .invalid, .expired, .unavailable:
+Pinemeter/Models/CredentialState.swift:77:        case .missing:
+Pinemeter/Models/CredentialState.swift:85:        case .invalid:
+Pinemeter/Models/CredentialState.swift:89:        case .unavailable:
+Pinemeter/Models/CredentialState.swift:98:        case .missing:
+Pinemeter/Models/CredentialState.swift:106:        case .invalid:
+Pinemeter/Models/CredentialState.swift:110:        case .unavailable:
+Pinemeter/Models/CredentialState.swift:116:/// Sanitized failure category for credential diagnostics. Cases avoid carrying raw errors or credential values.
+Pinemeter/Models/CredentialState.swift:118:    case missing
+Pinemeter/Models/CredentialState.swift:119:    case invalidFormat
+Pinemeter/Models/CredentialState.swift:130:        case .missing:
+Pinemeter/Models/CredentialState.swift:131:            return "Credential missing"
+Pinemeter/Models/CredentialState.swift:132:        case .invalidFormat:
+Pinemeter/Models/CredentialState.swift:133:            return "Credential format is invalid"
+Pinemeter/Models/CredentialState.swift:139:            return "Provider unavailable"
+Pinemeter/Models/CredentialState.swift:141:            return "Network unavailable"
+Pinemeter/Models/CredentialState.swift:143:            return "Credential storage unavailable"
+Pinemeter/Models/CredentialState.swift:153:        case .missing:
+Pinemeter/Models/CredentialState.swift:155:        case .invalidFormat:
+Pinemeter/Models/CredentialState.swift:176:        case .missing:
+Pinemeter/Models/CredentialState.swift:178:        case .invalidFormat, .providerRejected, .expired:
+Pinemeter/App/AppModel.swift:25:    case unsupportedAction(provider: CredentialProvider, action: ProviderCredentialActionKind)
+Pinemeter/App/AppModel.swift:29:        case .unsupportedAction(let provider, let action):
+Pinemeter/App/AppModel.swift:60:        case .missing, .unknown:
+Pinemeter/App/AppModel.swift:64:        case .invalid, .expired, .unavailable:
+Pinemeter/App/AppModel.swift:78:        case .missing, .unknown:
+Pinemeter/App/AppModel.swift:82:        case .invalid, .expired, .unavailable:
+Pinemeter/App/AppModel.swift:147:    var geminiCredentialState: CredentialState = CredentialState(
+Pinemeter/App/AppModel.swift:148:        identity: CredentialIdentity(provider: .gemini, kind: .accessToken),
+Pinemeter/App/AppModel.swift:163:                state: geminiCredentialState,
+Pinemeter/App/AppModel.swift:164:                actions: credentialActions(for: geminiCredentialState)
+Pinemeter/App/AppModel.swift:181:    var configuredUsageProviderNames: [String] {
+Pinemeter/App/AppModel.swift:193:        let names = configuredUsageProviderNames
+Pinemeter/App/AppModel.swift:204:        let names = configuredUsageProviderNames
+Pinemeter/App/AppModel.swift:279:            health: isSetupComplete ? .valid : .missing,
+Pinemeter/App/AppModel.swift:280:            failureCategory: isSetupComplete ? nil : .missing,
+Pinemeter/App/AppModel.swift:373:        } catch ChatGPTUsageError.missingSessionCookie {
+Pinemeter/App/AppModel.swift:376:            chatGPTErrorMessage = ChatGPTUsageError.missingSessionCookie.localizedDescription
+Pinemeter/App/AppModel.swift:379:                health: .missing,
+Pinemeter/App/AppModel.swift:380:                failureCategory: .missing,
+Pinemeter/App/AppModel.swift:383:        } catch ChatGPTUsageError.invalidSessionCookie {
+Pinemeter/App/AppModel.swift:386:            chatGPTErrorMessage = ChatGPTUsageError.invalidSessionCookie.localizedDescription
+Pinemeter/App/AppModel.swift:389:                health: .invalid,
+Pinemeter/App/AppModel.swift:416:                health: .invalid,
+Pinemeter/App/AppModel.swift:446:            health: .missing,
+Pinemeter/App/AppModel.swift:447:            failureCategory: .missing,
+Pinemeter/App/AppModel.swift:471:                health: .invalid,
+Pinemeter/App/AppModel.swift:511:            throw SessionKeyImportError.invalidImportedSessionKey
+Pinemeter/App/AppModel.swift:526:            throw SessionKeyImportError.invalidImportedChatGPTSessionCookie
+Pinemeter/App/AppModel.swift:567:        case (.chatGPT, .repair), (.gemini, .reconnect), (.gemini, .repair), (.gemini, .clear):
+Pinemeter/App/AppModel.swift:568:            throw AppProviderCredentialActionError.unsupportedAction(provider: provider, action: action)
+Pinemeter/App/AppModel.swift:631:            health: .missing,
+Pinemeter/App/AppModel.swift:632:            failureCategory: .missing,
+Pinemeter/App/AppModel.swift:666:        case .unknown, .missing:
+Pinemeter/App/AppModel.swift:672:        case .invalid, .expired, .unavailable:
+PinemeterTests/CredentialStateTests.swift:8:        let geminiIdentity = CredentialIdentity(provider: .gemini, kind: .accessToken)
+PinemeterTests/CredentialStateTests.swift:14:        XCTAssertEqual(geminiIdentity.id, "gemini.accessToken")
+PinemeterTests/CredentialStateTests.swift:15:        XCTAssertEqual(geminiIdentity.displayName, "Gemini access token")
+PinemeterTests/CredentialStateTests.swift:22:        XCTAssertFalse(CredentialHealthState.missing.isUsable)
+PinemeterTests/CredentialStateTests.swift:23:        XCTAssertFalse(CredentialHealthState.invalid.isUsable)
+PinemeterTests/CredentialStateTests.swift:25:        XCTAssertFalse(CredentialHealthState.unavailable.isUsable)
+PinemeterTests/CredentialStateTests.swift:53:        XCTAssertEqual(CredentialFailureCategory.invalidFormat.displayTitle, "Credential format is invalid")
+PinemeterTests/CredentialStateTests.swift:61:            health: .invalid,
+PinemeterTests/CredentialStateTests.swift:84:            identity: CredentialIdentity(provider: .chatGPT, kind: .accessToken),
+PinemeterTests/CredentialStateTests.swift:97:    func test_geminiCredentialStateUsesSanitizedProviderDiagnostics() throws {
+PinemeterTests/CredentialStateTests.swift:100:            identity: CredentialIdentity(provider: .gemini, kind: .accessToken),
+PinemeterTests/CredentialStateTests.swift:101:            health: .invalid,
+PinemeterTests/CredentialStateTests.swift:102:            failureCategory: .invalidFormat,
+PinemeterTests/CredentialStateTests.swift:109:        XCTAssertEqual(decoded.identity.id, "gemini.accessToken")
+PinemeterTests/CredentialStateTests.swift:110:        XCTAssertEqual(decoded.displayTitle, "Gemini access token: Credential format is invalid")
+PinemeterTests/AppModelTests.swift:181:        XCTAssertEqual(appModel.claudeCredentialState.health, .invalid)
+PinemeterTests/AppModelTests.swift:199:            health: .unavailable,
+PinemeterTests/AppModelTests.swift:206:        XCTAssertEqual(statuses.map(\.id), ["claude.sessionKey", "chatGPT.sessionCookie", "gemini.accessToken"])
+PinemeterTests/AppModelTests.swift:214:        XCTAssertEqual(claude.lastFailureTitle, "Credential storage unavailable")
+PinemeterTests/AppModelTests.swift:228:        let gemini = try XCTUnwrap(statuses.first { $0.provider == .gemini })
+PinemeterTests/AppModelTests.swift:229:        XCTAssertEqual(gemini.providerName, "Gemini")
+PinemeterTests/AppModelTests.swift:230:        XCTAssertEqual(gemini.credentialName, "Gemini access token")
+PinemeterTests/AppModelTests.swift:231:        XCTAssertEqual(gemini.stateText, "Unknown")
+PinemeterTests/AppModelTests.swift:232:        XCTAssertEqual(gemini.detailText, "Sign in to Gemini in your browser, then import the browser session into Pinemeter.")
+PinemeterTests/AppModelTests.swift:233:        XCTAssertEqual(gemini.setupPromptTitle, "Connect Gemini")
+PinemeterTests/AppModelTests.swift:234:        XCTAssertEqual(gemini.setupAccessibilityLabel, "Gemini access token status: Unknown. Sign in to Gemini in your browser, then import the browser session into Pinemeter.")
+PinemeterTests/AppModelTests.swift:235:        XCTAssertEqual(gemini.actions.map(\.displayTitle), ["Reconnect"])
+PinemeterTests/AppModelTests.swift:236:        XCTAssertEqual(gemini.actions.map(\.kind), [.reconnect])
+PinemeterTests/AppModelTests.swift:237:        XCTAssertFalse(gemini.searchableText.contains("sk-ant-secret"))
+PinemeterTests/AppModelTests.swift:238:        XCTAssertFalse(gemini.searchableText.contains("AIza"))
+PinemeterTests/AppModelTests.swift:268:            health: .missing,
+PinemeterTests/AppModelTests.swift:269:            failureCategory: .missing,
+PinemeterTests/AppModelTests.swift:283:            health: .unavailable,
+PinemeterTests/AppModelTests.swift:310:            (.missing, [.reconnect]),
+PinemeterTests/AppModelTests.swift:314:            (.invalid, [.reconnect, .repair, .clear]),
+PinemeterTests/AppModelTests.swift:316:            (.unavailable, [.reconnect, .repair, .clear])
+PinemeterTests/AppModelTests.swift:410:        XCTAssertEqual(result.health, .missing)
+PinemeterTests/AppModelTests.swift:411:        XCTAssertEqual(result.failureCategory, .missing)
+PinemeterTests/AppModelTests.swift:432:            health: .invalid,
+PinemeterTests/AppModelTests.swift:439:            XCTFail("Expected unsupported action to throw")
+PinemeterTests/AppModelTests.swift:441:            XCTAssertEqual(actionError, .unsupportedAction(provider: .chatGPT, action: .repair))
+PinemeterTests/AppModelTests.swift:588:        XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+PinemeterTests/AppModelTests.swift:597:        XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT"])
+PinemeterTests/AppModelTests.swift:604:        XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "ChatGPT"])
+PinemeterTests/AppModelTests.swift:668:        XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+PinemeterTests/AppModelTests.swift:675:        XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude"])
+PinemeterTests/AppModelTests.swift:680:    func test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState() async {
+PinemeterTests/AppModelTests.swift:682:            fetchUsageResult: .failure(ChatGPTUsageError.missingSessionCookie),
+PinemeterTests/AppModelTests.swift:702:        XCTAssertEqual(appModel.chatGPTCredentialState.health, .missing)
+PinemeterTests/AppModelTests.swift:746:            fetchUsageResult: .failure(TestError(message: "quota unavailable")),
+PinemeterTests/AppModelTests.swift:775:        XCTAssertEqual(appModel.chatGPTErrorMessage, "quota unavailable")
+PinemeterTests/AppModelTests.swift:820:        XCTAssertEqual(state.health, .unavailable)
+PinemeterTests/AppModelTests.swift:851:            XCTFail("Expected invalidImportedSessionKey to be thrown")
+PinemeterTests/AppModelTests.swift:852:        } catch SessionKeyImportError.invalidImportedSessionKey {
+PinemeterTests/AppModelTests.swift:930:        let invalidUsageService = UsageServiceStub(
+PinemeterTests/AppModelTests.swift:935:        let invalidModel = AppModel(
+PinemeterTests/AppModelTests.swift:938:            usageService: invalidUsageService,
+PinemeterTests/AppModelTests.swift:942:        let rejected = try await invalidModel.validateAndSaveSessionKey(TestConstants.sessionKeyValue)
+PinemeterTests/AppModelTests.swift:945:        XCTAssertFalse(invalidModel.isSetupComplete)
+PinemeterTests/AppModelTests.swift:946:        XCTAssertEqual(invalidModel.claudeCredentialState.health, .invalid)
+PinemeterTests/AppModelTests.swift:947:        XCTAssertEqual(invalidModel.claudeCredentialState.failureCategory, .providerRejected)
+PinemeterTests/AppModelTests.swift:950:            XCTFail("Expected missing Claude session key after invalid validation")
+PinemeterTests/AppModelTests.swift:995:        XCTAssertEqual(setupModel.claudeCredentialState.health, .missing)
+PinemeterTests/AppModelTests.swift:996:        XCTAssertEqual(setupModel.claudeCredentialState.failureCategory, .missing)
+PinemeterTests/AppModelTests.swift:1017:        let invalidChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+PinemeterTests/AppModelTests.swift:1021:        let invalidModel = AppModel(
+PinemeterTests/AppModelTests.swift:1025:            chatGPTUsageService: invalidChatGPTUsageService,
+PinemeterTests/AppModelTests.swift:1030:        let rejected = try await invalidModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+PinemeterTests/AppModelTests.swift:1033:        XCTAssertFalse(invalidModel.hasChatGPTSessionCookie)
+PinemeterTests/AppModelTests.swift:1034:        XCTAssertEqual(invalidModel.chatGPTCredentialState.health, .invalid)
+PinemeterTests/AppModelTests.swift:1035:        XCTAssertEqual(invalidModel.chatGPTCredentialState.failureCategory, .providerRejected)
+PinemeterTests/AppModelTests.swift:1038:            XCTFail("Expected missing ChatGPT session after invalid validation")
+PinemeterTests/AppModelTests.swift:1093:        XCTAssertEqual(setupModel.chatGPTCredentialState.health, .missing)
+PinemeterTests/AppModelTests.swift:1094:        XCTAssertEqual(setupModel.chatGPTCredentialState.failureCategory, .missing)
+PinemeterTests/AppModelTests.swift:1225:    private var status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+PinemeterTests/AppModelTests.swift:1234:            status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+PinemeterTests/AppModelTests.swift:1246:        status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+PASS: gemini provider
+PASS: gemini access token kind
+FAIL: configured covered
+PASS: missing covered
+PASS: invalid covered
+FAIL: loading covered
+PASS: unavailable covered
+PASS: gemini appmodel unsupported covered
+FAIL: potential raw secret fixture terms ['sk-']

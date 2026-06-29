@@ -1,0 +1,27 @@
+{
+  "id": "c65e178f-ca05-4332-a07c-8ccb129ed2d1",
+  "runtime": "bash",
+  "purpose": "UAT M004/S03/UAT-SMOKE (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S03",
+    "checkId": "UAT-SMOKE",
+    "intent": "uat-runtime-check",
+    "expected": "xcodebuild exits 0 and reports ** TEST SUCCEEDED **"
+  },
+  "script_chars": 477,
+  "started_at": "2026-06-24T21:24:06.061Z",
+  "finished_at": "2026-06-24T21:24:15.181Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 9120,
+  "stdout_bytes": 11212,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/c65e178f-ca05-4332-a07c-8ccb129ed2d1.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/c65e178f-ca05-4332-a07c-8ccb129ed2d1.stderr"
+}

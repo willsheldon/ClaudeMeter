@@ -1,0 +1,27 @@
+{
+  "id": "b0ab4d12-2ca3-45d4-a3bf-68fae17273a1",
+  "runtime": "bash",
+  "purpose": "UAT M004/S05/UAT-02 (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S05",
+    "checkId": "UAT-02",
+    "intent": "uat-runtime-check",
+    "expected": "Provider workflow copy audit exits 0 with no enforced findings; advisory-only findings do not fail the gate."
+  },
+  "script_chars": 217,
+  "started_at": "2026-06-24T22:01:46.873Z",
+  "finished_at": "2026-06-24T22:01:46.998Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 125,
+  "stdout_bytes": 2006,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/b0ab4d12-2ca3-45d4-a3bf-68fae17273a1.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/b0ab4d12-2ca3-45d4-a3bf-68fae17273a1.stderr"
+}

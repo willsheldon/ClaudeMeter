@@ -1,0 +1,27 @@
+{
+  "id": "c12684e2-b874-4af6-b27b-d374207ba18a",
+  "runtime": "bash",
+  "purpose": "UAT M004/S01/UAT-01 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S01",
+    "checkId": "UAT-01",
+    "intent": "uat-artifact-check",
+    "expected": "Gemini can be represented as a first-class provider without removing or renaming Claude or ChatGPT identities."
+  },
+  "script_chars": 646,
+  "started_at": "2026-06-24T20:18:54.925Z",
+  "finished_at": "2026-06-24T20:18:54.988Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 63,
+  "stdout_bytes": 516,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/c12684e2-b874-4af6-b27b-d374207ba18a.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/c12684e2-b874-4af6-b27b-d374207ba18a.stderr"
+}

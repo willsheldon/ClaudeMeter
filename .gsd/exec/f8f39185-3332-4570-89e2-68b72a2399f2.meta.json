@@ -1,0 +1,27 @@
+{
+  "id": "f8f39185-3332-4570-89e2-68b72a2399f2",
+  "runtime": "bash",
+  "purpose": "UAT M004/S01/UAT-03B (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S01",
+    "checkId": "UAT-03B",
+    "intent": "uat-artifact-check",
+    "expected": "Provider enumeration tests account for Gemini without omitting existing providers."
+  },
+  "script_chars": 1069,
+  "started_at": "2026-06-24T20:19:59.972Z",
+  "finished_at": "2026-06-24T20:20:00.037Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 65,
+  "stdout_bytes": 2076,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/f8f39185-3332-4570-89e2-68b72a2399f2.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/f8f39185-3332-4570-89e2-68b72a2399f2.stderr"
+}

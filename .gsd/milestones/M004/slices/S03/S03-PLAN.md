@@ -23,17 +23,17 @@ AppModel provider status arrays, SettingsView, and SetupWizardView include Gemin
 
 ## Tasks
 
-- [ ] **T01: Extend provider status UI to Gemini** `est:medium`
+- [x] **T01: Extended shared provider credential status behavior and setup/settings copy so Gemini API-key status appears beside Claude and ChatGPT without exposing credential material.** `est:medium`
   Update setup and settings provider status sections to include Gemini through shared provider status collections rather than one-off Gemini-specific UI blocks where avoidable.
   - Files: `Pinemeter/Views/Settings/SettingsView.swift`, `Pinemeter/Views/Setup/SetupWizardView.swift`, `Pinemeter/App/AppModel.swift`
   - Verify: `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/AppModelTests -only-testing:PinemeterTests/ProviderErrorWorkflowTests`
 
-- [ ] **T02: Add Gemini recovery UI tests** `est:medium`
+- [x] **T02: Added Gemini recovery UI and model tests for missing, configured, invalid, retry, reconnect, clear, and mixed-provider behavior.** `est:medium`
   Add or update tests covering Gemini missing, configured, invalid, reconnect, clear, and retry UI/model behavior, including mixed provider states.
   - Files: `PinemeterTests/ProviderErrorWorkflowTests.swift`, `PinemeterTests/AppModelTests.swift`, `PinemeterTests/SecurityInvariantTests.swift`
   - Verify: `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/ProviderErrorWorkflowTests -only-testing:PinemeterTests/AppModelTests -only-testing:PinemeterTests/SecurityInvariantTests`
 
-- [ ] **T03: Verify setup and settings provider matrix** `est:small`
+- [x] **T03: Verified setup/settings provider copy and aligned ChatGPT bootstrap tests with the Gemini-aware provider matrix.** `est:small`
   Run full tests and inspect setup/settings copy for stale two-provider assumptions, secret terms, and unclear Gemini next actions.
   - Files: `Pinemeter/Views/Settings/SettingsView.swift`, `Pinemeter/Views/Setup/SetupWizardView.swift`, `PinemeterTests`
   - Verify: `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` and `rg -n "Claude|ChatGPT|Gemini|provider|cookie|key" Pinemeter/Views/Settings Pinemeter/Views/Setup` reviewed for expected copy.

@@ -1,0 +1,2 @@
+PASS: test sources contain Gemini usage success/auth/quota/network/sanitized coverage and AppModel Gemini configured/refresh/clear coverage signals.
+Inspected files: PinemeterTests/GeminiUsageServiceTests.swift, PinemeterTests/GeminiCredentialBoundaryTests.swift, PinemeterTests/AppModelTests.swift

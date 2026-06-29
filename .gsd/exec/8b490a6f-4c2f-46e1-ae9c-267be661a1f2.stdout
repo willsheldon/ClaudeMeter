@@ -1,0 +1,216 @@
+Gemini matches in setup/settings/app model:
+Pinemeter/App/AppModel.swift:5:/// Recovery action that can be shown for a provider credential without exposing credential material.
+Pinemeter/App/AppModel.swift:14:            return "Reconnect"
+Pinemeter/App/AppModel.swift:18:            return "Clear"
+Pinemeter/App/AppModel.swift:23:/// Sanitized provider credential action failure that never includes credential material.
+Pinemeter/App/AppModel.swift:25:    case unsupportedAction(provider: CredentialProvider, action: ProviderCredentialActionKind)
+Pinemeter/App/AppModel.swift:29:        case .unsupportedAction(let provider, let action):
+Pinemeter/App/AppModel.swift:30:            return "\(action.displayTitle) is not available for \(provider.displayName) credentials."
+Pinemeter/App/AppModel.swift:47:    var provider: CredentialProvider { state.identity.provider }
+Pinemeter/App/AppModel.swift:49:    var providerName: String { provider.displayName }
+Pinemeter/App/AppModel.swift:64:            return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
+Pinemeter/App/AppModel.swift:72:    var statusTitle: String { stateText }
+Pinemeter/App/AppModel.swift:73:    var statusDescription: String { detailText }
+Pinemeter/App/AppModel.swift:82:            return "Connect \(providerName)"
+Pinemeter/App/AppModel.swift:93:        "\(credentialName) status: \(stateText). \(detailText)"
+Pinemeter/App/AppModel.swift:106:            providerName,
+Pinemeter/App/AppModel.swift:108:            statusTitle,
+Pinemeter/App/AppModel.swift:109:            statusDescription,
+Pinemeter/App/AppModel.swift:134:    var geminiUsageData: GeminiUsageData?
+Pinemeter/App/AppModel.swift:138:    var isRefreshingGemini: Bool = false
+Pinemeter/App/AppModel.swift:144:    var hasGeminiAPIKey: Bool = false
+Pinemeter/App/AppModel.swift:147:        identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:151:        identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:155:        identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:159:    var providerCredentialStatuses: [AppProviderCredentialStatus] {
+Pinemeter/App/AppModel.swift:184:    var isGeminiUsageConfigured: Bool {
+Pinemeter/App/AppModel.swift:185:        hasGeminiAPIKey
+Pinemeter/App/AppModel.swift:189:        isClaudeUsageConfigured || isChatGPTUsageConfigured || isGeminiUsageConfigured
+Pinemeter/App/AppModel.swift:192:    var configuredUsageProviderNames: [String] {
+Pinemeter/App/AppModel.swift:200:        if isGeminiUsageConfigured {
+Pinemeter/App/AppModel.swift:207:        let names = configuredUsageProviderNames
+Pinemeter/App/AppModel.swift:215:            return "Gemini Usage"
+Pinemeter/App/AppModel.swift:221:        let names = configuredUsageProviderNames
+Pinemeter/App/AppModel.swift:223:            return "Connect Claude, ChatGPT, or Gemini to see usage data."
+Pinemeter/App/AppModel.swift:231:            || (isGeminiUsageConfigured && isRefreshingGemini)
+Pinemeter/App/AppModel.swift:241:    @ObservationIgnored private let geminiUsageService: GeminiUsageServiceProtocol
+Pinemeter/App/AppModel.swift:242:    @ObservationIgnored private let geminiAPIKeyRepository: any GeminiAPIKeyRepositoryProtocol
+Pinemeter/App/AppModel.swift:262:        geminiUsageService: GeminiUsageServiceProtocol? = nil,
+Pinemeter/App/AppModel.swift:263:        geminiAPIKeyRepository: (any GeminiAPIKeyRepositoryProtocol)? = nil,
+Pinemeter/App/AppModel.swift:271:        let geminiAPIKeyRepository = geminiAPIKeyRepository ?? GeminiAPIKeyRepository()
+Pinemeter/App/AppModel.swift:287:        self.geminiUsageService = geminiUsageService ?? GeminiUsageService(apiKeyRepository: geminiAPIKeyRepository)
+Pinemeter/App/AppModel.swift:304:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:312:        let geminiStatus = await geminiAPIKeyRepository.validate(account: GeminiUsageService.defaultAPIKeyAccount)
+Pinemeter/App/AppModel.swift:313:        hasGeminiAPIKey = geminiStatus.state == .available
+Pinemeter/App/AppModel.swift:321:        if hasGeminiAPIKey {
+Pinemeter/App/AppModel.swift:322:            await refreshGeminiUsage()
+Pinemeter/App/AppModel.swift:329:        if isSetupComplete || hasChatGPTSessionCookie || hasGeminiAPIKey {
+Pinemeter/App/AppModel.swift:345:        if isGeminiUsageConfigured {
+Pinemeter/App/AppModel.swift:346:            await refreshGeminiUsage()
+Pinemeter/App/AppModel.swift:384:            let status = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount)
+Pinemeter/App/AppModel.swift:385:            hasChatGPTSessionCookie = status.state == .available
+Pinemeter/App/AppModel.swift:386:            chatGPTCredentialState = Self.credentialState(from: status, checkedAt: Date())
+Pinemeter/App/AppModel.swift:405:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:414:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:424:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:426:                failureCategory: .providerRejected,
+Pinemeter/App/AppModel.swift:451:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:453:                failureCategory: .providerRejected,
+Pinemeter/App/AppModel.swift:465:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:481:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:488:    // MARK: - Gemini Usage
+Pinemeter/App/AppModel.swift:490:    func refreshGeminiUsage() async {
+Pinemeter/App/AppModel.swift:491:        if !hasGeminiAPIKey {
+Pinemeter/App/AppModel.swift:492:            let status = await geminiAPIKeyRepository.validate(account: GeminiUsageService.defaultAPIKeyAccount)
+Pinemeter/App/AppModel.swift:493:            hasGeminiAPIKey = status.state == .available
+Pinemeter/App/AppModel.swift:494:            geminiCredentialState = Self.credentialState(from: status, checkedAt: Date())
+Pinemeter/App/AppModel.swift:496:        guard hasGeminiAPIKey else {
+Pinemeter/App/AppModel.swift:500:        guard !isRefreshingGemini else { return }
+Pinemeter/App/AppModel.swift:502:        isRefreshingGemini = true
+Pinemeter/App/AppModel.swift:506:            isRefreshingGemini = false
+Pinemeter/App/AppModel.swift:511:            hasGeminiAPIKey = true
+Pinemeter/App/AppModel.swift:513:                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:517:        } catch GeminiUsageError.missingAPIKey {
+Pinemeter/App/AppModel.swift:518:            hasGeminiAPIKey = false
+Pinemeter/App/AppModel.swift:520:            geminiErrorMessage = GeminiUsageError.missingAPIKey.localizedDescription
+Pinemeter/App/AppModel.swift:522:                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:527:        } catch GeminiUsageError.invalidAPIKey {
+Pinemeter/App/AppModel.swift:528:            hasGeminiAPIKey = false
+Pinemeter/App/AppModel.swift:530:            geminiErrorMessage = GeminiUsageError.invalidAPIKey.localizedDescription
+Pinemeter/App/AppModel.swift:532:                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:534:                failureCategory: .providerRejected,
+Pinemeter/App/AppModel.swift:537:        } catch GeminiUsageError.networkUnavailable {
+Pinemeter/App/AppModel.swift:539:            geminiErrorMessage = GeminiUsageError.networkUnavailable.localizedDescription
+Pinemeter/App/AppModel.swift:541:                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:552:    func loadGeminiAPIKey() async -> String? {
+Pinemeter/App/AppModel.swift:554:            return try await geminiAPIKeyRepository.load(account: GeminiUsageService.defaultAPIKeyAccount).value
+Pinemeter/App/AppModel.swift:560:    func validateAndSaveGeminiAPIKey(_ rawValue: String) async throws -> Bool {
+Pinemeter/App/AppModel.swift:561:        let apiKey = try GeminiAPIKey(rawValue)
+Pinemeter/App/AppModel.swift:564:            hasGeminiAPIKey = false
+Pinemeter/App/AppModel.swift:566:                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:568:                failureCategory: .providerRejected,
+Pinemeter/App/AppModel.swift:574:        try await geminiAPIKeyRepository.save(apiKey, account: GeminiUsageService.defaultAPIKeyAccount)
+Pinemeter/App/AppModel.swift:575:        hasGeminiAPIKey = true
+Pinemeter/App/AppModel.swift:577:            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:581:        await refreshGeminiUsage()
+Pinemeter/App/AppModel.swift:586:    func clearGeminiAPIKey() async throws {
+Pinemeter/App/AppModel.swift:587:        try await geminiAPIKeyRepository.clear(account: GeminiUsageService.defaultAPIKeyAccount)
+Pinemeter/App/AppModel.swift:588:        hasGeminiAPIKey = false
+Pinemeter/App/AppModel.swift:592:            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:617:                identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:619:                failureCategory: .providerRejected,
+Pinemeter/App/AppModel.swift:634:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:682:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:697:        for provider: CredentialProvider
+Pinemeter/App/AppModel.swift:699:        switch (provider, action) {
+Pinemeter/App/AppModel.swift:715:            try await clearGeminiAPIKey()
+Pinemeter/App/AppModel.swift:718:            throw AppProviderCredentialActionError.unsupportedAction(provider: provider, action: action)
+Pinemeter/App/AppModel.swift:758:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:780:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:831:                kinds = state.identity.provider == .claude ? [.reconnect, .repair, .clear] : [.reconnect, .clear]
+Pinemeter/App/AppModel.swift:838:        from status: ChatGPTSessionAcquisitionStatus,
+Pinemeter/App/AppModel.swift:842:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:843:            health: status.state.credentialHealth,
+Pinemeter/App/AppModel.swift:844:            failureCategory: status.lastErrorCategory?.credentialFailureCategory ?? status.state.defaultFailureCategory,
+Pinemeter/App/AppModel.swift:850:        from status: GeminiAPIKeyAcquisitionStatus,
+Pinemeter/App/AppModel.swift:854:            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:855:            health: status.state.credentialHealth,
+Pinemeter/App/AppModel.swift:856:            failureCategory: status.lastErrorCategory?.credentialFailureCategory ?? status.state.defaultFailureCategory,
+Pinemeter/App/AppModel.swift:887:        guard isSetupComplete || hasChatGPTSessionCookie || hasGeminiAPIKey else { return }
+Pinemeter/App/AppModel.swift:900:                if self.hasGeminiAPIKey {
+Pinemeter/App/AppModel.swift:901:                    await self.refreshGeminiUsage()
+
+Provider status collection symbols:
+Pinemeter/App/AppModel.swift:5:/// Recovery action that can be shown for a provider credential without exposing credential material.
+Pinemeter/App/AppModel.swift:23:/// Sanitized provider credential action failure that never includes credential material.
+Pinemeter/App/AppModel.swift:25:    case unsupportedAction(provider: CredentialProvider, action: ProviderCredentialActionKind)
+Pinemeter/App/AppModel.swift:29:        case .unsupportedAction(let provider, let action):
+Pinemeter/App/AppModel.swift:30:            return "\(action.displayTitle) is not available for \(provider.displayName) credentials."
+Pinemeter/App/AppModel.swift:47:    var provider: CredentialProvider { state.identity.provider }
+Pinemeter/App/AppModel.swift:49:    var providerName: String { provider.displayName }
+Pinemeter/App/AppModel.swift:64:            return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
+Pinemeter/App/AppModel.swift:82:            return "Connect \(providerName)"
+Pinemeter/App/AppModel.swift:106:            providerName,
+Pinemeter/App/AppModel.swift:147:        identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:151:        identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:155:        identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:159:    var providerCredentialStatuses: [AppProviderCredentialStatus] {
+Pinemeter/App/AppModel.swift:304:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:405:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:414:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:424:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:426:                failureCategory: .providerRejected,
+Pinemeter/App/AppModel.swift:451:                identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:453:                failureCategory: .providerRejected,
+Pinemeter/App/AppModel.swift:465:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:481:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:513:                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:522:                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:532:                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:534:                failureCategory: .providerRejected,
+Pinemeter/App/AppModel.swift:541:                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:566:                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:568:                failureCategory: .providerRejected,
+Pinemeter/App/AppModel.swift:577:            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:592:            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/App/AppModel.swift:617:                identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:619:                failureCategory: .providerRejected,
+Pinemeter/App/AppModel.swift:634:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:682:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:697:        for provider: CredentialProvider
+Pinemeter/App/AppModel.swift:699:        switch (provider, action) {
+Pinemeter/App/AppModel.swift:718:            throw AppProviderCredentialActionError.unsupportedAction(provider: provider, action: action)
+Pinemeter/App/AppModel.swift:758:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:780:            identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
+Pinemeter/App/AppModel.swift:831:                kinds = state.identity.provider == .claude ? [.reconnect, .repair, .clear] : [.reconnect, .clear]
+Pinemeter/App/AppModel.swift:842:            identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+Pinemeter/App/AppModel.swift:854:            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+Pinemeter/Views/Settings/SettingsView.swift:17:    @State private var providerImportMessage: String?
+Pinemeter/Views/Settings/SettingsView.swift:21:    @State private var providerCredentialActionMessage: String?
+Pinemeter/Views/Settings/SettingsView.swift:97:            ForEach(appModel.providerCredentialStatuses) { status in
+Pinemeter/Views/Settings/SettingsView.swift:98:                providerCredentialRow(status)
+Pinemeter/Views/Settings/SettingsView.swift:100:                if status.id != appModel.providerCredentialStatuses.last?.id {
+Pinemeter/Views/Settings/SettingsView.swift:144:        if let providerImportMessage {
+Pinemeter/Views/Settings/SettingsView.swift:145:            CopyableErrorText(providerImportMessage,
+Pinemeter/Views/Settings/SettingsView.swift:150:        if let providerCredentialActionMessage {
+Pinemeter/Views/Settings/SettingsView.swift:151:            CopyableErrorText(providerCredentialActionMessage,
+Pinemeter/Views/Settings/SettingsView.swift:176:    private func providerCredentialRow(_ status: AppProviderCredentialStatus) -> some View {
+Pinemeter/Views/Settings/SettingsView.swift:186:                    Text(status.providerName)
+Pinemeter/Views/Settings/SettingsView.swift:646:        providerImportMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:650:        providerCredentialActionMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:658:            providerImportMessage = settingsBrowserImportSuccessMessage(for: outcome)
+Pinemeter/Views/Settings/SettingsView.swift:661:            providerImportMessage = settingsBrowserImportFailureMessage(for: outcome)
+Pinemeter/Views/Settings/SettingsView.swift:769:            let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+Pinemeter/Views/Settings/SettingsView.swift:786:        activeCredentialActionProvider = status.provider
+Pinemeter/Views/Settings/SettingsView.swift:788:        providerCredentialActionMessage = "\(status.providerName): \(progressMessage(for: kind))"
+Pinemeter/Views/Settings/SettingsView.swift:790:        providerImportMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:796:            let state = try await appModel.performProviderCredentialAction(kind, for: status.provider)
+Pinemeter/Views/Settings/SettingsView.swift:798:                providerCredentialActionMessage = "\(status.providerName): \(successMessage(for: kind, credentialName: status.credentialName))"
+Pinemeter/Views/Settings/SettingsView.swift:801:                providerCredentialActionMessage = "\(status.providerName): Cleared saved \(status.credentialName)."
+Pinemeter/Views/Settings/SettingsView.swift:804:                let refreshedStatus = appModel.providerCredentialStatuses.first { $0.provider == status.provider }
+Pinemeter/Views/Settings/SettingsView.swift:805:                providerCredentialActionMessage = "\(status.providerName): \(refreshedStatus?.recoverySuggestion ?? refreshedStatus?.detailText ?? "Recovery action did not restore access.")"
+Pinemeter/Views/Settings/SettingsView.swift:809:            providerCredentialActionMessage = "\(status.providerName): Failed to \(kind.displayTitle.lowercased()) \(status.credentialName): \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:821:        return "\(progressButtonTitle(for: kind)) \(status.providerName)..."
+Pinemeter/Views/Settings/SettingsView.swift:825:        activeCredentialActionProvider == status.provider && activeCredentialActionKind == kind
+Pinemeter/Views/Setup/SetupWizardView.swift:17:        let statuses = appModel.providerCredentialStatuses
+Pinemeter/Views/Setup/SetupWizardView.swift:121:                providerCredentialStatusActions(for: status)
+Pinemeter/Views/Setup/SetupWizardView.swift:131:    private func providerCredentialStatusActions(for status: AppProviderCredentialStatus) -> some View {
+Pinemeter/Views/Setup/SetupWizardView.swift:245:            providerSuccessName("Claude", outcome.claude),
+Pinemeter/Views/Setup/SetupWizardView.swift:246:            providerSuccessName("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Setup/SetupWizardView.swift:252:    private func providerSuccessName(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
+Pinemeter/Views/Setup/SetupWizardView.swift:261:            providerFailureMessage("Claude", outcome.claude),
+Pinemeter/Views/Setup/SetupWizardView.swift:262:            providerFailureMessage("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Setup/SetupWizardView.swift:269:    private func providerFailureMessage(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
+Pinemeter/Views/Setup/SetupWizardView.swift:288:        activeCredentialActionProvider = status.provider
+Pinemeter/Views/Setup/SetupWizardView.swift:293:        successMessage = "\(status.providerName): \(progressMessage(for: kind))"
+Pinemeter/Views/Setup/SetupWizardView.swift:296:            let state = try await appModel.performProviderCredentialAction(kind, for: status.provider)
+Pinemeter/Views/Setup/SetupWizardView.swift:298:                successMessage = "\(status.providerName): \(successDetailMessage(for: kind, credentialName: status.credentialName))"
+Pinemeter/Views/Setup/SetupWizardView.swift:301:                successMessage = "\(status.providerName): Cleared saved \(status.credentialName)."
+Pinemeter/Views/Setup/SetupWizardView.swift:304:                let refreshedStatus = appModel.providerCredentialStatuses.first { $0.provider == status.provider }
+Pinemeter/Views/Setup/SetupWizardView.swift:306:                errorMessage = "\(status.providerName): \(refreshedStatus?.recoverySuggestion ?? refreshedStatus?.detailText ?? "Recovery action did not restore access.")"
+Pinemeter/Views/Setup/SetupWizardView.swift:310:            errorMessage = "\(status.providerName): Failed to \(kind.displayTitle.lowercased()) \(status.credentialName): \(error.localizedDescription)"
+Pinemeter/Views/Setup/SetupWizardView.swift:319:        guard activeCredentialActionProvider == status.provider && activeCredentialActionKind == kind else {
+Pinemeter/Views/Setup/SetupWizardView.swift:325:            return "Reconnecting \(status.providerName)..."
+Pinemeter/Views/Setup/SetupWizardView.swift:327:            return "Repairing \(status.providerName)..."
+Pinemeter/Views/Setup/SetupWizardView.swift:329:            return "Clearing \(status.providerName)..."
+RESULT: provider UI/model scope includes Gemini alongside existing providers

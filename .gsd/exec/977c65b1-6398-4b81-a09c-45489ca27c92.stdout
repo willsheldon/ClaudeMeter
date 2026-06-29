@@ -1,0 +1,14 @@
+checks= 13 failed= 0
+PASS CredentialState exists
+PASS CredentialProvider includes gemini
+PASS Gemini display name present
+PASS Gemini credential kind access token
+PASS AppModel exists
+PASS CredentialStatusService exists
+PASS CredentialStatusService still enumerates providers
+PASS CredentialStateTests exists
+PASS CredentialStateTests has Gemini coverage
+PASS AppModelTests exists
+PASS AppModelTests has Gemini coverage
+PASS CredentialStatusServiceTests exists
+PASS CredentialStatusServiceTests has Gemini coverage

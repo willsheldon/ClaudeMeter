@@ -1,0 +1,27 @@
+{
+  "id": "a146d2b1-ded3-4fdd-bec1-f5053672525c",
+  "runtime": "bash",
+  "purpose": "UAT M004/S02/UAT-S02-01-SMOKE (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S02",
+    "checkId": "UAT-S02-01-SMOKE",
+    "intent": "uat-runtime-check",
+    "expected": "Gemini usage service tests pass, including normalized quota responses and sanitized error states without live credentials."
+  },
+  "script_chars": 152,
+  "started_at": "2026-06-24T20:48:42.508Z",
+  "finished_at": "2026-06-24T20:48:47.760Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 5252,
+  "stdout_bytes": 11338,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/a146d2b1-ded3-4fdd-bec1-f5053672525c.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/a146d2b1-ded3-4fdd-bec1-f5053672525c.stderr"
+}

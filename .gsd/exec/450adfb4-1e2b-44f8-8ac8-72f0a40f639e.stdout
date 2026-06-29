@@ -1,0 +1,572 @@
+--- test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface
+574:         XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+575:         XCTAssertEqual(appModel.usageData, expectedClaudeUsage)
+576:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+577:     }
+578: 
+579:     func test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface() async {
+580:         let appModel = AppModel(
+581:             settingsRepository: SettingsRepositoryFake(),
+582:             keychainRepository: KeychainRepositoryFake(),
+583:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+584:             notificationService: NotificationServiceSpy()
+585:         )
+586: 
+587:         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+588:         XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+589:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+590:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+591: 
+592:         appModel.hasChatGPTSessionCookie = true
+593:         appModel.settings.isChatGPTUsageShown = true
+594: 
+595:         XCTAssertFalse(appModel.isSetupComplete)
+596:         XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+597:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT"])
+598:         XCTAssertEqual(appModel.usageDashboardTitle, "ChatGPT Usage")
+599:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading ChatGPT usage data...")
+600: 
+601:         appModel.hasGeminiAPIKey = true
+602: 
+603:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["ChatGPT", "Gemini"])
+604:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+605:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading ChatGPT and Gemini usage data...")
+606: 
+607:         appModel.isSetupComplete = true
+608: 
+609:         XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+610:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "ChatGPT", "Gemini"])
+611:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+612:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude, ChatGPT, and Gemini usage data...")
+613:     }
+614: 
+615:     func test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders() async {
+616:         let expectedClaudeUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+617:         let expectedChatGPTUsage = ChatGPTUsageData(
+618:             rows: [.init(label: "Codex Tasks", usedPercent: 42, resetAt: nil)],
+619:             lastUpdated: Date(timeIntervalSince1970: 0)
+620:         )
+621:         let expectedGeminiUsage = GeminiUsageData(
+622:             label: "Gemini API quota",
+623:             usedPercent: 12,
+624:             resetAt: nil,
+625:             lastUpdated: Date(timeIntervalSince1970: 0)
+626:         )
+627:         let usageService = UsageServiceStub(fetchUsageResult: .success(expectedClaudeUsage))
+628:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+629:             fetchUsageResult: .success(expectedChatGPTUsage),
+630:             validateResult: true
+631:         )
+632:         let geminiUsageService = AppModelGeminiUsageServiceStub(
+633:             fetchUsageResult: .success(expectedGeminiUsage),
+634:             validateResult: true
+635:         )
+636:         let appModel = AppModel(
+637:             settingsRepository: SettingsRepositoryFake(),
+638:             keychainRepository: KeychainRepositoryFake(),
+639:             usageService: usageService,
+640:             chatGPTUsageService: chatGPTUsageService,
+641:             geminiUsageService: geminiUsageService,
+642:             notificationService: NotificationServiceSpy()
+643:         )
+644: 
+645:         appModel.hasChatGPTSessionCookie = true
+646:         appModel.settings.isChatGPTUsageShown = true
+647:         appModel.hasGeminiAPIKey = true
+648: 
+649:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+650: 
+651:         let claudeFetchCountAfterProviderOnlyRefresh = await usageService.fetchUsageCallCount
+652:         let chatGPTFetchCountAfterProviderOnlyRefresh = await chatGPTUsageService.fetchUsageCallCount
+653:         let geminiFetchCountAfterProviderOnlyRefresh = await geminiUsageService.fetchUsageCallCount
+654: 
+655:         XCTAssertNil(appModel.usageData)
+656:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+657:         XCTAssertEqual(appModel.geminiUsageData, expectedGeminiUsage)
+658:         XCTAssertEqual(claudeFetchCountAfterProviderOnlyRefresh, 0)
+659:         XCTAssertEqual(chatGPTFetchCountAfterProviderOnlyRefresh, 1)
+660:         XCTAssertEqual(geminiFetchCountAfterProviderOnlyRefresh, 1)
+661: 
+662:         appModel.isSetupComplete = true
+663: 
+664:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+665: 
+666:         let claudeFetchCountAfterAllRefresh = await usageService.fetchUsageCallCount
+667:         let claudeForceRefreshValues = await usageService.forceRefreshValues
+668:         let chatGPTFetchCountAfterAllRefresh = await chatGPTUsageService.fetchUsageCallCount
+--- test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders
+610:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude", "ChatGPT", "Gemini"])
+611:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+612:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude, ChatGPT, and Gemini usage data...")
+613:     }
+614: 
+615:     func test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders() async {
+616:         let expectedClaudeUsage = makeUsageData(percentage: TestConstants.sessionPercentage)
+617:         let expectedChatGPTUsage = ChatGPTUsageData(
+618:             rows: [.init(label: "Codex Tasks", usedPercent: 42, resetAt: nil)],
+619:             lastUpdated: Date(timeIntervalSince1970: 0)
+620:         )
+621:         let expectedGeminiUsage = GeminiUsageData(
+622:             label: "Gemini API quota",
+623:             usedPercent: 12,
+624:             resetAt: nil,
+625:             lastUpdated: Date(timeIntervalSince1970: 0)
+626:         )
+627:         let usageService = UsageServiceStub(fetchUsageResult: .success(expectedClaudeUsage))
+628:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+629:             fetchUsageResult: .success(expectedChatGPTUsage),
+630:             validateResult: true
+631:         )
+632:         let geminiUsageService = AppModelGeminiUsageServiceStub(
+633:             fetchUsageResult: .success(expectedGeminiUsage),
+634:             validateResult: true
+635:         )
+636:         let appModel = AppModel(
+637:             settingsRepository: SettingsRepositoryFake(),
+638:             keychainRepository: KeychainRepositoryFake(),
+639:             usageService: usageService,
+640:             chatGPTUsageService: chatGPTUsageService,
+641:             geminiUsageService: geminiUsageService,
+642:             notificationService: NotificationServiceSpy()
+643:         )
+644: 
+645:         appModel.hasChatGPTSessionCookie = true
+646:         appModel.settings.isChatGPTUsageShown = true
+647:         appModel.hasGeminiAPIKey = true
+648: 
+649:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+650: 
+651:         let claudeFetchCountAfterProviderOnlyRefresh = await usageService.fetchUsageCallCount
+652:         let chatGPTFetchCountAfterProviderOnlyRefresh = await chatGPTUsageService.fetchUsageCallCount
+653:         let geminiFetchCountAfterProviderOnlyRefresh = await geminiUsageService.fetchUsageCallCount
+654: 
+655:         XCTAssertNil(appModel.usageData)
+656:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+657:         XCTAssertEqual(appModel.geminiUsageData, expectedGeminiUsage)
+658:         XCTAssertEqual(claudeFetchCountAfterProviderOnlyRefresh, 0)
+659:         XCTAssertEqual(chatGPTFetchCountAfterProviderOnlyRefresh, 1)
+660:         XCTAssertEqual(geminiFetchCountAfterProviderOnlyRefresh, 1)
+661: 
+662:         appModel.isSetupComplete = true
+663: 
+664:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+665: 
+666:         let claudeFetchCountAfterAllRefresh = await usageService.fetchUsageCallCount
+667:         let claudeForceRefreshValues = await usageService.forceRefreshValues
+668:         let chatGPTFetchCountAfterAllRefresh = await chatGPTUsageService.fetchUsageCallCount
+669:         let geminiFetchCountAfterAllRefresh = await geminiUsageService.fetchUsageCallCount
+670: 
+671:         XCTAssertEqual(appModel.usageData, expectedClaudeUsage)
+672:         XCTAssertEqual(appModel.chatGPTUsageData, expectedChatGPTUsage)
+673:         XCTAssertEqual(appModel.geminiUsageData, expectedGeminiUsage)
+674:         XCTAssertEqual(claudeFetchCountAfterAllRefresh, 1)
+675:         XCTAssertEqual(claudeForceRefreshValues, [true])
+676:         XCTAssertEqual(chatGPTFetchCountAfterAllRefresh, 2)
+677:         XCTAssertEqual(geminiFetchCountAfterAllRefresh, 2)
+678:     }
+679: 
+680:     func test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff() async {
+681:         let appModel = AppModel(
+682:             settingsRepository: SettingsRepositoryFake(),
+683:             keychainRepository: KeychainRepositoryFake(),
+684:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+685:             notificationService: NotificationServiceSpy()
+686:         )
+687: 
+688:         appModel.hasChatGPTSessionCookie = true
+689:         appModel.settings.isChatGPTUsageShown = false
+690: 
+691:         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+692:         XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+693:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+694:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+695: 
+696:         appModel.isSetupComplete = true
+697: 
+698:         XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+699:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude"])
+700:         XCTAssertEqual(appModel.usageDashboardTitle, "Claude Usage")
+701:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude usage data...")
+702:     }
+703: 
+704:     func test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState() async {
+--- test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff
+675:         XCTAssertEqual(claudeForceRefreshValues, [true])
+676:         XCTAssertEqual(chatGPTFetchCountAfterAllRefresh, 2)
+677:         XCTAssertEqual(geminiFetchCountAfterAllRefresh, 2)
+678:     }
+679: 
+680:     func test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff() async {
+681:         let appModel = AppModel(
+682:             settingsRepository: SettingsRepositoryFake(),
+683:             keychainRepository: KeychainRepositoryFake(),
+684:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+685:             notificationService: NotificationServiceSpy()
+686:         )
+687: 
+688:         appModel.hasChatGPTSessionCookie = true
+689:         appModel.settings.isChatGPTUsageShown = false
+690: 
+691:         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+692:         XCTAssertEqual(appModel.configuredUsageProviderNames, [])
+693:         XCTAssertEqual(appModel.usageDashboardTitle, "Usage Dashboard")
+694:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+695: 
+696:         appModel.isSetupComplete = true
+697: 
+698:         XCTAssertTrue(appModel.hasConfiguredUsageProvider)
+699:         XCTAssertEqual(appModel.configuredUsageProviderNames, ["Claude"])
+700:         XCTAssertEqual(appModel.usageDashboardTitle, "Claude Usage")
+701:         XCTAssertEqual(appModel.usageLoadingMessage, "Loading Claude usage data...")
+702:     }
+703: 
+704:     func test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState() async {
+705:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+706:             fetchUsageResult: .failure(ChatGPTUsageError.missingSessionCookie),
+707:             validateResult: false
+708:         )
+709:         let appModel = AppModel(
+710:             settingsRepository: SettingsRepositoryFake(),
+711:             keychainRepository: KeychainRepositoryFake(),
+712:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+713:             chatGPTUsageService: chatGPTUsageService,
+714:             notificationService: NotificationServiceSpy()
+715:         )
+716:         appModel.hasChatGPTSessionCookie = true
+717:         appModel.settings.isChatGPTUsageShown = true
+718: 
+719:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+720: 
+721:         let chatGPTFetchCount = await chatGPTUsageService.fetchUsageCallCount
+722:         XCTAssertEqual(chatGPTFetchCount, 1)
+723:         XCTAssertFalse(appModel.hasChatGPTSessionCookie)
+724:         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+725:         XCTAssertNil(appModel.chatGPTUsageData)
+726:         XCTAssertEqual(appModel.chatGPTCredentialState.health, .missing)
+727:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+728:     }
+729: 
+730:     func test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState() async {
+731:         let geminiUsageService = AppModelGeminiUsageServiceStub(
+732:             fetchUsageResult: .failure(GeminiUsageError.missingAPIKey),
+733:             validateResult: false
+734:         )
+735:         let appModel = AppModel(
+736:             settingsRepository: SettingsRepositoryFake(),
+737:             keychainRepository: KeychainRepositoryFake(),
+738:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+739:             geminiUsageService: geminiUsageService,
+740:             notificationService: NotificationServiceSpy()
+741:         )
+742:         appModel.hasGeminiAPIKey = true
+743: 
+744:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+745: 
+746:         let geminiFetchCount = await geminiUsageService.fetchUsageCallCount
+747:         XCTAssertEqual(geminiFetchCount, 1)
+748:         XCTAssertFalse(appModel.hasGeminiAPIKey)
+749:         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+750:         XCTAssertNil(appModel.geminiUsageData)
+751:         XCTAssertEqual(appModel.geminiCredentialState.health, .missing)
+752:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+753:     }
+754: 
+755:     func test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage() async throws {
+756:         let expectedUsage = ChatGPTUsageData(
+757:             rows: [.init(label: "Codex Tasks", usedPercent: 42, resetAt: nil)],
+758:             lastUpdated: Date(timeIntervalSince1970: 0)
+759:         )
+760:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+761:             fetchUsageResult: .success(expectedUsage),
+762:             validateResult: true
+763:         )
+764:         let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+765:         let importService = SessionKeyImportServiceStub(
+766:             result: .failure(SessionKeyImportError.noSessionKeyFound),
+767:             chatGPTResult: .success(ImportedChatGPTSessionCookie(
+768:                 cookieHeader: "__Secure-next-auth.session-token=synthetic-chatgpt-session-cookie",
+769:                 sourceDescription: "Chrome Default"
+--- test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState
+725:         XCTAssertNil(appModel.chatGPTUsageData)
+726:         XCTAssertEqual(appModel.chatGPTCredentialState.health, .missing)
+727:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+728:     }
+729: 
+730:     func test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState() async {
+731:         let geminiUsageService = AppModelGeminiUsageServiceStub(
+732:             fetchUsageResult: .failure(GeminiUsageError.missingAPIKey),
+733:             validateResult: false
+734:         )
+735:         let appModel = AppModel(
+736:             settingsRepository: SettingsRepositoryFake(),
+737:             keychainRepository: KeychainRepositoryFake(),
+738:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+739:             geminiUsageService: geminiUsageService,
+740:             notificationService: NotificationServiceSpy()
+741:         )
+742:         appModel.hasGeminiAPIKey = true
+743: 
+744:         await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+745: 
+746:         let geminiFetchCount = await geminiUsageService.fetchUsageCallCount
+747:         XCTAssertEqual(geminiFetchCount, 1)
+748:         XCTAssertFalse(appModel.hasGeminiAPIKey)
+749:         XCTAssertFalse(appModel.hasConfiguredUsageProvider)
+750:         XCTAssertNil(appModel.geminiUsageData)
+751:         XCTAssertEqual(appModel.geminiCredentialState.health, .missing)
+752:         XCTAssertEqual(appModel.usageLoadingMessage, "Connect Claude, ChatGPT, or Gemini to see usage data.")
+753:     }
+754: 
+755:     func test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage() async throws {
+756:         let expectedUsage = ChatGPTUsageData(
+757:             rows: [.init(label: "Codex Tasks", usedPercent: 42, resetAt: nil)],
+758:             lastUpdated: Date(timeIntervalSince1970: 0)
+759:         )
+760:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+761:             fetchUsageResult: .success(expectedUsage),
+762:             validateResult: true
+763:         )
+764:         let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+765:         let importService = SessionKeyImportServiceStub(
+766:             result: .failure(SessionKeyImportError.noSessionKeyFound),
+767:             chatGPTResult: .success(ImportedChatGPTSessionCookie(
+768:                 cookieHeader: "__Secure-next-auth.session-token=synthetic-chatgpt-session-cookie",
+769:                 sourceDescription: "Chrome Default"
+770:             ))
+771:         )
+772:         let appModel = AppModel(
+773:             settingsRepository: SettingsRepositoryFake(),
+774:             keychainRepository: KeychainRepositoryFake(),
+775:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+776:             chatGPTUsageService: chatGPTUsageService,
+777:             chatGPTSessionRepository: chatGPTSessionRepository,
+778:             notificationService: NotificationServiceSpy(),
+779:             sessionKeyImportService: importService
+780:         )
+781: 
+782:         let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+783:         let savedSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+784: 
+785:         XCTAssertEqual(imported.sourceDescription, "Chrome Default")
+786:         XCTAssertEqual(savedSession.sessionCookie, "__Secure-next-auth.session-token=synthetic-chatgpt-session-cookie")
+787:         XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+788:         XCTAssertTrue(appModel.settings.isChatGPTUsageShown)
+789:         XCTAssertEqual(appModel.chatGPTCredentialState.health, .valid)
+790:         XCTAssertEqual(appModel.chatGPTUsageData, expectedUsage)
+791:     }
+792: 
+793:     func test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails() async throws {
+794:         let chatGPTUsageService = AppModelChatGPTUsageServiceStub(
+795:             fetchUsageResult: .failure(TestError(message: "quota unavailable")),
+796:             validateResult: false
+797:         )
+798:         let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+799:         let importService = SessionKeyImportServiceStub(
+800:             result: .failure(SessionKeyImportError.noSessionKeyFound),
+801:             chatGPTResult: .success(ImportedChatGPTSessionCookie(
+802:                 cookieHeader: "__Secure-authjs.session-token=synthetic-chatgpt-session-cookie",
+803:                 sourceDescription: "Chrome Default"
+804:             ))
+805:         )
+806:         let appModel = AppModel(
+807:             settingsRepository: SettingsRepositoryFake(),
+808:             keychainRepository: KeychainRepositoryFake(),
+809:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+810:             chatGPTUsageService: chatGPTUsageService,
+811:             chatGPTSessionRepository: chatGPTSessionRepository,
+812:             notificationService: NotificationServiceSpy(),
+813:             sessionKeyImportService: importService
+814:         )
+815: 
+816:         let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+817:         let savedSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+818: 
+819:         XCTAssertEqual(imported.sourceDescription, "Chrome Default")
+--- test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire
+1052:         XCTAssertTrue(setupModel.isSetupComplete)
+1053:         XCTAssertEqual(setupModel.claudeCredentialState.health, .valid)
+1054:         XCTAssertEqual(reacquiredSessionKey, TestConstants.sessionKeyValue)
+1055:     }
+1056: 
+1057:     func test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire() async throws {
+1058:         let expectedUsage = ChatGPTUsageData(
+1059:             rows: [.init(label: "Codex Tasks", usedPercent: 24, resetAt: nil)],
+1060:             lastUpdated: Date(timeIntervalSince1970: 0)
+1061:         )
+1062:         let settingsRepository = SettingsRepositoryFake()
+1063:         let keychainRepository = KeychainRepositoryFake()
+1064:         let notificationService = NotificationServiceSpy()
+1065:         let chatGPTSessionRepository = AppModelChatGPTSessionRepositoryFake()
+1066:         let invalidChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+1067:             fetchUsageResult: .success(expectedUsage),
+1068:             validateResult: false
+1069:         )
+1070:         let invalidModel = AppModel(
+1071:             settingsRepository: settingsRepository,
+1072:             keychainRepository: keychainRepository,
+1073:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+1074:             chatGPTUsageService: invalidChatGPTUsageService,
+1075:             chatGPTSessionRepository: chatGPTSessionRepository,
+1076:             notificationService: notificationService
+1077:         )
+1078: 
+1079:         let rejected = try await invalidModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+1080: 
+1081:         XCTAssertFalse(rejected)
+1082:         XCTAssertFalse(invalidModel.hasChatGPTSessionCookie)
+1083:         XCTAssertEqual(invalidModel.chatGPTCredentialState.health, .invalid)
+1084:         XCTAssertEqual(invalidModel.chatGPTCredentialState.failureCategory, .providerRejected)
+1085:         do {
+1086:             _ = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+1087:             XCTFail("Expected missing ChatGPT session after invalid validation")
+1088:         } catch ChatGPTSessionRepositoryError.notFound {
+1089:             // Expected
+1090:         } catch {
+1091:             XCTFail("Unexpected error: \(error)")
+1092:         }
+1093: 
+1094:         let validChatGPTUsageService = AppModelChatGPTUsageServiceStub(
+1095:             fetchUsageResult: .success(expectedUsage),
+1096:             validateResult: true
+1097:         )
+1098:         let setupModel = AppModel(
+1099:             settingsRepository: settingsRepository,
+1100:             keychainRepository: keychainRepository,
+1101:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+1102:             chatGPTUsageService: validChatGPTUsageService,
+1103:             chatGPTSessionRepository: chatGPTSessionRepository,
+1104:             notificationService: notificationService
+1105:         )
+1106: 
+1107:         let acquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+1108: 
+1109:         XCTAssertTrue(acquired)
+1110:         XCTAssertTrue(setupModel.hasChatGPTSessionCookie)
+1111:         XCTAssertTrue(setupModel.settings.isChatGPTUsageShown)
+1112:         let savedChatGPTSession = try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount)
+1113: 
+1114:         XCTAssertEqual(setupModel.chatGPTCredentialState.health, .valid)
+1115:         XCTAssertEqual(setupModel.chatGPTUsageData, expectedUsage)
+1116:         XCTAssertEqual(savedChatGPTSession.sessionCookie, "synthetic-chatgpt-session-cookie")
+1117: 
+1118:         var reuseSettings = AppSettings.default
+1119:         reuseSettings.isChatGPTUsageShown = true
+1120:         try await settingsRepository.save(reuseSettings)
+1121:         let reuseModel = AppModel(
+1122:             settingsRepository: settingsRepository,
+1123:             keychainRepository: keychainRepository,
+1124:             usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+1125:             chatGPTUsageService: validChatGPTUsageService,
+1126:             chatGPTSessionRepository: chatGPTSessionRepository,
+1127:             notificationService: notificationService
+1128:         )
+1129: 
+1130:         await reuseModel.bootstrap()
+1131: 
+1132:         XCTAssertTrue(reuseModel.hasChatGPTSessionCookie)
+1133:         XCTAssertEqual(reuseModel.chatGPTCredentialState.health, .valid)
+1134:         XCTAssertEqual(reuseModel.chatGPTUsageData, expectedUsage)
+1135: 
+1136:         try await setupModel.clearChatGPTSessionCookie()
+1137: 
+1138:         XCTAssertFalse(setupModel.hasChatGPTSessionCookie)
+1139:         XCTAssertFalse(setupModel.settings.isChatGPTUsageShown)
+1140:         XCTAssertNil(setupModel.chatGPTUsageData)
+1141:         XCTAssertNil(setupModel.chatGPTErrorMessage)
+1142:         XCTAssertEqual(setupModel.chatGPTCredentialState.health, .missing)
+1143:         XCTAssertEqual(setupModel.chatGPTCredentialState.failureCategory, .missing)
+1144: 
+1145:         let reacquired = try await setupModel.validateAndSaveChatGPTSessionCookie("synthetic-chatgpt-session-cookie")
+1146: 
+--- private actor AppModelChatGPTUsageServiceStub
+1238:     func exists(account: String) async -> Bool {
+1239:         true
+1240:     }
+1241: }
+1242: 
+1243: private actor AppModelChatGPTUsageServiceStub: ChatGPTUsageServiceProtocol {
+1244:     private let fetchUsageResult: Result<ChatGPTUsageData, Error>
+1245:     private let validateResult: Bool
+1246:     private(set) var fetchUsageCallCount = 0
+1247: 
+1248:     init(fetchUsageResult: Result<ChatGPTUsageData, Error>, validateResult: Bool) {
+1249:         self.fetchUsageResult = fetchUsageResult
+1250:         self.validateResult = validateResult
+1251:     }
+1252: 
+1253:     func fetchUsage() async throws -> ChatGPTUsageData {
+1254:         fetchUsageCallCount += 1
+1255:         switch fetchUsageResult {
+1256:         case .success(let data):
+1257:             return data
+1258:         case .failure(let error):
+1259:             throw error
+1260:         }
+1261:     }
+1262: 
+1263:     func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+1264:         try await fetchUsage()
+1265:     }
+1266: 
+1267:     func validateSessionCookie(_ sessionCookie: String) async throws -> Bool {
+1268:         validateResult
+1269:     }
+1270: }
+1271: 
+1272: private actor AppModelChatGPTSessionRepositoryFake: ChatGPTSessionRepositoryProtocol {
+1273:     private var sessions: [String: ChatGPTSession] = [:]
+1274:     private var status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1275: 
+1276:     func save(_ session: ChatGPTSession, account: String) async throws {
+1277:         sessions[account] = session
+1278:         status = ChatGPTSessionAcquisitionStatus(state: .available, lastErrorCategory: nil)
+1279:     }
+1280: 
+1281:     func load(account: String) async throws -> ChatGPTSession {
+1282:         guard let session = sessions[account] else {
+1283:             status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1284:             throw ChatGPTSessionRepositoryError.notFound
+1285:         }
+1286:         return session
+1287:     }
+1288: 
+1289:     func validate(account: String) async -> ChatGPTSessionAcquisitionStatus {
+1290:         status
+1291:     }
+1292: 
+1293:     func clear(account: String) async throws {
+1294:         sessions[account] = nil
+1295:         status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1296:     }
+1297: }
+1298: 
+1299: private func makeUsageData(percentage: Double) -> UsageData {
+1300:     let resetDate = Date().addingTimeInterval(TestConstants.oneHourInterval)
+1301:     let sessionUsage = UsageLimit(utilization: percentage, resetAt: resetDate)
+1302:     let weeklyUsage = UsageLimit(utilization: TestConstants.weeklyPercentage, resetAt: resetDate)
+1303: 
+1304:     return UsageData(
+1305:         sessionUsage: sessionUsage,
+1306:         weeklyUsage: weeklyUsage,
+1307:         sonnetUsage: nil,
+1308:         lastUpdated: Date()
+1309:     )
+1310: }
+--- private func makeUsageData
+1294:         sessions[account] = nil
+1295:         status = ChatGPTSessionAcquisitionStatus(state: .missing, lastErrorCategory: .notFound)
+1296:     }
+1297: }
+1298: 
+1299: private func makeUsageData(percentage: Double) -> UsageData {
+1300:     let resetDate = Date().addingTimeInterval(TestConstants.oneHourInterval)
+1301:     let sessionUsage = UsageLimit(utilization: percentage, resetAt: resetDate)
+1302:     let weeklyUsage = UsageLimit(utilization: TestConstants.weeklyPercentage, resetAt: resetDate)
+1303: 
+1304:     return UsageData(
+1305:         sessionUsage: sessionUsage,
+1306:         weeklyUsage: weeklyUsage,
+1307:         sonnetUsage: nil,
+1308:         lastUpdated: Date()
+1309:     )
+1310: }

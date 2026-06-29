@@ -1,0 +1,13 @@
+CredentialProvider cases and display names:
+4:enum CredentialProvider: String, Codable, CaseIterable, Equatable, Hashable, Sendable {
+5:    case claude
+6:    case chatGPT
+7:    case gemini
+9:    var displayName: String {
+27:    var displayName: String {
+48:    var displayName: String {
+49:        "\(provider.displayName) \(kind.displayName)"
+215:        return "\(identity.displayName): \(status)"
+
+All CredentialProvider cases in source:
+PASS: Claude, ChatGPT, and Gemini provider identities/display text present

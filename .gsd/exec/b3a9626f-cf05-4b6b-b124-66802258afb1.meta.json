@@ -1,0 +1,27 @@
+{
+  "id": "b3a9626f-cf05-4b6b-b124-66802258afb1",
+  "runtime": "bash",
+  "purpose": "UAT M004/S02/UAT-S02-03-USAGE-OUTCOMES (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M004",
+    "sliceId": "S02",
+    "checkId": "UAT-S02-03-USAGE-OUTCOMES",
+    "intent": "uat-runtime-check",
+    "expected": "GeminiUsageServiceTests pass and cover success, auth failure, quota-unavailable/missing quota fields, and network failure normalization with sanitized diagnostics."
+  },
+  "script_chars": 152,
+  "started_at": "2026-06-24T20:49:01.813Z",
+  "finished_at": "2026-06-24T20:49:07.670Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 5857,
+  "stdout_bytes": 11338,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/b3a9626f-cf05-4b6b-b124-66802258afb1.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/b3a9626f-cf05-4b6b-b124-66802258afb1.stderr"
+}

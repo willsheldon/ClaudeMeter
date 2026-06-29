@@ -1,0 +1,17 @@
+uat_exists= True
+uat_missing= ['clean state', 'failure recovery']
+secret_like_values= none
+xcodebuild_exit=0
+copy_audit_exit=0
+  evidence: subtitle: geminiQuotaSubtitle(for: geminiUsageData),
+- Pinemeter/Views/MenuBar/UsagePopoverView.swift:215 [advisory]: Review ChatGPT copy to keep it ChatGPT-specific and avoid generic provider language.
+  evidence: private func geminiQuotaSubtitle(for usageData: GeminiUsageData) -> String {
+- ... 146 more
+
+status_audit_exit=0
+provider status surface audit: PASS
+- AppModel exposes centralized providerCredentialStatuses for Claude and ChatGPT.
+- SettingsView and SetupWizardView render status rows/cards from sanitized status view models.
+- Setup/settings UI sources do not directly read session keys, cookie headers, or raw credential values.
+- Tests include provider status sanitization, prompt, recovery-action, and shared setup/settings rendering coverage.
+uat_artifact_exit=1

@@ -32,7 +32,7 @@ struct SetupWizardView: View {
                     .font(.title)
                     .fontWeight(.bold)
 
-                Text("Connect browser sessions to monitor LLM plan usage.")
+                Text("Connect your Claude session key and provider credentials to monitor LLM plan usage.")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
@@ -113,9 +113,7 @@ struct SetupWizardView: View {
                     .fixedSize(horizontal: false, vertical: true)
 
                 if let lastFailureTitle = status.lastFailureTitle {
-                    Text(lastFailureTitle)
-                        .font(.caption2)
-                        .foregroundStyle(.orange)
+                    CopyableErrorText(lastFailureTitle, font: .caption2, foregroundStyle: .orange)
                 }
 
                 providerCredentialStatusActions(for: status)
@@ -181,7 +179,7 @@ struct SetupWizardView: View {
             Text("Import signed-in browser sessions")
                 .font(.subheadline.weight(.semibold))
 
-            Text("Choose the browser where you are already signed in. Each import button checks both Claude and ChatGPT without showing credential values.")
+            Text("Choose the browser where you are already signed in. Each import button checks Claude and ChatGPT; Gemini API key status appears above without showing credential values.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)

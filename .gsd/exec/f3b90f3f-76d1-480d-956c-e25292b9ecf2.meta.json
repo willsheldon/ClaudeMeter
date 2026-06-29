@@ -1,0 +1,19 @@
+{
+  "id": "f3b90f3f-76d1-480d-956c-e25292b9ecf2",
+  "runtime": "python",
+  "purpose": "find credentialActions in AppModel",
+  "script_chars": 223,
+  "started_at": "2026-06-24T21:09:35.751Z",
+  "finished_at": "2026-06-24T21:09:35.824Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 73,
+  "stdout_bytes": 335,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/f3b90f3f-76d1-480d-956c-e25292b9ecf2.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/f3b90f3f-76d1-480d-956c-e25292b9ecf2.stderr"
+}

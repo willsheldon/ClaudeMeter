@@ -1,0 +1,19 @@
+{
+  "id": "ac75556d-47a2-441d-947e-0574d4ce30b3",
+  "runtime": "python",
+  "purpose": "Insert Gemini lifecycle test and test doubles into AppModelTests",
+  "script_chars": 8662,
+  "started_at": "2026-06-24T20:45:30.732Z",
+  "finished_at": "2026-06-24T20:45:30.868Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 136,
+  "stdout_bytes": 51,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/ac75556d-47a2-441d-947e-0574d4ce30b3.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/ac75556d-47a2-441d-947e-0574d4ce30b3.stderr"
+}

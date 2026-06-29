@@ -1,0 +1,21 @@
+PASS: status service enumerates CredentialProvider.allCases
+PASS: status tests mention Gemini
+PASS: status tests still mention Claude
+PASS: status tests still mention ChatGPT
+PASS: tests assert provider collection includes expected providers
+PASS: Provider enumeration/status tests include Gemini and retain existing providers
+
+Relevant service/test references:
+PinemeterTests/CredentialStatusServiceTests.swift:20:            ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .accessToken), state: .missing),
+PinemeterTests/CredentialStatusServiceTests.swift:23:        XCTAssertEqual(requestedAccounts, ["default", "chatgpt", "gemini"])
+PinemeterTests/CredentialStatusServiceTests.swift:27:        let keychainRepository = CredentialStatusKeychainRepositoryStub(existingAccounts: ["default", "chatgpt", "gemini"])
+PinemeterTests/CredentialStatusServiceTests.swift:35:            ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .accessToken), state: .valid),
+PinemeterTests/CredentialStatusServiceTests.swift:47:        let geminiStatus = await service.status(for: .gemini)
+PinemeterTests/CredentialStatusServiceTests.swift:51:        XCTAssertEqual(geminiStatus, ProviderCredentialStatus(identity: CredentialIdentity(provider: .gemini, kind: .accessToken), state: .missing))
+PinemeterTests/CredentialStatusServiceTests.swift:66:    func repairClaudeSessionKey(_ sessionKey: String, account: String) async throws -> ClaudeCredentialRepairResult {
+Pinemeter/Services/CredentialStatusService.swift:26:        results.reserveCapacity(CredentialProvider.allCases.count)
+Pinemeter/Services/CredentialStatusService.swift:28:        for provider in CredentialProvider.allCases {
+Pinemeter/Services/CredentialStatusService.swift:43:        case .gemini:
+Pinemeter/Services/CredentialStatusService.swift:44:            CredentialIdentity(provider: .gemini, kind: .accessToken)
+Pinemeter/Services/CredentialStatusService.swift:54:        case .gemini:
+Pinemeter/Services/CredentialStatusService.swift:55:            "gemini"

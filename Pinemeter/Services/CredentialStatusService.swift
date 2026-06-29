@@ -40,6 +40,8 @@ private extension CredentialProvider {
             CredentialIdentity(provider: .claude, kind: .sessionKey)
         case .chatGPT:
             CredentialIdentity(provider: .chatGPT, kind: .sessionCookie)
+        case .gemini:
+            CredentialIdentity(provider: .gemini, kind: .apiKey)
         }
     }
 
@@ -49,6 +51,8 @@ private extension CredentialProvider {
             "default"
         case .chatGPT:
             "chatgpt"
+        case .gemini:
+            "gemini"
         }
     }
 }

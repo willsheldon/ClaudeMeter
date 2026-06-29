@@ -1,0 +1,19 @@
+{
+  "id": "bbc6dbcf-efb3-4f5c-9796-594a3d141210",
+  "runtime": "bash",
+  "purpose": "Full Debug test suite for Gemini UAT regression evidence",
+  "script_chars": 117,
+  "started_at": "2026-06-24T21:49:38.569Z",
+  "finished_at": "2026-06-24T21:50:01.814Z",
+  "exit_code": 65,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 23245,
+  "stdout_bytes": 11812,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/bbc6dbcf-efb3-4f5c-9796-594a3d141210.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/bbc6dbcf-efb3-4f5c-9796-594a3d141210.stderr"
+}

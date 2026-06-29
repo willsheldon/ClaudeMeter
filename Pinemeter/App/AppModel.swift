@@ -58,6 +58,9 @@ struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
         case .valid, .refreshRecommended:
             return "Saved \(credentialName) is ready."
         case .missing, .unknown:
+            if kind == .apiKey {
+                return "Add a \(credentialName) in Settings."
+            }
             return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
         case .validating:
             return "Pinemeter is checking your saved \(credentialName)."
@@ -128,13 +131,17 @@ final class AppModel {
 
     var usageData: UsageData?
     var chatGPTUsageData: ChatGPTUsageData?
+    var geminiUsageData: GeminiUsageData?
     var isLoading: Bool = false
     var isRefreshing: Bool = false
     var isRefreshingChatGPT: Bool = false
+    var isRefreshingGemini: Bool = false
     var errorMessage: String?
     var chatGPTErrorMessage: String?
+    var geminiErrorMessage: String?
     var isSetupComplete: Bool = false
     var hasChatGPTSessionCookie: Bool = false
+    var hasGeminiAPIKey: Bool = false
     var isReady: Bool = false
     var claudeCredentialState: CredentialState = CredentialState(
         identity: CredentialIdentity(provider: .claude, kind: .sessionKey),
@@ -142,6 +149,10 @@ final class AppModel {
     )
     var chatGPTCredentialState: CredentialState = CredentialState(
         identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+        health: .unknown
+    )
+    var geminiCredentialState: CredentialState = CredentialState(
+        identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
         health: .unknown
     )
 
@@ -154,6 +165,10 @@ final class AppModel {
             AppProviderCredentialStatus(
                 state: chatGPTCredentialState,
                 actions: credentialActions(for: chatGPTCredentialState)
+            ),
+            AppProviderCredentialStatus(
+                state: geminiCredentialState,
+                actions: credentialActions(for: geminiCredentialState)
             )
         ]
     }
@@ -166,8 +181,12 @@ final class AppModel {
         hasChatGPTSessionCookie && settings.isChatGPTUsageShown
     }
 
+    var isGeminiUsageConfigured: Bool {
+        hasGeminiAPIKey
+    }
+
     var hasConfiguredUsageProvider: Bool {
-        isClaudeUsageConfigured || isChatGPTUsageConfigured
+        isClaudeUsageConfigured || isChatGPTUsageConfigured || isGeminiUsageConfigured
     }
 
     var configuredUsageProviderNames: [String] {
@@ -177,6 +196,9 @@ final class AppModel {
         }
         if isChatGPTUsageConfigured {
             names.append(CredentialProvider.chatGPT.displayName)
+        }
+        if isGeminiUsageConfigured {
+            names.append(CredentialProvider.gemini.displayName)
         }
         return names
     }
@@ -189,19 +211,30 @@ final class AppModel {
         if names == [CredentialProvider.chatGPT.displayName] {
             return "ChatGPT Usage"
         }
+        if names == [CredentialProvider.gemini.displayName] {
+            return "Gemini Usage"
+        }
         return "Usage Dashboard"
     }
 
     var usageLoadingMessage: String {
         let names = configuredUsageProviderNames
         guard !names.isEmpty else {
-            return "Connect Claude or ChatGPT to see usage data."
+            return "Connect Claude, ChatGPT, or Gemini to see usage data."
         }
         return "Loading \(Self.joinedProviderNames(names)) usage data..."
     }
 
     var isRefreshingConfiguredUsage: Bool {
-        (isClaudeUsageConfigured && isRefreshing) || (isChatGPTUsageConfigured && isRefreshingChatGPT)
+        (isClaudeUsageConfigured && isRefreshing)
+            || (isChatGPTUsageConfigured && isRefreshingChatGPT)
+            || (isGeminiUsageConfigured && isRefreshingGemini)
+    }
+
+    var hasUsagePopoverContent: Bool {
+        usageData != nil
+            || (settings.isChatGPTUsageShown && (chatGPTUsageData != nil || chatGPTErrorMessage != nil))
+            || (isGeminiUsageConfigured && (geminiUsageData != nil || geminiErrorMessage != nil))
     }
 
     // MARK: - Dependencies
@@ -211,6 +244,8 @@ final class AppModel {
     @ObservationIgnored private let usageService: UsageServiceProtocol
     @ObservationIgnored private let chatGPTUsageService: ChatGPTUsageServiceProtocol
     @ObservationIgnored private let chatGPTSessionRepository: any ChatGPTSessionRepositoryProtocol
+    @ObservationIgnored private let geminiUsageService: GeminiUsageServiceProtocol
+    @ObservationIgnored private let geminiAPIKeyRepository: any GeminiAPIKeyRepositoryProtocol
     @ObservationIgnored private let notificationService: NotificationServiceProtocol
     @ObservationIgnored private let sessionKeyImportService: SessionKeyImportServiceProtocol
 
@@ -230,6 +265,8 @@ final class AppModel {
         usageService: UsageServiceProtocol? = nil,
         chatGPTUsageService: ChatGPTUsageServiceProtocol? = nil,
         chatGPTSessionRepository: (any ChatGPTSessionRepositoryProtocol)? = nil,
+        geminiUsageService: GeminiUsageServiceProtocol? = nil,
+        geminiAPIKeyRepository: (any GeminiAPIKeyRepositoryProtocol)? = nil,
         notificationService: NotificationServiceProtocol? = nil,
         sessionKeyImportService: SessionKeyImportServiceProtocol? = nil
     ) {
@@ -237,6 +274,8 @@ final class AppModel {
         self.keychainRepository = keychainRepository
         let chatGPTSessionRepository = chatGPTSessionRepository ?? ChatGPTSessionRepository()
         self.chatGPTSessionRepository = chatGPTSessionRepository
+        let geminiAPIKeyRepository = geminiAPIKeyRepository ?? GeminiAPIKeyRepository()
+        self.geminiAPIKeyRepository = geminiAPIKeyRepository
         self.sessionKeyImportService = sessionKeyImportService ?? SessionKeyImportService(
             keychainRepository: keychainRepository
         )
@@ -251,6 +290,7 @@ final class AppModel {
         )
         self.usageService = usageService
         self.chatGPTUsageService = chatGPTUsageService ?? ChatGPTUsageService(sessionRepository: chatGPTSessionRepository)
+        self.geminiUsageService = geminiUsageService ?? GeminiUsageService(apiKeyRepository: geminiAPIKeyRepository)
         self.notificationService = notificationService ?? NotificationService(
             settingsRepository: settingsRepository
         )
@@ -275,17 +315,24 @@ final class AppModel {
         let chatGPTStatus = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount)
         hasChatGPTSessionCookie = chatGPTStatus.state == .available
         chatGPTCredentialState = Self.credentialState(from: chatGPTStatus, checkedAt: Date())
+        let geminiStatus = await geminiAPIKeyRepository.validate(account: GeminiUsageService.defaultAPIKeyAccount)
+        hasGeminiAPIKey = geminiStatus.state == .available
+        geminiCredentialState = Self.credentialState(from: geminiStatus, checkedAt: Date())
         isReady = true
 
         if hasChatGPTSessionCookie && settings.isChatGPTUsageShown {
             await refreshChatGPTUsage()
         }
 
+        if hasGeminiAPIKey {
+            await refreshGeminiUsage()
+        }
+
         if isSetupComplete {
             await refreshUsage(forceRefresh: true)
         }
 
-        if isSetupComplete || hasChatGPTSessionCookie {
+        if isSetupComplete || hasChatGPTSessionCookie || hasGeminiAPIKey {
             startRefreshLoop()
         }
 
@@ -300,6 +347,9 @@ final class AppModel {
         }
         if isChatGPTUsageConfigured {
             await refreshChatGPTUsage()
+        }
+        if isGeminiUsageConfigured {
+            await refreshGeminiUsage()
         }
     }
 
@@ -441,6 +491,117 @@ final class AppModel {
         )
     }
 
+    // MARK: - Gemini Usage
+
+    func refreshGeminiUsage() async {
+        if !hasGeminiAPIKey {
+            let status = await geminiAPIKeyRepository.validate(account: GeminiUsageService.defaultAPIKeyAccount)
+            hasGeminiAPIKey = status.state == .available
+            geminiCredentialState = Self.credentialState(from: status, checkedAt: Date())
+        }
+        guard hasGeminiAPIKey else {
+            geminiUsageData = nil
+            return
+        }
+        guard !isRefreshingGemini else { return }
+
+        isRefreshingGemini = true
+        geminiErrorMessage = nil
+
+        defer {
+            isRefreshingGemini = false
+        }
+
+        do {
+            geminiUsageData = try await geminiUsageService.fetchUsage()
+            hasGeminiAPIKey = true
+            geminiCredentialState = CredentialState(
+                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+                health: .valid,
+                checkedAt: Date()
+            )
+        } catch GeminiUsageError.missingAPIKey {
+            hasGeminiAPIKey = false
+            geminiUsageData = nil
+            geminiErrorMessage = GeminiUsageError.missingAPIKey.localizedDescription
+            geminiCredentialState = CredentialState(
+                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+                health: .missing,
+                failureCategory: .missing,
+                checkedAt: Date()
+            )
+        } catch GeminiUsageError.invalidAPIKey {
+            hasGeminiAPIKey = false
+            geminiUsageData = nil
+            geminiErrorMessage = GeminiUsageError.invalidAPIKey.localizedDescription
+            geminiCredentialState = CredentialState(
+                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+                health: .invalid,
+                failureCategory: .providerRejected,
+                checkedAt: Date()
+            )
+        } catch GeminiUsageError.networkUnavailable {
+            geminiUsageData = nil
+            geminiErrorMessage = GeminiUsageError.networkUnavailable.localizedDescription
+            geminiCredentialState = CredentialState(
+                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+                health: .unavailable,
+                failureCategory: .networkUnavailable,
+                checkedAt: Date()
+            )
+        } catch {
+            geminiUsageData = nil
+            geminiErrorMessage = error.localizedDescription
+        }
+    }
+
+    func loadGeminiAPIKey() async -> String? {
+        do {
+            return try await geminiAPIKeyRepository.load(account: GeminiUsageService.defaultAPIKeyAccount).value
+        } catch {
+            return nil
+        }
+    }
+
+    func validateAndSaveGeminiAPIKey(_ rawValue: String) async throws -> Bool {
+        let apiKey = try GeminiAPIKey(rawValue)
+        let isValid = try await geminiUsageService.validateAPIKey(apiKey)
+        guard isValid else {
+            hasGeminiAPIKey = false
+            geminiCredentialState = CredentialState(
+                identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+                health: .invalid,
+                failureCategory: .providerRejected,
+                checkedAt: Date()
+            )
+            return false
+        }
+
+        try await geminiAPIKeyRepository.save(apiKey, account: GeminiUsageService.defaultAPIKeyAccount)
+        hasGeminiAPIKey = true
+        geminiCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+            health: .valid,
+            checkedAt: Date()
+        )
+        await refreshGeminiUsage()
+        startRefreshLoop()
+        return true
+    }
+
+    func clearGeminiAPIKey() async throws {
+        try await geminiAPIKeyRepository.clear(account: GeminiUsageService.defaultAPIKeyAccount)
+        hasGeminiAPIKey = false
+        geminiUsageData = nil
+        geminiErrorMessage = nil
+        geminiCredentialState = CredentialState(
+            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+            health: .missing,
+            failureCategory: .missing,
+            checkedAt: Date()
+        )
+    }
+
     // MARK: - Session Key
 
     func loadSessionKey() async -> String? {
@@ -556,7 +717,10 @@ final class AppModel {
         case (.chatGPT, .clear):
             try await clearChatGPTSessionCookie()
             return chatGPTCredentialState
-        case (.chatGPT, .repair):
+        case (.gemini, .clear):
+            try await clearGeminiAPIKey()
+            return geminiCredentialState
+        case (.chatGPT, .repair), (.gemini, .reconnect), (.gemini, .repair):
             throw AppProviderCredentialActionError.unsupportedAction(provider: provider, action: action)
         }
     }
@@ -654,15 +818,24 @@ final class AppModel {
 
     private func credentialActions(for state: CredentialState) -> [AppProviderCredentialStatus.Action] {
         let kinds: [ProviderCredentialActionKind]
-        switch state.health {
-        case .unknown, .missing:
-            kinds = [.reconnect]
-        case .validating:
-            kinds = []
-        case .valid, .refreshRecommended:
-            kinds = [.reconnect, .clear]
-        case .invalid, .expired, .unavailable:
-            kinds = state.identity.provider == .claude ? [.reconnect, .repair, .clear] : [.reconnect, .clear]
+        if state.identity.kind == .apiKey {
+            switch state.health {
+            case .unknown, .missing, .validating:
+                kinds = []
+            case .valid, .refreshRecommended, .invalid, .expired, .unavailable:
+                kinds = [.clear]
+            }
+        } else {
+            switch state.health {
+            case .unknown, .missing:
+                kinds = [.reconnect]
+            case .validating:
+                kinds = []
+            case .valid, .refreshRecommended:
+                kinds = [.reconnect, .clear]
+            case .invalid, .expired, .unavailable:
+                kinds = state.identity.provider == .claude ? [.reconnect, .repair, .clear] : [.reconnect, .clear]
+            }
         }
         return kinds.map(AppProviderCredentialStatus.Action.init(kind:))
     }
@@ -673,6 +846,18 @@ final class AppModel {
     ) -> CredentialState {
         CredentialState(
             identity: CredentialIdentity(provider: .chatGPT, kind: .sessionCookie),
+            health: status.state.credentialHealth,
+            failureCategory: status.lastErrorCategory?.credentialFailureCategory ?? status.state.defaultFailureCategory,
+            checkedAt: checkedAt
+        )
+    }
+
+    private static func credentialState(
+        from status: GeminiAPIKeyAcquisitionStatus,
+        checkedAt: Date
+    ) -> CredentialState {
+        CredentialState(
+            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
             health: status.state.credentialHealth,
             failureCategory: status.lastErrorCategory?.credentialFailureCategory ?? status.state.defaultFailureCategory,
             checkedAt: checkedAt
@@ -705,7 +890,7 @@ final class AppModel {
 
     private func startRefreshLoop() {
         refreshTask?.cancel()
-        guard isSetupComplete || hasChatGPTSessionCookie else { return }
+        guard isSetupComplete || hasChatGPTSessionCookie || hasGeminiAPIKey else { return }
 
         let interval = Duration.seconds(Int(settings.refreshInterval))
         refreshTask = Task { [weak self] in
@@ -717,6 +902,9 @@ final class AppModel {
                 }
                 if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
                     await self.refreshChatGPTUsage()
+                }
+                if self.hasGeminiAPIKey {
+                    await self.refreshGeminiUsage()
                 }
             }
         }
@@ -732,6 +920,9 @@ final class AppModel {
                 }
                 if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
                     await self.refreshChatGPTUsage()
+                }
+                if self.hasGeminiAPIKey {
+                    await self.refreshGeminiUsage()
                 }
             }
         }

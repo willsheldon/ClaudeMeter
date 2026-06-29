@@ -515,19 +515,19 @@
     },
     {
       "id": "task:M004:S01:T01",
-      "label": "T01: Audit provider model extension points",
+      "label": "T01: Mapped the current Claude and ChatGPT provider seams that Gemini must neutralize before implementation.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
     {
       "id": "task:M004:S01:T02",
-      "label": "T02: Add Gemini provider contract tests",
+      "label": "T02: Added Gemini provider credential contract coverage and minimal provider status support.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
     {
       "id": "task:M004:S01:T03",
-      "label": "T03: Verify provider contract compatibility",
+      "label": "T03: Verified provider contract compatibility after Gemini contract-state additions.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
@@ -540,19 +540,19 @@
     },
     {
       "id": "task:M004:S02:T01",
-      "label": "T01: Research and define Gemini credential boundary",
+      "label": "T01: Defined the Gemini credential boundary as an API-key Keychain repository/service seam with sanitized diagnostics and no AppSettings persistence.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
     {
       "id": "task:M004:S02:T02",
-      "label": "T02: Implement Gemini repository and usage service",
+      "label": "T02: Implemented Gemini API key repository and usage service with sanitized diagnostics and tests.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
     {
       "id": "task:M004:S02:T03",
-      "label": "T03: Integrate Gemini service into AppModel",
+      "label": "T03: Integrated Gemini API-key backed usage state into AppModel refresh, credential status, and clear/reconnect surfaces with focused AppModel coverage.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
@@ -565,19 +565,19 @@
     },
     {
       "id": "task:M004:S03:T01",
-      "label": "T01: Extend provider status UI to Gemini",
+      "label": "T01: Extended shared provider credential status behavior and setup/settings copy so Gemini API-key status appears beside Claude and ChatGPT without exposing credential material.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
     {
       "id": "task:M004:S03:T02",
-      "label": "T02: Add Gemini recovery UI tests",
+      "label": "T02: Added Gemini recovery UI and model tests for missing, configured, invalid, retry, reconnect, clear, and mixed-provider behavior.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
     {
       "id": "task:M004:S03:T03",
-      "label": "T03: Verify setup and settings provider matrix",
+      "label": "T03: Verified setup/settings provider copy and aligned ChatGPT bootstrap tests with the Gemini-aware provider matrix.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
@@ -590,19 +590,19 @@
     },
     {
       "id": "task:M004:S04:T01",
-      "label": "T01: Add Gemini usage display state",
+      "label": "T01: Added AppModel popover-content state that accounts for Gemini usage and Gemini errors.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
     {
       "id": "task:M004:S04:T02",
-      "label": "T02: Render Gemini in menu popover",
+      "label": "T02: Gemini usage and error states now render in the menu popover alongside configured providers.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
     {
       "id": "task:M004:S04:T03",
-      "label": "T03: Verify provider display combinations",
+      "label": "T03: Added AppModel regression tests for Gemini-only, mixed Gemini provider combinations, all-provider display state, and Gemini refresh error display state.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
@@ -615,19 +615,25 @@
     },
     {
       "id": "task:M004:S05:T01",
-      "label": "T01: Write Gemini UAT checklist",
+      "label": "T01: Created a repeatable Gemini workflow UAT checklist for setup, refresh, failure recovery, Gemini-only, and all-provider states.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
     {
       "id": "task:M004:S05:T02",
-      "label": "T02: Run Gemini final verification",
+      "label": "T02: Ran final Gemini verification and resolved enforced provider copy findings.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
     {
       "id": "task:M004:S05:T03",
-      "label": "T03: Record Gemini UAT evidence",
+      "label": "T03: Recorded Gemini UAT evidence with automated artifact checks, targeted runtime regression proof, and explicit human-only boundaries.",
+      "type": "task",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "id": "task:M004:S05:T04",
+      "label": "T04: Fixed the copyable provider-error regression by making setup credential-card failure titles copyable and updating the regression test for the shared ChatGPT/Gemini provider error row.",
       "type": "task",
       "confidence": "EXTRACTED"
     },
@@ -1635,6 +1641,12 @@
       "confidence": "EXTRACTED"
     },
     {
+      "from": "slice:M004:S05",
+      "to": "task:M004:S05:T04",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
       "from": "milestone:M005",
       "to": "slice:M005:S01",
       "type": "contains",
@@ -1965,5 +1977,5 @@
       "confidence": "EXTRACTED"
     }
   ],
-  "builtAt": "2026-06-23T22:45:55.222Z"
+  "builtAt": "2026-06-24T22:01:15.188Z"
 }

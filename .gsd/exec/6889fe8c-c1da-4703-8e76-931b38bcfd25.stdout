@@ -1,0 +1,5 @@
+--- matches for 'CopyableErrorPresentationTests.swift' ---
+--- matches for 'XCTAssert' ---
+--- matches for 'failed -' ---
+--- matches for 'test_userFacingErrorSurfacesUseCopyableErrorText' ---
+362: Test case 'CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()' failed on 'My Mac - Pinemeter (28676)' (1.159 seconds)

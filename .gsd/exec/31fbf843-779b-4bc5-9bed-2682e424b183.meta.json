@@ -1,0 +1,19 @@
+{
+  "id": "31fbf843-779b-4bc5-9bed-2682e424b183",
+  "runtime": "bash",
+  "purpose": "Run provider workflow copy audit for Gemini closeout",
+  "script_chars": 358,
+  "started_at": "2026-06-24T21:57:56.056Z",
+  "finished_at": "2026-06-24T21:57:56.285Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 229,
+  "stdout_bytes": 2006,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/31fbf843-779b-4bc5-9bed-2682e424b183.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/31fbf843-779b-4bc5-9bed-2682e424b183.stderr"
+}

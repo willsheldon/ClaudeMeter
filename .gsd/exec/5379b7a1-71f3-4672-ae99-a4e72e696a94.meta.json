@@ -1,0 +1,19 @@
+{
+  "id": "5379b7a1-71f3-4672-ae99-a4e72e696a94",
+  "runtime": "bash",
+  "purpose": "verify T01 Gemini provider status UI focused tests",
+  "script_chars": 182,
+  "started_at": "2026-06-24T20:55:30.731Z",
+  "finished_at": "2026-06-24T20:55:43.725Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 12994,
+  "stdout_bytes": 82849,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/5379b7a1-71f3-4672-ae99-a4e72e696a94.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M004/.gsd/exec/5379b7a1-71f3-4672-ae99-a4e72e696a94.stderr"
+}

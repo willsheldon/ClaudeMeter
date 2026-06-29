@@ -1,0 +1,42 @@
+1: Command line invocation:
+2:     /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug "-only-testing:PinemeterTests/CopyableErrorPresentationTests/test_userFacingErrorSurfacesUseCopyableErrorText"
+3: 
+4: Resolve Package Graph
+5: 
+---
+74: 
+75: CopySwiftLibs /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest (in target 'PinemeterTests' from project 'Pinemeter')
+76:     cd /Users/will/code/ClaudeMeter/.gsd-worktrees/M004
+77:     builtin-swiftStdLibTool --copy --verbose --sign 34EA6EC553B1B71EE4E70FEB61D91A51A0A2597C --scan-executable /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/MacOS/PinemeterTests --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Frameworks --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/PlugIns --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Build/Prod
+78: 
+79: 2026-06-24 14:53:58.160 xcodebuild[97470:122839517] [MT] IDETestOperationsObserverDebug: 11.643 elapsed -- Testing started completed.
+80: 2026-06-24 14:53:58.160 xcodebuild[97470:122839517] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+---
+84: 	/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-akjsjvtazvirdudpusxqukmqvkbe/Logs/Test/Test-Pinemeter-2026.06.24_14-53-44--0700.xcresult
+85: 
+86: Failing tests:
+87: 	CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()
+88: 
+89: ** TEST FAILED **
+90: 
+---
+86: Failing tests:
+87: 	CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()
+88: 
+89: ** TEST FAILED **
+90: 
+91: Testing started
+92: Test suite 'CopyableErrorPresentationTests' started on 'My Mac - Pinemeter (97687)'
+---
+89: ** TEST FAILED **
+90: 
+91: Testing started
+92: Test suite 'CopyableErrorPresentationTests' started on 'My Mac - Pinemeter (97687)'
+93: Test case 'CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()' failed on 'My Mac - Pinemeter (97687)' (0.101 seconds)
+---
+90: 
+91: Testing started
+92: Test suite 'CopyableErrorPresentationTests' started on 'My Mac - Pinemeter (97687)'
+93: Test case 'CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()' failed on 'My Mac - Pinemeter (97687)' (0.101 seconds)
+---
+line_count 93

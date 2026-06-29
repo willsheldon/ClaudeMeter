@@ -5,11 +5,14 @@ final class CredentialStateTests: XCTestCase {
     func test_credentialIdentity_describesProviderAndKindWithoutCredentialMaterial() {
         let claudeIdentity = CredentialIdentity(provider: .claude, kind: .sessionKey)
         let chatGPTIdentity = CredentialIdentity(provider: .chatGPT, kind: .sessionCookie)
+        let geminiIdentity = CredentialIdentity(provider: .gemini, kind: .apiKey)
 
         XCTAssertEqual(claudeIdentity.id, "claude.sessionKey")
         XCTAssertEqual(claudeIdentity.displayName, "Claude session key")
         XCTAssertEqual(chatGPTIdentity.id, "chatGPT.sessionCookie")
         XCTAssertEqual(chatGPTIdentity.displayName, "ChatGPT session cookie")
+        XCTAssertEqual(geminiIdentity.id, "gemini.apiKey")
+        XCTAssertEqual(geminiIdentity.displayName, "Gemini API key")
     }
 
     func test_credentialHealthState_marksOnlyUsableStatesAsUsable() {
@@ -89,5 +92,25 @@ final class CredentialStateTests: XCTestCase {
 
         XCTAssertEqual(decoded, original)
         XCTAssertEqual(decoded.identity.displayName, "ChatGPT access token")
+    }
+
+    func test_geminiCredentialStateUsesSanitizedProviderDiagnostics() throws {
+        let checkedAt = Date(timeIntervalSince1970: 1_234)
+        let original = CredentialState(
+            identity: CredentialIdentity(provider: .gemini, kind: .apiKey),
+            health: .invalid,
+            failureCategory: .invalidFormat,
+            checkedAt: checkedAt
+        )
+
+        let data = try JSONEncoder().encode(original)
+        let decoded = try JSONDecoder().decode(CredentialState.self, from: data)
+
+        XCTAssertEqual(decoded.identity.id, "gemini.apiKey")
+        XCTAssertEqual(decoded.displayTitle, "Gemini API key: Credential format is invalid")
+        XCTAssertEqual(decoded.displayDescription, "The saved credential does not match the expected format.")
+        XCTAssertEqual(decoded.recoverySuggestion, "Update the credential and try again.")
+        XCTAssertFalse(decoded.displayTitle.contains("AIza"))
+        XCTAssertFalse(decoded.displayDescription.contains("Bearer"))
     }
 }

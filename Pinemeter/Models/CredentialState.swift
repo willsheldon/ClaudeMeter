@@ -4,6 +4,7 @@ import Foundation
 enum CredentialProvider: String, Codable, CaseIterable, Equatable, Hashable, Sendable {
     case claude
     case chatGPT
+    case gemini
 
     var displayName: String {
         switch self {
@@ -11,6 +12,8 @@ enum CredentialProvider: String, Codable, CaseIterable, Equatable, Hashable, Sen
             return "Claude"
         case .chatGPT:
             return "ChatGPT"
+        case .gemini:
+            return "Gemini"
         }
     }
 }
@@ -20,6 +23,7 @@ enum CredentialKind: String, Codable, CaseIterable, Equatable, Hashable, Sendabl
     case sessionKey
     case sessionCookie
     case accessToken
+    case apiKey
 
     var displayName: String {
         switch self {
@@ -29,6 +33,8 @@ enum CredentialKind: String, Codable, CaseIterable, Equatable, Hashable, Sendabl
             return "session cookie"
         case .accessToken:
             return "access token"
+        case .apiKey:
+            return "API key"
         }
     }
 }
