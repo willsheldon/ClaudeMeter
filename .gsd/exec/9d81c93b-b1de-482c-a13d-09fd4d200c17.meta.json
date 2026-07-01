@@ -1,0 +1,20 @@
+{
+  "id": "9d81c93b-b1de-482c-a13d-09fd4d200c17",
+  "runtime": "bash",
+  "purpose": "Verify contributor and issue template set",
+  "script_chars": 1784,
+  "started_at": "2026-07-01T21:52:54.094Z",
+  "finished_at": "2026-07-01T21:52:54.161Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 67,
+  "stdout_bytes": 295,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/9d81c93b-b1de-482c-a13d-09fd4d200c17.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/9d81c93b-b1de-482c-a13d-09fd4d200c17.stderr"
+}

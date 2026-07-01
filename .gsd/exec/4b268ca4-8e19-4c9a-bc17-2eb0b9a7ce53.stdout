@@ -1,0 +1,4 @@
+PASS: project does not contain generic Developer ID signing identity
+PASS: workflow does not contain generic Developer ID signing identity
+PASS: workflow does not rely on mutable APPLE_TEAM_ID secret/env
+FAIL: workflow missing authority verification

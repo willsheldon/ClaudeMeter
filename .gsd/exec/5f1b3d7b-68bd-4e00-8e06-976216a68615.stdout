@@ -1,0 +1,3 @@
+exists CONTRIBUTING.md
+exists SECURITY.md
+missing .github/SECURITY.md

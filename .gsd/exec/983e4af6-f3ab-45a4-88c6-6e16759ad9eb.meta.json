@@ -1,0 +1,20 @@
+{
+  "id": "983e4af6-f3ab-45a4-88c6-6e16759ad9eb",
+  "runtime": "bash",
+  "purpose": "T02 public docs rg verification README site changelog",
+  "script_chars": 129,
+  "started_at": "2026-07-01T21:43:05.531Z",
+  "finished_at": "2026-07-01T21:43:05.545Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 14,
+  "stdout_bytes": 16854,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/983e4af6-f3ab-45a4-88c6-6e16759ad9eb.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/983e4af6-f3ab-45a4-88c6-6e16759ad9eb.stderr"
+}

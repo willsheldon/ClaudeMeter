@@ -1,0 +1,3 @@
+checked_files=.github/ISSUE_TEMPLATE/bug_report.md,.github/ISSUE_TEMPLATE/feature_request.md,CONTRIBUTING.md,README.md
+unsafe_public_reporting_prompts=0
+review_notes=templates warn against public secret disclosure; README manual paste instruction is app setup documentation, not issue-report guidance; no destructive git publication/history-rewrite guidance found.

@@ -1,0 +1,383 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug "-skip-testing:PinemeterTests/MenuBarIconSnapshotTests" CODE_SIGN_IDENTITY=- CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+
+Build settings from command line:
+    CODE_SIGN_IDENTITY = -
+    CODE_SIGNING_ALLOWED = NO
+    CODE_SIGNING_REQUIRED = NO
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  SweetCookieKit: https://github.com/steipete/SweetCookieKit @ 0.4.1
+  swift-custom-dump: https://github.com/pointfreeco/swift-custom-dump @ 1.3.3
+  swift-snapshot-testing: https://github.com/pointfreeco/swift-snapshot-testing @ 1.18.7
+  swift-syntax: https://github.com/swiftlang/swift-syntax @ 602.0.0
+  xctest-dynamic-overlay: https://github.com/pointfreeco/xctest-dynamic-overlay @ 1.8.1
+
+note: Using codesigning identity override: -
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (6 targets)
+    Target 'PinemeterTests' in project 'Pinemeter'
+        ➜ Explicit dependency on target 'Pinemeter' in project 'Pinemeter'
+        ➜ Explicit dependency on target 'SnapshotTesting' in project 'swift-snapshot-testing'
+    Target 'SnapshotTesting' in project 'swift-snapshot-testing'
+        ➜ Explicit dependency on target 'SnapshotTesting' in project 'swift-snapshot-testing'
+    Target 'SnapshotTesting' in project 'swift-snapshot-testing' (no dependencies)
+    Target 'Pinemeter' in project 'Pinemeter'
+        ➜ Explicit dependency on target 'SweetCookieKit' in project 'SweetCookieKit'
+    Target 'SweetCookieKit' in project 'SweetCookieKit'
+        ➜ Explicit dependency on target 'SweetCookieKit' in project 'SweetCookieKit'
+    Target 'SweetCookieKit' in project 'SweetCookieKit' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ReadFileContents /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/docc/features.json
+
+Build description signature: 70a37bf033e848783bfb8d5179bbf59b
+Build description path: /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/XCBuildData/70a37bf033e848783bfb8d5179bbf59b.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk /Users/will/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.5-25F70-e082c4a02f00227109f4ed75e425c832.sdkstatcache
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005/Pinemeter.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -o /Users/will/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.5-25F70-e082c4a02f00227109f4ed75e425c832.sdkstatcache
+
+MkDir /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    /bin/mkdir -p /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest
+
+note: Disabling hardened runtime with ad-hoc codesigning. (in target 'Pinemeter' from project 'Pinemeter')
+Copy /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTest.framework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks
+
+Copy /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTestCore.framework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks/XCTestCore.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks/XCTestCore.framework /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks
+
+Copy /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTestSupport.framework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks/XCTestSupport.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks/XCTestSupport.framework /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks
+
+Copy /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCTAutomationSupport.framework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks/XCTAutomationSupport.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks/XCTAutomationSupport.framework /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks
+
+Copy /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/Testing.framework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/Testing.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/Testing.framework /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks
+
+Ld /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter.debug.dylib normal (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos14.0 -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -O0 -L/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/EagerLinkingTBDs/Debug -L/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug -F/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/EagerLinkingTBDs/Debug -F/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/PackageFrameworks -F/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug -filelist /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter.LinkFileList -install_name @rpath/Pinemeter.debug.dylib -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/PackageFrameworks -Xlinker -rpath -Xlinker @executable_path/../Frameworks -Xlinker -object_path_lto -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter_dependency_info.dat -fobjc-link-runtime -fprofile-instr-generate -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter.swiftmodule @/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter-linker-args.resp -Wl,-no_warn_duplicate_libraries -lsqlite3 -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter.debug.dylib -Xlinker -add_ast_path -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/SweetCookieKit.build/Debug/SweetCookieKit.build/Objects-normal/arm64/SweetCookieKit.swiftmodule @/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/SweetCookieKit.build/Debug/SweetCookieKit.build/Objects-normal/arm64/SweetCookieKit-linker-args.resp
+
+Ld /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/__preview.dylib normal (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos14.0 -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -O0 -L/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug -F/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/PackageFrameworks -F/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug -install_name @rpath/Pinemeter.debug.dylib -rdynamic -Xlinker -no_deduplicate -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter_dependency_info.dat -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/__preview.dylib
+
+Copy /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/libXCTestSwiftSupport.dylib /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks
+
+Copy /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/libXCTestBundleInject.dylib /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libXCTestBundleInject.dylib (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libXCTestBundleInject.dylib /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks
+
+Copy /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCUnit.framework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks/XCUnit.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks/XCUnit.framework /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks
+
+ProcessInfoPlistFile /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Info.plist /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/empty-Pinemeter.plist (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-infoPlistUtility /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/empty-Pinemeter.plist -producttype com.apple.product-type.application -genpkginfo /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PkgInfo -expandbuildsettings -platform macosx -additionalcontentfile /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/assetcatalog_generated_info.plist -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Info.plist
+
+Copy /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks/XCUIAutomation.framework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCUIAutomation.framework (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -exclude Headers -exclude PrivateHeaders -exclude Modules -exclude \*.tbd -resolve-src-symlinks /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks/XCUIAutomation.framework /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks
+
+ConstructStubExecutorLinkFileList /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter-ExecutorLinkFileList-normal-arm64.txt (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    construct-stub-executor-link-file-list /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'Pinemeter' from project 'Pinemeter')
+
+Ld /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter normal (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos14.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -O0 -L/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug -F/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/PackageFrameworks -F/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/PackageFrameworks -Xlinker -rpath -Xlinker @executable_path/../Frameworks -rdynamic -Xlinker -no_deduplicate -Xlinker -debug_variant -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter-ExecutorLinkFileList-normal-arm64.txt /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter.debug.dylib -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter
+
+ExtractAppIntentsMetadata (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name Pinemeter --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk --xcode-version 17F42 --platform-family macOS --deployment-target 14.0 --bundle-identifier com.eddmann.Pinemeter --output /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Resources --target-triple arm64-apple-macos14.0 --binary-file /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter --dependency-file /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter_dependency_info.dat --stringsdata-file /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter.SwiftFileList --metadata-file-list /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter.DependencyMetadataFileList --static-metadata-file-list /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter.DependencyStaticMetadataFileList --swift-const-vals-list /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Objects-normal/arm64/Pinemeter.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-07-01 14:45:29.668 appintentsmetadataprocessor[80145:640613] Starting appintentsmetadataprocessor export
+2026-07-01 14:45:29.670 appintentsmetadataprocessor[80145:640613] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+
+CopySwiftLibs /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter.debug.dylib --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Library/SystemExtensions --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Extensions --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os --back-deploy-swift-span
+Ignoring --strip-bitcode because --sign was not passed
+
+ProcessInfoPlistFile /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Info.plist /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/empty-PinemeterTests.plist (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-infoPlistUtility /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/empty-PinemeterTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -platform macosx -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Info.plist
+
+Ld /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/MacOS/PinemeterTests normal (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos14.0 -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk -O0 -L/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/EagerLinkingTBDs/Debug -L/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug -L/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib -F/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/EagerLinkingTBDs/Debug -F/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/PackageFrameworks -F/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/PackageFrameworks -F/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug -iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks -filelist /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests.LinkFileList -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/PackageFrameworks -Xlinker -rpath -Xlinker @loader_path/../Frameworks -Xlinker -rpath -Xlinker @executable_path/../Frameworks -bundle_loader /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter -Xlinker -object_path_lto -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests_lto.o -rdynamic -Xlinker -no_deduplicate -Xlinker -debug_variant -Xlinker -dependency_info -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests_dependency_info.dat -fobjc-link-runtime -fprofile-instr-generate -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests.swiftmodule @/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests-linker-args.resp -Wl,-no_warn_duplicate_libraries -Wl,-no_warn_duplicate_libraries -lsqlite3 -Xlinker -needed_framework -Xlinker XCTest -framework XCTest -Xlinker -needed-lXCTestSwiftSupport -lXCTestSwiftSupport /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/MacOS/Pinemeter.debug.dylib -o /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/MacOS/PinemeterTests -Xlinker -add_ast_path -Xlinker /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/swift-snapshot-testing.build/Debug/SnapshotTesting.build/Objects-normal/arm64/SnapshotTesting.swiftmodule @/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/swift-snapshot-testing.build/Debug/SnapshotTesting.build/Objects-normal/arm64/SnapshotTesting-linker-args.resp
+
+ExtractAppIntentsMetadata (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name PinemeterTests --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk --xcode-version 17F42 --platform-family macOS --deployment-target 14.0 --bundle-identifier com.eddmann.PinemeterTests --output /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Resources --target-triple arm64-apple-macos14.0 --binary-file /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/MacOS/PinemeterTests --dependency-file /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests_dependency_info.dat --stringsdata-file /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests.SwiftFileList --metadata-file-list /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests.DependencyMetadataFileList --static-metadata-file-list /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/PinemeterTests.DependencyStaticMetadataFileList --swift-const-vals-list /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/Objects-normal/arm64/PinemeterTests.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-07-01 14:45:29.983 appintentsmetadataprocessor[80148:640632] Starting appintentsmetadataprocessor export
+2026-07-01 14:45:29.984 appintentsmetadataprocessor[80148:640632] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+
+CopySwiftLibs /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/MacOS/PinemeterTests --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Frameworks --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/PlugIns --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Library/SystemExtensions --scan-folder /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Extensions --platform macosx --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest/Contents/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/PinemeterTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os --back-deploy-swift-span
+Ignoring --strip-bitcode because --sign was not passed
+
+RegisterExecutionPolicyException /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-RegisterExecutionPolicyException /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest
+
+Touch /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest (in target 'PinemeterTests' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    /usr/bin/touch -c /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app/Contents/PlugIns/PinemeterTests.xctest
+
+Validate /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    builtin-validationUtility /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app -no-validate-extension -infoplist-subpath Contents/Info.plist
+
+RegisterWithLaunchServices /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app (in target 'Pinemeter' from project 'Pinemeter')
+    cd /Users/will/code/ClaudeMeter/.gsd/worktrees/M005
+    /System/Library/Frameworks/CoreServices.framework/Versions/Current/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -f -R -trusted /Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app
+
+note: Removed stale file '/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/DerivedSources/Entitlements.plist'
+
+note: Removed stale file '/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter.app.xcent'
+
+note: Removed stale file '/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Intermediates.noindex/Pinemeter.build/Debug/Pinemeter.build/Pinemeter.app.xcent.der'
+
+
+Test session results, code coverage, and logs:
+	/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Logs/Test/Test-Pinemeter-2026.07.01_14-45-27--0700.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started
+Test suite 'AppModelTests' started on 'My Mac - Pinemeter (80167)'
+Test case 'AppModelTests.test_bootstrap_withoutSessionKey_showsSetupState()' passed on 'My Mac - Pinemeter (80167)' (0.040 seconds)
+Test case 'AppModelTests.test_chatGPTChromiumFallback_decryptsChromeV10CookieValueWithHostDigest()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_chatGPTChromiumFallback_reconstructsSplitSessionCookieChunks()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_chatGPTChromiumFallback_stripsChromeHostDigestFromDecryptedCookieValue()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_chatGPTCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (80167)' (0.028 seconds)
+Test case 'AppModelTests.test_claudeCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (80167)' (0.004 seconds)
+Test case 'AppModelTests.test_geminiCredentialLifecycle_recoversFromInvalidClearAndReacquire()' passed on 'My Mac - Pinemeter (80167)' (0.002 seconds)
+Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieAndRefreshesUsage()' passed on 'My Mac - Pinemeter (80167)' (0.003 seconds)
+Test case 'AppModelTests.test_importingChatGPTSessionCookie_savesImportedCookieWhenUsageRefreshFails()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_importingProviderSessionsFromBrowser_savesClaudeAndChatGPT()' passed on 'My Mac - Pinemeter (80167)' (0.003 seconds)
+Test case 'AppModelTests.test_importingSessionKey_savesImportedKeyAndLoadsData()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_importingSessionKey_whenImportedKeyInvalid_staysInSetup()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_performProviderCredentialAction_clearsGeminiWithoutChangingMixedProviderState()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_performProviderCredentialAction_clearsOnlyRequestedProviderCredential()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_performProviderCredentialAction_reconnectsChatGPTThroughSessionRepositoryBoundary()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedChatGPTRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_performProviderCredentialAction_rejectsUnsupportedGeminiReconnectAndRepairWithoutCredentialLeak()' passed on 'My Mac - Pinemeter (80167)' (0.004 seconds)
+Test case 'AppModelTests.test_performProviderCredentialAction_repairsClaudeThroughScopedSessionKeyRepair()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_providerAwareMenuState_hidesChatGPTWhenUsageToggleIsOff()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_providerAwareMenuState_routesConfiguredProvidersToUsageSurface()' passed on 'My Mac - Pinemeter (80167)' (0.022 seconds)
+Test case 'AppModelTests.test_providerCredentialStatusesExposeRecoveryActionsForBoundaryStates()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_providerCredentialStatusSetupPromptsDistinguishReadyMissingAndRepairableCredentials()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_providerCredentialStatusViewModelsExposeSanitizedClaudeAndChatGPTState()' passed on 'My Mac - Pinemeter (80167)' (0.003 seconds)
+Test case 'AppModelTests.test_providerDisplayCombinations_includeAllProviders()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_providerDisplayCombinations_includeChatGPTPlusGemini()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_providerDisplayCombinations_includeClaudePlusGemini()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiErrorState()' passed on 'My Mac - Pinemeter (80167)' (0.004 seconds)
+Test case 'AppModelTests.test_providerDisplayCombinations_includeGeminiOnly()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingChatGPTSessionRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (80167)' (0.002 seconds)
+Test case 'AppModelTests.test_refreshConfiguredUsageProviders_missingGeminiAPIKeyRemovesProviderFromMenuState()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_refreshConfiguredUsageProviders_refreshesOnlyVisibleConfiguredProviders()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_refreshingUsage_hidesUsageWhenSetupIncomplete()' passed on 'My Mac - Pinemeter (80167)' (0.010 seconds)
+Test case 'AppModelTests.test_refreshingUsage_showsErrorWhenFetchFails()' passed on 'My Mac - Pinemeter (80167)' (0.002 seconds)
+Test case 'AppModelTests.test_refreshingUsage_showsLatestUsageAndClearsError()' passed on 'My Mac - Pinemeter (80167)' (0.002 seconds)
+Test case 'AppModelTests.test_repairingClaudeSessionKey_resavesCurrentKeyAndRefreshesCredentialState()' passed on 'My Mac - Pinemeter (80167)' (0.002 seconds)
+Test case 'AppModelTests.test_repairingClaudeSessionKey_whenKeychainSaveFailsPublishesSanitizedStorageFailure()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_usagePopoverContentAvailabilityIncludesGeminiDataAndErrors()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_userClearsSession_returnsToSetupState()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_userSendsTestNotification_triggersNotificationService()' passed on 'My Mac - Pinemeter (80167)' (0.054 seconds)
+Test case 'AppModelTests.test_userWithInvalidSessionKey_staysInSetup()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'AppModelTests.test_userWithNotificationPermission_doesNotSeePermissionPrompt()' passed on 'My Mac - Pinemeter (80167)' (0.102 seconds)
+Test case 'AppModelTests.test_userWithoutNotificationPermission_isPromptedForPermission()' passed on 'My Mac - Pinemeter (80167)' (0.103 seconds)
+Test case 'AppModelTests.test_userWithSessionKey_seesErrorWhenUsageFailsAfterLaunch()' passed on 'My Mac - Pinemeter (80167)' (0.018 seconds)
+Test case 'AppModelTests.test_userWithSessionKey_seesUsageAfterLaunch()' passed on 'My Mac - Pinemeter (80167)' (0.003 seconds)
+Test case 'AppModelTests.test_userWithValidSessionKey_entersUsageAndLoadsData()' passed on 'My Mac - Pinemeter (80167)' (0.002 seconds)
+Test case 'AppModelTests.test_userWithValidSessionKeyWithoutOrganization_staysInSetup()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test suite 'GeminiUsageServiceTests' started on 'My Mac - Pinemeter (80167)'
+Test case 'GeminiUsageServiceTests.test_fetchUsage_mapsEmptyQuotaResponseToQuotaUnavailable()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'GeminiUsageServiceTests.test_fetchUsage_mapsHTTPForbiddenToInvalidAPIKey()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'GeminiUsageServiceTests.test_fetchUsage_mapsInvalidAPIKeyAndClearsStoredCredential()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'GeminiUsageServiceTests.test_fetchUsage_withMissingStoredAPIKeyThrowsMissingAPIKey()' passed on 'My Mac - Pinemeter (80167)' (0.001 seconds)
+Test case 'GeminiUsageServiceTests.test_fetchUsage_withStoredAPIKey_returnsNormalizedUsageAndSavesSanitizedStatus()' passed on 'My Mac - Pinemeter (80167)' (0.029 seconds)
+Test case 'GeminiUsageServiceTests.test_geminiAPIKeyRejectsBlankValueBeforeRepositoryBoundary()' passed on 'My Mac - Pinemeter (80167)' (0.002 seconds)
+Test suite 'KeychainRepositoryTests' started on 'My Mac - Pinemeter (80171)'
+Test suite 'SecurityInvariantTests' started on 'My Mac - Pinemeter (80176)'
+Test suite 'ChatGPTSessionRepositoryTests' started on 'My Mac - Pinemeter (80179)'
+Test case 'SecurityInvariantTests.test_appSettingsCodingKeysDoNotPersistCredentialStateBoundaryFields()' passed on 'My Mac - Pinemeter (80176)' (0.001 seconds)
+Test case 'SecurityInvariantTests.test_appSettingsPersistenceDoesNotEncodeCredentialMaterial()' passed on 'My Mac - Pinemeter (80176)' (0.003 seconds)
+Test suite 'UsageLimitRiskTests' started on 'My Mac - Pinemeter (80180)'
+Test case 'UsageLimitRiskTests.test_isAtRisk_whenBeforeWindowStart_returnsFalse()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_isAtRisk_whenPastResetTime_returnsFalse()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_isAtRisk_whenSlightlyAboveThreshold_returnsTrue()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_isAtRisk_whenUsingAtSustainablePace_returnsFalse()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_isAtRisk_whenUsingFasterThanSustainable_returnsTrue()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_resetDescription_whenExactlyWholeDays_omitsZeroHours()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_resetDescription_whenOverOneDay_showsDaysAndHours()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test suite 'CacheRepositoryTests' started on 'My Mac - Pinemeter (80181)'
+Test case 'UsageLimitRiskTests.test_resetDescription_whenPastResetTime_showsNow()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_resetDescription_whenUnderOneDay_showsRoundedUpHours()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'UsageLimitRiskTests.test_resetDescription_whenUnderOneHour_showsRoundedUpMinutes()' passed on 'My Mac - Pinemeter (80180)' (0.000 seconds)
+Test case 'CacheRepositoryTests.test_getLastKnownMigratesLegacyPrivateCacheWhenNewCacheIsAbsent()' passed on 'My Mac - Pinemeter (80181)' (0.009 seconds)
+Test case 'CacheRepositoryTests.test_getLastKnownPrefersNewPrivateCacheWhenBothNewAndLegacyExist()' passed on 'My Mac - Pinemeter (80181)' (0.005 seconds)
+Test case 'CacheRepositoryTests.test_invalidateRemovesPrivateCacheAndPublicExportArtifacts()' passed on 'My Mac - Pinemeter (80181)' (0.005 seconds)
+Test suite 'MenuBarIconRendererTests' started on 'My Mac - Pinemeter (80180)'
+Test case 'MenuBarIconRendererTests.test_menuBarIconIsRenderedAsNonTemplateImage()' passed on 'My Mac - Pinemeter (80180)' (0.002 seconds)
+Test case 'MenuBarIconRendererTests.test_menuBarIconIsRenderedAsNonTemplateImageWhenColorModeSelected()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'MenuBarIconRendererTests.test_menuBarIconIsRenderedAsTemplateImageWhenMonochromeModeSelected()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'MenuBarIconRendererTests.test_menuBarIconRendersMeterStyle()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'CacheRepositoryTests.test_setWritesPrivateCacheAndPublicExportsToPinemeterPathsWhilePreservingLegacyPublicExport()' passed on 'My Mac - Pinemeter (80181)' (0.006 seconds)
+Test case 'MenuBarIconRendererTests.test_menuBarIconRendersWhenLoadingOrStale()' passed on 'My Mac - Pinemeter (80180)' (0.003 seconds)
+Test suite 'ChatGPTAppModelTests' started on 'My Mac - Pinemeter (80180)'
+Test suite 'ProviderErrorWorkflowTests' started on 'My Mac - Pinemeter (80181)'
+Test case 'ProviderErrorWorkflowTests.test_appError_noSessionKey_usesClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_appError_sessionKeyInvalid_usesClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_chatGPTInvalidCredentialStatusKeepsRecoveryProviderSpecificAndSanitized()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_chatGPTUsageErrorsDoNotEchoCookieOrBearerTokenSentinels()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_claudeRecoveryCopy_detectsOnlyClaudeCredentialAuthenticationMessages()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_claudeRecoveryCopy_usesClaudeSpecificButtonLabel()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'ChatGPTAppModelTests.test_bootstrap_detectsExistingChatGPTSessionWithoutRequiringClaudeSetup()' passed on 'My Mac - Pinemeter (80180)' (0.012 seconds)
+Test case 'ProviderErrorWorkflowTests.test_clearCredentialWorkflowCopyIsProviderSpecificAndCredentialFree()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_credentialRecoverySetupCopyDoesNotExposeRawCredentialMaterial()' passed on 'My Mac - Pinemeter (80181)' (0.009 seconds)
+Test case 'ProviderErrorWorkflowTests.test_geminiCredentialStatusesCoverMissingConfiguredInvalidAndRetryCopy()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_networkAuthenticationFailed_usesClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (80181)' (0.000 seconds)
+Test case 'ProviderErrorWorkflowTests.test_settingsAndSetupRenderSharedProviderCredentialStatusModel()' passed on 'My Mac - Pinemeter (80181)' (0.007 seconds)
+Test case 'ChatGPTAppModelTests.test_bootstrap_withChatGPTStorageUnavailablePublishesSanitizedStatus()' passed on 'My Mac - Pinemeter (80180)' (0.023 seconds)
+Test suite 'SettingsRepositoryTests' started on 'My Mac - Pinemeter (80184)'
+Test case 'SettingsRepositoryTests.test_defaultSettings_hideChatGPTUsage()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'ProviderErrorWorkflowTests.test_setupProviderStatusCardsExposeSharedRepairAndClearActionsWithoutManualCredentials()' passed on 'My Mac - Pinemeter (80181)' (0.013 seconds)
+Test case 'ChatGPTAppModelTests.test_bootstrap_withExistingChatGPTSessionButUsageHiddenLeavesMenuInSetupState()' passed on 'My Mac - Pinemeter (80180)' (0.005 seconds)
+Test case 'ChatGPTAppModelTests.test_clearChatGPTSessionCookie_deletesOnlyChatGPTAccountAndHidesUsage()' passed on 'My Mac - Pinemeter (80180)' (0.002 seconds)
+Test case 'SettingsRepositoryTests.test_loadingLegacyPayloadWithCredentialShapedKeysDropsCredentialMaterialOnSave()' passed on 'My Mac - Pinemeter (80184)' (0.004 seconds)
+Test case 'SettingsRepositoryTests.test_notificationStatePersistsAcrossLaunches()' passed on 'My Mac - Pinemeter (80184)' (0.003 seconds)
+Test case 'SettingsRepositoryTests.test_settingsDecodingWithoutIsColoredIcon_usesDefault()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'ChatGPTAppModelTests.test_refreshChatGPTUsage_failureDoesNotOverwriteClaudeUsageOrError()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'SettingsRepositoryTests.test_settingsPersistAcrossLaunches()' passed on 'My Mac - Pinemeter (80184)' (0.003 seconds)
+Test suite 'ChatGPTUsageServiceTests' started on 'My Mac - Pinemeter (80184)'
+Test case 'ChatGPTUsageServiceTests.test_chatGPTUsageData_usesWorstQuotaBucketForOverallStatus()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_cookieHeader_acceptsCookiePrefixAndNewlineSeparatedSplitCookies()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_cookieHeader_acceptsFullCookieHeader()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_cookieHeader_acceptsRawSessionToken()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_cookieHeader_joinsSplitAuthJSSessionTokenCookies()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_cookieHeader_joinsSplitSessionTokenCookies()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_fetchUsage_afterInvalidSessionClearCanReacquirePersistedSession()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test suite 'CredentialStatusServiceTests' started on 'My Mac - Pinemeter (80181)'
+Test case 'CredentialStatusServiceTests.test_status_reportsSingleProviderCredentialState()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'CredentialStatusServiceTests.test_statuses_reportAvailableProvidersWithoutRetrievingSecretValues()' passed on 'My Mac - Pinemeter (80181)' (0.003 seconds)
+Test case 'CredentialStatusServiceTests.test_statuses_reportMissingProvidersWhenNoCredentialsExist()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_fetchUsage_exchangesCookieForAccessTokenThenFetchesWhamUsage()' passed on 'My Mac - Pinemeter (80184)' (0.002 seconds)
+Test case 'ChatGPTUsageServiceTests.test_fetchUsage_loadsPersistedSessionAndStoresTransientAccessToken()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_fetchUsage_withBlankSessionCookie_throwsMissingSessionCookie()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test suite 'UsageServiceTests' started on 'My Mac - Pinemeter (80181)'
+Test case 'UsageServiceTests.test_usageFetch_requiresSessionKey()' passed on 'My Mac - Pinemeter (80181)' (0.002 seconds)
+Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_savesToChatGPTAccountAndRefreshesUsage()' passed on 'My Mac - Pinemeter (80180)' (0.036 seconds)
+Test case 'UsageServiceTests.test_usageFetch_showsUsageFromApiResponse()' passed on 'My Mac - Pinemeter (80181)' (0.003 seconds)
+Test case 'UsageServiceTests.test_usageFetch_withMalformedResetAt_surfacesInvalidResponse()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave()' passed on 'My Mac - Pinemeter (80180)' (0.004 seconds)
+Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection()' passed on 'My Mac - Pinemeter (80180)' (0.002 seconds)
+Test case 'UsageServiceTests.test_usageFetch_withMissingResetAt_usesFallbackWindow()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test suite 'NotificationServiceTests' started on 'My Mac - Pinemeter (80180)'
+Test case 'NotificationServiceTests.test_userCrossesCriticalThreshold_receivesCriticalNotification()' passed on 'My Mac - Pinemeter (80180)' (0.002 seconds)
+Test case 'UsageServiceTests.test_usageFetch_withSonnetUsage_showsSonnetUsage()' passed on 'My Mac - Pinemeter (80181)' (0.007 seconds)
+Test case 'UsageServiceTests.test_userForcesRefresh_bypassesCacheAndUpdatesCache()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'UsageServiceTests.test_userWithCachedOrganization_fetchesUsageFromCachedOrg()' passed on 'My Mac - Pinemeter (80181)' (0.002 seconds)
+Test case 'UsageServiceTests.test_userWithCachedUsage_seesCachedValueWithoutNetworkCall()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'NotificationServiceTests.test_userDoesNotReceiveDuplicateWarningWithoutDroppingBelowThreshold()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'NotificationServiceTests.test_userReceivesResetNotificationWhenUsageResets()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test case 'NotificationServiceTests.test_userReceivesWarningAgainAfterDroppingBelowThreshold()' passed on 'My Mac - Pinemeter (80180)' (0.001 seconds)
+Test suite 'CredentialStateTests' started on 'My Mac - Pinemeter (80181)'
+Test case 'CredentialStateTests.test_credentialHealthState_marksOnlyUsableStatesAsUsable()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'CredentialStateTests.test_credentialIdentity_describesProviderAndKindWithoutCredentialMaterial()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'CredentialStateTests.test_credentialState_prefersFailureDescriptionWhenPresent()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'ChatGPTUsageServiceTests.test_fetchUsage_withoutAccessToken_treatsCookieAsInvalid()' passed on 'My Mac - Pinemeter (80184)' (0.035 seconds)
+Test case 'NotificationServiceTests.test_userReceivesWarningNotificationWhenUsageCrossesThreshold()' passed on 'My Mac - Pinemeter (80180)' (0.008 seconds)
+Test case 'CredentialStateTests.test_credentialState_roundTripsThroughCodable()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'CredentialStateTests.test_credentialState_usesHealthDescriptionWhenNoFailureIsPresent()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'CredentialStateTests.test_failureCategories_exposeSanitizedUserFacingDescriptions()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'CredentialStateTests.test_geminiCredentialStateUsesSanitizedProviderDiagnostics()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test suite 'GeminiCredentialBoundaryTests' started on 'My Mac - Pinemeter (80181)'
+Test case 'ChatGPTUsageServiceTests.test_fetchUsage_withoutPersistedSessionReportsMissingSession()' passed on 'My Mac - Pinemeter (80184)' (0.007 seconds)
+Test case 'ChatGPTUsageServiceTests.test_fetchUsage_withPersistedSessionClearsRepositoryWhenSessionIsInvalid()' passed on 'My Mac - Pinemeter (80184)' (0.005 seconds)
+Test case 'ChatGPTUsageServiceTests.test_whamToDomain_classifiesMenuBarRowsAndPreservesUnknownRows()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_acquisitionStatusDoesNotDiscloseAPIKey()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_apiKeyTrimsWhitespaceAndRedactsDebugOutput()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_emptyAPIKeyIsRejected()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_geminiCredentialHealthMapsToSanitizedHealthStates()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_geminiCredentialStorageUsesDedicatedKeychainNamespace()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test suite 'SessionKeyTests' started on 'My Mac - Pinemeter (80184)'
+Test case 'SessionKeyTests.test_sessionKey_acceptsRawSessionKey()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'SessionKeyTests.test_sessionKey_extractsValueFromCookieHeader()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'SessionKeyTests.test_sessionKey_rejectsCookieHeaderWithoutSessionKey()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_geminiUsageErrorDescriptionsDoNotDiscloseCredentialMaterial()' passed on 'My Mac - Pinemeter (80181)' (0.001 seconds)
+Test case 'SessionKeyTests.test_sessionKeyErrorDescriptions_useClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test suite 'CopyableErrorPresentationTests' started on 'My Mac - Pinemeter (80181)'
+Test case 'CopyableErrorPresentationTests.test_userFacingErrorSurfacesUseCopyableErrorText()' passed on 'My Mac - Pinemeter (80181)' (0.003 seconds)
+Test suite 'AppSettingsTests' started on 'My Mac - Pinemeter (80184)'
+Test case 'AppSettingsTests.test_setRefreshInterval_clampsAboveMaximumToRefreshMaximum()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'AppSettingsTests.test_setRefreshInterval_clampsBelowMinimumToRefreshMinimum()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'AppSettingsTests.test_setRefreshInterval_keepsInRangeValue()' passed on 'My Mac - Pinemeter (80184)' (0.001 seconds)
+Test case 'NotificationServiceTests.test_userWithNotificationsDisabled_doesNotReceiveThresholdNotification()' passed on 'My Mac - Pinemeter (80180)' (0.048 seconds)
+Test case 'NotificationServiceTests.test_userWithoutSystemPermission_doesNotReceiveNotification()' passed on 'My Mac - Pinemeter (80180)' (0.009 seconds)
+Test case 'KeychainRepositoryTests.testRepairClaudeSessionKeyCreatesMissingCredential()' passed on 'My Mac - Pinemeter (80171)' (25.642 seconds)
+Test case 'GeminiUsageServiceTests.test_geminiAPIKeyRepository_persistsKeyAndSanitizedStatusOutsideSettings()' passed on 'My Mac - Pinemeter (80167)' (25.692 seconds)
+Test case 'SecurityInvariantTests.test_chatGPTAcquisitionStatusPersistenceIsSanitizedAndSeparateFromAppSettings()' passed on 'My Mac - Pinemeter (80176)' (25.552 seconds)
+Test case 'GeminiUsageServiceTests.test_validateAPIKeyReturnsFalseForAuthFailures()' passed on 'My Mac - Pinemeter (80167)' (0.003 seconds)
+Test case 'SecurityInvariantTests.test_chatGPTInvalidAcquisitionDiagnosticsPersistOnlyFailureCategory()' passed on 'My Mac - Pinemeter (80176)' (0.004 seconds)
+Test case 'SecurityInvariantTests.test_claudeSessionRepairKeepsLegacyServiceIdentifierAndAvoidsAccessGroupRewrite()' passed on 'My Mac - Pinemeter (80176)' (0.008 seconds)
+Test case 'SecurityInvariantTests.test_credentialLifecycleSourcesKeepSyntheticCredentialMaterialOutOfDiagnostics()' passed on 'My Mac - Pinemeter (80176)' (0.005 seconds)
+Test case 'KeychainRepositoryTests.testRepairClaudeSessionKeyDoesNotDeleteOtherAccounts()' passed on 'My Mac - Pinemeter (80171)' (0.097 seconds)
+Test case 'ChatGPTSessionRepositoryTests.test_clearRemovesDurableCookieAndTransientAccessToken()' passed on 'My Mac - Pinemeter (80179)' (25.656 seconds)
+Test case 'SecurityInvariantTests.test_geminiAcquisitionStatusPersistenceIsSanitizedAndSeparateFromAppSettings()' passed on 'My Mac - Pinemeter (80176)' (0.082 seconds)
+Test case 'SecurityInvariantTests.test_legacyKeychainAccessGroupRemainsDocumentedForCredentialCompatibility()' passed on 'My Mac - Pinemeter (80176)' (0.001 seconds)
+Test case 'SecurityInvariantTests.test_legacyKeychainServiceIdentifierRemainsDocumentedForCredentialCompatibility()' passed on 'My Mac - Pinemeter (80176)' (0.001 seconds)
+Test case 'SecurityInvariantTests.test_networkServiceDiagnosticsDoNotLogResponseBodiesOrCredentialFragments()' passed on 'My Mac - Pinemeter (80176)' (0.002 seconds)
+Test case 'SecurityInvariantTests.test_providerCredentialResetSourcesStayScopedToSafeRepositoryBoundaries()' passed on 'My Mac - Pinemeter (80176)' (0.009 seconds)
+Test case 'SecurityInvariantTests.test_settingsRepositoryDoesNotReferenceCredentialStateOrCredentialMaterial()' passed on 'My Mac - Pinemeter (80176)' (0.001 seconds)
+Test case 'SecurityInvariantTests.test_settingsViewDoesNotOfferManualCredentialEntry()' passed on 'My Mac - Pinemeter (80176)' (0.007 seconds)
+Test case 'SecurityInvariantTests.test_setupWizardUsesCombinedBrowserImportButtons()' passed on 'My Mac - Pinemeter (80176)' (0.003 seconds)
+Test case 'SecurityInvariantTests.test_signedPinemeterBuildsUseOfficialAutimoIdentityForClaudeKeychainRepair()' passed on 'My Mac - Pinemeter (80176)' (0.002 seconds)
+Test case 'SecurityInvariantTests.test_userFacingAppErrorDescriptionsDoNotDiscloseCredentialShapedFragments()' passed on 'My Mac - Pinemeter (80176)' (0.001 seconds)
+Test case 'SecurityInvariantTests.test_userFacingChatGPTErrorDescriptionsDoNotDiscloseCredentialShapedFragments()' passed on 'My Mac - Pinemeter (80176)' (0.001 seconds)
+Test case 'ChatGPTSessionRepositoryTests.test_saveAndLoadPersistsCookieButKeepsAccessTokenTransient()' passed on 'My Mac - Pinemeter (80179)' (0.042 seconds)
+Test case 'SecurityInvariantTests.test_userFacingGeminiErrorDescriptionsDoNotDiscloseCredentialShapedFragments()' passed on 'My Mac - Pinemeter (80176)' (0.001 seconds)
+Test case 'SecurityInvariantTests.test_userFacingNetworkAndKeychainDescriptionsDoNotDiscloseCredentialShapedFragments()' passed on 'My Mac - Pinemeter (80176)' (0.001 seconds)
+Test case 'ChatGPTSessionRepositoryTests.test_saveRejectsBlankCookieAndRecordsSanitizedFailureCategory()' passed on 'My Mac - Pinemeter (80179)' (0.003 seconds)
+Test case 'ChatGPTSessionRepositoryTests.test_validateClassifiesMissingSessionWithoutThrowing()' passed on 'My Mac - Pinemeter (80179)' (0.002 seconds)
+Test case 'KeychainRepositoryTests.testRepairClaudeSessionKeyUpdatesExistingCredential()' passed on 'My Mac - Pinemeter (80171)' (0.086 seconds)
+Test case 'ChatGPTSessionRepositoryTests.test_validateReturnsSanitizedAvailableStatusWithoutCredentialMaterial()' passed on 'My Mac - Pinemeter (80179)' (0.080 seconds)

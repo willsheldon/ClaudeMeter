@@ -1,0 +1,20 @@
+{
+  "id": "b75d92a7-a66a-468c-a242-1ac7f29674fd",
+  "runtime": "bash",
+  "purpose": "T03 repository path and docs reference validation",
+  "script_chars": 1126,
+  "started_at": "2026-07-01T21:45:13.709Z",
+  "finished_at": "2026-07-01T21:45:13.724Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 15,
+  "stdout_bytes": 2490,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/b75d92a7-a66a-468c-a242-1ac7f29674fd.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/b75d92a7-a66a-468c-a242-1ac7f29674fd.stderr"
+}

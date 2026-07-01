@@ -1,0 +1,20 @@
+{
+  "id": "5f1b3d7b-68bd-4e00-8e06-976216a68615",
+  "runtime": "bash",
+  "purpose": "Check contributor and security guidance target files",
+  "script_chars": 151,
+  "started_at": "2026-07-01T21:51:38.158Z",
+  "finished_at": "2026-07-01T21:51:38.174Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 16,
+  "stdout_bytes": 70,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/5f1b3d7b-68bd-4e00-8e06-976216a68615.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/5f1b3d7b-68bd-4e00-8e06-976216a68615.stderr"
+}

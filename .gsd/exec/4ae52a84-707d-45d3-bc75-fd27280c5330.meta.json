@@ -1,0 +1,20 @@
+{
+  "id": "4ae52a84-707d-45d3-bc75-fd27280c5330",
+  "runtime": "python",
+  "purpose": "T03 focused check for unsafe public reporting prompts",
+  "script_chars": 1348,
+  "started_at": "2026-07-01T21:56:19.227Z",
+  "finished_at": "2026-07-01T21:56:19.278Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 51,
+  "stdout_bytes": 365,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/4ae52a84-707d-45d3-bc75-fd27280c5330.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/4ae52a84-707d-45d3-bc75-fd27280c5330.stderr"
+}

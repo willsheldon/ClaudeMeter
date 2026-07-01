@@ -234,21 +234,9 @@ xcodebuild test \
 
 ### Release signing and publishing safety
 
-The release workflow is manual and publishes artifacts: it creates a GitHub release with `contents: write` and then updates the Homebrew tap with `HOMEBREW_TAP_TOKEN`. Do not run or re-run it as a signing check unless you intend to publish.
+Read [RELEASING.md](RELEASING.md) before preparing release artifacts. The release path must use the pinned Autimo signing identity `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and verify `TeamIdentifier=HMR9RDR6M2`; generic `Developer ID Application` signing identities and mutable `APPLE_TEAM_ID`-style secrets are unsafe for release signing.
 
-Before publishing, audit the local release surfaces instead:
-
-```bash
-EXPECTED_SIGNING_IDENTITY="Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
-EXPECTED_TEAM_ID="HMR9RDR6M2"
-
-grep -F "CODE_SIGN_IDENTITY = \"$EXPECTED_SIGNING_IDENTITY\";" Pinemeter.xcodeproj/project.pbxproj
-grep -F "DEVELOPMENT_TEAM = $EXPECTED_TEAM_ID;" Pinemeter.xcodeproj/project.pbxproj
-grep -F "EXPECTED_SIGNING_IDENTITY: \"$EXPECTED_SIGNING_IDENTITY\"" .github/workflows/release.yml
-grep -F "EXPECTED_TEAM_ID: $EXPECTED_TEAM_ID" .github/workflows/release.yml
-```
-
-A release build must use `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and verify `TeamIdentifier=HMR9RDR6M2`. Avoid generic `Developer ID Application` signing identities and mutable `APPLE_TEAM_ID`-style secrets for release signing.
+Safe local checks are limited to reading local files or locally built artifacts, such as verifying the pinned `CODE_SIGN_IDENTITY`, `DEVELOPMENT_TEAM`, workflow `EXPECTED_SIGNING_IDENTITY`, workflow `EXPECTED_TEAM_ID`, and `codesign -dvv` output. Publishing or remote mutations require explicit maintainer confirmation for the intended version and target repository, including workflow dispatch, notarization submission, GitHub release creation, Homebrew tap edits, `git push`, tag changes, `gh release`, or history rewriting.
 
 ## Support and Contributing
 

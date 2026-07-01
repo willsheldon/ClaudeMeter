@@ -1,0 +1,20 @@
+{
+  "id": "ddb793fe-ee4a-46a3-a50d-655c42e3fccd",
+  "runtime": "python",
+  "purpose": "Inspect failed S01 verification assertions for context",
+  "script_chars": 338,
+  "started_at": "2026-07-01T21:47:51.523Z",
+  "finished_at": "2026-07-01T21:47:51.571Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 48,
+  "stdout_bytes": 307,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/ddb793fe-ee4a-46a3-a50d-655c42e3fccd.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/ddb793fe-ee4a-46a3-a50d-655c42e3fccd.stderr"
+}

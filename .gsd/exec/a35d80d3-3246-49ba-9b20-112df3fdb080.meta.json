@@ -1,0 +1,20 @@
+{
+  "id": "a35d80d3-3246-49ba-9b20-112df3fdb080",
+  "runtime": "bash",
+  "purpose": "M005/S02/T02 verify safe template wording",
+  "script_chars": 99,
+  "started_at": "2026-07-01T21:54:31.121Z",
+  "finished_at": "2026-07-01T21:54:31.139Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 18,
+  "stdout_bytes": 17355,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/a35d80d3-3246-49ba-9b20-112df3fdb080.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/a35d80d3-3246-49ba-9b20-112df3fdb080.stderr"
+}

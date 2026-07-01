@@ -1,0 +1,4 @@
+FAIL unsafe wording:
+.github/ISSUE_TEMPLATE/bug_report.md: asks to include secret material
+.github/ISSUE_TEMPLATE/feature_request.md: asks to include secret material
+README.md: stale ClaudeMeter name

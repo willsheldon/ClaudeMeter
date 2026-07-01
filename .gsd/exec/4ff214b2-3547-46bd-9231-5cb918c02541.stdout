@@ -1,0 +1,1281 @@
+--- /Users/will/.gsd/agent/skills/accessibility/SKILL.md (12310 bytes) ---
+---
+name: accessibility
+description: Audit and improve web accessibility following WCAG 2.1 guidelines. Use when asked to "improve accessibility", "a11y audit", "WCAG compliance", "screen reader support", "keyboard navigation", or "make accessible".
+license: MIT
+metadata:
+  author: web-quality-skills
+  version: "1.0"
+---
+
+# Accessibility (a11y)
+
+Comprehensive accessibility guidelines based on WCAG 2.1 and Lighthouse accessibility audits. Goal: make content usable by everyone, including people with disabilities.
+
+## WCAG Principles: POUR
+
+| Principle | Description |
+|-----------|-------------|
+| **P**erceivable | Content can be perceived through different senses |
+| **O**perable | Interface can be operated by all users |
+| **U**nderstandable | Content and interface are understandable |
+| **R**obust | Content works with assistive technologies |
+
+## Conformance levels
+
+| Level | Requirement | Target |
+|-------|-------------|--------|
+| **A** | Minimum accessibility | Must pass |
+| **AA** | Standard compliance | Should pass (legal requirement in many jurisdictions) |
+| **AAA** | Enhanced accessibility | Nice to have |
+
+---
+
+## Perceivable
+
+### Text alternatives (1.1)
+
+**Images require 
+--- /Users/will/.gsd/agent/skills/api-design/SKILL.md (8297 bytes) ---
+---
+name: api-design
+description: Design or review an HTTP/REST/GraphQL API for versioning, pagination, error shapes, idempotency, auth, status codes, cache headers, and breaking-change management. Use when asked to "design an API", "shape the endpoints", "design the schema", "add a new endpoint", "review this API", or when building/modifying a public or internal HTTP surface. HTTP-specific complement to `design-an-interface`.
+---
+
+<objective>
+Shape an HTTP or GraphQL API so callers get predictable, evolvable, and honest semantics. The deliverable is a concrete endpoint/schema sketch with: URL or operation names, method/verb, request shape, response shape, error shape, auth model, pagination strategy, and versioning stance. Optimize for "clients that exist in 2 years" over "client that's easy to write today".
+</objective>
+
+<context>
+gsd-pi has `design-an-interface` for general module-interface design; this skill is the HTTP/GraphQL specialization. REST and GraphQL carry baggage — status codes, verbs, nullability, pagination — that a generic interface-design discussion glosses over.
+
+Invocation points:
+- Adding a new public API endpoint
+- Redesigning an internal API boundary between
+--- /Users/will/.gsd/agent/skills/best-practices/SKILL.md (12036 bytes) ---
+---
+name: best-practices
+description: Apply modern web development best practices for security, compatibility, and code quality. Use when asked to "apply best practices", "security audit", "modernize code", "code quality review", or "check for vulnerabilities".
+license: MIT
+metadata:
+  author: web-quality-skills
+  version: "1.0"
+---
+
+# Best practices
+
+Modern web development standards based on Lighthouse best practices audits. Covers security, browser compatibility, and code quality patterns.
+
+## Security
+
+### HTTPS everywhere
+
+**Enforce HTTPS:**
+```html
+<!-- ❌ Mixed content -->
+<img src="http://example.com/image.jpg">
+<script src="http://cdn.example.com/script.js"></script>
+
+<!-- ✅ HTTPS only -->
+<img src="https://example.com/image.jpg">
+<script src="https://cdn.example.com/script.js"></script>
+
+<!-- ✅ Protocol-relative (will use page's protocol) -->
+<img src="//example.com/image.jpg">
+```
+
+**HSTS Header:**
+```
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+```
+
+### Content Security Policy (CSP)
+
+```html
+<!-- Basic CSP via meta tag -->
+<meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; 
+               script-src 'self' https://tr
+--- /Users/will/.agents/skills/brainstorming/SKILL.md (10477 bytes) ---
+---
+name: brainstorming
+description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+---
+
+# Brainstorming Ideas Into Designs
+
+Help turn ideas into fully formed designs and specs through natural collaborative dialogue.
+
+Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design and get user approval.
+
+<HARD-GATE>
+Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it. This applies to EVERY project regardless of perceived simplicity.
+</HARD-GATE>
+
+## Anti-Pattern: "This Is Too Simple To Need A Design"
+
+Every project goes through this process. A todo list, a single-function utility, a config change — all of them. "Simple" projects are where unexamined assumptions cause the most wasted work. The design can be short (a few sentences for truly simple projects), but you MUST present it and get approval.
+
+## Checklis
+--- /Users/will/.gsd/agent/skills/code-optimizer/SKILL.md (7247 bytes) ---
+---
+name: code-optimizer
+description: >
+  Deep code optimization audit using parallel specialist agents that hunt performance
+  anti-patterns via pattern-based detection, avoiding anchoring bias. Covers DB queries,
+  memory leaks, algorithmic complexity, concurrency, bundle size, dead code, I/O/network,
+  rendering, caching, and build config. Use when asked to optimize code, find performance
+  issues or bottlenecks, speed up an app, reduce latency, detect code smells, or run a
+  performance/quality audit.
+---
+
+# Code Optimizer
+
+Parallel multi-agent code optimization audit. Spawn 13 specialist agents simultaneously, each
+hunting for a different class of performance problem using pattern-based detection.
+
+## Critical Principle: No Code Reading Before Analysis
+
+Agents MUST NOT read source files before searching for patterns. Reading the code first causes
+anchoring bias — the agent accepts the existing implementation as "reasonable" and misses
+better alternatives. Instead, each agent:
+
+1. Read its assigned reference file from `references/` to load detection patterns
+2. Use Grep/Glob to scan the codebase for anti-patterns
+3. For each finding, ONLY THEN read the surrounding context (5-10
+--- /Users/will/.gsd/agent/skills/core-web-vitals/SKILL.md (11594 bytes) ---
+---
+name: core-web-vitals
+description: Optimize Core Web Vitals (LCP, INP, CLS) for better page experience and search ranking. Use when asked to "improve Core Web Vitals", "fix LCP", "reduce CLS", "optimize INP", "page experience optimization", or "fix layout shifts".
+license: MIT
+metadata:
+  author: web-quality-skills
+  version: "1.0"
+---
+
+# Core Web Vitals optimization
+
+Targeted optimization for the three Core Web Vitals metrics that affect Google Search ranking and user experience.
+
+## The three metrics
+
+| Metric | Measures | Good | Needs work | Poor |
+|--------|----------|------|------------|------|
+| **LCP** | Loading | ≤ 2.5s | 2.5s – 4s | > 4s |
+| **INP** | Interactivity | ≤ 200ms | 200ms – 500ms | > 500ms |
+| **CLS** | Visual Stability | ≤ 0.1 | 0.1 – 0.25 | > 0.25 |
+
+Google measures at the **75th percentile** — 75% of page visits must meet "Good" thresholds.
+
+---
+
+## LCP: Largest Contentful Paint
+
+LCP measures when the largest visible content element renders. Usually this is:
+- Hero image or video
+- Large text block
+- Background image
+- `<svg>` element
+
+### Common LCP issues
+
+**1. Slow server response (TTFB > 800ms)**
+```
+Fix: CDN, caching, optimized backend, edge renderin
+--- /Users/will/.gsd/agent/skills/create-gsd-extension/SKILL.md (5317 bytes) ---
+---
+name: create-gsd-extension
+description: Create, debug, and iterate on GSD extensions (TypeScript modules adding tools, commands, event hooks, custom UI, and providers). Use when asked to build an extension, add a tool the LLM can call, register a slash command, hook into GSD events, create custom TUI components, or modify GSD behavior. Triggers on "create/build extension", "add a tool", "register command", "hook into gsd", "gsd plugin".
+---
+
+<essential_principles>
+
+**Extensions are TypeScript modules** that hook into GSD's runtime (built on pi). They export a default function receiving `ExtensionAPI` and use it to subscribe to events, register tools/commands/shortcuts, and interact with the session.
+
+**GSD extension paths (community/user-installed extensions):**
+- Global: `~/.pi/agent/extensions/*.ts` or `~/.pi/agent/extensions/*/index.ts`
+- Project-local: `.gsd/extensions/*.ts` or `.gsd/extensions/*/index.ts`
+
+Note: `~/.gsd/agent/extensions/` is reserved for bundled extensions synced from the gsd-pi package. Community extensions placed there are silently ignored by the loader.
+
+**The three primitives:**
+1. **Events** — Listen and react (`pi.on("event", handler)`). Can block to
+--- /Users/will/.gsd/agent/skills/create-mcp-server/SKILL.md (6996 bytes) ---
+---
+name: create-mcp-server
+description: Build, iterate, and evaluate Model Context Protocol (MCP) servers that expose external services as tools an LLM can call. Covers schema/tool design, error handling, pagination, MCP Inspector testing, and an eval set. Use when asked to "build an MCP server", "create an MCP tool", "wrap this API as MCP", "expose X to Claude", or when extending GSD with custom tool integrations.
+---
+
+<objective>
+Produce a high-quality MCP server that an LLM can actually use — not one that merely parses spec-compliant. Quality is measured by how well the server enables real-world task completion, which means the tool descriptions, error messages, and pagination behave under model reasoning, not just at the wire level.
+</objective>
+
+<context>
+gsd-pi consumes MCP heavily — see `src/resources/extensions/mcp-client/`, `src/resources/extensions/gsd/mcp-project-config.ts`, `src/resources/extensions/gsd/workflow-mcp.ts`, and `/gsd mcp` commands. Users frequently want to extend GSD with project-specific MCP servers (internal APIs, data sources, domain tools). This skill fills the authoring gap between "MCP exists" and "I have a working server."
+
+Invocation points:
+- Use
+--- /Users/will/.gsd/agent/skills/create-skill/SKILL.md (6586 bytes) ---
+---
+name: create-skill
+description: Expert guidance for creating, writing, building, and refining GSD skills. Use when working with SKILL.md files, authoring new skills, improving existing skills, or understanding skill structure and best practices.
+---
+
+<essential_principles>
+## How Skills Work
+
+Skills are modular, filesystem-based capabilities that provide domain expertise on demand. This skill teaches how to create effective skills.
+
+### 1. Skills Are Prompts
+
+All prompting best practices apply. Be clear, be direct, use XML structure. Assume Claude is smart - only add context Claude doesn't have.
+
+### 2. SKILL.md Is Always Loaded
+
+When a skill is invoked, Claude reads SKILL.md. Use this guarantee:
+- Essential principles go in SKILL.md (can't be skipped)
+- Workflow-specific content goes in workflows/
+- Reusable knowledge goes in references/
+
+### 3. Router Pattern for Complex Skills
+
+```
+skill-name/
+├── SKILL.md              # Router + principles
+├── workflows/            # Step-by-step procedures (FOLLOW)
+├── references/           # Domain knowledge (READ)
+├── templates/            # Output structures (COPY + FILL)
+└── scripts/              # Reusable code (EXECUTE)
+```
+
+SKILL.md
+--- /Users/will/.agents/skills/create-skill-json/SKILL.md (12037 bytes) ---
+---
+name: create-skill-json
+description: Generate a skill.json metadata file for a skill from its SKILL.md and directory structure. Use when adding a new skill to a repository, updating an existing skill's metadata, or standardizing skill.json files. Triggers whenever someone mentions generating, creating, or updating skill.json files.
+metadata:
+  version: 1.1.0
+---
+
+# Create skill.json
+
+## Overview
+
+Generate a `skill.json` metadata file for a skill based on its `SKILL.md` frontmatter and directory structure. This ensures consistent skill metadata across repositories.
+
+**Core principle:** skill.json is generated from existing information (frontmatter, file structure), not created from scratch with assumptions.
+
+**CRITICAL:** skill.json contains **EXACTLY 5 FIELDS** - no more, no less. Any additional fields are forbidden.
+
+## Input Requirements
+
+You must be given:
+- A path to a `SKILL.md` file, OR
+- A path to a directory containing a `SKILL.md` file
+
+## Process
+
+### 1. Validate Input
+
+```bash
+# If given directory path
+if [ -d "$input_path" ]; then
+    skill_dir="$input_path"
+    skill_md="${skill_dir}/SKILL.md"
+else
+    skill_md="$input_path"
+    skill_dir="$(dirname "$input_path")"
+--- /Users/will/.gsd/agent/skills/debug-like-expert/SKILL.md (8412 bytes) ---
+---
+name: debug-like-expert
+description: Deep analysis debugging mode for complex issues. Activates methodical investigation protocol with evidence gathering, hypothesis testing, and rigorous verification. Use when standard troubleshooting fails or when issues require systematic root cause analysis.
+---
+
+<objective>
+Deep analysis debugging mode for complex issues. This skill activates methodical investigation protocols with evidence gathering, hypothesis testing, and rigorous verification when standard troubleshooting has failed.
+
+The skill emphasizes treating code you wrote with MORE skepticism than unfamiliar code, as cognitive biases about "how it should work" can blind you to actual implementation errors. Use scientific method to systematically identify root causes rather than applying quick fixes.
+</objective>
+
+<context>
+This skill activates when standard troubleshooting has failed. The issue requires methodical investigation, not quick fixes. You are entering the mindset of a senior engineer who debugs with scientific rigor.
+
+**Important**: If you wrote or modified any of the code being debugged, you have cognitive biases about how it works. Your mental model of "how it shoul
+--- /Users/will/.gsd/agent/skills/decompose-into-slices/SKILL.md (7621 bytes) ---
+---
+name: decompose-into-slices
+description: Break a plan or milestone brief into independently-grabbable vertical slices (tracer bullets), written to `M###-ROADMAP.md` by default (GitHub issues only on explicit confirmation). Prefers many thin slices over few thick ones and marks dependency order. Use when asked to "break this into slices", "decompose the plan", "vertical slices", "break into issues", or when a plan needs task-level decomposition.
+---
+
+<objective>
+Decompose an approved plan into the smallest useful vertical slices that each cut end-to-end through every relevant layer. Primary output is the `Slices` section of `M###-ROADMAP.md` (matching the template at `src/resources/extensions/gsd/templates/roadmap.md`). Secondary output, only with explicit confirmation, is a set of GitHub issues with blocked-by relationships wired up.
+</objective>
+
+<context>
+This skill runs after the brief is stable — `M###-CONTEXT.md` exists and the user has signed off on scope. It's the bridge from "we know what we're building" to "we know in what order and chunks." The vertical-slice discipline (tracer bullets) is non-negotiable here — it's the core of what makes GSD slices demoable and paral
+--- /Users/will/.gsd/agent/skills/dependency-upgrade/SKILL.md (7626 bytes) ---
+---
+name: dependency-upgrade
+description: Plan, batch, and verify dependency upgrades safely. Triages outdated packages into risk tiers, upgrades in order (dev/minor/patch first, runtime majors last), verifies each batch, and produces an auditable commit sequence. Use when asked to "upgrade deps", "bump packages", "update node_modules", "fix vulnerabilities", "upgrade React/Node/TypeScript", or after `/gsd start dep-upgrade`.
+---
+
+<objective>
+Turn a pile of outdated packages into a series of small, verifiable upgrades with clean commits. The deliverable is an ordered upgrade plan, executed with verification between batches, and a summary that flags anything risky for follow-up. No big-bang upgrades.
+</objective>
+
+<context>
+gsd-pi ships a `/gsd start dep-upgrade` workflow template (`src/resources/extensions/gsd/workflow-templates/dep-upgrade.md`) that structures the phases: assess → upgrade → fix breaks → verify. This skill is the execution-level detail inside the upgrade phase — how to batch, how to verify, how to recover from a breaking upgrade without losing the good ones.
+
+Invocation points:
+- `/gsd start dep-upgrade` workflow is running
+- Ad-hoc "bump the deps" request
+- Securi
+--- /Users/will/.gsd/agent/skills/design-an-interface/SKILL.md (5512 bytes) ---
+---
+name: design-an-interface
+description: Produce 3+ radically different designs for a module, API, or interface, compare them in prose, and synthesize a recommendation. Use when asked to "design an interface", "shape this API", "design it twice", "explore module boundaries", or when planning a new deep module and the first idea is unlikely to be the best. Based on "Design It Twice" from A Philosophy of Software Design — the value is the contrast, not the first draft.
+---
+
+<objective>
+Generate at least three radically different interface designs for a single module or API, present them sequentially, compare them honestly, and recommend one (or a hybrid). The goal is to surface the design space — not to pick fast. A small interface hiding significant complexity is a deep module; a large interface with thin implementation is a shallow one. Optimize for the former.
+</objective>
+
+<context>
+This skill runs during planning — before `S##-PLAN.md` task decomposition, or mid-slice when a seam turns out to be more load-bearing than the roadmap assumed. It is not for picking between two libraries. It is for shaping the interface your own code will expose.
+
+Typical invocation points:
+- A slic
+--- /Users/will/.agents/skills/executing-plans/SKILL.md (5222 bytes) ---
+---
+name: executing-plans
+description: Use when you have a written implementation plan to execute in a separate session with review checkpoints. Use this skill whenever a user opens a session with a plan file, says "execute this plan", "implement this plan", or hands you a plan document to work through. This is the parallel-session counterpart to subagent-driven-development — use it when the human wants to work in a separate context window with batch checkpoints rather than staying in the planning session.
+metadata:
+  when_to_use: when partner provides a complete implementation plan to execute in controlled batches with review checkpoints, in a separate session from where the plan was written
+  version: 2.3.0
+---
+
+# Executing Plans
+
+## Overview
+
+Load plan, review critically, execute tasks in batches, report for review between batches.
+
+**Core principle:** Batch execution with checkpoints for architect review — you implement, then pause for human eyes before continuing.
+
+**Announce at start:** "I'm using the executing-plans skill to implement this plan."
+
+**Note:** This skill is designed for parallel sessions (no subagents). If you're in a session *with* subagents available, `subage
+--- /Users/will/.agents/skills/finding-skills/SKILL.md (3973 bytes) ---
+---
+name: finding-skills
+description: Use when you need to discover what skills are available before starting any task, find a skill for a specific problem, search by keyword or topic, or understand which skill to use. Always check for skills at the start of any conversation or before beginning a task — if a skill exists for what you're doing, you must use it.
+---
+
+# Finding Skills
+
+## Overview
+
+Before starting any task, discover what skills are available so you don't reinvent solved problems. Skills encode proven workflows — using them prevents known mistakes and saves time.
+
+## When to Use
+
+- Starting a new task or conversation (always check first)
+- Looking for guidance on a specific problem (debugging, testing, planning, etc.)
+- Unsure whether a skill exists for something you're about to do
+- Asked "is there a skill for X?" or "what skills are available?"
+
+## How to Find Skills
+
+### Native Skill Tool (Primary Method — All Platforms)
+
+Most AI coding assistants expose a native skill or tool mechanism. Use it first:
+
+- **If your platform has a native `skill` tool**: use it to list or load skills by name — this is the fastest path
+- **If skills appear in your system context** (e.g.
+--- /Users/will/.agents/skills/finishing-a-development-branch/SKILL.md (6974 bytes) ---
+---
+name: finishing-a-development-branch
+description: Use when implementation is complete and you need to decide how to integrate the work — guides completion of development work by running pre-merge checks, presenting structured options for merge, PR, or cleanup, and handling the chosen workflow including branch and worktree cleanup. Invoke this skill whenever a user says "I'm done", "implementation complete", "wrap up", "finish this branch", "create a PR", "merge to main", or "what do I do now that I'm done coding".
+---
+
+# Finishing a Development Branch
+
+## Overview
+
+Guide completion of development work by running pre-merge checks, presenting clear options, and handling the chosen workflow.
+
+**Core principle:** Verify → Present options → Execute choice → Clean up.
+
+**Announce at start:** "I'm using the finishing-a-development-branch skill to complete this work."
+
+## The Process
+
+### Step 1: Pre-Flight Checks
+
+Before presenting options, run these checks in order. Stop and report on any failure.
+
+#### 1a. Clean working tree
+
+```bash
+git status --short
+```
+
+If there are uncommitted changes, ask: "There are uncommitted changes. Should I commit them, stash them, or discard them before
+--- /Users/will/.gsd/agent/skills/forensics/SKILL.md (8117 bytes) ---
+---
+name: forensics
+description: Post-mortem a failed GSD auto-mode run. Traces symptom to root cause via `.gsd/` activity, journal, metrics, and lock artifacts, producing a filing-ready bug report with file:line refs and a fix suggestion. Use when asked to "forensics", "post-mortem", "why did auto-mode fail", "trace the stuck loop", "debug the crash", after `/gsd forensics`, or when a session ended in an unexpected terminal state. Reads artifacts only — re-runs nothing.
+---
+
+<objective>
+Turn scattered GSD runtime artifacts into one coherent cause chain. The deliverable is a GitHub-issue-ready report that names the file and line where the bug lives, cites the evidence, and proposes a fix. Forensics is archaeology, not re-run — no modifying state, no triggering commands, just reading the paper trail.
+</objective>
+
+<context>
+GSD persists a lot of runtime evidence under `.gsd/`:
+
+- `activity/{seq}-{unitType}-{unitId}.jsonl` — full tool-call and message stream per unit
+- `journal/YYYY-MM-DD.jsonl` — iteration-level events. Orchestrator path emits `orchestrator-*` events (`orchestrator-dispatch-match`, `orchestrator-guard-block`, `orchestrator-terminal`, etc.); legacy loop events (`disp
+--- /Users/will/.gsd/agent/skills/frontend-design/SKILL.md (4443 bytes) ---
+---
+name: frontend-design
+description: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.
+license: Complete terms in LICENSE.txt
+---
+
+This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.
+
+The user provides frontend requirements: a component, page, application, or interface to build. They may include context about the purpose, audience, or technical constraints.
+
+## Design Thinking
+
+Before coding, understand the context and commit to a BOLD aesthetic direction:
+
+- **Purpose**: What problem does this interface solve? Who uses it?
+- **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazin
+--- /Users/will/.gsd/agent/skills/github-workflows/SKILL.md (2596 bytes) ---
+---
+name: github-workflows
+description: Work with GitHub Actions CI/CD workflows - read live syntax, monitor runs, and debug failures. Use when writing, running, or debugging GitHub Actions workflows.
+---
+
+# GitHub Workflows
+
+**Mission:** Work with GitHub Actions without using stale training data. All syntax, versions, and parameters come from live sources.
+
+---
+
+## Structural Principle
+
+**All CI operations go through ci_monitor.cjs.** Never reach for `gh` CLI directly — the script wraps it with observable output.
+
+---
+
+## Primary Tool: ci_monitor.cjs
+
+**Path:** `scripts/ci_monitor.cjs`
+
+```bash
+node scripts/ci_monitor.cjs <command>
+```
+
+**Before using any command:**
+- [ ] Run `--help` to discover available arguments
+
+**Routing Table:**
+
+| When You Need | Command |
+|---------------|---------|
+| List recent runs | `runs [--branch <name>]` |
+| Monitor running workflow | `watch <run-id>` |
+| Fail fast in scripts | `fail-fast <run-id>` |
+| See why run failed | `log-failed <run-id>` |
+| Test pass/fail counts | `test-summary <run-id>` |
+| Check action versions | `check-actions [file]` |
+| Search logs | `grep <run-id> --pattern <regex>` |
+| Wait for deployment | `wait-for <run-id> <job> -
+--- /Users/will/.gsd/agent/skills/grill-me/SKILL.md (5198 bytes) ---
+---
+name: grill-me
+description: Relentless sequential interview that stress-tests a plan or design until every decision branch is resolved. Use when the user wants to "grill me", "stress-test the plan", "interrogate my design", "resolve the decision tree", or whenever a plan feels hand-wavy, under-specified, or carries hidden coupling that planning phases must surface before execution. Pairs with the discuss phase and blocks execution until alignment is reached.
+---
+
+<objective>
+Interview the user one question at a time until every material branch of the decision tree is resolved and you both share one mental model of the plan. Output is not a document — it is alignment. Surface hidden assumptions, kill fuzzy language, and walk the dependencies between decisions instead of asking everything in parallel.
+</objective>
+
+<context>
+Planning conversations in GSD ship to `M###-CONTEXT.md`, `S##-CONTEXT.md`, or `.gsd/DECISIONS.md`. Those artifacts are only as good as the interview that produced them. This skill is the interview. It runs during the `discuss` phase, after `research`, or any time a plan has open branches the user has not actually thought through.
+
+Use this skill when:
+- The u
+--- /Users/will/.gsd/agent/skills/gsd-browser/SKILL.md (34515 bytes) ---
+---
+name: gsd-browser
+description: >
+  Open GSD native browser automation for AI agents. Use gsd-browser when the
+  user needs real Chrome/Chromium control: navigate pages, inspect localhost,
+  click, type, fill forms, take screenshots, capture stable snapshot refs, run
+  assertions and waits, extract structured data, compare visual diffs, inspect
+  console/network behavior, mock or block requests, emulate devices, save auth
+  state, record evidence bundles, scan for prompt injection, or share a live
+  browser viewer for human handoff. Good prompts include "inspect this URL",
+  "verify this user flow", "debug this page", "capture evidence", "scrape this
+  table", "show me the browser", "pause/step through this", "login to a site",
+  or "run a visual regression test". Learn more at https://opengsd.net/ and
+  https://github.com/open-gsd/gsd-browser.
+allowed-tools: Bash(gsd-browser:*), Bash(gsd-browser *)
+---
+
+# Browser Automation with gsd-browser
+
+**Primary path for AI agents in 2026+:** Use the MCP server — `gsd-browser mcp`.
+
+It exposes **50+ tools**, live resources (real snapshot/refs/state data), and executable prompts over stdio. All the unique strengths (versioned refs, live vi
+--- /Users/will/.gsd/agent/skills/handoff/SKILL.md (5982 bytes) ---
+---
+name: handoff
+description: Prepare a clean cross-session handoff so the next agent can pick up where you left off. Writes a focused `continue.md` in the active slice dir and ensures `STATE.md` + summary artifacts are current. Use when asked to "hand off", "prepare handoff", "pause work", "bookmark this", "I'll come back to this later", before running out of context budget, or ending a long session with unfinished work.
+---
+
+<objective>
+Leave the project in a state where a fresh agent with no memory of this session can read two or three files and be productive within one minute. The deliverable is `continue.md` in the active slice directory plus up-to-date summary artifacts — not a chat recap.
+</objective>
+
+<context>
+GSD already writes `STATE.md` (rebuilt after each unit) and summary files (`M###-SUMMARY.md`, `S##-SUMMARY.md`, `T##-SUMMARY.md`). The gap is the *mid-task* handoff: you're partway through a task, context is getting long, and the next session shouldn't start by re-deriving your mental state.
+
+`continue.md` exists for exactly this — see `auto-prompts.ts`, `guided-flow.ts`, `phase-anchor.ts`, `state.ts`. This skill is the deliberate authoring ritual.
+
+Invocation point
+--- /Users/will/.agents/skills/inversion-exercise/SKILL.md (8572 bytes) ---
+---
+name: inversion-exercise
+description: Flip core assumptions to reveal hidden constraints and alternative approaches. Use this when stuck on "the only way" to solve a problem, during architecture or design decisions, at code review or project pre-mortems, when a solution feels forced, or anytime assumptions need stress-testing. Inversion bypasses confirmation bias by asking "how would this fail?" instead of "how do we succeed?" — a mental move that surfaces what forward thinking misses. Apply it proactively before major decisions, not just when stuck.
+metadata:
+  when_to_use: when stuck on unquestioned assumptions or feeling forced into "the only way" to do something; also proactively before architecture decisions, API design, or project kickoffs
+  version: 2.0.0
+---
+
+# Inversion Exercise
+
+## Why This Works
+
+Carl Jacobi (the mathematician) discovered that many hard problems are easier when restated in inverse form. Charlie Munger applied this principle everywhere: "Invert, always invert."
+
+> "All I want to know is where I'm going to die, so I'll never go there." — Charlie Munger
+
+The cognitive mechanism: your brain cannot easily generate failure modes when it is focused on succe
+--- /Users/will/.agents/skills/leveraging-cli-tools/SKILL.md (3909 bytes) ---
+---
+name: leveraging-cli-tools
+description: Use when performing code searches, JSON parsing, file viewing, or file finding tasks - ensures agents verify and use high-performance CLI tools (rg, jq, fd, bat, ast-grep) instead of slower standard tools, reducing token costs and latency by 5-50x
+---
+
+# Leveraging CLI Tools
+
+## Core Principle
+
+**High-performance CLI tools reduce costs, latency, and cognitive load by 5-50x.**
+
+Modern tools have massive RL optimization in frontier models - use them.
+
+## Tool Availability Protocol
+
+**Session start (silent check, cache result):**
+
+```bash
+command -v rg jq fd bat gh >/dev/null 2>&1 && echo "ready" || echo "missing"
+```
+
+**If tools missing:** Offer installation when relevant task appears.
+**If tools ready:** Use optimal workflows throughout session.
+
+## Tool Selection
+
+| Task | Use | Instead of | Speedup |
+|------|-----|-----------|---------|
+| Search code | **rg** | grep | 10-50x |
+| Parse JSON | **jq** | awk/sed | 5-20x |
+| Find files | **fd** | find | 5-10x |
+| View code | **bat** | cat | Better UX |
+| Transform code | **ast-grep** | sed | 3-10x |
+| GitHub ops | **gh** | curl+API | 2-5x |
+| Interactive select | **fzf** | manual | 10-100x |
+
+--- /Users/will/.gsd/agent/skills/lint/SKILL.md (6849 bytes) ---
+---
+name: lint
+description: Lint and format code. Auto-detects ESLint, Biome, Prettier, or language-native formatters and runs them with auto-fix. Reports remaining issues with actionable suggestions.
+---
+
+<objective>
+Lint and format code in the current project. Auto-detect the project's linter and formatter toolchain, run them against the target files, and report results grouped by severity with actionable fix suggestions.
+</objective>
+
+<working_directory_awareness>
+**Before running any `git` or build command:** check whether your dispatch context specifies a working directory (look for "Working directory:" in your initial prompt). If it does and `pwd` does not match it, prefix every git invocation with `-C <that path>` (e.g. `git -C /path/to/worktree diff --name-only`) and run linters/formatters with the explicit path argument. Linting the wrong directory is a silent failure mode.
+</working_directory_awareness>
+
+<arguments>
+This skill accepts optional arguments after `/lint`:
+
+- **No arguments**: Lint only files changed in the current working tree (`git diff --name-only` and `git diff --cached --name-only`).
+- **A file or directory path**: Lint only that specific path (e.g., `/li
+--- /Users/will/.gsd/agent/skills/observability/SKILL.md (7990 bytes) ---
+---
+name: observability
+description: Add agent-first observability — structured logs, health endpoints, failure-state persistence, explicit failure modes — so the next agent can diagnose problems unattended. Use when asked to "add logging", "add observability", "add metrics", "make this observable", or when building/refactoring a subsystem that runs unattended (auto-mode engine, background jobs, servers, watchers).
+---
+
+<objective>
+Instrument code so that a cold-start agent can understand what happened by reading signals, not by rerunning with extra logging. The deliverable is a set of specific instrumentation additions: structured logs at decision points, health/status surfaces for long-running processes, persisted failure state, and explicit failure modes that don't get swallowed.
+</objective>
+
+<context>
+gsd-pi's `VISION.md` lists "agent-first observability" as a principle, and the system prompt calls it out: "A future version of you will land in this codebase with no memory… you add observability because you're the one who'll need it at 3am." gsd-pi already exemplifies this — `activity/*.jsonl`, `journal/*.jsonl`, `metrics.json`, `doctor-history.jsonl` — but new code doesn't get
+--- /Users/will/.agents/skills/paseo/SKILL.md (7792 bytes) ---
+---
+name: paseo
+description: Paseo reference for managing agents and worktrees. Load whenever you need to create agents, send them prompts, or manage worktrees.
+---
+
+Paseo is a daemon that supervises AI coding agents on your machine. Control it through tools or a CLI.
+
+## Worktrees
+
+**`create_worktree`** — three modes:
+
+- From a PR: `{ githubPrNumber: 503 }`.
+- Branch off a base: `{ action: "branch-off", branchName: "fix/foo", baseBranch: "main" }`.
+- Checkout an existing ref: `{ action: "checkout", refName: "feat/bar" }`.
+
+Returns `{ branchName, worktreePath }`. Pass `cwd` to target a specific repo.
+
+**`list_worktrees`** — current repo (or pass `cwd`).
+**`archive_worktree`** — `{ worktreePath }` or `{ worktreeSlug }`. Removes worktree and branch.
+
+## Agents
+
+**`create_agent`** — required: `title`, `provider` (`claude/opus`, `codex/gpt-5.4`, …), `initialPrompt`. Common: `cwd` (often a `worktreePath`), `notifyOnFinish`, `settings`, `detached`. Returns `{ agentId, … }`.
+
+Initial runtime settings live under `settings`: `modeId`, `thinkingOptionId`, and provider-specific `features`. For Codex fast mode, pass `settings: { features: { "fast_mode": true } }` when creating the agent.
+
+Comp
+--- /Users/will/.agents/skills/paseo-committee/SKILL.md (3224 bytes) ---
+---
+name: paseo-committee
+description: Form a committee of two high-reasoning agents to step back, do root cause analysis, and produce a plan. Use when stuck, looping, tunnel-visioning, or facing a hard planning problem.
+user-invocable: true
+---
+
+# Committee Skill
+
+Two agents from contrasting providers, fresh context, planning a solution in parallel. They stay alive for review after implementation.
+
+The purpose is to step back, not double down. The committee may propose a completely different approach.
+
+**User's additional context:** $ARGUMENTS
+
+## Prerequisites
+
+Read the **paseo** skill. Before choosing committee members, read `~/.paseo/orchestration-preferences.json` unless the user explicitly named providers in this request. Do not create committee agents until you have read it.
+
+Contrast is the point of a committee, so pick across providers deliberately using the configured preferences rather than hardcoded defaults.
+
+## Composition
+
+Two members with different reasoning styles, selected from orchestration preferences:
+
+- one planning/research-strength provider
+- one contrasting high-reasoning provider
+
+Override only when the user explicitly asks for different members.
+
+## Hard 
+--- /Users/will/.agents/skills/paseo-handoff/SKILL.md (2282 bytes) ---
+---
+name: paseo-handoff
+description: Hand off the current task to another agent with full context. Use when the user says "handoff", "hand off", "hand this to", or wants to pass work to another agent.
+user-invocable: true
+---
+
+# Handoff Skill
+
+Transfer the current task — context, decisions, failed attempts, constraints — to a fresh agent. The receiving agent starts with **zero context**, so the handoff prompt must be a self-contained briefing.
+
+**User's arguments:** $ARGUMENTS
+
+## Prerequisites
+
+Read the **paseo** skill. Before choosing a provider, read `~/.paseo/orchestration-preferences.json` unless the user explicitly named a provider in this request. Do not create the receiving agent until you have read it.
+
+## Parsing arguments
+
+1. **Provider** — explicit user request first; otherwise resolve from `impl` preference (or `ui` if the task is styling-only).
+2. **Worktree** — "in a worktree" / "worktree" → create a worktree via Paseo with a short branch name derived from the task, based on the current branch.
+3. **Task description** — anything else the user said.
+
+## The handoff prompt
+
+The receiving agent has zero context. Include:
+
+```
+## Task
+[Imperative description.]
+
+## Contex
+--- /Users/will/.agents/skills/paseo-orchestrate/SKILL.md (389 bytes) ---
+---
+name: paseo-orchestrate
+description: Deprecated. Renamed to paseo-epic. Loading this skill redirects to paseo-epic and tells the user.
+user-invocable: true
+---
+
+# Deprecated — use `paseo-epic`
+
+This skill has been renamed to `paseo-epic`.
+
+1. Load the `paseo-epic` skill and follow it.
+2. Tell the user, in one sentence: `paseo-orchestrate` is deprecated — using `paseo-epic` instead.
+
+--- /Users/will/.agents/skills/preserving-productive-tensions/SKILL.md (6660 bytes) ---
+---
+name: preserving-productive-tensions
+description: Recognizes when tensions between valid approaches are features rather than bugs, and preserves multiple valid approaches instead of forcing premature consensus. Invoke when oscillating between two approaches across messages, when stakeholders have conflicting but equally valid concerns, when someone says "just pick one" without a clear reason, when implementation approaches optimize for different legitimate priorities, or when forcing a choice would destroy flexibility that different contexts legitimately need. Helps agents avoid arbitrarily resolving disagreements just to "move forward" — premature consensus destroys context-dependent flexibility.
+metadata:
+  version: 1.2.0
+---
+
+# Preserving Productive Tensions
+
+## Overview
+
+Some tensions aren't problems to solve — they're valuable information to preserve. When multiple approaches are genuinely valid in different contexts, forcing a choice destroys flexibility that different deployments or users need.
+
+**Core principle:** Preserve tensions that reveal context-dependence. Force resolution only when necessary.
+
+## Recognizing Productive Tensions
+
+**A tension is productive when:**
+--- /Users/will/.gsd/agent/skills/react-best-practices/SKILL.md (6158 bytes) ---
+---
+name: react-best-practices
+description: React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patterns. Triggers on tasks involving React components, Next.js pages, data fetching, bundle optimization, or performance improvements.
+license: MIT
+metadata:
+  author: vercel
+  version: "1.0.0"
+---
+
+# Vercel React Best Practices
+
+Comprehensive performance optimization guide for React and Next.js applications, maintained by Vercel. Contains 57 rules across 8 categories, prioritized by impact to guide automated refactoring and code generation.
+
+## When to Apply
+
+Reference these guidelines when:
+- Writing new React components or Next.js pages
+- Implementing data fetching (client or server-side)
+- Reviewing code for performance issues
+- Refactoring existing React/Next.js code
+- Optimizing bundle size or load times
+
+## Rule Categories by Priority
+
+| Priority | Category | Impact | Prefix |
+|----------|----------|--------|--------|
+| 1 | Eliminating Waterfalls | CRITICAL | `async-` |
+| 2 | Bundle Size Optimization | CRITICAL | `bundle-` |
+| 3 | Server-Si
+--- /Users/will/.agents/skills/receiving-code-review/SKILL.md (7672 bytes) ---
+---
+name: receiving-code-review
+description: Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable. Also use when a PR has been reviewed and you're about to start addressing comments, when another agent or tool suggests code changes you should apply, or when someone asks you to "apply the review feedback" — requires technical rigor and verification, not performative agreement or blind implementation.
+---
+
+# Code Review Reception
+
+## Overview
+
+Code review requires technical evaluation, not emotional performance.
+
+**Core principle:** Verify before implementing. Ask before assuming. Technical correctness over social comfort.
+
+## The Response Pattern
+
+```
+WHEN receiving code review feedback:
+
+1. READ: Complete feedback without reacting
+2. UNDERSTAND: Restate requirement in own words (or ask)
+3. VERIFY: Check against codebase reality
+4. EVALUATE: Technically sound for THIS codebase?
+5. RESPOND: Technical acknowledgment or reasoned pushback
+6. IMPLEMENT: One item at a time, test each
+```
+
+## Forbidden Responses
+
+**NEVER:**
+- "You're absolutely right!" (explicit CLAUDE.md violation)
+- "Great point!" / "Ex
+--- /Users/will/.agents/skills/requesting-code-review/SKILL.md (3625 bytes) ---
+---
+name: requesting-code-review
+description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements. Also use when stuck on a problem (fresh perspective), before refactoring (baseline check), or after fixing a complex bug. If you just finished building something and haven't reviewed it yet, use this skill.
+metadata:
+  when_to_use: when completing tasks, implementing major features, or before merging, to verify work meets requirements
+  version: 1.2.0
+---
+
+# Requesting Code Review
+
+Dispatch a code-reviewer subagent to catch issues before they cascade. The reviewer gets precisely crafted context for evaluation — never your session's history. This keeps the reviewer focused on the work product, not your thought process, and preserves your own context for continued work.
+
+**Core principle:** Review early, review often.
+
+## When to Request Review
+
+**Mandatory:**
+- After each task in subagent-driven development
+- After completing major feature
+- Before merge to main
+
+**Optional but valuable:**
+- When stuck (fresh perspective)
+- Before refactoring (baseline check)
+- After fixing complex bug
+
+## How to Request
+
+**1. Get git SHAs:**
+```b
+--- /Users/will/.gsd/agent/skills/review/SKILL.md (8414 bytes) ---
+---
+name: review
+description: Review code changes for security, performance, bugs, and quality. Reviews staged changes, unstaged changes, specific commits, or PR-ready diffs.
+---
+
+<objective>
+Review code changes and provide structured feedback covering security, performance, bug risks, code quality, and test coverage gaps. This skill analyzes diffs and surrounding context to catch issues before they reach production.
+</objective>
+
+<context>
+This skill reviews code changes at various stages of the development workflow. It can review staged changes before a commit, unstaged work-in-progress, a specific commit, or the full set of changes on a branch that are ready for a pull request.
+
+The reviewer reads both the diff and the surrounding source files to understand intent and catch issues that only appear in context.
+</context>
+
+<core_principle>
+**FIND REAL ISSUES, NOT STYLE NITS.** Focus on problems that cause bugs, security vulnerabilities, performance degradation, or maintainability pain. Avoid nitpicking formatting or subjective style preferences unless they harm readability.
+</core_principle>
+
+<analysis_only_rule>
+**THIS SKILL IS READ-ONLY. DO NOT MODIFY CODE.**
+
+The purpose is to 
+--- /Users/will/.agents/skills/root-cause-tracing/SKILL.md (12017 bytes) ---
+---
+name: root-cause-tracing
+description: Systematically trace bugs backward through the call chain to find the original trigger — not just where the error appears. Use this skill when an error surfaces deep in execution, a symptom keeps recurring after fixes, invalid data arrives at a function from an unknown source, or a test fails but the failure point isn't the true cause. Covers synchronous and async traces, cross-process tracing, bisecting regressions, and identifying far-from-origin bug patterns.
+---
+
+# Root Cause Tracing
+
+## Core Principle
+
+Bugs manifest where they surface, not where they're born. Fixing the symptom is fast but fragile — the same root cause will produce a different symptom tomorrow.
+
+**Trace backward through the call chain until you find the original trigger, then fix at the source.**
+
+## The Tracing Process
+
+### Step 1 — Observe the Symptom
+
+Write down exactly what failed and where:
+
+```
+Error: ENOENT: no such file or directory, open '/tmp/undefined/output.json'
+  at Object.openSync (node:fs:600:3)
+  at writeFileSync (src/reporter.ts:42)
+```
+
+### Step 2 — Find the Immediate Cause
+
+What code directly triggers this? Don't fix it yet — just identify it.
+
+```t
+--- /Users/will/.agents/skills/scale-game/SKILL.md (14685 bytes) ---
+---
+name: scale-game
+description: Test at extremes (1000x bigger/smaller, instant/year-long) to expose fundamental truths hidden at normal scales. Use this skill whenever someone asks "will this scale?", "what happens at production load?", "what if 1000 users hit this simultaneously?", or when validating architecture, reviewing algorithms, designing systems, or reasoning about capacity. Also use proactively when you see O(n²) algorithms, shared mutable state, synchronous APIs, or in-memory data accumulation — any pattern whose behavior changes with scale.
+metadata:
+  version: 3.1.0
+---
+
+# Scale Game
+
+## Overview
+
+Test your approach at extreme scales to find what breaks and what surprisingly survives.
+
+**Core principle:** Properties invisible at normal scales dominate at extreme scales. An O(n²) algorithm is fine at n=100 and catastrophic at n=1,000,000. Test at extremes to find the fundamentals before production does.
+
+This is a thought experiment technique — most scale tests take seconds, not machines. The goal is insight, not measurement.
+
+## Origins
+
+This technique has deep roots across science and engineering:
+
+- **Galileo (1638):** Dropping two cannonballs from the Leaning Tow
+--- /Users/will/.gsd/agent/skills/security-review/SKILL.md (7800 bytes) ---
+---
+name: security-review
+description: Threat-model-driven security review of a change, feature, or subsystem. Runs a STRIDE-style pass over the actual code and produces a filing-ready report with severity, exploit scenario, and remediation. Use when asked to "security review", "threat model", "check for vulnerabilities", "audit for security", "secure this", or before shipping changes touching auth, input handling, data access, or external surfaces.
+---
+
+<objective>
+Produce a security review that names specific exploit paths through the actual code — not a generic checklist. The deliverable is a prioritized list of findings, each with: where the issue lives, the threat category, a concrete exploit scenario, severity, and a remediation the caller can implement. Read-only: does not modify code.
+</objective>
+
+<context>
+gsd-pi's general `review` skill covers security as one of several categories. This skill is the deeper pass — triggered deliberately when security is the primary concern. It complements v1's `/gsd-secure-phase` concept, adapted to the gsd-pi artifact model.
+
+Invocation points:
+- Any change touching authentication, authorization, session handling
+- Any change touching us
+--- /Users/will/.agents/skills/setup-skills/SKILL.md (1889 bytes) ---
+---
+name: setup-skills
+description: Run superpowers-agent setup-skills to initialize the skills infrastructure for a project. Use whenever starting a new project with AI agents, when skills symlinks are missing, when AGENTS.md lacks skills configuration, when a user asks to "set up skills", "install skills", "bootstrap skills", or "initialize superpowers". Also use when skills aren't being discovered or when you're about to create project-specific skills and the infrastructure doesn't exist yet. If there's any chance the project hasn't been set up for skills yet, run this skill.
+---
+
+# Setup Skills
+
+This skill does one thing: run `superpowers-agent setup-skills` and follow the output it gives you exactly.
+
+The command sets up the full skills infrastructure for a project — creating `.agents/`, symlinks for each AI platform, and updating `AGENTS.md` — and its output tells you everything that happened and what to do next.
+
+## Run the Command
+
+From the project root:
+
+```bash
+superpowers-agent setup-skills
+```
+
+## Follow the Output Exactly
+
+The command output is authoritative. Read it, act on it, and do not skip any steps it prescribes. It adapts to the platforms detected in your projec
+--- /Users/will/.gsd/agent/skills/tdd/SKILL.md (6468 bytes) ---
+---
+name: tdd
+description: Test-driven development with red-green-refactor loops around vertical slices (tracer bullets), not horizontal layers. Use when asked to "use TDD", "write test-first", "red-green-refactor", "build this with tests", or when a feature has a clear observable contract. The discipline complement to the test/add-tests skills (the mechanics).
+---
+
+<objective>
+Drive feature implementation through one red-green-refactor cycle per vertical slice. Each cycle produces a single failing test that pins one observable behavior, then the minimal code that makes it pass, then refactoring while GREEN. Never refactor while RED. Never write all tests up front.
+</objective>
+
+<context>
+GSD already organizes work into slices (S##) and tasks (T##). This skill operates at the task level — inside a single T##-PLAN.md, it structures the execution as a sequence of tiny red-green-refactor cycles rather than write-all-then-test or write-all-without-tests.
+
+Invocation points:
+- Task plan calls out behavior with a clear external contract (pure function, API endpoint, module boundary)
+- Bug fix — write the failing repro test first, then fix
+- Refactor into a new module — write the tests ag
+--- /Users/will/.agents/skills/testing-anti-patterns/SKILL.md (10340 bytes) ---
+---
+name: testing-anti-patterns
+description: Identifies and corrects dangerous testing anti-patterns including testing mock behavior instead of real behavior, adding test-only methods to production classes, mocking without understanding dependencies, writing brittle implementation-coupled tests, and sharing mutable state across tests. Use when writing or changing tests, adding mocks, designing test fixtures, debugging flaky tests, or tempted to add test-only methods to production code.
+metadata:
+  version: 1.2.0
+---
+
+# Testing Anti-Patterns
+
+## Overview
+
+Tests must verify real behavior, not mock behavior. Mocks isolate; they are not the thing being tested.
+
+**Core principle:** Test what the code *does*, not how it *does it* or what the mocks *do*.
+
+**Following strict TDD prevents most of these anti-patterns.**
+
+## The Iron Laws
+
+1. NEVER test mock behavior
+2. NEVER add test-only methods to production classes
+3. NEVER mock without understanding dependencies
+4. NEVER couple tests to implementation details — test contracts, not internals
+
+## Anti-Pattern 1: Testing Mock Behavior
+
+**The violation:**
+```typescript
+// ❌ BAD: Testing that the mock exists, not real behavior
+test('renders s
+--- /Users/will/.agents/skills/tracing-knowledge-lineages/SKILL.md (10393 bytes) ---
+---
+name: tracing-knowledge-lineages
+description: "Trace the historical lineage of technical ideas, patterns, and architectures to rediscover proven solutions, understand WHY current approaches exist, and avoid repeating failures. Use when you encounter 'why do we do it this way?', 'is this a new problem?', 'what has been tried before?', 'has this pattern emerged before?', or when designing systems that resemble something from the past."
+metadata:
+  category: research
+  version: 1.2.0
+---
+
+# Tracing Knowledge Lineages
+
+## Why This Matters
+
+Every technical decision carries invisible weight from the past. When you skip lineage tracing:
+
+- You reinvent failed approaches because you don't know they failed
+- You miss proven patterns that already solved your exact problem
+- You don't understand WHY the current approach exists, so you can't safely deviate from it
+- You create architecture that repeats historical mistakes your predecessors already paid for
+
+The goal isn't to be constrained by history — it's to be *informed* by it. Knowing the lineage lets you deviate deliberately rather than ignorantly.
+
+## When to Trace Lineages
+
+**Always trace when:**
+- You're designing something and som
+--- /Users/will/.agents/skills/using-a-skill/SKILL.md (2992 bytes) ---
+---
+name: using-a-skill
+description: Use when you need to load and apply a specific skill from system, personal, or project locations - automatically handles priority resolution
+---
+
+# Using a Skill
+
+## Overview
+
+Load and apply a specific skill by name. The system automatically finds the skill across all locations and applies the highest-priority version.
+
+## When to Use
+
+Use this skill when you:
+- Need to apply a specific skill to your current task
+- Want to reference a skill's detailed guidance
+- Need to load supporting files or examples from a skill
+- Are following another skill that references a sub-skill
+
+## How to Use
+
+**Basic usage:**
+```bash
+superpowers-agent use-skill <skill-name>
+```
+
+**Examples:**
+```bash
+# Load a system skill
+superpowers-agent use-skill superpowers:brainstorming
+
+# Load a Claude skill
+superpowers-agent use-skill claude:persistent-planning
+
+# Load a project or personal skill (no prefix)
+superpowers-agent use-skill my-custom-skill
+```
+
+## Skill Naming and Prefixes
+
+**Prefixes indicate source:**
+- `superpowers:skill-name` - System skill from `~/.agents/superpowers/skills/`
+- `claude:skill-name` - Claude skill from `.claude/skills/`
+- `skill-name` (no prefi
+--- /Users/will/.agents/skills/using-git-worktrees/SKILL.md (11326 bytes) ---
+---
+name: using-git-worktrees
+description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - creates isolated git worktrees with smart directory selection and safety verification
+metadata:
+  when_to_use: when starting feature work that needs isolation from current workspace, before executing implementation plans
+  version: 1.2.0
+---
+
+# Using Git Worktrees
+
+## Overview
+
+Git worktrees create isolated workspaces sharing the same repository, allowing work on multiple branches simultaneously without switching.
+
+**Core principle:** Systematic directory selection + safety verification = reliable isolation.
+
+**Announce at start:** "I'm using the using-git-worktrees skill to set up an isolated workspace."
+
+## Pre-Flight Check
+
+### Detect Current Context
+
+Before creating a worktree, confirm you're in a git repo and know where you are:
+
+```bash
+# Verify git repo
+git rev-parse --show-toplevel 2>/dev/null || { echo "Not a git repo"; exit 1; }
+
+# Check if already inside a linked worktree (vs main worktree)
+git_dir=$(git rev-parse --absolute-git-dir 2>/dev/null)
+# In a linked worktree, $git_dir points to .git/worktrees/<name>/, n
+--- /Users/will/.agents/skills/using-superpowers/SKILL.md (5745 bytes) ---
+---
+name: using-superpowers
+description: "Use when starting any conversation - establishes how to find and use skills, requiring Skill tool invocation before ANY response including clarifying questions. CRITICAL: this skill is already loaded in your context — do NOT invoke it again. It defines the foundational rule: if a skill might apply, you must invoke it first."
+---
+
+# Using Superpowers
+
+Superpowers is a skills system that gives you access to proven workflows, encoded as SKILL.md files. Skills prevent you from reinventing solved problems and repeating known mistakes. This skill establishes the foundational rule for how to use the entire system.
+
+## The Core Rule
+
+**Before any response or action, check whether a skill applies — then invoke it.**
+
+This means BEFORE writing code, BEFORE asking clarifying questions, BEFORE exploring files. Even a 1% chance a skill might apply means you invoke it to check. If the invoked skill turns out not to fit the situation, you don't need to follow it — but you must check.
+
+Why this matters: skills encode hard-won workflows for tasks like debugging, TDD, and brainstorming. Skipping the check means you may skip a workflow that would have prevent
+--- /Users/will/.agents/skills/verification-before-completion/SKILL.md (7036 bytes) ---
+---
+name: verification-before-completion
+description: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always
+metadata:
+  version: 2.0.0
+  when_to_use: before any completion claim, commit, PR, or task handoff
+---
+
+# Verification Before Completion
+
+## Overview
+
+Claiming work is complete without running verification is not efficiency — it is dishonesty.
+
+**Core principle:** Evidence before claims, always.
+
+The rule applies to the spirit, not just the letter. Any phrasing that implies success without verification evidence violates it.
+
+## The Iron Law
+
+```
+NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE
+```
+
+If you haven't run the verification command in this message, you cannot claim it passes.
+
+## The Gate Function
+
+```mermaid
+flowchart LR
+    CLAIM[About to claim success?] --> ID[1. Identify: what command proves this?]
+    ID --> RUN[2. Run: execute the FULL command, fresh]
+    RUN --> READ[3. Read: full output, check exit code]
+    READ --> MATCH{4. Output confirms claim?}
+    MATCH -->|No| STATE[State ac
+--- /Users/will/.gsd/agent/skills/verify-before-complete/SKILL.md (5166 bytes) ---
+---
+name: verify-before-complete
+description: >-
+  Block completion claims until verification evidence has been produced in the current message. Use before marking a task/slice/milestone complete, before creating a commit or PR, before saying "it works" or "tests pass", and any time you are about to claim work is done. The rule is: evidence before claims, always — running the verification must happen now, not "earlier in the session". Fresh output or no claim.
+---
+
+<objective>
+Enforce the GSD "work is not done when code compiles; work is done when verification passes" contract. A completion claim without verification output generated in the current message is a broken claim. This skill is the gate.
+</objective>
+
+<context>
+GSD's system prompt sets the expectation; `complete-slice.md` and `auto-verification.ts` enforce it at the slice boundary. But between slice boundaries — mid-task, mid-debug, mid-review — an agent can drift into "I think it works" mode and ship broken work. This skill is the ritual to break that pattern at any completion point.
+
+Invocation points:
+- About to toggle a checkbox from `[ ]` to `[x]` via a `gsd_*` tool
+- About to commit, push, or open a PR
+- About to s
+--- /Users/will/.gsd/agent/skills/web-quality-audit/SKILL.md (6545 bytes) ---
+---
+name: web-quality-audit
+description: Comprehensive web quality audit covering performance, accessibility, SEO, and best practices. Use when asked to "audit my site", "review web quality", "run lighthouse audit", "check page quality", or "optimize my website".
+license: MIT
+metadata:
+  author: web-quality-skills
+  version: "1.0"
+---
+
+# Web quality audit
+
+Comprehensive quality review based on Google Lighthouse audits. Covers Performance, Accessibility, SEO, and Best Practices across 150+ checks.
+
+## How it works
+
+1. Analyze the provided code/project for quality issues
+2. Categorize findings by severity (Critical, High, Medium, Low)
+3. Provide specific, actionable recommendations
+4. Include code examples for fixes
+
+## Audit categories
+
+### Performance (40% of typical issues)
+
+**Core Web Vitals** — Must pass for good page experience:
+* **LCP (Largest Contentful Paint) < 2.5s.** The largest visible element must render quickly. Optimize images, fonts, and server response time.
+* **INP (Interaction to Next Paint) < 200ms.** User interactions must feel instant. Reduce JavaScript execution time and break up long tasks.
+* **CLS (Cumulative Layout Shift) < 0.1.** Content must not jump arou
+--- /Users/will/.gsd/agent/skills/write-docs/SKILL.md (5397 bytes) ---
+---
+name: write-docs
+description: >-
+  Collaborative authoring workflow for proposals, technical specs, decision docs, READMEs, ADRs, and long-form prose that must work for fresh readers. Three stages: gather context, iterate on structure, reader-test for a stranger. Use when asked to "write the docs", "draft a proposal", "write a spec", "write an RFC", "write the README", or when a doc must be understandable without this session's context.
+---
+
+<objective>
+Produce documentation that works for a reader landing cold. Not a summary of what was built, not a dump of the conversation, but a document that transfers intent to someone who wasn't here. Run it through three stages — Context → Refine → Reader-Test — and don't ship until a hypothetical reader could act on it.
+</objective>
+
+<context>
+GSD already produces durable artifacts (`M###-CONTEXT.md`, `S##-SUMMARY.md`, `DECISIONS.md`, `KNOWLEDGE.md`), but those are scaffolded by templates. This skill is for free-form documentation: README changes, public docs, architectural proposals, RFCs, PR descriptions, runbooks, and anything that lives under `docs/`, `mintlify-docs/`, or `gitbook/` in this repo.
+
+Invocation points:
+- User asks to wr
+--- /Users/will/.agents/skills/writing-plans/SKILL.md (5012 bytes) ---
+---
+name: writing-plans
+description: Use when you have a spec or requirements for a multi-step task, before touching code. Trigger this whenever a user says "write a plan", "create an implementation plan", "plan this out", "spec this task", or is about to implement something with multiple moving parts. Also use proactively when brainstorming has just completed and the next step is implementation.
+---
+
+# Writing Plans
+
+## Overview
+
+Write comprehensive implementation plans assuming the engineer has zero context for the codebase and questionable taste. Document everything they need to know: which files to touch for each task, code, testing, docs they might need to check, how to test it. Give them the whole plan as bite-sized tasks. DRY. YAGNI. TDD. Frequent commits.
+
+Assume they are a skilled developer, but know almost nothing about the toolset or problem domain. Assume they don't know good test design very well.
+
+**Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
+
+**Context:** This should be run in a dedicated worktree (created by brainstorming skill).
+
+**Save plans to:** `.agents/superpowers/specs/YYYY-MM-DD-<feature-name>.md`
+- (User prefe
+--- /Users/will/.agents/skills/writing-prompts/SKILL.md (11223 bytes) ---
+---
+name: writing-prompts
+description: Use when creating custom slash commands or prompt files for GitHub Copilot, Cursor, or Claude, when repeating same instructions 2+ times, when tempted to defer command creation, or when unsure about platform-specific formats - guides creation of reusable AI commands with platform-specific syntax, file locations, and best practices for effective prompt engineering
+---
+
+# Writing Prompts
+
+## Overview
+
+Create reusable custom commands (slash commands) for GitHub Copilot, Cursor, or Claude. These commands standardize workflows, reduce repetition, and make AI assistance more efficient across your team.
+
+**Core principle:** Well-written prompts are reusable workflows that save time and ensure consistency. They transform one-off instructions into team-wide standards.
+
+## When to Use
+
+**Create a prompt when:**
+- You find yourself repeating the same instructions across sessions (2+ times = create it now)
+- You want to standardize a workflow for your team
+- A process involves multiple steps that benefit from templating
+- You need consistent formatting or structure for outputs
+- Someone asks you to "make this reusable" or "save this for later"
+
+**CRITICAL

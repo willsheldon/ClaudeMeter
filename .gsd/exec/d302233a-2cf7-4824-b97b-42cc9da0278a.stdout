@@ -1,0 +1,16 @@
+17: <link rel="canonical" href="https://eddmann.com/Pinemeter/">
+20: <link rel="icon" type="image/png" href="logo.png">
+21: <link rel="apple-touch-icon" href="logo.png">
+52: "downloadUrl": "https://github.com/eddmann/Pinemeter/releases/latest",
+72: <link rel="preconnect" href="https://fonts.googleapis.com">
+73: <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+74: <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+77: <script src="https://cdn.tailwindcss.com"></script>
+308: <img src="logo.png" alt="Pinemeter" class="w-36 h-36 mx-auto rounded-[28%]">
+324: <a href="#installation" class="btn-primary px-8 py-4 text-lg font-semibold text-white inline-flex items-center gap-3">
+330: <a href="https://github.com/eddmann/Pinemeter" class="px-8 py-4 text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-3 border border-slate-200 dark:border-slate-700 r
+521: <a href="https://github.com/eddmann/Pinemeter/releases" class="text-coral-500 hover:text-coral-600 underline underline-offset-4 transition-colors">GitHub Releases</a>
+534: <a href="https://github.com/eddmann/Pinemeter" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-2">
+541: <a href="https://github.com/eddmann/Pinemeter/releases" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+545: <a href="https://github.com/eddmann/Pinemeter/issues" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+551: Built by <a href="https://eddmann.com" class="text-coral-500 hover:text-coral-600 transition-colors">Edd Mann</a>

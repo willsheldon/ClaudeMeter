@@ -1,0 +1,10 @@
+verified contributor template set:
+- .github/ISSUE_TEMPLATE/bug_report.yml
+- .github/ISSUE_TEMPLATE/bug_report.md
+- .github/ISSUE_TEMPLATE/feature_request.yml
+- .github/ISSUE_TEMPLATE/feature_request.md
+- .github/ISSUE_TEMPLATE/config.yml
+- CONTRIBUTING.md
+- SECURITY.md
+- README.md
+- AGENTS.md

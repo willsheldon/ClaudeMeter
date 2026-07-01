@@ -1,0 +1,6 @@
+PASS: project does not contain generic Developer ID signing identity
+PASS: workflow does not contain generic Developer ID signing identity
+PASS: workflow does not rely on mutable APPLE_TEAM_ID secret/env
+PASS: workflow and project pin and verify official signing identity
+PASS: docs record release signing and publishing safety
+PASS: remote mutation surfaces are documented before publishing steps

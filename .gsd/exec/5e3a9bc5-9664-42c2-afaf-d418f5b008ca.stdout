@@ -1,0 +1,8 @@
+-- .github/ISSUE_TEMPLATE/bug_report.md --
+48: <!-- Share only non-secret state such as configured/not configured, connected/disconnected, quota visible/not visible, or sanitized error category. Do not include session values, cookies, tokens, API keys, request headers, account IDs, or raw provider responses. -->
+-- .github/ISSUE_TEMPLATE/feature_request.md --
+38: <!-- Optional, sanitized only: affected provider, setup path, macOS version, Pinemeter version/commit, or source build via xcodebuild. Do not include tokens, cookies, session keys, API keys, headers, or account identifiers. -->
+-- README.md --
+145: - **Inspect exported usage:** Check `~/.pinemeter/usage.json` for the latest exported Claude usage percentages. A legacy compatibility copy may also be written to `~/.claudemeter/usage.json` for older scripts.
+149: Pinemeter exports Claude usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards. For compatibility with earlier ClaudeMeter-era scripts, Pinemeter may also write a legacy `~/.claudemeter/usage.json` copy.
+255: - Use the GitHub **Bug report** issue form or [Markdown bug checklist](.github/ISSUE_TEMPLATE/bug_report.md) for reproducible app behavior. Include Pinemeter version, macOS version, affected provider, setup path, expected behavior, actual behavior, reproduction steps, sanitized provider state, and logs or screenshots with secrets removed.

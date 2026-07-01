@@ -1,0 +1,22 @@
+PASS path exists README.md
+PASS path exists site/index.html
+PASS path exists CHANGELOG.md
+PASS path exists Pinemeter.xcodeproj/project.pbxproj
+PASS path exists Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme
+PASS README primary identity is Pinemeter
+PASS README ClaudeMeter mention is compatibility-scoped
+PASS site primary identity is Pinemeter
+PASS site has no stale ClaudeMeter identity
+PASS changelog has Pinemeter identity
+PASS README documents Claude ChatGPT Gemini providers
+PASS site documents Claude ChatGPT Gemini providers
+PASS README documents privacy/keychain/credential posture
+PASS README documents reset and troubleshooting
+PASS README documents exact xcodebuild test command across line continuations
+PASS site public links target Pinemeter repo/issues
+PASS changelog migrated public links to Pinemeter
+PASS public copy rg scan exit=0 matched_lines=126
+RUN xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+xcodebuild exit=0
+PASS xcodebuild reported TEST SUCCEEDED
+S01 slice-level verification passed: README/site/changelog public copy, repository paths, scheme files, and documented xcodebuild test command are valid in M005 checkout.

@@ -1,0 +1,10 @@
+3: about: Report reproducible Pinemeter behavior with sanitized diagnostics
+16: ## Pinemeter version
+20: ## macOS version and Mac architecture
+22: <!-- Example: macOS 14.6, Apple Silicon. -->
+24: ## Affected provider or area
+26: <!-- Claude monitoring, ChatGPT optional visibility, Gemini optional visibility, browser import, menu bar/notifications, settings/setup wizard, usage JSON export, app-wide, or documentation. -->
+28: ## Setup path
+34: <!-- What did you expect Pinemeter to do? -->
+46: ## Sanitized provider state
+48: <!-- Share only non-secret state such as configured/not configured, connected/disconnected, quota visible/not visible, or sanitized error category. Do not include session values, cookies, tokens, API keys, request headers, account IDs, or raw provider responses. -->

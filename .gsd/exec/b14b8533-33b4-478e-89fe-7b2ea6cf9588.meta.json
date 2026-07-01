@@ -1,0 +1,20 @@
+{
+  "id": "b14b8533-33b4-478e-89fe-7b2ea6cf9588",
+  "runtime": "python",
+  "purpose": "S02 inspect bug template diagnostics fields",
+  "script_chars": 267,
+  "started_at": "2026-07-01T21:58:26.746Z",
+  "finished_at": "2026-07-01T21:58:26.779Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 33,
+  "stdout_bytes": 795,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/b14b8533-33b4-478e-89fe-7b2ea6cf9588.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/b14b8533-33b4-478e-89fe-7b2ea6cf9588.stderr"
+}

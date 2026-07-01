@@ -1,0 +1,126 @@
+site/index.html:8:    <title>Pinemeter - Track Claude.ai Usage | macOS Menu Bar App</title>
+site/index.html:9:    <meta name="title" content="Pinemeter - Track Claude.ai Usage | macOS Menu Bar App">
+site/index.html:10:    <meta name="description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota and Gemini status visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:11:    <meta name="keywords" content="Pinemeter, Claude.ai, ChatGPT quota, Gemini status, usage tracker, menu bar app, macOS, Anthropic, OpenAI, Google, AI usage, session limits, Claude monitor">
+site/index.html:17:    <link rel="canonical" href="https://eddmann.com/Pinemeter/">
+site/index.html:25:    <meta property="og:url" content="https://eddmann.com/Pinemeter/">
+site/index.html:26:    <meta property="og:title" content="Pinemeter - Track Claude.ai Usage">
+site/index.html:27:    <meta property="og:description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota and Gemini status visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:28:    <meta property="og:image" content="https://eddmann.com/Pinemeter/preview.png">
+site/index.html:29:    <meta property="og:site_name" content="Pinemeter">
+site/index.html:33:    <meta property="twitter:url" content="https://eddmann.com/Pinemeter/">
+site/index.html:34:    <meta property="twitter:title" content="Pinemeter - Track Claude.ai Usage">
+site/index.html:35:    <meta property="twitter:description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota and Gemini status visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+site/index.html:36:    <meta property="twitter:image" content="https://eddmann.com/Pinemeter/preview.png">
+site/index.html:43:        "name": "Pinemeter",
+site/index.html:51:        "description": "A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota and Gemini status visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.",
+site/index.html:52:        "downloadUrl": "https://github.com/eddmann/Pinemeter/releases/latest",
+site/index.html:58:        "image": "https://eddmann.com/Pinemeter/logo.png",
+site/index.html:59:        "screenshot": "https://eddmann.com/Pinemeter/preview.png"
+site/index.html:308:                    <img src="logo.png" alt="Pinemeter" class="w-36 h-36 mx-auto rounded-[28%]">
+site/index.html:314:                Track <span class="gradient-text">Claude.ai</span> Usage
+site/index.html:319:                Keep track of Claude.ai plan usage at a glance, with optional ChatGPT quota and Gemini status visibility when configured. A lightweight macOS menu bar app for power users.
+site/index.html:330:                <a href="https://github.com/eddmann/Pinemeter" class="px-8 py-4 text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-3 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-slate-300 dark:hover:border-slate-600 bg-white/50 dark:bg-slate-800/50 backdrop-blur">
+site/index.html:354:                <p class="text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto">Powerful features designed for Claude.ai power users who want complete visibility into Claude.ai usage, plus optional ChatGPT quota and Gemini status visibility.</p>
+site/index.html:366:                    <h3 class="text-xl font-semibold mb-3 text-slate-900 dark:text-white">Claude.ai Monitoring</h3>
+site/index.html:367:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Track Claude.ai 5-hour session limits, 7-day weekly usage, and Sonnet-specific limits in real-time. Never get caught off guard by hitting your limits.</p>
+site/index.html:400:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Automatic Claude.ai usage updates every 1, 5, or 10 minutes. Set it and forget it - your Claude.ai usage data is always up to date.</p>
+site/index.html:411:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Export usage data as JSON for integration with external tools, scripts, and dashboards (e.g. Claude Code statusline).</p>
+site/index.html:422:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Claude session keys, ChatGPT session cookies, and Gemini API keys are stored through macOS Keychain-backed boundaries. Diagnostics are sanitized and credentials never leave your machine.</p>
+site/index.html:433:                <p class="text-slate-500 dark:text-slate-400 text-lg max-w-3xl mx-auto">Start with Claude.ai monitoring, then add ChatGPT or Gemini when you want extra provider visibility.</p>
+site/index.html:438:                    <h3 class="text-xl font-semibold mb-3 text-slate-900 dark:text-white">Claude.ai</h3>
+site/index.html:439:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Import a signed-in browser session or paste a Claude <code>sessionKey</code>/Cookie header. Pinemeter tracks 5-hour, weekly, and Sonnet usage windows.</p>
+site/index.html:442:                    <h3 class="text-xl font-semibold mb-3 text-slate-900 dark:text-white">ChatGPT</h3>
+site/index.html:443:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Optional quota visibility uses a local browser session when configured. If ChatGPT is unavailable or rejected, Claude monitoring continues.</p>
+site/index.html:446:                    <h3 class="text-xl font-semibold mb-3 text-slate-900 dark:text-white">Gemini</h3>
+site/index.html:447:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Optional Gemini status visibility uses an API key entered in Settings and stored in Keychain, with sanitized status diagnostics.</p>
+site/index.html:462:                            <li>Claude session keys, ChatGPT session cookies, and Gemini API keys are stored locally through Keychain boundaries.</li>
+site/index.html:471:                            <li>Settings exposes provider-specific repair, reconnect, and clear actions.</li>
+site/index.html:472:                            <li>Unavailable, rejected, and rate-limited provider states show sanitized copyable errors without raw credentials.</li>
+site/index.html:521:                <a href="https://github.com/eddmann/Pinemeter/releases" class="text-coral-500 hover:text-coral-600 underline underline-offset-4 transition-colors">GitHub Releases</a>
+site/index.html:530:                <span class="text-2xl font-bold gradient-text">Pinemeter</span>
+site/index.html:534:                <a href="https://github.com/eddmann/Pinemeter" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-2">
+site/index.html:541:                <a href="https://github.com/eddmann/Pinemeter/releases" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:545:                <a href="https://github.com/eddmann/Pinemeter/issues" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:555:                Pinemeter is not affiliated with or endorsed by Anthropic, OpenAI, or Google.
+CHANGELOG.md:18:- Import Claude sessions from browsers signed in to claude.ai
+CHANGELOG.md:31:- Handle null usage reset timestamps after Claude usage windows reset
+CHANGELOG.md:147:- Clarify Claude.ai plan usage vs developer API in documentation
+CHANGELOG.md:153:- Initial ClaudeMeter macOS menu bar app
+CHANGELOG.md:159:[1.4.0]: https://github.com/eddmann/Pinemeter/compare/v1.3.2...v1.4.0
+CHANGELOG.md:160:[1.3.2]: https://github.com/eddmann/Pinemeter/compare/v1.3.1...v1.3.2
+CHANGELOG.md:161:[1.3.1]: https://github.com/eddmann/Pinemeter/compare/v1.3.0...v1.3.1
+CHANGELOG.md:162:[1.3.0]: https://github.com/eddmann/Pinemeter/compare/v1.2.1...v1.3.0
+CHANGELOG.md:163:[1.2.1]: https://github.com/eddmann/Pinemeter/compare/v1.2.0...v1.2.1
+CHANGELOG.md:164:[1.2.0]: https://github.com/eddmann/Pinemeter/compare/v1.1.2...v1.2.0
+CHANGELOG.md:165:[1.1.2]: https://github.com/eddmann/Pinemeter/compare/v1.1.1...v1.1.2
+CHANGELOG.md:166:[1.1.1]: https://github.com/eddmann/Pinemeter/compare/v1.1.0...v1.1.1
+CHANGELOG.md:167:[1.1.0]: https://github.com/eddmann/Pinemeter/compare/v1.0.7...v1.1.0
+CHANGELOG.md:168:[1.0.7]: https://github.com/eddmann/Pinemeter/compare/v1.0.6...v1.0.7
+CHANGELOG.md:169:[1.0.6]: https://github.com/eddmann/Pinemeter/compare/v1.0.5...v1.0.6
+CHANGELOG.md:170:[1.0.5]: https://github.com/eddmann/Pinemeter/compare/v1.0.4...v1.0.5
+CHANGELOG.md:171:[1.0.4]: https://github.com/eddmann/Pinemeter/compare/v1.0.3...v1.0.4
+CHANGELOG.md:172:[1.0.3]: https://github.com/eddmann/Pinemeter/compare/v1.0.2...v1.0.3
+CHANGELOG.md:173:[1.0.2]: https://github.com/eddmann/Pinemeter/compare/v1.0.1...v1.0.2
+CHANGELOG.md:174:[1.0.1]: https://github.com/eddmann/Pinemeter/compare/v1.0.0...v1.0.1
+CHANGELOG.md:175:[1.0.0]: https://github.com/eddmann/Pinemeter/releases/tag/v1.0.0
+README.md:1:# Pinemeter
+README.md:3:![Pinemeter](docs/heading.png)
+README.md:5:Pinemeter is a macOS menu bar app for keeping Claude.ai plan usage visible at a glance, with optional quota/status visibility for ChatGPT and Gemini when those providers are configured.
+README.md:9:- **Claude.ai usage monitoring** - Track your 5-hour session, 7-day weekly, and Sonnet-specific usage limits
+README.md:10:- **Optional provider visibility** - Show ChatGPT quota status from a browser session and Gemini status from an API key
+README.md:13:- **Pacing indicator** - Flame icon warns when you're using Claude faster than sustainable pace
+README.md:38:Pinemeter sends native macOS notifications when you reach warning or critical thresholds:
+README.md:46:Configure your Claude session, optional ChatGPT and Gemini providers, refresh interval, icon style, and notification thresholds:
+README.md:69:1. Download the latest Pinemeter release from [GitHub Releases](https://github.com/eddmann/Pinemeter/releases/latest).
+README.md:70:2. Unzip and move `Pinemeter.app` to Applications.
+README.md:79:1. Pinemeter appears in your menu bar as a gauge icon.
+README.md:80:2. The setup wizard guides you through provider configuration.
+README.md:81:3. Import supported browser sessions or paste credentials manually.
+README.md:82:4. The app validates configured providers and begins monitoring available usage/quota status.
+README.md:86:#### Claude.ai
+README.md:88:Pinemeter can import your existing Claude session from local browser cookies. Sign in to [claude.ai](https://claude.ai) in a supported browser, then choose **Import from Browser** in the setup wizard or Settings.
+README.md:90:Chrome, Arc, Brave, Edge, and other Chromium browsers may ask for browser Safe Storage Keychain access so Pinemeter can decrypt cookies. Safari cookies are protected by macOS and may require Full Disk Access.
+README.md:92:If browser import is unavailable, paste your Claude session manually. Pinemeter accepts either a raw `sk-ant-...` Claude session key or a Cookie header containing `sessionKey=...`.
+README.md:94:#### ChatGPT
+README.md:96:ChatGPT quota visibility is optional. Sign in to ChatGPT in a supported browser, then use the ChatGPT browser import action in setup or Settings. Pinemeter stores ChatGPT session cookies through its Keychain-backed session repository and keeps access-token material transient.
+README.md:98:If ChatGPT is unavailable, rate limited, rejected, or not configured, the provider status is shown without blocking Claude monitoring.
+README.md:100:#### Gemini
+README.md:102:Gemini visibility is optional and uses an API key entered in Settings. Pinemeter stores Gemini API keys in Keychain and shows status/diagnostic state without exposing the raw key in the UI or diagnostics.
+README.md:104:### Manual Claude Session Setup
+README.md:106:Your Claude session key is stored in your browser cookies.
+README.md:134:- Monitor Claude.ai usage at a glance with the colour-coded menu bar icon
+README.md:135:- Click the icon to access detailed statistics, provider status, and Settings
+README.md:137:- Use Settings to repair, reconnect, or clear provider credentials when a provider reports an error
+README.md:141:- **Browser Safe Storage prompts:** Chromium-based imports may request Keychain access to decrypt browser cookies. Allow access for the signed Pinemeter app if you initiated the import.
+README.md:142:- **Safari import cannot see cookies:** Grant Full Disk Access to Pinemeter in macOS System Settings, then retry the import.
+README.md:143:- **Provider unavailable, rejected, or rate limited:** Open Settings and use the provider-specific repair, reconnect, or clear actions. The UI shows sanitized status and copyable error text without raw credentials.
+README.md:144:- **Reset local state:** Clear the affected provider in Settings, sign in again in your browser if needed, then import or paste the credential again.
+README.md:145:- **Inspect exported usage:** Check `~/.pinemeter/usage.json` for the latest exported Claude usage percentages. A legacy compatibility copy may also be written to `~/.claudemeter/usage.json` for older scripts.
+README.md:149:Pinemeter exports Claude usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards. For compatibility with earlier ClaudeMeter-era scripts, Pinemeter may also write a legacy `~/.claudemeter/usage.json` copy.
+README.md:171:**Example: Claude Code statusline**
+README.md:190:Then configure Claude Code's `~/.claude/settings.json`:
+README.md:204:- Active Claude.ai account with a browser session or Claude session key
+README.md:205:- Optional: ChatGPT browser session if enabling ChatGPT quota visibility
+README.md:206:- Optional: Gemini API key if enabling Gemini status visibility
+README.md:207:- For browser import, a supported browser signed in to the provider you want to import
+README.md:215:git clone https://github.com/eddmann/Pinemeter.git
+README.md:216:cd Pinemeter
+README.md:219:open Pinemeter.xcodeproj
+README.md:222:xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+README.md:225:xcodebuild test \
+README.md:226:  -project Pinemeter.xcodeproj \
+README.md:227:  -scheme Pinemeter \
+README.md:229:  -skip-testing:PinemeterTests/MenuBarIconSnapshotTests \
+README.md:245:grep -F "CODE_SIGN_IDENTITY = \"$EXPECTED_SIGNING_IDENTITY\";" Pinemeter.xcodeproj/project.pbxproj
+README.md:246:grep -F "DEVELOPMENT_TEAM = $EXPECTED_TEAM_ID;" Pinemeter.xcodeproj/project.pbxproj
+README.md:255:- Use the GitHub **Bug report** issue form or [Markdown bug checklist](.github/ISSUE_TEMPLATE/bug_report.md) for reproducible app behavior. Include Pinemeter version, macOS version, affected provider, setup path, expected behavior, actual behavior, reproduction steps, sanitized provider state, and logs or screenshots with secrets removed.
+README.md:256:- Use the GitHub **Feature request** issue form or [Markdown feature checklist](.github/ISSUE_TEMPLATE/feature_request.md) for focused workflow improvements. Include the user problem, proposed behavior, alternatives, sanitized setup context, and any credential/privacy implications.
+README.md:258:- Report credential handling, privacy, or vulnerability concerns privately using [SECURITY.md](SECURITY.md). Do not open public issues containing session keys, cookies, API keys, request headers, session identifiers, or account-identifying screenshots.
+README.md:264:This application accesses provider web/API surfaces using browser-based authentication or user-provided credentials. **This may violate provider Terms of Service.** By using Pinemeter, you acknowledge that:
+README.md:267:- Your provider accounts could be affected by using unofficial clients
+README.md:273:- Claude session keys are stored securely in macOS Keychain (encrypted, device-local only)
+README.md:274:- ChatGPT session cookies are stored through a Keychain-backed repository boundary; access-token material remains transient where applicable
+README.md:275:- Gemini API keys are stored securely in macOS Keychain
+README.md:276:- Browser import reads local browser cookies only to extract the selected provider credential/session material
+README.md:281:This software is provided "as is" under the MIT License, without warranty of any kind. **By downloading and using Pinemeter, you accept these terms.**

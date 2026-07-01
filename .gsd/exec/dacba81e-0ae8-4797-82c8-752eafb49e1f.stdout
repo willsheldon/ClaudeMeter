@@ -1,0 +1,17 @@
+PASS README uses Pinemeter identity
+FAIL README has no stale ClaudeMeter identity
+PASS site uses Pinemeter identity
+PASS site has no stale ClaudeMeter identity
+PASS changelog has Pinemeter identity
+PASS README documents providers Claude ChatGPT Gemini
+PASS site documents providers Claude ChatGPT Gemini
+PASS README documents privacy/security posture
+PASS README documents reset/troubleshooting
+FAIL README documents xcodebuild test command
+FAIL site links local asset paths
+PASS changelog includes migrated homepage links
+rg exit=0 matched_lines=126
+RUN xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+xcodebuild exit=0
+PASS xcodebuild reported TEST SUCCEEDED
+FAILURES: README has no stale ClaudeMeter identity; README documents xcodebuild test command; site links local asset paths

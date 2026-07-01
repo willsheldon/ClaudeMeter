@@ -1,0 +1,20 @@
+{
+  "id": "dcfa8bec-73ea-4729-b95b-3a00224298c9",
+  "runtime": "bash",
+  "purpose": "Inspect existing GitHub contributor template files",
+  "script_chars": 123,
+  "started_at": "2026-07-01T21:51:23.169Z",
+  "finished_at": "2026-07-01T21:51:23.184Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 15,
+  "stdout_bytes": 339,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/dcfa8bec-73ea-4729-b95b-3a00224298c9.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/dcfa8bec-73ea-4729-b95b-3a00224298c9.stderr"
+}

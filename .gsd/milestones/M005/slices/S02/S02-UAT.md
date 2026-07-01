@@ -1,7 +1,7 @@
 # S02: Contributor templates and support paths — UAT
 
 **Milestone:** M005
-**Written:** 2026-07-01T18:20:36.097Z
+**Written:** 2026-07-01T21:59:30.745Z
 
 # S02: Contributor templates and support paths — UAT
 
@@ -11,72 +11,68 @@
 ## UAT Type
 
 - UAT mode: artifact-driven
-- Why this mode is sufficient: This slice changes repository documentation and GitHub issue/support templates only; no app runtime, browser UI, server, or local build execution is required to prove the contributor support contract.
+- Why this mode is sufficient: This slice ships repository documentation and templates only; no runtime app behavior, browser UI, server, or external GitHub state is required to evaluate it.
 
 ## Preconditions
 
-- Review from the repository root of the M005 worktree.
-- No GitHub remote actions are required; inspect local files only.
-- Treat real provider credentials, cookies, tokens, API keys, request headers, account identifiers, and workspace names as sensitive and do not paste them into any template.
+- Worktree contains the public collaboration files under `.github/ISSUE_TEMPLATE/`, `CONTRIBUTING.md`, `README.md`, and `SECURITY.md`.
+- Tester reviews files locally only and does not create remote issues, push branches, or edit GitHub settings.
 
 ## Smoke Test
 
-Open `README.md`, `CONTRIBUTING.md`, `SECURITY.md`, `.github/ISSUE_TEMPLATE/bug_report.yml`, `.github/ISSUE_TEMPLATE/feature_request.yml`, `.github/ISSUE_TEMPLATE/bug_report.md`, and `.github/ISSUE_TEMPLATE/feature_request.md`. Confirm a new contributor can find contribution guidance, public bug/feature reporting paths, and a private path for credential, privacy, or vulnerability concerns.
+Open `README.md` and `CONTRIBUTING.md`; confirm a new contributor can find how to contribute, how to report bugs/features, and where to send sensitive security or privacy concerns.
 
 ## Test Cases
 
-### 1. Bug reporter can submit a useful sanitized report
+### 1. Bug report guidance collects sanitized diagnostics
 
-1. Open `.github/ISSUE_TEMPLATE/bug_report.yml` or `.github/ISSUE_TEMPLATE/bug_report.md`.
-2. Follow the prompts as a reporter with a provider-specific issue.
-3. **Expected:** The template asks for Pinemeter version or commit, macOS details, affected provider, setup path, expected behavior, actual behavior, reproduction steps, and sanitized logs or screenshots with secrets removed.
+1. Open `.github/ISSUE_TEMPLATE/bug_report.md`.
+2. Confirm it asks for Pinemeter version, macOS version, affected provider or area, setup path, expected behavior, actual behavior, reproduction steps, and sanitized provider state.
+3. Confirm it warns not to include session values, cookies, tokens, API keys, request headers, account identifiers, or raw provider responses.
+4. **Expected:** A contributor can file an actionable bug report without exposing credential-equivalent material.
 
-### 2. Feature requester sees privacy and credential impact prompts
+### 2. Feature request guidance handles privacy and provider impact
 
-1. Open `.github/ISSUE_TEMPLATE/feature_request.yml` or `.github/ISSUE_TEMPLATE/feature_request.md`.
-2. Draft a feature request for a provider integration or workflow change.
-3. **Expected:** The template asks for the user problem, proposed behavior, alternatives or workarounds, and privacy/security or credential/session impact without asking for sensitive values.
+1. Open `.github/ISSUE_TEMPLATE/feature_request.md`.
+2. Confirm it asks for the problem, proposed behavior, affected provider or app area, and privacy/credential impact.
+3. Confirm optional context is explicitly sanitized.
+4. **Expected:** Feature requests include enough scope and safety context without promising unsupported provider behavior.
 
-### 3. Contributor can find local build and test guidance
+### 3. Contributor guide explains local verification and conventions
 
 1. Open `CONTRIBUTING.md`.
-2. Review the code contribution section and useful local commands.
-3. **Expected:** The guide describes Pinemeter coding conventions, secret handling, the Debug build command, and the local xcodebuild test command.
+2. Confirm it includes the project build command and test command for `Pinemeter.xcodeproj`.
+3. Confirm it mentions keeping SwiftUI UI state on `@MainActor @Observable` types and non-UI work in actor services/repositories.
+4. Confirm it tells contributors not to paste secrets or credential material.
+5. **Expected:** A fresh contributor can understand local verification expectations and coding boundaries.
 
-### 4. Sensitive reports are routed away from public issues
+### 4. Sensitive reports route privately
 
-1. Open `SECURITY.md` and `.github/ISSUE_TEMPLATE/config.yml`.
-2. Follow the reporting guidance for a credential, privacy, or vulnerability concern.
-3. **Expected:** The docs direct the reporter to private vulnerability reporting or the documented fallback path and warn against sending real secrets in public issues.
+1. Open `.github/ISSUE_TEMPLATE/config.yml` and `SECURITY.md`.
+2. Confirm security, privacy, and credential concerns are directed to a private reporting path rather than a public issue template.
+3. **Expected:** Sensitive reports have a clear private support boundary.
 
 ## Edge Cases
 
-### Portable template fallback
+### Stale or private process wording
 
-1. Ignore GitHub YAML issue forms and use only the Markdown checklists in `.github/ISSUE_TEMPLATE/bug_report.md` and `.github/ISSUE_TEMPLATE/feature_request.md`.
-2. **Expected:** The Markdown templates still collect the same sanitized diagnostic or feature-impact details for contributors using non-GitHub tooling or copying checklists manually.
-
-### Legacy or private process leakage
-
-1. Search the public templates and support docs for stale project names, GSD process details, or destructive git instructions.
-2. **Expected:** Public issue/support guidance does not expose private GSD workflow, does not ask users to push, rewrite history, or perform remote-side actions, and does not contain stale ClaudeMeter branding in the support templates.
+1. Search public templates and contribution docs for stale `ClaudeMeter` naming, private GSD process names, destructive git commands, and prompts asking users to paste secrets.
+2. **Expected:** Any ClaudeMeter reference is limited to legacy compatibility documentation, no private GSD process leaks appear, no destructive git publishing/history rewrite instructions appear, and templates only request sanitized or redacted diagnostics.
 
 ## Failure Signals
 
-- Required issue template files are missing from `.github/ISSUE_TEMPLATE`.
-- Bug templates omit provider, setup state, macOS/app version, expected/actual behavior, or sanitized diagnostics.
-- Feature templates omit privacy/security or credential impact prompts.
-- Public templates ask users to paste real secrets, cookies, tokens, session identifiers, request headers, or raw provider responses.
-- Contributor docs omit local build/test commands or secret-handling guidance.
-- Security/privacy concerns are routed to public issues instead of private reporting guidance.
+- Missing bug or feature issue templates.
+- CONTRIBUTING lacks build/test commands or coding conventions.
+- README does not point to contribution or reporting paths.
+- Public templates ask users to paste tokens, cookies, session keys, API keys, raw headers, or account identifiers.
+- Security/privacy concerns are routed to public issues instead of private reporting.
 
 ## Not Proven By This UAT
 
-- GitHub-hosted issue form rendering after repository settings or GitHub product changes.
-- Whether private vulnerability reporting is enabled in the eventual public repository; `SECURITY.md` documents a fallback path.
-- App runtime behavior, provider authentication, release signing, and fresh-reader end-to-end build/test success; later slices cover release documentation and fresh-reader public UAT.
+- It does not prove the full Xcode build or test suite passes.
+- It does not prove GitHub renders YAML issue forms exactly as intended.
+- It does not prove later release/signing documentation, which is covered by S03.
 
 ## Notes for Tester
 
-The README intentionally may mention legacy ClaudeMeter compatibility in product history or migration context. Treat that as acceptable product documentation, but do not accept stale ClaudeMeter branding or private GSD process language in the public issue templates and support guidance.
-
+Legacy `ClaudeMeter` references may appear only when documenting compatibility paths such as `~/.claudemeter/usage.json`; those are not stale project branding if they are explicitly framed as legacy compatibility.

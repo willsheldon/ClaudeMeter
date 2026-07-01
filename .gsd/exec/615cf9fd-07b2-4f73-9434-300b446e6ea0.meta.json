@@ -1,0 +1,20 @@
+{
+  "id": "615cf9fd-07b2-4f73-9434-300b446e6ea0",
+  "runtime": "bash",
+  "purpose": "verify safe release documentation guidance",
+  "script_chars": 198,
+  "started_at": "2026-07-01T22:04:26.182Z",
+  "finished_at": "2026-07-01T22:04:26.196Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 14,
+  "stdout_bytes": 6211,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/615cf9fd-07b2-4f73-9434-300b446e6ea0.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/615cf9fd-07b2-4f73-9434-300b446e6ea0.stderr"
+}

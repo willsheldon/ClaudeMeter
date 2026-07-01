@@ -1,0 +1,20 @@
+{
+  "id": "98bc2367-839a-4529-abf7-d1e74ce7630e",
+  "runtime": "bash",
+  "purpose": "M005/S02/T02 verify github template inventory",
+  "script_chars": 39,
+  "started_at": "2026-07-01T21:54:24.078Z",
+  "finished_at": "2026-07-01T21:54:24.090Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 12,
+  "stdout_bytes": 286,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/98bc2367-839a-4529-abf7-d1e74ce7630e.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/98bc2367-839a-4529-abf7-d1e74ce7630e.stderr"
+}

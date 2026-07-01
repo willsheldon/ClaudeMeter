@@ -1,0 +1,20 @@
+{
+  "id": "e456cb08-8eb6-4956-840f-10bcd9e051f8",
+  "runtime": "python",
+  "purpose": "T02 targeted public copy assertions",
+  "script_chars": 2564,
+  "started_at": "2026-07-01T21:43:24.486Z",
+  "finished_at": "2026-07-01T21:43:24.562Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 76,
+  "stdout_bytes": 100,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/e456cb08-8eb6-4956-840f-10bcd9e051f8.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/e456cb08-8eb6-4956-840f-10bcd9e051f8.stderr"
+}

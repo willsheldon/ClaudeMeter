@@ -1,0 +1,20 @@
+{
+  "id": "7ba9a6f0-ed96-41d0-9c4f-90b0c4b764f8",
+  "runtime": "bash",
+  "purpose": "release signing audit verification corrected",
+  "script_chars": 3340,
+  "started_at": "2026-07-01T22:01:05.837Z",
+  "finished_at": "2026-07-01T22:01:05.892Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 55,
+  "stdout_bytes": 398,
+  "stderr_bytes": 91,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/7ba9a6f0-ed96-41d0-9c4f-90b0c4b764f8.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/7ba9a6f0-ed96-41d0-9c4f-90b0c4b764f8.stderr"
+}

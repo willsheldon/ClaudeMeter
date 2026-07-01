@@ -21,22 +21,20 @@ README, site/index.html, CHANGELOG, and relevant docs agree with code and tests.
 
 - Improves external troubleshooting by documenting current diagnostics and reset paths.
 
-## Tasks
-
-- [x] **T01: Audited public docs against current Pinemeter implementation and identified stale provider, release, version, privacy, export, and changelog claims.** `est:small`
+<tasks>
+- [x] **T01**: Audited public docs against the current Pinemeter app state and identified stale or missing public-facing claims. _(small)_
   Compare README, site, changelog, workflows, and project files against implemented providers, setup flows, privacy boundaries, build/test commands, and Pinemeter identity. Record stale or missing public-facing claims.
   - Files: `README.md`, `site/index.html`, `CHANGELOG.md`, `.github/workflows`, `Pinemeter.xcodeproj`
   - Verify: Task summary lists doc mismatches with file references and proposed updates.
-
-- [x] **T02: Updated the README, landing page, and public changelog links so fresh readers see current Pinemeter provider support, privacy posture, setup, reset, build, and troubleshooting guidance.** `est:medium`
+- [x] **T02**: Verified README, landing page, and changelog public copy now reflects current Pinemeter provider support, privacy posture, setup, reset, build, and troubleshooting guidance. _(medium)_
   Update README and site copy so a fresh reader understands what Pinemeter is, supported providers, privacy/security posture, setup, reset, build/test commands, and troubleshooting.
   - Files: `README.md`, `site/index.html`, `CHANGELOG.md`
   - Verify: `rg -n "ClaudeMeter|Pinemeter|xcodebuild|provider|privacy|credential|Gemini|ChatGPT|Claude" README.md site/index.html CHANGELOG.md` reviewed for accurate public copy.
-
-- [x] **T03: Verified the public documentation’s repository paths, local assets, project scheme, export paths, and documented Xcode test command against the current Pinemeter checkout.** `est:small`
+- [x] **T03**: Verified public documentation paths, local assets, project scheme files, and documented Pinemeter Xcode test commands against the active M005 checkout. _(small)_
   Check documented paths and commands against the repository. Run non-destructive local validation for build/test commands if docs were changed in ways that affect them.
   - Files: `README.md`, `site/index.html`, `CHANGELOG.md`
   - Verify: `test -f Pinemeter.xcodeproj/project.pbxproj && test -f Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme` plus `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` if build/test documentation changed.
+</tasks>
 
 ## Files Likely Touched
 

@@ -1,0 +1,4 @@
+-- README.md --
+149: Pinemeter exports Claude usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards. For compatibility with earlier ClaudeMeter-era scripts, Pinemeter may als
+225: xcodebuild test \
+-- site/index.html --
