@@ -234,10 +234,10 @@ xcodebuild test \
 
 ## Support and Contributing
 
-- Use the GitHub **Bug report** template for reproducible app behavior. Include Pinemeter version, macOS version, affected provider, setup path, reproduction steps, and sanitized diagnostics.
-- Use the GitHub **Feature request** template for focused workflow improvements. Include the user problem, proposed behavior, alternatives, and any credential/privacy implications.
+- Use the GitHub **Bug report** issue form or [Markdown bug checklist](.github/ISSUE_TEMPLATE/bug_report.md) for reproducible app behavior. Include Pinemeter version, macOS version, affected provider, setup path, expected behavior, actual behavior, reproduction steps, sanitized provider state, and logs or screenshots with secrets removed.
+- Use the GitHub **Feature request** issue form or [Markdown feature checklist](.github/ISSUE_TEMPLATE/feature_request.md) for focused workflow improvements. Include the user problem, proposed behavior, alternatives, sanitized setup context, and any credential/privacy implications.
 - Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening issues or pull requests.
-- Report credential handling, privacy, or vulnerability concerns privately using [SECURITY.md](SECURITY.md). Do not open public issues containing session keys, cookies, API keys, request headers, or account-identifying screenshots.
+- Report credential handling, privacy, or vulnerability concerns privately using [SECURITY.md](SECURITY.md). Do not open public issues containing session keys, cookies, API keys, request headers, session identifiers, or account-identifying screenshots.
 
 ## Disclaimer
 

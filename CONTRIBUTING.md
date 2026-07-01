@@ -11,20 +11,22 @@ Thanks for helping improve Pinemeter. This project is a macOS menu bar app that 
 
 ## Reporting bugs
 
-Use the **Bug report** issue template. Include:
+Use the **Bug report** issue form or the portable Markdown checklist in [`.github/ISSUE_TEMPLATE/bug_report.md`](.github/ISSUE_TEMPLATE/bug_report.md). Include:
 
 - Pinemeter version or commit SHA.
 - macOS version and Mac architecture.
 - Provider affected: Claude, ChatGPT, Gemini, or app-wide.
-- Setup path used: browser import, manual credential entry, API key, or not configured.
-- Sanitized status/error text shown by the app.
-- Steps to reproduce and what you expected to happen.
+- Setup path used: browser import, manual credential entry, API key, source build via `xcodebuild`, upgrade from existing settings, or not configured.
+- Expected behavior and actual behavior.
+- Sanitized provider state such as configured/not configured, connected/disconnected, quota visible/not visible, or sanitized error category.
+- Steps to reproduce.
+- Logs or screenshots only after removing secrets, tokens, cookies, session identifiers, request headers, account identifiers, and private workspace names.
 
 For credential, privacy, or vulnerability concerns, do **not** open a public issue. Use the private reporting path in [SECURITY.md](SECURITY.md).
 
 ## Requesting features
 
-Use the **Feature request** issue template. Describe the user problem, the workflow it affects, and any privacy/security implications. Provider integrations should explain what user-visible value they add and what local credential/session material would be required.
+Use the **Feature request** issue form or the portable Markdown checklist in [`.github/ISSUE_TEMPLATE/feature_request.md`](.github/ISSUE_TEMPLATE/feature_request.md). Describe the user problem, proposed behavior, expected benefit, alternatives considered, and any privacy/security implications. Provider integrations should explain what user-visible value they add and what local credential/session material would be required.
 
 ## Working on code
 
