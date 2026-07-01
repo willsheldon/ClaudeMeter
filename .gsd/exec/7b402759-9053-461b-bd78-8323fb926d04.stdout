@@ -1,0 +1,262 @@
+FILES_CHECKED
+README.md
+site/index.html
+.github
+CONTRIBUTING.md
+RELEASING.md
+
+PATTERN_MATCHES
+RELEASING.md:1:# Releasing Pinemeter
+RELEASING.md:9:- Signing identity: `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)`
+RELEASING.md:10:- Expected Team Identifier: `TeamIdentifier=HMR9RDR6M2`
+RELEASING.md:11:- Expected development team value: `HMR9RDR6M2`
+RELEASING.md:13:Do not replace this with the generic `Developer ID Application` identity. Do not introduce a mutable `APPLE_TEAM_ID` or similar secret for release signing; the release path must continue to pin and verify the Autimo team identifier explicitly.
+RELEASING.md:22:EXPECTED_SIGNING_IDENTITY="Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+RELEASING.md:23:EXPECTED_TEAM_ID="HMR9RDR6M2"
+RELEASING.md:25:grep -F "CODE_SIGN_IDENTITY = \"$EXPECTED_SIGNING_IDENTITY\";" Pinemeter.xcodeproj/project.pbxproj
+RELEASING.md:26:grep -F "DEVELOPMENT_TEAM = $EXPECTED_TEAM_ID;" Pinemeter.xcodeproj/project.pbxproj
+RELEASING.md:33:After a local release build exists at `build/Build/Products/Release/Pinemeter.app`, verify the signature details before considering any publishing step:
+RELEASING.md:36:APP_PATH="build/Build/Products/Release/Pinemeter.app"
+RELEASING.md:37:EXPECTED_SIGNING_IDENTITY="Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+RELEASING.md:38:EXPECTED_TEAM_ID="HMR9RDR6M2"
+RELEASING.md:48:For an installed or downloaded app, the same signature checks can be run against that `.app` path. The important release invariant is that `Authority=Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and `TeamIdentifier=HMR9RDR6M2` both appear in the `codesign -dvv` output.
+RELEASING.md:52:The GitHub Actions release workflow is manual, but it is not just a local verification job. Once triggered with valid secrets, it can mutate remote state:
+RELEASING.md:64:1. Confirm `Pinemeter.xcodeproj/project.pbxproj` still contains `CODE_SIGN_IDENTITY = "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)";` and `DEVELOPMENT_TEAM = HMR9RDR6M2;`.
+RELEASING.md:66:3. Confirm the imported Apple certificate contains `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` before building.
+RELEASING.md:67:4. Inspect `codesign -dvv` output for the produced app and verify `TeamIdentifier=HMR9RDR6M2`.
+RELEASING.md:68:5. Treat any generic `Developer ID Application` match without `AUTIMO SYSTEMS INC (HMR9RDR6M2)` as unsafe for release artifacts.
+RELEASING.md:70:Keep secrets out of logs and documentation. The release documentation should name required secret keys only when needed for diagnosis, never their values.
+site/index.html:8:    <title>Pinemeter - Track Claude.ai Usage | macOS Menu Bar App</title>
+site/index.html:9:    <meta name="title" content="Pinemeter - Track Claude.ai Usage | macOS Menu Bar App">
+site/index.html:11:    <meta name="keywords" content="Pinemeter, Claude.ai, ChatGPT quota, Gemini status, usage tracker, menu bar app, macOS, Anthropic, OpenAI, Google, AI usage, session limits, Claude monitor">
+site/index.html:17:    <link rel="canonical" href="https://eddmann.com/Pinemeter/">
+site/index.html:25:    <meta property="og:url" content="https://eddmann.com/Pinemeter/">
+site/index.html:26:    <meta property="og:title" content="Pinemeter - Track Claude.ai Usage">
+site/index.html:28:    <meta property="og:image" content="https://eddmann.com/Pinemeter/preview.png">
+site/index.html:29:    <meta property="og:site_name" content="Pinemeter">
+site/index.html:33:    <meta property="twitter:url" content="https://eddmann.com/Pinemeter/">
+site/index.html:34:    <meta property="twitter:title" content="Pinemeter - Track Claude.ai Usage">
+site/index.html:36:    <meta property="twitter:image" content="https://eddmann.com/Pinemeter/preview.png">
+site/index.html:43:        "name": "Pinemeter",
+site/index.html:52:        "downloadUrl": "https://github.com/eddmann/Pinemeter/releases/latest",
+site/index.html:58:        "image": "https://eddmann.com/Pinemeter/logo.png",
+site/index.html:59:        "screenshot": "https://eddmann.com/Pinemeter/preview.png"
+site/index.html:308:                    <img src="logo.png" alt="Pinemeter" class="w-36 h-36 mx-auto rounded-[28%]">
+site/index.html:330:                <a href="https://github.com/eddmann/Pinemeter" class="px-8 py-4 text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-3 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-slate-300 dark:hover:border-slate-600 bg-white/50 dark:bg-slate-800/50 backdrop-blur">
+site/index.html:422:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Claude session keys, ChatGPT session cookies, and Gemini API keys are stored through macOS Keychain-backed boundaries. Diagnostics are sanitized and credentials never leave your machine.</p>
+site/index.html:439:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Import a signed-in browser session or paste a Claude <code>sessionKey</code>/Cookie header. Pinemeter tracks 5-hour, weekly, and Sonnet usage windows.</p>
+site/index.html:462:                            <li>Claude session keys, ChatGPT session cookies, and Gemini API keys are stored locally through Keychain boundaries.</li>
+site/index.html:463:                            <li>Access-token material remains transient where applicable.</li>
+site/index.html:521:                <a href="https://github.com/eddmann/Pinemeter/releases" class="text-coral-500 hover:text-coral-600 underline underline-offset-4 transition-colors">GitHub Releases</a>
+site/index.html:530:                <span class="text-2xl font-bold gradient-text">Pinemeter</span>
+site/index.html:534:                <a href="https://github.com/eddmann/Pinemeter" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-2">
+site/index.html:541:                <a href="https://github.com/eddmann/Pinemeter/releases" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:545:                <a href="https://github.com/eddmann/Pinemeter/issues" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:555:                Pinemeter is not affiliated with or endorsed by Anthropic, OpenAI, or Google.
+CONTRIBUTING.md:1:# Contributing to Pinemeter
+CONTRIBUTING.md:3:Thanks for helping improve Pinemeter. This project is a macOS menu bar app that reads local provider session/API state to show usage and quota information, so high-quality reports need to separate user-visible behavior from private credentials.
+CONTRIBUTING.md:10:4. Do not paste Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, request headers, or screenshots that expose account identifiers.
+CONTRIBUTING.md:16:- Pinemeter version or commit SHA.
+CONTRIBUTING.md:19:- Setup path used: browser import, manual credential entry, API key, source build via `xcodebuild`, upgrade from existing settings, or not configured.
+CONTRIBUTING.md:23:- Logs or screenshots only after removing secrets, tokens, cookies, session identifiers, request headers, account identifiers, and private workspace names.
+CONTRIBUTING.md:37:- Treat provider credentials, cookies, tokens, and headers as secret material. Do not log or persist raw values outside their intended secure storage boundary.
+CONTRIBUTING.md:42:xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+CONTRIBUTING.md:44:xcodebuild test \
+CONTRIBUTING.md:45:  -project Pinemeter.xcodeproj \
+CONTRIBUTING.md:46:  -scheme Pinemeter \
+CONTRIBUTING.md:48:  -skip-testing:PinemeterTests/MenuBarIconSnapshotTests \
+README.md:1:# Pinemeter
+README.md:3:![Pinemeter](docs/heading.png)
+README.md:5:Pinemeter is a macOS menu bar app for keeping Claude.ai plan usage visible at a glance, with optional quota/status visibility for ChatGPT and Gemini when those providers are configured.
+README.md:38:Pinemeter sends native macOS notifications when you reach warning or critical thresholds:
+README.md:69:1. Download the latest Pinemeter release from [GitHub Releases](https://github.com/eddmann/Pinemeter/releases/latest).
+README.md:70:2. Unzip and move `Pinemeter.app` to Applications.
+README.md:73:Releases are signed and notarized. If you validate release artifacts manually, the expected Developer ID is `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and the expected Team Identifier is `HMR9RDR6M2`.
+README.md:79:1. Pinemeter appears in your menu bar as a gauge icon.
+README.md:88:Pinemeter can import your existing Claude session from local browser cookies. Sign in to [claude.ai](https://claude.ai) in a supported browser, then choose **Import from Browser** in the setup wizard or Settings.
+README.md:90:Chrome, Arc, Brave, Edge, and other Chromium browsers may ask for browser Safe Storage Keychain access so Pinemeter can decrypt cookies. Safari cookies are protected by macOS and may require Full Disk Access.
+README.md:92:If browser import is unavailable, paste your Claude session manually. Pinemeter accepts either a raw `sk-ant-...` Claude session key or a Cookie header containing `sessionKey=...`.
+README.md:96:ChatGPT quota visibility is optional. Sign in to ChatGPT in a supported browser, then use the ChatGPT browser import action in setup or Settings. Pinemeter stores ChatGPT session cookies through its Keychain-backed session repository and keeps access-token material transient.
+README.md:102:Gemini visibility is optional and uses an API key entered in Settings. Pinemeter stores Gemini API keys in Keychain and shows status/diagnostic state without exposing the raw key in the UI or diagnostics.
+README.md:106:Your Claude session key is stored in your browser cookies.
+README.md:113:4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:121:4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:129:4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:141:- **Browser Safe Storage prompts:** Chromium-based imports may request Keychain access to decrypt browser cookies. Allow access for the signed Pinemeter app if you initiated the import.
+README.md:142:- **Safari import cannot see cookies:** Grant Full Disk Access to Pinemeter in macOS System Settings, then retry the import.
+README.md:149:Pinemeter exports Claude usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards. For compatibility with earlier ClaudeMeter-era scripts, Pinemeter may also write a legacy `~/.claudemeter/usage.json` copy.
+README.md:215:git clone https://github.com/eddmann/Pinemeter.git
+README.md:216:cd Pinemeter
+README.md:219:open Pinemeter.xcodeproj
+README.md:222:xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+README.md:225:xcodebuild test \
+README.md:226:  -project Pinemeter.xcodeproj \
+README.md:227:  -scheme Pinemeter \
+README.md:229:  -skip-testing:PinemeterTests/MenuBarIconSnapshotTests \
+README.md:237:Read [RELEASING.md](RELEASING.md) before preparing release artifacts. The release path must use the pinned Autimo signing identity `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and verify `TeamIdentifier=HMR9RDR6M2`; generic `Developer ID Application` signing identities and mutable `APPLE_TEAM_ID`-style secrets are unsafe for release signing.
+README.md:243:- Use the GitHub **Bug report** issue form or [Markdown bug checklist](.github/ISSUE_TEMPLATE/bug_report.md) for reproducible app behavior. Include Pinemeter version, macOS version, affected provider, setup path, expected behavior, actual behavior, reproduction steps, sanitized provider state, and logs or screenshots with secrets removed.
+README.md:246:- Report credential handling, privacy, or vulnerability concerns privately using [SECURITY.md](SECURITY.md). Do not open public issues containing session keys, cookies, API keys, request headers, session identifiers, or account-identifying screenshots.
+README.md:252:This application accesses provider web/API surfaces using browser-based authentication or user-provided credentials. **This may violate provider Terms of Service.** By using Pinemeter, you acknowledge that:
+README.md:262:- ChatGPT session cookies are stored through a Keychain-backed repository boundary; access-token material remains transient where applicable
+README.md:264:- Browser import reads local browser cookies only to extract the selected provider credential/session material
+README.md:265:- Diagnostic and acquisition state is sanitized; raw cookies, tokens, headers, and API keys are not written to diagnostics
+README.md:269:This software is provided "as is" under the MIT License, without warranty of any kind. **By downloading and using Pinemeter, you accept these terms.**
+.github/ISSUE_TEMPLATE/config.yml:4:    url: https://github.com/eddmann/Pinemeter/security/advisories/new
+.github/ISSUE_TEMPLATE/config.yml:7:    url: https://github.com/eddmann/Pinemeter#troubleshooting-and-reset-paths
+.github/ISSUE_TEMPLATE/feature_request.md:3:about: Suggest a focused Pinemeter improvement or provider workflow
+.github/ISSUE_TEMPLATE/feature_request.md:11:credentials, cookies, tokens, session identifiers, API keys, request headers, or raw
+.github/ISSUE_TEMPLATE/feature_request.md:38:<!-- Optional, sanitized only: affected provider, setup path, macOS version, Pinemeter version/commit, or source build via xcodebuild. Do not include tokens, cookies, session keys, API keys, headers, or account identifiers. -->
+.github/ISSUE_TEMPLATE/feature_request.md:42:<!-- Does this change touch provider sessions, cookies, tokens, API keys, browser import, Keychain, logs, screenshots, exports, or account-identifying state? If yes, describe the risk without sharing secrets. -->
+.github/ISSUE_TEMPLATE/bug_report.md:3:about: Report reproducible Pinemeter behavior with sanitized diagnostics
+.github/ISSUE_TEMPLATE/bug_report.md:10:Do not paste Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers,
+.github/ISSUE_TEMPLATE/bug_report.md:11:Authorization headers, browser cookie database files, or screenshots that expose account
+.github/ISSUE_TEMPLATE/bug_report.md:16:## Pinemeter version
+.github/ISSUE_TEMPLATE/bug_report.md:30:<!-- Browser import, manual Claude session entry, Gemini API key entry, existing settings after upgrade, source build via xcodebuild, or not configured. -->
+.github/ISSUE_TEMPLATE/bug_report.md:34:<!-- What did you expect Pinemeter to do? -->
+.github/ISSUE_TEMPLATE/bug_report.md:48:<!-- Share only non-secret state such as configured/not configured, connected/disconnected, quota visible/not visible, or sanitized error category. Do not include session values, cookies, tokens, API keys, request headers, account IDs, or raw provider responses. -->
+.github/ISSUE_TEMPLATE/bug_report.md:52:<!-- Attach logs or screenshots only after removing secrets, tokens, cookies, session identifiers, request headers, account identifiers, and private workspace names. -->
+.github/ISSUE_TEMPLATE/bug_report.yml:2:description: Report reproducible Pinemeter behavior with sanitized diagnostics
+.github/ISSUE_TEMPLATE/bug_report.yml:9:        Thanks for reporting a bug. Do not paste Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, Authorization headers, browser cookie database files, or screenshots that expose account identifiers.
+.github/ISSUE_TEMPLATE/bug_report.yml:15:      label: Pinemeter version or commit
+.github/ISSUE_TEMPLATE/bug_report.yml:64:        1. Open Pinemeter Settings
+.github/ISSUE_TEMPLATE/bug_report.yml:88:      description: Paste only sanitized logs, copyable error text, or usage JSON shape. Redact account IDs and never include secrets.
+.github/ISSUE_TEMPLATE/bug_report.yml:95:        - label: I removed Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, Authorization headers, and account-identifying screenshots.
+.github/ISSUE_TEMPLATE/feature_request.yml:2:description: Suggest a focused Pinemeter improvement or provider workflow
+.github/ISSUE_TEMPLATE/feature_request.yml:9:        Thanks for suggesting an improvement. Please focus on the user problem and avoid sharing private account details, provider credentials, cookies, tokens, or headers.
+.github/ISSUE_TEMPLATE/feature_request.yml:39:      placeholder: "Pinemeter should ..."
+.github/ISSUE_TEMPLATE/feature_request.yml:62:        - label: I did not include real Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, Authorization headers, or account-identifying screenshots.
+.github/workflows/deploy-pages.yml:14:  id-token: write
+.github/workflows/deploy-pages.yml:35:          GH_TOKEN: ${{ github.token }}
+.github/workflows/test.yml:30:          xcodebuild test \
+.github/workflows/test.yml:31:            -project Pinemeter.xcodeproj \
+.github/workflows/test.yml:32:            -scheme Pinemeter \
+.github/workflows/test.yml:34:            -skip-testing:PinemeterTests/MenuBarIconSnapshotTests \
+.github/workflows/release.yml:1:name: Release Pinemeter
+.github/workflows/release.yml:14:      # Release signing is pinned to Autimo. Do not replace this with a mutable APPLE_TEAM_ID secret.
+.github/workflows/release.yml:15:      EXPECTED_SIGNING_IDENTITY: "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+.github/workflows/release.yml:16:      EXPECTED_TEAM_ID: HMR9RDR6M2
+.github/workflows/release.yml:55:          sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ steps.version.outputs.version }}/g" Pinemeter.xcodeproj/project.pbxproj
+.github/workflows/release.yml:59:          sed -i '' "s/CURRENT_PROJECT_VERSION = [^;]*/CURRENT_PROJECT_VERSION = $BUILD_NUMBER/g" Pinemeter.xcodeproj/project.pbxproj
+.github/workflows/release.yml:67:          PROJECT_FILE="Pinemeter.xcodeproj/project.pbxproj"
+.github/workflows/release.yml:74:          if grep -Eq 'CODE_SIGN_IDENTITY = "?Developer ID Application"?;' "$PROJECT_FILE"; then
+.github/workflows/release.yml:75:            echo "::error::Project contains generic Developer ID Application signing identity"
+.github/workflows/release.yml:79:          if grep -Eq 'CODE_SIGN_IDENTITY = "?Developer ID Application"?;' "$RELEASE_WORKFLOW"; then
+.github/workflows/release.yml:80:            echo "::error::Release workflow contains generic Developer ID Application signing identity"
+.github/workflows/release.yml:85:          if grep -Fq "secrets.${TEAM_SECRET_NAME}" "$RELEASE_WORKFLOW" || grep -Eq "^[[:space:]]*${TEAM_SECRET_NAME}:" "$RELEASE_WORKFLOW"; then
+.github/workflows/release.yml:86:            echo "::error::Release workflow must not rely on mutable ${TEAM_SECRET_NAME} secrets"
+.github/workflows/release.yml:107:          APPLE_CERTIFICATE_BASE64: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}
+.github/workflows/release.yml:108:          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+.github/workflows/release.yml:139:          xcodebuild clean build \
+.github/workflows/release.yml:140:            -project Pinemeter.xcodeproj \
+.github/workflows/release.yml:141:            -scheme Pinemeter \
+.github/workflows/release.yml:153:          APP_PATH="build/Build/Products/Release/Pinemeter.app"
+.github/workflows/release.yml:172:          APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
+.github/workflows/release.yml:173:          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+.github/workflows/release.yml:174:          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+.github/workflows/release.yml:176:          APP_PATH="build/Build/Products/Release/Pinemeter.app"
+.github/workflows/release.yml:180:          /usr/bin/ditto -c -k --keepParent "$APP_PATH" "$RUNNER_TEMP/Pinemeter-notarize.zip"
+.github/workflows/release.yml:183:          SUBMIT_OUTPUT=$(xcrun notarytool submit "$RUNNER_TEMP/Pinemeter-notarize.zip" \
+.github/workflows/release.yml:203:            rm -f $RUNNER_TEMP/AuthKey.p8 $RUNNER_TEMP/Pinemeter-notarize.zip
+.github/workflows/release.yml:214:          rm -f $RUNNER_TEMP/AuthKey.p8 $RUNNER_TEMP/Pinemeter-notarize.zip
+.github/workflows/release.yml:219:          xattr -cr Pinemeter.app
+.github/workflows/release.yml:220:          find Pinemeter.app -name '._*' -delete
+.github/workflows/release.yml:221:          zip -r ../../../../Pinemeter-${{ steps.version.outputs.version }}.zip Pinemeter.app
+.github/workflows/release.yml:227:          name: Pinemeter v${{ steps.version.outputs.version }}
+.github/workflows/release.yml:229:          files: Pinemeter-${{ steps.version.outputs.version }}.zip
+.github/workflows/release.yml:233:          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+.github/workflows/release.yml:237:          TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+.github/workflows/release.yml:239:          SHA=$(shasum -a 256 Pinemeter-${{ steps.version.outputs.version }}.zip | cut -d' ' -f1)
+.github/workflows/release.yml:241:          git clone https://x-access-token:${TAP_TOKEN}@github.com/eddmann/homebrew-tap.git
+
+MISSING_PATH_REFERENCES
+site/index.html: missing relative target logo.png
+site/index.html: missing relative target logo.png
+site/index.html: missing relative target logo.png
+
+UNSAFE_SECRET_PROMPTS
+RELEASING.md:13:Do not replace this with the generic `Developer ID Application` identity. Do not introduce a mutable `APPLE_TEAM_ID` or similar secret for release signing; the release path must continue to pin and verify the Autimo team identifier explicitly.
+RELEASING.md:55:- Clones, commits to, and runs `git push` against the Homebrew tap using `HOMEBREW_TAP_TOKEN`.
+RELEASING.md:56:- Submits the app to Apple notarization with App Store Connect credentials.
+RELEASING.md:58:Do not trigger, re-run, or modify these publishing steps as a signing check. Publishing, `git push`, `gh release`, Homebrew tap updates, notarization submissions, tag changes, or history rewriting require explicit maintainer confirmation for the intended version and target repository.
+CONTRIBUTING.md:10:4. Do not paste Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, request headers, or screenshots that expose account identifiers.
+CONTRIBUTING.md:37:- Treat provider credentials, cookies, tokens, and headers as secret material. Do not log or persist raw values outside their intended secure storage boundary.
+site/index.html:439:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Import a signed-in browser session or paste a Claude <code>sessionKey</code>/Cookie header. Pinemeter tracks 5-hour, weekly, and Sonnet usage windows.</p>
+README.md:102:Gemini visibility is optional and uses an API key entered in Settings. Pinemeter stores Gemini API keys in Keychain and shows status/diagnostic state without exposing the raw key in the UI or diagnostics.
+README.md:237:Read [RELEASING.md](RELEASING.md) before preparing release artifacts. The release path must use the pinned Autimo signing identity `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and verify `TeamIdentifier=HMR9RDR6M2`; generic `Developer ID Application` signing identities and mutable `APPLE_TEAM_ID`-style secrets are unsafe for release signing.
+README.md:239:Safe local checks are limited to reading local files or locally built artifacts, such as verifying the pinned `CODE_SIGN_IDENTITY`, `DEVELOPMENT_TEAM`, workflow `EXPECTED_SIGNING_IDENTITY`, workflow `EXPECTED_TEAM_ID`, and `codesign -dvv` output. Publishing or remote mutations require explicit maintainer confirmation for the intended version and target repository, including workflow dispatch, notarization submission, GitHub release creation, Homebrew tap edits, `git push`, tag changes, `gh release`, or history rewriting.
+README.md:243:- Use the GitHub **Bug report** issue form or [Markdown bug checklist](.github/ISSUE_TEMPLATE/bug_report.md) for reproducible app behavior. Include Pinemeter version, macOS version, affected provider, setup path, expected behavior, actual behavior, reproduction steps, sanitized provider state, and logs or screenshots with secrets removed.
+.github/ISSUE_TEMPLATE/feature_request.md:42:<!-- Does this change touch provider sessions, cookies, tokens, API keys, browser import, Keychain, logs, screenshots, exports, or account-identifying state? If yes, describe the risk without sharing secrets. -->
+.github/ISSUE_TEMPLATE/bug_report.md:10:Do not paste Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers,
+.github/ISSUE_TEMPLATE/bug_report.yml:9:        Thanks for reporting a bug. Do not paste Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, Authorization headers, browser cookie database files, or screenshots that expose account identifiers.
+.github/ISSUE_TEMPLATE/bug_report.yml:88:      description: Paste only sanitized logs, copyable error text, or usage JSON shape. Redact account IDs and never include secrets.
+.github/ISSUE_TEMPLATE/feature_request.yml:9:        Thanks for suggesting an improvement. Please focus on the user problem and avoid sharing private account details, provider credentials, cookies, tokens, or headers.
+.github/workflows/deploy-pages.yml:37:          RELEASE_TAG=$(gh release view --json tagName --jq '.tagName' 2>/dev/null || echo "")
+.github/workflows/release.yml:14:      # Release signing is pinned to Autimo. Do not replace this with a mutable APPLE_TEAM_ID secret.
+.github/workflows/release.yml:84:          TEAM_SECRET_NAME="APPLE_TEAM_ID"
+.github/workflows/release.yml:103:          echo "- Apple notarization submission with App Store Connect credentials"
+.github/workflows/release.yml:182:          echo "Submitting for notarization..."
+.github/workflows/release.yml:194:          # Check if notarization succeeded
+.github/workflows/release.yml:196:            echo "Notarization succeeded!"
+.github/workflows/release.yml:198:            echo "Notarization failed. Fetching detailed log..."
+.github/workflows/release.yml:207:          echo "Stapling notarization ticket..."
+.github/workflows/release.yml:251:          git push
+
+COMMAND_DRIFT
+RELEASING.md:22:EXPECTED_SIGNING_IDENTITY="Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+RELEASING.md:23:EXPECTED_TEAM_ID="HMR9RDR6M2"
+RELEASING.md:25:grep -F "CODE_SIGN_IDENTITY = \"$EXPECTED_SIGNING_IDENTITY\";" Pinemeter.xcodeproj/project.pbxproj
+RELEASING.md:26:grep -F "DEVELOPMENT_TEAM = $EXPECTED_TEAM_ID;" Pinemeter.xcodeproj/project.pbxproj
+RELEASING.md:27:grep -F "EXPECTED_SIGNING_IDENTITY: \"$EXPECTED_SIGNING_IDENTITY\"" .github/workflows/release.yml
+RELEASING.md:28:grep -F "EXPECTED_TEAM_ID: $EXPECTED_TEAM_ID" .github/workflows/release.yml
+RELEASING.md:37:EXPECTED_SIGNING_IDENTITY="Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+RELEASING.md:38:EXPECTED_TEAM_ID="HMR9RDR6M2"
+RELEASING.md:43:echo "$SIGNATURE_DETAILS" | grep -F "Authority=$EXPECTED_SIGNING_IDENTITY"
+RELEASING.md:44:echo "$SIGNATURE_DETAILS" | grep -F "TeamIdentifier=$EXPECTED_TEAM_ID"
+RELEASING.md:64:1. Confirm `Pinemeter.xcodeproj/project.pbxproj` still contains `CODE_SIGN_IDENTITY = "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)";` and `DEVELOPMENT_TEAM = HMR9RDR6M2;`.
+RELEASING.md:65:2. Confirm `.github/workflows/release.yml` still exports `EXPECTED_SIGNING_IDENTITY` and `EXPECTED_TEAM_ID` with the official values.
+CONTRIBUTING.md:19:- Setup path used: browser import, manual credential entry, API key, source build via `xcodebuild`, upgrade from existing settings, or not configured.
+CONTRIBUTING.md:42:xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+CONTRIBUTING.md:44:xcodebuild test \
+CONTRIBUTING.md:49:  CODE_SIGN_IDENTITY="-" \
+CONTRIBUTING.md:50:  CODE_SIGNING_REQUIRED=NO \
+CONTRIBUTING.md:51:  CODE_SIGNING_ALLOWED=NO
+site/index.html:502:                                <code class="text-slate-200 text-sm md:text-lg">brew install eddmann/tap/pinemeter</code>
+site/index.html:507:                    <button class="js-copy-command ml-2 p-2 rounded-lg hover:bg-white/10 transition-colors group flex-shrink-0" data-command="brew install eddmann/tap/pinemeter" title="Copy to clipboard">
+README.md:64:brew install eddmann/tap/pinemeter
+README.md:215:git clone https://github.com/eddmann/Pinemeter.git
+README.md:216:cd Pinemeter
+README.md:222:xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+README.md:225:xcodebuild test \
+README.md:230:  CODE_SIGN_IDENTITY="-" \
+README.md:231:  CODE_SIGNING_REQUIRED=NO \
+README.md:232:  CODE_SIGNING_ALLOWED=NO
+README.md:239:Safe local checks are limited to reading local files or locally built artifacts, such as verifying the pinned `CODE_SIGN_IDENTITY`, `DEVELOPMENT_TEAM`, workflow `EXPECTED_SIGNING_IDENTITY`, workflow `EXPECTED_TEAM_ID`, and `codesign -dvv` output. Publishing or remote mutations require explicit maintainer confirmation for the intended version and target repository, including workflow dispatch, notarization submission, GitHub release creation, Homebrew tap edits, `git push`, tag changes, `gh release`, or history rewriting.
+.github/ISSUE_TEMPLATE/bug_report.md:30:<!-- Browser import, manual Claude session entry, Gemini API key entry, existing settings after upgrade, source build via xcodebuild, or not configured. -->
+.github/ISSUE_TEMPLATE/feature_request.md:38:<!-- Optional, sanitized only: affected provider, setup path, macOS version, Pinemeter version/commit, or source build via xcodebuild. Do not include tokens, cookies, session keys, API keys, headers, or account identifiers. -->
+.github/workflows/test.yml:30:          xcodebuild test \
+.github/workflows/test.yml:35:            CODE_SIGN_IDENTITY="-" \
+.github/workflows/test.yml:36:            CODE_SIGNING_REQUIRED=NO \
+.github/workflows/test.yml:37:            CODE_SIGNING_ALLOWED=NO
+.github/workflows/release.yml:15:      EXPECTED_SIGNING_IDENTITY: "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+.github/workflows/release.yml:16:      EXPECTED_TEAM_ID: HMR9RDR6M2
+.github/workflows/release.yml:71:          echo "Expected signing identity: $EXPECTED_SIGNING_IDENTITY"
+.github/workflows/release.yml:72:          echo "Expected team identifier: $EXPECTED_TEAM_ID"
+.github/workflows/release.yml:74:          if grep -Eq 'CODE_SIGN_IDENTITY = "?Developer ID Application"?;' "$PROJECT_FILE"; then
+.github/workflows/release.yml:79:          if grep -Eq 'CODE_SIGN_IDENTITY = "?Developer ID Application"?;' "$RELEASE_WORKFLOW"; then
+.github/workflows/release.yml:90:          if ! grep -Fq "CODE_SIGN_IDENTITY = \"$EXPECTED_SIGNING_IDENTITY\";" "$PROJECT_FILE"; then
+.github/workflows/release.yml:91:            echo "::error::Project is missing pinned signing identity: $EXPECTED_SIGNING_IDENTITY"
+.github/workflows/release.yml:95:          if ! grep -Fq "DEVELOPMENT_TEAM = $EXPECTED_TEAM_ID;" "$PROJECT_FILE"; then
+.github/workflows/release.yml:96:            echo "::error::Project is missing pinned development team: $EXPECTED_TEAM_ID"
+.github/workflows/release.yml:127:          if ! security find-certificate -c "$EXPECTED_SIGNING_IDENTITY" $KEYCHAIN_PATH >/dev/null; then
+.github/workflows/release.yml:128:            echo "::error::Expected signing certificate not found: $EXPECTED_SIGNING_IDENTITY"
+.github/workflows/release.yml:139:          xcodebuild clean build \
+.github/workflows/release.yml:145:            CODE_SIGN_STYLE=Manual \
+.github/workflows/release.yml:146:            CODE_SIGN_IDENTITY="$EXPECTED_SIGNING_IDENTITY" \
+.github/workflows/release.yml:147:            DEVELOPMENT_TEAM="$EXPECTED_TEAM_ID" \
+.github/workflows/release.yml:148:            CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
+.github/workflows/release.yml:149:            OTHER_CODE_SIGN_FLAGS="--timestamp --options runtime"
+.github/workflows/release.yml:159:          if ! echo "$SIGNATURE_DETAILS" | grep -Fq "Authority=$EXPECTED_SIGNING_IDENTITY"; then
+.github/workflows/release.yml:160:            echo "::error::App was not signed by expected identity: $EXPECTED_SIGNING_IDENTITY"
+.github/workflows/release.yml:163:          if ! echo "$SIGNATURE_DETAILS" | grep -Fq "TeamIdentifier=$EXPECTED_TEAM_ID"; then
+.github/workflows/release.yml:164:            echo "::error::App was not signed with expected team: $EXPECTED_TEAM_ID"
+.github/workflows/release.yml:241:          git clone https://x-access-token:${TAP_TOKEN}@github.com/eddmann/homebrew-tap.git
