@@ -133,4 +133,8 @@ This document creates a repeatable public-readiness evidence plan. Future releas
 
 | # | Command | Exit Code | Verdict | Duration |
 |---|---|---|---|---|
-| 1 | `python3 - <<'PY' ...` (verify S04-UAT public-only checklist sections and references) | 0 | ✅ pass | Recorded by `gsd_exec` |
+| 1 | `python3 - <<'PY' ...` (automated public-readiness artifact checks A01-A10 over public files) | 0 | ✅ pass (`gsd_exec` 13d58981-ae54-424d-bb3f-81a395658ac9) | 90ms |
+| 2 | `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -skip-testing:PinemeterTests/MenuBarIconSnapshotTests CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO` | 0 | ✅ pass (`gsd_exec` d819aa9d-2f40-4330-a07f-c16f9eb796d0) | 7627ms |
+| 3 | `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` | 0 | ✅ pass (`gsd_exec` 2a8c2e5e-68bc-4f22-bd98-007dd5ca4573) | 7772ms |
+
+Human fresh-reader checks H01-H12 are intentionally not marked automated; they require a fresh outside reader using public files only.

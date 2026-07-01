@@ -55,7 +55,7 @@ The GitHub Actions release workflow is manual, but it is not just a local verifi
 - Clones, commits to, and runs `git push` against the Homebrew tap using `HOMEBREW_TAP_TOKEN`.
 - Submits the app to Apple notarization with App Store Connect credentials.
 
-Do not trigger, re-run, or modify these publishing steps as a signing check. Publishing, `git push`, `gh release`, Homebrew tap updates, notarization submissions, tag changes, or history rewriting require explicit maintainer confirmation for the intended version and target repository.
+Do not trigger, re-run, or modify these publishing steps as a signing check. Workflow dispatch, publishing, `git push`, `gh release`, Homebrew tap updates, notarization submissions, tag changes, or history rewriting require explicit maintainer confirmation for the intended version and target repository.
 
 ## Failure diagnostics
 

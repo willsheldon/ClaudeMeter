@@ -20,7 +20,7 @@ Use the **Bug report** issue form or the portable Markdown checklist in [`.githu
 - Expected behavior and actual behavior.
 - Sanitized provider state such as configured/not configured, connected/disconnected, quota visible/not visible, or sanitized error category.
 - Steps to reproduce.
-- Logs or screenshots only after removing secrets, tokens, cookies, session identifiers, request headers, account identifiers, and private workspace names.
+- Logs or screenshots only after redacting or removing secrets, tokens, cookies, session identifiers, request headers, account identifiers, and private workspace names.
 
 For credential, privacy, or vulnerability concerns, do **not** open a public issue. Use the private reporting path in [SECURITY.md](SECURITY.md).
 
