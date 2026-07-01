@@ -1,0 +1,19 @@
+{
+  "id": "437f03e2-2dc0-4891-b0eb-888f74ce2940",
+  "runtime": "python",
+  "purpose": "Focused doc mismatch audit with line references",
+  "script_chars": 1902,
+  "started_at": "2026-07-01T17:43:25.289Z",
+  "finished_at": "2026-07-01T17:43:25.507Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 218,
+  "stdout_bytes": 34604,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/437f03e2-2dc0-4891-b0eb-888f74ce2940.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/437f03e2-2dc0-4891-b0eb-888f74ce2940.stderr"
+}

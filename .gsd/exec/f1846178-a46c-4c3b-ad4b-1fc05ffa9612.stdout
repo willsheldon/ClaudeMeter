@@ -1,0 +1,310 @@
+scanned_files=68
+
+## providers (52 files)
+Pinemeter/App/AppModel.swift:5: /// Recovery action that can be shown for a provider credential without exposing credential material.
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:2: import SweetCookieKit
+Pinemeter/App/AppDelegate.swift:24: SessionKeyImportPromptCoordinator.install()
+Pinemeter/Resources/Info.plist:28: <string>Pinemeter sends notifications to alert you when your Claude.ai usage approaches threshold limits (warning and critical levels) and when your usage session resets.</string>
+Pinemeter/Repositories/CacheRepository.swift:41: let legacyCacheDir = appSupportBaseURL.appendingPathComponent("com.claudemeter", isDirectory: true)
+Pinemeter/Repositories/ChatGPTSessionRepository.swift:2: //  ChatGPTSessionRepository.swift
+Pinemeter/Repositories/KeychainRepository.swift:2: //  KeychainRepository.swift
+Pinemeter/Repositories/GeminiAPIKeyRepository.swift:13: /// Durable credential-equivalent API keys are stored in Keychain. Sanitized
+Pinemeter/Models/Constants.swift:47: /// 5-hour session window duration
+Pinemeter/Models/AppSettings.swift:30: /// Whether to show ChatGPT quota usage in the popover
+Pinemeter/Models/SessionKey.swift:3: /// Errors that can occur when working with Claude session keys
+Pinemeter/Models/NotificationState.swift:54: /// Check if session reset should trigger notification
+Pinemeter/Models/NotificationThresholds.swift:18: /// Whether to notify on session reset
+Pinemeter/Models/Organization.swift:10: /// Claude organization account
+Pinemeter/Models/CredentialState.swift:3: /// Provider that owns a credential used by Pinemeter.
+Pinemeter/Models/UsageLimit.swift:10: /// A single usage limit (session, weekly, or Sonnet)
+Pinemeter/Models/UsageData.swift:12: /// 5-hour rolling session usage
+Pinemeter/Models/ChatGPTUsageData.swift:2: //  ChatGPTUsageData.swift
+Pinemeter/Models/IconStyle.swift:18: var description: String { "Compact quota meters for Claude and ChatGPT" }
+Pinemeter/Utilities/DemoDataFactory.swift:19: usageData: makeUsageData(sessionPercentage: 42, weeklyPercentage: 10),
+Pinemeter/Services/CredentialStatusService.swift:8: /// Keychain-backed credential status reporter that never reads or returns raw credential values.
+Pinemeter/Services/ChatGPTUsageService.swift:2: //  ChatGPTUsageService.swift
+Pinemeter/Services/UsageService.swift:16: private let keychainRepository: KeychainRepositoryProtocol
+Pinemeter/Services/SessionKeyImportService.swift:8: import SweetCookieKit
+Pinemeter/Services/NotificationService.swift:43: let percentage = usageData.sessionUsage.percentage
+Pinemeter/Services/NetworkService.swift:11: /// Actor-isolated network service using URLSession
+Pinemeter/Services/GeminiUsageService.swift:141: private let session: URLSession
+Pinemeter/Services/WebViewNetworkService.swift:20: private var currentSessionKey: String?
+Pinemeter/Services/Protocols/CredentialStatusServiceProtocol.swift:8: /// Sanitized credential availability for a provider credential. Never contains raw credential material.
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:21: case .reset: return "Session Reset"
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift:22: sessionKey: String
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:3: /// User-selectable browser source for importing provider sessions.
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:2: //  ChatGPTUsageServiceProtocol.swift
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:10: /// Protocol for Claude.ai usage operations
+Pinemeter/Views/Settings/SettingsView.swift:8: @State private var isImportingSessionKey: Bool = false
+Pinemeter/Views/MenuBar/MenuBarPopoverView.swift:16: if appModel.hasConfiguredUsageProvider {
+Pinemeter/Views/MenuBar/MenuBarManager.swift:100: _ = appModel.chatGPTUsageData
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:2: //  ChatGPTUsageCardView.swift
+Pinemeter/Views/MenuBar/UsageCardView.swift:103: title: "5-Hour Session",
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:30: await appModel.refreshConfiguredUsageProviders(forceRefresh: true)
+
+## identity (64 files)
+Pinemeter/App/AppModel.swift:64: return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
+Pinemeter/App/PinemeterApp.swift:2: //  PinemeterApp.swift
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:4: /// Presents Pinemeter-owned context before macOS shows browser Safe Storage prompts.
+Pinemeter/Resources/Info.plist:5: <key>CFBundleDevelopmentRegion</key>
+Pinemeter/Repositories/CacheRepository.swift:3: //  Pinemeter
+Pinemeter/Repositories/ChatGPTSessionRepository.swift:3: //  Pinemeter
+Pinemeter/Repositories/KeychainRepository.swift:3: //  Pinemeter
+Pinemeter/Repositories/SettingsRepository.swift:3: //  Pinemeter
+Pinemeter/Repositories/GeminiAPIKeyRepository.swift:3: //  Pinemeter
+Pinemeter/Models/Constants.swift:3: //  Pinemeter
+Pinemeter/Models/AppSettings.swift:3: //  Pinemeter
+Pinemeter/Models/NotificationState.swift:3: //  Pinemeter
+Pinemeter/Models/NotificationThresholds.swift:3: //  Pinemeter
+Pinemeter/Models/UsageStatus.swift:3: //  Pinemeter
+Pinemeter/Models/Organization.swift:3: //  Pinemeter
+Pinemeter/Models/CredentialState.swift:3: /// Provider that owns a credential used by Pinemeter.
+Pinemeter/Models/UsageLimit.swift:3: //  Pinemeter
+Pinemeter/Models/UsageData.swift:3: //  Pinemeter
+Pinemeter/Models/ChatGPTUsageData.swift:3: //  Pinemeter
+Pinemeter/Models/IconStyle.swift:3: //  Pinemeter
+Pinemeter/Utilities/DemoDataFactory.swift:3: //  Pinemeter
+Pinemeter/Utilities/SystemSettingsOpener.swift:7: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles",
+Pinemeter/Utilities/DemoMode.swift:3: //  Pinemeter
+Pinemeter/Services/CredentialStatusService.swift:3: //  Pinemeter
+Pinemeter/Services/ChatGPTUsageService.swift:3: //  Pinemeter
+Pinemeter/Services/UsageService.swift:3: //  Pinemeter
+Pinemeter/Services/SessionKeyImportService.swift:12: private static let logger = Logger(subsystem: "com.pinemeter", category: "SessionKeyImportService")
+Pinemeter/Services/NotificationService.swift:3: //  Pinemeter
+Pinemeter/Services/NetworkService.swift:3: //  Pinemeter
+Pinemeter/Services/GeminiUsageService.swift:3: //  Pinemeter
+Pinemeter/Services/WebViewNetworkService.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/CredentialStatusServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:107: return "Pinemeter could not access browser cookies. Allow the macOS prompt and try again."
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/GeminiUsageServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Views/Settings/SettingsView.swift:343: Text("Automatically launch Pinemeter when you log in")
+
+## export_paths (63 files)
+Pinemeter/App/AppModel.swift:64: return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
+Pinemeter/App/PinemeterApp.swift:2: //  PinemeterApp.swift
+Pinemeter/App/SessionKeyImportPromptCoordinator.swift:4: /// Presents Pinemeter-owned context before macOS shows browser Safe Storage prompts.
+Pinemeter/Resources/Info.plist:28: <string>Pinemeter sends notifications to alert you when your Claude.ai usage approaches threshold limits (warning and critical levels) and when your usage session resets.</string>
+Pinemeter/Repositories/CacheRepository.swift:3: //  Pinemeter
+Pinemeter/Repositories/ChatGPTSessionRepository.swift:3: //  Pinemeter
+Pinemeter/Repositories/KeychainRepository.swift:3: //  Pinemeter
+Pinemeter/Repositories/SettingsRepository.swift:3: //  Pinemeter
+Pinemeter/Repositories/GeminiAPIKeyRepository.swift:3: //  Pinemeter
+Pinemeter/Models/Constants.swift:3: //  Pinemeter
+Pinemeter/Models/AppSettings.swift:3: //  Pinemeter
+Pinemeter/Models/NotificationState.swift:3: //  Pinemeter
+Pinemeter/Models/NotificationThresholds.swift:3: //  Pinemeter
+Pinemeter/Models/UsageStatus.swift:3: //  Pinemeter
+Pinemeter/Models/Organization.swift:3: //  Pinemeter
+Pinemeter/Models/CredentialState.swift:3: /// Provider that owns a credential used by Pinemeter.
+Pinemeter/Models/UsageLimit.swift:3: //  Pinemeter
+Pinemeter/Models/UsageData.swift:3: //  Pinemeter
+Pinemeter/Models/ChatGPTUsageData.swift:3: //  Pinemeter
+Pinemeter/Models/IconStyle.swift:3: //  Pinemeter
+Pinemeter/Utilities/DemoDataFactory.swift:3: //  Pinemeter
+Pinemeter/Utilities/DemoMode.swift:3: //  Pinemeter
+Pinemeter/Services/CredentialStatusService.swift:3: //  Pinemeter
+Pinemeter/Services/ChatGPTUsageService.swift:3: //  Pinemeter
+Pinemeter/Services/UsageService.swift:3: //  Pinemeter
+Pinemeter/Services/SessionKeyImportService.swift:12: private static let logger = Logger(subsystem: "com.pinemeter", category: "SessionKeyImportService")
+Pinemeter/Services/NotificationService.swift:3: //  Pinemeter
+Pinemeter/Services/NetworkService.swift:3: //  Pinemeter
+Pinemeter/Services/GeminiUsageService.swift:3: //  Pinemeter
+Pinemeter/Services/WebViewNetworkService.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/UserNotificationCenterProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/CredentialStatusServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/NetworkServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:107: return "Pinemeter could not access browser cookies. Allow the macOS prompt and try again."
+Pinemeter/Services/Protocols/ChatGPTUsageServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/UsageServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Services/Protocols/GeminiUsageServiceProtocol.swift:3: //  Pinemeter
+Pinemeter/Views/Settings/SettingsView.swift:343: Text("Automatically launch Pinemeter when you log in")
+Pinemeter/Views/MenuBar/MenuBarPopoverView.swift:3: //  Pinemeter
+
+## commands (17 files)
+Pinemeter/App/AppModel.swift:64: return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
+Pinemeter/Resources/Info.plist:2: <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+Pinemeter/Utilities/SystemSettingsOpener.swift:7: "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles",
+Pinemeter/Services/ChatGPTUsageService.swift:212: request.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15", forHTTPHeaderField: "User-Agent")
+Pinemeter/Services/SessionKeyImportService.swift:196: case "com.apple.Safari":
+Pinemeter/Services/NetworkService.swift:43: request.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36", forHTTPHeaderField: "User-Agent")
+Pinemeter/Services/WebViewNetworkService.swift:121: wv.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15"
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:103: return "No Claude browser session found. Sign in to claude.ai in your browser, then try again."
+Pinemeter/Views/Settings/SettingsView.swift:114: Text("Import signed-in browser sessions")
+Pinemeter/Views/MenuBar/MenuBarManager.swift:126: let quotaSignature = quotaBars
+Pinemeter/Views/MenuBar/UsageCardView.swift:48: .font(.system(size: 36, weight: .bold, design: .rounded))
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:316: .font(.system(.subheadline, design: .monospaced))
+Pinemeter/Views/MenuBar/IconCache.swift:26: quotaSignature: String = ""
+Pinemeter/Views/Setup/SetupWizardView.swift:179: Text("Import signed-in browser sessions")
+Pinemeter.xcodeproj/project.pbxproj:105: productType = "com.apple.product-type.bundle.unit-test";
+.github/workflows/release.yml:13: EXPECTED_SIGNING_IDENTITY: "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+.github/workflows/test.yml:30: xcodebuild test \
+
+## diagnostics (41 files)
+Pinemeter/App/AppModel.swift:8: case repair
+Pinemeter/Resources/Info.plist:28: <string>Pinemeter sends notifications to alert you when your Claude.ai usage approaches threshold limits (warning and critical levels) and when your usage session resets.</string>
+Pinemeter/Repositories/ChatGPTSessionRepository.swift:16: /// AppSettings so diagnostics can recover state without credential leakage.
+Pinemeter/Repositories/KeychainRepository.swift:19: throw KeychainError.saveFailed(OSStatus: errSecParam)
+Pinemeter/Repositories/GeminiAPIKeyRepository.swift:14: /// acquisition status is stored separately from AppSettings so diagnostics can
+Pinemeter/Models/Constants.swift:26: /// Base delay multiplier for exponential backoff (network errors)
+Pinemeter/Models/SessionKey.swift:3: /// Errors that can occur when working with Claude session keys
+Pinemeter/Models/NotificationState.swift:15: /// Last known usage percentage to detect reset
+Pinemeter/Models/NotificationThresholds.swift:18: /// Whether to notify on session reset
+Pinemeter/Models/CredentialState.swift:119: /// Sanitized failure category for credential diagnostics. Cases avoid carrying raw errors or credential values.
+Pinemeter/Models/UsageLimit.swift:15: /// ISO8601 timestamp when limit resets
+Pinemeter/Models/ChatGPTUsageData.swift:45: let resetAt: Date?
+Pinemeter/Utilities/DemoDataFactory.swift:21: errorMessage: nil,
+Pinemeter/Utilities/DemoMode.swift:20: case error
+Pinemeter/Services/ChatGPTUsageService.swift:8: enum ChatGPTUsageError: LocalizedError, Equatable {
+Pinemeter/Services/UsageService.swift:11: /// Actor-isolated usage service with retry logic
+Pinemeter/Services/SessionKeyImportService.swift:12: private static let logger = Logger(subsystem: "com.pinemeter", category: "SessionKeyImportService")
+Pinemeter/Services/NotificationService.swift:44: let resetTime = usageData.sessionUsage.resetAt
+Pinemeter/Services/NetworkService.swift:13: private static let logger = Logger(subsystem: "com.pinemeter", category: "NetworkService")
+Pinemeter/Services/GeminiUsageService.swift:14: let resetAt: Date?
+Pinemeter/Services/WebViewNetworkService.swift:16: nonisolated static let logger = Logger(subsystem: "com.pinemeter", category: "WebViewNetworkService")
+Pinemeter/Services/Protocols/NotificationServiceProtocol.swift:15: case reset
+Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift:90: /// Errors that can occur while importing provider credentials from browser cookies.
+Pinemeter/Services/Protocols/GeminiUsageServiceProtocol.swift:10: /// Sanitized Gemini monitoring errors. Cases must never include raw API keys or response bodies that
+Pinemeter/Views/Settings/SettingsView.swift:27: @State private var notificationError: String?
+Pinemeter/Views/MenuBar/ChatGPTUsageCardView.swift:65: if let resetAt = row.resetAt {
+Pinemeter/Views/MenuBar/UsageCardView.swift:66: // Reset time and pacing indicator
+Pinemeter/Views/MenuBar/MenuBarIconRenderer.swift:40: accessibilityDescription: "Error"
+Pinemeter/Views/MenuBar/UsagePopoverView.swift:49: // Error banner
+Pinemeter/Views/Setup/SetupWizardView.swift:9: @State private var errorMessage: String?
+Pinemeter/Views/Shared/CopyableErrorText.swift:4: /// User-facing error text that can be selected and copied.
+Pinemeter/Models/API/UsageAPIResponse.swift:26: let resetsAt: String? // ISO8601 string, can be null
+Pinemeter/Models/API/ChatGPTAPIResponses.swift:50: let resetAt: Date?
+Pinemeter/Models/Errors/KeychainError.swift:2: //  KeychainError.swift
+Pinemeter/Models/Errors/AppError.swift:2: //  AppError.swift
+Pinemeter/Models/Errors/NetworkError.swift:2: //  NetworkError.swift
+Pinemeter/Repositories/Protocols/GeminiAPIKeyRepositoryProtocol.swift:13: /// Keychain item namespace, not in `AppSettings`, `UserDefaults`, logs, or shared Claude/ChatGPT
+Pinemeter/Repositories/Protocols/ChatGPTSessionRepositoryProtocol.swift:24: /// Sanitized persisted/acquisition state safe for settings, diagnostics, and logs.
+Pinemeter/Repositories/Protocols/KeychainRepositoryProtocol.swift:10: /// Outcome of an explicit Claude credential repair attempt.
+Pinemeter.xcodeproj/project.pbxproj:264: ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+MARKETING_VERSION=['1.0']
+CURRENT_PROJECT_VERSION=['1']
+PRODUCT_BUNDLE_IDENTIFIER=['com.eddmann.Pinemeter', 'com.eddmann.PinemeterTests']
+PRODUCT_NAME=['"$(TARGET_NAME)"']
+DEVELOPMENT_TEAM=['HMR9RDR6M2']
+CODE_SIGN_IDENTITY=['"Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"']
+
+## workflows
+.github/workflows/deploy-pages.yml:
+  1: name: Deploy to GitHub Pages
+  22: runs-on: ubuntu-latest
+  25: name: github-pages
+  29: - name: Checkout
+  32: - name: Fetch latest release version
+  37: RELEASE_TAG=$(gh release view --json tagName --jq '.tagName' 2>/dev/null || echo "")
+  38: if [ -n "$RELEASE_TAG" ]; then
+  39: VERSION="${RELEASE_TAG#v}"
+  40: echo "Found release version: $VERSION"
+  43: echo "No releases found, keeping default version"
+  47: - name: Inject version into site
+  55: - name: Setup Pages
+  58: - name: Upload artifact
+  59: uses: actions/upload-pages-artifact@v5
+  63: - name: Deploy to GitHub Pages
+.github/workflows/release.yml:
+  1: name: Release Pinemeter
+  7: build-and-release:
+  8: runs-on: macos-latest
+  13: EXPECTED_SIGNING_IDENTITY: "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+  14: EXPECTED_TEAM_ID: HMR9RDR6M2
+  17: - name: Checkout code
+  20: - name: Extract version from changelog
+  26: - name: Extract changelog
+  45: - name: Set up Xcode
+  48: xcode-version: latest-stable
+  50: - name: Update version in project
+  53: sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ steps.version.outputs.version }}/g" Pinemeter.xcodeproj/project.pbxproj
+  57: sed -i '' "s/CURRENT_PROJECT_VERSION = [^;]*/CURRENT_PROJECT_VERSION = $BUILD_NUMBER/g" Pinemeter.xcodeproj/project.pbxproj
+  61: - name: Install Apple certificate
+  63: APPLE_CERTIFICATE_BASE64: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}
+  64: APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+  66: KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+  69: echo "$APPLE_CERTIFICATE_BASE64" | base64 --decode > $RUNNER_TEMP/certificate.p12
+  76: -P "$APPLE_CERTIFICATE_PASSWORD" \
+  80: security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+  83: if ! security find-certificate -c "$EXPECTED_SIGNING_IDENTITY" $KEYCHAIN_PATH >/dev/null; then
+  84: echo "::error::Expected signing certificate not found: $EXPECTED_SIGNING_IDENTITY"
+  85: security find-identity -v -p codesigning $KEYCHAIN_PATH || true
+  93: - name: Build app
+  95: xcodebuild clean build \
+  96: -project Pinemeter.xcodeproj \
+  97: -scheme Pinemeter \
+  98: -configuration Release \
+  101: CODE_SIGN_STYLE=Manual \
+  102: CODE_SIGN_IDENTITY="$EXPECTED_SIGNING_IDENTITY" \
+  104: CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
+  105: OTHER_CODE_SIGN_FLAGS="--timestamp --options runtime"
+  107: - name: Verify code signature
+  109: APP_PATH="build/Build/Products/Release/Pinemeter.app"
+  110: echo "Verifying code signature..."
+  111: codesign -vvv --deep --strict "$APP_PATH"
+  112: echo "Checking signature details..."
+  113: SIGNATURE_DETAILS=$(codesign -dvv "$APP_PATH" 2>&1)
+  114: echo "$SIGNATURE_DETAILS"
+  115: if ! echo "$SIGNATURE_DETAILS" | grep -Fq "Authority=$EXPECTED_SIGNING_IDENTITY"; then
+  116: echo "::error::App was not signed by expected identity: $EXPECTED_SIGNING_IDENTITY"
+  119: if ! echo "$SIGNATURE_DETAILS" | grep -Fq "TeamIdentifier=$EXPECTED_TEAM_ID"; then
+  120: echo "::error::App was not signed with expected team: $EXPECTED_TEAM_ID"
+  124: codesign -d --entitlements - "$APP_PATH"
+  126: - name: Notarize app
+  128: APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
+  129: APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+  130: APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+  132: APP_PATH="build/Build/Products/Release/Pinemeter.app"
+  136: /usr/bin/ditto -c -k --keepParent "$APP_PATH" "$RUNNER_TEMP/Pinemeter-notarize.zip"
+  138: echo "Submitting for notarization..."
+  139: SUBMIT_OUTPUT=$(xcrun notarytool submit "$RUNNER_TEMP/Pinemeter-notarize.zip" \
+  150: # Check if notarization succeeded
+  152: echo "Notarization succeeded!"
+  154: echo "Notarization failed. Fetching detailed log..."
+  155: xcrun notarytool log "$SUBMISSION_ID" \
+  159: rm -f $RUNNER_TEMP/AuthKey.p8 $RUNNER_TEMP/Pinemeter-notarize.zip
+  163: echo "Stapling notarization ticket..."
+  170: rm -f $RUNNER_TEMP/AuthKey.p8 $RUNNER_TEMP/Pinemeter-notarize.zip
+  172: - name: Create ZIP
+  174: cd build/Build/Products/Release
+  175: xattr -cr Pinemeter.app
+  176: find Pinemeter.app -name '._*' -delete
+  177: zip -r ../../../../Pinemeter-${{ steps.version.outputs.version }}.zip Pinemeter.app
+  179: - name: Create GitHub Release
+  180: uses: softprops/action-gh-release@v3
+  182: tag_name: v${{ steps.version.outputs.version }}
+  183: name: Pinemeter v${{ steps.version.outputs.version }}
+  185: files: Pinemeter-${{ steps.version.outputs.version }}.zip
+  187: prerelease: false
+  189: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  191: - name: Update Homebrew tap
+  193: TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+  195: SHA=$(shasum -a 256 Pinemeter-${{ steps.version.outputs.version }}.zip | cut -d' ' -f1)
+  197: git clone https://x-access-token:${TAP_TOKEN}@github.com/eddmann/homebrew-tap.git
+  198: cd homebrew-tap
+  200: sed -i '' "s/version \".*\"/version \"${{ steps.version.outputs.version }}\"/" Casks/pinemeter.rb
+  201: sed -i '' "s/sha256 \".*\"/sha256 \"${SHA}\"/" Casks/pinemeter.rb
+  205: git add Casks/pinemeter.rb
+  206: git commit -m "chore(pinemeter): update to ${{ steps.version.outputs.version }}"
+  209: - name: Cleanup keychain
+.github/workflows/test.yml:
+  1: name: Test
+  12: group: test-${{ github.ref }}
+  16: test:
+  17: runs-on: macos-latest
+  20: - name: Checkout
+  23: - name: Set up Xcode
+  26: xcode-version: latest-stable
+  28: - name: Run tests
+  30: xcodebuild test \
+  31: -project Pinemeter.xcodeproj \
+  32: -scheme Pinemeter \
+  34: -skip-testing:PinemeterTests/MenuBarIconSnapshotTests \
+  35: CODE_SIGN_IDENTITY="-" \
+  36: CODE_SIGNING_REQUIRED=NO \
+  37: CODE_SIGNING_ALLOWED=NO

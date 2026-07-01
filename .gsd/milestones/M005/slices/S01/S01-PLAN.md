@@ -23,12 +23,12 @@ README, site/index.html, CHANGELOG, and relevant docs agree with code and tests.
 
 ## Tasks
 
-- [ ] **T01: Audit public docs against current app** `est:small`
+- [x] **T01: Audited public docs against current Pinemeter implementation and identified stale provider, release, version, privacy, export, and changelog claims.** `est:small`
   Compare README, site, changelog, workflows, and project files against implemented providers, setup flows, privacy boundaries, build/test commands, and Pinemeter identity. Record stale or missing public-facing claims.
   - Files: `README.md`, `site/index.html`, `CHANGELOG.md`, `.github/workflows`, `Pinemeter.xcodeproj`
   - Verify: Task summary lists doc mismatches with file references and proposed updates.
 
-- [ ] **T02: Update README and public site** `est:medium`
+- [x] **T02: Updated the README, landing page, and public changelog links so fresh readers see current Pinemeter provider support, privacy posture, setup, reset, build, and troubleshooting guidance.** `est:medium`
   Update README and site copy so a fresh reader understands what Pinemeter is, supported providers, privacy/security posture, setup, reset, build/test commands, and troubleshooting.
   - Files: `README.md`, `site/index.html`, `CHANGELOG.md`
   - Verify: `rg -n "ClaudeMeter|Pinemeter|xcodebuild|provider|privacy|credential|Gemini|ChatGPT|Claude" README.md site/index.html CHANGELOG.md` reviewed for accurate public copy.

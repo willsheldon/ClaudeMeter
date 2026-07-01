@@ -1,0 +1,85 @@
+## Pinemeter/Models/CredentialState.swift (55 hits)
+3:/// Provider that owns a credential used by Pinemeter.
+4:enum CredentialProvider: String, Codable, CaseIterable, Equatable, Hashable, Sendable {
+6:case chatGPT
+7:case gemini
+13:case .chatGPT:
+14:return "ChatGPT"
+15:case .gemini:
+16:return "Gemini"
+21:/// Credential material type, without storing the credential material itself.
+22:enum CredentialKind: String, Codable, CaseIterable, Equatable, Hashable, Sendable {
+23:case sessionKey
+30:case .sessionKey:
+## Pinemeter/Repositories/GeminiAPIKeyRepository.swift (39 hits)
+2://  GeminiAPIKeyRepository.swift
+11:/// Secure boundary for Gemini API key material.
+13:/// Durable credential-equivalent API keys are stored in Keychain. Sanitized
+15:/// recover state without credential leakage.
+16:actor GeminiAPIKeyRepository: GeminiAPIKeyRepositoryProtocol {
+17:private let serviceName = "com.pinemeter.gemini.api-key"
+18:private let statusKeyPrefix = "GeminiAPIKeyRepository.status"
+25:func save(_ apiKey: GeminiAPIKey, account: String) async throws {
+29:throw GeminiAPIKeyRepositoryError.invalidAPIKey
+45:persistStatus(.init(state: .storageUnavailable, lastErrorCategory: .keychainWriteFailed), account: account)
+46:throw GeminiAPIKeyRepositoryError.secureStorageUnavailable(.keychainWriteFailed)
+52:func load(account: String) async throws -> GeminiAPIKey {
+## Pinemeter/Repositories/ChatGPTSessionRepository.swift (37 hits)
+2://  ChatGPTSessionRepository.swift
+11:/// Secure boundary for ChatGPT session acquisition material.
+13:/// Durable credential-equivalent cookies are stored in Keychain. Transient access
+16:/// AppSettings so diagnostics can recover state without credential leakage.
+17:actor ChatGPTSessionRepository: ChatGPTSessionRepositoryProtocol {
+18:private let serviceName = "com.pinemeter.chatgpt.session"
+19:private let statusKeyPrefix = "ChatGPTSessionRepository.status"
+27:func save(_ session: ChatGPTSession, account: String) async throws {
+31:throw ChatGPTSessionRepositoryError.invalidSessionCookie
+36:throw ChatGPTSessionRepositoryError.invalidSessionCookie
+52:persistStatus(.init(state: .storageUnavailable, lastErrorCategory: .keychainWriteFailed), account: account)
+53:throw ChatGPTSessionRepositoryError.secureStorageUnavailable(.keychainWriteFailed)
+## Pinemeter/Repositories/CacheRepository.swift (4 hits)
+47:// Public JSON export at ~/.pinemeter/usage.json for external tools.
+48:// Continue writing the legacy ~/.claudemeter/usage.json export for milestone compatibility.
+53:self.publicJSONURL = publicDir.appendingPathComponent("usage.json")
+54:self.legacyPublicJSONURL = legacyPublicDir.appendingPathComponent("usage.json")
+## Pinemeter/Views/Settings/SettingsView.swift (167 hits)
+8:@State private var isImportingSessionKey: Bool = false
+9:@State private var sessionKeyValidationMessage: String?
+11:@State private var hasSessionKeyValidationSucceeded: Bool = false
+13:@State private var isImportingChatGPTSessionCookie: Bool = false
+14:@State private var chatGPTSessionCookieValidationMessage: String?
+15:@State private var hasChatGPTSessionCookieValidationSucceeded: Bool = false
+19:@State private var activeCredentialActionProvider: CredentialProvider?
+20:@State private var activeCredentialActionKind: ProviderCredentialActionKind?
+21:@State private var providerCredentialActionMessage: String?
+22:@State private var hasProviderCredentialActionSucceeded: Bool = false
+70:credentialRecoverySection
+71:chatGPTUsageSection
+## Pinemeter/Views/Setup/SetupWizardView.swift (59 hits)
+13:@State private var activeCredentialActionProvider: CredentialProvider?
+14:@State private var activeCredentialActionKind: ProviderCredentialActionKind?
+17:let statuses = appModel.providerCredentialStatuses
+35:Text("Connect your Claude session key and provider credentials to monitor LLM plan usage.")
+43:credentialStatusCard(status)
+58:Button("Open Full Disk Access") {
+94:private func credentialStatusCard(_ status: AppProviderCredentialStatus) -> some View {
+96:Image(systemName: credentialStatusIcon(for: status.state.health))
+97:.foregroundStyle(credentialStatusColor(for: status.state.health))
+107:.foregroundStyle(credentialStatusColor(for: status.state.health))
+119:providerCredentialStatusActions(for: status)
+129:private func providerCredentialStatusActions(for status: AppProviderCredentialStatus) -> some View {
+## .github/workflows/release.yml (16 hits)
+13:EXPECTED_SIGNING_IDENTITY: "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+66:KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+67:KEYCHAIN_PASSWORD=$(openssl rand -base64 32)
+71:security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+72:security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+73:security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+78:-k $KEYCHAIN_PATH
+80:security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+81:security list-keychain -d user -s $KEYCHAIN_PATH
+83:if ! security find-certificate -c "$EXPECTED_SIGNING_IDENTITY" $KEYCHAIN_PATH >/dev/null; then
+85:security find-identity -v -p codesigning $KEYCHAIN_PATH || true
+91:echo "KEYCHAIN_PATH=$KEYCHAIN_PATH" >> $GITHUB_ENV
+## .github/workflows/test.yml (1 hits)
+30:xcodebuild test \

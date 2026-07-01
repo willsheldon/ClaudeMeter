@@ -7,8 +7,8 @@
     <!-- Primary Meta Tags -->
     <title>Pinemeter - Track Claude.ai Usage | macOS Menu Bar App</title>
     <meta name="title" content="Pinemeter - Track Claude.ai Usage | macOS Menu Bar App">
-    <meta name="description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
-    <meta name="keywords" content="Pinemeter, Claude.ai, ChatGPT quota, usage tracker, menu bar app, macOS, Anthropic, AI usage, session limits, Claude monitor">
+    <meta name="description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota and Gemini status visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+    <meta name="keywords" content="Pinemeter, Claude.ai, ChatGPT quota, Gemini status, usage tracker, menu bar app, macOS, Anthropic, OpenAI, Google, AI usage, session limits, Claude monitor">
     <meta name="robots" content="index, follow">
     <meta name="author" content="Edd Mann">
     <meta name="theme-color" content="#e07a4f">
@@ -24,7 +24,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://eddmann.com/Pinemeter/">
     <meta property="og:title" content="Pinemeter - Track Claude.ai Usage">
-    <meta property="og:description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+    <meta property="og:description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota and Gemini status visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
     <meta property="og:image" content="https://eddmann.com/Pinemeter/preview.png">
     <meta property="og:site_name" content="Pinemeter">
 
@@ -32,7 +32,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://eddmann.com/Pinemeter/">
     <meta property="twitter:title" content="Pinemeter - Track Claude.ai Usage">
-    <meta property="twitter:description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
+    <meta property="twitter:description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota and Gemini status visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.">
     <meta property="twitter:image" content="https://eddmann.com/Pinemeter/preview.png">
 
     <!-- Structured Data (JSON-LD) -->
@@ -48,9 +48,9 @@
             "price": "0",
             "priceCurrency": "USD"
         },
-        "description": "A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.",
+        "description": "A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota and Gemini status visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notifications.",
         "downloadUrl": "https://github.com/eddmann/Pinemeter/releases/latest",
-        "softwareVersion": "1.0.0",
+        "softwareVersion": "1.4.0",
         "author": {
             "@type": "Person",
             "name": "Edd Mann"
@@ -316,7 +316,7 @@
 
             <!-- Tagline -->
             <p class="text-xl md:text-2xl text-slate-500 dark:text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-in-up stagger-3">
-                Keep track of Claude.ai plan usage at a glance, with optional ChatGPT quota visibility when configured. A lightweight macOS menu bar app for power users.
+                Keep track of Claude.ai plan usage at a glance, with optional ChatGPT quota and Gemini status visibility when configured. A lightweight macOS menu bar app for power users.
             </p>
 
             <!-- CTA Buttons -->
@@ -351,7 +351,7 @@
             <!-- Section Header -->
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Everything you need to stay informed</h2>
-                <p class="text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto">Powerful features designed for Claude.ai power users who want complete visibility into Claude.ai usage, plus optional ChatGPT quota visibility.</p>
+                <p class="text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto">Powerful features designed for Claude.ai power users who want complete visibility into Claude.ai usage, plus optional ChatGPT quota and Gemini status visibility.</p>
             </div>
 
             <!-- Features Grid -->
@@ -419,7 +419,59 @@
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-3 text-slate-900 dark:text-white">Secure Storage</h3>
-                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Claude session keys are encrypted and stored securely in the macOS Keychain. Optional ChatGPT quota visibility uses local session data when enabled; credentials never leave your machine.</p>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Claude session keys, ChatGPT session cookies, and Gemini API keys are stored through macOS Keychain-backed boundaries. Diagnostics are sanitized and credentials never leave your machine.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Provider Setup Section -->
+    <section class="relative px-6 py-24">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">Provider setup that matches how you work</h2>
+                <p class="text-slate-500 dark:text-slate-400 text-lg max-w-3xl mx-auto">Start with Claude.ai monitoring, then add ChatGPT or Gemini when you want extra provider visibility.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass-card p-8 opacity-0-initial stagger-1">
+                    <h3 class="text-xl font-semibold mb-3 text-slate-900 dark:text-white">Claude.ai</h3>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Import a signed-in browser session or paste a Claude <code>sessionKey</code>/Cookie header. Pinemeter tracks 5-hour, weekly, and Sonnet usage windows.</p>
+                </div>
+                <div class="glass-card p-8 opacity-0-initial stagger-2">
+                    <h3 class="text-xl font-semibold mb-3 text-slate-900 dark:text-white">ChatGPT</h3>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Optional quota visibility uses a local browser session when configured. If ChatGPT is unavailable or rejected, Claude monitoring continues.</p>
+                </div>
+                <div class="glass-card p-8 opacity-0-initial stagger-3">
+                    <h3 class="text-xl font-semibold mb-3 text-slate-900 dark:text-white">Gemini</h3>
+                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Optional Gemini status visibility uses an API key entered in Settings and stored in Keychain, with sanitized status diagnostics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diagnostics Section -->
+    <section class="relative px-6 py-24">
+        <div class="max-w-5xl mx-auto">
+            <div class="glass-card p-8 md:p-10 opacity-0-initial">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-slate-900 dark:text-white">Private by default, diagnosable when something breaks</h2>
+                <div class="grid md:grid-cols-2 gap-8 text-slate-500 dark:text-slate-400 leading-relaxed">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-slate-900 dark:text-white">Privacy and storage</h3>
+                        <ul class="space-y-2 list-disc pl-5">
+                            <li>Claude session keys, ChatGPT session cookies, and Gemini API keys are stored locally through Keychain boundaries.</li>
+                            <li>Access-token material remains transient where applicable.</li>
+                            <li>Usage exports are local JSON files under <code>~/.pinemeter/usage.json</code>, with legacy <code>~/.claudemeter/usage.json</code> compatibility for older scripts.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-slate-900 dark:text-white">Troubleshooting and reset</h3>
+                        <ul class="space-y-2 list-disc pl-5">
+                            <li>Chromium imports may request Safe Storage Keychain access; Safari imports may require Full Disk Access.</li>
+                            <li>Settings exposes provider-specific repair, reconnect, and clear actions.</li>
+                            <li>Unavailable, rejected, and rate-limited provider states show sanitized copyable errors without raw credentials.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -500,7 +552,7 @@
             </p>
 
             <p class="text-slate-400 dark:text-slate-500 text-xs mt-4">
-                Pinemeter is not affiliated with or endorsed by Anthropic.
+                Pinemeter is not affiliated with or endorsed by Anthropic, OpenAI, or Google.
             </p>
         </div>
     </footer>

@@ -1,0 +1,19 @@
+{
+  "id": "f1846178-a46c-4c3b-ad4b-1fc05ffa9612",
+  "runtime": "python",
+  "purpose": "Audit public docs against current app implementation and workflow metadata",
+  "script_chars": 2133,
+  "started_at": "2026-07-01T17:42:40.886Z",
+  "finished_at": "2026-07-01T17:42:41.877Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 991,
+  "stdout_bytes": 22659,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/f1846178-a46c-4c3b-ad4b-1fc05ffa9612.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/f1846178-a46c-4c3b-ad4b-1fc05ffa9612.stderr"
+}

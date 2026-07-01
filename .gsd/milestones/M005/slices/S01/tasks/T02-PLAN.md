@@ -4,7 +4,7 @@ estimated_files: 3
 skills_used: []
 ---
 
-# T02: Update README and public site
+# T02: Updated the README, landing page, and public changelog links so fresh readers see current Pinemeter provider support, privacy posture, setup, reset, build, and troubleshooting guidance.
 
 Update README and site copy so a fresh reader understands what Pinemeter is, supported providers, privacy/security posture, setup, reset, build/test commands, and troubleshooting.
 

@@ -1,0 +1,362 @@
+
+## README provider/setup/privacy lines [README.md] exists=True
+README.md:5: Keep track of your Claude.ai plan usage at a glance, with optional ChatGPT quota visibility when configured.
+README.md:9: - **Claude.ai usage monitoring** - Track your 5-hour session, 7-day weekly, and Sonnet-specific usage limits
+README.md:44: Configure your Claude session, optional ChatGPT quota visibility, refresh interval, icon style, and notification thresholds:
+README.md:61: 1. Download the latest Pinemeter release from this repository's Releases page.
+README.md:65: Release distribution, Homebrew packaging, and final public repository URLs are pending the open-source hygiene plan.
+README.md:73: 3. Import from a browser signed in to [claude.ai](https://claude.ai), or paste your session manually
+README.md:74: 4. The app validates your Claude session and begins monitoring Claude.ai usage
+README.md:76: ### Claude Session Setup
+README.md:78: Pinemeter can import your existing Claude session from local browser cookies. Sign in to [claude.ai](https://claude.ai) in a supported browser, then choose **Import from Browser** in the setup wizard or Settings.
+README.md:80: Chrome, Arc, Brave, Edge, and other Chromium browsers may ask for browser Safe Storage Keychain access so Pinemeter can decrypt cookies. Safari cookies are protected by macOS and may require Full Disk Access.
+README.md:82: If browser import is unavailable, paste your Claude session manually. Pinemeter accepts either a raw `sk-ant-...` Claude session key or a Cookie header containing `sessionKey=...`.
+README.md:84: #### Manual Session Setup
+README.md:86: Your Claude session key is stored in your browser cookies.
+README.md:93: 4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:101: 4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:109: 4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+README.md:115: - Click the icon to access detailed statistics, adjust settings, and optionally show ChatGPT quota visibility
+README.md:120: Pinemeter exports usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards.
+README.md:127: "session_usage": {
+README.md:128: "reset_at": "2025-12-24T12:00:00Z",
+README.md:132: "reset_at": "2025-12-30T00:00:00Z",
+README.md:136: "reset_at": "2025-12-30T00:00:00Z",
+README.md:148: usage=$(jq -r '.session_usage.utilization' ~/.pinemeter/usage.json 2>/dev/null)
+README.md:175: - Active Claude.ai account with a browser session or Claude session key
+README.md:176: - Optional: ChatGPT browser session if enabling ChatGPT quota visibility
+README.md:179: ## Building from Source
+README.md:182: # Clone the repository
+README.md:183: git clone <repository-url>
+README.md:186: # Open in Xcode
+README.md:187: open Pinemeter.xcodeproj
+README.md:189: # Build and run (⌘R)
+README.md:192: Requires Xcode 16.0 or later.
+README.md:207: - Claude session keys are stored securely in macOS Keychain (encrypted, device-local only)
+README.md:208: - Browser import reads local browser cookies to extract your Claude session, then stores only the Claude session key in Keychain
+
+## site provider/install/privacy lines [site/index.html] exists=True
+site/index.html:10: <meta name="description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get 
+site/index.html:11: <meta name="keywords" content="Pinemeter, Claude.ai, ChatGPT quota, usage tracker, menu bar app, macOS, Anthropic, AI usage, session limits, Claude monitor">
+site/index.html:27: <meta property="og:description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, a
+site/index.html:35: <meta property="twitter:description" content="A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usa
+site/index.html:51: "description": "A macOS menu bar app that monitors Claude.ai plan usage in real-time, with optional ChatGPT quota visibility when configured. Track 5-hour sessions, weekly limits, Sonnet usage, and get smart notification
+site/index.html:52: "downloadUrl": "https://github.com/eddmann/Pinemeter/releases/latest",
+site/index.html:53: "softwareVersion": "1.0.0",
+site/index.html:319: Keep track of Claude.ai plan usage at a glance, with optional ChatGPT quota visibility when configured. A lightweight macOS menu bar app for power users.
+site/index.html:330: <a href="https://github.com/eddmann/Pinemeter" class="px-8 py-4 text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-3 border 
+site/index.html:334: View on GitHub
+site/index.html:354: <p class="text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto">Powerful features designed for Claude.ai power users who want complete visibility into Claude.ai usage, plus optional ChatGPT quota visibility.</p>
+site/index.html:367: <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Track Claude.ai 5-hour session limits, 7-day weekly usage, and Sonnet-specific limits in real-time. Never get caught off guard by hitting your limits.</p>
+site/index.html:422: <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Claude session keys are encrypted and stored securely in the macOS Keychain. Optional ChatGPT quota visibility uses local session data when enabled; credentia
+site/index.html:434: <p class="text-slate-500 dark:text-slate-400 text-lg">Get up and running with a single command using Homebrew.</p>
+site/index.html:450: <code class="text-slate-200 text-sm md:text-lg">brew install eddmann/tap/pinemeter</code>
+site/index.html:455: <button class="js-copy-command ml-2 p-2 rounded-lg hover:bg-white/10 transition-colors group flex-shrink-0" data-command="brew install eddmann/tap/pinemeter" title="Copy to clipboard">
+site/index.html:469: <a href="https://github.com/eddmann/Pinemeter/releases" class="text-coral-500 hover:text-coral-600 underline underline-offset-4 transition-colors">GitHub Releases</a>
+site/index.html:482: <a href="https://github.com/eddmann/Pinemeter" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-2">
+site/index.html:486: GitHub
+site/index.html:489: <a href="https://github.com/eddmann/Pinemeter/releases" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:490: Releases
+site/index.html:493: <a href="https://github.com/eddmann/Pinemeter/issues" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+
+## changelog recent lines [CHANGELOG.md] exists=True
+CHANGELOG.md:8: ## [1.4.0] - 2026-05-19
+CHANGELOG.md:12: - Import Claude sessions from browsers signed in to claude.ai
+CHANGELOG.md:13: - Accept pasted Cookie headers containing `sessionKey` during setup
+CHANGELOG.md:15: ## [1.3.2] - 2026-05-18
+CHANGELOG.md:21: ## [1.3.1] - 2026-05-18
+CHANGELOG.md:29: ## [1.3.0] - 2026-02-02
+CHANGELOG.md:35: ## [1.2.1] - 2026-01-20
+CHANGELOG.md:39: - Release workflow now extracts version and release notes automatically from CHANGELOG.md
+CHANGELOG.md:41: ## [1.2.0] - 2026-01-16
+CHANGELOG.md:54: - Disable code signing for test workflow
+CHANGELOG.md:58: - Add test workflow to run Xcode tests on push
+CHANGELOG.md:60: ## [1.1.2] - 2026-01-14
+CHANGELOG.md:71: ## [1.1.1] - 2026-01-04
+CHANGELOG.md:77: ## [1.1.0] - 2026-01-02
+CHANGELOG.md:85: ## [1.0.7] - 2025-12-24
+CHANGELOG.md:89: - Export usage data to ~/.claudemeter/usage.json for external tools
+CHANGELOG.md:96: ## [1.0.6] - 2025-11-26
+CHANGELOG.md:100: - Code signing and notarization to release workflow
+CHANGELOG.md:102: ## [1.0.5] - 2025-11-25
+CHANGELOG.md:116: ## [1.0.4] - 2025-11-19
+CHANGELOG.md:122: ## [1.0.3] - 2025-11-19
+CHANGELOG.md:129: ## [1.0.2] - 2025-11-19
+CHANGELOG.md:137: ## [1.0.1] - 2025-11-18
+CHANGELOG.md:143: ## [1.0.0] - 2025-11-18
+CHANGELOG.md:147: - Initial ClaudeMeter macOS menu bar app
+CHANGELOG.md:148: - Real-time usage monitoring for 5-hour session, 7-day weekly, and Sonnet-specific usage limits
+CHANGELOG.md:153: [1.4.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.2...v1.4.0
+CHANGELOG.md:154: [1.3.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.1...v1.3.2
+CHANGELOG.md:155: [1.3.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.3.0...v1.3.1
+CHANGELOG.md:156: [1.3.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.2.1...v1.3.0
+CHANGELOG.md:157: [1.2.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.2.0...v1.2.1
+CHANGELOG.md:158: [1.2.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.2...v1.2.0
+CHANGELOG.md:159: [1.1.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.1...v1.1.2
+CHANGELOG.md:160: [1.1.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.1.0...v1.1.1
+CHANGELOG.md:161: [1.1.0]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.7...v1.1.0
+CHANGELOG.md:162: [1.0.7]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.6...v1.0.7
+CHANGELOG.md:163: [1.0.6]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.5...v1.0.6
+CHANGELOG.md:164: [1.0.5]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.4...v1.0.5
+CHANGELOG.md:165: [1.0.4]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.3...v1.0.4
+CHANGELOG.md:166: [1.0.3]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.2...v1.0.3
+CHANGELOG.md:167: [1.0.2]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.1...v1.0.2
+CHANGELOG.md:168: [1.0.1]: https://github.com/eddmann/ClaudeMeter/compare/v1.0.0...v1.0.1
+CHANGELOG.md:169: [1.0.0]: https://github.com/eddmann/ClaudeMeter/releases/tag/v1.0.0
+
+## app settings provider lines [Pinemeter/Models/AppSettings.swift] exists=True
+Pinemeter/Models/AppSettings.swift:12: /// Refresh interval in seconds, clamped to Constants.Refresh bounds.
+Pinemeter/Models/AppSettings.swift:13: var refreshInterval: TimeInterval
+Pinemeter/Models/AppSettings.swift:27: /// Whether to show Sonnet usage in the popover
+Pinemeter/Models/AppSettings.swift:28: var isSonnetUsageShown: Bool
+Pinemeter/Models/AppSettings.swift:30: /// Whether to show ChatGPT quota usage in the popover
+Pinemeter/Models/AppSettings.swift:31: var isChatGPTUsageShown: Bool
+Pinemeter/Models/AppSettings.swift:36: /// Whether menu bar icons are shown in color instead of monochrome.
+Pinemeter/Models/AppSettings.swift:40: refreshInterval: Constants.Refresh.minimum,
+Pinemeter/Models/AppSettings.swift:45: isSonnetUsageShown: false,
+Pinemeter/Models/AppSettings.swift:46: isChatGPTUsageShown: false,
+Pinemeter/Models/AppSettings.swift:52: case refreshInterval = "refresh_interval"
+Pinemeter/Models/AppSettings.swift:57: case isSonnetUsageShown = "show_sonnet_usage"
+Pinemeter/Models/AppSettings.swift:58: case isChatGPTUsageShown = "show_chatgpt_usage"
+Pinemeter/Models/AppSettings.swift:59: case legacyOpenAIUsageShown = "show_openai_usage"
+Pinemeter/Models/AppSettings.swift:70: refreshInterval = try container.decodeIfPresent(TimeInterval.self, forKey: .refreshInterval) ?? defaults.refreshInterval
+Pinemeter/Models/AppSettings.swift:75: isSonnetUsageShown = try container.decodeIfPresent(Bool.self, forKey: .isSonnetUsageShown) ?? defaults.isSonnetUsageShown
+Pinemeter/Models/AppSettings.swift:76: isChatGPTUsageShown = try container.decodeIfPresent(Bool.self, forKey: .isChatGPTUsageShown)
+Pinemeter/Models/AppSettings.swift:77: ?? container.decodeIfPresent(Bool.self, forKey: .legacyOpenAIUsageShown)
+Pinemeter/Models/AppSettings.swift:78: ?? defaults.isChatGPTUsageShown
+Pinemeter/Models/AppSettings.swift:84: refreshInterval: TimeInterval,
+Pinemeter/Models/AppSettings.swift:89: isSonnetUsageShown: Bool,
+Pinemeter/Models/AppSettings.swift:90: isChatGPTUsageShown: Bool,
+Pinemeter/Models/AppSettings.swift:93: self.refreshInterval = refreshInterval
+Pinemeter/Models/AppSettings.swift:98: self.isSonnetUsageShown = isSonnetUsageShown
+Pinemeter/Models/AppSettings.swift:99: self.isChatGPTUsageShown = isChatGPTUsageShown
+Pinemeter/Models/AppSettings.swift:106: try container.encode(refreshInterval, forKey: .refreshInterval)
+Pinemeter/Models/AppSettings.swift:111: try container.encode(isSonnetUsageShown, forKey: .isSonnetUsageShown)
+Pinemeter/Models/AppSettings.swift:112: try container.encode(isChatGPTUsageShown, forKey: .isChatGPTUsageShown)
+Pinemeter/Models/AppSettings.swift:119: /// Validate refresh interval is within Constants.Refresh bounds.
+Pinemeter/Models/AppSettings.swift:120: mutating func setRefreshInterval(_ interval: TimeInterval) {
+Pinemeter/Models/AppSettings.swift:121: refreshInterval = max(Constants.Refresh.minimum, min(Constants.Refresh.maximum, interval))
+
+## settings UI provider lines [Pinemeter/Views/Settings/SettingsView.swift] exists=True
+Pinemeter/Views/Settings/SettingsView.swift:13: @State private var isImportingChatGPTSessionCookie: Bool = false
+Pinemeter/Views/Settings/SettingsView.swift:14: @State private var chatGPTSessionCookieValidationMessage: String?
+Pinemeter/Views/Settings/SettingsView.swift:15: @State private var hasChatGPTSessionCookieValidationSucceeded: Bool = false
+Pinemeter/Views/Settings/SettingsView.swift:71: chatGPTUsageSection
+Pinemeter/Views/Settings/SettingsView.swift:93: credentialBrowserImportButtons
+Pinemeter/Views/Settings/SettingsView.swift:112: private var credentialBrowserImportButtons: some View {
+Pinemeter/Views/Settings/SettingsView.swift:114: Text("Import signed-in browser sessions")
+Pinemeter/Views/Settings/SettingsView.swift:117: Text("Checks Claude and ChatGPT browser sessions. Add Gemini API keys in Settings; their status appears below.")
+Pinemeter/Views/Settings/SettingsView.swift:122: ForEach(BrowserImportSource.setupOptions, id: \.self) { source in
+Pinemeter/Views/Settings/SettingsView.swift:169: if let chatGPTSessionCookieValidationMessage {
+Pinemeter/Views/Settings/SettingsView.swift:170: CopyableErrorText(chatGPTSessionCookieValidationMessage,
+Pinemeter/Views/Settings/SettingsView.swift:172: foregroundStyle: hasChatGPTSessionCookieValidationSucceeded ? Color.green : Color.orange)
+Pinemeter/Views/Settings/SettingsView.swift:257: // MARK: - ChatGPT Usage Section
+Pinemeter/Views/Settings/SettingsView.swift:259: private var chatGPTUsageSection: some View {
+Pinemeter/Views/Settings/SettingsView.swift:262: Text("Show ChatGPT Usage")
+Pinemeter/Views/Settings/SettingsView.swift:264: Text("Optional. Connect ChatGPT from the credential recovery section, then show ChatGPT plan quota usage in the popover.")
+Pinemeter/Views/Settings/SettingsView.swift:272: Toggle("", isOn: $appModel.settings.isChatGPTUsageShown)
+Pinemeter/Views/Settings/SettingsView.swift:274: .disabled(!appModel.hasChatGPTSessionCookie)
+Pinemeter/Views/Settings/SettingsView.swift:275: .onChange(of: appModel.settings.isChatGPTUsageShown) { _, isShown in
+Pinemeter/Views/Settings/SettingsView.swift:277: Task { await appModel.refreshChatGPTUsage() }
+Pinemeter/Views/Settings/SettingsView.swift:366: resetNotificationSection
+Pinemeter/Views/Settings/SettingsView.swift:474: private var resetNotificationSection: some View {
+Pinemeter/Views/Settings/SettingsView.swift:477: Text("Notify on Session Reset")
+Pinemeter/Views/Settings/SettingsView.swift:479: Text("Get notified when your usage limit resets")
+Pinemeter/Views/Settings/SettingsView.swift:486: Toggle("", isOn: isNotifiedOnResetBinding)
+Pinemeter/Views/Settings/SettingsView.swift:538: private var isNotifiedOnResetBinding: Binding<Bool> {
+Pinemeter/Views/Settings/SettingsView.swift:540: get: { appModel.settings.notificationThresholds.isNotifiedOnReset },
+Pinemeter/Views/Settings/SettingsView.swift:541: set: { appModel.settings.notificationThresholds.isNotifiedOnReset = $0 }
+Pinemeter/Views/Settings/SettingsView.swift:616: private var isChatGPTSessionCookieBusy: Bool {
+Pinemeter/Views/Settings/SettingsView.swift:617: isImportingChatGPTSessionCookie
+Pinemeter/Views/Settings/SettingsView.swift:621: isImportingProviderSessions || isSessionKeyBusy || isChatGPTSessionCookieBusy
+Pinemeter/Views/Settings/SettingsView.swift:644: private func importProviderSessionsFromSettings(_ source: BrowserImportSource) async {
+Pinemeter/Views/Settings/SettingsView.swift:649: chatGPTSessionCookieValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:658: providerImportMessage = settingsBrowserImportSuccessMessage(for: outcome)
+Pinemeter/Views/Settings/SettingsView.swift:661: providerImportMessage = settingsBrowserImportFailureMessage(for: outcome)
+Pinemeter/Views/Settings/SettingsView.swift:668: private func settingsBrowserImportSuccessMessage(for outcome: ProviderBrowserImportOutcome) -> String {
+Pinemeter/Views/Settings/SettingsView.swift:671: settingsProviderSuccessName("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Settings/SettingsView.swift:674: let failureMessage = settingsBrowserImportFailureMessage(for: outcome)
+Pinemeter/Views/Settings/SettingsView.swift:682: private func settingsProviderSuccessName(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
+Pinemeter/Views/Settings/SettingsView.swift:689: private func settingsBrowserImportFailureMessage(for outcome: ProviderBrowserImportOutcome) -> String? {
+Pinemeter/Views/Settings/SettingsView.swift:692: settingsProviderFailureMessage("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Settings/SettingsView.swift:699: private func settingsProviderFailureMessage(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
+Pinemeter/Views/Settings/SettingsView.swift:759: private func repairClaudeSessionKeyFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:764: let state = await appModel.repairClaudeSessionKey()
+Pinemeter/Views/Settings/SettingsView.swift:766: sessionKeyValidationMessage = "Claude session key repaired"
+Pinemeter/Views/Settings/SettingsView.swift:770: sessionKeyValidationMessage = status?.recoverySuggestion ?? status?.detailText ?? "Claude session key repair failed"
+Pinemeter/Views/Settings/SettingsView.swift:792: chatGPTSessionCookieValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:832: case .repair:
+Pinemeter/Views/Settings/SettingsView.swift:833: return "Repairing"
+Pinemeter/Views/Settings/SettingsView.swift:842: return "Reconnecting credentials from the signed-in browser session."
+Pinemeter/Views/Settings/SettingsView.swift:843: case .repair:
+Pinemeter/Views/Settings/SettingsView.swift:844: return "Repairing saved credential access."
+Pinemeter/Views/Settings/SettingsView.swift:854: case .repair:
+Pinemeter/Views/Settings/SettingsView.swift:855: return "Repaired saved \(credentialName)."
+Pinemeter/Views/Settings/SettingsView.swift:869: private func importAndSaveChatGPTSessionCookie() async {
+Pinemeter/Views/Settings/SettingsView.swift:870: isImportingChatGPTSessionCookie = true
+Pinemeter/Views/Settings/SettingsView.swift:871: chatGPTSessionCookieValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:872: hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:875: let imported = try await appModel.importAndSaveChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:876: chatGPTSessionCookieValidationMessage = "Imported from \(imported.sourceDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:877: hasChatGPTSessionCookieValidationSucceeded = true
+Pinemeter/Views/Settings/SettingsView.swift:881: chatGPTSessionCookieValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:882: hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:885: chatGPTSessionCookieValidationMessage = error.localizedDescription
+Pinemeter/Views/Settings/SettingsView.swift:886: hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:888: chatGPTSessionCookieValidationMessage = error.localizedDescription
+Pinemeter/Views/Settings/SettingsView.swift:889: hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:892: isImportingChatGPTSessionCookie = false
+Pinemeter/Views/Settings/SettingsView.swift:895: private func clearChatGPTSessionCookie() {
+Pinemeter/Views/Settings/SettingsView.swift:897: await clearChatGPTSessionCookieFromSettings()
+Pinemeter/Views/Settings/SettingsView.swift:902: private func clearChatGPTSessionCookieFromSettings() async {
+Pinemeter/Views/Settings/SettingsView.swift:904: try await appModel.clearChatGPTSessionCookie()
+Pinemeter/Views/Settings/SettingsView.swift:905: chatGPTSessionCookieValidationMessage = nil
+Pinemeter/Views/Settings/SettingsView.swift:906: hasChatGPTSessionCookieValidationSucceeded = false
+Pinemeter/Views/Settings/SettingsView.swift:908: chatGPTSessionCookieValidationMessage = "Failed to clear: \(error.localizedDescription)"
+Pinemeter/Views/Settings/SettingsView.swift:909: hasChatGPTSessionCookieValidationSucceeded = false
+
+## setup UI provider lines [Pinemeter/Views/Setup/SetupWizardView.swift] exists=True
+Pinemeter/Views/Setup/SetupWizardView.swift:35: Text("Connect your Claude session key and provider credentials to monitor LLM plan usage.")
+Pinemeter/Views/Setup/SetupWizardView.swift:58: Button("Open Full Disk Access") {
+Pinemeter/Views/Setup/SetupWizardView.swift:88: browserImportActions
+Pinemeter/Views/Setup/SetupWizardView.swift:177: private var browserImportActions: some View {
+Pinemeter/Views/Setup/SetupWizardView.swift:179: Text("Import signed-in browser sessions")
+Pinemeter/Views/Setup/SetupWizardView.swift:182: Text("Choose the browser where you are already signed in. Each import button checks Claude and ChatGPT; Gemini API key status appears above without showing credential values.")
+Pinemeter/Views/Setup/SetupWizardView.swift:187: ForEach(BrowserImportSource.setupOptions, id: \.self) { source in
+Pinemeter/Views/Setup/SetupWizardView.swift:190: await importProviderSessions(from: source)
+Pinemeter/Views/Setup/SetupWizardView.swift:205: .accessibilityHint("Imports both Claude and ChatGPT sessions from \(source.displayName) without showing credential values")
+Pinemeter/Views/Setup/SetupWizardView.swift:217: private func importProviderSessions(from source: BrowserImportSource) async {
+Pinemeter/Views/Setup/SetupWizardView.swift:226: let outcome = await appModel.importProviderSessions(from: source)
+Pinemeter/Views/Setup/SetupWizardView.swift:230: successMessage = browserImportSuccessMessage(for: outcome)
+Pinemeter/Views/Setup/SetupWizardView.swift:235: errorMessage = browserImportFailureMessage(for: outcome)
+Pinemeter/Views/Setup/SetupWizardView.swift:241: private func browserImportSuccessMessage(for outcome: ProviderBrowserImportOutcome) -> String {
+Pinemeter/Views/Setup/SetupWizardView.swift:244: providerSuccessName("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Setup/SetupWizardView.swift:250: private func providerSuccessName(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
+Pinemeter/Views/Setup/SetupWizardView.swift:257: private func browserImportFailureMessage(for outcome: ProviderBrowserImportOutcome) -> String? {
+Pinemeter/Views/Setup/SetupWizardView.swift:260: providerFailureMessage("ChatGPT", outcome.chatGPT),
+Pinemeter/Views/Setup/SetupWizardView.swift:267: private func providerFailureMessage(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
+Pinemeter/Views/Setup/SetupWizardView.swift:338: return "Reconnecting credentials from the signed-in browser session."
+
+## credential diagnostics lines [Pinemeter/Models/CredentialState.swift] exists=True
+Pinemeter/Models/CredentialState.swift:3: /// Provider that owns a credential used by Pinemeter.
+Pinemeter/Models/CredentialState.swift:4: enum CredentialProvider: String, Codable, CaseIterable, Equatable, Hashable, Sendable {
+Pinemeter/Models/CredentialState.swift:5: case claude
+Pinemeter/Models/CredentialState.swift:6: case chatGPT
+Pinemeter/Models/CredentialState.swift:7: case gemini
+Pinemeter/Models/CredentialState.swift:11: case .claude:
+Pinemeter/Models/CredentialState.swift:12: return "Claude"
+Pinemeter/Models/CredentialState.swift:13: case .chatGPT:
+Pinemeter/Models/CredentialState.swift:14: return "ChatGPT"
+Pinemeter/Models/CredentialState.swift:15: case .gemini:
+Pinemeter/Models/CredentialState.swift:16: return "Gemini"
+Pinemeter/Models/CredentialState.swift:42: /// Stable identity for a provider credential. This intentionally contains no raw credential value.
+Pinemeter/Models/CredentialState.swift:44: let provider: CredentialProvider
+Pinemeter/Models/CredentialState.swift:48: "\(provider.rawValue).\(kind.rawValue)"
+Pinemeter/Models/CredentialState.swift:52: "\(provider.displayName) \(kind.displayName)"
+Pinemeter/Models/CredentialState.swift:56: /// Sanitized credential health state suitable for service/UI boundaries.
+Pinemeter/Models/CredentialState.swift:102: return "No credential is saved for this provider."
+Pinemeter/Models/CredentialState.swift:119: /// Sanitized failure category for credential diagnostics. Cases avoid carrying raw errors or credential values.
+Pinemeter/Models/CredentialState.swift:120: enum CredentialFailureCategory: String, Codable, CaseIterable, Equatable, Hashable, Sendable {
+Pinemeter/Models/CredentialState.swift:123: case providerRejected
+Pinemeter/Models/CredentialState.swift:125: case providerUnavailable
+Pinemeter/Models/CredentialState.swift:137: case .providerRejected:
+Pinemeter/Models/CredentialState.swift:141: case .providerUnavailable:
+Pinemeter/Models/CredentialState.swift:142: return "Provider unavailable"
+Pinemeter/Models/CredentialState.swift:148: return "Provider rate limited"
+Pinemeter/Models/CredentialState.swift:160: case .providerRejected:
+Pinemeter/Models/CredentialState.swift:161: return "The provider rejected the saved credential."
+Pinemeter/Models/CredentialState.swift:164: case .providerUnavailable:
+Pinemeter/Models/CredentialState.swift:165: return "The provider could not verify the credential right now."
+Pinemeter/Models/CredentialState.swift:171: return "The provider temporarily limited credential verification."
+Pinemeter/Models/CredentialState.swift:181: case .invalidFormat, .providerRejected, .expired:
+Pinemeter/Models/CredentialState.swift:183: case .providerUnavailable, .networkUnavailable, .rateLimited:
+Pinemeter/Models/CredentialState.swift:193: /// Current sanitized state for a provider credential.
+Pinemeter/Models/CredentialState.swift:197: let failureCategory: CredentialFailureCategory?
+Pinemeter/Models/CredentialState.swift:203: failureCategory: CredentialFailureCategory? = nil,
+Pinemeter/Models/CredentialState.swift:208: self.failureCategory = failureCategory
+Pinemeter/Models/CredentialState.swift:217: let status = failureCategory?.displayTitle ?? health.displayTitle
+Pinemeter/Models/CredentialState.swift:222: failureCategory?.displayDescription ?? health.displayDescription
+Pinemeter/Models/CredentialState.swift:226: failureCategory?.recoverySuggestion
+
+## export implementation lines [Pinemeter/Repositories/CacheRepository.swift] exists=True
+Pinemeter/Repositories/CacheRepository.swift:3: //  Pinemeter
+Pinemeter/Repositories/CacheRepository.swift:15: private let fileManager: FileManager
+Pinemeter/Repositories/CacheRepository.swift:17: private let legacyDiskCacheURL: URL
+Pinemeter/Repositories/CacheRepository.swift:19: private let legacyPublicJSONURL: URL
+Pinemeter/Repositories/CacheRepository.swift:21: init(fileManager: FileManager = .default) {
+Pinemeter/Repositories/CacheRepository.swift:22: let appSupport = fileManager.urls(
+Pinemeter/Repositories/CacheRepository.swift:27: fileManager: fileManager,
+Pinemeter/Repositories/CacheRepository.swift:29: homeBaseURL: fileManager.homeDirectoryForCurrentUser
+Pinemeter/Repositories/CacheRepository.swift:34: fileManager: FileManager = .default,
+Pinemeter/Repositories/CacheRepository.swift:38: self.fileManager = fileManager
+Pinemeter/Repositories/CacheRepository.swift:40: let cacheDir = appSupportBaseURL.appendingPathComponent("com.pinemeter", isDirectory: true)
+Pinemeter/Repositories/CacheRepository.swift:41: let legacyCacheDir = appSupportBaseURL.appendingPathComponent("com.claudemeter", isDirectory: true)
+Pinemeter/Repositories/CacheRepository.swift:42: try? fileManager.createDirectory(at: cacheDir, withIntermediateDirectories: true)
+Pinemeter/Repositories/CacheRepository.swift:45: self.legacyDiskCacheURL = legacyCacheDir.appendingPathComponent("usage_cache.json")
+Pinemeter/Repositories/CacheRepository.swift:47: // Public JSON export at ~/.pinemeter/usage.json for external tools.
+Pinemeter/Repositories/CacheRepository.swift:48: // Continue writing the legacy ~/.claudemeter/usage.json export for milestone compatibility.
+Pinemeter/Repositories/CacheRepository.swift:49: let publicDir = homeBaseURL.appendingPathComponent(".pinemeter", isDirectory: true)
+Pinemeter/Repositories/CacheRepository.swift:50: let legacyPublicDir = homeBaseURL.appendingPathComponent(".claudemeter", isDirectory: true)
+Pinemeter/Repositories/CacheRepository.swift:51: try? fileManager.createDirectory(at: publicDir, withIntermediateDirectories: true)
+Pinemeter/Repositories/CacheRepository.swift:52: try? fileManager.createDirectory(at: legacyPublicDir, withIntermediateDirectories: true)
+Pinemeter/Repositories/CacheRepository.swift:53: self.publicJSONURL = publicDir.appendingPathComponent("usage.json")
+Pinemeter/Repositories/CacheRepository.swift:54: self.legacyPublicJSONURL = legacyPublicDir.appendingPathComponent("usage.json")
+Pinemeter/Repositories/CacheRepository.swift:82: removeCacheFile(at: legacyDiskCacheURL)
+Pinemeter/Repositories/CacheRepository.swift:84: removeCacheFile(at: legacyPublicJSONURL)
+Pinemeter/Repositories/CacheRepository.swift:103: try jsonData.write(to: diskCacheURL, options: .atomic)
+Pinemeter/Repositories/CacheRepository.swift:108: // Also write to public location for external tools (statusline scripts, etc.)
+Pinemeter/Repositories/CacheRepository.swift:123: writePublicJSON(jsonData, to: publicJSONURL)
+Pinemeter/Repositories/CacheRepository.swift:124: writePublicJSON(jsonData, to: legacyPublicJSONURL)
+Pinemeter/Repositories/CacheRepository.swift:127: private func writePublicJSON(_ jsonData: Data, to url: URL) {
+Pinemeter/Repositories/CacheRepository.swift:129: try jsonData.write(to: url, options: .atomic)
+Pinemeter/Repositories/CacheRepository.swift:140: guard let legacyData = loadUsageData(from: legacyDiskCacheURL) else {
+Pinemeter/Repositories/CacheRepository.swift:144: await saveToDisk(legacyData)
+Pinemeter/Repositories/CacheRepository.swift:145: return legacyData
+Pinemeter/Repositories/CacheRepository.swift:164: guard fileManager.fileExists(atPath: url.path) else {
+Pinemeter/Repositories/CacheRepository.swift:168: try? fileManager.removeItem(at: url)
+
+## signing workflow lines [.github/workflows/release.yml] exists=True
+.github/workflows/release.yml:1: name: Release Pinemeter
+.github/workflows/release.yml:7: build-and-release:
+.github/workflows/release.yml:13: EXPECTED_SIGNING_IDENTITY: "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+.github/workflows/release.yml:14: EXPECTED_TEAM_ID: HMR9RDR6M2
+.github/workflows/release.yml:52: # Update MARKETING_VERSION in project.pbxproj
+.github/workflows/release.yml:53: sed -i '' "s/MARKETING_VERSION = [^;]*/MARKETING_VERSION = ${{ steps.version.outputs.version }}/g" Pinemeter.xcodeproj/project.pbxproj
+.github/workflows/release.yml:83: if ! security find-certificate -c "$EXPECTED_SIGNING_IDENTITY" $KEYCHAIN_PATH >/dev/null; then
+.github/workflows/release.yml:84: echo "::error::Expected signing certificate not found: $EXPECTED_SIGNING_IDENTITY"
+.github/workflows/release.yml:98: -configuration Release \
+.github/workflows/release.yml:102: CODE_SIGN_IDENTITY="$EXPECTED_SIGNING_IDENTITY" \
+.github/workflows/release.yml:103: DEVELOPMENT_TEAM="$EXPECTED_TEAM_ID" \
+.github/workflows/release.yml:109: APP_PATH="build/Build/Products/Release/Pinemeter.app"
+.github/workflows/release.yml:115: if ! echo "$SIGNATURE_DETAILS" | grep -Fq "Authority=$EXPECTED_SIGNING_IDENTITY"; then
+.github/workflows/release.yml:116: echo "::error::App was not signed by expected identity: $EXPECTED_SIGNING_IDENTITY"
+.github/workflows/release.yml:119: if ! echo "$SIGNATURE_DETAILS" | grep -Fq "TeamIdentifier=$EXPECTED_TEAM_ID"; then
+.github/workflows/release.yml:120: echo "::error::App was not signed with expected team: $EXPECTED_TEAM_ID"
+.github/workflows/release.yml:126: - name: Notarize app
+.github/workflows/release.yml:132: APP_PATH="build/Build/Products/Release/Pinemeter.app"
+.github/workflows/release.yml:136: /usr/bin/ditto -c -k --keepParent "$APP_PATH" "$RUNNER_TEMP/Pinemeter-notarize.zip"
+.github/workflows/release.yml:138: echo "Submitting for notarization..."
+.github/workflows/release.yml:139: SUBMIT_OUTPUT=$(xcrun notarytool submit "$RUNNER_TEMP/Pinemeter-notarize.zip" \
+.github/workflows/release.yml:150: # Check if notarization succeeded
+.github/workflows/release.yml:152: echo "Notarization succeeded!"
+.github/workflows/release.yml:154: echo "Notarization failed. Fetching detailed log..."
+.github/workflows/release.yml:155: xcrun notarytool log "$SUBMISSION_ID" \
+.github/workflows/release.yml:159: rm -f $RUNNER_TEMP/AuthKey.p8 $RUNNER_TEMP/Pinemeter-notarize.zip
+.github/workflows/release.yml:163: echo "Stapling notarization ticket..."
+.github/workflows/release.yml:170: rm -f $RUNNER_TEMP/AuthKey.p8 $RUNNER_TEMP/Pinemeter-notarize.zip
+.github/workflows/release.yml:174: cd build/Build/Products/Release
+.github/workflows/release.yml:179: - name: Create GitHub Release
+.github/workflows/release.yml:180: uses: softprops/action-gh-release@v3
+.github/workflows/release.yml:187: prerelease: false
+.github/workflows/release.yml:191: - name: Update Homebrew tap
+.github/workflows/release.yml:193: TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+.github/workflows/release.yml:197: git clone https://x-access-token:${TAP_TOKEN}@github.com/eddmann/homebrew-tap.git
+.github/workflows/release.yml:198: cd homebrew-tap
+
+## test workflow lines [.github/workflows/test.yml] exists=True
+.github/workflows/test.yml:30: xcodebuild test \
+.github/workflows/test.yml:32: -scheme Pinemeter \
+.github/workflows/test.yml:34: -skip-testing:PinemeterTests/MenuBarIconSnapshotTests \
+.github/workflows/test.yml:35: CODE_SIGN_IDENTITY="-" \
+.github/workflows/test.yml:36: CODE_SIGNING_REQUIRED=NO \
+.github/workflows/test.yml:37: CODE_SIGNING_ALLOWED=NO

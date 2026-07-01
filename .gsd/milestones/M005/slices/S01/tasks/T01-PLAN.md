@@ -4,7 +4,7 @@ estimated_files: 5
 skills_used: []
 ---
 
-# T01: Audit public docs against current app
+# T01: Audited public docs against current Pinemeter implementation and identified stale provider, release, version, privacy, export, and changelog claims.
 
 Compare README, site, changelog, workflows, and project files against implemented providers, setup flows, privacy boundaries, build/test commands, and Pinemeter identity. Record stale or missing public-facing claims.
 

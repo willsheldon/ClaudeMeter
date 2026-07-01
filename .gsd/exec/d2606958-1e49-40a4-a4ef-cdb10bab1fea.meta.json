@@ -1,0 +1,19 @@
+{
+  "id": "d2606958-1e49-40a4-a4ef-cdb10bab1fea",
+  "runtime": "python",
+  "purpose": "verify implementation surfaces before docs update",
+  "script_chars": 929,
+  "started_at": "2026-07-01T17:48:04.748Z",
+  "finished_at": "2026-07-01T17:48:04.932Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 184,
+  "stdout_bytes": 5221,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/d2606958-1e49-40a4-a4ef-cdb10bab1fea.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/d2606958-1e49-40a4-a4ef-cdb10bab1fea.stderr"
+}
