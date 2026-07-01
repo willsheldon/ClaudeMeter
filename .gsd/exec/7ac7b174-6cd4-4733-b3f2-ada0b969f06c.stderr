@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 20, in <module>
+    assert not violations, f'Public guidance leakage/destructive instruction violations: {violations}'
+           ^^^^^^^^^^^^^^
+AssertionError: Public guidance leakage/destructive instruction violations: {'README.md': ['sensitive material mentioned without redaction/prohibition cue']}

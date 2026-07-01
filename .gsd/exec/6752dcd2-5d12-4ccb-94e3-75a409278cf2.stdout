@@ -1,0 +1,17 @@
+PASS test -f Pinemeter.xcodeproj/project.pbxproj
+PASS test -f Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme
+PASS grep -q Pinemeter README.md
+PASS grep -q Pinemeter site/index.html
+PASS grep -q Pinemeter CHANGELOG.md
+FAIL ! grep -q ClaudeMeter README.md
+PASS ! grep -q ClaudeMeter site/index.html
+FAIL ! grep -q ClaudeMeter CHANGELOG.md
+FAIL grep -q 'xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug' README.md
+PASS grep -q 'xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug' README.md
+PASS grep -qi Gemini README.md
+PASS grep -qi ChatGPT README.md
+PASS grep -qi Claude README.md
+FAIL grep -qi privacy README.md
+PASS grep -qi credential README.md
+PASS grep -qi reset README.md
+PASS grep -qi troubleshoot README.md

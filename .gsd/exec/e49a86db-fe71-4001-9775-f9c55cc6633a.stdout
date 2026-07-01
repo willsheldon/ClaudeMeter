@@ -1,0 +1,2 @@
+222:xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+225:xcodebuild test \

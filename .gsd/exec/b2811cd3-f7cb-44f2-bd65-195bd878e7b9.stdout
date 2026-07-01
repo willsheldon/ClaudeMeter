@@ -1,0 +1,10 @@
+PASS for f in .gsd/milestones/M005/slices/S01/tasks/T01-SUMMARY.md .gsd/milestones/M005/slices/S01/tasks/T02-SUMMARY.md .gsd/milestones/M005/slices/S01/tasks/T03-SUMMARY.md; do test -f "$f"; done
+PASS ! find .gsd/milestones/M005/slices/S01/tasks -mindepth 2 -name '*SUMMARY.md' | grep -q .
+PASS test -f Pinemeter.xcodeproj/project.pbxproj
+PASS test -f Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme
+FAIL grep -Eq 'xcodebuild (clean )?test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug' README.md
+PASS grep -q 'xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug' README.md
+PASS grep -Eqi 'private|privacy|sanitized|local|Keychain' README.md site/index.html
+PASS grep -qi credential README.md
+PASS grep -qi reset README.md
+PASS grep -qi troubleshoot README.md

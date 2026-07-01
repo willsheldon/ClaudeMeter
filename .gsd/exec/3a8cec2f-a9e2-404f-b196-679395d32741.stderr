@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+    assert not failures, f'Missing feature-request prompts: {failures}'
+           ^^^^^^^^^^^^
+AssertionError: Missing feature-request prompts: {'.github/ISSUE_TEMPLATE/feature_request.yml': ['workarounds', 'security'], '.github/ISSUE_TEMPLATE/feature_request.md': ['workarounds']}

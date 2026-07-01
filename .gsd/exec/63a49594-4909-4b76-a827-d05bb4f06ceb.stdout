@@ -1,0 +1,28 @@
+10: - **Optional provider visibility** - Show ChatGPT quota status from a browser session and Gemini status from an API key
+81: 3. Import supported browser sessions or paste credentials manually.
+88: Pinemeter can import your existing Claude session from local browser cookies. Sign in to [claude.ai](https://claude.ai) in a supported browser, then choose **Import from Browser** in the setup wizard or Settings.
+90: Chrome, Arc, Brave, Edge, and other Chromium browsers may ask for browser Safe Storage Keychain access so Pinemeter can decrypt cookies. Safari cookies are protected by macOS and may require Full Disk Access.
+92: If browser import is unavailable, paste your Claude session manually. Pinemeter accepts either a raw `sk-ant-...` Claude session key or a Cookie header containing `sessionKey=...`.
+96: ChatGPT quota visibility is optional. Sign in to ChatGPT in a supported browser, then use the ChatGPT browser import action in setup or Settings. Pinemeter stores ChatGPT session cookies through its Keychain-backed sessi
+102: Gemini visibility is optional and uses an API key entered in Settings. Pinemeter stores Gemini API keys in Keychain and shows status/diagnostic state without exposing the raw key in the UI or diagnostics.
+106: Your Claude session key is stored in your browser cookies.
+112: 3. Go to Application > Cookies > `https://claude.ai`
+113: 4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+120: 3. Go to Storage > Cookies > `https://claude.ai`
+121: 4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+128: 3. Go to Storage > Cookies > `https://claude.ai`
+129: 4. Find the `sessionKey` cookie (starts with `sk-ant-`)
+137: - Use Settings to repair, reconnect, or clear provider credentials when a provider reports an error
+141: - **Browser Safe Storage prompts:** Chromium-based imports may request Keychain access to decrypt browser cookies. Allow access for the signed Pinemeter app if you initiated the import.
+142: - **Safari import cannot see cookies:** Grant Full Disk Access to Pinemeter in macOS System Settings, then retry the import.
+143: - **Provider unavailable, rejected, or rate limited:** Open Settings and use the provider-specific repair, reconnect, or clear actions. The UI shows sanitized status and copyable error text without raw credentials.
+144: - **Reset local state:** Clear the affected provider in Settings, sign in again in your browser if needed, then import or paste the credential again.
+206: - Optional: Gemini API key if enabling Gemini status visibility
+237: - Use the GitHub **Bug report** issue form or [Markdown bug checklist](.github/ISSUE_TEMPLATE/bug_report.md) for reproducible app behavior. Include Pinemeter version, macOS version, affected provider, setup path, expecte
+238: - Use the GitHub **Feature request** issue form or [Markdown feature checklist](.github/ISSUE_TEMPLATE/feature_request.md) for focused workflow improvements. Include the user problem, proposed behavior, alternatives, san
+240: - Report credential handling, privacy, or vulnerability concerns privately using [SECURITY.md](SECURITY.md). Do not open public issues containing session keys, cookies, API keys, request headers, session identifiers, or 
+246: This application accesses provider web/API surfaces using browser-based authentication or user-provided credentials. **This may violate provider Terms of Service.** By using Pinemeter, you acknowledge that:
+256: - ChatGPT session cookies are stored through a Keychain-backed repository boundary; access-token material remains transient where applicable
+257: - Gemini API keys are stored securely in macOS Keychain
+258: - Browser import reads local browser cookies only to extract the selected provider credential/session material
+259: - Diagnostic and acquisition state is sanitized; raw cookies, tokens, headers, and API keys are not written to diagnostics

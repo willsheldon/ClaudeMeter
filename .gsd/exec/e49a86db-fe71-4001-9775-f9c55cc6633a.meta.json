@@ -1,0 +1,19 @@
+{
+  "id": "e49a86db-fe71-4001-9775-f9c55cc6633a",
+  "runtime": "bash",
+  "purpose": "Inspect documented xcodebuild test command wording",
+  "script_chars": 45,
+  "started_at": "2026-07-01T17:58:55.181Z",
+  "finished_at": "2026-07-01T17:58:55.296Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 115,
+  "stdout_bytes": 117,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/e49a86db-fe71-4001-9775-f9c55cc6633a.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/e49a86db-fe71-4001-9775-f9c55cc6633a.stderr"
+}

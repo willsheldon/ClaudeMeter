@@ -1,0 +1,27 @@
+{
+  "id": "eeea9921-6158-4818-a4f2-9578c35a00d7",
+  "runtime": "python",
+  "purpose": "UAT M005/S01/UAT-02 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S01",
+    "checkId": "UAT-02",
+    "intent": "uat-artifact-check",
+    "expected": "Docs state Claude session keys, ChatGPT session cookies, and Gemini API keys are kept local behind Keychain-backed boundaries; diagnostics avoid raw cookies, tokens, headers, and API keys."
+  },
+  "script_chars": 1562,
+  "started_at": "2026-07-01T18:01:10.857Z",
+  "finished_at": "2026-07-01T18:01:11.084Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 227,
+  "stdout_bytes": 356,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/eeea9921-6158-4818-a4f2-9578c35a00d7.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/eeea9921-6158-4818-a4f2-9578c35a00d7.stderr"
+}

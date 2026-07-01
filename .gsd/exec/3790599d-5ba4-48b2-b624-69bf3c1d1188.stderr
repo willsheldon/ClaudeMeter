@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+    assert not missing, f'CONTRIBUTING.md missing expected guidance: {missing}'
+           ^^^^^^^^^^^
+AssertionError: CONTRIBUTING.md missing expected guidance: ['keychain', 'xcodebuild test -project pinemeter.xcodeproj -scheme pinemeter -configuration debug']

@@ -1,0 +1,27 @@
+{
+  "id": "c8cb670b-25a6-4507-86ba-4e08e6178997",
+  "runtime": "python",
+  "purpose": "UAT M005/S02/UAT-06 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S02",
+    "checkId": "UAT-06",
+    "intent": "uat-artifact-check",
+    "expected": "Markdown fallback templates collect the same diagnostic/impact details as YAML issue forms."
+  },
+  "script_chars": 961,
+  "started_at": "2026-07-01T18:21:52.999Z",
+  "finished_at": "2026-07-01T18:21:53.355Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 356,
+  "stdout_bytes": 0,
+  "stderr_bytes": 274,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/c8cb670b-25a6-4507-86ba-4e08e6178997.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/c8cb670b-25a6-4507-86ba-4e08e6178997.stderr"
+}

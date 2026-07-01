@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 14, in <module>
+    assert not failures, f'Markdown/YAML parity gaps: {failures}'
+           ^^^^^^^^^^^^
+AssertionError: Markdown/YAML parity gaps: {'feature': {'yaml_missing': ['secret'], 'markdown_missing': []}}

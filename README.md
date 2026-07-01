@@ -232,6 +232,24 @@ xcodebuild test \
   CODE_SIGNING_ALLOWED=NO
 ```
 
+### Release signing and publishing safety
+
+The release workflow is manual and publishes artifacts: it creates a GitHub release with `contents: write` and then updates the Homebrew tap with `HOMEBREW_TAP_TOKEN`. Do not run or re-run it as a signing check unless you intend to publish.
+
+Before publishing, audit the local release surfaces instead:
+
+```bash
+EXPECTED_SIGNING_IDENTITY="Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+EXPECTED_TEAM_ID="HMR9RDR6M2"
+
+grep -F "CODE_SIGN_IDENTITY = \"$EXPECTED_SIGNING_IDENTITY\";" Pinemeter.xcodeproj/project.pbxproj
+grep -F "DEVELOPMENT_TEAM = $EXPECTED_TEAM_ID;" Pinemeter.xcodeproj/project.pbxproj
+grep -F "EXPECTED_SIGNING_IDENTITY: \"$EXPECTED_SIGNING_IDENTITY\"" .github/workflows/release.yml
+grep -F "EXPECTED_TEAM_ID: $EXPECTED_TEAM_ID" .github/workflows/release.yml
+```
+
+A release build must use `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and verify `TeamIdentifier=HMR9RDR6M2`. Avoid generic `Developer ID Application` signing identities and mutable `APPLE_TEAM_ID`-style secrets for release signing.
+
 ## Support and Contributing
 
 - Use the GitHub **Bug report** issue form or [Markdown bug checklist](.github/ISSUE_TEMPLATE/bug_report.md) for reproducible app behavior. Include Pinemeter version, macOS version, affected provider, setup path, expected behavior, actual behavior, reproduction steps, sanitized provider state, and logs or screenshots with secrets removed.

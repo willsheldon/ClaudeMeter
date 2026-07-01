@@ -23,17 +23,17 @@
 
 ## Tasks
 
-- [ ] **T01: Design contributor and issue template set** `est:small`
+- [x] **T01: Added local contributor guidance, public bug and feature issue forms, and private security/privacy reporting guidance for sanitized external collaboration.** `est:small`
   Inspect existing GitHub configuration and decide the smallest useful set of local contribution/support templates: contribution guide, bug report, feature request, and security or privacy report if appropriate.
   - Files: `.github`, `README.md`, `AGENTS.md`
   - Verify: Task summary records chosen template files and rationale without creating remote issues or changing GitHub state.
 
-- [ ] **T02: Add contribution and issue templates** `est:medium`
+- [x] **T02: Added portable Markdown bug and feature templates and linked them from contributor and README guidance with explicit sanitized-provider reporting prompts.** `est:medium`
   Create local template files that ask for sanitized provider state, macOS version, app version, setup path, expected behavior, actual behavior, and logs or screenshots with secrets removed. Link them from README where appropriate.
   - Files: `.github/ISSUE_TEMPLATE/bug_report.md`, `.github/ISSUE_TEMPLATE/feature_request.md`, `CONTRIBUTING.md`, `README.md`
   - Verify: `find .github -maxdepth 3 -type f | sort` and `rg -n "secret|token|cookie|session|provider|xcodebuild|Pinemeter" .github CONTRIBUTING.md README.md` reviewed for safe wording.
 
-- [ ] **T03: Verify public template consistency** `est:small`
+- [x] **T03: Verified public issue templates and contributor support guidance for sanitized, non-destructive public collaboration.** `est:small`
   Review templates for stale names, private process leakage, unsupported promises, and destructive-action suggestions. Fix inconsistencies and record verification evidence.
   - Files: `.github/ISSUE_TEMPLATE/bug_report.md`, `.github/ISSUE_TEMPLATE/feature_request.md`, `CONTRIBUTING.md`, `README.md`
   - Verify: `rg -n "ClaudeMeter|GSD|secret|token|cookie|push|rewrite|Pinemeter" .github/ISSUE_TEMPLATE CONTRIBUTING.md README.md` reviewed; no template asks users to paste secrets.

@@ -1,0 +1,19 @@
+{
+  "id": "2c01519d-5710-42c5-a4fb-d685523f21ee",
+  "runtime": "python",
+  "purpose": "slice S02 closeout artifact verification adjusted semantic audit",
+  "script_chars": 3601,
+  "started_at": "2026-07-01T18:18:27.829Z",
+  "finished_at": "2026-07-01T18:18:28.112Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 283,
+  "stdout_bytes": 703,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/2c01519d-5710-42c5-a4fb-d685523f21ee.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/2c01519d-5710-42c5-a4fb-d685523f21ee.stderr"
+}

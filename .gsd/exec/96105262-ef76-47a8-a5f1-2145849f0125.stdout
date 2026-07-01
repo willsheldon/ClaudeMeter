@@ -1,0 +1,1 @@
+PASS: bug YAML and Markdown templates collect required sanitized report fields and redirect sensitive disclosures.

@@ -1,0 +1,51 @@
+OK file: Pinemeter.xcodeproj/project.pbxproj
+OK file: Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme
+OK file: README.md
+OK file: site/index.html
+OK file: CHANGELOG.md
+OK file: docs/heading.png
+OK file: docs/menubar-safe.png
+OK file: docs/menubar-warning.png
+OK file: docs/menubar-critical.png
+OK file: docs/menubar-sonnet.png
+OK file: docs/notifications.png
+OK file: docs/settings-general.png
+OK file: docs/settings-notifications.png
+OK file: docs/setup-wizard.png
+OK file: LICENSE
+OK file: site/logo.png
+OK file: site/preview.png
+CHANGELOG.md:153:[1.4.0]: https://github.com/eddmann/Pinemeter/compare/v1.3.2...v1.4.0
+CHANGELOG.md:154:[1.3.2]: https://github.com/eddmann/Pinemeter/compare/v1.3.1...v1.3.2
+CHANGELOG.md:155:[1.3.1]: https://github.com/eddmann/Pinemeter/compare/v1.3.0...v1.3.1
+CHANGELOG.md:156:[1.3.0]: https://github.com/eddmann/Pinemeter/compare/v1.2.1...v1.3.0
+CHANGELOG.md:157:[1.2.1]: https://github.com/eddmann/Pinemeter/compare/v1.2.0...v1.2.1
+CHANGELOG.md:158:[1.2.0]: https://github.com/eddmann/Pinemeter/compare/v1.1.2...v1.2.0
+CHANGELOG.md:159:[1.1.2]: https://github.com/eddmann/Pinemeter/compare/v1.1.1...v1.1.2
+CHANGELOG.md:160:[1.1.1]: https://github.com/eddmann/Pinemeter/compare/v1.1.0...v1.1.1
+CHANGELOG.md:161:[1.1.0]: https://github.com/eddmann/Pinemeter/compare/v1.0.7...v1.1.0
+CHANGELOG.md:162:[1.0.7]: https://github.com/eddmann/Pinemeter/compare/v1.0.6...v1.0.7
+CHANGELOG.md:163:[1.0.6]: https://github.com/eddmann/Pinemeter/compare/v1.0.5...v1.0.6
+CHANGELOG.md:164:[1.0.5]: https://github.com/eddmann/Pinemeter/compare/v1.0.4...v1.0.5
+CHANGELOG.md:165:[1.0.4]: https://github.com/eddmann/Pinemeter/compare/v1.0.3...v1.0.4
+CHANGELOG.md:166:[1.0.3]: https://github.com/eddmann/Pinemeter/compare/v1.0.2...v1.0.3
+CHANGELOG.md:167:[1.0.2]: https://github.com/eddmann/Pinemeter/compare/v1.0.1...v1.0.2
+CHANGELOG.md:168:[1.0.1]: https://github.com/eddmann/Pinemeter/compare/v1.0.0...v1.0.1
+CHANGELOG.md:169:[1.0.0]: https://github.com/eddmann/Pinemeter/releases/tag/v1.0.0
+site/index.html:52:        "downloadUrl": "https://github.com/eddmann/Pinemeter/releases/latest",
+site/index.html:330:                <a href="https://github.com/eddmann/Pinemeter" class="px-8 py-4 text-lg font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-3 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-slate-300 dark:hover:border-slate-600 bg-white/50 dark:bg-slate-800/50 backdrop-blur">
+site/index.html:464:                            <li>Usage exports are local JSON files under <code>~/.pinemeter/usage.json</code>, with legacy <code>~/.claudemeter/usage.json</code> compatibility for older scripts.</li>
+site/index.html:502:                                <code class="text-slate-200 text-sm md:text-lg">brew install eddmann/tap/pinemeter</code>
+site/index.html:507:                    <button class="js-copy-command ml-2 p-2 rounded-lg hover:bg-white/10 transition-colors group flex-shrink-0" data-command="brew install eddmann/tap/pinemeter" title="Copy to clipboard">
+site/index.html:521:                <a href="https://github.com/eddmann/Pinemeter/releases" class="text-coral-500 hover:text-coral-600 underline underline-offset-4 transition-colors">GitHub Releases</a>
+site/index.html:534:                <a href="https://github.com/eddmann/Pinemeter" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors inline-flex items-center gap-2">
+site/index.html:541:                <a href="https://github.com/eddmann/Pinemeter/releases" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+site/index.html:545:                <a href="https://github.com/eddmann/Pinemeter/issues" class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
+README.md:64:brew install eddmann/tap/pinemeter
+README.md:69:1. Download the latest Pinemeter release from [GitHub Releases](https://github.com/eddmann/Pinemeter/releases/latest).
+README.md:145:- **Inspect exported usage:** Check `~/.pinemeter/usage.json` for the latest exported Claude usage percentages. A legacy compatibility copy may also be written to `~/.claudemeter/usage.json` for older scripts.
+README.md:149:Pinemeter exports Claude usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards. For compatibility with earlier ClaudeMeter-era scripts, Pinemeter may also write a legacy `~/.claudemeter/usage.json` copy.
+README.md:177:usage=$(jq -r '.session_usage.utilization' ~/.pinemeter/usage.json 2>/dev/null)
+README.md:215:git clone https://github.com/eddmann/Pinemeter.git
+README.md:222:xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+README.md:225:xcodebuild test \

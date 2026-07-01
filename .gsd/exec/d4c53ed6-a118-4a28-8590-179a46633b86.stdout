@@ -1,0 +1,16 @@
+files
+official_identity_count=6
+
+official_team_count=13
+
+generic_identity_matches
+Pinemeter.xcodeproj/project.pbxproj:221:				CODE_SIGN_IDENTITY = "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)";
+Pinemeter.xcodeproj/project.pbxproj:243:				CODE_SIGN_IDENTITY = "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)";
+Pinemeter.xcodeproj/project.pbxproj:386:				CODE_SIGN_IDENTITY = "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)";
+Pinemeter.xcodeproj/project.pbxproj:433:				CODE_SIGN_IDENTITY = "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)";
+remote_mutation_steps
+4:  workflow_dispatch:
+10:      contents: write
+180:        uses: softprops/action-gh-release@v3
+197:          git clone https://x-access-token:${TAP_TOKEN}@github.com/eddmann/homebrew-tap.git
+207:          git push

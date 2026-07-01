@@ -11,10 +11,10 @@
 
 ## Slices
 
-- [ ] **S01: Public docs accuracy pass** `risk:high` `depends:[]`
+- [x] **S01: Public docs accuracy pass** `risk:high` `depends:[]`
   > After this: README, site, changelog, and public docs accurately explain Pinemeter and current provider workflows.
 
-- [ ] **S02: Contributor templates and support paths** `risk:medium` `depends:[S01]`
+- [x] **S02: Contributor templates and support paths** `risk:medium` `depends:[S01]`
   > After this: Contributors see clear issue templates, contribution guidance, and support boundaries with no private process leakage.
 
 - [ ] **S03: Release and signing documentation** `risk:high` `depends:[S01]`

@@ -1,0 +1,18 @@
+checked=17 failed=0
+PASS CONTRIBUTING.md exists
+PASS SECURITY.md exists
+PASS .github/ISSUE_TEMPLATE/config.yml exists
+PASS .github/ISSUE_TEMPLATE/bug_report.yml exists
+PASS .github/ISSUE_TEMPLATE/feature_request.yml exists
+PASS README links CONTRIBUTING
+PASS README links SECURITY
+PASS blank public issues disabled
+PASS bug report requests version
+PASS bug report requests macOS architecture
+PASS bug report requests setup path
+PASS bug report has sanitized diagnostics field
+PASS bug report blocks public security reports
+PASS feature request includes privacy impact
+PASS security doc warns against real secrets
+PASS contributing includes local commands
+PASS no public privacy/security issue template

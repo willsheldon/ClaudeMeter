@@ -1,0 +1,3 @@
+.github/ISSUE_TEMPLATE/bug_report.yml:88:      description: Paste only sanitized logs, copyable error text, or usage JSON shape. Redact account IDs and never include secrets.
+.github/ISSUE_TEMPLATE/bug_report.md:48:<!-- Share only non-secret state such as configured/not configured, connected/disconnected, quota visible/not visible, or sanitized error category. Do not include session values, cookies, tokens, API keys, request headers, account IDs, or raw provider responses. -->
+.github/ISSUE_TEMPLATE/feature_request.md:38:<!-- Optional, sanitized only: affected provider, setup path, macOS version, Pinemeter version/commit, or source build via xcodebuild. Do not include tokens, cookies, session keys, API keys, headers, or account identifiers. -->

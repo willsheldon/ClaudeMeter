@@ -1,0 +1,22 @@
+site/index.html:65:        if (localStorage.getItem('theme-preference') === 'dark' ||
+site/index.html:66:            (!localStorage.getItem('theme-preference') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+site/index.html:422:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Claude session keys, ChatGPT session cookies, and Gemini API keys are stored through macOS Keychain-backed boundaries. Diagnostics are sanitized and credentials never leave your machine.</p>
+site/index.html:443:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Optional quota visibility uses a local browser session when configured. If ChatGPT is unavailable or rejected, Claude monitoring continues.</p>
+site/index.html:447:                    <p class="text-slate-500 dark:text-slate-400 leading-relaxed">Optional Gemini status visibility uses an API key entered in Settings and stored in Keychain, with sanitized status diagnostics.</p>
+site/index.html:462:                            <li>Claude session keys, ChatGPT session cookies, and Gemini API keys are stored locally through Keychain boundaries.</li>
+site/index.html:464:                            <li>Usage exports are local JSON files under <code>~/.pinemeter/usage.json</code>, with legacy <code>~/.claudemeter/usage.json</code> compatibility for older scripts.</li>
+site/index.html:472:                            <li>Unavailable, rejected, and rate-limited provider states show sanitized copyable errors without raw credentials.</li>
+site/index.html:598:                const stored = localStorage.getItem(STORAGE_KEY);
+site/index.html:612:                localStorage.setItem(STORAGE_KEY, next);
+site/index.html:617:                if (!localStorage.getItem(STORAGE_KEY)) {
+CHANGELOG.md:147:- Initial ClaudeMeter macOS menu bar app
+README.md:88:Pinemeter can import your existing Claude session from local browser cookies. Sign in to [claude.ai](https://claude.ai) in a supported browser, then choose **Import from Browser** in the setup wizard or Settings.
+README.md:143:- **Provider unavailable, rejected, or rate limited:** Open Settings and use the provider-specific repair, reconnect, or clear actions. The UI shows sanitized status and copyable error text without raw credentials.
+README.md:144:- **Reset local state:** Clear the affected provider in Settings, sign in again in your browser if needed, then import or paste the credential again.
+README.md:149:Pinemeter exports Claude usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards. For compatibility with earlier ClaudeMeter-era scripts, Pinemeter may also write a legacy `~/.claudemeter/usage.json` copy.
+README.md:222:xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+README.md:225:xcodebuild test \
+README.md:248:- Claude session keys are stored securely in macOS Keychain (encrypted, device-local only)
+README.md:251:- Browser import reads local browser cookies only to extract the selected provider credential/session material
+README.md:252:- Diagnostic and acquisition state is sanitized; raw cookies, tokens, headers, and API keys are not written to diagnostics
+README.md:253:- Usage data is cached locally (unencrypted, contains usage percentages/status only)

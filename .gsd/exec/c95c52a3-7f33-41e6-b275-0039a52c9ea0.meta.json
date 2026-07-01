@@ -1,0 +1,19 @@
+{
+  "id": "c95c52a3-7f33-41e6-b275-0039a52c9ea0",
+  "runtime": "bash",
+  "purpose": "T03 validate documented docs paths and project files",
+  "script_chars": 1332,
+  "started_at": "2026-07-01T17:53:45.160Z",
+  "finished_at": "2026-07-01T17:53:45.444Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 284,
+  "stdout_bytes": 4932,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/c95c52a3-7f33-41e6-b275-0039a52c9ea0.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/c95c52a3-7f33-41e6-b275-0039a52c9ea0.stderr"
+}

@@ -58,6 +58,47 @@ jobs:
 
           echo "Updated version to ${{ steps.version.outputs.version }} (build $BUILD_NUMBER)"
 
+      - name: Audit release signing and publishing assumptions
+        run: |
+          set -euo pipefail
+
+          PROJECT_FILE="Pinemeter.xcodeproj/project.pbxproj"
+          RELEASE_WORKFLOW=".github/workflows/release.yml"
+
+          echo "Release signing preflight"
+          echo "Expected signing identity: $EXPECTED_SIGNING_IDENTITY"
+          echo "Expected team identifier: $EXPECTED_TEAM_ID"
+
+          if grep -Eq 'CODE_SIGN_IDENTITY = "?Developer ID Application"?;' "$PROJECT_FILE"; then
+            echo "::error::Project contains generic Developer ID Application signing identity"
+            exit 1
+          fi
+
+          if grep -Eq 'CODE_SIGN_IDENTITY = "?Developer ID Application"?;' "$RELEASE_WORKFLOW"; then
+            echo "::error::Release workflow contains generic Developer ID Application signing identity"
+            exit 1
+          fi
+
+          TEAM_SECRET_NAME="APPLE_TEAM_ID"
+          if grep -Fq "secrets.${TEAM_SECRET_NAME}" "$RELEASE_WORKFLOW" || grep -Eq "^[[:space:]]*${TEAM_SECRET_NAME}:" "$RELEASE_WORKFLOW"; then
+            echo "::error::Release workflow must not rely on mutable ${TEAM_SECRET_NAME} secrets"
+            exit 1
+          fi
+
+          if ! grep -Fq "CODE_SIGN_IDENTITY = \"$EXPECTED_SIGNING_IDENTITY\";" "$PROJECT_FILE"; then
+            echo "::error::Project is missing pinned signing identity: $EXPECTED_SIGNING_IDENTITY"
+            exit 1
+          fi
+
+          if ! grep -Fq "DEVELOPMENT_TEAM = $EXPECTED_TEAM_ID;" "$PROJECT_FILE"; then
+            echo "::error::Project is missing pinned development team: $EXPECTED_TEAM_ID"
+            exit 1
+          fi
+
+          echo "Remote mutation surfaces after local build verification:"
+          echo "- GitHub release creation with contents:write permission"
+          echo "- Homebrew tap clone, commit, and push with HOMEBREW_TAP_TOKEN"
+
       - name: Install Apple certificate
         env:
           APPLE_CERTIFICATE_BASE64: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}

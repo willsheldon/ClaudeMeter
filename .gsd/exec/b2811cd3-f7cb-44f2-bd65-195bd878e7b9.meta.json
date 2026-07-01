@@ -1,0 +1,19 @@
+{
+  "id": "b2811cd3-f7cb-44f2-bd65-195bd878e7b9",
+  "runtime": "bash",
+  "purpose": "S01 final verification failure pinpoint after legacy filter",
+  "script_chars": 922,
+  "started_at": "2026-07-01T17:58:38.204Z",
+  "finished_at": "2026-07-01T17:58:45.899Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 7695,
+  "stdout_bytes": 835,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/b2811cd3-f7cb-44f2-bd65-195bd878e7b9.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/b2811cd3-f7cb-44f2-bd65-195bd878e7b9.stderr"
+}

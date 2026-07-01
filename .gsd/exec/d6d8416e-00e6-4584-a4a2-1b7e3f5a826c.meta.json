@@ -1,0 +1,19 @@
+{
+  "id": "d6d8416e-00e6-4584-a4a2-1b7e3f5a826c",
+  "runtime": "bash",
+  "purpose": "T02 issue templates verification",
+  "script_chars": 910,
+  "started_at": "2026-07-01T18:12:11.764Z",
+  "finished_at": "2026-07-01T18:12:12.095Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 331,
+  "stdout_bytes": 18265,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/d6d8416e-00e6-4584-a4a2-1b7e3f5a826c.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/d6d8416e-00e6-4584-a4a2-1b7e3f5a826c.stderr"
+}

@@ -1,0 +1,1 @@
+PASS: Markdown bug and feature fallbacks preserve the key sanitized diagnostic and feature-impact prompts from YAML forms.

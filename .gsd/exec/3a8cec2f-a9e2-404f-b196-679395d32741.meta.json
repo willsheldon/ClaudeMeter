@@ -1,0 +1,27 @@
+{
+  "id": "3a8cec2f-a9e2-404f-b196-679395d32741",
+  "runtime": "python",
+  "purpose": "UAT M005/S02/UAT-03 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S02",
+    "checkId": "UAT-03",
+    "intent": "uat-artifact-check",
+    "expected": "Feature templates prompt for problem, proposed behavior, alternatives/workarounds, and privacy/security credential/session impact without sensitive values."
+  },
+  "script_chars": 1101,
+  "started_at": "2026-07-01T18:21:27.290Z",
+  "finished_at": "2026-07-01T18:21:27.656Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 366,
+  "stdout_bytes": 0,
+  "stderr_bytes": 358,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/3a8cec2f-a9e2-404f-b196-679395d32741.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/3a8cec2f-a9e2-404f-b196-679395d32741.stderr"
+}

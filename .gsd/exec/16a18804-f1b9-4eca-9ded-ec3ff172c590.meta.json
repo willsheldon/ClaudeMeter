@@ -1,0 +1,27 @@
+{
+  "id": "16a18804-f1b9-4eca-9ded-ec3ff172c590",
+  "runtime": "python",
+  "purpose": "UAT M005/S01/UAT-EDGE-LEGACY (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S01",
+    "checkId": "UAT-EDGE-LEGACY",
+    "intent": "uat-artifact-check",
+    "expected": "Any remaining ClaudeMeter references in public docs are clearly scoped to legacy, historical, migration, repository-link, bundle-identifier, or legacy export-path contexts."
+  },
+  "script_chars": 1093,
+  "started_at": "2026-07-01T18:01:10.901Z",
+  "finished_at": "2026-07-01T18:01:11.094Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 193,
+  "stdout_bytes": 674,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/16a18804-f1b9-4eca-9ded-ec3ff172c590.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/16a18804-f1b9-4eca-9ded-ec3ff172c590.stderr"
+}

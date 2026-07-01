@@ -1,0 +1,6 @@
+missing: []
+forbidden_public_patterns: ['(?<!do not include )(?:include (?:your )?(?:secret|token|cookie|session))']
+stale_support_docs: []
+checks: {"all_expected_files_present": true, "bug_templates_collect_required_context": true, "bug_templates_prompt_sanitization": true, "contributing_build_command": true, "contributing_secret_handling": true, "contributing_test_command": true, "feature_templates_include_privacy_credential_impact": true, "public_templates_no_secret_or_private_process_prompts": false, "readme_links_contributing": true, "readme_links_security": true, "security_routes_private_reports": true, "support_docs_no_stale_claudemeter_or_gsd": true}
+matches_reviewed_count: 120
+audit-verdict: FAIL

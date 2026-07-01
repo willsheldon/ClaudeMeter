@@ -33,7 +33,7 @@ README, site/index.html, CHANGELOG, and relevant docs agree with code and tests.
   - Files: `README.md`, `site/index.html`, `CHANGELOG.md`
   - Verify: `rg -n "ClaudeMeter|Pinemeter|xcodebuild|provider|privacy|credential|Gemini|ChatGPT|Claude" README.md site/index.html CHANGELOG.md` reviewed for accurate public copy.
 
-- [ ] **T03: Verify docs paths and commands** `est:small`
+- [x] **T03: Verified the public documentation’s repository paths, local assets, project scheme, export paths, and documented Xcode test command against the current Pinemeter checkout.** `est:small`
   Check documented paths and commands against the repository. Run non-destructive local validation for build/test commands if docs were changed in ways that affect them.
   - Files: `README.md`, `site/index.html`, `CHANGELOG.md`
   - Verify: `test -f Pinemeter.xcodeproj/project.pbxproj && test -f Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme` plus `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` if build/test documentation changed.

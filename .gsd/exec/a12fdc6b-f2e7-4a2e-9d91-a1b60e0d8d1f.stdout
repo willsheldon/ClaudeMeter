@@ -1,0 +1,74 @@
+Superpowers for Agents
+Usage:
+  superpowers-agent bootstrap [--no-update] [--force]               # Run complete bootstrap
+  superpowers-agent version                                         # Show current version
+  superpowers-agent check-updates                                   # Check for updates
+  superpowers-agent update [--no-reinstall]                         # Update to latest version
+  superpowers-agent config-get                                      # Show configuration
+  superpowers-agent config-set <key> <value>                        # Update configuration
+  superpowers-agent setup-skills                                    # Initialize project skills
+  superpowers-agent use-skill <skill-name>                          # Load a skill
+  superpowers-agent find-skills                                     # List available skills
+  superpowers-agent add <url-or-path|@alias> [path] [options]      # Install skills
+  superpowers-agent add-repository <git-url> [--as=@alias] [opts]  # Add repository alias
+  superpowers-agent list-repositories                              # List configured repository aliases
+  superpowers-agent pull <url-or-path|@alias> [path] [options]     # Update skills
+  superpowers-agent rm <url-or-path|@alias> [options]             # Remove skills
+  superpowers-agent dir <skill-name>                                # Get skill directory
+  superpowers-agent path <skill-name>                               # Get skill file path
+  superpowers-agent execute <skill-name>                            # Execute a skill
+  superpowers-agent get-helpers <skill> <search-term>               # Get helper file path
+  superpowers-agent install-cursor-hooks                            # Install Cursor hooks
+  superpowers-agent install-aliases                                 # Install universal aliases (superpowers, superpowers-agent)
+
+Documentation: https://github.com/complexthings/superpowers
+LOADED accessibility: 522 lines :: --- name: accessibility description: Audit and improve web accessibility following WCAG 2.1 guidelines. Use when asked to "improve accessibility", "a11y audit", "WCAG compliance", "screen reader support", "keyboard navig
+LOADED api-design: 190 lines :: --- name: api-design description: Design or review an HTTP/REST/GraphQL API for versioning, pagination, error shapes, idempotency, auth, status codes, cache headers, and breaking-change management. Use when asked to "des
+LOADED best-practices: 583 lines :: --- name: best-practices description: Apply modern web development best practices for security, compatibility, and code quality. Use when asked to "apply best practices", "security audit", "modernize code", "code quality
+LOADED brainstorming: 166 lines :: --- name: brainstorming description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before
+LOADED code-optimizer: 155 lines :: --- name: code-optimizer description: > Deep code optimization audit using parallel specialist agents that hunt performance anti-patterns via pattern-based detection, avoiding anchoring bias. Covers DB queries, memory le
+LOADED core-web-vitals: 441 lines :: --- name: core-web-vitals description: Optimize Core Web Vitals (LCP, INP, CLS) for better page experience and search ranking. Use when asked to "improve Core Web Vitals", "fix LCP", "reduce CLS", "optimize INP", "page e
+LOADED create-gsd-extension: 93 lines :: --- name: create-gsd-extension description: Create, debug, and iterate on GSD extensions (TypeScript modules adding tools, commands, event hooks, custom UI, and providers). Use when asked to build an extension, add a too
+LOADED create-mcp-server: 121 lines :: --- name: create-mcp-server description: Build, iterate, and evaluate Model Context Protocol (MCP) servers that expose external services as tools an LLM can call. Covers schema/tool design, error handling, pagination, MC
+LOADED create-skill: 192 lines :: --- name: create-skill description: Expert guidance for creating, writing, building, and refining GSD skills. Use when working with SKILL.md files, authoring new skills, improving existing skills, or understanding skill 
+LOADED create-skill-json: 370 lines :: --- name: create-skill-json description: Generate a skill.json metadata file for a skill from its SKILL.md and directory structure. Use when adding a new skill to a repository, updating an existing skill's metadata, or s
+LOADED create-workflow: 130 lines :: --- name: create-workflow description: Conversational guide for creating valid YAML workflow definitions. Use when asked to "create a workflow", "new workflow definition", "build a workflow", "workflow YAML", "define wor
+LOADED debug-like-expert: 231 lines :: --- name: debug-like-expert description: Deep analysis debugging mode for complex issues. Activates methodical investigation protocol with evidence gathering, hypothesis testing, and rigorous verification. Use when stand
+LOADED decompose-into-slices: 139 lines :: --- name: decompose-into-slices description: Break a plan or milestone brief into independently-grabbable vertical slices (tracer bullets), written to `M###-ROADMAP.md` by default (GitHub issues only on explicit confirma
+LOADED dependency-upgrade: 158 lines :: --- name: dependency-upgrade description: Plan, batch, and verify dependency upgrades safely. Triages outdated packages into risk tiers, upgrades in order (dev/minor/patch first, runtime majors last), verifies each batch
+LOADED design-an-interface: 102 lines :: --- name: design-an-interface description: Produce 3+ radically different designs for a module, API, or interface, compare them in prose, and synthesize a recommendation. Use when asked to "design an interface", "shape t
+LOADED executing-plans: 130 lines :: --- name: executing-plans description: Use when you have a written implementation plan to execute in a separate session with review checkpoints. Use this skill whenever a user opens a session with a plan file, says "exec
+LOADED finding-skills: 101 lines :: --- name: finding-skills description: Use when you need to discover what skills are available before starting any task, find a skill for a specific problem, search by keyword or topic, or understand which skill to use. A
+LOADED finishing-a-development-branch: 261 lines :: --- name: finishing-a-development-branch description: Use when implementation is complete and you need to decide how to integrate the work — guides completion of development work by running pre-merge checks, presenting s
+LOADED forensics: 153 lines :: --- name: forensics description: Post-mortem a failed GSD auto-mode run. Traces symptom to root cause via `.gsd/` activity, journal, metrics, and lock artifacts, producing a filing-ready bug report with file:line refs an
+LOADED frontend-design: 45 lines :: --- name: frontend-design description: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applicati
+LOADED github-workflows: 90 lines :: --- name: github-workflows description: Work with GitHub Actions CI/CD workflows - read live syntax, monitor runs, and debug failures. Use when writing, running, or debugging GitHub Actions workflows. --- # GitHub Workfl
+LOADED grill-me: 93 lines :: --- name: grill-me description: Relentless sequential interview that stress-tests a plan or design until every decision branch is resolved. Use when the user wants to "grill me", "stress-test the plan", "interrogate my d
+LOADED gsd-browser: 841 lines :: --- name: gsd-browser description: > Open GSD native browser automation for AI agents. Use gsd-browser when the user needs real Chrome/Chromium control: navigate pages, inspect localhost, click, type, fill forms, take sc
+LOADED handoff: 121 lines :: --- name: handoff description: Prepare a clean cross-session handoff so the next agent can pick up where you left off. Writes a focused `continue.md` in the active slice dir and ensures `STATE.md` + summary artifacts are
+LOADED inversion-exercise: 174 lines :: --- name: inversion-exercise description: Flip core assumptions to reveal hidden constraints and alternative approaches. Use this when stuck on "the only way" to solve a problem, during architecture or design decisions, 
+LOADED leveraging-cli-tools: 132 lines :: --- name: leveraging-cli-tools description: Use when performing code searches, JSON parsing, file viewing, or file finding tasks - ensures agents verify and use high-performance CLI tools (rg, jq, fd, bat, ast-grep) inst
+LOADED lint: 145 lines :: --- name: lint description: Lint and format code. Auto-detects ESLint, Biome, Prettier, or language-native formatters and runs them with auto-fix. Reports remaining issues with actionable suggestions. --- <objective> Lin
+LOADED paseo: 143 lines :: --- name: paseo description: Paseo reference for managing agents and worktrees. Load whenever you need to create agents, send them prompts, or manage worktrees. --- Paseo is a daemon that supervises AI coding agents on y
+LOADED paseo-committee: 83 lines :: --- name: paseo-committee description: Form a committee of two high-reasoning agents to step back, do root cause analysis, and produce a plan. Use when stuck, looping, tunnel-visioning, or facing a hard planning problem.
+LOADED paseo-handoff: 61 lines :: --- name: paseo-handoff description: Hand off the current task to another agent with full context. Use when the user says "handoff", "hand off", "hand this to", or wants to pass work to another agent. user-invocable: tru
+LOADED paseo-orchestrate: 12 lines :: --- name: paseo-orchestrate description: Deprecated. Renamed to paseo-epic. Loading this skill redirects to paseo-epic and tells the user. user-invocable: true --- # Deprecated — use `paseo-epic` This skill has been rena
+LOADED preserving-productive-tensions: 146 lines :: --- name: preserving-productive-tensions description: Recognizes when tensions between valid approaches are features rather than bugs, and preserves multiple valid approaches instead of forcing premature consensus. Invok
+LOADED react-best-practices: 136 lines :: --- name: react-best-practices description: React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure op
+LOADED receiving-code-review: 233 lines :: --- name: receiving-code-review description: Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclear or technically questionable. Also use when a PR has been reviewe
+LOADED requesting-code-review: 110 lines :: --- name: requesting-code-review description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements. Also use when stuck on a problem (fresh perspective), before refa
+LOADED review: 218 lines :: --- name: review description: Review code changes for security, performance, bugs, and quality. Reviews staged changes, unstaged changes, specific commits, or PR-ready diffs. --- <objective> Review code changes and provi
+LOADED root-cause-tracing: 361 lines :: --- name: root-cause-tracing description: Systematically trace bugs backward through the call chain to find the original trigger — not just where the error appears. Use this skill when an error surfaces deep in execution
+LOADED security-review: 181 lines :: --- name: security-review description: Threat-model-driven security review of a change, feature, or subsystem. Runs a STRIDE-style pass over the actual code and produces a filing-ready report with severity, exploit scena
+LOADED setup-skills: 47 lines :: --- name: setup-skills description: Run superpowers-agent setup-skills to initialize the skills infrastructure for a project. Use whenever starting a new project with AI agents, when skills symlinks are missing, when AGE
+LOADED testing-anti-patterns: 298 lines :: --- name: testing-anti-patterns description: Identifies and corrects dangerous testing anti-patterns including testing mock behavior instead of real behavior, adding test-only methods to production classes, mocking witho
+LOADED tracing-knowledge-lineages: 241 lines :: --- name: tracing-knowledge-lineages description: "Trace the historical lineage of technical ideas, patterns, and architectures to rediscover proven solutions, understand WHY current approaches exist, and avoid repeating
+LOADED using-a-skill: 101 lines :: --- name: using-a-skill description: Use when you need to load and apply a specific skill from system, personal, or project locations - automatically handles priority resolution --- # Using a Skill ## Overview Load and a
+LOADED using-git-worktrees: 366 lines :: --- name: using-git-worktrees description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - creates isolated git worktrees with smart directory selecti
+LOADED using-superpowers: 122 lines :: --- name: using-superpowers description: "Use when starting any conversation - establishes how to find and use skills, requiring Skill tool invocation before ANY response including clarifying questions. CRITICAL: this sk
+LOADED verification-before-completion: 246 lines :: --- name: verification-before-completion description: Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before m
+LOADED verify-before-complete: 98 lines :: --- name: verify-before-complete description: >- Block completion claims until verification evidence has been produced in the current message. Use before marking a task/slice/milestone complete, before creating a commit 
+LOADED web-quality-audit: 168 lines :: --- name: web-quality-audit description: Comprehensive web quality audit covering performance, accessibility, SEO, and best practices. Use when asked to "audit my site", "review web quality", "run lighthouse audit", "che
+LOADED write-docs: 82 lines :: --- name: write-docs description: >- Collaborative authoring workflow for proposals, technical specs, decision docs, READMEs, ADRs, and long-form prose that must work for fresh readers. Three stages: gather context, iter
+LOADED writing-plans: 121 lines :: --- name: writing-plans description: Use when you have a spec or requirements for a multi-step task, before touching code. Trigger this whenever a user says "write a plan", "create an implementation plan", "plan this out
+LOADED writing-prompts: 345 lines :: --- name: writing-prompts description: Use when creating custom slash commands or prompt files for GitHub Copilot, Cursor, or Claude, when repeating same instructions 2+ times, when tempted to defer command creation, or 

@@ -1,0 +1,27 @@
+{
+  "id": "c08b5391-85d6-4e46-824e-d823c4730c97",
+  "runtime": "python",
+  "purpose": "UAT M005/S02/UAT-02 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S02",
+    "checkId": "UAT-02",
+    "intent": "uat-artifact-check",
+    "expected": "Bug templates collect version, macOS, provider/setup, expected/actual behavior, repro steps, and sanitized diagnostics without secrets."
+  },
+  "script_chars": 1129,
+  "started_at": "2026-07-01T18:21:27.266Z",
+  "finished_at": "2026-07-01T18:21:27.611Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 345,
+  "stdout_bytes": 0,
+  "stderr_bytes": 328,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/c08b5391-85d6-4e46-824e-d823c4730c97.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/c08b5391-85d6-4e46-824e-d823c4730c97.stderr"
+}

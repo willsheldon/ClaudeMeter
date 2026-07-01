@@ -1,0 +1,27 @@
+{
+  "id": "1aaebbc4-fa76-4178-a6bb-82346ed5fdf4",
+  "runtime": "bash",
+  "purpose": "UAT M005/S01/UAT-SMOKE (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S01",
+    "checkId": "UAT-SMOKE",
+    "intent": "uat-artifact-check",
+    "expected": "Search exits 0 and output can be reviewed for current Pinemeter identity with ClaudeMeter references scoped to legacy/historical contexts."
+  },
+  "script_chars": 233,
+  "started_at": "2026-07-01T18:01:10.822Z",
+  "finished_at": "2026-07-01T18:01:10.941Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 119,
+  "stdout_bytes": 15625,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/1aaebbc4-fa76-4178-a6bb-82346ed5fdf4.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/1aaebbc4-fa76-4178-a6bb-82346ed5fdf4.stderr"
+}

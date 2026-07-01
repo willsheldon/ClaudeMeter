@@ -1,0 +1,1 @@
+PASS: feature YAML and Markdown templates cover problem, proposal, alternatives/workaround, and privacy or credential/session impact without requesting sensitive values.

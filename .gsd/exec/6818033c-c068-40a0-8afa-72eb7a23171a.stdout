@@ -1,0 +1,127 @@
+
+## CONTRIBUTING.md
+3: Thanks for helping improve Pinemeter. This project is a macOS menu bar app that reads local provider session/API state to show usage and quota information, so high-quality reports need to separate user-visible behavior f
+8: 2. Check the README troubleshooting section for provider-specific reset paths.
+10: 4. Do not paste Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, request headers, or screenshots that expose account identifiers.
+16: - Pinemeter version or commit SHA.
+17: - macOS version and Mac architecture.
+18: - Provider affected: Claude, ChatGPT, Gemini, or app-wide.
+19: - Setup path used: browser import, manual credential entry, API key, source build via `xcodebuild`, upgrade from existing settings, or not configured.
+20: - Expected behavior and actual behavior.
+21: - Sanitized provider state such as configured/not configured, connected/disconnected, quota visible/not visible, or sanitized error category.
+22: - Steps to reproduce.
+23: - Logs or screenshots only after removing secrets, tokens, cookies, session identifiers, request headers, account identifiers, and private workspace names.
+25: For credential, privacy, or vulnerability concerns, do **not** open a public issue. Use the private reporting path in [SECURITY.md](SECURITY.md).
+29: Use the **Feature request** issue form or the portable Markdown checklist in [`.github/ISSUE_TEMPLATE/feature_request.md`](.github/ISSUE_TEMPLATE/feature_request.md). Describe the user problem, proposed behavior, expecte
+34: - Keep SwiftUI UI state on `@MainActor @Observable` types.
+35: - Keep non-UI work in actor services/repositories.
+37: - Treat provider credentials, cookies, tokens, and headers as secret material. Do not log or persist raw values outside their intended secure storage boundary.
+42: xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug
+44: xcodebuild test \
+60: - Notes about credential handling or diagnostics when the change touches provider setup, import, storage, logging, or error reporting.
+61: - Screenshots for visible UI changes when practical.
+
+## SECURITY.md
+1: # Security and Privacy Reporting
+3: Pinemeter handles local provider credential material, including Claude session keys, optional ChatGPT session cookies, and optional Gemini API keys. Please report credential handling, privacy, or vulnerability concerns p
+5: ## What to report privately
+7: Use the private reporting path for issues such as:
+9: - Raw provider credentials, cookies, tokens, API keys, or request headers being logged, displayed, exported, or written outside the intended secure storage boundary.
+10: - Keychain storage, access-control, or credential repair behavior that could expose another account's provider material.
+11: - Browser import behavior that reads more data than needed for the selected provider.
+12: - Diagnostics, screenshots, crash logs, or issue templates that could encourage users to disclose secrets.
+13: - A reproducible vulnerability in the app, release artifacts, or update/distribution process.
+17: If GitHub private vulnerability reporting is enabled for this repository, use **Security advisories > Report a vulnerability**.
+19: If private vulnerability reporting is unavailable, contact the maintainer using the repository owner's published GitHub contact path and include **Pinemeter security report** in the subject or first line. Do not include 
+25: - Pinemeter version or commit SHA.
+26: - macOS version and Mac architecture.
+27: - Provider affected: Claude, ChatGPT, Gemini, browser import, release signing, or app-wide.
+28: - Reproduction steps using dummy, expired, or redacted values.
+29: - The observed impact and what secret or private data could be exposed.
+30: - Any relevant sanitized logs, screenshots, or diagnostics.
+34: Do not send real Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, Authorization headers, browser cookie database files, or screenshots that expose account identifiers unless explicitly requested ove
+
+## .github/ISSUE_TEMPLATE/config.yml
+3:   - name: Security or privacy report
+4:     url: https://github.com/eddmann/Pinemeter/security/advisories/new
+5:     about: Please report credential handling, privacy, or vulnerability concerns privately. See SECURITY.md if private reporting is unavailable.
+
+## .github/ISSUE_TEMPLATE/bug_report.yml
+9:         Thanks for reporting a bug. Do not paste Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, Authorization headers, browser cookie database files, or screenshots that expose account identifiers
+11:         If this involves credential leakage, privacy, or a vulnerability, stop here and use the private path in SECURITY.md instead of opening a public issue.
+13:     id: version
+15:       label: Pinemeter version or commit
+16:       description: Use the release version, build number, or commit SHA you tested.
+21:     id: macos
+23:       label: macOS version and Mac architecture
+24:       placeholder: "macOS 14.6, Apple Silicon"
+28:     id: provider
+37:         - Settings or setup wizard
+44:     id: setup-path
+46:       label: Setup path
+50:         - Manual Claude session entry
+52:         - Provider not configured
+59:     id: steps
+61:       label: Steps to reproduce
+70:     id: expected
+72:       label: Expected behavior
+77:     id: actual
+79:       label: Actual behavior
+88:       description: Paste only sanitized logs, copyable error text, or usage JSON shape. Redact account IDs and never include secrets.
+95:         - label: I removed Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, Authorization headers, and account-identifying screenshots.
+97:         - label: This is not a credential leak, privacy concern, or vulnerability report that should use SECURITY.md.
+
+## .github/ISSUE_TEMPLATE/bug_report.md
+10: Do not paste Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers,
+11: Authorization headers, browser cookie database files, or screenshots that expose account
+12: identifiers. If this involves credential leakage, privacy, or a vulnerability, stop here
+13: and use SECURITY.md / GitHub private vulnerability reporting instead of a public issue.
+16: ## Pinemeter version
+18: <!-- Release version, build number, or commit SHA. -->
+20: ## macOS version and Mac architecture
+22: <!-- Example: macOS 14.6, Apple Silicon. -->
+24: ## Affected provider or area
+26: <!-- Claude monitoring, ChatGPT optional visibility, Gemini optional visibility, browser import, menu bar/notifications, settings/setup wizard, usage JSON export, app-wide, or documentation. -->
+28: ## Setup path
+30: <!-- Browser import, manual Claude session entry, Gemini API key entry, existing settings after upgrade, source build via xcodebuild, or not configured. -->
+32: ## Expected behavior
+36: ## Actual behavior
+38: <!-- What happened instead? Include exact user-visible status/error text after removing private values. -->
+40: ## Steps to reproduce
+46: ## Sanitized provider state
+48: <!-- Share only non-secret state such as configured/not configured, connected/disconnected, quota visible/not visible, or sanitized error category. Do not include session values, cookies, tokens, API keys, request header
+50: ## Logs or screenshots
+52: <!-- Attach logs or screenshots only after removing secrets, tokens, cookies, session identifiers, request headers, account identifiers, and private workspace names. -->
+56: <!-- Mention reset paths, re-import, sign-out/sign-in, source build/test commands, or other steps already attempted. -->
+
+## .github/ISSUE_TEMPLATE/feature_request.yml
+2: description: Suggest a focused Pinemeter improvement or provider workflow
+9:         Thanks for suggesting an improvement. Please focus on the user problem and avoid sharing private account details, provider credentials, cookies, tokens, or headers.
+11:     id: problem
+13:       label: User problem
+28:         - Settings or setup wizard
+37:       label: Proposed behavior
+43:     id: alternatives
+45:       label: Alternatives considered
+46:       description: What workaround or alternate design have you tried?
+48:     id: privacy
+50:       label: Privacy and credential impact
+51:       description: Note whether this requires reading, storing, displaying, logging, or exporting provider credential/session material.
+52:       placeholder: "No new credential material is required, or this would require ..."
+62:         - label: I did not include real Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, Authorization headers, or account-identifying screenshots.
+
+## .github/ISSUE_TEMPLATE/feature_request.md
+3: about: Suggest a focused Pinemeter improvement or provider workflow
+10: Please focus on the user problem and avoid sharing private account details, provider
+11: credentials, cookies, tokens, session identifiers, API keys, request headers, or raw
+12: provider responses. Use SECURITY.md for credential handling, privacy, or vulnerability
+16: ## User problem
+22: <!-- Claude monitoring, ChatGPT optional visibility, Gemini optional visibility, browser import, menu bar/notifications, settings/setup wizard, usage JSON export, documentation/contributor experience, or other. -->
+24: ## Proposed behavior
+28: ## Expected benefit
+32: ## Alternatives considered
+34: <!-- Existing workaround, simpler approach, or why current behavior is not enough. -->
+36: ## Provider and setup context
+38: <!-- Optional, sanitized only: affected provider, setup path, macOS version, Pinemeter version/commit, or source build via xcodebuild. Do not include tokens, cookies, session keys, API keys, headers, or account identifie
+40: ## Privacy or credential impact
+42: <!-- Does this change touch provider sessions, cookies, tokens, API keys, browser import, Keychain, logs, screenshots, exports, or account-identifying state? If yes, describe the risk without sharing secrets. -->

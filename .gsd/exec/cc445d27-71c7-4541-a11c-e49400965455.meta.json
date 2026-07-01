@@ -1,0 +1,19 @@
+{
+  "id": "cc445d27-71c7-4541-a11c-e49400965455",
+  "runtime": "bash",
+  "purpose": "S01 public docs review lines for legacy ClaudeMeter and xcodebuild wording",
+  "script_chars": 133,
+  "started_at": "2026-07-01T17:57:54.832Z",
+  "finished_at": "2026-07-01T17:57:54.896Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 64,
+  "stdout_bytes": 3385,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/cc445d27-71c7-4541-a11c-e49400965455.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/cc445d27-71c7-4541-a11c-e49400965455.stderr"
+}

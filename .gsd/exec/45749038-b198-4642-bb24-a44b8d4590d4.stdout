@@ -1,0 +1,38 @@
+missing: []
+forbidden_public_patterns: ['include (?:your )?(?:secret|token|cookie|session)']
+stale_support_docs: []
+checks: {"all_expected_files_present": true, "bug_templates_collect_required_context": false, "bug_templates_prompt_sanitization": true, "contributing_build_command": true, "contributing_secret_handling": true, "contributing_test_command": false, "feature_templates_include_privacy_credential_impact": true, "public_templates_no_secret_or_private_process_prompts": false, "readme_links_contributing": true, "readme_links_security": true, "security_routes_private_reports": true, "support_docs_no_stale_claudemeter_or_gsd": true}
+matches_reviewed_count: 120
+sample_matches: [
+  ".github/ISSUE_TEMPLATE/config.yml:4:    url: https://github.com/eddmann/Pinemeter/security/advisories/new",
+  ".github/ISSUE_TEMPLATE/config.yml:7:    url: https://github.com/eddmann/Pinemeter#troubleshooting-and-reset-paths",
+  ".github/ISSUE_TEMPLATE/bug_report.yml:2:description: Report reproducible Pinemeter behavior with sanitized diagnostics",
+  ".github/ISSUE_TEMPLATE/bug_report.yml:9:        Thanks for reporting a bug. Do not paste Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, Authorization headers, browser cookie database files, or scr",
+  ".github/ISSUE_TEMPLATE/bug_report.yml:15:      label: Pinemeter version or commit",
+  ".github/ISSUE_TEMPLATE/bug_report.yml:28:    id: provider",
+  ".github/ISSUE_TEMPLATE/bug_report.yml:50:        - Manual Claude session entry",
+  ".github/ISSUE_TEMPLATE/bug_report.yml:52:        - Provider not configured",
+  ".github/ISSUE_TEMPLATE/bug_report.yml:64:        1. Open Pinemeter Settings",
+  ".github/ISSUE_TEMPLATE/bug_report.yml:88:      description: Paste only sanitized logs, copyable error text, or usage JSON shape. Redact account IDs and never include secrets.",
+  ".github/ISSUE_TEMPLATE/bug_report.yml:95:        - label: I removed Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, Authorization headers, and account-identifying screenshots.",
+  ".github/ISSUE_TEMPLATE/feature_request.yml:2:description: Suggest a focused Pinemeter improvement or provider workflow",
+  ".github/ISSUE_TEMPLATE/feature_request.yml:9:        Thanks for suggesting an improvement. Please focus on the user problem and avoid sharing private account details, provider credentials, cookies, tokens, or headers.",
+  ".github/ISSUE_TEMPLATE/feature_request.yml:39:      placeholder: \"Pinemeter should ...\"",
+  ".github/ISSUE_TEMPLATE/feature_request.yml:51:      description: Note whether this requires reading, storing, displaying, logging, or exporting provider credential/session material.",
+  ".github/ISSUE_TEMPLATE/feature_request.yml:62:        - label: I did not include real Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers, Authorization headers, or account-identifying screenshots.",
+  ".github/ISSUE_TEMPLATE/bug_report.md:3:about: Report reproducible Pinemeter behavior with sanitized diagnostics",
+  ".github/ISSUE_TEMPLATE/bug_report.md:10:Do not paste Claude session keys, ChatGPT cookies, Gemini API keys, Cookie headers,",
+  ".github/ISSUE_TEMPLATE/bug_report.md:11:Authorization headers, browser cookie database files, or screenshots that expose account",
+  ".github/ISSUE_TEMPLATE/bug_report.md:16:## Pinemeter version",
+  ".github/ISSUE_TEMPLATE/bug_report.md:24:## Affected provider or area",
+  ".github/ISSUE_TEMPLATE/bug_report.md:30:<!-- Browser import, manual Claude session entry, Gemini API key entry, existing settings after upgrade, source build via xcodebuild, or not configured. -->",
+  ".github/ISSUE_TEMPLATE/bug_report.md:34:<!-- What did you expect Pinemeter to do? -->",
+  ".github/ISSUE_TEMPLATE/bug_report.md:46:## Sanitized provider state",
+  ".github/ISSUE_TEMPLATE/bug_report.md:48:<!-- Share only non-secret state such as configured/not configured, connected/disconnected, quota visible/not visible, or sanitized error category. Do not include session values, c",
+  ".github/ISSUE_TEMPLATE/bug_report.md:52:<!-- Attach logs or screenshots only after removing secrets, tokens, cookies, session identifiers, request headers, account identifiers, and private workspace names. -->",
+  ".github/ISSUE_TEMPLATE/feature_request.md:3:about: Suggest a focused Pinemeter improvement or provider workflow",
+  ".github/ISSUE_TEMPLATE/feature_request.md:10:Please focus on the user problem and avoid sharing private account details, provider",
+  ".github/ISSUE_TEMPLATE/feature_request.md:11:credentials, cookies, tokens, session identifiers, API keys, request headers, or raw",
+  ".github/ISSUE_TEMPLATE/feature_request.md:12:provider responses. Use SECURITY.md for credential handling, privacy, or vulnerability"
+]
+audit-verdict: FAIL

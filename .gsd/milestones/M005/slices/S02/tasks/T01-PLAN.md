@@ -4,7 +4,7 @@ estimated_files: 3
 skills_used: []
 ---
 
-# T01: Design contributor and issue template set
+# T01: Added local contributor guidance, public bug and feature issue forms, and private security/privacy reporting guidance for sanitized external collaboration.
 
 Inspect existing GitHub configuration and decide the smallest useful set of local contribution/support templates: contribution guide, bug report, feature request, and security or privacy report if appropriate.
 

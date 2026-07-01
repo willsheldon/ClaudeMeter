@@ -1,0 +1,27 @@
+{
+  "id": "f2e1347c-5e9e-494d-bb69-66e76fd96287",
+  "runtime": "python",
+  "purpose": "UAT M005/S01/UAT-01 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S01",
+    "checkId": "UAT-01",
+    "intent": "uat-artifact-check",
+    "expected": "README.md and site/index.html describe Pinemeter as the current macOS menu bar app, include Claude, ChatGPT, Gemini, setup, reset, and troubleshooting, and do not present ClaudeMeter as current branding."
+  },
+  "script_chars": 1164,
+  "started_at": "2026-07-01T18:01:10.837Z",
+  "finished_at": "2026-07-01T18:01:11.063Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 226,
+  "stdout_bytes": 373,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/f2e1347c-5e9e-494d-bb69-66e76fd96287.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/f2e1347c-5e9e-494d-bb69-66e76fd96287.stderr"
+}

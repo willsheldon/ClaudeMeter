@@ -4,7 +4,7 @@ estimated_files: 3
 skills_used: []
 ---
 
-# T03: Verify docs paths and commands
+# T03: Verified the public documentation’s repository paths, local assets, project scheme, export paths, and documented Xcode test command against the current Pinemeter checkout.
 
 Check documented paths and commands against the repository. Run non-destructive local validation for build/test commands if docs were changed in ways that affect them.
 

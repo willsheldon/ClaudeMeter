@@ -1,0 +1,19 @@
+{
+  "id": "edfe3082-f820-41f2-8d80-ab28df7f1bb6",
+  "runtime": "python",
+  "purpose": "slice S02 closeout final artifact verification v2",
+  "script_chars": 3605,
+  "started_at": "2026-07-01T18:19:22.953Z",
+  "finished_at": "2026-07-01T18:19:23.399Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 446,
+  "stdout_bytes": 813,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/edfe3082-f820-41f2-8d80-ab28df7f1bb6.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/edfe3082-f820-41f2-8d80-ab28df7f1bb6.stderr"
+}

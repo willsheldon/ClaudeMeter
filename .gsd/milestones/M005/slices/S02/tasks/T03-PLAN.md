@@ -4,7 +4,7 @@ estimated_files: 4
 skills_used: []
 ---
 
-# T03: Verify public template consistency
+# T03: Verified public issue templates and contributor support guidance for sanitized, non-destructive public collaboration.
 
 Review templates for stale names, private process leakage, unsupported promises, and destructive-action suggestions. Fix inconsistencies and record verification evidence.
 

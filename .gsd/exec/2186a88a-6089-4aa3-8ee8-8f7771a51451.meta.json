@@ -1,0 +1,27 @@
+{
+  "id": "2186a88a-6089-4aa3-8ee8-8f7771a51451",
+  "runtime": "bash",
+  "purpose": "UAT M005/S01/UAT-03 (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S01",
+    "checkId": "UAT-03",
+    "intent": "uat-runtime-check",
+    "expected": "Pinemeter Xcode project and shared scheme exist; documented xcodebuild test command exits 0."
+  },
+  "script_chars": 403,
+  "started_at": "2026-07-01T18:01:27.570Z",
+  "finished_at": "2026-07-01T18:01:56.781Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 29211,
+  "stdout_bytes": 36570,
+  "stderr_bytes": 632,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/2186a88a-6089-4aa3-8ee8-8f7771a51451.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/2186a88a-6089-4aa3-8ee8-8f7771a51451.stderr"
+}

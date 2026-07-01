@@ -1,0 +1,1 @@
+PASS: SECURITY.md/config.yml route sensitive reports privately, include fallback maintainer path, and warn against public/initial-message secrets.

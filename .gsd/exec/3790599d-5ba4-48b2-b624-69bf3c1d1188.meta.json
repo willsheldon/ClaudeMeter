@@ -1,0 +1,27 @@
+{
+  "id": "3790599d-5ba4-48b2-b624-69bf3c1d1188",
+  "runtime": "python",
+  "purpose": "UAT M005/S02/UAT-04 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S02",
+    "checkId": "UAT-04",
+    "intent": "uat-artifact-check",
+    "expected": "CONTRIBUTING.md documents coding conventions, secret handling, Debug build command, and xcodebuild test command."
+  },
+  "script_chars": 642,
+  "started_at": "2026-07-01T18:21:27.315Z",
+  "finished_at": "2026-07-01T18:21:27.637Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 322,
+  "stdout_bytes": 0,
+  "stderr_bytes": 337,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/3790599d-5ba4-48b2-b624-69bf3c1d1188.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/3790599d-5ba4-48b2-b624-69bf3c1d1188.stderr"
+}

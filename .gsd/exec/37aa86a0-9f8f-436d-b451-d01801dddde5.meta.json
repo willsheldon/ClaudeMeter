@@ -1,0 +1,27 @@
+{
+  "id": "37aa86a0-9f8f-436d-b451-d01801dddde5",
+  "runtime": "python",
+  "purpose": "UAT M005/S02/UAT-01B (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S02",
+    "checkId": "UAT-01B",
+    "intent": "uat-artifact-check",
+    "expected": "Required contributor/support artifacts exist and expose contribution, public issue, and private security paths."
+  },
+  "script_chars": 1332,
+  "started_at": "2026-07-01T18:22:57.484Z",
+  "finished_at": "2026-07-01T18:22:57.710Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 226,
+  "stdout_bytes": 127,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/37aa86a0-9f8f-436d-b451-d01801dddde5.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/37aa86a0-9f8f-436d-b451-d01801dddde5.stderr"
+}

@@ -1,0 +1,27 @@
+{
+  "id": "7ac7b174-6cd4-4733-b3f2-ada0b969f06c",
+  "runtime": "python",
+  "purpose": "UAT M005/S02/UAT-07C (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S02",
+    "checkId": "UAT-07C",
+    "intent": "uat-artifact-check",
+    "expected": "Public templates/support docs avoid private GSD workflow, stale ClaudeMeter branding in support templates, and destructive git/remote instructions."
+  },
+  "script_chars": 1698,
+  "started_at": "2026-07-01T18:24:04.553Z",
+  "finished_at": "2026-07-01T18:24:04.900Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 347,
+  "stdout_bytes": 0,
+  "stderr_bytes": 362,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/7ac7b174-6cd4-4733-b3f2-ada0b969f06c.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/7ac7b174-6cd4-4733-b3f2-ada0b969f06c.stderr"
+}

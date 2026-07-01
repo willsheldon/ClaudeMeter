@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 21, in <module>
+    assert not missing_signals, f'Missing support-path signals: {missing_signals}'
+           ^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing support-path signals: {'private sensitive reporting': ['private vulnerability reporting', 'security', 'do not include real secrets']}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 9, in <module>
+    assert 'do not paste' in t and all(term in t for term in ['cookies','api keys','request headers']), f'{p} lacks explicit secret warning'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: .github/ISSUE_TEMPLATE/bug_report.yml lacks explicit secret warning

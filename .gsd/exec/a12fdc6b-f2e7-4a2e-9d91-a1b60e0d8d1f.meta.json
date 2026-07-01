@@ -1,0 +1,19 @@
+{
+  "id": "a12fdc6b-f2e7-4a2e-9d91-a1b60e0d8d1f",
+  "runtime": "python",
+  "purpose": "superpowers version check and skill file summaries",
+  "script_chars": 3317,
+  "started_at": "2026-07-01T18:14:55.461Z",
+  "finished_at": "2026-07-01T18:14:56.147Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 686,
+  "stdout_bytes": 14874,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/a12fdc6b-f2e7-4a2e-9d91-a1b60e0d8d1f.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/a12fdc6b-f2e7-4a2e-9d91-a1b60e0d8d1f.stderr"
+}

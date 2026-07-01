@@ -1,0 +1,27 @@
+{
+  "id": "63a49594-4909-4b76-a827-d05bb4f06ceb",
+  "runtime": "python",
+  "purpose": "UAT M005/S02/UAT-INSPECT-README (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S02",
+    "checkId": "UAT-INSPECT-README",
+    "intent": "uat-artifact-check",
+    "expected": "Inspect README sensitive-material lines for safe context."
+  },
+  "script_chars": 320,
+  "started_at": "2026-07-01T18:24:11.824Z",
+  "finished_at": "2026-07-01T18:24:12.141Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 317,
+  "stdout_bytes": 3870,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/63a49594-4909-4b76-a827-d05bb4f06ceb.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005/.gsd/exec/63a49594-4909-4b76-a827-d05bb4f06ceb.stderr"
+}

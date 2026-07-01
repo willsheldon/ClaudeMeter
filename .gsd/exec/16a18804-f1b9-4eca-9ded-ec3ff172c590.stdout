@@ -1,0 +1,4 @@
+README.md:149:  `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards. For compatibility with earlier ClaudeMeter-era scripts, Pinemeter may also write a legacy `~/.claudemeter/usage.json` copy.  **JSON
+CHANGELOG.md:147: lts sync  ## [1.0.1] - 2025-11-18  ### Changed  - Clarify Claude.ai plan usage vs developer API in documentation  ## [1.0.0] - 2025-11-18  ### Added  - Initial ClaudeMeter macOS menu bar app - Real-time usage monitoring for 5-hour session, 7-day weekly, and So
+ISSUES:
+- CHANGELOG.md:147 ClaudeMeter reference lacks obvious legacy/historical/repository/bundle/export-path context
