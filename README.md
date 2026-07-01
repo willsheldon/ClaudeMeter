@@ -232,6 +232,13 @@ xcodebuild test \
   CODE_SIGNING_ALLOWED=NO
 ```
 
+## Support and Contributing
+
+- Use the GitHub **Bug report** template for reproducible app behavior. Include Pinemeter version, macOS version, affected provider, setup path, reproduction steps, and sanitized diagnostics.
+- Use the GitHub **Feature request** template for focused workflow improvements. Include the user problem, proposed behavior, alternatives, and any credential/privacy implications.
+- Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening issues or pull requests.
+- Report credential handling, privacy, or vulnerability concerns privately using [SECURITY.md](SECURITY.md). Do not open public issues containing session keys, cookies, API keys, request headers, or account-identifying screenshots.
+
 ## Disclaimer
 
 **This is an unofficial tool** and is not affiliated with, endorsed by, or supported by Anthropic PBC, OpenAI, or Google.
