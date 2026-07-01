@@ -7,9 +7,11 @@ jobs:
   build-and-release:
     runs-on: macos-latest
     permissions:
+      # This manual workflow publishes release artifacts; dispatch requires explicit maintainer confirmation.
       contents: write
 
     env:
+      # Release signing is pinned to Autimo. Do not replace this with a mutable APPLE_TEAM_ID secret.
       EXPECTED_SIGNING_IDENTITY: "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
       EXPECTED_TEAM_ID: HMR9RDR6M2
 
@@ -95,9 +97,10 @@ jobs:
             exit 1
           fi
 
-          echo "Remote mutation surfaces after local build verification:"
+          echo "Remote mutation surfaces after local build verification require explicit maintainer confirmation:"
           echo "- GitHub release creation with contents:write permission"
           echo "- Homebrew tap clone, commit, and push with HOMEBREW_TAP_TOKEN"
+          echo "- Apple notarization submission with App Store Connect credentials"
 
       - name: Install Apple certificate
         env:
