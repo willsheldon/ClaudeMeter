@@ -1,0 +1,19 @@
+{
+  "id": "b7f9e480-c018-4214-8105-5064fa5b2316",
+  "runtime": "python",
+  "purpose": "summarize SessionKeyImport tests",
+  "script_chars": 355,
+  "started_at": "2026-06-25T04:08:38.867Z",
+  "finished_at": "2026-06-25T04:08:38.949Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 82,
+  "stdout_bytes": 1675,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/b7f9e480-c018-4214-8105-5064fa5b2316.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/b7f9e480-c018-4214-8105-5064fa5b2316.stderr"
+}

@@ -1,0 +1,23 @@
+235:         var key = Data(count: kCCKeySizeAES128)
+236:         let keyLength = key.count
+237:         let result = key.withUnsafeMutableBytes { keyBytes in
+238:             password.utf8CString.withUnsafeBytes { passBytes in
+239:                 salt.withUnsafeBytes { saltBytes in
+240:                     CCKeyDerivationPBKDF(
+241:                         CCPBKDFAlgorithm(kCCPBKDF2),
+242:                         passBytes.bindMemory(to: Int8.self).baseAddress,
+243:                         passBytes.count - 1,
+244:                         saltBytes.bindMemory(to: UInt8.self).baseAddress,
+245:                         salt.count,
+246:                         CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA1),
+247:                         1003,
+248:                         keyBytes.bindMemory(to: UInt8.self).baseAddress,
+249:                         keyLength)
+250:                 }
+251:             }
+252:         }
+253:         guard result == kCCSuccess else {
+254:             throw ImportError.keychainDenied
+255:         }
+256: 
+257:         self.chromeSafeStorageKeyLock.lock()

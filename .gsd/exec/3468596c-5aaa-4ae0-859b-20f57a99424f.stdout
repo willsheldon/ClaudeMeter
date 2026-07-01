@@ -1,0 +1,28 @@
+6: /// Imports Claude session keys from local browser cookies.
+29:         let query = BrowserCookieQuery(domains: ["claude.ai"], domainMatch: .suffix)
+44:                 case .accessDenied:
+64:             throw SessionKeyImportError.accessDenied
+69:     func importChatGPTSessionCookie() async throws -> ImportedChatGPTSessionCookie {
+70:         try await importChatGPTSessionCookie(from: .defaultBrowser)
+73:     func importChatGPTSessionCookie(from source: BrowserImportSource) async throws -> ImportedChatGPTSessionCookie {
+74:         let query = BrowserCookieQuery(domains: ["chatgpt.com", "chat.openai.com"], domainMatch: .suffix)
+83:                     if let imported = importedChatGPTSessionCookie(from: source) {
+89:                 case .accessDenied:
+109:             throw SessionKeyImportError.accessDenied
+111:         throw SessionKeyImportError.noChatGPTSessionCookieFound
+115:         let identity = CredentialIdentity(provider: .claude, kind: .sessionKey)
+120:             let sessionKey = try SessionKey(existingValue)
+122:             _ = try await keychainRepository.repairClaudeSessionKey(sessionKey.value, account: account)
+140:             Self.logger.error("Claude session key repair failed with sanitized Keychain storage error")
+148:             Self.logger.error("Claude session key repair failed with sanitized unknown error")
+206:         guard let cookie = source.records.first(where: { $0.name == "sessionKey" }) else {
+210:         let sessionKey = try SessionKey(cookie.value)
+212:             value: sessionKey.value,
+217:     private func importedChatGPTSessionCookie(from source: BrowserCookieStoreRecords) -> ImportedChatGPTSessionCookie? {
+220:                 isChatGPTSessionCookieName(record.name)
+228:         let normalizedHeader = ChatGPTUsageService.cookieHeader(from: cookieHeader)
+231:         return ImportedChatGPTSessionCookie(
+237:     private func isChatGPTSessionCookieName(_ name: String) -> Bool {
+258:             "__Secure-next-auth.session-token",
+259:             "__Secure-authjs.session-token",
+271:              .chatgptAtlas,

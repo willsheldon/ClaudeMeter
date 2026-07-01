@@ -1,0 +1,86 @@
+119:             return false
+120:         }
+121:     }
+122: 
+123:     /// Accept a raw session token, a full Cookie header, or split NextAuth/Auth.js cookie chunks.
+124:     static func cookieHeader(from rawValue: String) -> String {
+125:         let trimmedValue = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
+126:         guard !trimmedValue.isEmpty else { return "" }
+127: 
+128:         if !trimmedValue.contains("=") {
+129:             return "__Secure-next-auth.session-token=\(trimmedValue)"
+130:         }
+131: 
+132:         let cookiePairs = cookiePairs(from: trimmedValue)
+133:         guard !cookiePairs.isEmpty else { return trimmedValue }
+134: 
+135:         for cookieName in sessionCookieNames {
+136:             if let unsplitToken = cookiePairs.first(where: { $0.name == cookieName })?.value,
+137:                !unsplitToken.isEmpty {
+138:                 return cookiePairs.map { "\($0.name)=\($0.value)" }.joined(separator: "; ")
+139:             }
+140:         }
+141: 
+142:         for cookieName in sessionCookieNames {
+143:             let splitPrefix = "\(cookieName)."
+144:             let splitToken = cookiePairs
+145:                 .compactMap { pair -> (Int, String)? in
+146:                     guard pair.name.hasPrefix(splitPrefix),
+147:                           let index = Int(pair.name.dropFirst(splitPrefix.count)) else {
+148:                         return nil
+149:                     }
+150:                     return (index, pair.value)
+151:                 }
+152:                 .sorted { $0.0 < $1.0 }
+153:                 .map(\.1)
+154:                 .joined()
+155: 
+156:             if !splitToken.isEmpty {
+157:                 let otherPairs = cookiePairs.filter { !$0.name.hasPrefix(splitPrefix) }
+158:                 return (["\(cookieName)=\(splitToken)"] + otherPairs.map { "\($0.name)=\($0.value)" })
+159:                     .joined(separator: "; ")
+160:             }
+161:         }
+162: 
+163:         return cookiePairs.map { "\($0.name)=\($0.value)" }.joined(separator: "; ")
+164:     }
+165: 
+166:     private static let sessionCookieNames = [
+167:         "__Secure-next-auth.session-token",
+168:         "__Secure-authjs.session-token",
+169:     ]
+170: 
+171:     private static func cookiePairs(from rawValue: String) -> [(name: String, value: String)] {
+172:         rawValue
+173:             .replacingOccurrences(of: "Cookie:", with: "", options: [.caseInsensitive, .anchored])
+174:             .split(whereSeparator: { $0 == ";" || $0 == "\n" || $0 == "\r" })
+175:             .compactMap { part -> (name: String, value: String)? in
+176:                 let trimmedPart = part.trimmingCharacters(in: .whitespacesAndNewlines)
+177:                 guard let separatorIndex = trimmedPart.firstIndex(of: "=") else { return nil }
+178: 
+179:                 let name = trimmedPart[..<separatorIndex].trimmingCharacters(in: .whitespacesAndNewlines)
+180:                 let value = trimmedPart[trimmedPart.index(after: separatorIndex)...].trimmingCharacters(in: .whitespacesAndNewlines)
+181:                 guard !name.isEmpty else { return nil }
+182:                 return (String(name), String(value))
+183:             }
+184:     }
+185: }
+186: 
+187: actor ChatGPTHTTPClient: ChatGPTHTTPClientProtocol {
+188:     private let session: URLSession
+189: 
+190:     init(configuration: URLSessionConfiguration = .default) {
+191:         configuration.timeoutIntervalForRequest = 30
+192:         configuration.timeoutIntervalForResource = 30
+193:         self.session = URLSession(configuration: configuration)
+194:     }
+195: 
+196:     func request<T: Decodable>(
+197:         _ endpoint: String,
+198:         cookieHeader: String,
+199:         authorization: String?,
+200:         referer: String
+201:     ) async throws -> T {
+202:         guard endpoint.hasPrefix("https://"), let url = URL(string: endpoint) else {
+203:             throw ChatGPTUsageError.invalidResponse
+204:         }

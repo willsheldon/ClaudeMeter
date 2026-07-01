@@ -1,0 +1,19 @@
+{
+  "id": "ff806c40-213c-4b9d-bb80-734cce7be2b7",
+  "runtime": "python",
+  "purpose": "extract PBKDF parameters",
+  "script_chars": 381,
+  "started_at": "2026-06-25T04:14:45.742Z",
+  "finished_at": "2026-06-25T04:14:45.815Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 73,
+  "stdout_bytes": 1089,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/ff806c40-213c-4b9d-bb80-734cce7be2b7.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/ff806c40-213c-4b9d-bb80-734cce7be2b7.stderr"
+}

@@ -1,0 +1,154 @@
+
+## Pinemeter/Services/ChatGPTUsageService.swift
+2: //  ChatGPTUsageService.swift
+8: enum ChatGPTUsageError: LocalizedError, Equatable {
+18:             return "No ChatGPT session cookie found. Add one in Settings."
+20:             return "ChatGPT session is invalid or expired. Update it in Settings."
+22:             return "Unable to parse ChatGPT usage data."
+24:             return "ChatGPT quota request failed with HTTP \(statusCode)."
+26:             return "ChatGPT quota data is unavailable. Check your connection and try again."
+31: actor ChatGPTUsageService: ChatGPTUsageServiceProtocol {
+34:     private let httpClient: ChatGPTHTTPClientProtocol
+35:     private let sessionRepository: any ChatGPTSessionRepositoryProtocol
+40:         httpClient: ChatGPTHTTPClientProtocol = ChatGPTHTTPClient(),
+41:         sessionRepository: any ChatGPTSessionRepositoryProtocol = ChatGPTSessionRepository(),
+49:     func fetchUsage() async throws -> ChatGPTUsageData {
+50:         let session: ChatGPTSession
+53:         } catch ChatGPTSessionRepositoryError.notFound {
+54:             throw ChatGPTUsageError.missingSessionCookie
+55:         } catch ChatGPTSessionRepositoryError.invalidSessionCookie {
+56:             throw ChatGPTUsageError.invalidSessionCookie
+57:         } catch ChatGPTSessionRepositoryError.secureStorageUnavailable {
+58:             throw ChatGPTUsageError.networkUnavailable
+64:                 ChatGPTSession(sessionCookie: session.sessionCookie, accessToken: accessToken),
+68:         } catch ChatGPTUsageError.invalidSessionCookie {
+70:             throw ChatGPTUsageError.invalidSessionCookie
+71:         } catch ChatGPTUsageError.missingSessionCookie {
+73:             throw ChatGPTUsageError.missingSessionCookie
+77:     func fetchUsage(sessionCookie: String) async throws -> ChatGPTUsageData {
+82:     private func fetchUsageAndAccessToken(sessionCookie: String) async throws -> (ChatGPTUsageData, String) {
+83:         let cookieHeader = Self.cookieHeader(from: sessionCookie)
+84:         guard !cookieHeader.isEmpty else {
+85:             throw ChatGPTUsageError.missingSessionCookie
+88:         let authSession: ChatGPTAuthSessionResponse = try await httpClient.request(
+90:             cookieHeader: cookieHeader,
+97:             throw ChatGPTUsageError.invalidSessionCookie
+100:         let usage: ChatGPTWHAMUsageResponse = try await httpClient.request(
+102:             cookieHeader: cookieHeader,
+114:         } catch ChatGPTUsageError.missingSessionCookie {
+116:         } catch ChatGPTUsageError.invalidSessionCookie {
+118:         } catch ChatGPTUsageError.httpError(let statusCode) where statusCode == 401 || statusCode == 403 {
+124:     static func cookieHeader(from rawValue: String) -> String {
+129:             return "__Secure-next-auth.session-token=\(trimmedValue)"
+167:         "__Secure-next-auth.session-token",
+168:         "__Secure-authjs.session-token",
+187: actor ChatGPTHTTPClient: ChatGPTHTTPClientProtocol {
+198:         cookieHeader: String,
+203:             throw ChatGPTUsageError.invalidResponse
+209:         request.setValue(cookieHeader, forHTTPHeaderField: "Cookie")
+220:                 throw ChatGPTUsageError.invalidResponse
+225:                     throw ChatGPTUsageError.invalidSessionCookie
+227:                 throw ChatGPTUsageError.httpError(statusCode: httpResponse.statusCode)
+235:                 throw ChatGPTUsageError.invalidResponse
+237:         } catch let error as ChatGPTUsageError {
+240:             throw ChatGPTUsageError.networkUnavailable
+
+## Pinemeter/App/AppModel.swift
+64:             return "Sign in to \(providerName) in your browser, then import the browser session into Pinemeter."
+133:     var chatGPTUsageData: ChatGPTUsageData?
+137:     var isRefreshingChatGPT: Bool = false
+143:     var hasChatGPTSessionCookie: Bool = false
+180:     var isChatGPTUsageConfigured: Bool {
+181:         hasChatGPTSessionCookie && settings.isChatGPTUsageShown
+189:         isClaudeUsageConfigured || isChatGPTUsageConfigured || isGeminiUsageConfigured
+197:         if isChatGPTUsageConfigured {
+212:             return "ChatGPT Usage"
+223:             return "Connect Claude, ChatGPT, or Gemini to see usage data."
+230:             || (isChatGPTUsageConfigured && isRefreshingChatGPT)
+236:             || (settings.isChatGPTUsageShown && (chatGPTUsageData != nil || chatGPTErrorMessage != nil))
+245:     @ObservationIgnored private let chatGPTUsageService: ChatGPTUsageServiceProtocol
+246:     @ObservationIgnored private let chatGPTSessionRepository: any ChatGPTSessionRepositoryProtocol
+266:         chatGPTUsageService: ChatGPTUsageServiceProtocol? = nil,
+267:         chatGPTSessionRepository: (any ChatGPTSessionRepositoryProtocol)? = nil,
+275:         let chatGPTSessionRepository = chatGPTSessionRepository ?? ChatGPTSessionRepository()
+292:         self.chatGPTUsageService = chatGPTUsageService ?? ChatGPTUsageService(sessionRepository: chatGPTSessionRepository)
+315:         let chatGPTStatus = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount)
+316:         hasChatGPTSessionCookie = chatGPTStatus.state == .available
+323:         if hasChatGPTSessionCookie && settings.isChatGPTUsageShown {
+324:             await refreshChatGPTUsage()
+335:         if isSetupComplete || hasChatGPTSessionCookie || hasGeminiAPIKey {
+348:         if isChatGPTUsageConfigured {
+349:             await refreshChatGPTUsage()
+386:     // MARK: - ChatGPT Usage
+388:     func refreshChatGPTUsage() async {
+389:         if !hasChatGPTSessionCookie {
+390:             let status = await chatGPTSessionRepository.validate(account: ChatGPTUsageService.defaultSessionAccount)
+391:             hasChatGPTSessionCookie = status.state == .available
+394:         guard hasChatGPTSessionCookie else {
+398:         guard !isRefreshingChatGPT else { return }
+400:         isRefreshingChatGPT = true
+404:             isRefreshingChatGPT = false
+409:             hasChatGPTSessionCookie = true
+415:         } catch ChatGPTUsageError.missingSessionCookie {
+416:             hasChatGPTSessionCookie = false
+418:             chatGPTErrorMessage = ChatGPTUsageError.missingSessionCookie.localizedDescription
+425:         } catch ChatGPTUsageError.invalidSessionCookie {
+426:             hasChatGPTSessionCookie = false
+428:             chatGPTErrorMessage = ChatGPTUsageError.invalidSessionCookie.localizedDescription
+441:     func loadChatGPTSessionCookie() async -> String? {
+443:             return try await chatGPTSessionRepository.load(account: ChatGPTUsageService.defaultSessionAccount).sessionCookie
+449:     func validateAndSaveChatGPTSessionCookie(_ rawValue: String) async throws -> Bool {
+455:             hasChatGPTSessionCookie = false
+466:             ChatGPTSession(sessionCookie: trimmedCookie),
+467:             account: ChatGPTUsageService.defaultSessionAccount
+469:         hasChatGPTSessionCookie = true
+475:         settings.isChatGPTUsageShown = true
+476:         await refreshChatGPTUsage()
+480:     func clearChatGPTSessionCookie() async throws {
+481:         try await chatGPTSessionRepository.clear(account: ChatGPTUsageService.defaultSessionAccount)
+482:         hasChatGPTSessionCookie = false
+483:         settings.isChatGPTUsageShown = false
+670:     func importAndSaveChatGPTSessionCookie() async throws -> ImportedChatGPTSessionCookie {
+671:         try await importAndSaveChatGPTSessionCookie(from: .defaultBrowser)
+674:     func importAndSaveChatGPTSessionCookie(from source: BrowserImportSource) async throws -> ImportedChatGPTSessionCookie {
+675:         let imported = try await sessionKeyImportService.importChatGPTSessionCookie(from: source)
+676:         let normalizedCookie = ChatGPTUsageService.cookieHeader(from: imported.cookieHeader)
+679:             throw SessionKeyImportError.invalidImportedChatGPTSessionCookie
+683:             ChatGPTSession(sessionCookie: normalizedCookie),
+684:             account: ChatGPTUsageService.defaultSessionAccount
+686:         hasChatGPTSessionCookie = true
+692:         settings.isChatGPTUsageShown = true
+693:         await refreshChatGPTUsage()
+695:         return ImportedChatGPTSessionCookie(
+696:             cookieHeader: normalizedCookie,
+715:             _ = try await importAndSaveChatGPTSessionCookie()
+718:             try await clearChatGPTSessionCookie()
+729:         let claudeStatus: ProviderBrowserImportStatus
+739:             claudeStatus = .failed(message: error.localizedDescription, offersFullDiskAccessSettings: false)
+742:         let chatGPTStatus: ProviderBrowserImportStatus
+744:             let imported = try await importAndSaveChatGPTSessionCookie(from: source)
+752:             chatGPTStatus = .failed(message: error.localizedDescription, offersFullDiskAccessSettings: false)
+844:         from status: ChatGPTSessionAcquisitionStatus,
+893:         guard isSetupComplete || hasChatGPTSessionCookie || hasGeminiAPIKey else { return }
+903:                 if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+904:                     await self.refreshChatGPTUsage()
+921:                 if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
+922:                     await self.refreshChatGPTUsage()
+
+## Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift
+48: enum ProviderBrowserImportStatus: Equatable, Sendable {
+50:     case failed(message: String, offersFullDiskAccessSettings: Bool)
+63:     let claude: ProviderBrowserImportStatus
+64:     let chatGPT: ProviderBrowserImportStatus
+84: /// Browser import result for a ChatGPT session cookie.
+85: struct ImportedChatGPTSessionCookie: Equatable, Sendable {
+86:     let cookieHeader: String
+93:     case noChatGPTSessionCookieFound
+98:     case invalidImportedChatGPTSessionCookie
+103:             return "No Claude browser session found. Sign in to claude.ai in your browser, then try again."
+104:         case .noChatGPTSessionCookieFound:
+105:             return "No ChatGPT browser session found. Sign in to chatgpt.com in your browser, then try again."
+114:         case .invalidImportedChatGPTSessionCookie:
+115:             return "The imported ChatGPT browser session could not be validated."
+131:     func importChatGPTSessionCookie() async throws -> ImportedChatGPTSessionCookie
+132:     func importChatGPTSessionCookie(from source: BrowserImportSource) async throws -> ImportedChatGPTSessionCookie

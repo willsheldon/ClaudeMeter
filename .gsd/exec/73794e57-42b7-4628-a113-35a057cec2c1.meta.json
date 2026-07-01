@@ -1,0 +1,19 @@
+{
+  "id": "73794e57-42b7-4628-a113-35a057cec2c1",
+  "runtime": "bash",
+  "purpose": "M004 pre-commit validation refresh",
+  "script_chars": 782,
+  "started_at": "2026-06-27T18:44:04.335Z",
+  "finished_at": "2026-06-27T18:44:23.617Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 19282,
+  "stdout_bytes": 262,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/73794e57-42b7-4628-a113-35a057cec2c1.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/73794e57-42b7-4628-a113-35a057cec2c1.stderr"
+}

@@ -1,0 +1,33 @@
+
+## .gsd/milestones/M004/slices/S01/S01-SUMMARY.md
+# S01: Gemini provider contract | **Gemini now has a provider identity, sanitized credential/status contract, and focused compatibility tests without wiring UI or network calls.**
+## Verification | Slice-level verification ran through gsd_exec. Evidence 9932467b-d64a-42fc-98d1-652baa77a767 executed `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -quiet` and exited 0. Evidence 977c65b1-6398-4b81-a09c-45489ca27c92 inspected the contract artifacts and confirmed Gemini appears in CredentialProvider, Gemini display/credential kind contract exists, CredentialStatusService still enumerates providers, and Gemini coverage exists in CredentialSt
+## Known Limitations | Gemini credential acquisition, API usage retrieval, setup/settings UI, menu bar usage display, and live workflow UAT are deferred to later slices. Gemini AppModel actions currently expose state but throw unsupported action errors until implementation slices add real flows.
+## Follow-ups | S02 should implement the secure Gemini credential and usage service boundary, preserving the sanitized contract established here and adding runtime diagnostics for acquisition failures.
+
+## .gsd/milestones/M004/slices/S02/S02-SUMMARY.md
+# S02: Gemini credential and usage service | **Gemini now has an API-key Keychain credential boundary, actor-backed usage service, sanitized diagnostics, and AppModel refresh/clear integration under focused tests.**
+## Verification | Fresh slice-level verification was run through `gsd_exec` evidence `588657b0-e2a3-4e21-8005-6371f58b052d` with `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/AppModelTests -only-testing:PinemeterTests/SecurityInvariantTests -only-testing:PinemeterTests/GeminiUsageServiceTests -only-testing:PinemeterTests/GeminiCredentialBoundaryTests`. The command exited 0 and reported `** TEST SUCCEEDED **`. The same evidence r
+## Known Limitations | Live Gemini API quota behavior is defensive because available responses may not include explicit quota fields; the service reports `quotaUnavailable` for valid credentials when quota fields are absent. User-facing API-key entry, reconnect/repair UX, settings presentation, and menu bar rendering are deferred to downstream slices.
+## Follow-ups | S03 should add a user-facing Gemini API-key setup/settings flow that writes only through the repository boundary and reads only sanitized AppModel state. S04 should display Gemini refresh/usage states in the menu while preserving the same no-secret UI contract. S05 should add live or end-to-end workflow UAT for setup, refresh, recovery, and coexistence with Claude and ChatGPT.
+
+## .gsd/milestones/M004/slices/S03/S03-SUMMARY.md
+# S03: Gemini setup and settings UI | **Settings and setup now present Gemini credential status and recovery actions through the shared provider UI matrix beside Claude and ChatGPT.**
+## Verification | Fresh slice closeout verification ran through gsd_exec evidence e6477428-b08d-4513-8c69-445d29aa8d39. `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` exited 0 and reported `** TEST SUCCEEDED **`. The provider-copy scan `rg -n "Claude|ChatGPT|Gemini|provider|cookie|key" Pinemeter/Views/Settings Pinemeter/Views/Setup` found 90 provider references; stale two-provider copy checks found 0 matches and secret-term checks found 0 matches in setup/s
+## Known Limitations | This slice does not prove live Gemini usage refresh, menu bar rendering, or end-to-end real-credential setup; those are owned by S04 and S05.
+## Follow-ups | S04 should consume the Gemini-aware AppModel provider status and settings/setup behavior when integrating Gemini usage into the menu bar popover. S05 should add live/workflow UAT that proves setup, refresh, recovery, and coexistence with real or simulated provider flows.
+
+## .gsd/milestones/M004/slices/S04/S04-SUMMARY.md
+# S04: Gemini menu usage integration | **Gemini usage now participates in menu popover state, refresh/error presentation, and provider-combination tests alongside Claude and ChatGPT.**
+## Verification | Slice-level verification passed with `gsd_exec` evidence 5ad35ca0-d3f3-46b3-95c0-7321c3a1eb8f: `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -only-testing:PinemeterTests/AppModelTests -only-testing:PinemeterTests/MenuBarIconRendererTests` exited 0. Task evidence also shows T01 AppModel tests and T02 targeted AppModel/MenuBarIconRenderer tests passed. T03 attempted full-suite verification, but the full suite is currently blocked by an unrel
+## Known Limitations | Live Gemini workflow behavior is intentionally deferred to S05. The repository also has a known unrelated full-suite blocker in CopyableErrorPresentationTests that remains unresolved by this slice.
+## Follow-ups | S05 should run workflow-level UAT for Gemini setup, refresh, recovery, and coexistence. A separate non-S04 follow-up should address CopyableErrorPresentationTests so the full suite can return to green.
+
+## .gsd/milestones/M004/slices/S05/S05-SUMMARY.md
+# S05: Gemini workflow UAT | **Gemini’s setup, refresh, failure recovery, provider coexistence, copy safety, and credential-boundary behavior are covered by repeatable UAT evidence and final regression verification.**
+## Verification | Fresh slice-level verification was run through gsd_exec evidence `a9a054b5-5121-4789-92ea-19e0c3e103cf`: `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` exited 0; `python3 scripts/provider_workflow_copy_audit.py` exited 0 with no enforced findings; `python3 scripts/provider_status_surface_audit.py` exited 0; and the S05 UAT artifact check confirmed clean provider state/setup, Gemini-only, all-provider, invalid credential, clear/reconnect, s
+## Known Limitations | Live real-credential Gemini setup, refresh, recovery, and native menu bar UX remain human-follow-up checks by design so secrets are not stored or exposed in automated artifacts. provider_workflow_copy_audit.py still reports advisory-only ChatGPT copy review items but exits 0 with no enforced failures.
+## Follow-ups | During milestone validation, cite S05 gsd_exec evidence for Contract, Integration, Operational, and UAT verification classes.
+
+Milestone summary exists: False
+Validation exists: False

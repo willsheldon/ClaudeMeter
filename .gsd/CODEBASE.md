@@ -1,16 +1,25 @@
 # Codebase Map
 
-Generated: 2026-06-24T20:35:16Z | Files: 117 | Described: 0/117
-<!-- gsd:codebase-meta {"generatedAt":"2026-06-24T20:35:16Z","fingerprint":"b8f5e5f61b85eb9109ca7c53369c8cf711c62f17","fileCount":117,"truncated":false} -->
+Generated: 2026-07-01T18:14:06Z | Files: 124 | Described: 0/124
+<!-- gsd:codebase-meta {"generatedAt":"2026-07-01T18:14:06Z","fingerprint":"c8b05e0890a27dede0e1395e08fa9b7fbd52dd82","fileCount":124,"truncated":false} -->
 
 ### (root)/
 - `.gitignore`
 - `AGENTS.md`
 - `CHANGELOG.md`
 - `CLAUDE.md`
+- `CONTRIBUTING.md`
 - `LICENSE`
 - `README.md`
+- `SECURITY.md`
 - `work-to-date.md`
+
+### .github/ISSUE_TEMPLATE/
+- `.github/ISSUE_TEMPLATE/bug_report.md`
+- `.github/ISSUE_TEMPLATE/bug_report.yml`
+- `.github/ISSUE_TEMPLATE/config.yml`
+- `.github/ISSUE_TEMPLATE/feature_request.md`
+- `.github/ISSUE_TEMPLATE/feature_request.yml`
 
 ### .github/workflows/
 - `.github/workflows/deploy-pages.yml`

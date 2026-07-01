@@ -1,0 +1,19 @@
+{
+  "id": "70665a25-b488-4b93-bcb6-2c272eb36871",
+  "runtime": "python",
+  "purpose": "locate ChatGPT cookie handling and status display",
+  "script_chars": 521,
+  "started_at": "2026-06-25T04:07:30.585Z",
+  "finished_at": "2026-06-25T04:07:30.663Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 78,
+  "stdout_bytes": 10415,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/70665a25-b488-4b93-bcb6-2c272eb36871.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/70665a25-b488-4b93-bcb6-2c272eb36871.stderr"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "01c4c44a-f7c6-43f8-9f6f-46335ca259cd",
+  "runtime": "python",
+  "purpose": "SweetCookieKit browser metadata summary",
+  "script_chars": 470,
+  "started_at": "2026-06-25T04:08:21.884Z",
+  "finished_at": "2026-06-25T04:08:21.973Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 89,
+  "stdout_bytes": 4958,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/01c4c44a-f7c6-43f8-9f6f-46335ca259cd.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/01c4c44a-f7c6-43f8-9f6f-46335ca259cd.stderr"
+}

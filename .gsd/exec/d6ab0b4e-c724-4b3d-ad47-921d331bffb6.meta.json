@@ -1,0 +1,19 @@
+{
+  "id": "d6ab0b4e-c724-4b3d-ad47-921d331bffb6",
+  "runtime": "bash",
+  "purpose": "M004 requested fresh validation",
+  "script_chars": 787,
+  "started_at": "2026-06-27T18:30:39.885Z",
+  "finished_at": "2026-06-27T18:31:03.883Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 23998,
+  "stdout_bytes": 262,
+  "stderr_bytes": 629,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/d6ab0b4e-c724-4b3d-ad47-921d331bffb6.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/d6ab0b4e-c724-4b3d-ad47-921d331bffb6.stderr"
+}

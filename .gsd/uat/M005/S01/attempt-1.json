@@ -1,0 +1,166 @@
+{
+  "runId": "uat:M005:S01:attempt-1",
+  "attempt": 1,
+  "milestoneId": "M005",
+  "sliceId": "S01",
+  "uatType": "runtime-executable",
+  "verdict": "PASS",
+  "gateVerdict": "pass",
+  "evaluatedAt": "2026-07-01T18:02:27.991Z",
+  "worktreeRoot": "/Users/will/code/ClaudeMeter/.gsd-worktrees/M005",
+  "browserToolsPresented": false,
+  "modePolicy": {
+    "browserTools": false,
+    "partialEligible": false,
+    "passWithHumanFollowUp": false,
+    "requiredAnyModes": [
+      "runtime"
+    ]
+  },
+  "checks": [
+    {
+      "id": "UAT-SMOKE",
+      "description": "Run `rg -n \"Pinemeter|ClaudeMeter|xcodebuild|Gemini|ChatGPT|Claude|credential|reset|troubleshoot\" README.md site/index.html CHANGELOG.md` and confirm public copy uses Pinemeter identity, with any ClaudeMeter mentions limited to legacy or historical context.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "1aaebbc4-fa76-4178-a6bb-82346ed5fdf4",
+          "note": "Smoke search completed with exit 0.",
+          "unitType": "run-uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "1aaebbc4-fa76-4178-a6bb-82346ed5fdf4"
+        }
+      ],
+      "notes": "Search completed successfully across README.md, site/index.html, and CHANGELOG.md; output was available for reviewing public identity and scoped legacy terms."
+    },
+    {
+      "id": "UAT-01",
+      "description": "Fresh reader sees current product and provider scope: docs describe Pinemeter as a macOS menu bar app, mention Claude monitoring plus optional ChatGPT and Gemini support, and explain setup/reset/troubleshooting without stale ClaudeMeter product branding.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "f2e1347c-5e9e-494d-bb69-66e76fd96287",
+          "note": "Product identity and provider-scope script exited 0.",
+          "unitType": "run-uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "f2e1347c-5e9e-494d-bb69-66e76fd96287"
+        }
+      ],
+      "notes": "README.md and site/index.html contain Pinemeter, macOS menu bar, Claude, ChatGPT, Gemini, setup, reset, and troubleshooting coverage, and no checked stale current-branding ClaudeMeter patterns."
+    },
+    {
+      "id": "UAT-02",
+      "description": "Public privacy and credential posture is documented: docs state Claude session keys, ChatGPT session cookies, and Gemini API keys are kept behind local Keychain-backed boundaries, and diagnostics avoid raw cookies, tokens, headers, and API keys.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "eeea9921-6158-4818-a4f2-9578c35a00d7",
+          "note": "Privacy and credential-boundary script exited 0.",
+          "unitType": "run-uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "eeea9921-6158-4818-a4f2-9578c35a00d7"
+        }
+      ],
+      "notes": "README.md and site/index.html include local, Keychain, credential, privacy, Claude session key, ChatGPT cookie, Gemini API key, and sanitized diagnostic wording without unsafe raw credential logging/storage claims."
+    },
+    {
+      "id": "UAT-03",
+      "description": "Documented local verification command works: confirm the Pinemeter Xcode project and shared scheme exist, then run `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug`; expected exit 0.",
+      "mode": "runtime",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "2186a88a-6089-4aa3-8ee8-8f7771a51451",
+          "note": "Documented xcodebuild test command exited 0 after confirming project and scheme files exist.",
+          "unitType": "run-uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "2186a88a-6089-4aa3-8ee8-8f7771a51451"
+        }
+      ],
+      "notes": "`Pinemeter.xcodeproj/project.pbxproj` and `Pinemeter.xcodeproj/xcshareddata/xcschemes/Pinemeter.xcscheme` existed, and the documented Xcode test command exited 0."
+    },
+    {
+      "id": "UAT-EDGE-LEGACY",
+      "description": "Legacy references remain intentionally scoped: search public docs for `ClaudeMeter`; any remaining references are clearly historical, migration, repository-link, bundle-identifier, or legacy export-path references rather than current product identity.",
+      "mode": "artifact",
+      "result": "PASS",
+      "evidence": [
+        {
+          "kind": "gsd_uat_exec",
+          "ref": "8fd9f884-7e02-4fdf-a539-9386c8bf9f09",
+          "note": "Legacy-reference scope script exited 0.",
+          "unitType": "run-uat",
+          "tool": "gsd_uat_exec",
+          "executionId": "8fd9f884-7e02-4fdf-a539-9386c8bf9f09"
+        }
+      ],
+      "notes": "Remaining ClaudeMeter references are scoped to legacy, historical, migration, repository-link, bundle-identifier, changelog history, or export-path contexts."
+    }
+  ],
+  "presentation": {
+    "surface": "mcp",
+    "presentedTools": [
+      "gsd_uat_exec",
+      "gsd_uat_result_save",
+      "gsd_resume",
+      "gsd_milestone_status",
+      "gsd_journal_query",
+      "find",
+      "glob",
+      "grep",
+      "ls",
+      "read"
+    ],
+    "blockedTools": [
+      {
+        "name": "edit",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_exec",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_summary_save",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "gsd_save_gate_result",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "search-the-web",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "WebSearch",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Bash",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Write",
+        "reason": "forbidden during run-uat"
+      },
+      {
+        "name": "Edit",
+        "reason": "forbidden during run-uat"
+      }
+    ],
+    "toolPresentationPlanId": "run-uat/default-v1"
+  },
+  "notes": "All automatable public documentation artifact checks and the documented Xcode runtime verification command passed."
+}
