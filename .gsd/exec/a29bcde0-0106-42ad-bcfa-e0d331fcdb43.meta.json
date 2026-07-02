@@ -1,0 +1,19 @@
+{
+  "id": "a29bcde0-0106-42ad-bcfa-e0d331fcdb43",
+  "runtime": "python",
+  "purpose": "summarize M004 summaries and validation gap",
+  "script_chars": 861,
+  "started_at": "2026-06-26T18:16:05.938Z",
+  "finished_at": "2026-06-26T18:16:06.197Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 259,
+  "stdout_bytes": 6412,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/a29bcde0-0106-42ad-bcfa-e0d331fcdb43.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/a29bcde0-0106-42ad-bcfa-e0d331fcdb43.stderr"
+}

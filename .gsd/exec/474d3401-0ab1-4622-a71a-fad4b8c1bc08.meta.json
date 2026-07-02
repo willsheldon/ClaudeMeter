@@ -1,0 +1,19 @@
+{
+  "id": "474d3401-0ab1-4622-a71a-fad4b8c1bc08",
+  "runtime": "python",
+  "purpose": "locate Chrome profile DB path builder",
+  "script_chars": 402,
+  "started_at": "2026-06-25T04:09:41.476Z",
+  "finished_at": "2026-06-25T04:09:41.565Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 89,
+  "stdout_bytes": 1382,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/474d3401-0ab1-4622-a71a-fad4b8c1bc08.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/474d3401-0ab1-4622-a71a-fad4b8c1bc08.stderr"
+}

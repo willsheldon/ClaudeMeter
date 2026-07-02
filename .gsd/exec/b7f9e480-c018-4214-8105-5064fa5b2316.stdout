@@ -1,0 +1,26 @@
+
+## SessionKeyTests.swift
+
+## ChatGPTSessionRepositoryTests.swift
+2: //  ChatGPTSessionRepositoryTests.swift
+11: final class ChatGPTSessionRepositoryTests: XCTestCase {
+15:         let repository = ChatGPTSessionRepository()
+25:         let repository = ChatGPTSessionRepository()
+26:         let session = ChatGPTSession(
+27:             sessionCookie: "__Secure-next-auth.session-token=synthetic-cookie-secret",
+36:         let rehydratedRepository = ChatGPTSessionRepository()
+44:         let repository = ChatGPTSessionRepository()
+46:             ChatGPTSession(
+47:                 sessionCookie: "__Secure-next-auth.session-token=synthetic-cookie-secret",
+61:         let repository = ChatGPTSessionRepository()
+72:         let repository = ChatGPTSessionRepository()
+75:             try await repository.save(ChatGPTSession(sessionCookie: "   \n\t", accessToken: "synthetic-access-token-secret"), account: account)
+76:             XCTFail("Expected blank ChatGPT session cookie to be rejected")
+77:         } catch ChatGPTSessionRepositoryError.invalidSessionCookie {
+91:         let repository = ChatGPTSessionRepository()
+93:             ChatGPTSession(sessionCookie: "__Secure-next-auth.session-token=synthetic-cookie-secret", accessToken: "synthetic-access-token-secret"),
+101:             XCTFail("Expected cleared ChatGPT session to be absent")
+102:         } catch ChatGPTSessionRepositoryError.notFound {
+115:         let account = "ChatGPTSessionRepositoryTests.\(UUID().uuidString)"
+122:     private func assertSanitized(_ status: ChatGPTSessionAcquisitionStatus, file: StaticString = #filePath, line: UInt = #line) {
+126:             "__Secure-next-auth",

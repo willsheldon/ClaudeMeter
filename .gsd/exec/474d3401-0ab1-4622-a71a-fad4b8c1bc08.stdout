@@ -1,0 +1,23 @@
+25:             case let .cookieDBNotFound(path): "Chromium Cookies DB not found at \(path)."
+45:         let roots = ChromiumProfileLocator
+49:         var candidates: [ChromeProfileCandidate] = []
+51:             candidates.append(contentsOf: Self.chromeProfileCookieDBs(
+68:     static func loadCookies(
+77:         return try Self.readCookiesFromLockedChromeDB(
+86:     private static func readCookiesFromLockedChromeDB(
+96:         let copiedDB = tempDir.appendingPathComponent("Cookies")
+109:         return try Self.readCookies(
+118:     private static func readCookies(
+379:     // MARK: - Profile discovery
+381:     private struct ChromeProfileCandidate {
+383:         let profile: BrowserProfile
+389:     private static func chromeProfileCookieDBs(
+392:         browser: Browser) -> [ChromeProfileCandidate]
+405:             return name == "Default" || name.hasPrefix("Profile ") || name.hasPrefix("user-")
+411:             let profile = BrowserProfile(id: dir.path, name: profileName)
+413:             let cookiesDB = dir.appendingPathComponent("Cookies")
+414:             let networkCookiesDB = dir.appendingPathComponent("Network").appendingPathComponent("Cookies")
+416:                 ChromeProfileCandidate(
+420:                     label: "\(labelBase) (Network)",
+421:                     cookiesDB: networkCookiesDB),
+422:                 ChromeProfileCandidate(

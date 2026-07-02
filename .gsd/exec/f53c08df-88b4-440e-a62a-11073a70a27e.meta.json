@@ -1,0 +1,19 @@
+{
+  "id": "f53c08df-88b4-440e-a62a-11073a70a27e",
+  "runtime": "bash",
+  "purpose": "M004 post-main-merge validation",
+  "script_chars": 782,
+  "started_at": "2026-06-27T18:45:14.594Z",
+  "finished_at": "2026-06-27T18:45:31.212Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "force_resolved": false,
+  "duration_ms": 16618,
+  "stdout_bytes": 262,
+  "stderr_bytes": 632,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/exec/f53c08df-88b4-440e-a62a-11073a70a27e.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/exec/f53c08df-88b4-440e-a62a-11073a70a27e.stderr"
+}
