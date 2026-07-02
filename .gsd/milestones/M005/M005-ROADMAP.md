@@ -17,10 +17,10 @@
 - [x] **S02: Contributor templates and support paths** `risk:medium` `depends:[S01]`
   > After this: Contributors see clear issue templates, contribution guidance, and support boundaries with no private process leakage.
 
-- [ ] **S03: Release and signing documentation** `risk:high` `depends:[S01]`
+- [x] **S03: Release and signing documentation** `risk:high` `depends:[S01]`
   > After this: Release-facing docs and workflow notes pin the official signing identity and describe safe local verification.
 
-- [ ] **S04: Fresh-reader public UAT** `risk:medium` `depends:[S02,S03]`
+- [x] **S04: Fresh-reader public UAT** `risk:medium` `depends:[S02,S03]`
   > After this: A fresh-reader checklist proves an outside contributor can understand, build, test, and safely report issues.
 
 ## Boundary Map

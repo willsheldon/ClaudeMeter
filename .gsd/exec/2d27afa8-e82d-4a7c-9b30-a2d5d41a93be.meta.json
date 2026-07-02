@@ -1,0 +1,20 @@
+{
+  "id": "2d27afa8-e82d-4a7c-9b30-a2d5d41a93be",
+  "runtime": "python",
+  "purpose": "slice S03 final closeout verification with local-only checks and APPLE_TEAM_ID guard distinction",
+  "script_chars": 3573,
+  "started_at": "2026-07-01T22:11:48.185Z",
+  "finished_at": "2026-07-01T22:11:48.365Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 180,
+  "stdout_bytes": 1321,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/2d27afa8-e82d-4a7c-9b30-a2d5d41a93be.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/2d27afa8-e82d-4a7c-9b30-a2d5d41a93be.stderr"
+}

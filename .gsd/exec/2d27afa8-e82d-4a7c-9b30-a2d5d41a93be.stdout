@@ -1,0 +1,17 @@
+PASS - workflow pins official Autimo Developer ID identity
+PASS - project pins official Autimo Developer ID identity
+PASS - workflow pins EXPECTED_TEAM_ID to HMR9RDR6M2
+PASS - project pins DEVELOPMENT_TEAM to HMR9RDR6M2
+PASS - workflow verifies signed artifact TeamIdentifier through pinned expected team
+PASS - docs include literal TeamIdentifier=HMR9RDR6M2
+PASS - workflow does not depend on mutable APPLE_TEAM_ID secret/env
+PASS - workflow only mentions APPLE_TEAM_ID as a forbidden mutable secret guard
+PASS - docs warn not to introduce mutable APPLE_TEAM_ID
+PASS - docs identify git push as requiring explicit maintainer confirmation
+PASS - docs identify gh release as requiring explicit maintainer confirmation
+PASS - workflow diagnostics state publishing needs explicit maintainer confirmation
+PASS - workflow names remote mutation surfaces in diagnostics
+PASS - workflow/project avoid generic Developer ID assignment
+PASS - workflow YAML parses locally with Ruby Psych
+PASS - verification performed no external mutation (read files and parsed YAML locally only; no git/gh/notarytool/push/release command invoked)
+SUMMARY: S03 verification passed; release workflow/docs pin Autimo identity and team, reject mutable APPLE_TEAM_ID dependency, parse as YAML, and document explicit-confirmation publishing boundaries.

@@ -1,0 +1,20 @@
+{
+  "id": "e4d3818b-924e-420e-aab0-570a0f0e97ce",
+  "runtime": "bash",
+  "purpose": "S04 slice closeout verification: public artifacts and xcodebuild test",
+  "script_chars": 3282,
+  "started_at": "2026-07-01T22:24:03.625Z",
+  "finished_at": "2026-07-01T22:24:03.683Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 58,
+  "stdout_bytes": 789,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/e4d3818b-924e-420e-aab0-570a0f0e97ce.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/e4d3818b-924e-420e-aab0-570a0f0e97ce.stderr"
+}

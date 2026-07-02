@@ -1,0 +1,27 @@
+
+### README.md
+149: Pinemeter exports Claude usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards. For compatibi
+225: xcodebuild test \
+
+### .gsd/milestones/M005/slices/S04/S04-UAT.md
+22: ## Automated Artifact Checks
+37: | A10 | Public docs avoid stale ClaudeMeter positioning. | Search public docs for `ClaudeMeter` and review each occurrence. | Remaining references, if any, are limited to compatibi
+39: ## Human Fresh-reader Checks
+48: | H04 | How would you run tests without requiring a local signing identity? | Reader finds the `xcodebuild test` command with `CODE_SIGN_IDENTITY="-"`, `CODE_SIGNING_REQUIRED=NO`, 
+109: | Public documentation files | A referenced public file is missing, renamed, or lacks the expected section. | Automated artifact checks fail with the missing path/section; the huma
+137: | 2 | `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug -skip-testing:PinemeterTests/MenuBarIconSnapshotTests CODE_SIGN_IDENTITY="-" CODE_SIGNING
+138: | 3 | `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` | 0 | ✅ pass (`gsd_exec` 2a8c2e5e-68bc-4f22-bd98-007dd5ca4573) | 7772ms |
+140: Human fresh-reader checks H01-H12 are intentionally not marked automated; they require a fresh outside reader using public files only.
+
+### CONTRIBUTING.md
+44: xcodebuild test \
+
+### SECURITY.md
+
+### RELEASING.md
+
+### .github/ISSUE_TEMPLATE/bug_report.md
+
+### .github/ISSUE_TEMPLATE/feature_request.md
+
+### site/index.html

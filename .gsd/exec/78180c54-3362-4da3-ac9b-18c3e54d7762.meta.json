@@ -1,0 +1,20 @@
+{
+  "id": "78180c54-3362-4da3-ac9b-18c3e54d7762",
+  "runtime": "bash",
+  "purpose": "superpowers version check",
+  "script_chars": 64,
+  "started_at": "2026-07-01T22:05:25.482Z",
+  "finished_at": "2026-07-01T22:05:25.520Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 38,
+  "stdout_bytes": 1930,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/78180c54-3362-4da3-ac9b-18c3e54d7762.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/78180c54-3362-4da3-ac9b-18c3e54d7762.stderr"
+}

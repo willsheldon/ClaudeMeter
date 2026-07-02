@@ -1,0 +1,32 @@
+S03 verification status: FAIL
+checked files: RELEASING.md, README.md, .github/workflows/release.yml, Pinemeter.xcodeproj/project.pbxproj
+grep evidence sample:
+RELEASING.md:9:- Signing identity: `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)`
+RELEASING.md:10:- Expected Team Identifier: `TeamIdentifier=HMR9RDR6M2`
+RELEASING.md:11:- Expected development team value: `HMR9RDR6M2`
+RELEASING.md:13:Do not replace this with the generic `Developer ID Application` identity. Do not introduce a mutable `APPLE_TEAM_ID` or similar secret for release signing; the release path must continue to pin and verify the Autimo team identifier explicitly.
+RELEASING.md:22:EXPECTED_SIGNING_IDENTITY="Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+RELEASING.md:23:EXPECTED_TEAM_ID="HMR9RDR6M2"
+RELEASING.md:37:EXPECTED_SIGNING_IDENTITY="Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+RELEASING.md:38:EXPECTED_TEAM_ID="HMR9RDR6M2"
+RELEASING.md:48:For an installed or downloaded app, the same signature checks can be run against that `.app` path. The important release invariant is that `Authority=Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and `TeamIdentifier=HMR9RDR6M2` both appear in the `codesign -dvv` output.
+RELEASING.md:55:- Clones, commits to, and runs `git push` against the Homebrew tap using `HOMEBREW_TAP_TOKEN`.
+RELEASING.md:58:Do not trigger, re-run, or modify these publishing steps as a signing check. Publishing, `git push`, `gh release`, Homebrew tap updates, notarization submissions, tag changes, or history rewriting require explicit maintainer confirmation for the intended version and target repository.
+RELEASING.md:64:1. Confirm `Pinemeter.xcodeproj/project.pbxproj` still contains `CODE_SIGN_IDENTITY = "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)";` and `DEVELOPMENT_TEAM = HMR9RDR6M2;`.
+RELEASING.md:66:3. Confirm the imported Apple certificate contains `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` before building.
+RELEASING.md:67:4. Inspect `codesign -dvv` output for the produced app and verify `TeamIdentifier=HMR9RDR6M2`.
+RELEASING.md:68:5. Treat any generic `Developer ID Application` match without `AUTIMO SYSTEMS INC (HMR9RDR6M2)` as unsafe for release artifacts.
+README.md:73:Releases are signed and notarized. If you validate release artifacts manually, the expected Developer ID is `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and the expected Team Identifier is `HMR9RDR6M2`.
+README.md:237:Read [RELEASING.md](RELEASING.md) before preparing release artifacts. The release path must use the pinned Autimo signing identity `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and verify `TeamIdentifier=HMR9RDR6M2`; generic `Developer ID Application` signing identities and mutable `APPLE_TEAM_ID`-style secrets are unsafe for release signing.
+README.md:239:Safe local checks are limited to reading local files or locally built artifacts, such as verifying the pinned `CODE_SIGN_IDENTITY`, `DEVELOPMENT_TEAM`, workflow `EXPECTED_SIGNING_IDENTITY`, workflow `EXPECTED_TEAM_ID`, and `codesign -dvv` output. Publishing or remote mutations require explicit maintainer confirmation for the intended version and target repository, including workflow dispatch, notarization submission, GitHub release creation, Homebrew tap edits, `git push`, tag changes, `gh release`, or history rewriting.
+.github/workflows/release.yml:13:EXPECTED_SIGNING_IDENTITY: "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)"
+.github/workflows/release.yml:14:EXPECTED_TEAM_ID: HMR9RDR6M2
+.github/workflows/release.yml:72:if grep -Eq 'CODE_SIGN_IDENTITY = "?Developer ID Application"?;' "$PROJECT_FILE"; then
+.github/workflows/release.yml:73:echo "::error::Project contains generic Developer ID Application signing identity"
+.github/workflows/release.yml:77:if grep -Eq 'CODE_SIGN_IDENTITY = "?Developer ID Application"?;' "$RELEASE_WORKFLOW"; then
+.github/workflows/release.yml:78:echo "::error::Release workflow contains generic Developer ID Application signing identity"
+.github/workflows/release.yml:82:TEAM_SECRET_NAME="APPLE_TEAM_ID"
+total grep evidence lines: 26
+errors:
+- workflow still references mutable APPLE_TEAM_ID secret
+- docs missing remote mutation boundary term: explicit confirmation

@@ -1,0 +1,19 @@
+PATH-README.md: PASS - README.md exists
+PATH-CONTRIBUTING.md: PASS - CONTRIBUTING.md exists
+PATH-SECURITY.md: PASS - SECURITY.md exists
+PATH-RELEASING.md: PASS - RELEASING.md exists
+PATH-bug: PASS - .github/ISSUE_TEMPLATE/bug_report.md exists
+PATH-feature: PASS - .github/ISSUE_TEMPLATE/feature_request.md exists
+PATH-xcodeproj: PASS - Pinemeter.xcodeproj exists
+A01: PASS - README describes purpose/providers/requirements
+A02: PASS - README exposes build and CI-style test commands
+A03: PASS - README explains credential storage and sanitized diagnostics
+A04: PASS - README links support/contribution paths
+A05: FAIL - CONTRIBUTING describes safe bug reporting
+A06-bug: PASS - bug template warns against credential disclosure
+A06-feature: PASS - feature template warns against credential disclosure
+A07: PASS - SECURITY gives private sanitized vulnerability path
+A08: PASS - Release docs preserve pinned signing invariants
+A09: FAIL - Release docs separate local checks from publishing
+A10: PASS - ClaudeMeter hits limited to compatibility/history wording: README.md:149:Pinemeter exports Claude usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards. For compatibility with earlier ClaudeMeter-era scripts, Pinemeter may also write a legacy `~/.claudemeter/usage.json` copy.
+SUMMARY: 16/18 checks passed

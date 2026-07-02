@@ -1,0 +1,10 @@
+release.yml YAML parse: ok
+PASS - workflow pins EXPECTED_SIGNING_IDENTITY
+PASS - workflow pins EXPECTED_TEAM_ID
+PASS - workflow rejects APPLE_TEAM_ID secret/env reliance
+PASS - workflow verifies Authority expected identity
+PASS - workflow verifies TeamIdentifier expected team
+PASS - README points to release safety and pinned identity
+PASS - RELEASING separates local checks from remote mutation
+PASS - RELEASING names unsafe remote mutations
+local-only safety inspection: ok

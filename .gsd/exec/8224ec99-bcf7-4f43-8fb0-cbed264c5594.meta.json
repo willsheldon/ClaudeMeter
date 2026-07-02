@@ -1,0 +1,20 @@
+{
+  "id": "8224ec99-bcf7-4f43-8fb0-cbed264c5594",
+  "runtime": "bash",
+  "purpose": "T02 corrected public relative path check",
+  "script_chars": 1499,
+  "started_at": "2026-07-01T22:18:43.462Z",
+  "finished_at": "2026-07-01T22:18:43.519Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 57,
+  "stdout_bytes": 89,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/8224ec99-bcf7-4f43-8fb0-cbed264c5594.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/8224ec99-bcf7-4f43-8fb0-cbed264c5594.stderr"
+}

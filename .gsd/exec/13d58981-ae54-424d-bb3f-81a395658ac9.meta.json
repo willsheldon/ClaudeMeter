@@ -1,0 +1,20 @@
+{
+  "id": "13d58981-ae54-424d-bb3f-81a395658ac9",
+  "runtime": "python",
+  "purpose": "M005 S04 T03 rerun public-readiness artifact checks A01-A10 after doc clarifications",
+  "script_chars": 4110,
+  "started_at": "2026-07-01T22:21:52.939Z",
+  "finished_at": "2026-07-01T22:21:53.029Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 90,
+  "stdout_bytes": 1392,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/13d58981-ae54-424d-bb3f-81a395658ac9.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/13d58981-ae54-424d-bb3f-81a395658ac9.stderr"
+}

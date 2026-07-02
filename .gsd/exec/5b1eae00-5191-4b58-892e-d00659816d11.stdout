@@ -1,0 +1,14 @@
+PASS - workflow pins Autimo Developer ID identity
+PASS - workflow pins expected team id constant
+FAIL - workflow checks TeamIdentifier=HMR9RDR6M2
+FAIL - workflow does not reference APPLE_TEAM_ID
+PASS - docs pin Autimo Developer ID identity
+PASS - docs include TeamIdentifier=HMR9RDR6M2
+PASS - docs warn against mutable APPLE_TEAM_ID
+FAIL - docs classify git push as explicit-confirmation publishing action
+FAIL - docs classify gh release as explicit-confirmation publishing action
+PASS - workflow diagnostics mention explicit confirmation for publishing
+PASS - workflow diagnostics name remote mutation surfaces
+PASS - workflow has no generic CODE_SIGN_IDENTITY assignment
+PASS - workflow YAML parses with Ruby Psych
+PASS - no external mutation performed by verification (read files and parsed YAML locally only; did not run git, gh, notarytool, xcodebuild, or network commands)

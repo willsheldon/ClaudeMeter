@@ -1,0 +1,5 @@
+PASS pins full Developer ID identity
+PASS pins TeamIdentifier
+PASS rejects generic Developer ID
+PASS rejects mutable team id
+PASS publishing remote dispatch maintainer-controlled

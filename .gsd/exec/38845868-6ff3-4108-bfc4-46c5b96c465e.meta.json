@@ -1,0 +1,20 @@
+{
+  "id": "38845868-6ff3-4108-bfc4-46c5b96c465e",
+  "runtime": "python",
+  "purpose": "inspect S03 release doc boundary snippets after verification false negatives",
+  "script_chars": 411,
+  "started_at": "2026-07-01T22:11:19.093Z",
+  "finished_at": "2026-07-01T22:11:19.134Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 41,
+  "stdout_bytes": 3215,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/38845868-6ff3-4108-bfc4-46c5b96c465e.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/38845868-6ff3-4108-bfc4-46c5b96c465e.stderr"
+}

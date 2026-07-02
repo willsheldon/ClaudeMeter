@@ -1,0 +1,5 @@
+PASS S04 UAT verification
+artifact=.gsd/milestones/M005/slices/S04/S04-UAT.md
+automated_checks=10 human_checks=12
+failure_modes=populated load_profile=omitted negative_tests=populated
+public_files_checked=README.md,CONTRIBUTING.md,SECURITY.md,RELEASING.md,.github/ISSUE_TEMPLATE/bug_report.md,.github/ISSUE_TEMPLATE/feature_request.md

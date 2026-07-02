@@ -1,0 +1,28 @@
+{
+  "id": "7333ce61-6ce7-4ea7-bd59-11dd289b7ac6",
+  "runtime": "python",
+  "purpose": "UAT M005/S03/UAT-02 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S03",
+    "checkId": "UAT-02",
+    "intent": "uat-artifact-check",
+    "expected": "Workflow has no secrets.APPLE_TEAM_ID or APPLE_TEAM_ID mapping, uses EXPECTED_TEAM_ID: HMR9RDR6M2, and only mentions APPLE_TEAM_ID defensively."
+  },
+  "script_chars": 1196,
+  "started_at": "2026-07-01T22:13:20.288Z",
+  "finished_at": "2026-07-01T22:13:20.325Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 37,
+  "stdout_bytes": 313,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/7333ce61-6ce7-4ea7-bd59-11dd289b7ac6.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/7333ce61-6ce7-4ea7-bd59-11dd289b7ac6.stderr"
+}

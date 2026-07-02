@@ -1,0 +1,20 @@
+{
+  "id": "84858127-77e1-47ef-9433-46b3453b17b2",
+  "runtime": "bash",
+  "purpose": "S04 final closeout verification with documented evidence format",
+  "script_chars": 3118,
+  "started_at": "2026-07-01T22:25:35.210Z",
+  "finished_at": "2026-07-01T22:25:42.839Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 7629,
+  "stdout_bytes": 3518,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/84858127-77e1-47ef-9433-46b3453b17b2.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/84858127-77e1-47ef-9433-46b3453b17b2.stderr"
+}

@@ -1,0 +1,17 @@
+PASS - README names Pinemeter and macOS menu bar purpose
+PASS - README has CLI build command
+PASS - README has CI-style test command with signing disabled
+PASS - README covers provider setup
+PASS - README covers privacy/security posture
+PASS - CONTRIBUTING redaction guidance present
+PASS - SECURITY warns not to share secrets
+PASS - Issue templates warn against sensitive material
+PASS - RELEASING pins official signing identity
+PASS - RELEASING states publishing boundaries
+PASS - Site is public Pinemeter page
+PASS - S04 UAT separates automated and human checks
+PASS - S04 UAT marks human checks as human-only boundary
+FAIL - S04 UAT records gsd_exec evidence IDs
+PASS - S04 UAT includes failure modes and negative tests
+PASS - ClaudeMeter references limited to explicit compatibility/history checks
+FAILED 1/16 checks

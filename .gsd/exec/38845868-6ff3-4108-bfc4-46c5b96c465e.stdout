@@ -1,0 +1,27 @@
+--- .github/workflows/release.yml ---
+14:       # Release signing is pinned to Autimo. Do not replace this with a mutable APPLE_TEAM_ID secret.
+16:       EXPECTED_TEAM_ID: HMR9RDR6M2
+72:           echo "Expected team identifier: $EXPECTED_TEAM_ID"
+84:           TEAM_SECRET_NAME="APPLE_TEAM_ID"
+95:           if ! grep -Fq "DEVELOPMENT_TEAM = $EXPECTED_TEAM_ID;" "$PROJECT_FILE"; then
+96:             echo "::error::Project is missing pinned development team: $EXPECTED_TEAM_ID"
+147:             DEVELOPMENT_TEAM="$EXPECTED_TEAM_ID" \
+163:           if ! echo "$SIGNATURE_DETAILS" | grep -Fq "TeamIdentifier=$EXPECTED_TEAM_ID"; then
+164:             echo "::error::App was not signed with expected team: $EXPECTED_TEAM_ID"
+251:           git push
+--- RELEASING.md ---
+10: - Expected Team Identifier: `TeamIdentifier=HMR9RDR6M2`
+13: Do not replace this with the generic `Developer ID Application` identity. Do not introduce a mutable `APPLE_TEAM_ID` or similar secret for release signing; the release path must continue to pin and verify the Autimo team identifier explicitly.
+23: EXPECTED_TEAM_ID="HMR9RDR6M2"
+26: grep -F "DEVELOPMENT_TEAM = $EXPECTED_TEAM_ID;" Pinemeter.xcodeproj/project.pbxproj
+28: grep -F "EXPECTED_TEAM_ID: $EXPECTED_TEAM_ID" .github/workflows/release.yml
+38: EXPECTED_TEAM_ID="HMR9RDR6M2"
+44: echo "$SIGNATURE_DETAILS" | grep -F "TeamIdentifier=$EXPECTED_TEAM_ID"
+48: For an installed or downloaded app, the same signature checks can be run against that `.app` path. The important release invariant is that `Authority=Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and `TeamIdentifier=HMR9RDR6M2` both appear in the `codesign -dvv` output.
+55: - Clones, commits to, and runs `git push` against the Homebrew tap using `HOMEBREW_TAP_TOKEN`.
+58: Do not trigger, re-run, or modify these publishing steps as a signing check. Publishing, `git push`, `gh release`, Homebrew tap updates, notarization submissions, tag changes, or history rewriting require explicit maintainer confirmation for the intended version and target repository.
+65: 2. Confirm `.github/workflows/release.yml` still exports `EXPECTED_SIGNING_IDENTITY` and `EXPECTED_TEAM_ID` with the official values.
+67: 4. Inspect `codesign -dvv` output for the produced app and verify `TeamIdentifier=HMR9RDR6M2`.
+--- README.md ---
+237: Read [RELEASING.md](RELEASING.md) before preparing release artifacts. The release path must use the pinned Autimo signing identity `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and verify `TeamIdentifier=HMR9RDR6M2`; generic `Developer ID Application` signing identities and mutable `APPLE_TEAM_ID`-style secrets are unsafe for release signing.
+239: Safe local checks are limited to reading local files or locally built artifacts, such as verifying the pinned `CODE_SIGN_IDENTITY`, `DEVELOPMENT_TEAM`, workflow `EXPECTED_SIGNING_IDENTITY`, workflow `EXPECTED_TEAM_ID`, and `codesign -dvv` output. Publishing or remote mutations require explicit maintainer confirmation for the intended version and target repository, including workflow dispatch, notarization submission, GitHub release creation, Homebrew tap edits, `git push`, tag changes, `gh release`, or history rewriting.

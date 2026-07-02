@@ -1,0 +1,20 @@
+{
+  "id": "5b1eae00-5191-4b58-892e-d00659816d11",
+  "runtime": "python",
+  "purpose": "slice S03 closeout verification for pinned signing identity and safe publishing boundaries",
+  "script_chars": 3252,
+  "started_at": "2026-07-01T22:11:04.584Z",
+  "finished_at": "2026-07-01T22:11:04.766Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 182,
+  "stdout_bytes": 879,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/5b1eae00-5191-4b58-892e-d00659816d11.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/5b1eae00-5191-4b58-892e-d00659816d11.stderr"
+}

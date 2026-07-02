@@ -1,0 +1,10 @@
+PASS README says macOS menu bar app
+PASS README names Claude
+PASS README names ChatGPT
+PASS README names Gemini
+PASS README includes xcodebuild build
+PASS README includes xcodebuild test
+PASS CONTRIBUTING gives check/report path
+PASS SECURITY gives private vulnerability route
+PASS templates exist and guide reports
+PASS secret redaction guidance present

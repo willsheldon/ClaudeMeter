@@ -1,0 +1,28 @@
+{
+  "id": "ef62f646-4239-4928-825f-67e4aa3261b0",
+  "runtime": "python",
+  "purpose": "UAT M005/S03/UAT-03 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S03",
+    "checkId": "UAT-03",
+    "intent": "uat-artifact-check",
+    "expected": "Docs classify publishing command phrases as explicit-confirmation actions and workflow diagnostics mention GitHub release, Homebrew tap, and notarization publishing boundaries."
+  },
+  "script_chars": 1706,
+  "started_at": "2026-07-01T22:13:58.213Z",
+  "finished_at": "2026-07-01T22:13:58.277Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 64,
+  "stdout_bytes": 249,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/ef62f646-4239-4928-825f-67e4aa3261b0.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/ef62f646-4239-4928-825f-67e4aa3261b0.stderr"
+}

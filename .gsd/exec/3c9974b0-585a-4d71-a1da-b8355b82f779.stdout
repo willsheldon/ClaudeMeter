@@ -1,0 +1,12 @@
+PASS workflow pinned identity: Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)
+PASS workflow pinned team id: EXPECTED_TEAM_ID=HMR9RDR6M2
+PASS project pinned identity: Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)
+PASS project pinned development team: DEVELOPMENT_TEAM=HMR9RDR6M2
+PASS workflow no mutable APPLE_TEAM_ID dependency: no secrets.APPLE_TEAM_ID or APPLE_TEAM_ID env key in workflow
+PASS workflow audits APPLE_TEAM_ID absence: workflow fails if APPLE_TEAM_ID dependency is introduced
+PASS docs name TeamIdentifier: release docs and README name TeamIdentifier=HMR9RDR6M2
+PASS docs classify git push explicit confirmation: git push is explicit-confirmation publishing action
+PASS docs classify gh release explicit confirmation: gh release is explicit-confirmation publishing action
+PASS workflow explicit publishing boundary: workflow logs explicit remote mutation boundary
+PASS no external mutation executed: verification only read local files; no push, release, notarize, or rewrite commands executed
+PASS workflow YAML parses: .github/workflows/release.yml

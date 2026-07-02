@@ -1,0 +1,28 @@
+{
+  "id": "3d9c05e6-fffc-4564-86f5-1f40fa35aed3",
+  "runtime": "bash",
+  "purpose": "UAT M005/S04/SMOKE-01 (uat-runtime-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S04",
+    "checkId": "SMOKE-01",
+    "intent": "uat-runtime-check",
+    "expected": "Documented CI-style xcodebuild test command exits 0 without release signing credentials."
+  },
+  "script_chars": 242,
+  "started_at": "2026-07-01T22:27:26.680Z",
+  "finished_at": "2026-07-01T22:27:32.072Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 5392,
+  "stdout_bytes": 16401,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/3d9c05e6-fffc-4564-86f5-1f40fa35aed3.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/3d9c05e6-fffc-4564-86f5-1f40fa35aed3.stderr"
+}

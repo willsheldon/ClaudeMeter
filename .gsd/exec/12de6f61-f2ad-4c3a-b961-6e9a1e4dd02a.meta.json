@@ -1,0 +1,28 @@
+{
+  "id": "12de6f61-f2ad-4c3a-b961-6e9a1e4dd02a",
+  "runtime": "python",
+  "purpose": "UAT M005/S04/EDGE-02 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S04",
+    "checkId": "EDGE-02",
+    "intent": "uat-artifact-check",
+    "expected": "Remaining ClaudeMeter references are limited to compatibility/history context, not stale public product branding."
+  },
+  "script_chars": 934,
+  "started_at": "2026-07-01T22:27:26.699Z",
+  "finished_at": "2026-07-01T22:27:26.776Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 77,
+  "stdout_bytes": 367,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/12de6f61-f2ad-4c3a-b961-6e9a1e4dd02a.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/12de6f61-f2ad-4c3a-b961-6e9a1e4dd02a.stderr"
+}

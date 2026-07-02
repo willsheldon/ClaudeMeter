@@ -1,0 +1,36 @@
+PASS - all required public artifacts exist
+PASS - purpose discoverable
+PASS - build/test commands discoverable
+PASS - provider setup discoverable
+PASS - privacy/security posture discoverable
+PASS - support/reporting path is safe
+PASS - release signing safety pinned
+PASS - release docs describe maintainer/remote boundary
+PASS - site public branding is Pinemeter
+PASS - UAT has automated and human fresh-reader sections
+PASS - UAT human checks are clearly not automated
+PASS - UAT records prior gsd_exec evidence IDs
+PASS - UAT has failure and negative-test sections
+PASS - ClaudeMeter refs limited to compatibility/history
+Artifact verification passed 14/14 checks
+xcodebuild test passed; tail follows:
+Test suite 'SessionKeyTests' started on 'My Mac - Pinemeter (96520)'
+Test case 'SessionKeyTests.test_sessionKey_acceptsRawSessionKey()' passed on 'My Mac - Pinemeter (96520)' (0.001 seconds)
+Test case 'SessionKeyTests.test_sessionKey_extractsValueFromCookieHeader()' passed on 'My Mac - Pinemeter (96520)' (0.001 seconds)
+Test case 'SessionKeyTests.test_sessionKey_rejectsCookieHeaderWithoutSessionKey()' passed on 'My Mac - Pinemeter (96520)' (0.001 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_emptyAPIKeyIsRejected()' passed on 'My Mac - Pinemeter (96518)' (0.001 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_geminiCredentialHealthMapsToSanitizedHealthStates()' passed on 'My Mac - Pinemeter (96518)' (0.002 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_geminiCredentialStorageUsesDedicatedKeychainNamespace()' passed on 'My Mac - Pinemeter (96518)' (0.001 seconds)
+Test case 'GeminiCredentialBoundaryTests.test_geminiUsageErrorDescriptionsDoNotDiscloseCredentialMaterial()' passed on 'My Mac - Pinemeter (96518)' (0.001 seconds)
+Test suite 'AppSettingsTests' started on 'My Mac - Pinemeter (96509)'
+Test case 'SessionKeyTests.test_sessionKeyErrorDescriptions_useClaudeSpecificCredentialCopy()' passed on 'My Mac - Pinemeter (96520)' (0.001 seconds)
+Test case 'AppSettingsTests.test_setRefreshInterval_clampsAboveMaximumToRefreshMaximum()' passed on 'My Mac - Pinemeter (96509)' (0.001 seconds)
+Test case 'AppSettingsTests.test_setRefreshInterval_clampsBelowMinimumToRefreshMinimum()' passed on 'My Mac - Pinemeter (96509)' (0.001 seconds)
+Test case 'AppSettingsTests.test_setRefreshInterval_keepsInRangeValue()' passed on 'My Mac - Pinemeter (96509)' (0.001 seconds)
+Test case 'NotificationServiceTests.test_userReceivesResetNotificationWhenUsageResets()' passed on 'My Mac - Pinemeter (96488)' (0.101 seconds)
+Test case 'NotificationServiceTests.test_userReceivesWarningAgainAfterDroppingBelowThreshold()' passed on 'My Mac - Pinemeter (96488)' (0.002 seconds)
+Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookieDoesNotSave()' passed on 'My Mac - Pinemeter (96512)' (0.103 seconds)
+Test case 'ChatGPTAppModelTests.test_validateAndSaveChatGPTSessionCookie_withInvalidCookiePublishesSanitizedProviderRejection()' passed on 'My Mac - Pinemeter (96512)' (0.002 seconds)
+Test case 'NotificationServiceTests.test_userReceivesWarningNotificationWhenUsageCrossesThreshold()' passed on 'My Mac - Pinemeter (96488)' (0.104 seconds)
+Test case 'NotificationServiceTests.test_userWithNotificationsDisabled_doesNotReceiveThresholdNotification()' passed on 'My Mac - Pinemeter (96488)' (0.002 seconds)
+Test case 'NotificationServiceTests.test_userWithoutSystemPermission_doesNotReceiveNotification()' passed on 'My Mac - Pinemeter (96488)' (0.001 seconds)

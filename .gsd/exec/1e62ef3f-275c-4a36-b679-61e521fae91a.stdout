@@ -1,0 +1,5 @@
+PASS declares mixed UAT mode
+PASS separates automation from human judgment
+PASS notes H01-H12 human-only or outside reader follow-up
+PASS automated checks cite public artifacts
+PASS not proven section preserves human follow-up

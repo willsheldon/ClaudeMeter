@@ -1,0 +1,28 @@
+{
+  "id": "a329a3c7-1d65-48c9-bc4d-e72072afe73e",
+  "runtime": "python",
+  "purpose": "UAT M005/S04/EDGE-01 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S04",
+    "checkId": "EDGE-01",
+    "intent": "uat-artifact-check",
+    "expected": "Reporting docs/templates instruct reporters to redact/avoid sensitive material and route security/privacy concerns privately."
+  },
+  "script_chars": 920,
+  "started_at": "2026-07-01T22:27:26.696Z",
+  "finished_at": "2026-07-01T22:27:26.758Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 62,
+  "stdout_bytes": 120,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/a329a3c7-1d65-48c9-bc4d-e72072afe73e.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/a329a3c7-1d65-48c9-bc4d-e72072afe73e.stderr"
+}

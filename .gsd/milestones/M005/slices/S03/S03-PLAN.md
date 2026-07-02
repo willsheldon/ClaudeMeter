@@ -30,10 +30,14 @@ release workflow files, docs, and project signing guidance align with project me
   Add or update release documentation that pins the official Autimo signing identity, explains local verification, names non-destructive steps, and states that publishing or remote mutations require explicit confirmation.
   - Files: `RELEASING.md`, `README.md`, `.github/workflows/release.yml`
   - Verify: `rg -n "Developer ID Application: AUTIMO SYSTEMS INC \(HMR9RDR6M2\)|TeamIdentifier=HMR9RDR6M2|Developer ID Application|APPLE_TEAM_ID|push|release" RELEASING.md README.md .github/workflows/release.yml` reviewed for safe guidance.
-- [ ] **T03**: Verify release workflow safety _(small)_
+- [x] **T03**: Verified the release workflow and release-facing documentation locally for pinned Autimo signing identity, safe verification guidance, and explicit remote mutation boundaries. _(small)_
   Validate release workflow syntax and documentation consistency locally without pushing, publishing, or rewriting history. Fix stale or unsafe instructions only.
   - Files: `RELEASING.md`, `README.md`, `.github/workflows/release.yml`
   - Verify: Local workflow/doc inspection plus `rg -n "Developer ID Application|HMR9RDR6M2|APPLE_TEAM_ID|git push|gh release|rewrite" RELEASING.md README.md .github/workflows/release.yml`; no external state changes performed.
+- [x] **T04**: Pinned release workflow team handling away from mutable APPLE_TEAM_ID secrets and made publishing boundaries explicit in workflow diagnostics. _(small)_
+  Update release-facing workflow/docs so the release path does not depend on a mutable APPLE_TEAM_ID workflow secret, keeps the official Autimo Developer ID identity and TeamIdentifier pinned to HMR9RDR6M2, and uses explicit-confirmation language for publishing and remote mutation boundaries. Do not push, publish releases, notarize, rewrite history, or mutate remote state.
+  - Files: `.github/workflows/release.yml`, `RELEASING.md`, `README.md`
+  - Verify: Run slice-level local-only verification through gsd_exec confirming pinned `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)`, `TeamIdentifier=HMR9RDR6M2`, no workflow dependency on `APPLE_TEAM_ID`, workflow YAML parses, docs classify `git push` and `gh release` as explicit-confirmation publishing actions, and no external state changes were performed.
 </tasks>
 
 ## Files Likely Touched

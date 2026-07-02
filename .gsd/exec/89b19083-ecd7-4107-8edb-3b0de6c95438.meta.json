@@ -1,0 +1,20 @@
+{
+  "id": "89b19083-ecd7-4107-8edb-3b0de6c95438",
+  "runtime": "python",
+  "purpose": "S04 UAT public readiness verification",
+  "script_chars": 4660,
+  "started_at": "2026-07-01T22:17:02.107Z",
+  "finished_at": "2026-07-01T22:17:02.192Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 85,
+  "stdout_bytes": 335,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/89b19083-ecd7-4107-8edb-3b0de6c95438.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/89b19083-ecd7-4107-8edb-3b0de6c95438.stderr"
+}

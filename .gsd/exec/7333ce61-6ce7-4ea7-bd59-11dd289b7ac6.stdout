@@ -1,0 +1,2 @@
+PASS UAT-02: no secrets.APPLE_TEAM_ID or APPLE_TEAM_ID mapping; EXPECTED_TEAM_ID: HMR9RDR6M2 is present; APPLE_TEAM_ID mentions are diagnostic guard wording only.
+APPLE_TEAM_ID mention lines: 14:# Release signing is pinned to Autimo. Do not replace this with a mutable APPLE_; 84:TEAM_SECRET_NAME="APPLE_TEAM_ID"

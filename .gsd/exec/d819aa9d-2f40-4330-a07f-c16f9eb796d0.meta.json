@@ -1,0 +1,20 @@
+{
+  "id": "d819aa9d-2f40-4330-a07f-c16f9eb796d0",
+  "runtime": "bash",
+  "purpose": "M005 S04 T03 xcodebuild test public README verification command",
+  "script_chars": 209,
+  "started_at": "2026-07-01T22:22:03.424Z",
+  "finished_at": "2026-07-01T22:22:11.051Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 7627,
+  "stdout_bytes": 67905,
+  "stderr_bytes": 620,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/d819aa9d-2f40-4330-a07f-c16f9eb796d0.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/d819aa9d-2f40-4330-a07f-c16f9eb796d0.stderr"
+}

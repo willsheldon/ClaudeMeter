@@ -1,0 +1,16 @@
+PASS - README names Pinemeter and purpose 
+FAIL - README has documented build/test command 
+PASS - README covers provider setup 
+PASS - README covers privacy/security posture 
+PASS - CONTRIBUTING exists and redaction guidance present 
+PASS - SECURITY tells reporters not to share secrets 
+PASS - Bug report template warns against secrets 
+PASS - RELEASING pins official signing identity 
+PASS - RELEASING avoids remote/publish automation for contributors 
+PASS - Site is public Pinemeter page 
+FAIL - S04 UAT separates automated and human checks 
+FAIL - S04 UAT marks human-only checks 
+FAIL - S04 UAT records evidence IDs 
+PASS - S04 UAT includes failure modes and negative tests 
+FAIL - No stale ClaudeMeter branding in key public docs except intentional legacy path 
+FAILED 5/15 checks

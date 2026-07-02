@@ -1,0 +1,1 @@
+PASS UAT-03: release docs name the checked publishing command phrases, local verification, and explicit maintainer confirmation; release workflow diagnostics mention GitHub release, Homebrew, notarization, and publishing/remote-mutation boundaries.

@@ -190,3 +190,14 @@ tmp/
 
 # ── GSD baseline (auto-generated) ──
 .gsd-worktrees/
+
+# ── GSD baseline (auto-generated) ──
+.gsd-backups/
+.gsd/forensics/
+.gsd/parallel/
+.gsd/auto.lock
+.gsd/completed-units*.json
+.gsd/gsd.db*
+.gsd/DISCUSSION-MANIFEST.json
+.gsd/milestones/**/*-CONTINUE.md
+.gsd/milestones/**/continue.md

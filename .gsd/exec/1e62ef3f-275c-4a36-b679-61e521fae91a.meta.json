@@ -1,0 +1,28 @@
+{
+  "id": "1e62ef3f-275c-4a36-b679-61e521fae91a",
+  "runtime": "python",
+  "purpose": "UAT M005/S04/ARTIFACT-03 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S04",
+    "checkId": "ARTIFACT-03",
+    "intent": "uat-artifact-check",
+    "expected": "S04 UAT artifact separates automated evidence from human fresh-reader judgment and cites public artifacts."
+  },
+  "script_chars": 845,
+  "started_at": "2026-07-01T22:27:26.692Z",
+  "finished_at": "2026-07-01T22:27:26.759Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 67,
+  "stdout_bytes": 227,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/1e62ef3f-275c-4a36-b679-61e521fae91a.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/1e62ef3f-275c-4a36-b679-61e521fae91a.stderr"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "a3123ccd-26f2-40c2-b3af-66263b7f2c4d",
+  "runtime": "python",
+  "purpose": "UAT M005/S04/ARTIFACT-02 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S04",
+    "checkId": "ARTIFACT-02",
+    "intent": "uat-artifact-check",
+    "expected": "Release docs preserve pinned Autimo signing identity and maintainer-controlled publishing guidance."
+  },
+  "script_chars": 941,
+  "started_at": "2026-07-01T22:27:26.689Z",
+  "finished_at": "2026-07-01T22:27:26.757Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 68,
+  "stdout_bytes": 179,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/a3123ccd-26f2-40c2-b3af-66263b7f2c4d.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/a3123ccd-26f2-40c2-b3af-66263b7f2c4d.stderr"
+}

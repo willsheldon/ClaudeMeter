@@ -1,0 +1,20 @@
+{
+  "id": "89713157-c5b9-4669-ac59-14d01f88b85c",
+  "runtime": "python",
+  "purpose": "load mandated skill files concisely",
+  "script_chars": 3364,
+  "started_at": "2026-07-01T22:05:55.756Z",
+  "finished_at": "2026-07-01T22:05:55.842Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 86,
+  "stdout_bytes": 21030,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/89713157-c5b9-4669-ac59-14d01f88b85c.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/89713157-c5b9-4669-ac59-14d01f88b85c.stderr"
+}

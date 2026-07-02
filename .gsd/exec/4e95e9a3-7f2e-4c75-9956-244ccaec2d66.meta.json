@@ -1,0 +1,20 @@
+{
+  "id": "4e95e9a3-7f2e-4c75-9956-244ccaec2d66",
+  "runtime": "python",
+  "purpose": "S03 slice-level release documentation verification",
+  "script_chars": 3417,
+  "started_at": "2026-07-01T22:08:14.070Z",
+  "finished_at": "2026-07-01T22:08:14.412Z",
+  "exit_code": 1,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 342,
+  "stdout_bytes": 4302,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/4e95e9a3-7f2e-4c75-9956-244ccaec2d66.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/4e95e9a3-7f2e-4c75-9956-244ccaec2d66.stderr"
+}

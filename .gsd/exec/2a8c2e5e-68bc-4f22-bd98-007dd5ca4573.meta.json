@@ -1,0 +1,20 @@
+{
+  "id": "2a8c2e5e-68bc-4f22-bd98-007dd5ca4573",
+  "runtime": "bash",
+  "purpose": "M005 S04 T03 exact task-plan xcodebuild test command",
+  "script_chars": 83,
+  "started_at": "2026-07-01T22:22:20.182Z",
+  "finished_at": "2026-07-01T22:22:27.954Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 7772,
+  "stdout_bytes": 84927,
+  "stderr_bytes": 620,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/2a8c2e5e-68bc-4f22-bd98-007dd5ca4573.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/2a8c2e5e-68bc-4f22-bd98-007dd5ca4573.stderr"
+}

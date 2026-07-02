@@ -1,0 +1,28 @@
+{
+  "id": "8ba3c655-6baa-4ef1-8455-a64057fbb63b",
+  "runtime": "python",
+  "purpose": "UAT M005/S03/UAT-01 (uat-artifact-check)",
+  "metadata": {
+    "kind": "uat_exec",
+    "milestoneId": "M005",
+    "sliceId": "S03",
+    "checkId": "UAT-01",
+    "intent": "uat-artifact-check",
+    "expected": "All release-facing artifacts pin Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2), HMR9RDR6M2, and TeamIdentifier=HMR9RDR6M2 where required; no generic assignment."
+  },
+  "script_chars": 1321,
+  "started_at": "2026-07-01T22:12:58.796Z",
+  "finished_at": "2026-07-01T22:12:58.865Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 69,
+  "stdout_bytes": 196,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/8ba3c655-6baa-4ef1-8455-a64057fbb63b.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/8ba3c655-6baa-4ef1-8455-a64057fbb63b.stderr"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "070ad4ef-402a-49da-abb8-c86cbb4ebf61",
+  "runtime": "bash",
+  "purpose": "local release workflow syntax and safety invariant inspection",
+  "script_chars": 1973,
+  "started_at": "2026-07-01T22:06:19.513Z",
+  "finished_at": "2026-07-01T22:06:19.646Z",
+  "exit_code": 0,
+  "signal": null,
+  "timed_out": false,
+  "aborted": false,
+  "force_resolved": false,
+  "duration_ms": 133,
+  "stdout_bytes": 477,
+  "stderr_bytes": 0,
+  "stdout_truncated": false,
+  "stderr_truncated": false,
+  "stdout_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/070ad4ef-402a-49da-abb8-c86cbb4ebf61.stdout",
+  "stderr_path": "/Users/will/code/ClaudeMeter/.gsd/worktrees/M005/.gsd/exec/070ad4ef-402a-49da-abb8-c86cbb4ebf61.stderr"
+}

@@ -1,0 +1,2 @@
+ClaudeMeter occurrences in public docs: 1
+README.md:149: Pinemeter exports Claude usage data to `~/.pinemeter/usage.json` for use with external tools like Claude Code statusline scripts, shell prompts, or custom dashboards. For compatibility with earlier ClaudeMeter-era scripts, Pinemeter may also write a legacy `~/.claudemeter/usage.json` copy. :: context_ok=True
