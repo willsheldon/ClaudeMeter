@@ -1,0 +1,13 @@
+# Pinemeter VM validate
+timestamp_utc=2026-07-03T17:14:35Z
+target=will@macvm2.local
+install_path=/Applications/Pinemeter.app
+mode=reset
+secret_policy=no cookie dbs, keychain values, tokens, auth headers, or browser storage contents are read or printed
+
+reset.start=true
+reset.preferences.domain=com.eddmann.Pinemeter
+reset.keychain.claude=com.claudemeter.sessionkey/default
+reset.keychain.chatgpt=com.pinemeter.chatgpt.session/chatgpt.com
+reset.complete=true
+evidence_file=.gsd/milestones/M006-fd23vy/evidence/S02/vm-validate-20260703T171435Z.txt

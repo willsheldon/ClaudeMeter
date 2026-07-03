@@ -701,6 +701,20 @@
       "sourceFile": "milestones/M006/slices/S03/S03-PLAN.md"
     },
     {
+      "id": "slice:M006:S04",
+      "label": "S04: Runtime state and diagnostic verification",
+      "type": "slice",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M006/slices/S04/S04-PLAN.md"
+    },
+    {
+      "id": "slice:M006:S06",
+      "label": "S06: Reusable validation command and handoff",
+      "type": "slice",
+      "confidence": "EXTRACTED",
+      "sourceFile": "milestones/M006/slices/S06/S06-PLAN.md"
+    },
+    {
       "id": "decision:M001:1",
       "label": "Comprehensive identity ownership was the right M001 boundary: Pinemeter now owns the app/project/scheme/module/source/test/docs/site identity wherever feasible, while compatibility-sensitive identifiers were classified instead of blindly renamed.",
       "type": "decision",
@@ -1645,6 +1659,18 @@
       "confidence": "EXTRACTED"
     },
     {
+      "from": "milestone:M006",
+      "to": "slice:M006:S04",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "from": "milestone:M006",
+      "to": "slice:M006:S06",
+      "type": "contains",
+      "confidence": "EXTRACTED"
+    },
+    {
       "from": "milestone:M001",
       "to": "decision:M001:1",
       "type": "relates_to",
@@ -1879,5 +1905,5 @@
       "confidence": "EXTRACTED"
     }
   ],
-  "builtAt": "2026-07-01T22:26:36.648Z"
+  "builtAt": "2026-07-03T18:27:23.205Z"
 }

@@ -1,0 +1,6 @@
+== marker ==
+missing
+== process_args ==
+21042 /Applications/Pinemeter.app/Contents/MacOS/Pinemeter --open-popover-after-launch
+== windows ==
+frontmost=falsewindows=1window=Pinemeter Automation role=AXWindowbutton=missing valuebutton=missing valuebutton=missing valuestatic=Pinemeter Automation

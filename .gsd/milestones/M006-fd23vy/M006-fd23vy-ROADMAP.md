@@ -13,22 +13,22 @@
 
 ## Slices
 
-- [ ] **S01: VM automation access harness** `risk:high` `depends:[]`
+- [x] **S01: VM automation access harness** `risk:high` `depends:[]`
   > After this: After this: the agent has a proven command surface for SSH, sudo, AppleScript, computer-use, screenshot capture, PineShot fallback, and sanitized artifact collection on Wills-AUTH-vm.local.
 
-- [ ] **S02: Clean install and first run reset** `risk:high` `depends:[S01]`
-  > After this: After this: Pinemeter can be built, copied to the VM, installed, reset to clean first-run state, and launched reproducibly.
+- [x] **S02: Clean install and first run reset** `risk:medium` `depends:[S01]`
+  > After this: After this: Pinemeter can be built, copied to macvm2.local, installed, reset to clean first-run state, and launched reproducibly using the S01 SSH and screenshot harness.
 
-- [ ] **S03: Computer use onboarding import** `risk:high` `depends:[S02]`
-  > After this: After this: visual automation drives Pinemeter onboarding and imports Claude and ChatGPT from Chrome Profile 1, or captures a root-caused sanitized failure.
+- [x] **S03: Computer use onboarding import** `risk:high` `depends:[S02]`
+  > After this: After this: visual automation drives Pinemeter onboarding on macvm2.local and imports Claude and ChatGPT from Chrome Profile 1, or captures a root-caused sanitized failure using S01 evidence conventions.
 
-- [ ] **S04: Runtime state and diagnostic verification** `risk:medium` `depends:[S03]`
+- [x] **S04: Runtime state and diagnostic verification** `risk:medium` `depends:[S03]`
   > After this: After this: menu-bar state, app logs, Keychain presence, preferences, and screenshots prove what the VM onboarding achieved.
 
-- [ ] **S05: Fix loop and validation rerun** `risk:high` `depends:[S04]`
+- [x] **S05: Fix loop and validation rerun** `risk:high` `depends:[S04]`
   > After this: After this: any discovered onboarding/import defect is fixed or escalated with root-cause evidence, and the clean validation loop has been rerun.
 
-- [ ] **S06: Reusable validation command and handoff** `risk:medium` `depends:[S05]`
+- [x] **S06: Reusable validation command and handoff** `risk:medium` `depends:[S05]`
   > After this: After this: future agents can rerun the VM validation end to end using documented commands and know where evidence is stored.
 
 ## Boundary Map

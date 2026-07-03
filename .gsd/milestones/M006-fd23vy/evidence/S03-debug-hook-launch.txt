@@ -1,0 +1,14 @@
+app_path=/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app
+app_bundle_exists=true
+install.start=true
+install.complete=true
+reset.start=true
+reset.preferences.domain=com.eddmann.Pinemeter
+reset.keychain.claude=com.claudemeter.sessionkey/default
+reset.keychain.chatgpt=com.pinemeter.chatgpt.session/chatgpt.com
+reset.complete=true
+launch.start=true
+launch.process=Pinemeter
+launch.running=true
+preferences.file=missing
+evidence_file=.gsd/milestones/M006-fd23vy/evidence/S03/vm-validate-20260703T173041Z.txt

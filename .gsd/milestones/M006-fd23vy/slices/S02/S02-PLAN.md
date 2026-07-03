@@ -1,7 +1,7 @@
 # S02: Clean install and first run reset
 
 **Goal:** Create a deterministic clean-install loop for the VM.
-**Demo:** After this: Pinemeter can be built, copied to the VM, installed, reset to clean first-run state, and launched reproducibly.
+**Demo:** After this: Pinemeter can be built, copied to macvm2.local, installed, reset to clean first-run state, and launched reproducibly using the S01 SSH and screenshot harness.
 
 ## Must-Haves
 
@@ -24,14 +24,14 @@ The reset and install commands are rerunnable and feed S03 onboarding attempts.
 - Adds repeatable state probes for clean-first-run validation.
 
 <tasks>
-- [ ] **T01**: Build and select app bundle for VM install _(small)_
+- [x] **T01**: Built and selected a verified Debug `Pinemeter.app` bundle for VM installation. _(small)_
   Run a fresh local Debug build or select a verified existing app bundle. Record the app path and signing or quarantine status without modifying release signing policy.
   - Verify: `xcodebuild clean build -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` exits 0, and `test -d "$BUILT_PRODUCTS_DIR/Pinemeter.app"` passes for the chosen bundle.
-- [ ] **T02**: Create VM reset and install script _(medium)_
+- [x] **T02**: Added and verified the VM reset/install harness with exact scoped preference and Keychain deletion targets. _(medium)_
   Implement a repo-local helper that copies Pinemeter.app to the VM, installs it under a predictable path, clears quarantine if needed, removes preferences, and deletes only the exact known Claude and ChatGPT Keychain items. It must not print credential values.
   - Files: `scripts/vm_validation/pinemeter_vm_validate.sh`, `scripts/vm_validation/README.md`
   - Verify: Dry-run or explicit reset mode shows the exact commands and live reset exits 0. Keychain delete commands are scoped to the exact service/account pairs.
-- [ ] **T03**: Launch app and verify first-run state _(small)_
+- [x] **T03**: Installed, reset, launched, and probed Pinemeter on `macvm2.local` from a clean first-run state. _(small)_
   Use the harness to install and launch Pinemeter on the VM from clean state. Verify process state, preference state, and absence or creation of expected Keychain items without exposing values.
   - Files: `scripts/vm_validation/pinemeter_vm_validate.sh`
   - Verify: Remote launch exits 0, Pinemeter process is present or menu-bar app state is observable, and first-run state is confirmed through sanitized probes.

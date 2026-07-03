@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "lastWriter": "gsd-pi",
-  "lastProjectedAt": "2026-07-02T22:02:53.067Z",
+  "lastProjectedAt": "2026-07-03T18:28:46.639Z",
   "projections": {
     "milestones/M005/M005-ROADMAP.md": {
       "sha": "33e9dcf8316e51b8",
@@ -17,7 +17,7 @@
       ]
     },
     "milestones/M006-fd23vy/M006-fd23vy-ROADMAP.md": {
-      "sha": "9f33f0d3abd3b7ad",
+      "sha": "513bc548218e08e9",
       "entities": [
         "M006-fd23vy"
       ]
@@ -30,21 +30,21 @@
       ]
     },
     "milestones/M006-fd23vy/slices/S01/S01-PLAN.md": {
-      "sha": "a32d2ea44c902006",
+      "sha": "4a1690686966cce7",
       "entities": [
         "M006-fd23vy",
         "M006-fd23vy/S01"
       ]
     },
     "milestones/M006-fd23vy/slices/S02/S02-PLAN.md": {
-      "sha": "0e187a740b48e75d",
+      "sha": "0f93c577a8da2b82",
       "entities": [
         "M006-fd23vy",
         "M006-fd23vy/S02"
       ]
     },
     "milestones/M006-fd23vy/slices/S03/S03-PLAN.md": {
-      "sha": "5f7869d4091b0a97",
+      "sha": "f640a5c3a1000386",
       "entities": [
         "M006-fd23vy",
         "M006-fd23vy/S03"
@@ -69,6 +69,48 @@
       "entities": [
         "M005",
         "M005/S04"
+      ]
+    },
+    "milestones/M006-fd23vy/slices/S01/06-01-ASSESSMENT.md": {
+      "sha": "2d79a6159afd546b",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S01"
+      ]
+    },
+    "milestones/M006-fd23vy/slices/S02/06-02-ASSESSMENT.md": {
+      "sha": "8a8400b6c269f935",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S02"
+      ]
+    },
+    "milestones/M006-fd23vy/slices/S03/06-03-ASSESSMENT.md": {
+      "sha": "8972db6b2345f0ef",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S03"
+      ]
+    },
+    "milestones/M006-fd23vy/slices/S04/S04-PLAN.md": {
+      "sha": "ba789a2c1b772d30",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S04"
+      ]
+    },
+    "milestones/M006-fd23vy/slices/S04/06-04-ASSESSMENT.md": {
+      "sha": "1be9c434490c9608",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S04"
+      ]
+    },
+    "milestones/M006-fd23vy/slices/S06/S06-PLAN.md": {
+      "sha": "41deb9d4492e2cd4",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S06"
       ]
     }
   },

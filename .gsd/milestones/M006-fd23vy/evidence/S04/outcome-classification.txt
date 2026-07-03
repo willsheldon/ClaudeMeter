@@ -1,0 +1,24 @@
+captured_at=2026-07-03T18:22:00Z
+slice=S04
+classification=missing_browser_auth
+previous_blocker=keychain_access_prompt_requires_password
+previous_blocker_resolved=true
+
+summary=After the human allowed the Chrome Safe Storage Keychain prompt, Pinemeter continued the browser import attempt. The setup UI reports sanitized missing-session errors for Claude and ChatGPT, and runtime metadata shows both exact expected Pinemeter Keychain items are absent.
+
+evidence.post_import_ui=.gsd/milestones/M006-fd23vy/evidence/S04/post-import-ui-map.txt
+evidence.post_import_screenshot=.gsd/milestones/M006-fd23vy/evidence/S04/post-import-ui.png
+evidence.runtime_metadata=.gsd/milestones/M006-fd23vy/evidence/S04/runtime-metadata.txt
+
+observed_status.securityagent_windows=0
+observed_status.pinemeter_windows=1
+observed_status.claude_ui=Credential missing; no Claude browser session found
+observed_status.chatgpt_ui=Credential missing; no ChatGPT browser session found
+observed_status.keychain_claude=com.claudemeter.sessionkey/default absent
+observed_status.keychain_chatgpt=com.pinemeter.chatgpt.session/chatgpt.com absent
+
+interpretation=The VM automation, install/reset, launch, setup UI entry, Chrome Safe Storage access, and sanitized diagnostics all work. The remaining failure is environmental/browser-state: Chrome Profile 1 does not currently provide importable Claude or ChatGPT sessions to Pinemeter.
+
+s05_recommendation=Do not make app code changes for this outcome unless browser-session evidence later contradicts the missing-session classification. For S05, either restore/sign in provider sessions in Chrome Profile 1 and rerun, or explicitly close the milestone as a root-caused sanitized environmental failure.
+
+secret_safety=No cookies, session tokens, Keychain values, authorization headers, bearer tokens, browser storage contents, or passwords were read or printed.

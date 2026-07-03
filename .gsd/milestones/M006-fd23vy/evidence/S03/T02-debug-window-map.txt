@@ -1,0 +1,2 @@
+== automation_window ==
+frontmost=falsewindows=0

@@ -1,0 +1,2 @@
+== pinemeter_popover_single ==
+frontmost=falsewindows=0

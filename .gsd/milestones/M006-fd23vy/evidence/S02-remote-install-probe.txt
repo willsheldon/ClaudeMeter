@@ -1,0 +1,6 @@
+install_path.exists=true
+bundle.identifier=com.eddmann.Pinemeter
+bundle.version=1.0
+Identifier=com.eddmann.Pinemeter
+TeamIdentifier=HMR9RDR6M2
+quarantine=absent

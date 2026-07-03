@@ -1,0 +1,7 @@
+# T01 VM access probe
+timestamp_utc=2026-07-03T16:54:24Z
+planned_host=Wills-AUTH-vm.local
+result=host_unresolved_or_unreachable
+wiki_primary_path=/Users/will/Documents/wiki (missing)
+wiki_fallback_paths=/Users/will/wiki/pineshot-screenshots.md,/Users/will/code/claude/debug-screenshots-with-pineshot.md
+notes=No secrets, cookies, token files, or credential stores were read.

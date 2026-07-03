@@ -1,0 +1,12 @@
+# Pinemeter VM validate
+timestamp_utc=2026-07-03T17:16:58Z
+target=will@macvm2.local
+install_path=/Applications/Pinemeter.app
+mode=launch
+secret_policy=no cookie dbs, keychain values, tokens, auth headers, or browser storage contents are read or printed
+
+launch.start=true
+launch.process=Pinemeter
+launch.running=true
+preferences.file=missing
+evidence_file=.gsd/milestones/M006-fd23vy/evidence/S02/vm-validate-20260703T171658Z.txt

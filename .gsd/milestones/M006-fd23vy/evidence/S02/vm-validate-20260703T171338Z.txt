@@ -1,0 +1,15 @@
+# Pinemeter VM validate
+timestamp_utc=2026-07-03T17:13:38Z
+target=will@macvm2.local
+install_path=/Applications/Pinemeter.app
+mode=dry-run
+secret_policy=no cookie dbs, keychain values, tokens, auth headers, or browser storage contents are read or printed
+
+dry_run=true
+app_path=/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app
+would_install_to=/Applications/Pinemeter.app
+would_reset_preferences=com.eddmann.Pinemeter
+would_delete_keychain=com.claudemeter.sessionkey/default
+would_delete_keychain=com.pinemeter.chatgpt.session/chatgpt.com
+would_launch=/Applications/Pinemeter.app
+evidence_file=.gsd/milestones/M006-fd23vy/evidence/S02/vm-validate-20260703T171338Z.txt

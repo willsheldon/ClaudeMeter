@@ -1,0 +1,14 @@
+== process ==
+pinemeter.running=true
+== windows ==
+0
+
+== preference_keys ==
+preferences.file=missing
+== keychain_presence ==
+claude.keychain=absent
+chatgpt.keychain=absent
+== screenshot ==
+path=/Users/will/Desktop/pinemeter-vm-validation/pinemeter-first-run.png
+exists=True
+bytes=370179

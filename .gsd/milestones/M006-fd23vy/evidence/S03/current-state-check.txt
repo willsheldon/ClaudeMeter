@@ -1,0 +1,4 @@
+== process ==
+21042 /Applications/Pinemeter.app/Contents/MacOS/Pinemeter --open-popover-after-launch
+== windows ==
+Google Chrome:1iTerm2:1Pinemeter:1SecurityAgent:1

@@ -219,6 +219,12 @@ final class MenuBarManager {
         NSApp.activate(ignoringOtherApps: true)
     }
 
+    #if DEBUG
+    func showPopoverForAutomation() {
+        showPopover()
+    }
+    #endif
+
     private func closePopover() {
         popover?.performClose(nil)
     }

@@ -1,0 +1,3 @@
+action AXPress of menu bar item 1 of menu bar 2 of application process Pinemeter
+== post_press_windows ==
+frontmost=falsewindows=0

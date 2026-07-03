@@ -24,13 +24,13 @@ Harness commands work against the real VM and produce a small sanitized probe ar
 - Establishes the diagnostic channel used by all later slices.
 
 <tasks>
-- [ ] **T01**: Probe VM access and local wiki assumptions _(small)_
+- [x] **T01**: Verified VM SSH access and metadata-only environment assumptions against renamed host `macvm2.local`. _(small)_
   Verify SSH access to Wills-AUTH-vm.local as `will`, passwordless sudo, macOS version, Chrome profile layout, and installed screenshot tools. Check the local wiki for VM or PineShot operating notes before relying on behavior. Capture only sanitized probe output.
   - Verify: Run SSH probes for `sw_vers`, `id`, `sudo -n whoami`, Chrome profile directories, and tool availability. Evidence must not include cookies or secrets.
-- [ ] **T02**: Verify visual automation channels _(small)_
+- [x] **T02**: Verified remote visual automation through AppleScript and sanitized screenshot capture on `macvm2.local`. _(small)_
   Validate System Events, AppleScript, `screencapture`, and standard computer-use availability for the VM. Launch PineShot if needed and verify its menu-bar-only behavior matches wiki notes. Capture a sanitized screenshot artifact that shows no secrets.
   - Verify: Run a remote AppleScript process count, a screenshot probe, and a computer-use feasibility check or documented fallback. Screenshot artifact exists and contains no credential material.
-- [ ] **T03**: Define sanitized evidence directory and helper conventions _(small)_
+- [x] **T03**: Defined sanitized VM validation evidence conventions and a rerunnable VM probe helper. _(small)_
   Choose local and remote evidence paths, redaction rules, SSH option wrapper, and naming conventions for screenshots, logs, and state probes. Do not create broad logging that could capture cookies or tokens.
   - Files: `scripts/vm_validation/README.md`
   - Verify: Documentation names evidence paths, prohibited data, and safe commands. Review with `rg` for forbidden raw-cookie or token-dump commands before completion.

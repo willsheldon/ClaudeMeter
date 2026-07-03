@@ -1,0 +1,4 @@
+== frontmost ==
+TextEdit
+== visible_window_processes ==
+Google Chrome: windows=1iTerm2: windows=1TextEdit: windows=1
