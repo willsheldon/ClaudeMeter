@@ -31,7 +31,7 @@ Environment:
 Safety:
   Never prints cookie values, Keychain values, tokens, auth headers, or browser storage contents.
   Reset deletes only:
-    - UserDefaults domain com.eddmann.Pinemeter
+    - UserDefaults domain ca.pineit.Pinemeter
     - Keychain service com.claudemeter.sessionkey account default
     - Keychain service com.pinemeter.chatgpt.session account chatgpt.com
 USAGE
@@ -77,7 +77,7 @@ find_app_path() {
 remote_reset_script() {
   cat <<'REMOTE_RESET'
 set -euo pipefail
-APP_DOMAIN="com.eddmann.Pinemeter"
+APP_DOMAIN="ca.pineit.Pinemeter"
 CLAUDE_SERVICE="com.claudemeter.sessionkey"
 CLAUDE_ACCOUNT="default"
 CHATGPT_SERVICE="com.pinemeter.chatgpt.session"
@@ -115,7 +115,7 @@ else
   echo "launch.running=false"
   exit 3
 fi
-PREF_FILE="\$HOME/Library/Preferences/com.eddmann.Pinemeter.plist"
+PREF_FILE="\$HOME/Library/Preferences/ca.pineit.Pinemeter.plist"
 if [ -e "\$PREF_FILE" ]; then
   echo "preferences.file=present"
 else
@@ -147,7 +147,7 @@ do_dry_run() {
   log "dry_run=true"
   log "app_path=${app_candidate:-not-found}"
   log "would_install_to=${INSTALL_PATH}"
-  log "would_reset_preferences=com.eddmann.Pinemeter"
+  log "would_reset_preferences=ca.pineit.Pinemeter"
   log "would_delete_keychain=com.claudemeter.sessionkey/default"
   log "would_delete_keychain=com.pinemeter.chatgpt.session/chatgpt.com"
   log "would_launch=${INSTALL_PATH}"
