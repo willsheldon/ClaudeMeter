@@ -19,6 +19,12 @@ actor UsageService: UsageServiceProtocol {
     private let maxRetries = Constants.Network.maxRetries
     private let baseURL = "https://claude.ai/api"
 
+    /// In-memory usage cache for additional (non-primary) accounts, keyed by
+    /// Keychain account. The primary account continues to use the shared
+    /// disk-backed CacheRepository and public JSON export.
+    private var accountMemoryCache: [String: (data: UsageData, storedAt: Date)] = [:]
+    private let accountCacheTTL: TimeInterval = Constants.Cache.ttl
+
     init(
         networkService: NetworkServiceProtocol,
         cacheRepository: CacheRepositoryProtocol,
@@ -127,6 +133,73 @@ actor UsageService: UsageServiceProtocol {
         }
 
         Self.logger.error("All retries failed, no cached data available")
+        throw AppError.networkError(lastError as? NetworkError ?? .networkUnavailable)
+    }
+
+    /// Fetch usage for a specific connected Claude account, backed by a small
+    /// per-account in-memory cache (no disk/public export; that stays the
+    /// primary account's responsibility).
+    func fetchUsage(account: String, organizationId: UUID, forceRefresh: Bool = false) async throws -> UsageData {
+        let sessionKeyString: String
+        do {
+            sessionKeyString = try await keychainRepository.retrieve(account: account)
+        } catch KeychainError.notFound {
+            throw AppError.noSessionKey
+        } catch let error as KeychainError {
+            throw AppError.keychainError(error)
+        }
+
+        let sessionKey = try SessionKey(sessionKeyString)
+
+        if !forceRefresh,
+           let cached = accountMemoryCache[account],
+           Date().timeIntervalSince(cached.storedAt) < accountCacheTTL {
+            return cached.data
+        }
+
+        let usageData = try await performUsageFetch(sessionKey: sessionKey, organizationId: organizationId)
+        accountMemoryCache[account] = (usageData, Date())
+        return usageData
+    }
+
+    /// Runs the usage request against a specific organization with retry/backoff.
+    /// Throws `AppError.sessionKeyInvalid` on auth failure and
+    /// `AppError.networkError` when retries are exhausted.
+    private func performUsageFetch(sessionKey: SessionKey, organizationId: UUID) async throws -> UsageData {
+        var lastError: Error?
+
+        for attempt in 0..<maxRetries {
+            do {
+                let response: UsageAPIResponse = try await networkService.request(
+                    "\(baseURL)/organizations/\(organizationId)/usage",
+                    method: .get,
+                    sessionKey: sessionKey.value
+                )
+                return try response.toDomain()
+            } catch NetworkError.networkUnavailable {
+                Self.logger.warning("Network unavailable (attempt \(attempt + 1)/\(self.maxRetries))")
+                lastError = NetworkError.networkUnavailable
+                try await Task.sleep(for: .seconds(pow(Constants.Network.backoffBase, Double(attempt))))
+            } catch NetworkError.rateLimitExceeded {
+                Self.logger.warning("Rate limit exceeded (attempt \(attempt + 1)/\(self.maxRetries))")
+                lastError = NetworkError.rateLimitExceeded
+                try await Task.sleep(for: .seconds(pow(Constants.Network.rateLimitBackoffBase, Double(attempt))))
+            } catch NetworkError.authenticationFailed {
+                Self.logger.error("Authentication failed - session key invalid")
+                throw AppError.sessionKeyInvalid
+            } catch let error as URLError where error.code == .timedOut ||
+                                               error.code == .cannotConnectToHost ||
+                                               error.code == .networkConnectionLost ||
+                                               error.code == .notConnectedToInternet {
+                Self.logger.warning("URL error: \(error.localizedDescription) (attempt \(attempt + 1)/\(self.maxRetries))")
+                lastError = error
+                try await Task.sleep(for: .seconds(pow(Constants.Network.backoffBase, Double(attempt))))
+            } catch {
+                Self.logger.error("API request failed: \(error.localizedDescription)")
+                throw AppError.networkError(error as? NetworkError ?? .invalidResponse)
+            }
+        }
+
         throw AppError.networkError(lastError as? NetworkError ?? .networkUnavailable)
     }
 

@@ -36,6 +36,17 @@ actor UsageServiceStub: UsageServiceProtocol {
         }
     }
 
+    func fetchUsage(account: String, organizationId: UUID, forceRefresh: Bool) async throws -> UsageData {
+        fetchUsageCallCount += 1
+        forceRefreshValues.append(forceRefresh)
+        switch fetchUsageResult {
+        case .success(let data):
+            return data
+        case .failure(let error):
+            throw error
+        }
+    }
+
     func fetchOrganizations() async throws -> [Organization] {
         organizations
     }

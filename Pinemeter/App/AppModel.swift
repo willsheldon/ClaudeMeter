@@ -116,6 +116,29 @@ struct AppProviderCredentialStatus: Identifiable, Equatable, Sendable {
     }
 }
 
+/// A single Claude account's usage as rendered in the popover.
+struct ClaudeUsageSection: Identifiable, Equatable, Sendable {
+    /// `ClaudeAccount.id` (organization UUID string), or `"default"` for the
+    /// legacy single-account fallback.
+    let id: String
+    /// Section heading: the account label when more than one account is
+    /// connected, otherwise plain "Claude".
+    let title: String
+    let usageData: UsageData?
+    let errorMessage: String?
+}
+
+/// Result of connecting Claude accounts from a browser import.
+struct ClaudeAccountsImportResult: Equatable, Sendable {
+    /// The primary account's imported key (value + source), returned so single
+    /// -account callers keep their existing behavior.
+    let primary: ImportedSessionKey
+    /// Total number of connected accounts after the import.
+    let importedCount: Int
+    /// Display labels for every connected account (primary first).
+    let accountLabels: [String]
+}
+
 /// Main application model for SwiftUI-first architecture.
 @MainActor
 @Observable
@@ -130,6 +153,12 @@ final class AppModel {
     }
 
     var usageData: UsageData?
+    /// Usage for additional (non-primary) connected Claude accounts, keyed by
+    /// `ClaudeAccount.id`. The primary account's usage stays in `usageData`.
+    var claudeAccountUsage: [String: UsageData] = [:]
+    /// Sanitized per-account error messages for additional Claude accounts,
+    /// keyed by `ClaudeAccount.id`.
+    var claudeAccountErrors: [String: String] = [:]
     var chatGPTUsageData: ChatGPTUsageData?
     var geminiUsageData: GeminiUsageData?
     var isLoading: Bool = false
@@ -233,8 +262,41 @@ final class AppModel {
 
     var hasUsagePopoverContent: Bool {
         usageData != nil
+            || !claudeAccountUsage.isEmpty
+            || !claudeAccountErrors.isEmpty
             || (settings.isChatGPTUsageShown && (chatGPTUsageData != nil || chatGPTErrorMessage != nil))
             || (isGeminiUsageConfigured && (geminiUsageData != nil || geminiErrorMessage != nil))
+    }
+
+    /// One popover section per connected Claude account, primary first. Falls
+    /// back to a single unlabeled "Claude" section for legacy single-account
+    /// installs that predate `settings.claudeAccounts`.
+    var claudeUsageSections: [ClaudeUsageSection] {
+        guard isClaudeUsageConfigured else { return [] }
+        let accounts = settings.claudeAccounts
+        guard !accounts.isEmpty else {
+            return [ClaudeUsageSection(
+                id: ClaudeAccount.primaryKeychainAccount,
+                title: "Claude",
+                usageData: usageData,
+                errorMessage: nil
+            )]
+        }
+
+        let ordered = accounts.sorted { lhs, rhs in
+            if lhs.isPrimary != rhs.isPrimary { return lhs.isPrimary }
+            return lhs.label.localizedCaseInsensitiveCompare(rhs.label) == .orderedAscending
+        }
+        let showLabels = ordered.count > 1
+
+        return ordered.map { account in
+            ClaudeUsageSection(
+                id: account.id,
+                title: showLabels ? account.label : "Claude",
+                usageData: account.isPrimary ? usageData : claudeAccountUsage[account.id],
+                errorMessage: account.isPrimary ? nil : claudeAccountErrors[account.id]
+            )
+        }
     }
 
     // MARK: - Dependencies
@@ -332,6 +394,8 @@ final class AppModel {
             await refreshUsage(forceRefresh: true)
         }
 
+        await refreshAdditionalClaudeAccounts(forceRefresh: true)
+
         if isSetupComplete || hasChatGPTSessionCookie || hasGeminiAPIKey {
             startRefreshLoop()
         }
@@ -345,6 +409,7 @@ final class AppModel {
         if isClaudeUsageConfigured {
             await refreshUsage(forceRefresh: forceRefresh)
         }
+        await refreshAdditionalClaudeAccounts(forceRefresh: forceRefresh)
         if isChatGPTUsageConfigured {
             await refreshChatGPTUsage()
         }
@@ -380,6 +445,36 @@ final class AppModel {
             )
         } catch {
             errorMessage = error.localizedDescription
+        }
+    }
+
+    /// Refresh usage for every connected additional (non-primary) Claude
+    /// account. The primary account is refreshed separately by `refreshUsage`.
+    func refreshAdditionalClaudeAccounts(forceRefresh: Bool = false) async {
+        let additionalAccounts = settings.claudeAccounts.filter { !$0.isPrimary }
+        guard !additionalAccounts.isEmpty else {
+            if !claudeAccountUsage.isEmpty { claudeAccountUsage.removeAll() }
+            if !claudeAccountErrors.isEmpty { claudeAccountErrors.removeAll() }
+            return
+        }
+
+        // Drop any cached state for accounts that are no longer connected.
+        let connectedIds = Set(additionalAccounts.map { $0.id })
+        claudeAccountUsage = claudeAccountUsage.filter { connectedIds.contains($0.key) }
+        claudeAccountErrors = claudeAccountErrors.filter { connectedIds.contains($0.key) }
+
+        for account in additionalAccounts {
+            do {
+                let data = try await usageService.fetchUsage(
+                    account: account.keychainAccount,
+                    organizationId: account.organizationId,
+                    forceRefresh: forceRefresh
+                )
+                claudeAccountUsage[account.id] = data
+                claudeAccountErrors[account.id] = nil
+            } catch {
+                claudeAccountErrors[account.id] = error.localizedDescription
+            }
         }
     }
 
@@ -645,6 +740,7 @@ final class AppModel {
         settings.cachedOrganizationId = orgUUID
         settings.isFirstLaunch = false
         isSetupComplete = true
+        registerPrimaryClaudeAccount(chatOrg, organizationId: orgUUID)
 
         await refreshUsage(forceRefresh: true)
         startRefreshLoop()
@@ -652,19 +748,139 @@ final class AppModel {
         return true
     }
 
+    /// Records the primary Claude account in `settings.claudeAccounts` while
+    /// preserving any connected additional accounts. Used by both the single
+    /// -account save path and multi-account import.
+    private func registerPrimaryClaudeAccount(_ organization: Organization, organizationId: UUID) {
+        let primary = ClaudeAccount(
+            id: organization.uuid,
+            label: organization.name,
+            organizationId: organizationId,
+            keychainAccount: ClaudeAccount.primaryKeychainAccount,
+            profileLabel: settings.claudeAccounts.first(where: { $0.isPrimary })?.profileLabel
+        )
+        var accounts = settings.claudeAccounts.filter { !$0.isPrimary && $0.id != primary.id }
+        accounts.insert(primary, at: 0)
+        settings.claudeAccounts = accounts
+    }
+
     func importAndSaveSessionKey() async throws -> ImportedSessionKey {
         try await importAndSaveSessionKey(from: .defaultBrowser)
     }
 
     func importAndSaveSessionKey(from source: BrowserImportSource) async throws -> ImportedSessionKey {
-        let imported = try await sessionKeyImportService.importSessionKey(from: source)
-        let isValid = try await validateAndSaveSessionKey(imported.value)
+        try await importClaudeAccounts(from: source).primary
+    }
 
-        guard isValid else {
+    /// Connect one or more Claude subscriptions discovered across signed-in
+    /// browser profiles. The first (or previously-primary) account keeps the
+    /// legacy `"default"` Keychain slot; additional accounts are stored under
+    /// their organization UUID. Deduplicates by organization so the same
+    /// subscription imported from two profiles connects once.
+    @discardableResult
+    func importClaudeAccounts(from source: BrowserImportSource) async throws -> ClaudeAccountsImportResult {
+        let importedKeys = try await sessionKeyImportService.importAllSessionKeys(from: source)
+
+        struct Candidate {
+            let value: String
+            let organization: Organization
+            let sourceDescription: String
+        }
+
+        var candidates: [Candidate] = []
+        var seenOrganizations = Set<String>()
+
+        for imported in importedKeys {
+            guard let sessionKey = try? SessionKey(imported.value) else { continue }
+            do {
+                let isValid = try await usageService.validateSessionKey(sessionKey)
+                guard isValid else { continue }
+                let organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
+                guard let organization = organizations.first(where: { $0.hasChatCapability }) ?? organizations.first,
+                      organization.organizationUUID != nil else {
+                    continue
+                }
+                if seenOrganizations.insert(organization.uuid).inserted {
+                    candidates.append(Candidate(
+                        value: sessionKey.value,
+                        organization: organization,
+                        sourceDescription: imported.sourceDescription
+                    ))
+                }
+            } catch {
+                continue
+            }
+        }
+
+        guard !candidates.isEmpty else {
             throw SessionKeyImportError.invalidImportedSessionKey
         }
 
-        return imported
+        // Keep the existing primary organization primary when it is still
+        // present; otherwise promote the first discovered account.
+        let existingPrimaryOrganizationId = settings.claudeAccounts.first(where: { $0.isPrimary })?.organizationId
+        let primaryIndex = candidates.firstIndex(where: {
+            $0.organization.organizationUUID == existingPrimaryOrganizationId
+        }) ?? 0
+        let primaryCandidate = candidates[primaryIndex]
+        let additionalCandidates = candidates.enumerated()
+            .filter { $0.offset != primaryIndex }
+            .map { $0.element }
+
+        // Save the primary through the tested single-account path (Keychain
+        // "default", cached org id, setup flag, primary usage refresh).
+        let primaryValid = try await validateAndSaveSessionKey(primaryCandidate.value)
+        guard primaryValid else {
+            throw SessionKeyImportError.invalidImportedSessionKey
+        }
+
+        var accounts: [ClaudeAccount] = [
+            ClaudeAccount(
+                id: primaryCandidate.organization.uuid,
+                label: primaryCandidate.organization.name,
+                organizationId: primaryCandidate.organization.organizationUUID!,
+                keychainAccount: ClaudeAccount.primaryKeychainAccount,
+                profileLabel: primaryCandidate.sourceDescription
+            )
+        ]
+
+        // Remove Keychain entries for previously-connected additional accounts
+        // that are no longer present so a re-import leaves no orphaned keys.
+        var staleAccountIds = Set(settings.claudeAccounts.filter { !$0.isPrimary }.map { $0.id })
+
+        for candidate in additionalCandidates {
+            let organizationUUID = candidate.organization.organizationUUID!
+            try await keychainRepository.save(
+                sessionKey: candidate.value,
+                account: candidate.organization.uuid
+            )
+            accounts.append(ClaudeAccount(
+                id: candidate.organization.uuid,
+                label: candidate.organization.name,
+                organizationId: organizationUUID,
+                keychainAccount: candidate.organization.uuid,
+                profileLabel: candidate.sourceDescription
+            ))
+            staleAccountIds.remove(candidate.organization.uuid)
+        }
+
+        for staleId in staleAccountIds {
+            try? await keychainRepository.delete(account: staleId)
+            claudeAccountUsage[staleId] = nil
+            claudeAccountErrors[staleId] = nil
+        }
+
+        settings.claudeAccounts = accounts
+        await refreshAdditionalClaudeAccounts(forceRefresh: true)
+
+        return ClaudeAccountsImportResult(
+            primary: ImportedSessionKey(
+                value: primaryCandidate.value,
+                sourceDescription: primaryCandidate.sourceDescription
+            ),
+            importedCount: accounts.count,
+            accountLabels: accounts.map(\.label)
+        )
     }
 
     func importAndSaveChatGPTSessionCookie() async throws -> ImportedChatGPTSessionCookie {
@@ -779,6 +995,12 @@ final class AppModel {
 
     func clearSessionKey() async throws {
         try await keychainRepository.delete(account: "default")
+        for account in settings.claudeAccounts where !account.isPrimary {
+            try? await keychainRepository.delete(account: account.keychainAccount)
+        }
+        settings.claudeAccounts = []
+        claudeAccountUsage.removeAll()
+        claudeAccountErrors.removeAll()
         settings.cachedOrganizationId = nil
         settings.isFirstLaunch = true
         isSetupComplete = false
@@ -900,6 +1122,7 @@ final class AppModel {
                 if self.isSetupComplete {
                     await self.refreshUsage()
                 }
+                await self.refreshAdditionalClaudeAccounts()
                 if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
                     await self.refreshChatGPTUsage()
                 }
@@ -918,6 +1141,7 @@ final class AppModel {
                 if self.isSetupComplete {
                     await self.refreshUsage(forceRefresh: true)
                 }
+                await self.refreshAdditionalClaudeAccounts(forceRefresh: true)
                 if self.hasChatGPTSessionCookie && self.settings.isChatGPTUsageShown {
                     await self.refreshChatGPTUsage()
                 }

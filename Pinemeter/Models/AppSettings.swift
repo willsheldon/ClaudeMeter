@@ -36,6 +36,11 @@ struct AppSettings: Codable, Equatable, Sendable {
     /// Whether menu bar icons are shown in color instead of monochrome.
     var isColoredIcon: Bool
 
+    /// Connected Claude subscriptions (session keys held in Keychain).
+    /// Empty on legacy installs; the primary account is the entry whose
+    /// `keychainAccount` is `"default"`.
+    var claudeAccounts: [ClaudeAccount] = []
+
     static let `default` = AppSettings(
         refreshInterval: Constants.Refresh.minimum,
         hasNotificationsEnabled: true,
@@ -59,6 +64,7 @@ struct AppSettings: Codable, Equatable, Sendable {
         case legacyOpenAIUsageShown = "show_openai_usage"
         case iconStyle = "icon_style"
         case isColoredIcon = "is_colored_icon"
+        case claudeAccounts = "claude_accounts"
     }
 }
 
@@ -78,6 +84,7 @@ extension AppSettings {
             ?? defaults.isChatGPTUsageShown
         iconStyle = try container.decodeIfPresent(IconStyle.self, forKey: .iconStyle) ?? defaults.iconStyle
         isColoredIcon = try container.decodeIfPresent(Bool.self, forKey: .isColoredIcon) ?? defaults.isColoredIcon
+        claudeAccounts = try container.decodeIfPresent([ClaudeAccount].self, forKey: .claudeAccounts) ?? defaults.claudeAccounts
     }
 
     init(
@@ -112,6 +119,7 @@ extension AppSettings {
         try container.encode(isChatGPTUsageShown, forKey: .isChatGPTUsageShown)
         try container.encode(iconStyle, forKey: .iconStyle)
         try container.encode(isColoredIcon, forKey: .isColoredIcon)
+        try container.encode(claudeAccounts, forKey: .claudeAccounts)
     }
 }
 

@@ -70,6 +70,56 @@ actor SessionKeyImportService: SessionKeyImportServiceProtocol {
         throw SessionKeyImportError.noSessionKeyFound
     }
 
+    func importAllSessionKeys(from source: BrowserImportSource) async throws -> [ImportedSessionKey] {
+        let query = BrowserCookieQuery(domains: ["claude.ai"], domainMatch: .suffix)
+        var imported: [ImportedSessionKey] = []
+        var seenValues = Set<String>()
+        var sawAccessDenied = false
+        var sawSafariAccessDenied = false
+        var deniedKeychainBrowserName: String?
+
+        for browser in browsers(for: source) {
+            do {
+                let sources = try cookieClient.records(matching: query, in: browser)
+                for storeRecords in sources {
+                    // Skip a malformed cookie in one profile rather than aborting
+                    // discovery for the remaining profiles.
+                    guard let one = try? importedSessionKey(from: storeRecords) else { continue }
+                    if seenValues.insert(one.value).inserted {
+                        imported.append(one)
+                    }
+                }
+            } catch let error as BrowserCookieError {
+                switch error {
+                case .accessDenied:
+                    sawAccessDenied = true
+                    if browser == .safari {
+                        sawSafariAccessDenied = true
+                    } else if browser.usesKeychainForCookieDecryption {
+                        deniedKeychainBrowserName = browser.displayName
+                    }
+                case .notFound, .loadFailed:
+                    break
+                }
+            }
+        }
+
+        if !imported.isEmpty {
+            return imported
+        }
+
+        if sawSafariAccessDenied {
+            throw SessionKeyImportError.safariAccessDenied
+        }
+        if let deniedKeychainBrowserName {
+            throw SessionKeyImportError.browserKeychainAccessDenied(deniedKeychainBrowserName)
+        }
+        if sawAccessDenied {
+            throw SessionKeyImportError.accessDenied
+        }
+        throw SessionKeyImportError.noSessionKeyFound
+    }
+
     func importChatGPTSessionCookie() async throws -> ImportedChatGPTSessionCookie {
         try await importChatGPTSessionCookie(from: .defaultBrowser)
     }

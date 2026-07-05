@@ -13,6 +13,13 @@ protocol UsageServiceProtocol: Actor {
     /// - Parameter forceRefresh: If true, clears cache before fetching new data
     func fetchUsage(forceRefresh: Bool) async throws -> UsageData
 
+    /// Fetch usage for a specific connected Claude account.
+    /// - Parameters:
+    ///   - account: Keychain account holding the session key.
+    ///   - organizationId: Organization to query usage for.
+    ///   - forceRefresh: If true, bypasses the per-account in-memory cache.
+    func fetchUsage(account: String, organizationId: UUID, forceRefresh: Bool) async throws -> UsageData
+
     /// Fetch list of organizations for the user (from keychain)
     func fetchOrganizations() async throws -> [Organization]
 

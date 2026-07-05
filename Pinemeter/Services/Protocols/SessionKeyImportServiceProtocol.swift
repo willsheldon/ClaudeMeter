@@ -128,7 +128,20 @@ enum SessionKeyImportError: LocalizedError {
 protocol SessionKeyImportServiceProtocol: Actor {
     func importSessionKey() async throws -> ImportedSessionKey
     func importSessionKey(from source: BrowserImportSource) async throws -> ImportedSessionKey
+    /// Import every distinct Claude session key reachable from `source`, one per
+    /// signed-in browser profile. Used to connect multiple Claude subscriptions
+    /// at once. Throws the same access/denial errors as `importSessionKey` when
+    /// no session key is found.
+    func importAllSessionKeys(from source: BrowserImportSource) async throws -> [ImportedSessionKey]
     func importChatGPTSessionCookie() async throws -> ImportedChatGPTSessionCookie
     func importChatGPTSessionCookie(from source: BrowserImportSource) async throws -> ImportedChatGPTSessionCookie
     func repairSavedSessionKey(account: String) async -> CredentialState
+}
+
+extension SessionKeyImportServiceProtocol {
+    /// Default single-profile behavior for conformers (e.g. test doubles) that
+    /// do not implement multi-profile discovery.
+    func importAllSessionKeys(from source: BrowserImportSource) async throws -> [ImportedSessionKey] {
+        [try await importSessionKey(from: source)]
+    }
 }

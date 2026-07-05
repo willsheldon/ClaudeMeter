@@ -85,33 +85,37 @@ struct UsagePopoverView: View {
             if appModel.hasUsagePopoverContent {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 14) {
-                        if let usageData = appModel.usageData {
-                            UsageMetricSection(title: "Claude", icon: "sparkles") {
-                                UsageMetricBar(
-                                    title: "5-hour limit",
-                                    subtitle: "Resets \(usageData.sessionUsage.resetDescription)",
-                                    percentage: usageData.sessionUsage.percentage,
-                                    status: usageData.sessionUsage.status,
-                                    icon: "timer"
-                                )
-
-                                UsageMetricBar(
-                                    title: "Weekly limit",
-                                    subtitle: "Resets \(usageData.weeklyUsage.resetDescription)",
-                                    percentage: usageData.weeklyUsage.percentage,
-                                    status: usageData.weeklyUsage.status,
-                                    icon: "calendar"
-                                )
-
-                                if appModel.settings.isSonnetUsageShown, let sonnetUsage = usageData.sonnetUsage {
+                        ForEach(appModel.claudeUsageSections) { section in
+                            if let usageData = section.usageData {
+                                UsageMetricSection(title: section.title, icon: "sparkles") {
                                     UsageMetricBar(
-                                        title: "Weekly Sonnet",
-                                        subtitle: "Resets \(sonnetUsage.resetDescription)",
-                                        percentage: sonnetUsage.percentage,
-                                        status: sonnetUsage.status,
-                                        icon: "waveform.path.ecg"
+                                        title: "5-hour limit",
+                                        subtitle: "Resets \(usageData.sessionUsage.resetDescription)",
+                                        percentage: usageData.sessionUsage.percentage,
+                                        status: usageData.sessionUsage.status,
+                                        icon: "timer"
                                     )
+
+                                    UsageMetricBar(
+                                        title: "Weekly limit",
+                                        subtitle: "Resets \(usageData.weeklyUsage.resetDescription)",
+                                        percentage: usageData.weeklyUsage.percentage,
+                                        status: usageData.weeklyUsage.status,
+                                        icon: "calendar"
+                                    )
+
+                                    if appModel.settings.isSonnetUsageShown, let sonnetUsage = usageData.sonnetUsage {
+                                        UsageMetricBar(
+                                            title: "Weekly Sonnet",
+                                            subtitle: "Resets \(sonnetUsage.resetDescription)",
+                                            percentage: sonnetUsage.percentage,
+                                            status: sonnetUsage.status,
+                                            icon: "waveform.path.ecg"
+                                        )
+                                    }
                                 }
+                            } else if let sectionError = section.errorMessage {
+                                providerErrorRow(provider: section.title, message: sectionError)
                             }
                         }
 
