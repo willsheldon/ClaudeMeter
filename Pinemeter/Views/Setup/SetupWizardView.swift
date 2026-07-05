@@ -195,7 +195,7 @@ struct SetupWizardView: View {
                             ProgressView()
                                 .controlSize(.small)
                         }
-                        Text(isImporting ? "Importing from \(source.displayName)..." : source.importButtonTitle)
+                        Text(isImporting ? (appModel.importProgress ?? "Importing from \(source.displayName)\u{2026}") : source.importButtonTitle)
                     }
                     .frame(maxWidth: .infinity)
                 }

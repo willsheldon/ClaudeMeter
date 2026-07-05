@@ -165,6 +165,7 @@ final class AppModel {
     var isRefreshing: Bool = false
     var isRefreshingChatGPT: Bool = false
     var isRefreshingGemini: Bool = false
+    var importProgress: String?
     var errorMessage: String?
     var chatGPTErrorMessage: String?
     var geminiErrorMessage: String?
@@ -779,42 +780,67 @@ final class AppModel {
     /// subscription imported from two profiles connects once.
     @discardableResult
     func importClaudeAccounts(from source: BrowserImportSource) async throws -> ClaudeAccountsImportResult {
+        importProgress = "Scanning browser profiles\u{2026}"
         let importedKeys = try await sessionKeyImportService.importAllSessionKeys(from: source)
 
-        struct Candidate {
+        struct Candidate: Sendable {
             let value: String
             let organization: Organization
             let sourceDescription: String
         }
 
+        let total = importedKeys.count
+        importProgress = "Validating \(total) session\(total == 1 ? "" : "s")\u{2026}"
+
+        let validated: [Candidate] = await withTaskGroup(of: Candidate?.self) { group in
+            for imported in importedKeys {
+                group.addTask { [usageService] in
+                    guard let sessionKey = try? SessionKey(imported.value) else { return nil }
+                    do {
+                        let isValid = try await usageService.validateSessionKey(sessionKey)
+                        guard isValid else { return nil }
+                        let organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
+                        guard let organization = organizations.first(where: { $0.hasChatCapability }) ?? organizations.first,
+                              organization.organizationUUID != nil else {
+                            return nil
+                        }
+                        return Candidate(
+                            value: sessionKey.value,
+                            organization: organization,
+                            sourceDescription: imported.sourceDescription
+                        )
+                    } catch {
+                        return nil
+                    }
+                }
+            }
+
+            var results: [Candidate] = []
+            var checked = 0
+            for await result in group {
+                checked += 1
+                if let candidate = result {
+                    results.append(candidate)
+                }
+                importProgress = "Checked \(checked) of \(total) sessions\u{2026}"
+            }
+            return results
+        }
+
         var candidates: [Candidate] = []
         var seenOrganizations = Set<String>()
-
-        for imported in importedKeys {
-            guard let sessionKey = try? SessionKey(imported.value) else { continue }
-            do {
-                let isValid = try await usageService.validateSessionKey(sessionKey)
-                guard isValid else { continue }
-                let organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
-                guard let organization = organizations.first(where: { $0.hasChatCapability }) ?? organizations.first,
-                      organization.organizationUUID != nil else {
-                    continue
-                }
-                if seenOrganizations.insert(organization.uuid).inserted {
-                    candidates.append(Candidate(
-                        value: sessionKey.value,
-                        organization: organization,
-                        sourceDescription: imported.sourceDescription
-                    ))
-                }
-            } catch {
-                continue
+        for candidate in validated {
+            if seenOrganizations.insert(candidate.organization.uuid).inserted {
+                candidates.append(candidate)
             }
         }
 
         guard !candidates.isEmpty else {
+            importProgress = nil
             throw SessionKeyImportError.invalidImportedSessionKey
         }
+
+        importProgress = "Saving \(candidates.count) account\(candidates.count == 1 ? "" : "s")\u{2026}"
 
         // Keep the existing primary organization primary when it is still
         // present; otherwise promote the first discovered account.
@@ -871,6 +897,7 @@ final class AppModel {
         }
 
         settings.claudeAccounts = accounts
+        importProgress = nil
         await refreshAdditionalClaudeAccounts(forceRefresh: true)
 
         return ClaudeAccountsImportResult(
@@ -947,14 +974,17 @@ final class AppModel {
             let imported = try await importAndSaveSessionKey(from: source)
             claudeStatus = .imported(sourceDescription: imported.sourceDescription)
         } catch let error as SessionKeyImportError {
+            importProgress = nil
             claudeStatus = .failed(
                 message: error.localizedDescription,
                 offersFullDiskAccessSettings: error.offersFullDiskAccessSettings
             )
         } catch {
+            importProgress = nil
             claudeStatus = .failed(message: error.localizedDescription, offersFullDiskAccessSettings: false)
         }
 
+        importProgress = "Importing ChatGPT session\u{2026}"
         let chatGPTStatus: ProviderBrowserImportStatus
         do {
             let imported = try await importAndSaveChatGPTSessionCookie(from: source)
@@ -968,6 +998,7 @@ final class AppModel {
             chatGPTStatus = .failed(message: error.localizedDescription, offersFullDiskAccessSettings: false)
         }
 
+        importProgress = nil
         return ProviderBrowserImportOutcome(
             source: source,
             claude: claudeStatus,
