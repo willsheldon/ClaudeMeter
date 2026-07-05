@@ -797,18 +797,27 @@ final class AppModel {
                 group.addTask { [usageService] in
                     guard let sessionKey = try? SessionKey(imported.value) else { return nil }
                     do {
-                        let isValid = try await usageService.validateSessionKey(sessionKey)
-                        guard isValid else { return nil }
-                        let organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
-                        guard let organization = organizations.first(where: { $0.hasChatCapability }) ?? organizations.first,
-                              organization.organizationUUID != nil else {
-                            return nil
+                        return try await withThrowingTaskGroup(of: Candidate?.self) { inner in
+                            inner.addTask {
+                                let organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
+                                guard let organization = organizations.first(where: { $0.hasChatCapability }) ?? organizations.first,
+                                      organization.organizationUUID != nil else {
+                                    return nil
+                                }
+                                return Candidate(
+                                    value: sessionKey.value,
+                                    organization: organization,
+                                    sourceDescription: imported.sourceDescription
+                                )
+                            }
+                            inner.addTask {
+                                try await Task.sleep(for: .seconds(15))
+                                throw CancellationError()
+                            }
+                            let result = try await inner.next()
+                            inner.cancelAll()
+                            return result ?? nil
                         }
-                        return Candidate(
-                            value: sessionKey.value,
-                            organization: organization,
-                            sourceDescription: imported.sourceDescription
-                        )
                     } catch {
                         return nil
                     }
