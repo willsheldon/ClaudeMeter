@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 
 /// User-selectable browser source for importing provider sessions.
@@ -10,15 +11,7 @@ enum BrowserImportSource: String, CaseIterable, Equatable, Sendable {
     case arc
     case firefox
 
-    static let setupOptions: [BrowserImportSource] = [
-        .defaultBrowser,
-        .chrome,
-        .safari,
-        .brave,
-        .edge,
-        .arc,
-        .firefox,
-    ]
+    static let scanTargets: [BrowserImportSource] = [.chrome, .safari, .firefox]
 
     var displayName: String {
         switch self {
@@ -39,8 +32,57 @@ enum BrowserImportSource: String, CaseIterable, Equatable, Sendable {
         }
     }
 
-    var importButtonTitle: String {
-        "Import from \(displayName)"
+    var bundleIdentifier: String? {
+        switch self {
+        case .chrome: return "com.google.Chrome"
+        case .safari: return "com.apple.Safari"
+        case .firefox: return "org.mozilla.firefox"
+        case .brave: return "com.brave.Browser"
+        case .edge: return "com.microsoft.edgemac"
+        case .arc: return "company.thebrowser.Browser"
+        case .defaultBrowser: return nil
+        }
+    }
+
+    var isRunning: Bool {
+        guard let bundleId = bundleIdentifier else { return false }
+        return !NSWorkspace.shared.runningApplications.filter({ $0.bundleIdentifier == bundleId }).isEmpty
+    }
+
+    static func runningBrowsers(from candidates: [BrowserImportSource] = scanTargets) -> [BrowserImportSource] {
+        candidates.filter(\.isRunning)
+    }
+}
+
+/// Result of scanning all open browsers for provider sessions.
+struct BrowserScanOutcome: Equatable, Sendable {
+    struct BrowserResult: Equatable, Sendable {
+        let source: BrowserImportSource
+        let claude: ProviderBrowserImportStatus
+        let chatGPT: ProviderBrowserImportStatus
+
+        var importedCount: Int {
+            [claude, chatGPT].filter { if case .imported = $0 { return true }; return false }.count
+        }
+    }
+
+    let scannedBrowsers: [BrowserImportSource]
+    let results: [BrowserResult]
+
+    var totalImported: Int {
+        results.reduce(0) { $0 + $1.importedCount }
+    }
+
+    var claudeImported: Bool {
+        results.contains { if case .imported = $0.claude { return true }; return false }
+    }
+
+    var chatGPTImported: Bool {
+        results.contains { if case .imported = $0.chatGPT { return true }; return false }
+    }
+
+    var offersFullDiskAccessSettings: Bool {
+        results.contains { $0.claude.offersFullDiskAccessSettings || $0.chatGPT.offersFullDiskAccessSettings }
     }
 }
 

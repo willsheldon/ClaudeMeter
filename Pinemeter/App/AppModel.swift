@@ -784,6 +784,7 @@ final class AppModel {
         let importedKeys = try await sessionKeyImportService.importAllSessionKeys(from: source)
 
         struct Candidate: Sendable {
+            let index: Int
             let value: String
             let organization: Organization
             let sourceDescription: String
@@ -793,7 +794,7 @@ final class AppModel {
         importProgress = "Validating \(total) session\(total == 1 ? "" : "s")\u{2026}"
 
         let validated: [Candidate] = await withTaskGroup(of: Candidate?.self) { group in
-            for imported in importedKeys {
+            for (index, imported) in importedKeys.enumerated() {
                 group.addTask { [usageService] in
                     guard let sessionKey = try? SessionKey(imported.value) else { return nil }
                     do {
@@ -805,6 +806,7 @@ final class AppModel {
                                     return nil
                                 }
                                 return Candidate(
+                                    index: index,
                                     value: sessionKey.value,
                                     organization: organization,
                                     sourceDescription: imported.sourceDescription
@@ -833,7 +835,7 @@ final class AppModel {
                 }
                 importProgress = "Checked \(checked) of \(total) sessions\u{2026}"
             }
-            return results
+            return results.sorted { $0.index < $1.index }
         }
 
         var candidates: [Candidate] = []
@@ -1013,6 +1015,28 @@ final class AppModel {
             claude: claudeStatus,
             chatGPT: chatGPTStatus
         )
+    }
+
+    func importFromOpenBrowsers() async -> BrowserScanOutcome {
+        let running = BrowserImportSource.runningBrowsers()
+        guard !running.isEmpty else {
+            importProgress = nil
+            return BrowserScanOutcome(scannedBrowsers: BrowserImportSource.scanTargets, results: [])
+        }
+
+        var results: [BrowserScanOutcome.BrowserResult] = []
+        for browser in running {
+            importProgress = "Scanning \(browser.displayName)\u{2026}"
+            let outcome = await importProviderSessions(from: browser)
+            results.append(BrowserScanOutcome.BrowserResult(
+                source: browser,
+                claude: outcome.claude,
+                chatGPT: outcome.chatGPT
+            ))
+        }
+
+        importProgress = nil
+        return BrowserScanOutcome(scannedBrowsers: BrowserImportSource.scanTargets, results: results)
     }
 
     func repairClaudeSessionKey() async -> CredentialState {

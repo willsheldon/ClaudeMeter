@@ -189,7 +189,7 @@ struct UsagePopoverView: View {
             }
             .padding()
         }
-        .frame(width: 380, height: 520)
+        .frame(minWidth: 380, maxWidth: 380, maxHeight: 620)
         .background(Color(nsColor: .windowBackgroundColor))
         .accessibilityElement(children: .contain)
         .accessibilityLabel(appModel.usageDashboardTitle)

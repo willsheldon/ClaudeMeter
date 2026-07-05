@@ -205,15 +205,15 @@ final class SecurityInvariantTests: XCTestCase {
         }
     }
 
-    func test_setupWizardUsesCombinedBrowserImportButtons() throws {
+    func test_setupWizardUsesOpenBrowserScan() throws {
         let setupSource = try sourceContents(relativePath: "Pinemeter/Views/Setup/SetupWizardView.swift")
         let importSource = try sourceContents(relativePath: "Pinemeter/Services/Protocols/SessionKeyImportServiceProtocol.swift")
 
-        XCTAssertTrue(setupSource.contains("BrowserImportSource.setupOptions"))
-        XCTAssertTrue(importSource.contains("Import from \\(displayName)"))
-        XCTAssertTrue(importSource.contains("Default Browser"))
+        XCTAssertTrue(setupSource.contains("scanOpenBrowsers"))
+        XCTAssertTrue(importSource.contains("scanTargets"))
         XCTAssertTrue(importSource.contains("Chrome"))
         XCTAssertTrue(importSource.contains("Safari"))
+        XCTAssertTrue(importSource.contains("Firefox"))
         XCTAssertFalse(setupSource.contains("Open Claude Sign In"))
         XCTAssertFalse(setupSource.contains("Open ChatGPT Sign In"))
         XCTAssertFalse(setupSource.contains("Import Claude from"))

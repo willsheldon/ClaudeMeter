@@ -111,31 +111,29 @@ struct SettingsView: View {
 
     private var credentialBrowserImportButtons: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Import signed-in browser sessions")
+            Text("Import browser sessions")
                 .font(.caption.weight(.semibold))
 
-            Text("Checks Claude and ChatGPT browser sessions. Add Gemini API keys in Settings; their status appears below.")
+            Text("Open Chrome, Safari, or Firefox and sign in, then scan. Gemini API keys are entered below.")
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
 
-            ForEach(BrowserImportSource.setupOptions, id: \.self) { source in
-                Button(action: {
-                    Task { await importProviderSessionsFromSettings(source) }
-                }) {
-                    HStack {
-                        if isImportingProviderSessions {
-                            ProgressView()
-                                .controlSize(.small)
-                        }
-                        Text(isImportingProviderSessions ? "Importing from \(source.displayName)..." : source.importButtonTitle)
+            Button(action: {
+                Task { await scanOpenBrowsersFromSettings() }
+            }) {
+                HStack {
+                    if isImportingProviderSessions {
+                        ProgressView()
+                            .controlSize(.small)
                     }
-                    .frame(maxWidth: .infinity)
+                    Text(isImportingProviderSessions ? (appModel.importProgress ?? "Scanning\u{2026}") : "Scan open browsers")
                 }
-                .buttonStyle(.bordered)
-                .controlSize(.small)
-                .disabled(isCredentialImportBusy)
+                .frame(maxWidth: .infinity)
             }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
+            .disabled(isCredentialImportBusy)
         }
     }
 
@@ -641,7 +639,7 @@ struct SettingsView: View {
     }
 
     @MainActor
-    private func importProviderSessionsFromSettings(_ source: BrowserImportSource) async {
+    private func scanOpenBrowsersFromSettings() async {
         isImportingProviderSessions = true
         providerImportMessage = nil
         hasProviderImportSucceeded = false
@@ -651,56 +649,24 @@ struct SettingsView: View {
         hasProviderCredentialActionSucceeded = false
         offersFullDiskAccessSettings = false
 
-        let outcome = await appModel.importProviderSessions(from: source)
+        let outcome = await appModel.importFromOpenBrowsers()
         offersFullDiskAccessSettings = outcome.offersFullDiskAccessSettings
 
-        if outcome.importedCount > 0 {
-            providerImportMessage = settingsBrowserImportSuccessMessage(for: outcome)
+        if outcome.totalImported > 0 {
+            var imported: [String] = []
+            if outcome.claudeImported { imported.append("Claude") }
+            if outcome.chatGPTImported { imported.append("ChatGPT") }
+            providerImportMessage = "Imported \(imported.joined(separator: " and "))."
             hasProviderImportSucceeded = true
+        } else if outcome.results.isEmpty {
+            providerImportMessage = "No open browsers detected. Open Chrome, Safari, or Firefox and try again."
+            hasProviderImportSucceeded = false
         } else {
-            providerImportMessage = settingsBrowserImportFailureMessage(for: outcome)
+            providerImportMessage = "No sessions found in open browsers. Sign in first, then scan again."
             hasProviderImportSucceeded = false
         }
 
         isImportingProviderSessions = false
-    }
-
-    private func settingsBrowserImportSuccessMessage(for outcome: ProviderBrowserImportOutcome) -> String {
-        let importedProviders = [
-            settingsProviderSuccessName("Claude", outcome.claude),
-            settingsProviderSuccessName("ChatGPT", outcome.chatGPT),
-        ].compactMap { $0 }
-
-        let failureMessage = settingsBrowserImportFailureMessage(for: outcome)
-        let success = "Imported \(importedProviders.joined(separator: " and ")) from \(outcome.source.displayName)."
-        if let failureMessage, outcome.importedCount < 2 {
-            return "\(success) \(failureMessage)"
-        }
-        return success
-    }
-
-    private func settingsProviderSuccessName(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
-        if case .imported = status {
-            return name
-        }
-        return nil
-    }
-
-    private func settingsBrowserImportFailureMessage(for outcome: ProviderBrowserImportOutcome) -> String? {
-        let failures = [
-            settingsProviderFailureMessage("Claude", outcome.claude),
-            settingsProviderFailureMessage("ChatGPT", outcome.chatGPT),
-        ].compactMap { $0 }
-
-        guard !failures.isEmpty else { return nil }
-        return failures.joined(separator: " ")
-    }
-
-    private func settingsProviderFailureMessage(_ name: String, _ status: ProviderBrowserImportStatus) -> String? {
-        if case .failed(let message, _) = status {
-            return "\(name): \(message)"
-        }
-        return nil
     }
 
     @MainActor
