@@ -29,7 +29,7 @@ final class ClaudeMultiAccountTests: XCTestCase {
     func test_claudeAccount_codableRoundTripPreservesIdentityAndPrimaryFlag() throws {
         let primary = ClaudeAccount(
             id: Self.org1UUIDString,
-            label: "Autimo",
+            label: "Acme",
             organizationId: UUID(uuidString: Self.org1UUIDString)!,
             keychainAccount: ClaudeAccount.primaryKeychainAccount,
             profileLabel: "Chrome Profile 1"
@@ -68,7 +68,7 @@ final class ClaudeMultiAccountTests: XCTestCase {
     // MARK: - Multi-account import
 
     func test_importClaudeAccounts_connectsMultipleDistinctSubscriptions() async throws {
-        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Autimo")
+        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
         let org2 = organization(id: 2, uuid: Self.org2UUIDString, name: "Personal")
         let primaryUsage = makeUsageData(percentage: 11)
         let secondaryUsage = makeUsageData(percentage: 22)
@@ -117,11 +117,11 @@ final class ClaudeMultiAccountTests: XCTestCase {
         let sections = appModel.claudeUsageSections
         XCTAssertEqual(sections.count, 2)
         XCTAssertTrue(sections[0].usageData != nil)
-        XCTAssertEqual(Set(sections.map(\.title)), ["Autimo", "Personal"])
+        XCTAssertEqual(Set(sections.map(\.title)), ["Acme", "Personal"])
     }
 
     func test_importClaudeAccounts_deduplicatesSameSubscriptionAcrossProfiles() async throws {
-        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Autimo")
+        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
         let primaryUsage = makeUsageData(percentage: 11)
 
         let importService = MultiAccountImportServiceStub(importedKeys: [
@@ -152,7 +152,7 @@ final class ClaudeMultiAccountTests: XCTestCase {
     }
 
     func test_singleAccountImport_rendersUnlabeledClaudeSection() async throws {
-        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Autimo")
+        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
         let usage = makeUsageData(percentage: 33)
         let importService = SessionKeyImportServiceStub(result: .success(ImportedSessionKey(
             value: Self.key1,
@@ -181,7 +181,7 @@ final class ClaudeMultiAccountTests: XCTestCase {
     }
 
     func test_clearSessionKey_removesAdditionalAccountsAndKeychain() async throws {
-        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Autimo")
+        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
         let org2 = organization(id: 2, uuid: Self.org2UUIDString, name: "Personal")
         let primaryUsage = makeUsageData(percentage: 11)
         let secondaryUsage = makeUsageData(percentage: 22)
@@ -237,7 +237,7 @@ final class ClaudeMultiAccountTests: XCTestCase {
         appModel.settings.claudeAccounts = [
             ClaudeAccount(
                 id: Self.org1UUIDString,
-                label: "Autimo",
+                label: "Acme",
                 organizationId: UUID(uuidString: Self.org1UUIDString)!,
                 keychainAccount: ClaudeAccount.primaryKeychainAccount,
                 profileLabel: nil
@@ -267,8 +267,8 @@ final class ClaudeMultiAccountTests: XCTestCase {
         )
 
         XCTAssertEqual(appModel.usageQuotaBars.map(\.label), [
-            "Autimo 5h",
-            "Autimo weekly",
+            "Acme 5h",
+            "Acme weekly",
             "Personal 5h",
             "Personal weekly",
             "ChatGPT Codex Tasks",
@@ -278,7 +278,7 @@ final class ClaudeMultiAccountTests: XCTestCase {
             "5h", "Weekly", "5h", "Weekly", "Codex Tasks", "API",
         ])
         XCTAssertEqual(appModel.usageQuotaBars.map(\.owner), [
-            "Autimo", "Autimo", "Personal", "Personal", "ChatGPT", "Gemini",
+            "Acme", "Acme", "Personal", "Personal", "ChatGPT", "Gemini",
         ])
     }
 
