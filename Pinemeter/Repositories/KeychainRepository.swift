@@ -10,8 +10,9 @@ import Security
 
 /// Actor-isolated repository for secure Keychain operations
 actor KeychainRepository: KeychainRepositoryProtocol {
-    // Intentional legacy ClaudeMeter identifier: this is a credential compatibility surface deferred to M002 migration work.
-    private let serviceName = "com.claudemeter.sessionkey"
+    // Renaming this orphans every stored Claude session key; users must
+    // reconnect via browser scan after a change.
+    private let serviceName = "ca.pineit.pinemeter.sessionkey"
 
     /// Save session key to Keychain with security attributes
     func save(sessionKey: String, account: String) async throws {

@@ -268,33 +268,29 @@ final class SecurityInvariantTests: XCTestCase {
         assertNoCredentialDisclosure(in: errors.map { $0.localizedDescription })
     }
 
-    func test_legacyKeychainServiceIdentifierRemainsDocumentedForCredentialCompatibility() throws {
+    func test_keychainServiceIdentifierIsThePineitCredentialInvariant() throws {
         let source = try sourceContents(relativePath: "Pinemeter/Repositories/KeychainRepository.swift")
 
         XCTAssertTrue(
-            source.contains("com.claudemeter.sessionkey"),
-            "The legacy Keychain service identifier is a credential compatibility invariant. Add a migration plan before renaming it."
+            source.contains("ca.pineit.pinemeter.sessionkey"),
+            "The Keychain service identifier is a credential invariant. Renaming it orphans every stored Claude session key."
         )
-        XCTAssertTrue(
-            source.contains("legacy ClaudeMeter") &&
-                source.contains("credential compatibility") &&
-                source.contains("M002 migration"),
-            "The Keychain service identifier must document why the legacy ClaudeMeter value is intentionally retained."
+        XCTAssertFalse(
+            source.contains("com.claudemeter"),
+            "Legacy ClaudeMeter credential identifiers were deliberately retired; do not reintroduce them."
         )
     }
 
-    func test_legacyKeychainAccessGroupRemainsDocumentedForCredentialCompatibility() throws {
+    func test_keychainAccessGroupIsThePineitCredentialInvariant() throws {
         let source = try sourceContents(relativePath: "Pinemeter/Resources/Pinemeter.entitlements")
 
         XCTAssertTrue(
-            source.contains("$(AppIdentifierPrefix)com.claudemeter"),
-            "The legacy Keychain access group is a credential compatibility invariant. Add a migration plan before renaming it."
+            source.contains("$(AppIdentifierPrefix)ca.pineit.Pinemeter"),
+            "The Keychain access group is a credential invariant. Renaming it orphans every stored credential."
         )
-        XCTAssertTrue(
-            source.contains("legacy ClaudeMeter") &&
-                source.contains("credential compatibility") &&
-                source.contains("M002 migration"),
-            "The Keychain access group must document why the legacy ClaudeMeter value is intentionally retained."
+        XCTAssertFalse(
+            source.contains("com.claudemeter"),
+            "Legacy ClaudeMeter access groups were deliberately retired; do not reintroduce them."
         )
     }
 

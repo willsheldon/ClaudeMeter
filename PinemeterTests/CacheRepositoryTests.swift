@@ -36,7 +36,7 @@ final class CacheRepositoryTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func test_setWritesPrivateCacheAndPublicExportsToPinemeterPathsWhilePreservingLegacyPublicExport() async throws {
+    func test_setWritesPrivateCacheAndPublicExportToPinemeterPathsOnly() async throws {
         let repository = makeRepository()
         let data = makeUsageData(sessionUtilization: 42)
 
@@ -44,44 +44,27 @@ final class CacheRepositoryTests: XCTestCase {
 
         XCTAssertTrue(FileManager.default.fileExists(atPath: newPrivateCacheURL.path))
         XCTAssertTrue(FileManager.default.fileExists(atPath: newPublicExportURL.path))
-        XCTAssertTrue(FileManager.default.fileExists(atPath: legacyPublicExportURL.path))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: legacyPublicExportURL.path))
         XCTAssertFalse(FileManager.default.fileExists(atPath: legacyPrivateCacheURL.path))
 
         try XCTAssertEqual(readUsageData(from: newPrivateCacheURL), data)
         try XCTAssertEqual(readUsageData(from: newPublicExportURL), data)
-        try XCTAssertEqual(readUsageData(from: legacyPublicExportURL), data)
     }
 
-    func test_getLastKnownMigratesLegacyPrivateCacheWhenNewCacheIsAbsent() async throws {
-        let legacyData = makeUsageData(sessionUtilization: 75)
-        try writeUsageData(legacyData, to: legacyPrivateCacheURL)
+    func test_getLastKnownIgnoresRetiredLegacyPrivateCache() async throws {
+        try writeUsageData(makeUsageData(sessionUtilization: 75), to: legacyPrivateCacheURL)
 
         let repository = makeRepository()
 
         let lastKnown = await repository.getLastKnown()
 
-        XCTAssertEqual(lastKnown, legacyData)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: newPrivateCacheURL.path))
-        try XCTAssertEqual(readUsageData(from: newPrivateCacheURL), legacyData)
-    }
-
-    func test_getLastKnownPrefersNewPrivateCacheWhenBothNewAndLegacyExist() async throws {
-        let newData = makeUsageData(sessionUtilization: 42)
-        let legacyData = makeUsageData(sessionUtilization: 75)
-        try writeUsageData(newData, to: newPrivateCacheURL)
-        try writeUsageData(legacyData, to: legacyPrivateCacheURL)
-
-        let repository = makeRepository()
-
-        let lastKnown = await repository.getLastKnown()
-
-        XCTAssertEqual(lastKnown, newData)
+        XCTAssertNil(lastKnown)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: newPrivateCacheURL.path))
     }
 
     func test_invalidateRemovesPrivateCacheAndPublicExportArtifacts() async throws {
         let repository = makeRepository()
         await repository.set(makeUsageData(sessionUtilization: 42))
-        try writeUsageData(makeUsageData(sessionUtilization: 75), to: legacyPrivateCacheURL)
 
         await repository.invalidate()
 
@@ -89,9 +72,7 @@ final class CacheRepositoryTests: XCTestCase {
         let lastKnown = await repository.getLastKnown()
 
         XCTAssertFalse(FileManager.default.fileExists(atPath: newPrivateCacheURL.path))
-        XCTAssertFalse(FileManager.default.fileExists(atPath: legacyPrivateCacheURL.path))
         XCTAssertFalse(FileManager.default.fileExists(atPath: newPublicExportURL.path))
-        XCTAssertFalse(FileManager.default.fileExists(atPath: legacyPublicExportURL.path))
         XCTAssertNil(cached)
         XCTAssertNil(lastKnown)
     }

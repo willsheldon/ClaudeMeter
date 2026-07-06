@@ -15,8 +15,7 @@
 	-->
 	<key>keychain-access-groups</key>
 	<array>
-		<!-- Intentional legacy ClaudeMeter access group: this is a credential compatibility surface deferred to M002 migration work. -->
-		<string>$(AppIdentifierPrefix)com.claudemeter</string>
+		<string>$(AppIdentifierPrefix)ca.pineit.Pinemeter</string>
 	</array>
 	<key>com.apple.security.app-sandbox</key>
 	<false/>

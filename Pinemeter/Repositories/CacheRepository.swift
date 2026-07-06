@@ -14,9 +14,7 @@ actor CacheRepository: CacheRepositoryProtocol {
     private let cacheTTL: TimeInterval = Constants.Cache.ttl
     private let fileManager: FileManager
     private let diskCacheURL: URL
-    private let legacyDiskCacheURL: URL
     private let publicJSONURL: URL
-    private let legacyPublicJSONURL: URL
 
     init(fileManager: FileManager = .default) {
         let appSupport = fileManager.urls(
@@ -38,20 +36,14 @@ actor CacheRepository: CacheRepositoryProtocol {
         self.fileManager = fileManager
 
         let cacheDir = appSupportBaseURL.appendingPathComponent("com.pinemeter", isDirectory: true)
-        let legacyCacheDir = appSupportBaseURL.appendingPathComponent("com.claudemeter", isDirectory: true)
         try? fileManager.createDirectory(at: cacheDir, withIntermediateDirectories: true)
 
         self.diskCacheURL = cacheDir.appendingPathComponent("usage_cache.json")
-        self.legacyDiskCacheURL = legacyCacheDir.appendingPathComponent("usage_cache.json")
 
         // Public JSON export at ~/.pinemeter/usage.json for external tools.
-        // Continue writing the legacy ~/.claudemeter/usage.json export for milestone compatibility.
         let publicDir = homeBaseURL.appendingPathComponent(".pinemeter", isDirectory: true)
-        let legacyPublicDir = homeBaseURL.appendingPathComponent(".claudemeter", isDirectory: true)
         try? fileManager.createDirectory(at: publicDir, withIntermediateDirectories: true)
-        try? fileManager.createDirectory(at: legacyPublicDir, withIntermediateDirectories: true)
         self.publicJSONURL = publicDir.appendingPathComponent("usage.json")
-        self.legacyPublicJSONURL = legacyPublicDir.appendingPathComponent("usage.json")
     }
 
     /// Get cached usage data (respects TTL)
@@ -79,9 +71,7 @@ actor CacheRepository: CacheRepositoryProtocol {
         memoryCache = nil
         memoryCacheTimestamp = nil
         removeCacheFile(at: diskCacheURL)
-        removeCacheFile(at: legacyDiskCacheURL)
         removeCacheFile(at: publicJSONURL)
-        removeCacheFile(at: legacyPublicJSONURL)
     }
 
     /// Get last known data from disk (ignores TTL) for offline display
@@ -121,7 +111,6 @@ actor CacheRepository: CacheRepositoryProtocol {
         }
 
         writePublicJSON(jsonData, to: publicJSONURL)
-        writePublicJSON(jsonData, to: legacyPublicJSONURL)
     }
 
     private func writePublicJSON(_ jsonData: Data, to url: URL) {
@@ -133,16 +122,7 @@ actor CacheRepository: CacheRepositoryProtocol {
     }
 
     private func loadFromDisk() async -> UsageData? {
-        if let data = loadUsageData(from: diskCacheURL) {
-            return data
-        }
-
-        guard let legacyData = loadUsageData(from: legacyDiskCacheURL) else {
-            return nil
-        }
-
-        await saveToDisk(legacyData)
-        return legacyData
+        loadUsageData(from: diskCacheURL)
     }
 
     private func loadUsageData(from url: URL) -> UsageData? {

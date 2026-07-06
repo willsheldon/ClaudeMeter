@@ -32,7 +32,7 @@ Safety:
   Never prints cookie values, Keychain values, tokens, auth headers, or browser storage contents.
   Reset deletes only:
     - UserDefaults domain ca.pineit.Pinemeter
-    - Keychain service com.claudemeter.sessionkey account default
+    - Keychain service ca.pineit.pinemeter.sessionkey account default
     - Keychain service com.pinemeter.chatgpt.session account chatgpt.com
 USAGE
 }
@@ -78,7 +78,7 @@ remote_reset_script() {
   cat <<'REMOTE_RESET'
 set -euo pipefail
 APP_DOMAIN="ca.pineit.Pinemeter"
-CLAUDE_SERVICE="com.claudemeter.sessionkey"
+CLAUDE_SERVICE="ca.pineit.pinemeter.sessionkey"
 CLAUDE_ACCOUNT="default"
 CHATGPT_SERVICE="com.pinemeter.chatgpt.session"
 CHATGPT_ACCOUNT="chatgpt.com"
@@ -148,7 +148,7 @@ do_dry_run() {
   log "app_path=${app_candidate:-not-found}"
   log "would_install_to=${INSTALL_PATH}"
   log "would_reset_preferences=ca.pineit.Pinemeter"
-  log "would_delete_keychain=com.claudemeter.sessionkey/default"
+  log "would_delete_keychain=ca.pineit.pinemeter.sessionkey/default"
   log "would_delete_keychain=com.pinemeter.chatgpt.session/chatgpt.com"
   log "would_launch=${INSTALL_PATH}"
 }
