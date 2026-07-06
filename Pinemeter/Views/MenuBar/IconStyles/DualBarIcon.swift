@@ -10,7 +10,7 @@ import SwiftUI
 /// One quota meter, rendered as a mini bar in the menu-bar icon and as an
 /// annotated column in the popover.
 struct MenuBarQuotaBar: Equatable, Sendable {
-    /// Full name used in tooltips and accessibility (e.g. "Autimo 5h").
+    /// Full name used in tooltips and accessibility (e.g. "Acme 5h").
     let label: String
     /// Quota kind shown as the popover column heading (e.g. "5h", "Weekly").
     let heading: String

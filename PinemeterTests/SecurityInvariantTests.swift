@@ -294,20 +294,19 @@ final class SecurityInvariantTests: XCTestCase {
         )
     }
 
-    func test_signedPinemeterBuildsUseOfficialAutimoIdentityForClaudeKeychainRepair() throws {
+    func test_signedPinemeterBuildsUseDeveloperIDIdentityForClaudeKeychainRepair() throws {
+        // The exact signing identity and team are pinned by the private
+        // release pipeline, not by unit tests, so the public repo builds with
+        // any Developer ID. This test only guards against ad-hoc defaults.
         let project = try sourceContents(relativePath: "Pinemeter.xcodeproj/project.pbxproj")
 
         XCTAssertTrue(
             project.contains("CODE_SIGN_STYLE = Manual;"),
-            "Signed Pinemeter builds must use the explicit official identity so Claude Keychain repair runs under the expected trusted app identity."
+            "Signed Pinemeter builds must use an explicit identity so Claude Keychain repair runs under a stable trusted app identity."
         )
         XCTAssertTrue(
-            project.contains("CODE_SIGN_IDENTITY = \"Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)\";"),
-            "Claude Keychain repair depends on re-saving credentials under the official Autimo signed app identity, not an ad-hoc or local identity."
-        )
-        XCTAssertTrue(
-            project.contains("DEVELOPMENT_TEAM = HMR9RDR6M2;"),
-            "The official Autimo team identifier is part of the Keychain access group prefix used when repairing Claude credentials."
+            project.contains("CODE_SIGN_IDENTITY = \"Developer ID Application"),
+            "Claude Keychain repair depends on re-saving credentials under a Developer ID signed app identity, not an ad-hoc or local identity."
         )
         XCTAssertFalse(
             project.contains("CODE_SIGN_IDENTITY = \"-\";"),
