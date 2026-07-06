@@ -96,13 +96,14 @@ final class MenuBarManager {
 
     private func observeIconUpdates() {
         withObservationTracking {
+            // Reading usageQuotaBars registers every model dependency the bar
+            // list is derived from (accounts, per-account usage, ChatGPT,
+            // Gemini, and the settings toggles involved).
+            _ = appModel.usageQuotaBars
             _ = appModel.usageData
-            _ = appModel.chatGPTUsageData
             _ = appModel.isLoading
             _ = appModel.settings.iconStyle
             _ = appModel.settings.isColoredIcon
-            _ = appModel.settings.isChatGPTUsageShown
-            _ = appModel.settings.isSonnetUsageShown
         } onChange: { [weak self] in
             Task { @MainActor [weak self] in
                 guard let self else { return }
@@ -122,7 +123,7 @@ final class MenuBarManager {
         let isLoading = appModel.isLoading
         let style = appModel.settings.iconStyle
         let isColored = appModel.settings.isColoredIcon
-        let quotaBars = menuBarQuotaBars()
+        let quotaBars = appModel.usageQuotaBars
         let quotaSignature = quotaBars
             .map { "\($0.label):\(Int($0.percentage.rounded())):\($0.status.rawValue)" }
             .joined(separator: "|")
@@ -165,39 +166,6 @@ final class MenuBarManager {
         )
 
         button.image = image
-    }
-
-    private func menuBarQuotaBars() -> [MenuBarQuotaBar] {
-        var bars: [MenuBarQuotaBar] = []
-
-        if let usageData = appModel.usageData {
-            bars.append(MenuBarQuotaBar(label: "Claude 5h", percentage: clamped(usageData.sessionUsage.percentage), status: usageData.sessionUsage.status))
-            bars.append(MenuBarQuotaBar(label: "Claude weekly", percentage: clamped(usageData.weeklyUsage.percentage), status: usageData.weeklyUsage.status))
-        }
-
-        if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
-            let chatGPTBars = chatGPTUsageData.menuBarRows.map { row in
-                MenuBarQuotaBar(
-                    label: row.menuBarRole?.menuBarLabel ?? row.label,
-                    percentage: clamped(row.usedPercent),
-                    status: chatGPTStatus(for: row.usedPercent)
-                )
-            }
-            bars.append(contentsOf: chatGPTBars)
-        }
-
-        return bars
-    }
-
-    private func chatGPTStatus(for percentage: Double) -> UsageStatus {
-        switch percentage {
-        case 0..<Constants.Thresholds.Status.warningStart:
-            return .safe
-        case Constants.Thresholds.Status.warningStart..<Constants.Thresholds.Status.criticalStart:
-            return .warning
-        default:
-            return .critical
-        }
     }
 
     private func clamped(_ value: Double) -> Double {

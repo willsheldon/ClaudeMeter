@@ -95,13 +95,25 @@ extension ChatGPTUsageData {
 
     var status: UsageStatus {
         guard let percentage else { return .safe }
-        switch percentage {
+        return UsageStatus(chatGPTPercentage: percentage)
+    }
+}
+
+extension ChatGPTUsageData.LimitRow {
+    var status: UsageStatus {
+        UsageStatus(chatGPTPercentage: usedPercent)
+    }
+}
+
+private extension UsageStatus {
+    init(chatGPTPercentage: Double) {
+        switch chatGPTPercentage {
         case 0..<Constants.Thresholds.Status.warningStart:
-            return .safe
+            self = .safe
         case Constants.Thresholds.Status.warningStart..<Constants.Thresholds.Status.criticalStart:
-            return .warning
+            self = .warning
         default:
-            return .critical
+            self = .critical
         }
     }
 }

@@ -306,6 +306,59 @@ final class AppModel {
         }
     }
 
+    /// Ordered quota bars for the menu bar icon: one mini bar per usage bar
+    /// shown in the popover, in the same order (each Claude account's 5h,
+    /// weekly, and optional Sonnet bar; then ChatGPT rows; then Gemini), so
+    /// the popover doubles as the legend for the menu bar meters.
+    var usageQuotaBars: [MenuBarQuotaBar] {
+        var bars: [MenuBarQuotaBar] = []
+
+        for section in claudeUsageSections {
+            guard let usageData = section.usageData else { continue }
+            bars.append(MenuBarQuotaBar(
+                label: "\(section.title) 5h",
+                percentage: clampedBarPercentage(usageData.sessionUsage.percentage),
+                status: usageData.sessionUsage.status
+            ))
+            bars.append(MenuBarQuotaBar(
+                label: "\(section.title) weekly",
+                percentage: clampedBarPercentage(usageData.weeklyUsage.percentage),
+                status: usageData.weeklyUsage.status
+            ))
+            if settings.isSonnetUsageShown, let sonnetUsage = usageData.sonnetUsage {
+                bars.append(MenuBarQuotaBar(
+                    label: "\(section.title) Sonnet weekly",
+                    percentage: clampedBarPercentage(sonnetUsage.percentage),
+                    status: sonnetUsage.status
+                ))
+            }
+        }
+
+        if settings.isChatGPTUsageShown, let chatGPTUsageData {
+            for row in chatGPTUsageData.rows {
+                bars.append(MenuBarQuotaBar(
+                    label: row.menuBarRole?.menuBarLabel ?? "ChatGPT \(row.label)",
+                    percentage: clampedBarPercentage(row.usedPercent),
+                    status: row.status
+                ))
+            }
+        }
+
+        if isGeminiUsageConfigured, let geminiUsageData {
+            bars.append(MenuBarQuotaBar(
+                label: "Gemini",
+                percentage: clampedBarPercentage(geminiUsageData.percentage),
+                status: geminiUsageData.status
+            ))
+        }
+
+        return bars
+    }
+
+    private func clampedBarPercentage(_ value: Double) -> Double {
+        max(0, min(value, 100))
+    }
+
     // MARK: - Dependencies
 
     @ObservationIgnored private let settingsRepository: SettingsRepositoryProtocol

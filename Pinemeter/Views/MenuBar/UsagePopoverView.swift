@@ -126,7 +126,7 @@ struct UsagePopoverView: View {
                                         title: row.label,
                                         subtitle: chatGPTQuotaSubtitle(for: row),
                                         percentage: row.usedPercent,
-                                        status: status(for: row),
+                                        status: row.status,
                                         icon: "circle.hexagongrid"
                                     )
                                 }
@@ -235,16 +235,6 @@ struct UsagePopoverView: View {
         return sourceText
     }
 
-    private func status(for row: ChatGPTUsageData.LimitRow) -> UsageStatus {
-        switch row.usedPercent {
-        case 0..<Constants.Thresholds.Status.warningStart:
-            return .safe
-        case Constants.Thresholds.Status.warningStart..<Constants.Thresholds.Status.criticalStart:
-            return .warning
-        default:
-            return .critical
-        }
-    }
 }
 
 enum ClaudeCredentialRecoveryCopy {

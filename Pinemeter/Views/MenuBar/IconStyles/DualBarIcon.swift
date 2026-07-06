@@ -30,7 +30,8 @@ struct DualBarIcon: View {
         if quotaBars.isEmpty {
             return [MenuBarQuotaBar(label: "Claude 5h", percentage: percentage, status: status)]
         }
-        return Array(quotaBars.prefix(5))
+        // Mirror every popover bar; the cap only guards against runaway width.
+        return Array(quotaBars.prefix(12))
     }
 
     var body: some View {

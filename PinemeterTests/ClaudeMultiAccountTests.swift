@@ -219,6 +219,63 @@ final class ClaudeMultiAccountTests: XCTestCase {
         XCTAssertFalse(additionalExists)
     }
 
+    // MARK: - Menu bar quota bars
+
+    func test_usageQuotaBars_mirrorPopoverContentAndOrderAcrossProviders() {
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: MultiAccountUsageServiceStub(
+                organizationsByKey: [:],
+                usageByOrganization: [:],
+                primaryUsage: makeUsageData(percentage: 11)
+            ),
+            notificationService: NotificationServiceSpy()
+        )
+
+        appModel.isSetupComplete = true
+        appModel.settings.claudeAccounts = [
+            ClaudeAccount(
+                id: Self.org1UUIDString,
+                label: "Autimo",
+                organizationId: UUID(uuidString: Self.org1UUIDString)!,
+                keychainAccount: ClaudeAccount.primaryKeychainAccount,
+                profileLabel: nil
+            ),
+            ClaudeAccount(
+                id: Self.org2UUIDString,
+                label: "Personal",
+                organizationId: UUID(uuidString: Self.org2UUIDString)!,
+                keychainAccount: Self.org2UUIDString,
+                profileLabel: nil
+            ),
+        ]
+        appModel.usageData = makeUsageData(percentage: 11)
+        appModel.claudeAccountUsage[Self.org2UUIDString] = makeUsageData(percentage: 22)
+        appModel.hasChatGPTSessionCookie = true
+        appModel.settings.isChatGPTUsageShown = true
+        appModel.chatGPTUsageData = ChatGPTUsageData(
+            rows: [.init(label: "Codex Tasks", usedPercent: 41, resetAt: nil)],
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+        appModel.hasGeminiAPIKey = true
+        appModel.geminiUsageData = GeminiUsageData(
+            label: "Gemini API quota",
+            usedPercent: 29,
+            resetAt: nil,
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+
+        XCTAssertEqual(appModel.usageQuotaBars.map(\.label), [
+            "Autimo 5h",
+            "Autimo weekly",
+            "Personal 5h",
+            "Personal weekly",
+            "ChatGPT Codex Tasks",
+            "Gemini",
+        ])
+    }
+
     // MARK: - Per-account usage fetch
 
     func test_usageService_fetchUsageForAccount_usesAccountKeychainAndOrganization() async throws {
