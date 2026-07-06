@@ -318,18 +318,27 @@ final class AppModel {
             bars.append(MenuBarQuotaBar(
                 label: "\(section.title) 5h",
                 percentage: clampedBarPercentage(usageData.sessionUsage.percentage),
-                status: usageData.sessionUsage.status
+                status: usageData.sessionUsage.status,
+                detail: "Resets \(usageData.sessionUsage.resetDescription)",
+                heading: "5h",
+                owner: section.title
             ))
             bars.append(MenuBarQuotaBar(
                 label: "\(section.title) weekly",
                 percentage: clampedBarPercentage(usageData.weeklyUsage.percentage),
-                status: usageData.weeklyUsage.status
+                status: usageData.weeklyUsage.status,
+                detail: "Resets \(usageData.weeklyUsage.resetDescription)",
+                heading: "Weekly",
+                owner: section.title
             ))
             if settings.isSonnetUsageShown, let sonnetUsage = usageData.sonnetUsage {
                 bars.append(MenuBarQuotaBar(
                     label: "\(section.title) Sonnet weekly",
                     percentage: clampedBarPercentage(sonnetUsage.percentage),
-                    status: sonnetUsage.status
+                    status: sonnetUsage.status,
+                    detail: "Resets \(sonnetUsage.resetDescription)",
+                    heading: "Sonnet",
+                    owner: section.title
                 ))
             }
         }
@@ -339,7 +348,10 @@ final class AppModel {
                 bars.append(MenuBarQuotaBar(
                     label: row.menuBarRole?.menuBarLabel ?? "ChatGPT \(row.label)",
                     percentage: clampedBarPercentage(row.usedPercent),
-                    status: row.status
+                    status: row.status,
+                    detail: row.resetAt.map { "Resets \($0.formatted(.relative(presentation: .named)))" },
+                    heading: row.menuBarRole?.columnHeading ?? row.label,
+                    owner: "ChatGPT"
                 ))
             }
         }
@@ -348,7 +360,10 @@ final class AppModel {
             bars.append(MenuBarQuotaBar(
                 label: "Gemini",
                 percentage: clampedBarPercentage(geminiUsageData.percentage),
-                status: geminiUsageData.status
+                status: geminiUsageData.status,
+                detail: geminiUsageData.resetAt.map { "Resets \($0.formatted(.relative(presentation: .named)))" },
+                heading: "API",
+                owner: "Gemini"
             ))
         }
 

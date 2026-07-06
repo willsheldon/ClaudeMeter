@@ -13,6 +13,17 @@ struct UsagePopoverView: View {
     @Bindable var appModel: AppModel
     let onRequestClose: (() -> Void)?
     @Environment(\.openSettings) private var openSettings
+    @State private var isRescanningBrowsers = false
+    @State private var rescanMessage: String?
+
+    /// Width sized to fit every quota column (chart padding 12, column width
+    /// 72, spacing 8, outer padding 14), clamped so few bars keep the classic
+    /// popover width and many bars fall back to horizontal scrolling.
+    private var popoverWidth: CGFloat {
+        let columns = CGFloat(appModel.usageQuotaBars.count)
+        let chartWidth = columns * 72 + max(columns - 1, 0) * 8 + 24
+        return min(max(chartWidth + 28, 380), 700)
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -83,78 +94,28 @@ struct UsagePopoverView: View {
 
             // Content
             if appModel.hasUsagePopoverContent {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 14) {
-                        ForEach(appModel.claudeUsageSections) { section in
-                            if let usageData = section.usageData {
-                                UsageMetricSection(title: section.title, icon: "sparkles") {
-                                    UsageMetricBar(
-                                        title: "5-hour limit",
-                                        subtitle: "Resets \(usageData.sessionUsage.resetDescription)",
-                                        percentage: usageData.sessionUsage.percentage,
-                                        status: usageData.sessionUsage.status,
-                                        icon: "timer"
-                                    )
+                VStack(alignment: .leading, spacing: 14) {
+                    // Same bars as the menu bar icon, same order, annotated.
+                    let quotaBars = appModel.usageQuotaBars
+                    if !quotaBars.isEmpty {
+                        QuotaBarChart(bars: quotaBars)
+                    }
 
-                                    UsageMetricBar(
-                                        title: "Weekly limit",
-                                        subtitle: "Resets \(usageData.weeklyUsage.resetDescription)",
-                                        percentage: usageData.weeklyUsage.percentage,
-                                        status: usageData.weeklyUsage.status,
-                                        icon: "calendar"
-                                    )
-
-                                    if appModel.settings.isSonnetUsageShown, let sonnetUsage = usageData.sonnetUsage {
-                                        UsageMetricBar(
-                                            title: "Weekly Sonnet",
-                                            subtitle: "Resets \(sonnetUsage.resetDescription)",
-                                            percentage: sonnetUsage.percentage,
-                                            status: sonnetUsage.status,
-                                            icon: "waveform.path.ecg"
-                                        )
-                                    }
-                                }
-                            } else if let sectionError = section.errorMessage {
-                                providerErrorRow(provider: section.title, message: sectionError)
-                            }
-                        }
-
-                        if appModel.settings.isChatGPTUsageShown, let chatGPTUsageData = appModel.chatGPTUsageData {
-                            UsageMetricSection(title: "ChatGPT", icon: "message.badge.waveform") {
-                                ForEach(chatGPTUsageData.rows) { row in
-                                    UsageMetricBar(
-                                        title: row.label,
-                                        subtitle: chatGPTQuotaSubtitle(for: row),
-                                        percentage: row.usedPercent,
-                                        status: row.status,
-                                        icon: "circle.hexagongrid"
-                                    )
-                                }
-                            }
-                        }
-
-                        if appModel.settings.isChatGPTUsageShown, let chatGPTErrorMessage = appModel.chatGPTErrorMessage {
-                            providerErrorRow(provider: "ChatGPT", message: chatGPTErrorMessage)
-                        }
-
-                        if appModel.isGeminiUsageConfigured, let geminiUsageData = appModel.geminiUsageData {
-                            UsageMetricSection(title: "Gemini", icon: "diamond") {
-                                UsageMetricBar(
-                                    title: geminiUsageData.label,
-                                    subtitle: geminiQuotaSubtitle(for: geminiUsageData),
-                                    percentage: geminiUsageData.percentage,
-                                    status: geminiUsageData.status,
-                                    icon: "gauge.with.dots.needle.bottom.50percent"
-                                )
-                            }
-                        }
-
-                        if appModel.isGeminiUsageConfigured, let geminiErrorMessage = appModel.geminiErrorMessage {
-                            providerErrorRow(provider: "Gemini", message: geminiErrorMessage)
+                    ForEach(appModel.claudeUsageSections) { section in
+                        if section.usageData == nil, let sectionError = section.errorMessage {
+                            providerErrorRow(provider: section.title, message: sectionError)
                         }
                     }
-                    .padding(14)
+
+                    if appModel.settings.isChatGPTUsageShown, let chatGPTErrorMessage = appModel.chatGPTErrorMessage {
+                        providerErrorRow(provider: "ChatGPT", message: chatGPTErrorMessage)
+                    }
+
+                    if appModel.isGeminiUsageConfigured, let geminiErrorMessage = appModel.geminiErrorMessage {
+                        providerErrorRow(provider: "Gemini", message: geminiErrorMessage)
+                    }
                 }
+                .padding(14)
             } else {
                 // Loading state
                 VStack(spacing: 16) {
@@ -163,7 +124,7 @@ struct UsagePopoverView: View {
                         .font(.callout)
                         .foregroundColor(.secondary)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(maxWidth: .infinity, minHeight: 220)
                 .padding()
             }
 
@@ -180,6 +141,25 @@ struct UsagePopoverView: View {
 
                 Spacer()
 
+                Button {
+                    Task { await rescanBrowsers() }
+                } label: {
+                    HStack(spacing: 5) {
+                        if isRescanningBrowsers {
+                            ProgressView()
+                                .controlSize(.mini)
+                        }
+                        Text(rescanButtonTitle)
+                            .lineLimit(1)
+                    }
+                }
+                .buttonStyle(.plain)
+                .disabled(isRescanningBrowsers)
+                .help("Scan open browsers for provider sessions and reconnect accounts")
+                .accessibilityLabel("Rescan browsers")
+
+                Spacer()
+
                 Button("Quit") {
                     NSApplication.shared.terminate(nil)
                 }
@@ -189,10 +169,33 @@ struct UsagePopoverView: View {
             }
             .padding()
         }
-        .frame(minWidth: 380, maxWidth: 380, maxHeight: 620)
+        .frame(width: popoverWidth)
         .background(Color(nsColor: .windowBackgroundColor))
         .accessibilityElement(children: .contain)
         .accessibilityLabel(appModel.usageDashboardTitle)
+    }
+
+    private var rescanButtonTitle: String {
+        if isRescanningBrowsers {
+            return appModel.importProgress ?? "Scanning\u{2026}"
+        }
+        return rescanMessage ?? "Rescan browsers"
+    }
+
+    private func rescanBrowsers() async {
+        isRescanningBrowsers = true
+        rescanMessage = nil
+
+        let outcome = await appModel.importFromOpenBrowsers()
+
+        if outcome.results.isEmpty {
+            rescanMessage = "No open browsers"
+        } else if outcome.totalImported == 0 {
+            rescanMessage = "No sessions found"
+        } else {
+            rescanMessage = nil
+        }
+        isRescanningBrowsers = false
     }
 
     private func openSettingsFront() {
@@ -216,25 +219,6 @@ struct UsagePopoverView: View {
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 
-    private func geminiQuotaSubtitle(for usageData: GeminiUsageData) -> String {
-        guard let resetAt = usageData.resetAt else {
-            return "Quota usage"
-        }
-
-        return "Resets \(resetAt.formatted(.relative(presentation: .named)))"
-    }
-
-    private func chatGPTQuotaSubtitle(for row: ChatGPTUsageData.LimitRow) -> String {
-        let resetText = row.resetAt.map { "Resets \($0.formatted(.relative(presentation: .named)))" }
-        let sourceText = row.subtitle ?? "WHAM: \(row.sourceLabel)"
-
-        if let resetText {
-            return "\(sourceText) • \(resetText)"
-        }
-
-        return sourceText
-    }
-
 }
 
 enum ClaudeCredentialRecoveryCopy {
@@ -251,83 +235,86 @@ enum ClaudeCredentialRecoveryCopy {
     }
 }
 
-private struct UsageMetricSection<Content: View>: View {
-    let title: String
-    let icon: String
-    @ViewBuilder let content: Content
+/// The popover's main content: the menu bar's quota bars blown up into
+/// labelled columns, in the same left-to-right order as the icon.
+private struct QuotaBarChart: View {
+    let bars: [MenuBarQuotaBar]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 8) {
-                Image(systemName: icon)
-                    .foregroundStyle(.secondary)
-                Text(title)
-                    .font(.headline)
-                Spacer()
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .top, spacing: 8) {
+                ForEach(Array(bars.enumerated()), id: \.offset) { _, bar in
+                    QuotaBarColumn(bar: bar)
+                }
             }
-
-            VStack(spacing: 8) {
-                content
-            }
+            .frame(minWidth: 328, alignment: .center)
+            .padding(12)
         }
-        .padding(12)
         .background(Color(nsColor: .controlBackgroundColor))
         .clipShape(RoundedRectangle(cornerRadius: 14))
     }
 }
 
-private struct UsageMetricBar: View {
-    let title: String
-    let subtitle: String
-    let percentage: Double
-    let status: UsageStatus
-    let icon: String
+private struct QuotaBarColumn: View {
+    let bar: MenuBarQuotaBar
 
     private var clampedPercentage: Double {
-        min(max(percentage, 0), 100)
+        min(max(bar.percentage, 0), 100)
+    }
+
+    private var tooltip: String {
+        var text = "\(bar.label): \(Int(bar.percentage.rounded()))%"
+        if let detail = bar.detail {
+            text += " • \(detail)"
+        }
+        return text
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Image(systemName: icon)
-                    .font(.caption)
-                    .foregroundStyle(status.color)
-                    .frame(width: 16)
+        VStack(spacing: 6) {
+            Text(bar.heading)
+                .font(.caption)
+                .fontWeight(.semibold)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
 
-                VStack(alignment: .leading, spacing: 1) {
-                    Text(title)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                    Text(subtitle)
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                }
+            Text("\(Int(bar.percentage.rounded()))%")
+                .font(.system(.caption, design: .monospaced))
+                .fontWeight(.semibold)
+                .foregroundStyle(bar.status.color)
 
-                Spacer(minLength: 8)
+            ZStack(alignment: .bottom) {
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(Color.gray.opacity(0.18))
 
-                Text("\(Int(percentage.rounded()))%")
-                    .font(.system(.subheadline, design: .monospaced))
-                    .fontWeight(.semibold)
-                    .foregroundStyle(status.color)
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(bar.status.color)
+                    .frame(height: 140 * clampedPercentage / 100)
+            }
+            .frame(width: 24, height: 140)
+
+            if !bar.owner.isEmpty {
+                Text(bar.owner)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
-            GeometryReader { geometry in
-                ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.gray.opacity(0.18))
-
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(status.color)
-                        .frame(width: geometry.size.width * (clampedPercentage / 100))
-                }
+            if let detail = bar.detail {
+                Text(detail)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .frame(height: 8)
         }
-        .padding(10)
-        .background(Color(nsColor: .windowBackgroundColor).opacity(0.72))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .frame(width: 72, alignment: .top)
+        .help(tooltip)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(title): \(Int(percentage.rounded())) percent used, \(subtitle)")
+        .accessibilityLabel(tooltip)
     }
 }

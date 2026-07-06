@@ -71,6 +71,8 @@ final class MenuBarManager {
             self?.closePopover()
         }
         let hostingController = NSHostingController(rootView: popoverView)
+        // Follow the SwiftUI frame so the user-resizable popover tracks it.
+        hostingController.sizingOptions = .preferredContentSize
 
         let popover = NSPopover()
         popover.contentViewController = hostingController

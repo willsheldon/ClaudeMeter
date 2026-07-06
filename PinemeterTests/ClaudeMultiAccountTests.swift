@@ -274,6 +274,12 @@ final class ClaudeMultiAccountTests: XCTestCase {
             "ChatGPT Codex Tasks",
             "Gemini",
         ])
+        XCTAssertEqual(appModel.usageQuotaBars.map(\.heading), [
+            "5h", "Weekly", "5h", "Weekly", "Codex Tasks", "API",
+        ])
+        XCTAssertEqual(appModel.usageQuotaBars.map(\.owner), [
+            "Autimo", "Autimo", "Personal", "Personal", "ChatGPT", "Gemini",
+        ])
     }
 
     // MARK: - Per-account usage fetch

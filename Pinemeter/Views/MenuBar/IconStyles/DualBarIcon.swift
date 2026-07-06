@@ -7,11 +7,36 @@
 
 import SwiftUI
 
-/// Compact quota row rendered inside the menu-bar icon.
+/// One quota meter, rendered as a mini bar in the menu-bar icon and as an
+/// annotated column in the popover.
 struct MenuBarQuotaBar: Equatable, Sendable {
+    /// Full name used in tooltips and accessibility (e.g. "Autimo 5h").
     let label: String
+    /// Quota kind shown as the popover column heading (e.g. "5h", "Weekly").
+    let heading: String
+    /// Whose quota it is, shown under the popover column (account label or
+    /// provider name). Empty when the label already says everything.
+    let owner: String
     let percentage: Double
     let status: UsageStatus
+    /// Secondary annotation for the popover column (e.g. reset time).
+    let detail: String?
+
+    init(
+        label: String,
+        percentage: Double,
+        status: UsageStatus,
+        detail: String? = nil,
+        heading: String? = nil,
+        owner: String = ""
+    ) {
+        self.label = label
+        self.heading = heading ?? label
+        self.owner = owner
+        self.percentage = percentage
+        self.status = status
+        self.detail = detail
+    }
 }
 
 /// Multi-bar menu bar icon showing Claude and ChatGPT quota buckets.

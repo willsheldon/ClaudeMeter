@@ -23,6 +23,18 @@ struct ChatGPTUsageData: Codable, Equatable, Sendable {
             }
         }
 
+        /// Short quota-kind heading for the popover bar chart.
+        var columnHeading: String {
+            switch self {
+            case .chatGPT5h:
+                return "5h"
+            case .chatGPTWeekly:
+                return "Weekly"
+            case .chatGPTPro:
+                return "Pro"
+            }
+        }
+
         var sortOrder: Int {
             switch self {
             case .chatGPT5h:
