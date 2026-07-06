@@ -14,7 +14,7 @@ actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
 
     init(configuration: URLSessionConfiguration = .default) {
-        configuration.timeoutIntervalForRequest = 30
+        configuration.timeoutIntervalForRequest = 15
         configuration.timeoutIntervalForResource = 30
         self.session = URLSession(configuration: configuration)
     }
@@ -36,6 +36,7 @@ actor NetworkService: NetworkServiceProtocol {
 
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
+        request.timeoutInterval = 15
 
         // Set proper headers to avoid Cloudflare bot detection
         request.setValue("sessionKey=\(sessionKey)", forHTTPHeaderField: "Cookie")

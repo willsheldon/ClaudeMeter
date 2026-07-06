@@ -23,6 +23,12 @@ final class WebViewNetworkService: NSObject, NetworkServiceProtocol {
     private var challengeRetryCount = 0
     private let maxChallengeRetries = 30
     private let chatGPTSessionRepository: any ChatGPTSessionRepositoryProtocol
+    /// The single WKWebView and `continuation` slot can only serve one request
+    /// at a time; concurrent callers (e.g. multi-account import validating
+    /// sessions in a task group) must queue behind the in-flight request or
+    /// they clobber each other's continuation and hang forever.
+    private var lastRequest: Task<Data, Error>?
+    private var requestGeneration = 0
 
     init(chatGPTSessionRepository: any ChatGPTSessionRepositoryProtocol = ChatGPTSessionRepository()) {
         self.chatGPTSessionRepository = chatGPTSessionRepository
@@ -63,6 +69,22 @@ final class WebViewNetworkService: NSObject, NetworkServiceProtocol {
             throw NetworkError.invalidURL
         }
 
+        // Serialize requests: chain each one behind the previous so the shared
+        // WebView only ever serves one caller at a time.
+        let previous = lastRequest
+        let request = Task { () throws -> Data in
+            _ = try? await previous?.value
+            return try await self.executeRequest(url: url, endpoint: endpoint, sessionKey: sessionKey)
+        }
+        lastRequest = request
+        return try await request.value
+    }
+
+    private func executeRequest(
+        url: URL,
+        endpoint: String,
+        sessionKey: String
+    ) async throws -> Data {
         Self.logger.info("Making request to: \(endpoint)")
 
         // Store session key for cookie injection
@@ -84,16 +106,30 @@ final class WebViewNetworkService: NSObject, NetworkServiceProtocol {
             .expires: Date().addingTimeInterval(86400 * 30)
         ])!
 
-        await webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie)
+        // Purge any existing claude.ai sessionKey cookies first. The store is
+        // persistent and a server-set host cookie ("claude.ai") is a different
+        // cookie identity than the injected domain cookie (".claude.ai"), so
+        // without this both are sent and the stale one can win, authenticating
+        // the request as a previously-used account.
+        let cookieStore = webView.configuration.websiteDataStore.httpCookieStore
+        for stale in await allCookies(from: cookieStore)
+        where stale.name == "sessionKey" && stale.domain.hasSuffix("claude.ai") {
+            await cookieStore.deleteCookie(stale)
+        }
+        await cookieStore.setCookie(cookie)
+
+        requestGeneration += 1
+        let generation = requestGeneration
 
         // Load the URL and wait for response
         return try await withCheckedThrowingContinuation { continuation in
             self.continuation = continuation
 
-            // Set up timeout
+            // Set up timeout. The generation check keeps a timeout task that
+            // outlives its own request from cancelling a later one.
             Task { @MainActor in
                 try? await Task.sleep(for: .seconds(self.timeoutSeconds))
-                if self.continuation != nil {
+                if self.requestGeneration == generation, self.continuation != nil {
                     self.continuation?.resume(throwing: NetworkError.timeout)
                     self.continuation = nil
                 }
