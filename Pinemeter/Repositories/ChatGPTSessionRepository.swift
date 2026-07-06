@@ -47,7 +47,13 @@ actor ChatGPTSessionRepository: ChatGPTSessionRepositoryProtocol {
 
         let status = SecItemAdd(query as CFDictionary, nil)
         if status == errSecDuplicateItem {
-            try update(sessionCookieData: data, account: account)
+            do {
+                try update(sessionCookieData: data, account: account)
+            } catch {
+                // The existing item can be un-updatable (e.g. created by a
+                // build this binary can no longer access). Replace it.
+                try replace(query: query, account: account)
+            }
         } else if status != errSecSuccess {
             persistStatus(.init(state: .storageUnavailable, lastErrorCategory: .keychainWriteFailed), account: account)
             throw ChatGPTSessionRepositoryError.secureStorageUnavailable(.keychainWriteFailed)
@@ -94,7 +100,10 @@ actor ChatGPTSessionRepository: ChatGPTSessionRepositoryProtocol {
     }
 
     func validate(account: String) async -> ChatGPTSessionAcquisitionStatus {
-        if let status = persistedStatus(account: account), status.state == .invalid || status.state == .storageUnavailable {
+        // Only trust a cached .invalid; a cached .storageUnavailable must not
+        // short-circuit, or one transient Keychain failure sticks forever.
+        // Re-probe the Keychain instead.
+        if let status = persistedStatus(account: account), status.state == .invalid {
             return status
         }
 
@@ -130,6 +139,22 @@ actor ChatGPTSessionRepository: ChatGPTSessionRepositoryProtocol {
         guard status == errSecSuccess || status == errSecItemNotFound else {
             persistStatus(.init(state: .storageUnavailable, lastErrorCategory: .keychainDeleteFailed), account: account)
             throw ChatGPTSessionRepositoryError.secureStorageUnavailable(.keychainDeleteFailed)
+        }
+    }
+
+    private func replace(query: [String: Any], account: String) throws {
+        let deleteQuery: [String: Any] = [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: account,
+            kSecAttrService as String: serviceName,
+            kSecAttrSynchronizable as String: kCFBooleanFalse as Any,
+        ]
+        SecItemDelete(deleteQuery as CFDictionary)
+
+        let status = SecItemAdd(query as CFDictionary, nil)
+        guard status == errSecSuccess else {
+            persistStatus(.init(state: .storageUnavailable, lastErrorCategory: .keychainWriteFailed), account: account)
+            throw ChatGPTSessionRepositoryError.secureStorageUnavailable(.keychainWriteFailed)
         }
     }
 
