@@ -13,7 +13,7 @@ enum SessionKeyImportPromptCoordinator {
 
     private static func presentBrowserCookiePrompt(_ context: BrowserCookieKeychainPromptContext) {
         let message = [
-            "Pinemeter will ask macOS Keychain for \"\(context.label)\" so it can decrypt your Claude browser session cookie.",
+            "Pinemeter will ask macOS Keychain for \"\(context.label)\" so it can decrypt your AI browser session cookie.",
             "Click OK to continue, then allow the macOS Keychain prompt.",
         ].joined(separator: " ")
 

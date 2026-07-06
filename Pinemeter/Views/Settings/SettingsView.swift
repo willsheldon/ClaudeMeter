@@ -551,55 +551,75 @@ struct SettingsView: View {
     // MARK: - About Tab
 
     private var aboutTab: some View {
-        VStack(spacing: 24) {
-            // App Icon
-            if let appIconImage = NSImage(named: "AppIcon") {
-                Image(nsImage: appIconImage)
-                    .resizable()
-                    .frame(width: 128, height: 128)
-                    .cornerRadius(22)
-                    .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
-            } else {
-                Image(systemName: "chart.bar.fill")
-                    .font(.system(size: 80))
-                    .foregroundStyle(.blue)
-            }
+        VStack(spacing: 20) {
+            // Pineit logo
+            Image("PineitLogo")
+                .resizable()
+                .interpolation(.high)
+                .frame(width: 110, height: 110)
+                .clipShape(RoundedRectangle(cornerRadius: 22))
+                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
+                .accessibilityHidden(true)
 
             // App Name & Version
-            VStack(spacing: 8) {
+            VStack(spacing: 6) {
                 Text("Pinemeter")
                     .font(.system(size: 28, weight: .semibold))
+
+                Text("by Pineit")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
 
                 if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
                    let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
                     Text("Version \(version) (\(build))")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .font(.caption)
+                        .foregroundStyle(.tertiary)
                 }
             }
 
-            // Copyright
-            VStack(spacing: 4) {
-                Text("© 2025 Edd Mann")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+            // What it does
+            VStack(spacing: 10) {
+                Text("All your AI usage. One glance.")
+                    .font(.headline)
 
-                Text("Monitor your Claude.ai usage limits")
+                Text("Pinemeter lives in your menu bar and watches every quota that can stop you mid-flow: Claude's 5-hour and weekly windows across all your accounts, ChatGPT's plan limits, and Gemini API usage. Live meters, reset countdowns, and threshold alerts before you hit a wall.")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Text("Your credentials never leave this Mac. Sessions are imported from your own browsers, stored in the macOS Keychain, and used only to read usage data.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
+            .frame(maxWidth: 380)
 
-            // Project Link
-            Link(destination: URL(string: "https://github.com/willsheldon/Pinemeter")!) {
+            // Pineit link
+            Link(destination: URL(string: "https://pineit.ca")!) {
                 HStack {
                     Image(systemName: "link.circle.fill")
-                    Text("View Project on GitHub")
+                    Text("pineit.ca")
                 }
                 .frame(maxWidth: 280)
                 .padding(.vertical, 10)
             }
             .buttonStyle(.bordered)
             .controlSize(.large)
+            .accessibilityLabel("Visit pineit.ca")
+
+            // Copyright & attribution
+            VStack(spacing: 2) {
+                Text("© 2026 Pineit · pineit.ca")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                Text("Based on Pinemeter by Edd Mann, MIT licensed.")
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+            }
         }
         .padding(24)
         .frame(maxWidth: .infinity)
