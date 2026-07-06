@@ -1,6 +1,7 @@
 import AppKit
 import Foundation
 import Observation
+import os
 
 /// Recovery action that can be shown for a provider credential without exposing credential material.
 enum ProviderCredentialActionKind: String, Equatable, Hashable, Sendable {
@@ -137,12 +138,17 @@ struct ClaudeAccountsImportResult: Equatable, Sendable {
     let importedCount: Int
     /// Display labels for every connected account (primary first).
     let accountLabels: [String]
+    /// Every connected account's imported key (primary first), so scan flows
+    /// can attribute connected accounts back to the browser they came from.
+    let connected: [ImportedSessionKey]
 }
 
 /// Main application model for SwiftUI-first architecture.
 @MainActor
 @Observable
 final class AppModel {
+    private static let logger = Logger(subsystem: "com.pinemeter", category: "AppModel")
+
     // MARK: - Published State
 
     var settings: AppSettings = .default {
@@ -782,7 +788,16 @@ final class AppModel {
     func importClaudeAccounts(from source: BrowserImportSource) async throws -> ClaudeAccountsImportResult {
         importProgress = "Scanning browser profiles\u{2026}"
         let importedKeys = try await sessionKeyImportService.importAllSessionKeys(from: source)
+        return try await connectClaudeAccounts(importedKeys: importedKeys)
+    }
 
+    /// Validates the given imported session keys and connects every distinct
+    /// organization among them. Callers that gather keys from multiple
+    /// browsers must aggregate first and call this once: connecting replaces
+    /// `settings.claudeAccounts`, so per-browser calls would drop the
+    /// previous browser's accounts.
+    @discardableResult
+    func connectClaudeAccounts(importedKeys: [ImportedSessionKey]) async throws -> ClaudeAccountsImportResult {
         struct Candidate: Sendable {
             let index: Int
             let value: String
@@ -793,36 +808,34 @@ final class AppModel {
         let total = importedKeys.count
         importProgress = "Validating \(total) session\(total == 1 ? "" : "s")\u{2026}"
 
+        Self.logger.info("Connecting Claude accounts from \(importedKeys.count) imported key(s): \(importedKeys.map(\.sourceDescription).joined(separator: ", "), privacy: .public)")
+
         let validated: [Candidate] = await withTaskGroup(of: Candidate?.self) { group in
             for (index, imported) in importedKeys.enumerated() {
                 group.addTask { [usageService] in
-                    guard let sessionKey = try? SessionKey(imported.value) else { return nil }
-                    do {
-                        return try await withThrowingTaskGroup(of: Candidate?.self) { inner in
-                            inner.addTask {
-                                let organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
-                                guard let organization = organizations.first(where: { $0.hasChatCapability }) ?? organizations.first,
-                                      organization.organizationUUID != nil else {
-                                    return nil
-                                }
-                                return Candidate(
-                                    index: index,
-                                    value: sessionKey.value,
-                                    organization: organization,
-                                    sourceDescription: imported.sourceDescription
-                                )
-                            }
-                            inner.addTask {
-                                try await Task.sleep(for: .seconds(15))
-                                throw CancellationError()
-                            }
-                            let result = try await inner.next()
-                            inner.cancelAll()
-                            return result ?? nil
-                        }
-                    } catch {
+                    guard let sessionKey = try? SessionKey(imported.value) else {
+                        Self.logger.warning("Key \(index) (\(imported.sourceDescription, privacy: .public)): malformed session key")
                         return nil
                     }
+                    let organizations: [Organization]
+                    do {
+                        organizations = try await usageService.fetchOrganizations(sessionKey: sessionKey)
+                    } catch {
+                        Self.logger.warning("Key \(index) (\(imported.sourceDescription, privacy: .public)): fetchOrganizations failed: \(error.localizedDescription, privacy: .public)")
+                        return nil
+                    }
+                    guard let organization = organizations.first(where: { $0.hasChatCapability }) ?? organizations.first,
+                          organization.organizationUUID != nil else {
+                        Self.logger.warning("Key \(index) (\(imported.sourceDescription, privacy: .public)): no usable organization in response")
+                        return nil
+                    }
+                    Self.logger.info("Key \(index) (\(imported.sourceDescription, privacy: .public)): validated as org \(organization.uuid, privacy: .public) \(organization.name, privacy: .public)")
+                    return Candidate(
+                        index: index,
+                        value: sessionKey.value,
+                        organization: organization,
+                        sourceDescription: imported.sourceDescription
+                    )
                 }
             }
 
@@ -843,6 +856,8 @@ final class AppModel {
         for candidate in validated {
             if seenOrganizations.insert(candidate.organization.uuid).inserted {
                 candidates.append(candidate)
+            } else {
+                Self.logger.info("Key \(candidate.index) (\(candidate.sourceDescription, privacy: .public)): duplicate of already-connected org \(candidate.organization.uuid, privacy: .public), skipping")
             }
         }
 
@@ -917,7 +932,10 @@ final class AppModel {
                 sourceDescription: primaryCandidate.sourceDescription
             ),
             importedCount: accounts.count,
-            accountLabels: accounts.map(\.label)
+            accountLabels: accounts.map(\.label),
+            connected: ([primaryCandidate] + additionalCandidates).map {
+                ImportedSessionKey(value: $0.value, sourceDescription: $0.sourceDescription)
+            }
         )
     }
 
@@ -1024,14 +1042,79 @@ final class AppModel {
             return BrowserScanOutcome(scannedBrowsers: BrowserImportSource.scanTargets, results: [])
         }
 
-        var results: [BrowserScanOutcome.BrowserResult] = []
+        // Gather Claude session keys from every running browser before
+        // connecting: connectClaudeAccounts replaces settings.claudeAccounts,
+        // so importing browser-by-browser would drop earlier browsers' accounts.
+        var gatheredKeys: [ImportedSessionKey] = []
+        var seenKeyValues = Set<String>()
+        var keyValuesByBrowser: [BrowserImportSource: Set<String>] = [:]
+        var claudeScanFailures: [BrowserImportSource: ProviderBrowserImportStatus] = [:]
+
         for browser in running {
             importProgress = "Scanning \(browser.displayName)\u{2026}"
-            let outcome = await importProviderSessions(from: browser)
+            do {
+                let keys = try await sessionKeyImportService.importAllSessionKeys(from: browser)
+                keyValuesByBrowser[browser] = Set(keys.map(\.value))
+                for key in keys where seenKeyValues.insert(key.value).inserted {
+                    gatheredKeys.append(key)
+                }
+            } catch let error as SessionKeyImportError {
+                claudeScanFailures[browser] = .failed(
+                    message: error.localizedDescription,
+                    offersFullDiskAccessSettings: error.offersFullDiskAccessSettings
+                )
+            } catch {
+                claudeScanFailures[browser] = .failed(message: error.localizedDescription, offersFullDiskAccessSettings: false)
+            }
+        }
+
+        var connectedKeyValues = Set<String>()
+        var connectionFailureMessage: String?
+        if !gatheredKeys.isEmpty {
+            do {
+                let result = try await connectClaudeAccounts(importedKeys: gatheredKeys)
+                connectedKeyValues = Set(result.connected.map(\.value))
+            } catch {
+                importProgress = nil
+                connectionFailureMessage = error.localizedDescription
+            }
+        }
+
+        var results: [BrowserScanOutcome.BrowserResult] = []
+        for browser in running {
+            let claudeStatus: ProviderBrowserImportStatus
+            let browserKeyValues = keyValuesByBrowser[browser] ?? []
+            if let connectedKey = gatheredKeys.first(where: {
+                browserKeyValues.contains($0.value) && connectedKeyValues.contains($0.value)
+            }) {
+                claudeStatus = .imported(sourceDescription: connectedKey.sourceDescription)
+            } else if let failure = claudeScanFailures[browser] {
+                claudeStatus = failure
+            } else {
+                claudeStatus = .failed(
+                    message: connectionFailureMessage ?? SessionKeyImportError.invalidImportedSessionKey.localizedDescription,
+                    offersFullDiskAccessSettings: false
+                )
+            }
+
+            importProgress = "Importing ChatGPT session (\(browser.displayName))\u{2026}"
+            let chatGPTStatus: ProviderBrowserImportStatus
+            do {
+                let imported = try await importAndSaveChatGPTSessionCookie(from: browser)
+                chatGPTStatus = .imported(sourceDescription: imported.sourceDescription)
+            } catch let error as SessionKeyImportError {
+                chatGPTStatus = .failed(
+                    message: error.localizedDescription,
+                    offersFullDiskAccessSettings: error.offersFullDiskAccessSettings
+                )
+            } catch {
+                chatGPTStatus = .failed(message: error.localizedDescription, offersFullDiskAccessSettings: false)
+            }
+
             results.append(BrowserScanOutcome.BrowserResult(
                 source: browser,
-                claude: outcome.claude,
-                chatGPT: outcome.chatGPT
+                claude: claudeStatus,
+                chatGPT: chatGPTStatus
             ))
         }
 

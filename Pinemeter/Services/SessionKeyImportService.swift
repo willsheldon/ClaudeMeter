@@ -81,12 +81,20 @@ actor SessionKeyImportService: SessionKeyImportServiceProtocol {
         for browser in browsers(for: source) {
             do {
                 let sources = try cookieClient.records(matching: query, in: browser)
+                Self.logger.info("importAllSessionKeys(\(browser.displayName, privacy: .public)): \(sources.count) cookie store(s): \(sources.map(\.label).joined(separator: ", "), privacy: .public)")
                 for storeRecords in sources {
                     // Skip a malformed cookie in one profile rather than aborting
                     // discovery for the remaining profiles.
-                    guard let one = try? importedSessionKey(from: storeRecords) else { continue }
+                    guard let one = try? importedSessionKey(from: storeRecords) else {
+                        let hasCookie = storeRecords.records.contains { $0.name == "sessionKey" }
+                        Self.logger.info("Store \(storeRecords.label, privacy: .public): \(hasCookie ? "sessionKey cookie present but malformed" : "no sessionKey cookie", privacy: .public)")
+                        continue
+                    }
                     if seenValues.insert(one.value).inserted {
+                        Self.logger.info("Store \(storeRecords.label, privacy: .public): found session key")
                         imported.append(one)
+                    } else {
+                        Self.logger.info("Store \(storeRecords.label, privacy: .public): duplicate session key value, skipping")
                     }
                 }
             } catch let error as BrowserCookieError {
