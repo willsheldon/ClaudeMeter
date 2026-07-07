@@ -1383,7 +1383,9 @@ final class AppModel {
         self.errorMessage = errorMessage
         self.isLoading = isLoading
         self.isReady = true
-        self.hasLoadedSettings = true
+        // Leave hasLoadedSettings false so demo-mode settings mutations are
+        // never persisted to the real UserDefaults domain.
+        self.hasLoadedSettings = false
         // Don't start refresh loop or wake observer in demo mode
     }
     #endif

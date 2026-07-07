@@ -16,6 +16,7 @@ enum DemoMode: String, CaseIterable {
     case criticalUsage
     case exceededUsage
     case withSonnet
+    case multiProvider
     case loading
     case error
     case setupWizard
@@ -36,6 +37,7 @@ enum DemoMode: String, CaseIterable {
         case .criticalUsage: "High usage - critical state"
         case .exceededUsage: "Over limit - exceeded state"
         case .withSonnet: "Shows Sonnet usage card"
+        case .multiProvider: "Two Claude accounts plus ChatGPT and Gemini"
         case .loading: "Loading spinner visible"
         case .error: "Error banner displayed"
         case .setupWizard: "First-time setup screen"

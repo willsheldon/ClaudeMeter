@@ -59,6 +59,58 @@ enum DemoDataFactory {
             )
             appModel.settings.isSonnetUsageShown = true
 
+        case .multiProvider:
+            appModel.applyDemoState(
+                usageData: makeUsageData(sessionPercentage: 42, weeklyPercentage: 18),
+                isSetupComplete: true,
+                errorMessage: nil,
+                isLoading: false
+            )
+            appModel.settings.claudeAccounts = [
+                ClaudeAccount(
+                    id: "11111111-1111-1111-1111-111111111111",
+                    label: "Work",
+                    organizationId: UUID(uuidString: "11111111-1111-1111-1111-111111111111")!,
+                    keychainAccount: ClaudeAccount.primaryKeychainAccount,
+                    profileLabel: "Chrome Default"
+                ),
+                ClaudeAccount(
+                    id: "22222222-2222-2222-2222-222222222222",
+                    label: "Personal",
+                    organizationId: UUID(uuidString: "22222222-2222-2222-2222-222222222222")!,
+                    keychainAccount: "22222222-2222-2222-2222-222222222222",
+                    profileLabel: "Chrome Profile 1"
+                ),
+            ]
+            appModel.claudeAccountUsage["22222222-2222-2222-2222-222222222222"] =
+                makeUsageData(sessionPercentage: 74, weeklyPercentage: 51)
+            appModel.hasChatGPTSessionCookie = true
+            appModel.settings.isChatGPTUsageShown = true
+            appModel.chatGPTUsageData = ChatGPTUsageData(
+                rows: [
+                    .init(
+                        label: "GPT-5.5",
+                        usedPercent: 63,
+                        resetAt: Date().addingTimeInterval(5 * 3600),
+                        menuBarRole: .chatGPT5h
+                    ),
+                    .init(
+                        label: "Codex Tasks",
+                        usedPercent: 28,
+                        resetAt: Date().addingTimeInterval(2 * 24 * 3600),
+                        menuBarRole: .chatGPTWeekly
+                    ),
+                ],
+                lastUpdated: Date()
+            )
+            appModel.hasGeminiAPIKey = true
+            appModel.geminiUsageData = GeminiUsageData(
+                label: "Gemini API quota",
+                usedPercent: 12,
+                resetAt: Date().addingTimeInterval(9 * 3600),
+                lastUpdated: Date()
+            )
+
         case .loading:
             appModel.applyDemoState(
                 usageData: nil,

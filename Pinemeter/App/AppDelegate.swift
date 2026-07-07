@@ -55,12 +55,74 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 showAutomationWindow(with: appModel)
             }
         }
+
+        let args = ProcessInfo.processInfo.arguments
+        if let flagIndex = args.firstIndex(of: "--render-screenshots"), flagIndex + 1 < args.count {
+            let outputDir = args[flagIndex + 1]
+            Task { @MainActor in
+                try? await Task.sleep(for: .milliseconds(500))
+                await Self.renderScreenshots(to: outputDir, appModel: appModel)
+                NSApp.terminate(nil)
+            }
+        }
         #else
         manager.start()
         #endif
     }
 
     #if DEBUG
+    /// Renders the popover and menu bar icon to PNGs for README/App Store
+    /// screenshots without needing Screen Recording permission. The popover is
+    /// snapshotted from a real (offscreen) window because ImageRenderer cannot
+    /// lay out its internal ScrollView.
+    private static func renderScreenshots(to directory: String, appModel: AppModel) async {
+        let dirURL = URL(fileURLWithPath: directory, isDirectory: true)
+        try? FileManager.default.createDirectory(at: dirURL, withIntermediateDirectories: true)
+
+        let hosting = NSHostingController(
+            rootView: MenuBarPopoverView(appModel: appModel, onRequestClose: {})
+        )
+        let window = NSWindow(contentViewController: hosting)
+        window.styleMask = [.borderless]
+        window.setFrameOrigin(NSPoint(x: -10_000, y: -10_000))
+        window.orderBack(nil)
+
+        // Give SwiftUI a beat to lay out before snapshotting.
+        try? await Task.sleep(for: .milliseconds(700))
+
+        let view = hosting.view
+        view.layoutSubtreeIfNeeded()
+        if let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) {
+            view.cacheDisplay(in: view.bounds, to: rep)
+            if let png = rep.representation(using: .png, properties: [:]) {
+                try? png.write(to: dirURL.appendingPathComponent("popover.png"))
+            }
+        }
+        window.close()
+
+        let icon = MenuBarIconView(
+            percentage: appModel.usageData?.sessionUsage.percentage ?? 0,
+            status: appModel.usageData?.primaryStatus ?? .safe,
+            isLoading: false,
+            isStale: false,
+            iconStyle: appModel.settings.iconStyle,
+            quotaBars: appModel.usageQuotaBars
+        )
+        .environment(\.colorScheme, .dark)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(Color(white: 0.12))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        let renderer = ImageRenderer(content: icon)
+        renderer.scale = 4
+        if let nsImage = renderer.nsImage,
+           let tiff = nsImage.tiffRepresentation,
+           let rep = NSBitmapImageRep(data: tiff),
+           let png = rep.representation(using: .png, properties: [:]) {
+            try? png.write(to: dirURL.appendingPathComponent("menubar-icon.png"))
+        }
+    }
+
     private func showAutomationWindow(with appModel: AppModel) {
         let markerURL = FileManager.default.homeDirectoryForCurrentUser
             .appendingPathComponent("Desktop/pinemeter-vm-validation/debug-window-hook-ran.txt")
