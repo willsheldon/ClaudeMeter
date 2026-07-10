@@ -292,14 +292,14 @@ final class AppModel {
 
         let ordered = accounts.sorted { lhs, rhs in
             if lhs.isPrimary != rhs.isPrimary { return lhs.isPrimary }
-            return lhs.label.localizedCaseInsensitiveCompare(rhs.label) == .orderedAscending
+            return lhs.displayLabel.localizedCaseInsensitiveCompare(rhs.displayLabel) == .orderedAscending
         }
         let showLabels = ordered.count > 1
 
         return ordered.map { account in
             ClaudeUsageSection(
                 id: account.id,
-                title: showLabels ? account.label : "Claude",
+                title: showLabels ? account.displayLabel : "Claude",
                 usageData: account.isPrimary ? usageData : claudeAccountUsage[account.id],
                 errorMessage: account.isPrimary ? nil : claudeAccountErrors[account.id]
             )
@@ -832,11 +832,19 @@ final class AppModel {
             label: organization.name,
             organizationId: organizationId,
             keychainAccount: ClaudeAccount.primaryKeychainAccount,
-            profileLabel: settings.claudeAccounts.first(where: { $0.isPrimary })?.profileLabel
+            profileLabel: settings.claudeAccounts.first(where: { $0.isPrimary })?.profileLabel,
+            customLabel: settings.claudeAccounts.first(where: { $0.id == organization.uuid })?.customLabel
         )
         var accounts = settings.claudeAccounts.filter { !$0.isPrimary && $0.id != primary.id }
         accounts.insert(primary, at: 0)
         settings.claudeAccounts = accounts
+    }
+
+    /// Sets a user-chosen display label for a connected Claude account. An
+    /// empty label reverts to the imported organization name.
+    func renameClaudeAccount(id: String, customLabel: String) {
+        guard let index = settings.claudeAccounts.firstIndex(where: { $0.id == id }) else { return }
+        settings.claudeAccounts[index].customLabel = customLabel.isEmpty ? nil : customLabel
     }
 
     func importAndSaveSessionKey() async throws -> ImportedSessionKey {
@@ -947,6 +955,15 @@ final class AppModel {
             .filter { $0.offset != primaryIndex }
             .map { $0.element }
 
+        // Carry user-chosen labels over to the rebuilt account list so a
+        // re-import doesn't discard renames. Captured before the primary save
+        // path mutates `settings.claudeAccounts`.
+        let customLabelsByAccountId = Dictionary(
+            uniqueKeysWithValues: settings.claudeAccounts.compactMap { account in
+                account.customLabel.map { (account.id, $0) }
+            }
+        )
+
         // Save the primary through the tested single-account path (Keychain
         // "default", cached org id, setup flag, primary usage refresh).
         let primaryValid = try await validateAndSaveSessionKey(primaryCandidate.value)
@@ -960,7 +977,8 @@ final class AppModel {
                 label: primaryCandidate.organization.name,
                 organizationId: primaryCandidate.organization.organizationUUID!,
                 keychainAccount: ClaudeAccount.primaryKeychainAccount,
-                profileLabel: primaryCandidate.sourceDescription
+                profileLabel: primaryCandidate.sourceDescription,
+                customLabel: customLabelsByAccountId[primaryCandidate.organization.uuid]
             )
         ]
 
@@ -979,7 +997,8 @@ final class AppModel {
                 label: candidate.organization.name,
                 organizationId: organizationUUID,
                 keychainAccount: candidate.organization.uuid,
-                profileLabel: candidate.sourceDescription
+                profileLabel: candidate.sourceDescription,
+                customLabel: customLabelsByAccountId[candidate.organization.uuid]
             ))
             staleAccountIds.remove(candidate.organization.uuid)
         }
@@ -1000,7 +1019,7 @@ final class AppModel {
                 sourceDescription: primaryCandidate.sourceDescription
             ),
             importedCount: accounts.count,
-            accountLabels: accounts.map(\.label),
+            accountLabels: accounts.map(\.displayLabel),
             connected: ([primaryCandidate] + additionalCandidates).map {
                 ImportedSessionKey(value: $0.value, sourceDescription: $0.sourceDescription)
             }

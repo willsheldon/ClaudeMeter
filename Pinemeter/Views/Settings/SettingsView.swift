@@ -68,6 +68,9 @@ struct SettingsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 credentialRecoverySection
+                if appModel.settings.claudeAccounts.count > 1 {
+                    claudeAccountLabelsSection
+                }
                 chatGPTUsageSection
                 refreshIntervalSection
                 sonnetUsageSection
@@ -250,6 +253,55 @@ struct SettingsView: View {
         case .missing, .unknown:
             return .secondary
         }
+    }
+
+    // MARK: - Claude Account Labels Section
+
+    private var claudeAccountLabelsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Claude Account Labels")
+                    .font(.subheadline)
+                Text("Choose how each connected Claude account is named in the popover and menu bar. Leave blank to use the organization name.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            ForEach(appModel.settings.claudeAccounts) { account in
+                HStack {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(account.label)
+                            .font(.caption)
+                        if let profileLabel = account.profileLabel {
+                            Text(profileLabel)
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
+                    Spacer()
+
+                    TextField(account.label, text: accountLabelBinding(for: account.id))
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 180)
+                }
+            }
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    private func accountLabelBinding(for accountId: String) -> Binding<String> {
+        Binding(
+            get: {
+                appModel.settings.claudeAccounts.first(where: { $0.id == accountId })?.customLabel ?? ""
+            },
+            set: { newValue in
+                appModel.renameClaudeAccount(id: accountId, customLabel: newValue)
+            }
+        )
     }
 
     // MARK: - ChatGPT Usage Section

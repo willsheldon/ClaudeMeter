@@ -180,6 +180,47 @@ final class ClaudeMultiAccountTests: XCTestCase {
         XCTAssertEqual(sections[0].usageData, usage)
     }
 
+    func test_renameClaudeAccount_overridesSectionTitleAndSurvivesReimport() async throws {
+        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
+        let org2 = organization(id: 2, uuid: Self.org2UUIDString, name: "Acme")
+        let primaryUsage = makeUsageData(percentage: 11)
+        let secondaryUsage = makeUsageData(percentage: 22)
+
+        let importService = MultiAccountImportServiceStub(importedKeys: [
+            ImportedSessionKey(value: Self.key1, sourceDescription: "Chrome Profile 1"),
+            ImportedSessionKey(value: Self.key2, sourceDescription: "Chrome Profile 15"),
+        ])
+        let usageService = MultiAccountUsageServiceStub(
+            organizationsByKey: [Self.key1: [org1], Self.key2: [org2]],
+            usageByOrganization: [org1.organizationUUID!: primaryUsage, org2.organizationUUID!: secondaryUsage],
+            primaryUsage: primaryUsage
+        )
+
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: usageService,
+            notificationService: NotificationServiceSpy(),
+            sessionKeyImportService: importService
+        )
+
+        _ = try await appModel.importClaudeAccounts(from: .chrome)
+        appModel.renameClaudeAccount(id: Self.org2UUIDString, customLabel: "Personal Max")
+
+        XCTAssertEqual(Set(appModel.claudeUsageSections.map(\.title)), ["Acme", "Personal Max"])
+
+        // A re-import rebuilds the account list but keeps the custom label.
+        _ = try await appModel.importClaudeAccounts(from: .chrome)
+
+        let renamed = try XCTUnwrap(appModel.settings.claudeAccounts.first(where: { $0.id == Self.org2UUIDString }))
+        XCTAssertEqual(renamed.customLabel, "Personal Max")
+        XCTAssertEqual(renamed.displayLabel, "Personal Max")
+
+        // Clearing the custom label falls back to the organization name.
+        appModel.renameClaudeAccount(id: Self.org2UUIDString, customLabel: "")
+        XCTAssertEqual(Set(appModel.claudeUsageSections.map(\.title)), ["Acme"])
+    }
+
     func test_clearSessionKey_removesAdditionalAccountsAndKeychain() async throws {
         let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
         let org2 = organization(id: 2, uuid: Self.org2UUIDString, name: "Personal")

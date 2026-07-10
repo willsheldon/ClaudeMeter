@@ -32,6 +32,17 @@ struct ClaudeAccount: Codable, Equatable, Sendable, Identifiable {
     /// Browser profile this account was imported from, for display/diagnostics.
     var profileLabel: String?
 
+    /// User-chosen label overriding `label`. Preserved across re-imports;
+    /// nil (or blank) means the organization name is shown.
+    var customLabel: String?
+
+    /// Label shown in the popover and menu bar: the user's custom label when
+    /// set, otherwise the imported organization name.
+    var displayLabel: String {
+        let trimmed = customLabel?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        return trimmed.isEmpty ? label : trimmed
+    }
+
     /// The primary account reuses the legacy single-account Keychain slot.
     static let primaryKeychainAccount = "default"
 
