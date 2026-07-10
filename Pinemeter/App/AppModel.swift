@@ -844,7 +844,8 @@ final class AppModel {
     /// empty label reverts to the imported organization name.
     func renameClaudeAccount(id: String, customLabel: String) {
         guard let index = settings.claudeAccounts.firstIndex(where: { $0.id == id }) else { return }
-        settings.claudeAccounts[index].customLabel = customLabel.isEmpty ? nil : customLabel
+        let isBlank = customLabel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        settings.claudeAccounts[index].customLabel = isBlank ? nil : customLabel
     }
 
     func importAndSaveSessionKey() async throws -> ImportedSessionKey {
@@ -959,9 +960,10 @@ final class AppModel {
         // re-import doesn't discard renames. Captured before the primary save
         // path mutates `settings.claudeAccounts`.
         let customLabelsByAccountId = Dictionary(
-            uniqueKeysWithValues: settings.claudeAccounts.compactMap { account in
+            settings.claudeAccounts.compactMap { account in
                 account.customLabel.map { (account.id, $0) }
-            }
+            },
+            uniquingKeysWith: { first, _ in first }
         )
 
         // Save the primary through the tested single-account path (Keychain
