@@ -70,7 +70,7 @@ RELOCATE_URL_FILES=(
 
 # Apple notarization (App Store Connect API key). The Autimo key lives at the
 # notarytool default location; the issuer resolves from env/SSM at run time.
-NOTARY_KEY_ID="${APP_STORE_CONNECT_KEY_ID:-VKXT96WHG7}"
+NOTARY_KEY_ID="${APP_STORE_CONNECT_KEY_ID:-NR4JSA5M6L}"
 NOTARY_KEY_PATH="${APP_STORE_CONNECT_KEY:-$HOME/.private_keys/AuthKey_${NOTARY_KEY_ID}.p8}"
 NOTARY_ISSUER="${APP_STORE_CONNECT_ISSUER_ID:-}"
 
@@ -102,11 +102,13 @@ warn() { printf '\033[1;33mwarn:\033[0m %s\n' "$*" >&2; }
 die() { printf '\033[1;31merror:\033[0m %s\n' "$*" >&2; exit 1; }
 
 # Read a single APP_STORE_CONNECT_* value from project SSM without echoing it.
-ssm_get() { mysecrets run -- bash -c 'printf "%s" "${'"$1"':-}"' 2>/dev/null || true; }
+# Must run from REPO_ROOT: mysecrets resolves the project (and its ssm_path) from
+# CWD, and by call time CWD is the staging tree with the project markers stripped.
+ssm_get() { ( cd "$REPO_ROOT" && mysecrets run -- bash -c 'printf "%s" "${'"$1"':-}"' ) 2>/dev/null || true; }
 
 # Notarize a DMG with Apple and staple the ticket in place.
 notarize_dmg() {
-  local dmg="$1"
+  local dmg="$1" app="${2:-}"
   local issuer="$NOTARY_ISSUER" key_id="$NOTARY_KEY_ID" key_path="$NOTARY_KEY_PATH"
 
   if command -v mysecrets >/dev/null; then
@@ -133,8 +135,14 @@ notarize_dmg() {
     --wait --timeout 30m
   log "Stapling and validating the notarization ticket"
   xcrun stapler staple "$dmg"
-  xcrun stapler validate "$dmg"
-  spctl -a -t open --context context:primary-signature -v "$dmg" || warn "spctl reported a Gatekeeper assessment issue"
+  xcrun stapler validate "$dmg" || die "stapler validate failed for $dmg"
+  # Assess the app itself; the unsigned DMG container is not a valid spctl target.
+  if [[ -n "$app" ]]; then
+    local gk; gk="$(spctl -a -t exec -vv "$app" 2>&1 || true)"
+    [[ "$gk" == *"source=Notarized Developer ID"* ]] \
+      && log "Gatekeeper: app accepted as Notarized Developer ID" \
+      || warn "Gatekeeper did not confirm the app as Notarized Developer ID"
+  fi
 }
 
 command -v git >/dev/null || die "git not found"
@@ -222,18 +230,38 @@ fi
 # ---------------------------------------------------------------------------
 if [[ "$DO_DMG" -eq 1 ]]; then
   if [[ -z "$APP_PATH" ]]; then
-    log "Building Release Pinemeter.app"
+    log "Building Release Pinemeter.app (universal, Developer ID, hardened runtime + secure timestamp)"
     DD="$STAGE/dd"
-    ( cd "$REPO_ROOT" && xcodebuild build \
+    # Distribution signing, mirroring the release workflow: strip the base
+    # (get-task-allow) entitlements and add a secure timestamp + hardened runtime,
+    # all of which Apple's notary service requires.
+    ( cd "$REPO_ROOT" && xcodebuild clean build \
         -project Pinemeter.xcodeproj \
         -scheme Pinemeter \
         -configuration Release \
         -derivedDataPath "$DD" \
-        -destination 'generic/platform=macOS' \
+        -arch x86_64 -arch arm64 \
+        CODE_SIGN_STYLE=Manual \
+        CODE_SIGN_IDENTITY="$REAL_SIGN_IDENTITY" \
+        DEVELOPMENT_TEAM="$REAL_TEAM_ID" \
+        CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
+        OTHER_CODE_SIGN_FLAGS="--timestamp --options runtime" \
         >"$STAGE/build.log" 2>&1 ) || { tail -40 "$STAGE/build.log" >&2; die "Release build failed"; }
     APP_PATH="$DD/Build/Products/Release/Pinemeter.app"
   fi
   [[ -d "$APP_PATH" ]] || die "Pinemeter.app not found at: $APP_PATH"
+
+  # Fail fast (before the slow notary round-trip) if the app is not distribution-signed.
+  # Capture into vars and match in bash — a `... | grep -q` pipe would SIGPIPE codesign
+  # and, under `set -o pipefail`, report a false failure.
+  if [[ "$DO_NOTARIZE" -eq 1 && "$DRY_RUN" -eq 0 ]]; then
+    sig_info="$(codesign -dvv "$APP_PATH" 2>&1 || true)"
+    ent_info="$(codesign -d --entitlements - "$APP_PATH" 2>&1 || true)"
+    [[ "$ent_info" == *get-task-allow* ]] \
+      && die "app requests get-task-allow (not distribution-signed) — notarization would fail; rebuild without --app"
+    [[ "$sig_info" == *"Timestamp="* ]] \
+      || die "app signature has no secure timestamp — notarization would fail; rebuild without --app"
+  fi
 
   log "Packaging $DMG_NAME from $(basename "$APP_PATH")"
   mkdir -p releases
@@ -257,7 +285,7 @@ if [[ "$DO_DMG" -eq 1 ]]; then
   log "DMG size: $(du -h "$DMG_OUT" | cut -f1)"
 
   if [[ "$DO_NOTARIZE" -eq 1 && "$DRY_RUN" -eq 0 ]]; then
-    notarize_dmg "$DMG_OUT"
+    notarize_dmg "$DMG_OUT" "$APP_PATH"
   else
     warn "Notarization skipped — the DMG is signed but not notarized (Gatekeeper will warn on first open)"
   fi
