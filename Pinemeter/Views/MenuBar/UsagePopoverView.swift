@@ -122,7 +122,7 @@ struct UsagePopoverView: View {
                     ProgressView()
                     Text(appModel.usageLoadingMessage)
                         .font(.callout)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(Color.popoverSecondary)
                 }
                 .frame(maxWidth: .infinity, minHeight: 220)
                 .padding()
@@ -211,7 +211,7 @@ struct UsagePopoverView: View {
         HStack(spacing: 8) {
             Image(systemName: "exclamationmark.triangle.fill")
                 .foregroundStyle(.orange)
-            CopyableErrorText("\(provider): \(message)", font: .caption, foregroundStyle: .secondary)
+            CopyableErrorText("\(provider): \(message)", font: .caption, foregroundStyle: Color.popoverSecondary)
             Spacer()
         }
         .padding(12)
@@ -233,6 +233,14 @@ enum ClaudeCredentialRecoveryCopy {
             || normalized.contains("invalid")
             || normalized.contains("expired")
     }
+}
+
+extension Color {
+    /// Higher-contrast replacement for `.secondary` on the popover's solid
+    /// control-background surfaces. SwiftUI's `.secondary` (~55% label opacity)
+    /// falls below the WCAG AA 4.5:1 ratio for small text; 75% label opacity
+    /// keeps a de-emphasized look while staying compliant in light and dark.
+    static let popoverSecondary = Color.primary.opacity(0.75)
 }
 
 /// The popover's main content: the menu bar's quota bars blown up into
@@ -317,7 +325,7 @@ private struct QuotaBarColumn: View {
             if let detail = bar.detail {
                 Text(detail)
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.popoverSecondary)
                     .multilineTextAlignment(.center)
                     .lineLimit(2)
                     .fixedSize(horizontal: false, vertical: true)
@@ -366,7 +374,7 @@ private struct QuotaBarColumn: View {
 
                 Image(systemName: "pencil")
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.popoverSecondary)
                     .opacity(isHovering ? 1 : 0)
             }
             .contentShape(Rectangle())
