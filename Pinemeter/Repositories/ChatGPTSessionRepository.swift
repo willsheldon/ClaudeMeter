@@ -55,8 +55,10 @@ actor ChatGPTSessionRepository: ChatGPTSessionRepositoryProtocol {
                 try replace(query: query, account: account)
             }
         } else if status != errSecSuccess {
-            persistStatus(.init(state: .storageUnavailable, lastErrorCategory: .keychainWriteFailed), account: account)
-            throw ChatGPTSessionRepositoryError.secureStorageUnavailable(.keychainWriteFailed)
+            // A stale item written by a previous build can make SecItemAdd
+            // fail with errSecItemNotFound instead of errSecDuplicateItem;
+            // replacing (delete + add) clears it.
+            try replace(query: query, account: account)
         }
 
         transientAccessTokens[account] = session.accessToken

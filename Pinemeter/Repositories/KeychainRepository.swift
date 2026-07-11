@@ -35,7 +35,20 @@ actor KeychainRepository: KeychainRepositoryProtocol {
             // Item already exists, update it instead
             try await update(sessionKey: sessionKey, account: account)
         } else if status != errSecSuccess {
-            throw KeychainError.saveFailed(OSStatus: status)
+            // A stale item written by a previous build can make SecItemAdd
+            // fail with errSecItemNotFound instead of errSecDuplicateItem;
+            // delete it and retry the add once before giving up.
+            let deleteQuery: [String: Any] = [
+                kSecClass as String: kSecClassGenericPassword,
+                kSecAttrAccount as String: account,
+                kSecAttrService as String: serviceName,
+                kSecAttrSynchronizable as String: kCFBooleanFalse as Any,
+            ]
+            SecItemDelete(deleteQuery as CFDictionary)
+            let retryStatus = SecItemAdd(query as CFDictionary, nil)
+            guard retryStatus == errSecSuccess else {
+                throw KeychainError.saveFailed(OSStatus: retryStatus)
+            }
         }
     }
 
