@@ -260,6 +260,186 @@ final class ClaudeMultiAccountTests: XCTestCase {
         XCTAssertFalse(additionalExists)
     }
 
+    // MARK: - Remove account
+
+    func test_removeClaudeAccount_nonPrimary_deletesKeychainAndDropsUsageSection() async throws {
+        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
+        let org2 = organization(id: 2, uuid: Self.org2UUIDString, name: "Personal")
+        let primaryUsage = makeUsageData(percentage: 11)
+        let secondaryUsage = makeUsageData(percentage: 22)
+
+        let keychainRepository = KeychainRepositoryFake()
+        let importService = MultiAccountImportServiceStub(importedKeys: [
+            ImportedSessionKey(value: Self.key1, sourceDescription: "Chrome Profile 1"),
+            ImportedSessionKey(value: Self.key2, sourceDescription: "Chrome Profile 15"),
+        ])
+        let usageService = MultiAccountUsageServiceStub(
+            organizationsByKey: [Self.key1: [org1], Self.key2: [org2]],
+            usageByOrganization: [org1.organizationUUID!: primaryUsage, org2.organizationUUID!: secondaryUsage],
+            primaryUsage: primaryUsage
+        )
+
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: keychainRepository,
+            usageService: usageService,
+            notificationService: NotificationServiceSpy(),
+            sessionKeyImportService: importService
+        )
+
+        _ = try await appModel.importClaudeAccounts(from: .chrome)
+        XCTAssertEqual(appModel.claudeAccountUsage[Self.org2UUIDString], secondaryUsage)
+
+        try await appModel.removeClaudeAccount(id: Self.org2UUIDString)
+
+        XCTAssertEqual(appModel.settings.claudeAccounts.count, 1)
+        let remaining = try XCTUnwrap(appModel.settings.claudeAccounts.first)
+        XCTAssertTrue(remaining.isPrimary)
+        XCTAssertEqual(remaining.id, Self.org1UUIDString)
+
+        let additionalExists = await keychainRepository.exists(account: Self.org2UUIDString)
+        XCTAssertFalse(additionalExists)
+        let primaryExists = await keychainRepository.exists(account: "default")
+        XCTAssertTrue(primaryExists)
+
+        XCTAssertNil(appModel.claudeAccountUsage[Self.org2UUIDString])
+        XCTAssertNil(appModel.claudeAccountErrors[Self.org2UUIDString])
+        XCTAssertEqual(appModel.claudeUsageSections.count, 1)
+        XCTAssertTrue(appModel.isSetupComplete)
+    }
+
+    func test_removeClaudeAccount_primary_promotesNextAccountPreservingCustomLabel() async throws {
+        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
+        let org2 = organization(id: 2, uuid: Self.org2UUIDString, name: "Personal")
+        let primaryUsage = makeUsageData(percentage: 11)
+        let secondaryUsage = makeUsageData(percentage: 22)
+
+        let keychainRepository = KeychainRepositoryFake()
+        let importService = MultiAccountImportServiceStub(importedKeys: [
+            ImportedSessionKey(value: Self.key1, sourceDescription: "Chrome Profile 1"),
+            ImportedSessionKey(value: Self.key2, sourceDescription: "Chrome Profile 15"),
+        ])
+        let usageService = MultiAccountUsageServiceStub(
+            organizationsByKey: [Self.key1: [org1], Self.key2: [org2]],
+            usageByOrganization: [org1.organizationUUID!: primaryUsage, org2.organizationUUID!: secondaryUsage],
+            primaryUsage: primaryUsage
+        )
+
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: keychainRepository,
+            usageService: usageService,
+            notificationService: NotificationServiceSpy(),
+            sessionKeyImportService: importService
+        )
+
+        _ = try await appModel.importClaudeAccounts(from: .chrome)
+        appModel.renameClaudeAccount(id: Self.org2UUIDString, customLabel: "Personal Max")
+
+        try await appModel.removeClaudeAccount(id: Self.org1UUIDString)
+
+        XCTAssertEqual(appModel.settings.claudeAccounts.count, 1)
+        let newPrimary = try XCTUnwrap(appModel.settings.claudeAccounts.first)
+        XCTAssertTrue(newPrimary.isPrimary)
+        XCTAssertEqual(newPrimary.id, Self.org2UUIDString)
+        XCTAssertEqual(newPrimary.keychainAccount, "default")
+        XCTAssertEqual(newPrimary.customLabel, "Personal Max")
+        XCTAssertEqual(newPrimary.profileLabel, "Chrome Profile 15")
+
+        let savedPrimaryKey = try await keychainRepository.retrieve(account: "default")
+        XCTAssertEqual(savedPrimaryKey, Self.key2)
+        let stalePerOrgExists = await keychainRepository.exists(account: Self.org2UUIDString)
+        XCTAssertFalse(stalePerOrgExists)
+
+        XCTAssertNil(appModel.claudeAccountUsage[Self.org2UUIDString])
+        XCTAssertNil(appModel.claudeAccountUsage[Self.org1UUIDString])
+        XCTAssertEqual(appModel.claudeUsageSections.count, 1)
+        XCTAssertTrue(appModel.isSetupComplete)
+    }
+
+    func test_removeClaudeAccount_primary_promotionFailureLeavesStateUnchanged() async throws {
+        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
+        let org2 = organization(id: 2, uuid: Self.org2UUIDString, name: "Personal")
+        let primaryUsage = makeUsageData(percentage: 11)
+        let secondaryUsage = makeUsageData(percentage: 22)
+
+        let keychainRepository = KeychainRepositoryFake()
+        let importService = MultiAccountImportServiceStub(importedKeys: [
+            ImportedSessionKey(value: Self.key1, sourceDescription: "Chrome Profile 1"),
+            ImportedSessionKey(value: Self.key2, sourceDescription: "Chrome Profile 15"),
+        ])
+        let usageService = TogglableUsageServiceStub(
+            organizationsByKey: [Self.key1: [org1], Self.key2: [org2]],
+            usageByOrganization: [org1.organizationUUID!: primaryUsage, org2.organizationUUID!: secondaryUsage],
+            primaryUsage: primaryUsage
+        )
+
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: keychainRepository,
+            usageService: usageService,
+            notificationService: NotificationServiceSpy(),
+            sessionKeyImportService: importService
+        )
+
+        _ = try await appModel.importClaudeAccounts(from: .chrome)
+        XCTAssertEqual(appModel.claudeCredentialState.health, .valid)
+
+        // The to-be-promoted account's session no longer validates.
+        await usageService.setFailValidation(true)
+
+        do {
+            try await appModel.removeClaudeAccount(id: Self.org1UUIDString)
+            XCTFail("Expected promotion failure to throw")
+        } catch {
+            // Expected.
+        }
+
+        // State is unchanged: the old primary is still primary and valid.
+        XCTAssertEqual(appModel.settings.claudeAccounts.count, 2)
+        let primary = try XCTUnwrap(appModel.settings.claudeAccounts.first(where: { $0.isPrimary }))
+        XCTAssertEqual(primary.id, Self.org1UUIDString)
+        XCTAssertEqual(appModel.claudeCredentialState.health, .valid)
+
+        let savedPrimaryKey = try await keychainRepository.retrieve(account: "default")
+        XCTAssertEqual(savedPrimaryKey, Self.key1)
+        let additionalExists = await keychainRepository.exists(account: Self.org2UUIDString)
+        XCTAssertTrue(additionalExists)
+    }
+
+    func test_removeClaudeAccount_lastAccount_clearsClaudeEntirely() async throws {
+        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
+        let usage = makeUsageData(percentage: 33)
+
+        let keychainRepository = KeychainRepositoryFake()
+        let importService = SessionKeyImportServiceStub(result: .success(ImportedSessionKey(
+            value: Self.key1,
+            sourceDescription: "Chrome Default"
+        )))
+        let usageService = UsageServiceStub(
+            fetchUsageResult: .success(usage),
+            organizations: [org1]
+        )
+
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: keychainRepository,
+            usageService: usageService,
+            notificationService: NotificationServiceSpy(),
+            sessionKeyImportService: importService
+        )
+
+        _ = try await appModel.importAndSaveSessionKey()
+        XCTAssertEqual(appModel.settings.claudeAccounts.count, 1)
+
+        try await appModel.removeClaudeAccount(id: Self.org1UUIDString)
+
+        XCTAssertTrue(appModel.settings.claudeAccounts.isEmpty)
+        XCTAssertFalse(appModel.isSetupComplete)
+        let primaryExists = await keychainRepository.exists(account: "default")
+        XCTAssertFalse(primaryExists)
+    }
+
     // MARK: - Menu bar quota bars
 
     func test_usageQuotaBars_mirrorPopoverContentAndOrderAcrossProviders() {
@@ -432,6 +612,51 @@ private actor MultiAccountUsageServiceStub: UsageServiceProtocol {
 
     func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool {
         organizationsByKey[sessionKey.value] != nil
+    }
+}
+
+private actor TogglableUsageServiceStub: UsageServiceProtocol {
+    let organizationsByKey: [String: [Organization]]
+    let usageByOrganization: [UUID: UsageData]
+    let primaryUsage: UsageData
+    private var failValidation = false
+
+    init(
+        organizationsByKey: [String: [Organization]],
+        usageByOrganization: [UUID: UsageData],
+        primaryUsage: UsageData
+    ) {
+        self.organizationsByKey = organizationsByKey
+        self.usageByOrganization = usageByOrganization
+        self.primaryUsage = primaryUsage
+    }
+
+    func setFailValidation(_ value: Bool) {
+        failValidation = value
+    }
+
+    func fetchUsage(forceRefresh: Bool) async throws -> UsageData {
+        primaryUsage
+    }
+
+    func fetchUsage(account: String, organizationId: UUID, forceRefresh: Bool) async throws -> UsageData {
+        guard let usage = usageByOrganization[organizationId] else {
+            throw AppError.noSessionKey
+        }
+        return usage
+    }
+
+    func fetchOrganizations() async throws -> [Organization] {
+        organizationsByKey.values.first ?? []
+    }
+
+    func fetchOrganizations(sessionKey: SessionKey) async throws -> [Organization] {
+        organizationsByKey[sessionKey.value] ?? []
+    }
+
+    func validateSessionKey(_ sessionKey: SessionKey) async throws -> Bool {
+        if failValidation { return false }
+        return organizationsByKey[sessionKey.value] != nil
     }
 }
 

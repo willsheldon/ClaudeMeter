@@ -192,10 +192,13 @@ final class ProviderErrorWorkflowTests: XCTestCase {
         XCTAssertFalse(settingsSource.contains("case (.chatGPT, .clear):"))
         XCTAssertFalse(settingsSource.contains("await repairClaudeSessionKey()"))
         XCTAssertFalse(settingsSource.contains("await clearSavedCredential(for: status.provider)"))
-        // The only allowed TextField is the account-label rename field; no
-        // manual credential entry fields may exist in SettingsView.
-        let settingsTextFieldCount = settingsSource.components(separatedBy: "TextField").count - 1
-        XCTAssertEqual(settingsTextFieldCount, 1)
+        // Every TextField in SettingsView must be the account-label rename
+        // field; no manual credential entry fields may exist.
+        let settingsTextFieldCount = settingsSource.components(separatedBy: "TextField(").count - 1
+        let accountLabelFieldCount = settingsSource
+            .components(separatedBy: "TextField(account.label, text: accountLabelBinding(for: account.id))")
+            .count - 1
+        XCTAssertEqual(settingsTextFieldCount, accountLabelFieldCount)
         XCTAssertTrue(settingsSource.contains("TextField(account.label, text: accountLabelBinding(for: account.id))"))
         XCTAssertFalse(settingsSource.contains("validateAndSaveSessionKey"))
         XCTAssertFalse(settingsSource.contains("validateAndSaveChatGPTSessionCookie"))

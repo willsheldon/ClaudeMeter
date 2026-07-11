@@ -5,21 +5,13 @@ import AppKit
 struct SettingsView: View {
     @Bindable var appModel: AppModel
 
-    @State private var isImportingSessionKey: Bool = false
-    @State private var sessionKeyValidationMessage: String?
     @State private var offersFullDiskAccessSettings: Bool = false
-    @State private var hasSessionKeyValidationSucceeded: Bool = false
-
-    @State private var isImportingChatGPTSessionCookie: Bool = false
-    @State private var chatGPTSessionCookieValidationMessage: String?
-    @State private var hasChatGPTSessionCookieValidationSucceeded: Bool = false
     @State private var isImportingProviderSessions: Bool = false
-    @State private var providerImportMessage: String?
-    @State private var hasProviderImportSucceeded: Bool = false
     @State private var activeCredentialActionProvider: CredentialProvider?
     @State private var activeCredentialActionKind: ProviderCredentialActionKind?
-    @State private var providerCredentialActionMessage: String?
-    @State private var hasProviderCredentialActionSucceeded: Bool = false
+    @State private var accountsFeedback: (message: String, isSuccess: Bool)?
+    @State private var pendingRemoval: AccountRemoval?
+    @State private var isRemovingAccount: Bool = false
 
     @State private var isSendingTestNotification: Bool = false
     @State private var testNotificationMessage: String?
@@ -67,10 +59,7 @@ struct SettingsView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-                credentialRecoverySection
-                if appModel.settings.claudeAccounts.count > 1 {
-                    claudeAccountLabelsSection
-                }
+                accountsSection
                 chatGPTUsageSection
                 refreshIntervalSection
                 sonnetUsageSection
@@ -80,84 +69,294 @@ struct SettingsView: View {
         .padding(24)
     }
 
-    // MARK: - Credential Recovery Section
+    // MARK: - Accounts Section
 
-    private var credentialRecoverySection: some View {
+    private enum AccountRemoval: Identifiable {
+        case claude(id: String, label: String)
+        case provider(status: AppProviderCredentialStatus, label: String)
+
+        var id: String {
+            switch self {
+            case .claude(let id, _):
+                return "claude-\(id)"
+            case .provider(let status, _):
+                return "provider-\(status.provider.rawValue)"
+            }
+        }
+
+        var label: String {
+            switch self {
+            case .claude(_, let label), .provider(_, let label):
+                return label
+            }
+        }
+
+        var reconnectHint: String {
+            switch self {
+            case .claude:
+                return "Rescan your browser to reconnect it."
+            case .provider(let status, _):
+                return status.provider == .gemini
+                    ? "Re-add your Gemini API key to reconnect it."
+                    : "Rescan your browser to reconnect it."
+            }
+        }
+    }
+
+    private var orderedClaudeAccounts: [ClaudeAccount] {
+        appModel.settings.claudeAccounts.sorted { lhs, rhs in
+            if lhs.isPrimary != rhs.isPrimary { return lhs.isPrimary }
+            return lhs.displayLabel.localizedCaseInsensitiveCompare(rhs.displayLabel) == .orderedAscending
+        }
+    }
+
+    private var accountsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Credential Recovery")
-                    .font(.subheadline)
-                Text("Claude session key status appears first. Provider credential statuses never show saved credential values.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            credentialBrowserImportButtons
-
-            Divider()
-
-            ForEach(appModel.providerCredentialStatuses) { status in
-                providerCredentialRow(status)
-
-                if status.id != appModel.providerCredentialStatuses.last?.id {
-                    Divider()
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Accounts")
+                        .font(.subheadline)
+                    Text("Connected accounts appear in the popover and menu bar in this order.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
+
+                Spacer()
+
+                scanButton
             }
 
-            credentialActionFeedback
+            accountCardsRow
+
+            accountsFeedbackView
         }
         .padding()
         .background(.quaternary.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 8))
+        .confirmationDialog(
+            pendingRemoval.map { "Remove \($0.label)?" } ?? "",
+            isPresented: pendingRemovalBinding,
+            presenting: pendingRemoval
+        ) { removal in
+            Button("Remove", role: .destructive) {
+                performRemoval(removal)
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: { removal in
+            Text(removal.reconnectHint)
+        }
     }
 
-    private var credentialBrowserImportButtons: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Import browser sessions")
-                .font(.caption.weight(.semibold))
-
-            Text("Open Chrome, Safari, or Firefox and sign in, then scan. Gemini API keys are entered below.")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .fixedSize(horizontal: false, vertical: true)
-
-            Button(action: {
-                Task { await scanOpenBrowsersFromSettings() }
-            }) {
-                HStack {
-                    if isImportingProviderSessions {
-                        ProgressView()
-                            .controlSize(.small)
-                    }
-                    Text(isImportingProviderSessions ? (appModel.importProgress ?? "Scanning\u{2026}") : "Scan open browsers")
+    private var scanButton: some View {
+        Button(action: {
+            Task { await scanOpenBrowsersFromSettings() }
+        }) {
+            HStack(spacing: 5) {
+                if isImportingProviderSessions {
+                    ProgressView()
+                        .controlSize(.small)
                 }
-                .frame(maxWidth: .infinity)
+                Text(isImportingProviderSessions ? (appModel.importProgress ?? "Scanning\u{2026}") : "Scan")
             }
-            .buttonStyle(.bordered)
-            .controlSize(.small)
-            .disabled(isCredentialImportBusy)
         }
+        .buttonStyle(.bordered)
+        .controlSize(.small)
+        .disabled(isAccountsBusy)
     }
 
     @ViewBuilder
-    private var credentialActionFeedback: some View {
-        if let providerImportMessage {
-            CopyableErrorText(providerImportMessage,
-                              font: .caption,
-                              foregroundStyle: hasProviderImportSucceeded ? Color.green : Color.orange)
-        }
+    private var accountCardsRow: some View {
+        let claudeAccounts = orderedClaudeAccounts
+        let showChatGPT = appModel.hasChatGPTSessionCookie
+        let showGemini = appModel.isGeminiUsageConfigured
 
-        if let providerCredentialActionMessage {
-            CopyableErrorText(providerCredentialActionMessage,
-                              font: .caption,
-                              foregroundStyle: hasProviderCredentialActionSucceeded ? Color.green : Color.orange)
+        if claudeAccounts.isEmpty && !showChatGPT && !showGemini {
+            emptyAccountsCard
+        } else {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 10) {
+                    ForEach(claudeAccounts) { account in
+                        claudeAccountCard(account)
+                    }
+                    if showChatGPT {
+                        providerCard(for: .chatGPT)
+                    }
+                    if showGemini {
+                        providerCard(for: .gemini)
+                    }
+                }
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.vertical, 2)
+            }
         }
+    }
 
-        if let sessionKeyValidationMessage {
-            CopyableErrorText(sessionKeyValidationMessage,
+    private var emptyAccountsCard: some View {
+        Button(action: {
+            Task { await scanOpenBrowsersFromSettings() }
+        }) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Connect accounts")
+                    .font(.callout.weight(.semibold))
+                Text("Sign in to Claude or ChatGPT in your browser, then scan.")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [4]))
+                    .foregroundStyle(.secondary)
+            )
+        }
+        .buttonStyle(.plain)
+        .disabled(isAccountsBusy)
+    }
+
+    private func claudeAccountCard(_ account: ClaudeAccount) -> some View {
+        let isMultiAccount = appModel.settings.claudeAccounts.count > 1
+        let primaryStatus = appModel.providerCredentialStatuses.first { $0.provider == .claude }
+        let accountError = account.isPrimary ? nil : appModel.claudeAccountErrors[account.id]
+        let showOrgName = {
+            let trimmed = account.customLabel?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            return !trimmed.isEmpty && trimmed != account.label
+        }()
+
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 4) {
+                Text("Claude")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+
+                if account.isPrimary && isMultiAccount {
+                    Text("Primary")
+                        .font(.caption2)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(Color.accentColor.opacity(0.15), in: Capsule())
+                        .foregroundStyle(Color.accentColor)
+                }
+
+                Spacer()
+
+                Circle()
+                    .fill(claudeStatusColor(for: account, primaryStatus: primaryStatus))
+                    .frame(width: 8, height: 8)
+                    .help(claudeStatusTooltip(for: account, accountError: accountError, primaryStatus: primaryStatus))
+            }
+
+            TextField(account.label, text: accountLabelBinding(for: account.id))
+                .textFieldStyle(.plain)
+                .font(.callout.weight(.semibold))
+
+            if showOrgName {
+                Text(account.label)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+
+            if let profileLabel = account.profileLabel {
+                Text(profileLabel)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer(minLength: 4)
+
+            HStack(spacing: 8) {
+                if account.isPrimary, let primaryStatus {
+                    providerCredentialStatusActions(for: primaryStatus)
+                }
+                removeButton(.claude(id: account.id, label: account.displayLabel))
+                Spacer()
+            }
+        }
+        .padding(10)
+        .frame(width: 180)
+        .frame(maxHeight: .infinity, alignment: .top)
+        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 10))
+    }
+
+    private func providerCard(for provider: CredentialProvider) -> some View {
+        let status = appModel.providerCredentialStatuses.first { $0.provider == provider }
+
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 4) {
+                Text(provider.displayName)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+
+                Spacer()
+
+                if let status {
+                    Circle()
+                        .fill(credentialStatusColor(for: status.state.health))
+                        .frame(width: 8, height: 8)
+                        .help(status.stateText)
+                }
+            }
+
+            Text(provider.displayName)
+                .font(.callout.weight(.semibold))
+
+            if let status {
+                Text(status.detailText)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                if let lastFailureTitle = status.lastFailureTitle {
+                    CopyableErrorText(lastFailureTitle, font: .caption2, foregroundStyle: .orange)
+                }
+            }
+
+            Spacer(minLength: 4)
+
+            if let status {
+                HStack(spacing: 8) {
+                    removeButton(.provider(status: status, label: provider.displayName))
+                    Spacer()
+                }
+            }
+        }
+        .padding(10)
+        .frame(width: 180)
+        .frame(maxHeight: .infinity, alignment: .top)
+        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 10))
+    }
+
+    @ViewBuilder
+    private func providerCredentialStatusActions(for status: AppProviderCredentialStatus) -> some View {
+        let visibleActions = status.actions.filter { $0.kind == .repair }
+
+        ForEach(visibleActions) { action in
+            Button("Fix") {
+                handleCredentialAction(action.kind, for: status)
+            }
+            .controlSize(.small)
+            .disabled(isCredentialActionDisabled(for: status))
+        }
+    }
+
+    private func removeButton(_ removal: AccountRemoval) -> some View {
+        Button("Remove") {
+            pendingRemoval = removal
+        }
+        .buttonStyle(.borderless)
+        .controlSize(.small)
+        .tint(.red)
+        .disabled(isAccountsBusy)
+    }
+
+    @ViewBuilder
+    private var accountsFeedbackView: some View {
+        if let accountsFeedback {
+            CopyableErrorText(accountsFeedback.message,
                               font: .caption,
-                              foregroundStyle: hasSessionKeyValidationSucceeded ? Color.green : Color.orange)
+                              foregroundStyle: accountsFeedback.isSuccess ? Color.green : Color.orange)
         }
 
         if offersFullDiskAccessSettings {
@@ -166,78 +365,40 @@ struct SettingsView: View {
             }
             .controlSize(.small)
         }
+    }
 
-        if let chatGPTSessionCookieValidationMessage {
-            CopyableErrorText(chatGPTSessionCookieValidationMessage,
-                              font: .caption,
-                              foregroundStyle: hasChatGPTSessionCookieValidationSucceeded ? Color.green : Color.orange)
+    private var pendingRemovalBinding: Binding<Bool> {
+        Binding(
+            get: { pendingRemoval != nil },
+            set: { if !$0 { pendingRemoval = nil } }
+        )
+    }
+
+    private func performRemoval(_ removal: AccountRemoval) {
+        switch removal {
+        case .claude(let id, let label):
+            removeClaudeAccountFromSettings(id: id, label: label)
+        case .provider(let status, _):
+            handleCredentialAction(.clear, for: status)
         }
     }
 
-    private func providerCredentialRow(_ status: AppProviderCredentialStatus) -> some View {
-        let visibleActions = status.actions.filter { $0.kind != .reconnect }
-
-        return VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .top, spacing: 12) {
-                Image(systemName: credentialStatusIcon(for: status.state.health))
-                    .foregroundStyle(credentialStatusColor(for: status.state.health))
-                    .frame(width: 18)
-
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(status.providerName)
-                        .font(.caption.weight(.semibold))
-
-                    Text(status.detailText)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-
-                    if let lastFailureTitle = status.lastFailureTitle {
-                        CopyableErrorText(lastFailureTitle, font: .caption2, foregroundStyle: .orange)
-                    }
-
-                    if let recoverySuggestion = status.recoverySuggestion, recoverySuggestion != status.detailText {
-                        CopyableErrorText(recoverySuggestion, font: .caption2, foregroundStyle: .secondary)
-                    }
-                }
-
-                Spacer()
-
-                Text(status.stateText)
-                    .font(.caption.monospacedDigit())
-                    .foregroundStyle(credentialStatusColor(for: status.state.health))
-            }
-
-            if !visibleActions.isEmpty {
-                HStack(spacing: 8) {
-                    ForEach(visibleActions) { action in
-                        Button(credentialActionTitle(action.kind, for: status)) {
-                            handleCredentialAction(action.kind, for: status)
-                        }
-                        .controlSize(.small)
-                        .disabled(isCredentialActionDisabled(action.kind, for: status))
-                    }
-
-                    Spacer()
-                }
-                .padding(.leading, 30)
-            }
+    private func claudeStatusColor(for account: ClaudeAccount, primaryStatus: AppProviderCredentialStatus?) -> Color {
+        if account.isPrimary {
+            return credentialStatusColor(for: primaryStatus?.state.health ?? .unknown)
         }
+        return appModel.claudeAccountErrors[account.id] == nil ? .green : .orange
     }
 
-    private func credentialStatusIcon(for health: CredentialHealthState) -> String {
-        switch health {
-        case .valid:
-            return "checkmark.circle.fill"
-        case .refreshRecommended:
-            return "clock.badge.exclamationmark"
-        case .validating:
-            return "arrow.triangle.2.circlepath.circle"
-        case .invalid, .expired, .unavailable:
-            return "exclamationmark.triangle.fill"
-        case .missing, .unknown:
-            return "questionmark.circle"
+    private func claudeStatusTooltip(
+        for account: ClaudeAccount,
+        accountError: String?,
+        primaryStatus: AppProviderCredentialStatus?
+    ) -> String {
+        if account.isPrimary {
+            return primaryStatus?.stateText ?? "Connected"
         }
+        return accountError ?? "Connected"
     }
 
     private func credentialStatusColor(for health: CredentialHealthState) -> Color {
@@ -253,44 +414,6 @@ struct SettingsView: View {
         case .missing, .unknown:
             return .secondary
         }
-    }
-
-    // MARK: - Claude Account Labels Section
-
-    private var claudeAccountLabelsSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Claude Account Labels")
-                    .font(.subheadline)
-                Text("Choose how each connected Claude account is named in the popover and menu bar. Leave blank to use the organization name.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
-            ForEach(appModel.settings.claudeAccounts) { account in
-                HStack {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(account.label)
-                            .font(.caption)
-                        if let profileLabel = account.profileLabel {
-                            Text(profileLabel)
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-
-                    Spacer()
-
-                    TextField(account.label, text: accountLabelBinding(for: account.id))
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 180)
-                }
-            }
-        }
-        .padding()
-        .background(.quaternary.opacity(0.3))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     private func accountLabelBinding(for accountId: String) -> Binding<String> {
@@ -311,7 +434,7 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Show ChatGPT Usage")
                     .font(.subheadline)
-                Text("Optional. Connect ChatGPT from the credential recovery section, then show ChatGPT plan quota usage in the popover.")
+                Text("Optional. Connect ChatGPT from Accounts above, then show ChatGPT plan quota usage in the popover.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -679,16 +802,8 @@ struct SettingsView: View {
 
     // MARK: - Actions
 
-    private var isSessionKeyBusy: Bool {
-        isImportingSessionKey
-    }
-
-    private var isChatGPTSessionCookieBusy: Bool {
-        isImportingChatGPTSessionCookie
-    }
-
-    private var isCredentialImportBusy: Bool {
-        isImportingProviderSessions || isSessionKeyBusy || isChatGPTSessionCookieBusy
+    private var isAccountsBusy: Bool {
+        isImportingProviderSessions || activeCredentialActionProvider != nil || isRemovingAccount
     }
 
     private func loadSettings() {
@@ -713,12 +828,7 @@ struct SettingsView: View {
     @MainActor
     private func scanOpenBrowsersFromSettings() async {
         isImportingProviderSessions = true
-        providerImportMessage = nil
-        hasProviderImportSucceeded = false
-        sessionKeyValidationMessage = nil
-        chatGPTSessionCookieValidationMessage = nil
-        providerCredentialActionMessage = nil
-        hasProviderCredentialActionSucceeded = false
+        accountsFeedback = nil
         offersFullDiskAccessSettings = false
 
         let outcome = await appModel.importFromOpenBrowsers()
@@ -728,85 +838,28 @@ struct SettingsView: View {
             var imported: [String] = []
             if outcome.claudeImported { imported.append("Claude") }
             if outcome.chatGPTImported { imported.append("ChatGPT") }
-            providerImportMessage = "Imported \(imported.joined(separator: " and "))."
-            hasProviderImportSucceeded = true
+            accountsFeedback = ("Imported \(imported.joined(separator: " and ")).", true)
         } else if outcome.results.isEmpty {
-            providerImportMessage = "No open browsers detected. Open Chrome, Safari, or Firefox and try again."
-            hasProviderImportSucceeded = false
+            accountsFeedback = ("No open browsers detected. Open Chrome, Safari, or Firefox and try again.", false)
         } else {
-            providerImportMessage = "No sessions found in open browsers. Sign in first, then scan again."
-            hasProviderImportSucceeded = false
+            accountsFeedback = ("No sessions found in open browsers. Sign in first, then scan again.", false)
         }
 
         isImportingProviderSessions = false
     }
 
-    @MainActor
-    private func importAndSaveSessionKey() async {
-        isImportingSessionKey = true
-        sessionKeyValidationMessage = nil
-        offersFullDiskAccessSettings = false
-        hasSessionKeyValidationSucceeded = false
-
-        do {
-            let imported = try await appModel.importAndSaveSessionKey()
-            sessionKeyValidationMessage = "Imported from \(imported.sourceDescription)"
-            hasSessionKeyValidationSucceeded = true
-            offersFullDiskAccessSettings = false
-
-            Task { @MainActor in
-                try? await Task.sleep(for: .seconds(2))
-                sessionKeyValidationMessage = nil
-                offersFullDiskAccessSettings = false
-                hasSessionKeyValidationSucceeded = false
-            }
-        } catch let error as SessionKeyImportError {
-            sessionKeyValidationMessage = error.localizedDescription
-            offersFullDiskAccessSettings = error.offersFullDiskAccessSettings
-            hasSessionKeyValidationSucceeded = false
-        } catch {
-            sessionKeyValidationMessage = error.localizedDescription
-            offersFullDiskAccessSettings = false
-            hasSessionKeyValidationSucceeded = false
-        }
-
-        isImportingSessionKey = false
-    }
-
-    private func clearSessionKey() {
+    private func removeClaudeAccountFromSettings(id: String, label: String) {
         Task { @MainActor in
-            await clearSessionKeyFromSettings()
-        }
-    }
-
-    @MainActor
-    private func clearSessionKeyFromSettings() async {
-        do {
-            try await appModel.clearSessionKey()
-            sessionKeyValidationMessage = nil
+            isRemovingAccount = true
+            accountsFeedback = nil
             offersFullDiskAccessSettings = false
-            hasSessionKeyValidationSucceeded = false
-        } catch {
-            sessionKeyValidationMessage = "Failed to clear: \(error.localizedDescription)"
-            offersFullDiskAccessSettings = false
-            hasSessionKeyValidationSucceeded = false
-        }
-    }
-
-    @MainActor
-    private func repairClaudeSessionKeyFromSettings() async {
-        sessionKeyValidationMessage = nil
-        offersFullDiskAccessSettings = false
-        hasSessionKeyValidationSucceeded = false
-
-        let state = await appModel.repairClaudeSessionKey()
-        if state.isUsable {
-            sessionKeyValidationMessage = "Claude session key repaired"
-            hasSessionKeyValidationSucceeded = true
-        } else {
-            let status = appModel.providerCredentialStatuses.first { $0.provider == .claude }
-            sessionKeyValidationMessage = status?.recoverySuggestion ?? status?.detailText ?? "Claude session key repair failed"
-            hasSessionKeyValidationSucceeded = false
+            do {
+                try await appModel.removeClaudeAccount(id: id)
+                accountsFeedback = ("Removed \(label).", true)
+            } catch {
+                accountsFeedback = ("Failed to remove \(label): \(error.localizedDescription)", false)
+            }
+            isRemovingAccount = false
         }
     }
 
@@ -823,55 +876,25 @@ struct SettingsView: View {
     ) async {
         activeCredentialActionProvider = status.provider
         activeCredentialActionKind = kind
-        providerCredentialActionMessage = "\(status.providerName): \(progressMessage(for: kind))"
-        hasProviderCredentialActionSucceeded = false
-        providerImportMessage = nil
-        sessionKeyValidationMessage = nil
-        chatGPTSessionCookieValidationMessage = nil
+        accountsFeedback = ("\(status.providerName): \(progressMessage(for: kind))", false)
         offersFullDiskAccessSettings = false
 
         do {
             let state = try await appModel.performProviderCredentialAction(kind, for: status.provider)
             if state.isUsable {
-                providerCredentialActionMessage = "\(status.providerName): \(successMessage(for: kind, credentialName: status.credentialName))"
-                hasProviderCredentialActionSucceeded = true
+                accountsFeedback = ("\(status.providerName): \(successMessage(for: kind, credentialName: status.credentialName))", true)
             } else if kind == .clear {
-                providerCredentialActionMessage = "\(status.providerName): Cleared saved \(status.credentialName)."
-                hasProviderCredentialActionSucceeded = true
+                accountsFeedback = ("\(status.providerName): Cleared saved \(status.credentialName).", true)
             } else {
                 let refreshedStatus = appModel.providerCredentialStatuses.first { $0.provider == status.provider }
-                providerCredentialActionMessage = "\(status.providerName): \(refreshedStatus?.recoverySuggestion ?? refreshedStatus?.detailText ?? "Recovery action did not restore access.")"
-                hasProviderCredentialActionSucceeded = false
+                accountsFeedback = ("\(status.providerName): \(refreshedStatus?.recoverySuggestion ?? refreshedStatus?.detailText ?? "Recovery action did not restore access.")", false)
             }
         } catch {
-            providerCredentialActionMessage = "\(status.providerName): Failed to \(kind.displayTitle.lowercased()) \(status.credentialName): \(error.localizedDescription)"
-            hasProviderCredentialActionSucceeded = false
+            accountsFeedback = ("\(status.providerName): Failed to \(kind.displayTitle.lowercased()) \(status.credentialName): \(error.localizedDescription)", false)
         }
 
         activeCredentialActionProvider = nil
         activeCredentialActionKind = nil
-    }
-
-    private func credentialActionTitle(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> String {
-        guard isCredentialActionActive(kind, for: status) else {
-            return kind.displayTitle
-        }
-        return "\(progressButtonTitle(for: kind)) \(status.providerName)..."
-    }
-
-    private func isCredentialActionActive(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> Bool {
-        activeCredentialActionProvider == status.provider && activeCredentialActionKind == kind
-    }
-
-    private func progressButtonTitle(for kind: ProviderCredentialActionKind) -> String {
-        switch kind {
-        case .reconnect:
-            return "Reconnecting"
-        case .repair:
-            return "Repairing"
-        case .clear:
-            return "Clearing"
-        }
     }
 
     private func progressMessage(for kind: ProviderCredentialActionKind) -> String {
@@ -896,56 +919,8 @@ struct SettingsView: View {
         }
     }
 
-    private func isCredentialActionDisabled(_ kind: ProviderCredentialActionKind, for status: AppProviderCredentialStatus) -> Bool {
-        if activeCredentialActionProvider != nil || isCredentialImportBusy || status.state.health == .validating {
-            return true
-        }
-        return false
-    }
-
-    @MainActor
-    private func importAndSaveChatGPTSessionCookie() async {
-        isImportingChatGPTSessionCookie = true
-        chatGPTSessionCookieValidationMessage = nil
-        hasChatGPTSessionCookieValidationSucceeded = false
-
-        do {
-            let imported = try await appModel.importAndSaveChatGPTSessionCookie()
-            chatGPTSessionCookieValidationMessage = "Imported from \(imported.sourceDescription)"
-            hasChatGPTSessionCookieValidationSucceeded = true
-
-            Task { @MainActor in
-                try? await Task.sleep(for: .seconds(2))
-                chatGPTSessionCookieValidationMessage = nil
-                hasChatGPTSessionCookieValidationSucceeded = false
-            }
-        } catch let error as SessionKeyImportError {
-            chatGPTSessionCookieValidationMessage = error.localizedDescription
-            hasChatGPTSessionCookieValidationSucceeded = false
-        } catch {
-            chatGPTSessionCookieValidationMessage = error.localizedDescription
-            hasChatGPTSessionCookieValidationSucceeded = false
-        }
-
-        isImportingChatGPTSessionCookie = false
-    }
-
-    private func clearChatGPTSessionCookie() {
-        Task { @MainActor in
-            await clearChatGPTSessionCookieFromSettings()
-        }
-    }
-
-    @MainActor
-    private func clearChatGPTSessionCookieFromSettings() async {
-        do {
-            try await appModel.clearChatGPTSessionCookie()
-            chatGPTSessionCookieValidationMessage = nil
-            hasChatGPTSessionCookieValidationSucceeded = false
-        } catch {
-            chatGPTSessionCookieValidationMessage = "Failed to clear: \(error.localizedDescription)"
-            hasChatGPTSessionCookieValidationSucceeded = false
-        }
+    private func isCredentialActionDisabled(for status: AppProviderCredentialStatus) -> Bool {
+        isAccountsBusy || status.state.health == .validating
     }
 
     private func updateLaunchAtLogin(_ enabled: Bool) {

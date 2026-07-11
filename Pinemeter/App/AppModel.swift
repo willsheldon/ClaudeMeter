@@ -1229,6 +1229,98 @@ final class AppModel {
         return repairedState
     }
 
+    /// Disconnects a single connected Claude account.
+    ///
+    /// - Non-primary account: deletes its per-org Keychain item and drops its
+    ///   cached usage/errors.
+    /// - Primary account with other accounts connected: promotes the next
+    ///   account in popover order (alphabetical by `displayLabel`) into the
+    ///   primary `"default"` slot via the tested save path, then removes the
+    ///   old primary and the promoted account's stale per-org Keychain item.
+    ///   If promotion fails, state is left unchanged and the error is surfaced.
+    /// - Last remaining account (or a legacy single-account install): clears
+    ///   the Claude credential entirely via `clearSessionKey()`.
+    func removeClaudeAccount(id: String) async throws {
+        guard let account = settings.claudeAccounts.first(where: { $0.id == id }) else {
+            if settings.claudeAccounts.isEmpty {
+                try await clearSessionKey()
+            }
+            return
+        }
+
+        guard settings.claudeAccounts.count > 1 else {
+            try await clearSessionKey()
+            return
+        }
+
+        if account.isPrimary {
+            let remaining = settings.claudeAccounts.filter { $0.id != id }
+            let promoted = remaining.sorted { lhs, rhs in
+                lhs.displayLabel.localizedCaseInsensitiveCompare(rhs.displayLabel) == .orderedAscending
+            }.first
+
+            guard let promoted else {
+                try await clearSessionKey()
+                return
+            }
+
+            let promotedKey = try await keychainRepository.retrieve(account: promoted.keychainAccount)
+
+            // `validateAndSaveSessionKey` mutates `claudeCredentialState` on a
+            // failed validation. If promotion fails, the old primary's key is
+            // still the valid `"default"` credential, so restore the prior
+            // state to avoid falsely flagging it as invalid.
+            let previousCredentialState = claudeCredentialState
+            let promotedValid: Bool
+            do {
+                promotedValid = try await validateAndSaveSessionKey(promotedKey)
+            } catch {
+                claudeCredentialState = previousCredentialState
+                throw error
+            }
+            guard promotedValid else {
+                claudeCredentialState = previousCredentialState
+                throw SessionKeyImportError.invalidImportedSessionKey
+            }
+
+            // `validateAndSaveSessionKey` re-registers the promoted org as the
+            // primary account under "default" and preserves its custom label.
+            // The old primary was primary, so it is already dropped from
+            // `settings.claudeAccounts`; the "default" Keychain slot now holds
+            // the promoted key. Clear the removed account's cached state.
+            claudeAccountUsage[id] = nil
+            claudeAccountErrors[id] = nil
+
+            // Normally the new primary is the promoted org. Guard against org
+            // drift: if the promoted key now resolves to a different org (its
+            // capabilities or org list changed since import), the promoted
+            // account survives as a non-primary entry, so its per-org Keychain
+            // item must stay and the profile-label restore must not target the
+            // wrong account.
+            if settings.claudeAccounts.first(where: { $0.isPrimary })?.id == promoted.id {
+                // The promoted org is now the "default" primary; its old per-org
+                // Keychain item is redundant. `registerPrimaryClaudeAccount`
+                // carried the *previous* primary's profile label, so restore the
+                // promoted account's own.
+                try? await keychainRepository.delete(account: promoted.keychainAccount)
+                claudeAccountUsage[promoted.id] = nil
+                claudeAccountErrors[promoted.id] = nil
+                if let promotedIndex = settings.claudeAccounts.firstIndex(where: { $0.isPrimary }) {
+                    settings.claudeAccounts[promotedIndex].profileLabel = promoted.profileLabel
+                }
+            }
+
+            await refreshAdditionalClaudeAccounts(forceRefresh: true)
+            return
+        }
+
+        try? await keychainRepository.delete(account: account.keychainAccount)
+        settings.claudeAccounts.removeAll { $0.id == id }
+        claudeAccountUsage[id] = nil
+        claudeAccountErrors[id] = nil
+        await refreshAdditionalClaudeAccounts(forceRefresh: true)
+    }
+
     func clearSessionKey() async throws {
         try await keychainRepository.delete(account: "default")
         for account in settings.claudeAccounts where !account.isPrimary {

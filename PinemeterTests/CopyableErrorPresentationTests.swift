@@ -20,11 +20,8 @@ final class CopyableErrorPresentationTests: XCTestCase {
                 "CopyableErrorText(lastFailureTitle",
             ],
             "Pinemeter/Views/Settings/SettingsView.swift": [
-                "CopyableErrorText(providerImportMessage",
-                "CopyableErrorText(sessionKeyValidationMessage",
-                "CopyableErrorText(chatGPTSessionCookieValidationMessage",
+                "CopyableErrorText(accountsFeedback.message",
                 "CopyableErrorText(lastFailureTitle",
-                "CopyableErrorText(recoverySuggestion",
             ],
             "Pinemeter/App/SessionKeyImportPromptCoordinator.swift": [
                 "accessoryView",
