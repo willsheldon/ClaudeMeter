@@ -2,14 +2,14 @@
 #
 # publish-public.sh — mirror this internal repo to the public PineIT-ca/pinemeter
 # repository with internal tooling stripped and identifying details anonymized,
-# then attach a fresh installer DMG under releases/.
+# then publish a fresh notarized installer DMG as a GitHub Release asset.
 #
 # The public repo is published as a SINGLE squashed orphan commit authored by
 # "Pineit <hello@pineit.ca>". Each run force-pushes a brand-new one-commit
 # history, so old binaries never accumulate in the public git history.
 #
 # Usage:
-#   publish/publish-public.sh                 # build Release, package DMG, notarize, push
+#   publish/publish-public.sh                 # build, notarize, push, publish GitHub Release
 #   publish/publish-public.sh --app PATH.app  # reuse an already-built .app
 #   publish/publish-public.sh --no-dmg        # skip the installer DMG
 #   publish/publish-public.sh --no-notarize   # build+staple skipped; ship unnotarized DMG
@@ -28,6 +28,7 @@ set -euo pipefail
 # Configuration
 # ---------------------------------------------------------------------------
 PUBLIC_REMOTE="git@github.com:PineIT-ca/pinemeter.git"
+PUBLIC_REPO="PineIT-ca/pinemeter"
 PUBLIC_BRANCH="main"
 COMMIT_AUTHOR="Pineit <hello@pineit.ca>"
 COMMIT_MESSAGE="Pinemeter: AI usage meters for the macOS menu bar"
@@ -145,6 +146,36 @@ notarize_dmg() {
   fi
 }
 
+# Release tag derived from the app version (CHANGELOG, else MARKETING_VERSION).
+version_tag() {
+  local v
+  v="$(sed -n 's/^## \[\([^]]*\)\].*/\1/p' "$REPO_ROOT/CHANGELOG.md" 2>/dev/null | head -1)"
+  if [[ -z "$v" || "$v" == "Unreleased" ]]; then
+    v="$(grep -m1 'MARKETING_VERSION' "$REPO_ROOT/Pinemeter.xcodeproj/project.pbxproj" 2>/dev/null | sed -E 's/.*= *([^;]+);.*/\1/' | tr -d ' ')"
+  fi
+  [[ -z "$v" ]] && v="1.0"
+  printf 'v%s' "$v"
+}
+
+# Publish the notarized DMG as a GitHub Release asset (not committed to git).
+# The public history is a single orphan commit that is force-pushed each run, so
+# the release/tag is recreated fresh on the new HEAD every time.
+release_dmg() {
+  local dmg="$1" tag
+  command -v gh >/dev/null || { warn "gh not found — DMG built but no GitHub Release created"; return 0; }
+  tag="$(version_tag)"
+  log "Publishing GitHub Release $tag to $PUBLIC_REPO"
+  gh release delete "$tag" --repo "$PUBLIC_REPO" --yes --cleanup-tag 2>/dev/null || true
+  gh release create "$tag" "$dmg" \
+    --repo "$PUBLIC_REPO" \
+    --target "$PUBLIC_BRANCH" \
+    --latest \
+    --title "Pinemeter $tag" \
+    --notes "Universal (Apple Silicon & Intel), Developer ID signed and notarized. Download **$DMG_NAME** below, open it, and drag **Pinemeter** into **Applications**." \
+    || die "gh release create failed for $tag"
+  log "Release live: $PUBLIC_URL/releases/latest/download/$DMG_NAME"
+}
+
 command -v git >/dev/null || die "git not found"
 [[ -d "$REPO_ROOT/.git" ]] || die "must run inside the internal git repo"
 
@@ -240,7 +271,7 @@ if [[ "$DO_DMG" -eq 1 ]]; then
         -scheme Pinemeter \
         -configuration Release \
         -derivedDataPath "$DD" \
-        -arch x86_64 -arch arm64 \
+        -arch x86_64 -arch arm64 ONLY_ACTIVE_ARCH=NO \
         CODE_SIGN_STYLE=Manual \
         CODE_SIGN_IDENTITY="$REAL_SIGN_IDENTITY" \
         DEVELOPMENT_TEAM="$REAL_TEAM_ID" \
@@ -264,8 +295,8 @@ if [[ "$DO_DMG" -eq 1 ]]; then
   fi
 
   log "Packaging $DMG_NAME from $(basename "$APP_PATH")"
-  mkdir -p releases
-  DMG_OUT="$STAGE/tree/releases/$DMG_NAME"
+  # Built outside the git tree — it ships as a GitHub Release asset, not a repo file.
+  DMG_OUT="$STAGE/$DMG_NAME"
   if command -v create-dmg >/dev/null; then
     STAGE_APP="$STAGE/dmgsrc"
     rm -rf "$STAGE_APP"; mkdir -p "$STAGE_APP"
@@ -290,13 +321,19 @@ if [[ "$DO_DMG" -eq 1 ]]; then
     warn "Notarization skipped — the DMG is signed but not notarized (Gatekeeper will warn on first open)"
   fi
 
-  # Insert a Download section pointing at the in-repo DMG (idempotent).
-  if [[ -f README.md ]] && ! grep -qF "releases/$DMG_NAME" README.md; then
-    DMG_NAME="$DMG_NAME" perl -0777 -pi -e '
-      my $block = "### Download\n\nGrab the latest signed build: **[$ENV{DMG_NAME}](releases/$ENV{DMG_NAME})**. "
-        . "Open the disk image and drag **Pinemeter** into **Applications**. "
-        . "On first launch, right-click the app and choose **Open** if macOS asks to verify it.\n\n";
-      s/(## Installation\n\n)(### Build from source)/${1}${block}${2}/;
+  # Big, bold download button at the top of the README, linking to the latest
+  # GitHub Release asset (idempotent).
+  if [[ -f README.md ]] && ! grep -qF "releases/latest/download/$DMG_NAME" README.md; then
+    DL_URL="$PUBLIC_URL/releases/latest/download/$DMG_NAME" \
+    perl -0777 -pi -e '
+      my $u = $ENV{DL_URL};
+      my $btn = "\n<p align=\"center\">\n"
+        . "  <a href=\"$u\">\n"
+        . "    <img src=\"https://img.shields.io/badge/Download%20Pinemeter-for%20macOS-2D5A45?style=for-the-badge&logo=apple&logoColor=white\" alt=\"Download Pinemeter for macOS\" height=\"46\">\n"
+        . "  </a>\n"
+        . "</p>\n"
+        . "<p align=\"center\"><sub>Universal &bull; Apple Silicon &amp; Intel &bull; Developer ID notarized &bull; macOS 14+</sub></p>\n";
+      s/(\*\*All your AI usage\. One glance\.\*\*\n)/$1$btn/;
     ' README.md
   fi
 else
@@ -307,7 +344,7 @@ fi
 # 8. Guard: no internal identifiers survived into the staged tree.
 # ---------------------------------------------------------------------------
 log "Verifying no internal identifiers remain"
-if grep -rIlE 'HMR9RDR6M2|AUTIMO SYSTEMS INC' . 2>/dev/null | grep -v '/releases/'; then
+if grep -rIlE 'HMR9RDR6M2|AUTIMO SYSTEMS INC' . 2>/dev/null; then
   die "internal signing identifiers leaked into staged tree (see above)"
 fi
 for p in AGENTS.md CLAUDE.md RELEASING.md .gsd .mcp.json .github/workflows/release.yml; do
@@ -329,8 +366,6 @@ log "Creating single squashed commit"
 git init -q -b "$PUBLIC_BRANCH"
 git config user.name "Pineit"
 git config user.email "hello@pineit.ca"
-# DMGs are binary; make sure nothing tries to normalize them.
-printf '*.dmg binary\n' > .gitattributes
 git add -A
 git commit -q --author="$COMMIT_AUTHOR" -m "$COMMIT_MESSAGE"
 
@@ -339,6 +374,9 @@ if [[ "$DO_PUSH" -eq 1 ]]; then
   git remote add origin "$PUBLIC_REMOTE"
   git push --force origin "$PUBLIC_BRANCH"
   log "Done. Published $(git rev-parse --short HEAD) to $PUBLIC_REMOTE"
+  if [[ "$DO_DMG" -eq 1 && -n "${DMG_OUT:-}" && -f "$DMG_OUT" ]]; then
+    release_dmg "$DMG_OUT"
+  fi
 else
   log "Committed locally (no push). Inspect: $STAGE/tree"
   trap - EXIT
