@@ -146,26 +146,42 @@ notarize_dmg() {
   fi
 }
 
-# Release tag derived from the app version (CHANGELOG, else MARKETING_VERSION).
-version_tag() {
-  local v
-  v="$(sed -n 's/^## \[\([^]]*\)\].*/\1/p' "$REPO_ROOT/CHANGELOG.md" 2>/dev/null | head -1)"
-  if [[ -z "$v" || "$v" == "Unreleased" ]]; then
-    v="$(grep -m1 'MARKETING_VERSION' "$REPO_ROOT/Pinemeter.xcodeproj/project.pbxproj" 2>/dev/null | sed -E 's/.*= *([^;]+);.*/\1/' | tr -d ' ')"
+# Next release version: patch-bump the latest published release, but honor a
+# higher MAJOR.MINOR floor from the app's MARKETING_VERSION (a manual line bump).
+# No prior release -> start MARKETING_VERSION's line at .0.
+next_version() {
+  local latest base bMaj bMin lMaj lMin lPat
+  latest="$(gh api "repos/$PUBLIC_REPO/releases/latest" --jq '.tag_name' 2>/dev/null || true)"
+  latest="${latest#v}"
+  base="$(grep -m1 'MARKETING_VERSION' "$REPO_ROOT/Pinemeter.xcodeproj/project.pbxproj" 2>/dev/null | sed -E 's/.*= *([^;]+);.*/\1/' | tr -d ' ')"
+  if [[ "$base" =~ ^([0-9]+)\.([0-9]+) ]]; then bMaj=${BASH_REMATCH[1]}; bMin=${BASH_REMATCH[2]}; else bMaj=1; bMin=0; fi
+  if [[ "$latest" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+    lMaj=${BASH_REMATCH[1]}; lMin=${BASH_REMATCH[2]}; lPat=${BASH_REMATCH[3]}
+  elif [[ "$latest" =~ ^([0-9]+)\.([0-9]+)$ ]]; then
+    lMaj=${BASH_REMATCH[1]}; lMin=${BASH_REMATCH[2]}; lPat=0
+  else
+    printf '%s.%s.0' "$bMaj" "$bMin"; return
   fi
-  [[ -z "$v" ]] && v="1.0"
-  printf 'v%s' "$v"
+  if (( bMaj > lMaj )) || { (( bMaj == lMaj )) && (( bMin > lMin )); }; then
+    printf '%s.%s.0' "$bMaj" "$bMin"
+  else
+    printf '%s.%s.%s' "$lMaj" "$lMin" "$((lPat + 1))"
+  fi
+}
+
+# Monotonic integer build number encoded from the semantic version (1.2.3 -> 10203).
+build_number() {
+  local v="$1" M m p
+  M="${v%%.*}"; v="${v#*.}"; m="${v%%.*}"; p="${v#*.}"
+  printf '%d' "$(( 10#$M * 10000 + 10#$m * 100 + 10#$p ))"
 }
 
 # Publish the notarized DMG as a GitHub Release asset (not committed to git).
-# The public history is a single orphan commit that is force-pushed each run, so
-# the release/tag is recreated fresh on the new HEAD every time.
+# Each publish uses a fresh auto-incremented tag, so releases accumulate as history.
 release_dmg() {
-  local dmg="$1" tag
+  local dmg="$1" tag="$2"
   command -v gh >/dev/null || { warn "gh not found — DMG built but no GitHub Release created"; return 0; }
-  tag="$(version_tag)"
   log "Publishing GitHub Release $tag to $PUBLIC_REPO"
-  gh release delete "$tag" --repo "$PUBLIC_REPO" --yes --cleanup-tag 2>/dev/null || true
   gh release create "$tag" "$dmg" \
     --repo "$PUBLIC_REPO" \
     --target "$PUBLIC_BRANCH" \
@@ -203,6 +219,17 @@ done
 find . -name ".DS_Store" -delete 2>/dev/null || true
 
 # ---------------------------------------------------------------------------
+# 2b. Compute the auto-incremented release version (patch-bump off the latest
+#     published release). Stamped into the app + published source below.
+# ---------------------------------------------------------------------------
+VERSION=""; BUILD_NUM=""
+if [[ "$DO_DMG" -eq 1 ]]; then
+  VERSION="$(next_version)"
+  BUILD_NUM="$(build_number "$VERSION")"
+  log "Auto-incremented release version: v$VERSION (build $BUILD_NUM)"
+fi
+
+# ---------------------------------------------------------------------------
 # 3. Anonymize: scrub the pinned signing identity from the Xcode project.
 # ---------------------------------------------------------------------------
 log "Scrubbing pinned signing identity from project.pbxproj"
@@ -216,6 +243,11 @@ REAL_TEAM_ID="$REAL_TEAM_ID" \
 
 if grep -qF "$REAL_TEAM_ID" "$PBX"; then
   die "team id $REAL_TEAM_ID still present in $PBX after scrub"
+fi
+
+# Stamp the auto-incremented version into the published source so it matches the release.
+if [[ "$DO_DMG" -eq 1 && -n "$VERSION" ]]; then
+  perl -pi -e "s/MARKETING_VERSION = [^;]+;/MARKETING_VERSION = $VERSION;/g; s/CURRENT_PROJECT_VERSION = [^;]+;/CURRENT_PROJECT_VERSION = $BUILD_NUM;/g" "$PBX"
 fi
 
 # ---------------------------------------------------------------------------
@@ -272,6 +304,7 @@ if [[ "$DO_DMG" -eq 1 ]]; then
         -configuration Release \
         -derivedDataPath "$DD" \
         -arch x86_64 -arch arm64 ONLY_ACTIVE_ARCH=NO \
+        MARKETING_VERSION="$VERSION" CURRENT_PROJECT_VERSION="$BUILD_NUM" \
         CODE_SIGN_STYLE=Manual \
         CODE_SIGN_IDENTITY="$REAL_SIGN_IDENTITY" \
         DEVELOPMENT_TEAM="$REAL_TEAM_ID" \
@@ -279,6 +312,8 @@ if [[ "$DO_DMG" -eq 1 ]]; then
         OTHER_CODE_SIGN_FLAGS="--timestamp --options runtime" \
         >"$STAGE/build.log" 2>&1 ) || { tail -40 "$STAGE/build.log" >&2; die "Release build failed"; }
     APP_PATH="$DD/Build/Products/Release/Pinemeter.app"
+  else
+    warn "--app given: shipping $VERSION as the release tag, but the prebuilt app keeps its own embedded version"
   fi
   [[ -d "$APP_PATH" ]] || die "Pinemeter.app not found at: $APP_PATH"
 
@@ -375,7 +410,7 @@ if [[ "$DO_PUSH" -eq 1 ]]; then
   git push --force origin "$PUBLIC_BRANCH"
   log "Done. Published $(git rev-parse --short HEAD) to $PUBLIC_REMOTE"
   if [[ "$DO_DMG" -eq 1 && -n "${DMG_OUT:-}" && -f "$DMG_OUT" ]]; then
-    release_dmg "$DMG_OUT"
+    release_dmg "$DMG_OUT" "v$VERSION"
   fi
 else
   log "Committed locally (no push). Inspect: $STAGE/tree"
