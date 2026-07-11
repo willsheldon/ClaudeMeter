@@ -238,9 +238,15 @@ enum ClaudeCredentialRecoveryCopy {
 extension Color {
     /// Higher-contrast replacement for `.secondary` on the popover's solid
     /// control-background surfaces. SwiftUI's `.secondary` (~55% label opacity)
-    /// falls below the WCAG AA 4.5:1 ratio for small text; 75% label opacity
-    /// keeps a de-emphasized look while staying compliant in light and dark.
-    static let popoverSecondary = Color.primary.opacity(0.75)
+    /// falls below the WCAG AA 4.5:1 ratio for small text. These solid,
+    /// appearance-specific grays measure ~8:1 in light and ~9:1 in dark while
+    /// staying visibly de-emphasized against the full-strength label text.
+    static let popoverSecondary = Color(nsColor: NSColor(name: nil) { appearance in
+        let isDark = appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
+        return isDark
+            ? NSColor(calibratedWhite: 0.86, alpha: 1)
+            : NSColor(calibratedWhite: 0.26, alpha: 1)
+    })
 }
 
 /// The popover's main content: the menu bar's quota bars blown up into
