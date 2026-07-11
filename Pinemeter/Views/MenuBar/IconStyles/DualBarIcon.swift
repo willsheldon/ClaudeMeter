@@ -21,9 +21,9 @@ struct MenuBarQuotaBar: Equatable, Sendable {
     let status: UsageStatus
     /// Secondary annotation for the popover column (e.g. reset time).
     let detail: String?
-    /// Claude account id when this bar's owner label can be renamed inline in
-    /// the popover; nil for providers and single-account "Claude".
-    let renameableAccountId: String?
+    /// What renaming this bar's owner label targets, when the label can be
+    /// renamed inline in the popover; nil for single-account "Claude".
+    let renameTarget: QuotaRenameTarget?
 
     init(
         label: String,
@@ -32,7 +32,7 @@ struct MenuBarQuotaBar: Equatable, Sendable {
         detail: String? = nil,
         heading: String? = nil,
         owner: String = "",
-        renameableAccountId: String? = nil
+        renameTarget: QuotaRenameTarget? = nil
     ) {
         self.label = label
         self.heading = heading ?? label
@@ -40,8 +40,14 @@ struct MenuBarQuotaBar: Equatable, Sendable {
         self.percentage = percentage
         self.status = status
         self.detail = detail
-        self.renameableAccountId = renameableAccountId
+        self.renameTarget = renameTarget
     }
+}
+
+/// Identifies what a popover owner-label rename writes to.
+enum QuotaRenameTarget: Equatable, Sendable {
+    case claudeAccount(id: String)
+    case provider(CredentialProvider)
 }
 
 /// Multi-bar menu bar icon showing Claude and ChatGPT quota buckets.

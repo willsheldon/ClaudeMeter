@@ -248,9 +248,10 @@ private struct QuotaBarChart: View {
                     // The owner label prints once per account group (under the
                     // group's first column), so multi-bar accounts aren't
                     // labelled repeatedly.
+                    let isFirstOfOwner = index == 0 || bars[index - 1].owner != bar.owner
                     QuotaBarColumn(
                         bar: bar,
-                        showsOwnerLabel: index == 0 || bars[index - 1].owner != bar.owner,
+                        showsOwnerLabel: isFirstOfOwner,
                         appModel: appModel
                     )
                 }
@@ -328,20 +329,24 @@ private struct QuotaBarColumn: View {
 
     @ViewBuilder
     private var ownerLabel: some View {
-        if let accountId = bar.renameableAccountId {
-            editableOwner(accountId: accountId)
+        if let target = bar.renameTarget {
+            editableOwner(target: target)
         } else {
-            Text(bar.owner)
-                .font(.caption2)
-                .fontWeight(.medium)
-                .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .fixedSize(horizontal: false, vertical: true)
+            plainOwner
         }
     }
 
+    private var plainOwner: some View {
+        Text(bar.owner)
+            .font(.caption2)
+            .fontWeight(.medium)
+            .multilineTextAlignment(.center)
+            .lineLimit(2)
+            .fixedSize(horizontal: false, vertical: true)
+    }
+
     @ViewBuilder
-    private func editableOwner(accountId: String) -> some View {
+    private func editableOwner(target: QuotaRenameTarget) -> some View {
         if isEditing {
             TextField("", text: $draft)
                 .textFieldStyle(.roundedBorder)
@@ -350,19 +355,14 @@ private struct QuotaBarColumn: View {
                 .frame(width: 64)
                 .focused($fieldFocused)
                 .onAppear { fieldFocused = true }
-                .onSubmit { commit(accountId: accountId) }
+                .onSubmit { commit(target: target) }
                 .onExitCommand { isEditing = false }
                 .onChange(of: fieldFocused) { _, focused in
-                    if !focused { commit(accountId: accountId) }
+                    if !focused { commit(target: target) }
                 }
         } else {
             HStack(spacing: 2) {
-                Text(bar.owner)
-                    .font(.caption2)
-                    .fontWeight(.medium)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
+                plainOwner
 
                 Image(systemName: "pencil")
                     .font(.caption2)
@@ -371,21 +371,21 @@ private struct QuotaBarColumn: View {
             }
             .contentShape(Rectangle())
             .onHover { isHovering = $0 }
-            .onTapGesture { beginEditing(accountId: accountId) }
+            .onTapGesture { beginEditing(target: target) }
             .help("Rename account")
             .accessibilityLabel("Rename \(bar.owner)")
             .accessibilityAddTraits(.isButton)
         }
     }
 
-    private func beginEditing(accountId: String) {
-        draft = appModel.settings.claudeAccounts.first { $0.id == accountId }?.customLabel ?? ""
+    private func beginEditing(target: QuotaRenameTarget) {
+        draft = appModel.customLabel(for: target)
         isEditing = true
     }
 
-    private func commit(accountId: String) {
+    private func commit(target: QuotaRenameTarget) {
         guard isEditing else { return }
-        appModel.renameClaudeAccount(id: accountId, customLabel: draft)
+        appModel.renameUsageOwner(target, customLabel: draft)
         isEditing = false
     }
 }

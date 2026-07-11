@@ -41,6 +41,14 @@ struct AppSettings: Codable, Equatable, Sendable {
     /// `keychainAccount` is `"default"`.
     var claudeAccounts: [ClaudeAccount] = []
 
+    /// User-chosen display label for the ChatGPT account; nil (or blank) shows
+    /// the default "ChatGPT" name in the popover and menu bar.
+    var chatGPTCustomLabel: String? = nil
+
+    /// User-chosen display label for the Gemini account; nil (or blank) shows
+    /// the default "Gemini" name.
+    var geminiCustomLabel: String? = nil
+
     static let `default` = AppSettings(
         refreshInterval: Constants.Refresh.minimum,
         hasNotificationsEnabled: true,
@@ -65,6 +73,8 @@ struct AppSettings: Codable, Equatable, Sendable {
         case iconStyle = "icon_style"
         case isColoredIcon = "is_colored_icon"
         case claudeAccounts = "claude_accounts"
+        case chatGPTCustomLabel = "chatgpt_custom_label"
+        case geminiCustomLabel = "gemini_custom_label"
     }
 }
 
@@ -85,6 +95,8 @@ extension AppSettings {
         iconStyle = try container.decodeIfPresent(IconStyle.self, forKey: .iconStyle) ?? defaults.iconStyle
         isColoredIcon = try container.decodeIfPresent(Bool.self, forKey: .isColoredIcon) ?? defaults.isColoredIcon
         claudeAccounts = try container.decodeIfPresent([ClaudeAccount].self, forKey: .claudeAccounts) ?? defaults.claudeAccounts
+        chatGPTCustomLabel = try container.decodeIfPresent(String.self, forKey: .chatGPTCustomLabel)
+        geminiCustomLabel = try container.decodeIfPresent(String.self, forKey: .geminiCustomLabel)
     }
 
     init(
@@ -120,6 +132,8 @@ extension AppSettings {
         try container.encode(iconStyle, forKey: .iconStyle)
         try container.encode(isColoredIcon, forKey: .isColoredIcon)
         try container.encode(claudeAccounts, forKey: .claudeAccounts)
+        try container.encodeIfPresent(chatGPTCustomLabel, forKey: .chatGPTCustomLabel)
+        try container.encodeIfPresent(geminiCustomLabel, forKey: .geminiCustomLabel)
     }
 }
 

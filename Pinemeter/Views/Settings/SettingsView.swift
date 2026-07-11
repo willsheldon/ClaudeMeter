@@ -359,6 +359,7 @@ struct SettingsView: View {
 
     private func providerCard(for provider: CredentialProvider) -> some View {
         let status = appModel.providerCredentialStatuses.first { $0.provider == provider }
+        let displayLabel = providerDisplayLabel(for: provider)
 
         return VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 4) {
@@ -376,7 +377,7 @@ struct SettingsView: View {
                 }
             }
 
-            Text(provider.displayName)
+            Text(displayLabel)
                 .font(.callout.weight(.semibold))
 
             if let status {
@@ -394,7 +395,7 @@ struct SettingsView: View {
 
             if let status {
                 HStack(spacing: 8) {
-                    removeButton(.provider(status: status, label: provider.displayName))
+                    removeButton(.provider(status: status, label: displayLabel))
                     Spacer()
                 }
             }
@@ -403,6 +404,14 @@ struct SettingsView: View {
         .frame(width: 180)
         .frame(maxHeight: .infinity, alignment: .top)
         .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 10))
+    }
+
+    private func providerDisplayLabel(for provider: CredentialProvider) -> String {
+        switch provider {
+        case .chatGPT: return appModel.chatGPTDisplayLabel
+        case .gemini: return appModel.geminiDisplayLabel
+        case .claude: return provider.displayName
+        }
     }
 
     @ViewBuilder

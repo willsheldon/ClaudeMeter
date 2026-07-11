@@ -319,7 +319,7 @@ final class AppModel {
         let renameableClaude = claudeSections.count > 1
         for section in claudeSections {
             guard let usageData = section.usageData else { continue }
-            let renameId = renameableClaude ? section.id : nil
+            let renameTarget: QuotaRenameTarget? = renameableClaude ? .claudeAccount(id: section.id) : nil
             bars.append(MenuBarQuotaBar(
                 label: "\(section.title) 5h",
                 percentage: clampedBarPercentage(usageData.sessionUsage.percentage),
@@ -327,7 +327,7 @@ final class AppModel {
                 detail: "Resets \(usageData.sessionUsage.resetDescription)",
                 heading: "5h",
                 owner: section.title,
-                renameableAccountId: renameId
+                renameTarget: renameTarget
             ))
             bars.append(MenuBarQuotaBar(
                 label: "\(section.title) weekly",
@@ -336,7 +336,7 @@ final class AppModel {
                 detail: "Resets \(usageData.weeklyUsage.resetDescription)",
                 heading: "Weekly",
                 owner: section.title,
-                renameableAccountId: renameId
+                renameTarget: renameTarget
             ))
             if settings.isSonnetUsageShown, let sonnetUsage = usageData.sonnetUsage {
                 bars.append(MenuBarQuotaBar(
@@ -346,7 +346,7 @@ final class AppModel {
                     detail: "Resets \(sonnetUsage.resetDescription)",
                     heading: "Sonnet",
                     owner: section.title,
-                    renameableAccountId: renameId
+                    renameTarget: renameTarget
                 ))
             }
         }
@@ -359,7 +359,8 @@ final class AppModel {
                     status: row.status,
                     detail: row.resetAt.map { "Resets \($0.formatted(.relative(presentation: .named)))" },
                     heading: row.menuBarRole?.columnHeading ?? row.label,
-                    owner: "ChatGPT"
+                    owner: chatGPTDisplayLabel,
+                    renameTarget: .provider(.chatGPT)
                 ))
             }
         }
@@ -371,11 +372,66 @@ final class AppModel {
                 status: geminiUsageData.status,
                 detail: geminiUsageData.resetAt.map { "Resets \($0.formatted(.relative(presentation: .named)))" },
                 heading: "API",
-                owner: "Gemini"
+                owner: geminiDisplayLabel,
+                renameTarget: .provider(.gemini)
             ))
         }
 
         return bars
+    }
+
+    /// Display name for the ChatGPT account: the user's custom label when set,
+    /// otherwise "ChatGPT".
+    var chatGPTDisplayLabel: String {
+        let trimmed = settings.chatGPTCustomLabel?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        return trimmed.isEmpty ? "ChatGPT" : trimmed
+    }
+
+    /// Display name for the Gemini account: the user's custom label when set,
+    /// otherwise "Gemini".
+    var geminiDisplayLabel: String {
+        let trimmed = settings.geminiCustomLabel?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        return trimmed.isEmpty ? "Gemini" : trimmed
+    }
+
+    /// Sets the ChatGPT display label; a blank label reverts to "ChatGPT".
+    func renameChatGPTAccount(customLabel: String) {
+        let isBlank = customLabel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        settings.chatGPTCustomLabel = isBlank ? nil : customLabel
+    }
+
+    /// Sets the Gemini display label; a blank label reverts to "Gemini".
+    func renameGeminiAccount(customLabel: String) {
+        let isBlank = customLabel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        settings.geminiCustomLabel = isBlank ? nil : customLabel
+    }
+
+    /// Current custom label backing a popover owner rename (empty when unset).
+    func customLabel(for target: QuotaRenameTarget) -> String {
+        switch target {
+        case .claudeAccount(let id):
+            return settings.claudeAccounts.first { $0.id == id }?.customLabel ?? ""
+        case .provider(.chatGPT):
+            return settings.chatGPTCustomLabel ?? ""
+        case .provider(.gemini):
+            return settings.geminiCustomLabel ?? ""
+        case .provider(.claude):
+            return ""
+        }
+    }
+
+    /// Commits a popover owner rename to the right backing store.
+    func renameUsageOwner(_ target: QuotaRenameTarget, customLabel: String) {
+        switch target {
+        case .claudeAccount(let id):
+            renameClaudeAccount(id: id, customLabel: customLabel)
+        case .provider(.chatGPT):
+            renameChatGPTAccount(customLabel: customLabel)
+        case .provider(.gemini):
+            renameGeminiAccount(customLabel: customLabel)
+        case .provider(.claude):
+            break
+        }
     }
 
     private func clampedBarPercentage(_ value: Double) -> Double {

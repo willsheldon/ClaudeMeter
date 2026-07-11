@@ -502,12 +502,58 @@ final class ClaudeMultiAccountTests: XCTestCase {
             "Acme", "Acme", "Personal", "Personal", "ChatGPT", "Gemini",
         ])
         // Multiple Claude accounts are renameable inline in the popover; the
-        // account id rides each of that account's bars. Providers are not.
-        XCTAssertEqual(appModel.usageQuotaBars.map(\.renameableAccountId), [
-            Self.org1UUIDString, Self.org1UUIDString,
-            Self.org2UUIDString, Self.org2UUIDString,
-            nil, nil,
+        // account id rides each of that account's bars. Providers carry their
+        // own rename target.
+        XCTAssertEqual(appModel.usageQuotaBars.map(\.renameTarget), [
+            .claudeAccount(id: Self.org1UUIDString), .claudeAccount(id: Self.org1UUIDString),
+            .claudeAccount(id: Self.org2UUIDString), .claudeAccount(id: Self.org2UUIDString),
+            .provider(.chatGPT), .provider(.gemini),
         ])
+    }
+
+    func test_renameProviderAccounts_updateDisplayLabelAndPopoverOwner() {
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: MultiAccountUsageServiceStub(
+                organizationsByKey: [:],
+                usageByOrganization: [:],
+                primaryUsage: makeUsageData(percentage: 11)
+            ),
+            notificationService: NotificationServiceSpy()
+        )
+        appModel.isSetupComplete = true
+        appModel.hasChatGPTSessionCookie = true
+        appModel.settings.isChatGPTUsageShown = true
+        appModel.chatGPTUsageData = ChatGPTUsageData(
+            rows: [.init(label: "Codex Tasks", usedPercent: 41, resetAt: nil)],
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+        appModel.hasGeminiAPIKey = true
+        appModel.geminiUsageData = GeminiUsageData(
+            label: "Gemini API quota",
+            usedPercent: 29,
+            resetAt: nil,
+            lastUpdated: Date(timeIntervalSince1970: 0)
+        )
+
+        XCTAssertEqual(appModel.chatGPTDisplayLabel, "ChatGPT")
+        XCTAssertEqual(appModel.geminiDisplayLabel, "Gemini")
+
+        appModel.renameChatGPTAccount(customLabel: "Work GPT")
+        appModel.renameGeminiAccount(customLabel: "Personal Gemini")
+
+        XCTAssertEqual(appModel.chatGPTDisplayLabel, "Work GPT")
+        XCTAssertEqual(appModel.geminiDisplayLabel, "Personal Gemini")
+        XCTAssertEqual(appModel.customLabel(for: .provider(.chatGPT)), "Work GPT")
+        let owners = appModel.usageQuotaBars.map(\.owner)
+        XCTAssertTrue(owners.contains("Work GPT"))
+        XCTAssertTrue(owners.contains("Personal Gemini"))
+
+        // Blank reverts to the default provider name.
+        appModel.renameUsageOwner(.provider(.chatGPT), customLabel: "   ")
+        XCTAssertEqual(appModel.chatGPTDisplayLabel, "ChatGPT")
+        XCTAssertNil(appModel.settings.chatGPTCustomLabel)
     }
 
     func test_usageQuotaBars_singleClaudeAccountIsNotRenameable() {
@@ -534,7 +580,7 @@ final class ClaudeMultiAccountTests: XCTestCase {
         ]
         appModel.usageData = makeUsageData(percentage: 11)
 
-        XCTAssertEqual(appModel.usageQuotaBars.map(\.renameableAccountId), [nil, nil])
+        XCTAssertEqual(appModel.usageQuotaBars.map(\.renameTarget), [nil, nil])
     }
 
     // MARK: - Per-account usage fetch
