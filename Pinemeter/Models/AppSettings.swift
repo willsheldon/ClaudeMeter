@@ -49,6 +49,9 @@ struct AppSettings: Codable, Equatable, Sendable {
     /// the default "Gemini" name.
     var geminiCustomLabel: String? = nil
 
+    /// Whether to show the center-screen celebration when a quota resets.
+    var isResetCelebrationEnabled: Bool = true
+
     static let `default` = AppSettings(
         refreshInterval: Constants.Refresh.minimum,
         hasNotificationsEnabled: true,
@@ -75,6 +78,7 @@ struct AppSettings: Codable, Equatable, Sendable {
         case claudeAccounts = "claude_accounts"
         case chatGPTCustomLabel = "chatgpt_custom_label"
         case geminiCustomLabel = "gemini_custom_label"
+        case isResetCelebrationEnabled = "reset_celebration_enabled"
     }
 }
 
@@ -97,6 +101,7 @@ extension AppSettings {
         claudeAccounts = try container.decodeIfPresent([ClaudeAccount].self, forKey: .claudeAccounts) ?? defaults.claudeAccounts
         chatGPTCustomLabel = try container.decodeIfPresent(String.self, forKey: .chatGPTCustomLabel)
         geminiCustomLabel = try container.decodeIfPresent(String.self, forKey: .geminiCustomLabel)
+        isResetCelebrationEnabled = try container.decodeIfPresent(Bool.self, forKey: .isResetCelebrationEnabled) ?? true
     }
 
     init(
@@ -134,6 +139,7 @@ extension AppSettings {
         try container.encode(claudeAccounts, forKey: .claudeAccounts)
         try container.encodeIfPresent(chatGPTCustomLabel, forKey: .chatGPTCustomLabel)
         try container.encodeIfPresent(geminiCustomLabel, forKey: .geminiCustomLabel)
+        try container.encode(isResetCelebrationEnabled, forKey: .isResetCelebrationEnabled)
     }
 }
 

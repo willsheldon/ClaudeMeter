@@ -156,6 +156,49 @@ final class NotificationServiceTests: XCTestCase {
         XCTAssertEqual(notificationCenter.addedRequests.count, 1)
         XCTAssertEqual(notificationCenter.addedRequests.first?.content.categoryIdentifier, "usage.reset")
     }
+
+    func test_usageReset_postsCelebrationEventWhenEnabled() async {
+        let settingsRepository = SettingsRepositoryFake()
+        let service = NotificationService(
+            settingsRepository: settingsRepository,
+            notificationCenter: NotificationCenterSpy()
+        )
+
+        var settings = AppSettings.default
+        settings.isResetCelebrationEnabled = true
+
+        var state = NotificationState()
+        state.lastPercentage = 50
+        try? await settingsRepository.saveNotificationState(state)
+
+        let expectation = expectation(forNotification: .usageDidReset, object: nil, handler: nil)
+        await service.evaluateThresholds(usageData: makeUsageData(percentage: 0), settings: settings)
+        await fulfillment(of: [expectation], timeout: 1.0)
+    }
+
+    func test_usageReset_doesNotPostCelebrationEventWhenDisabled() async {
+        let settingsRepository = SettingsRepositoryFake()
+        let service = NotificationService(
+            settingsRepository: settingsRepository,
+            notificationCenter: NotificationCenterSpy()
+        )
+
+        var settings = AppSettings.default
+        settings.isResetCelebrationEnabled = false
+
+        var state = NotificationState()
+        state.lastPercentage = 50
+        try? await settingsRepository.saveNotificationState(state)
+
+        var didPost = false
+        let token = NotificationCenter.default.addObserver(forName: .usageDidReset, object: nil, queue: nil) { _ in
+            didPost = true
+        }
+        defer { NotificationCenter.default.removeObserver(token) }
+
+        await service.evaluateThresholds(usageData: makeUsageData(percentage: 0), settings: settings)
+        XCTAssertFalse(didPost)
+    }
 }
 
 // MARK: - Helpers

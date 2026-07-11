@@ -629,10 +629,43 @@ struct SettingsView: View {
                 testNotificationSection
                     .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
                     .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
+                resetCelebrationSection
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(24)
         }
+    }
+
+    // Independent of notification permission: a center-screen celebration when
+    // a tracked quota resets.
+    private var resetCelebrationSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Celebrate Resets")
+                        .font(.subheadline)
+                    Text("Show a center-screen fireworks celebration when a tracked quota resets.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Spacer()
+
+                Toggle("", isOn: $appModel.settings.isResetCelebrationEnabled)
+                    .labelsHidden()
+            }
+
+            Button("Preview celebration") {
+                NotificationCenter.default.post(name: .usageDidReset, object: nil)
+            }
+            .controlSize(.small)
+            .disabled(!appModel.settings.isResetCelebrationEnabled)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
     private var enableNotificationsSection: some View {

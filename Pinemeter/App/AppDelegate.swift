@@ -6,6 +6,8 @@ import SwiftUI
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var appModel: AppModel?
     private var menuBarManager: MenuBarManager?
+    private var celebrationWindow: NSWindow?
+    private var resetObserver: NSObjectProtocol?
 
     #if DEBUG
     private var isDemoMode: Bool = false
@@ -23,15 +25,77 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     #endif
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        SessionKeyImportPromptCoordinator.install()
+        // Unit tests run inside this app host; skip UI/permission side effects
+        // so a reset posted by a test doesn't pop a real celebration window.
+        if Self.isRunningUnitTests { return }
 
-        guard let appModel else {
+        SessionKeyImportPromptCoordinator.install()
+        observeResetCelebrations()
+
+        let model = appModel ?? {
             let fallbackModel = AppModel()
             self.appModel = fallbackModel
-            startMenuBar(with: fallbackModel)
-            return
+            return fallbackModel
+        }()
+        startMenuBar(with: model)
+
+        // Prompt for notification permission on launch so alerts can be
+        // delivered without the user first opening the Notifications settings.
+        Task { await model.requestNotificationPermissionIfNeeded() }
+    }
+
+    private static var isRunningUnitTests: Bool {
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+    }
+
+    // MARK: - Reset celebration
+
+    private func observeResetCelebrations() {
+        resetObserver = NotificationCenter.default.addObserver(
+            forName: .usageDidReset,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated { self?.showResetCelebration() }
         }
-        startMenuBar(with: appModel)
+    }
+
+    private func showResetCelebration() {
+        guard celebrationWindow == nil,
+              let screen = NSScreen.main else { return }
+
+        let window = NSWindow(
+            contentRect: screen.frame,
+            styleMask: [.borderless],
+            backing: .buffered,
+            defer: false
+        )
+        window.isOpaque = false
+        window.backgroundColor = .clear
+        window.hasShadow = false
+        window.level = .screenSaver
+        window.ignoresMouseEvents = true
+        window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary]
+
+        let hostingView = NSHostingView(
+            rootView: ResetCelebrationView { [weak self] in
+                self?.dismissResetCelebration()
+            }
+        )
+        // Fill the borderless window without letting the SwiftUI view impose an
+        // intrinsic size (which loops AppKit's constraint solver).
+        hostingView.sizingOptions = []
+        hostingView.frame = screen.frame
+        hostingView.autoresizingMask = [.width, .height]
+        window.contentView = hostingView
+        window.setFrame(screen.frame, display: true)
+        window.orderFrontRegardless()
+        celebrationWindow = window
+    }
+
+    private func dismissResetCelebration() {
+        celebrationWindow?.orderOut(nil)
+        celebrationWindow = nil
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

@@ -57,9 +57,16 @@ final class NotificationService: NSObject, NotificationServiceProtocol, UNUserNo
             threshold: thresholds.criticalThreshold,
             isWarning: false
         )
+        let didReset = state.shouldNotifyReset(currentPercentage: percentage)
         let shouldNotifyReset = isNotificationEnabled
             && thresholds.isNotifiedOnReset
-            && state.shouldNotifyReset(currentPercentage: percentage)
+            && didReset
+
+        // The center-screen celebration is independent of banner permissions;
+        // it only depends on its own toggle.
+        if didReset && settings.isResetCelebrationEnabled {
+            NotificationCenter.default.post(name: .usageDidReset, object: nil)
+        }
 
         if isNotificationEnabled && shouldNotifyWarning {
             try? await sendThresholdNotification(
@@ -153,6 +160,17 @@ final class NotificationService: NSObject, NotificationServiceProtocol, UNUserNo
 
     // MARK: - UNUserNotificationCenterDelegate
 
+    /// Present banners even while Pinemeter is the active app; without this,
+    /// macOS suppresses notifications delivered in the foreground, which is why
+    /// a menu bar app's alerts often never appear.
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .list, .sound])
+    }
+
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         didReceive response: UNNotificationResponse,
@@ -165,4 +183,7 @@ final class NotificationService: NSObject, NotificationServiceProtocol, UNUserNo
 
 extension Notification.Name {
     static let openUsagePopover = Notification.Name("openUsagePopover")
+    /// Posted when a tracked quota resets (usage returns to 0), to trigger the
+    /// center-screen celebration.
+    static let usageDidReset = Notification.Name("usageDidReset")
 }
