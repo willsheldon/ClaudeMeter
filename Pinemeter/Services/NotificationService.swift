@@ -44,8 +44,10 @@ final class NotificationService: NSObject, NotificationServiceProtocol, UNUserNo
         let resetTime = usageData.sessionUsage.resetAt
 
         var state = await settingsRepository.loadNotificationState()
-        let hasPermission = await checkNotificationPermissions()
-        let isNotificationEnabled = settings.hasNotificationsEnabled && hasPermission
+        // Usage alerts are delivered as center-screen overlays, which don't
+        // need macOS notification permission; they only depend on the toggle.
+        // The OS banner is still sent as a bonus where permission is granted.
+        let alertsEnabled = settings.hasNotificationsEnabled
 
         let shouldNotifyWarning = state.shouldNotify(
             currentPercentage: percentage,
@@ -58,17 +60,17 @@ final class NotificationService: NSObject, NotificationServiceProtocol, UNUserNo
             isWarning: false
         )
         let didReset = state.shouldNotifyReset(currentPercentage: percentage)
-        let shouldNotifyReset = isNotificationEnabled
+        let shouldNotifyReset = alertsEnabled
             && thresholds.isNotifiedOnReset
             && didReset
 
-        // The center-screen celebration is independent of banner permissions;
-        // it only depends on its own toggle.
+        // The center-screen celebration depends only on its own toggle.
         if didReset && settings.isResetCelebrationEnabled {
             NotificationCenter.default.post(name: .usageDidReset, object: nil)
         }
 
-        if isNotificationEnabled && shouldNotifyWarning {
+        if alertsEnabled && shouldNotifyWarning {
+            postUsageAlert(.warning, percentage: percentage, resetTime: resetTime)
             try? await sendThresholdNotification(
                 percentage: percentage,
                 threshold: .warning,
@@ -77,7 +79,8 @@ final class NotificationService: NSObject, NotificationServiceProtocol, UNUserNo
             state.hasWarningBeenNotified = true
         }
 
-        if isNotificationEnabled && shouldNotifyCritical {
+        if alertsEnabled && shouldNotifyCritical {
+            postUsageAlert(.critical, percentage: percentage, resetTime: resetTime)
             try? await sendThresholdNotification(
                 percentage: percentage,
                 threshold: .critical,
@@ -152,6 +155,21 @@ final class NotificationService: NSObject, NotificationServiceProtocol, UNUserNo
 
     // MARK: - Private Methods
 
+    /// Posts a center-screen usage alert overlay event for the given threshold.
+    private func postUsageAlert(
+        _ threshold: UsageThresholdType,
+        percentage: Double,
+        resetTime: Date
+    ) {
+        let severity: UsageAlertPayload.Severity = threshold == .critical ? .critical : .warning
+        let payload = UsageAlertPayload(
+            severity: severity,
+            title: threshold.title,
+            message: threshold.body(percentage: percentage, resetTime: resetTime)
+        )
+        NotificationCenter.default.post(name: .usageAlert, object: payload)
+    }
+
     private func shouldSendNotifications() async -> Bool {
         let systemPermission = await checkNotificationPermissions()
         let settings = await settingsRepository.load()
@@ -186,4 +204,19 @@ extension Notification.Name {
     /// Posted when a tracked quota resets (usage returns to 0), to trigger the
     /// center-screen celebration.
     static let usageDidReset = Notification.Name("usageDidReset")
+    /// Posted when a usage threshold is crossed, carrying a `UsageAlertPayload`
+    /// as its object, to trigger the center-screen alert overlay.
+    static let usageAlert = Notification.Name("usageAlert")
+}
+
+/// Content for a center-screen usage alert overlay.
+struct UsageAlertPayload: Equatable, Sendable {
+    enum Severity: String, Sendable {
+        case warning
+        case critical
+    }
+
+    let severity: Severity
+    let title: String
+    let message: String
 }

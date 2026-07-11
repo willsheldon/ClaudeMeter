@@ -6,8 +6,9 @@ import SwiftUI
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var appModel: AppModel?
     private var menuBarManager: MenuBarManager?
-    private var celebrationWindow: NSWindow?
+    private var overlayWindow: NSWindow?
     private var resetObserver: NSObjectProtocol?
+    private var alertObserver: NSObjectProtocol?
 
     #if DEBUG
     private var isDemoMode: Bool = false
@@ -30,7 +31,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if Self.isRunningUnitTests { return }
 
         SessionKeyImportPromptCoordinator.install()
-        observeResetCelebrations()
+        observeOverlayEvents()
 
         let model = appModel ?? {
             let fallbackModel = AppModel()
@@ -48,21 +49,41 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
     }
 
-    // MARK: - Reset celebration
+    // MARK: - Center-screen overlays (reset celebration, usage alerts)
 
-    private func observeResetCelebrations() {
+    private func observeOverlayEvents() {
         resetObserver = NotificationCenter.default.addObserver(
             forName: .usageDidReset,
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            MainActor.assumeIsolated { self?.showResetCelebration() }
+            MainActor.assumeIsolated {
+                guard let self else { return }
+                self.presentOverlay(ResetCelebrationView { [weak self] in
+                    self?.dismissOverlay()
+                })
+            }
+        }
+
+        alertObserver = NotificationCenter.default.addObserver(
+            forName: .usageAlert,
+            object: nil,
+            queue: .main
+        ) { [weak self] note in
+            MainActor.assumeIsolated {
+                guard let self, let payload = note.object as? UsageAlertPayload else { return }
+                self.presentOverlay(UsageAlertView(payload: payload) { [weak self] in
+                    self?.dismissOverlay()
+                })
+            }
         }
     }
 
-    private func showResetCelebration() {
-        guard celebrationWindow == nil,
-              let screen = NSScreen.main else { return }
+    /// Shows a full-screen, click-through, transparent overlay hosting `content`.
+    /// Any existing overlay is replaced.
+    private func presentOverlay(_ content: some View) {
+        guard let screen = NSScreen.main else { return }
+        dismissOverlay()
 
         let window = NSWindow(
             contentRect: screen.frame,
@@ -77,11 +98,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         window.ignoresMouseEvents = true
         window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .stationary]
 
-        let hostingView = NSHostingView(
-            rootView: ResetCelebrationView { [weak self] in
-                self?.dismissResetCelebration()
-            }
-        )
+        let hostingView = NSHostingView(rootView: content)
         // Fill the borderless window without letting the SwiftUI view impose an
         // intrinsic size (which loops AppKit's constraint solver).
         hostingView.sizingOptions = []
@@ -90,12 +107,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         window.contentView = hostingView
         window.setFrame(screen.frame, display: true)
         window.orderFrontRegardless()
-        celebrationWindow = window
+        overlayWindow = window
     }
 
-    private func dismissResetCelebration() {
-        celebrationWindow?.orderOut(nil)
-        celebrationWindow = nil
+    private func dismissOverlay() {
+        overlayWindow?.orderOut(nil)
+        overlayWindow = nil
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

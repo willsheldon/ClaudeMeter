@@ -17,11 +17,6 @@ struct SettingsView: View {
     // API key has no browser cookie to scan, so paste is the only mechanism.
     @State private var geminiAPIKeyDraft: String = ""
 
-    @State private var isSendingTestNotification: Bool = false
-    @State private var testNotificationMessage: String?
-    @State private var hasTestNotificationSucceeded: Bool = false
-    @State private var notificationError: String?
-
     @State private var launchAtLogin: Bool = SMAppService.mainApp.status == .enabled
 
     var body: some View {
@@ -39,15 +34,11 @@ struct SettingsView: View {
             minHeight: 440,
             maxHeight: .infinity
         )
-        .onAppear {
-            loadSettings()
-        }
         .onChange(of: appModel.settings.hasNotificationsEnabled) { _, newValue in
-            Task {
-                if newValue {
-                    await appModel.requestNotificationPermissionIfNeeded()
-                }
-                await updateNotificationStatus()
+            // Alerts render as overlays regardless of permission; still ask so
+            // the bonus system banner can be delivered where it's granted.
+            if newValue {
+                Task { await appModel.requestNotificationPermissionIfNeeded() }
             }
         }
         .onChange(of: launchAtLogin) { _, newValue in
@@ -623,9 +614,6 @@ struct SettingsView: View {
                 thresholdsSection
                     .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
                     .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
-                resetNotificationSection
-                    .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
-                    .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
                 testNotificationSection
                     .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
                     .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
@@ -672,33 +660,18 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Enable Notifications")
+                    Text("Usage Alerts")
                         .font(.subheadline)
-                    Text("Get notified when session usage thresholds are reached")
+                    Text("Show a center-screen alert when session usage crosses your warning or critical threshold. Works without macOS notification permission; a system banner is also sent when permission is granted.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
 
                 Spacer()
 
                 Toggle("", isOn: $appModel.settings.hasNotificationsEnabled)
                     .labelsHidden()
-            }
-
-            if let error = notificationError {
-                HStack(spacing: 6) {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .foregroundStyle(.orange)
-                    Text(error)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-
-                    Button("Open Settings") {
-                        openSystemNotificationSettings()
-                    }
-                    .buttonStyle(.link)
-                    .font(.caption)
-                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -768,46 +741,17 @@ struct SettingsView: View {
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
-    private var resetNotificationSection: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Notify on Session Reset")
-                    .font(.subheadline)
-                Text("Get notified when your usage limit resets")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-
-            Spacer()
-
-            Toggle("", isOn: isNotifiedOnResetBinding)
-                .labelsHidden()
-        }
-        .padding()
-        .background(.quaternary.opacity(0.3))
-        .clipShape(RoundedRectangle(cornerRadius: 8))
-    }
-
     private var testNotificationSection: some View {
         HStack {
-            Button("Send Test Notification") {
-                Task {
-                    await sendTestNotification()
-                }
+            Button("Preview alert") {
+                let payload = UsageAlertPayload(
+                    severity: .warning,
+                    title: "Usage Warning",
+                    message: "You've used 80% of your 5-hour session. This is a preview alert."
+                )
+                NotificationCenter.default.post(name: .usageAlert, object: payload)
             }
             .controlSize(.small)
-            .disabled(isSendingTestNotification)
-
-            if isSendingTestNotification {
-                ProgressView()
-                    .controlSize(.small)
-            }
-
-            if let message = testNotificationMessage {
-                Label(message, systemImage: hasTestNotificationSucceeded ? "checkmark.circle.fill" : "xmark.circle.fill")
-                    .font(.caption)
-                    .foregroundStyle(hasTestNotificationSucceeded ? .green : .red)
-            }
 
             Spacer()
         }
@@ -829,13 +773,6 @@ struct SettingsView: View {
         Binding(
             get: { appModel.settings.notificationThresholds.criticalThreshold },
             set: { appModel.settings.notificationThresholds.criticalThreshold = $0 }
-        )
-    }
-
-    private var isNotifiedOnResetBinding: Binding<Bool> {
-        Binding(
-            get: { appModel.settings.notificationThresholds.isNotifiedOnReset },
-            set: { appModel.settings.notificationThresholds.isNotifiedOnReset = $0 }
         )
     }
 
@@ -930,25 +867,6 @@ struct SettingsView: View {
 
     private var isAccountsBusy: Bool {
         isImportingProviderSessions || activeCredentialActionProvider != nil || isRemovingAccount || isSavingGemini
-    }
-
-    private func loadSettings() {
-        Task { @MainActor in
-            await updateNotificationStatus()
-        }
-    }
-
-    @MainActor
-    private func updateNotificationStatus() async {
-        let hasPermission = await appModel.checkNotificationPermissions()
-        if !hasPermission {
-            notificationError = "Notifications disabled in System Settings"
-            if appModel.settings.hasNotificationsEnabled {
-                appModel.settings.hasNotificationsEnabled = false
-            }
-        } else {
-            notificationError = nil
-        }
     }
 
     @MainActor
@@ -1083,48 +1001,4 @@ struct SettingsView: View {
         }
     }
 
-    @MainActor
-    private func sendTestNotification() async {
-        isSendingTestNotification = true
-        testNotificationMessage = nil
-        hasTestNotificationSucceeded = false
-
-        do {
-            let hasPermission = await appModel.checkNotificationPermissions()
-            if !hasPermission {
-                await appModel.requestNotificationPermissionIfNeeded()
-                let granted = await appModel.checkNotificationPermissions()
-                if !granted {
-                    testNotificationMessage = "Permission denied"
-                    hasTestNotificationSucceeded = false
-                    isSendingTestNotification = false
-                    return
-                }
-            }
-
-            // Send test notification
-            try await appModel.sendTestNotification()
-
-            testNotificationMessage = "Test notification sent!"
-            hasTestNotificationSucceeded = true
-
-            // Clear message after 2 seconds
-            Task { @MainActor in
-                try? await Task.sleep(for: .seconds(2))
-                testNotificationMessage = nil
-                hasTestNotificationSucceeded = false
-            }
-        } catch {
-            testNotificationMessage = "Failed: \(error.localizedDescription)"
-            hasTestNotificationSucceeded = false
-        }
-
-        isSendingTestNotification = false
-    }
-
-    private func openSystemNotificationSettings() {
-        if let url = URL(string: "x-apple.systempreferences:com.apple.preference.notifications") {
-            NSWorkspace.shared.open(url)
-        }
-    }
 }

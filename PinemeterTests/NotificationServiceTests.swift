@@ -157,6 +157,46 @@ final class NotificationServiceTests: XCTestCase {
         XCTAssertEqual(notificationCenter.addedRequests.first?.content.categoryIdentifier, "usage.reset")
     }
 
+    func test_warningThreshold_postsUsageAlertOverlayEvent() async {
+        let service = NotificationService(
+            settingsRepository: SettingsRepositoryFake(),
+            notificationCenter: NotificationCenterSpy()
+        )
+
+        var settings = AppSettings.default
+        settings.hasNotificationsEnabled = true
+
+        var received: UsageAlertPayload?
+        let token = NotificationCenter.default.addObserver(forName: .usageAlert, object: nil, queue: nil) { note in
+            received = note.object as? UsageAlertPayload
+        }
+        defer { NotificationCenter.default.removeObserver(token) }
+
+        await service.evaluateThresholds(usageData: makeUsageData(percentage: 80), settings: settings)
+
+        XCTAssertEqual(received?.severity, .warning)
+    }
+
+    func test_usageAlertsDisabled_postsNoOverlayEvent() async {
+        let service = NotificationService(
+            settingsRepository: SettingsRepositoryFake(),
+            notificationCenter: NotificationCenterSpy()
+        )
+
+        var settings = AppSettings.default
+        settings.hasNotificationsEnabled = false
+
+        var didPost = false
+        let token = NotificationCenter.default.addObserver(forName: .usageAlert, object: nil, queue: nil) { _ in
+            didPost = true
+        }
+        defer { NotificationCenter.default.removeObserver(token) }
+
+        await service.evaluateThresholds(usageData: makeUsageData(percentage: 95), settings: settings)
+
+        XCTAssertFalse(didPost)
+    }
+
     func test_usageReset_postsCelebrationEventWhenEnabled() async {
         let settingsRepository = SettingsRepositoryFake()
         let service = NotificationService(
