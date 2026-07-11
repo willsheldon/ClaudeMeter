@@ -12,7 +12,7 @@ import AppKit
 struct UsagePopoverView: View {
     @Bindable var appModel: AppModel
     let onRequestClose: (() -> Void)?
-    @Environment(\.openSettings) private var openSettings
+    @Environment(\.openWindow) private var openWindow
     @State private var isRescanningBrowsers = false
     @State private var rescanMessage: String?
 
@@ -98,7 +98,7 @@ struct UsagePopoverView: View {
                     // Same bars as the menu bar icon, same order, annotated.
                     let quotaBars = appModel.usageQuotaBars
                     if !quotaBars.isEmpty {
-                        QuotaBarChart(bars: quotaBars)
+                        QuotaBarChart(bars: quotaBars, appModel: appModel)
                     }
 
                     ForEach(appModel.claudeUsageSections) { section in
@@ -204,7 +204,7 @@ struct UsagePopoverView: View {
             keyWindow.orderOut(nil)
         }
         NSApp.activate(ignoringOtherApps: true)
-        openSettings()
+        openWindow(id: PinemeterApp.settingsWindowID)
     }
 
     private func providerErrorRow(provider: String, message: String) -> some View {
@@ -239,12 +239,20 @@ enum ClaudeCredentialRecoveryCopy {
 /// labelled columns, in the same left-to-right order as the icon.
 private struct QuotaBarChart: View {
     let bars: [MenuBarQuotaBar]
+    @Bindable var appModel: AppModel
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .top, spacing: 8) {
-                ForEach(Array(bars.enumerated()), id: \.offset) { _, bar in
-                    QuotaBarColumn(bar: bar)
+                ForEach(Array(bars.enumerated()), id: \.offset) { index, bar in
+                    // The owner label prints once per account group (under the
+                    // group's first column), so multi-bar accounts aren't
+                    // labelled repeatedly.
+                    QuotaBarColumn(
+                        bar: bar,
+                        showsOwnerLabel: index == 0 || bars[index - 1].owner != bar.owner,
+                        appModel: appModel
+                    )
                 }
             }
             .frame(minWidth: 328, alignment: .center)
@@ -257,6 +265,13 @@ private struct QuotaBarChart: View {
 
 private struct QuotaBarColumn: View {
     let bar: MenuBarQuotaBar
+    let showsOwnerLabel: Bool
+    @Bindable var appModel: AppModel
+
+    @State private var isHovering = false
+    @State private var isEditing = false
+    @State private var draft = ""
+    @FocusState private var fieldFocused: Bool
 
     private var clampedPercentage: Double {
         min(max(bar.percentage, 0), 100)
@@ -294,13 +309,8 @@ private struct QuotaBarColumn: View {
             }
             .frame(width: 24, height: 140)
 
-            if !bar.owner.isEmpty {
-                Text(bar.owner)
-                    .font(.caption2)
-                    .fontWeight(.medium)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .fixedSize(horizontal: false, vertical: true)
+            if showsOwnerLabel && !bar.owner.isEmpty {
+                ownerLabel
             }
 
             if let detail = bar.detail {
@@ -314,7 +324,68 @@ private struct QuotaBarColumn: View {
         }
         .frame(width: 72, alignment: .top)
         .help(tooltip)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(tooltip)
+    }
+
+    @ViewBuilder
+    private var ownerLabel: some View {
+        if let accountId = bar.renameableAccountId {
+            editableOwner(accountId: accountId)
+        } else {
+            Text(bar.owner)
+                .font(.caption2)
+                .fontWeight(.medium)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    @ViewBuilder
+    private func editableOwner(accountId: String) -> some View {
+        if isEditing {
+            TextField("", text: $draft)
+                .textFieldStyle(.roundedBorder)
+                .font(.caption2)
+                .multilineTextAlignment(.center)
+                .frame(width: 64)
+                .focused($fieldFocused)
+                .onAppear { fieldFocused = true }
+                .onSubmit { commit(accountId: accountId) }
+                .onExitCommand { isEditing = false }
+                .onChange(of: fieldFocused) { _, focused in
+                    if !focused { commit(accountId: accountId) }
+                }
+        } else {
+            HStack(spacing: 2) {
+                Text(bar.owner)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Image(systemName: "pencil")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .opacity(isHovering ? 1 : 0)
+            }
+            .contentShape(Rectangle())
+            .onHover { isHovering = $0 }
+            .onTapGesture { beginEditing(accountId: accountId) }
+            .help("Rename account")
+            .accessibilityLabel("Rename \(bar.owner)")
+            .accessibilityAddTraits(.isButton)
+        }
+    }
+
+    private func beginEditing(accountId: String) {
+        draft = appModel.settings.claudeAccounts.first { $0.id == accountId }?.customLabel ?? ""
+        isEditing = true
+    }
+
+    private func commit(accountId: String) {
+        guard isEditing else { return }
+        appModel.renameClaudeAccount(id: accountId, customLabel: draft)
+        isEditing = false
     }
 }

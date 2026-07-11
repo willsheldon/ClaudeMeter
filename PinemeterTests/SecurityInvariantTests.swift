@@ -187,7 +187,6 @@ final class SecurityInvariantTests: XCTestCase {
     func test_settingsViewDoesNotOfferManualCredentialEntry() throws {
         let source = try sourceContents(relativePath: "Pinemeter/Views/Settings/SettingsView.swift")
         let forbiddenSettingsFragments = [
-            "SecureField",
             "TextField(\"sk-ant-",
             "__Secure-next-auth.session-token",
             "chatGPTSessionTokenPart",
@@ -203,6 +202,13 @@ final class SecurityInvariantTests: XCTestCase {
                 "Settings must use browser/provider credential actions instead of manual credential entry: \(forbiddenFragment)"
             )
         }
+
+        // Cookie-scan providers (Claude/ChatGPT) stay scan-only. Gemini is the
+        // sole deliberate exception: its Google AI Studio API key has no browser
+        // cookie to scan, so exactly one SecureField (the Gemini key) is allowed.
+        let secureFieldCount = source.components(separatedBy: "SecureField(").count - 1
+        XCTAssertEqual(secureFieldCount, 1)
+        XCTAssertTrue(source.contains("SecureField(\"API key\", text: $geminiAPIKeyDraft)"))
     }
 
     func test_setupWizardUsesOpenBrowserScan() throws {

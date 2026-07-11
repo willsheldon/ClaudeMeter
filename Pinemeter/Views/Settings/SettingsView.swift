@@ -12,6 +12,10 @@ struct SettingsView: View {
     @State private var accountsFeedback: (message: String, isSuccess: Bool)?
     @State private var pendingRemoval: AccountRemoval?
     @State private var isRemovingAccount: Bool = false
+    @State private var isSavingGemini: Bool = false
+    // Gemini is the one provider connected by manual entry: a Google AI Studio
+    // API key has no browser cookie to scan, so paste is the only mechanism.
+    @State private var geminiAPIKeyDraft: String = ""
 
     @State private var isSendingTestNotification: Bool = false
     @State private var testNotificationMessage: String?
@@ -29,7 +33,12 @@ struct SettingsView: View {
             aboutTab
                 .tabItem { Label("About", systemImage: "info.circle") }
         }
-        .frame(width: 500)
+        .frame(
+            minWidth: 460,
+            maxWidth: .infinity,
+            minHeight: 440,
+            maxHeight: .infinity
+        )
         .onAppear {
             loadSettings()
         }
@@ -49,24 +58,27 @@ struct SettingsView: View {
     // MARK: - General Tab
 
     private var generalTab: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            if !appModel.isReady {
-                VStack {
-                    Spacer()
-                    ProgressView("Loading settings...")
-                        .controlSize(.large)
-                    Spacer()
+        ScrollView(.vertical) {
+            VStack(alignment: .leading, spacing: 16) {
+                if !appModel.isReady {
+                    VStack {
+                        Spacer()
+                        ProgressView("Loading settings...")
+                            .controlSize(.large)
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    accountsSection
+                    chatGPTUsageSection
+                    refreshIntervalSection
+                    sonnetUsageSection
+                    launchAtLoginSection
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                accountsSection
-                chatGPTUsageSection
-                refreshIntervalSection
-                sonnetUsageSection
-                launchAtLoginSection
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(24)
         }
-        .padding(24)
     }
 
     // MARK: - Accounts Section
@@ -131,6 +143,7 @@ struct SettingsView: View {
 
             accountsFeedbackView
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(.quaternary.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -169,27 +182,91 @@ struct SettingsView: View {
     private var accountCardsRow: some View {
         let claudeAccounts = orderedClaudeAccounts
         let showChatGPT = appModel.hasChatGPTSessionCookie
-        let showGemini = appModel.isGeminiUsageConfigured
 
-        if claudeAccounts.isEmpty && !showChatGPT && !showGemini {
-            emptyAccountsCard
-        } else {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .top, spacing: 10) {
+        // Gemini is always shown last (it connects via manual API key, not a
+        // browser scan), so this row is always a horizontal ScrollView. The
+        // dashed scan empty-state only appears when no cookie-scan providers
+        // (Claude/ChatGPT) are connected yet.
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: .top, spacing: 10) {
+                if claudeAccounts.isEmpty && !showChatGPT {
+                    emptyAccountsCard
+                } else {
                     ForEach(claudeAccounts) { account in
                         claudeAccountCard(account)
                     }
                     if showChatGPT {
                         providerCard(for: .chatGPT)
                     }
-                    if showGemini {
-                        providerCard(for: .gemini)
-                    }
                 }
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.vertical, 2)
+                geminiCard
+            }
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.vertical, 2)
+        }
+    }
+
+    private var geminiCard: some View {
+        let status = appModel.providerCredentialStatuses.first { $0.provider == .gemini }
+
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 4) {
+                Text("Gemini")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+
+                Spacer()
+
+                if let status {
+                    Circle()
+                        .fill(credentialStatusColor(for: status.state.health))
+                        .frame(width: 8, height: 8)
+                        .help(status.stateText)
+                }
+            }
+
+            Text("Gemini")
+                .font(.callout.weight(.semibold))
+
+            if appModel.hasGeminiAPIKey, let status {
+                Text(status.detailText)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                if let lastFailureTitle = status.lastFailureTitle {
+                    CopyableErrorText(lastFailureTitle, font: .caption2, foregroundStyle: .orange)
+                }
+
+                Spacer(minLength: 4)
+
+                HStack(spacing: 8) {
+                    removeButton(.provider(status: status, label: "Gemini"))
+                    Spacer()
+                }
+            } else {
+                // Manual entry: a Google AI Studio key has no browser cookie to
+                // scan, so paste is the only way to connect Gemini.
+                SecureField("API key", text: $geminiAPIKeyDraft)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.caption)
+
+                Button("Save") {
+                    Task { await saveGeminiAPIKey() }
+                }
+                .controlSize(.small)
+                .disabled(geminiAPIKeyDraft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isAccountsBusy)
+
+                Link("Get an API key", destination: URL(string: "https://aistudio.google.com/apikey")!)
+                    .font(.caption2)
+
+                Spacer(minLength: 4)
             }
         }
+        .padding(10)
+        .frame(width: 180)
+        .frame(maxHeight: .infinity, alignment: .top)
+        .background(Color(nsColor: .controlBackgroundColor), in: RoundedRectangle(cornerRadius: 10))
     }
 
     private var emptyAccountsCard: some View {
@@ -531,19 +608,22 @@ struct SettingsView: View {
     // MARK: - Notifications Tab
 
     private var notificationsTab: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            enableNotificationsSection
-            thresholdsSection
-                .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
-                .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
-            resetNotificationSection
-                .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
-                .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
-            testNotificationSection
-                .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
-                .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
+        ScrollView(.vertical) {
+            VStack(alignment: .leading, spacing: 16) {
+                enableNotificationsSection
+                thresholdsSection
+                    .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
+                    .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
+                resetNotificationSection
+                    .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
+                    .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
+                testNotificationSection
+                    .opacity(appModel.settings.hasNotificationsEnabled ? 1 : 0.5)
+                    .allowsHitTesting(appModel.settings.hasNotificationsEnabled)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(24)
         }
-        .padding(24)
     }
 
     private var enableNotificationsSection: some View {
@@ -579,6 +659,7 @@ struct SettingsView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(.quaternary.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -639,6 +720,7 @@ struct SettingsView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(.quaternary.opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 8))
@@ -726,6 +808,7 @@ struct SettingsView: View {
     // MARK: - About Tab
 
     private var aboutTab: some View {
+        ScrollView(.vertical) {
         VStack(spacing: 20) {
             // Pineit logo
             Image("PineitLogo")
@@ -798,12 +881,13 @@ struct SettingsView: View {
         }
         .padding(24)
         .frame(maxWidth: .infinity)
+        }
     }
 
     // MARK: - Actions
 
     private var isAccountsBusy: Bool {
-        isImportingProviderSessions || activeCredentialActionProvider != nil || isRemovingAccount
+        isImportingProviderSessions || activeCredentialActionProvider != nil || isRemovingAccount || isSavingGemini
     }
 
     private func loadSettings() {
@@ -846,6 +930,27 @@ struct SettingsView: View {
         }
 
         isImportingProviderSessions = false
+    }
+
+    @MainActor
+    private func saveGeminiAPIKey() async {
+        isSavingGemini = true
+        accountsFeedback = nil
+        offersFullDiskAccessSettings = false
+        defer { isSavingGemini = false }
+
+        do {
+            // NEVER echo the key value into feedback/logs; clear the draft on success.
+            let ok = try await appModel.validateAndSaveGeminiAPIKey(geminiAPIKeyDraft)
+            if ok {
+                geminiAPIKeyDraft = ""
+                accountsFeedback = ("Connected Gemini.", true)
+            } else {
+                accountsFeedback = ("That Gemini API key was rejected. Check it and try again.", false)
+            }
+        } catch {
+            accountsFeedback = (error.localizedDescription, false)
+        }
     }
 
     private func removeClaudeAccountFromSettings(id: String, label: String) {

@@ -313,15 +313,21 @@ final class AppModel {
     var usageQuotaBars: [MenuBarQuotaBar] {
         var bars: [MenuBarQuotaBar] = []
 
-        for section in claudeUsageSections {
+        // Only disambiguated multi-account labels are renameable; a single
+        // Claude account shows the fixed "Claude" title, not an editable label.
+        let claudeSections = claudeUsageSections
+        let renameableClaude = claudeSections.count > 1
+        for section in claudeSections {
             guard let usageData = section.usageData else { continue }
+            let renameId = renameableClaude ? section.id : nil
             bars.append(MenuBarQuotaBar(
                 label: "\(section.title) 5h",
                 percentage: clampedBarPercentage(usageData.sessionUsage.percentage),
                 status: usageData.sessionUsage.status,
                 detail: "Resets \(usageData.sessionUsage.resetDescription)",
                 heading: "5h",
-                owner: section.title
+                owner: section.title,
+                renameableAccountId: renameId
             ))
             bars.append(MenuBarQuotaBar(
                 label: "\(section.title) weekly",
@@ -329,7 +335,8 @@ final class AppModel {
                 status: usageData.weeklyUsage.status,
                 detail: "Resets \(usageData.weeklyUsage.resetDescription)",
                 heading: "Weekly",
-                owner: section.title
+                owner: section.title,
+                renameableAccountId: renameId
             ))
             if settings.isSonnetUsageShown, let sonnetUsage = usageData.sonnetUsage {
                 bars.append(MenuBarQuotaBar(
@@ -338,7 +345,8 @@ final class AppModel {
                     status: sonnetUsage.status,
                     detail: "Resets \(sonnetUsage.resetDescription)",
                     heading: "Sonnet",
-                    owner: section.title
+                    owner: section.title,
+                    renameableAccountId: renameId
                 ))
             }
         }

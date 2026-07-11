@@ -501,6 +501,40 @@ final class ClaudeMultiAccountTests: XCTestCase {
         XCTAssertEqual(appModel.usageQuotaBars.map(\.owner), [
             "Acme", "Acme", "Personal", "Personal", "ChatGPT", "Gemini",
         ])
+        // Multiple Claude accounts are renameable inline in the popover; the
+        // account id rides each of that account's bars. Providers are not.
+        XCTAssertEqual(appModel.usageQuotaBars.map(\.renameableAccountId), [
+            Self.org1UUIDString, Self.org1UUIDString,
+            Self.org2UUIDString, Self.org2UUIDString,
+            nil, nil,
+        ])
+    }
+
+    func test_usageQuotaBars_singleClaudeAccountIsNotRenameable() {
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: MultiAccountUsageServiceStub(
+                organizationsByKey: [:],
+                usageByOrganization: [:],
+                primaryUsage: makeUsageData(percentage: 11)
+            ),
+            notificationService: NotificationServiceSpy()
+        )
+
+        appModel.isSetupComplete = true
+        appModel.settings.claudeAccounts = [
+            ClaudeAccount(
+                id: Self.org1UUIDString,
+                label: "Acme",
+                organizationId: UUID(uuidString: Self.org1UUIDString)!,
+                keychainAccount: ClaudeAccount.primaryKeychainAccount,
+                profileLabel: nil
+            ),
+        ]
+        appModel.usageData = makeUsageData(percentage: 11)
+
+        XCTAssertEqual(appModel.usageQuotaBars.map(\.renameableAccountId), [nil, nil])
     }
 
     // MARK: - Per-account usage fetch

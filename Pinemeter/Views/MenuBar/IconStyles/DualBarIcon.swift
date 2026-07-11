@@ -21,6 +21,9 @@ struct MenuBarQuotaBar: Equatable, Sendable {
     let status: UsageStatus
     /// Secondary annotation for the popover column (e.g. reset time).
     let detail: String?
+    /// Claude account id when this bar's owner label can be renamed inline in
+    /// the popover; nil for providers and single-account "Claude".
+    let renameableAccountId: String?
 
     init(
         label: String,
@@ -28,7 +31,8 @@ struct MenuBarQuotaBar: Equatable, Sendable {
         status: UsageStatus,
         detail: String? = nil,
         heading: String? = nil,
-        owner: String = ""
+        owner: String = "",
+        renameableAccountId: String? = nil
     ) {
         self.label = label
         self.heading = heading ?? label
@@ -36,6 +40,7 @@ struct MenuBarQuotaBar: Equatable, Sendable {
         self.percentage = percentage
         self.status = status
         self.detail = detail
+        self.renameableAccountId = renameableAccountId
     }
 }
 

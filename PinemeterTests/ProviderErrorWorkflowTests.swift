@@ -160,10 +160,19 @@ final class ProviderErrorWorkflowTests: XCTestCase {
             XCTAssertTrue(source.contains("status.lastFailureTitle"))
             XCTAssertTrue(source.contains("handleCredentialAction(action.kind, for: status)"))
             XCTAssertFalse(source.contains("status.setupAccessibilityLabel"))
-            XCTAssertFalse(source.contains("SecureField"))
             XCTAssertFalse(source.contains("sk-ant-"))
             XCTAssertFalse(source.contains("__Secure-next-auth.session-token"))
         }
+
+        // Setup stays strictly scan-only: no credential-entry fields at all.
+        XCTAssertFalse(setupSource.contains("SecureField"))
+
+        // Settings deliberately relaxes the scan-only invariant for Gemini ONLY:
+        // a Google AI Studio API key has no browser cookie to scan, so paste is
+        // the only mechanism. Claude/ChatGPT remain scan-only.
+        let settingsSecureFieldCount = settingsSource.components(separatedBy: "SecureField(").count - 1
+        XCTAssertEqual(settingsSecureFieldCount, 1)
+        XCTAssertTrue(settingsSource.contains("SecureField(\"API key\", text: $geminiAPIKeyDraft)"))
     }
 
     func test_setupProviderStatusCardsExposeSharedRepairAndClearActionsWithoutManualCredentials() throws {
