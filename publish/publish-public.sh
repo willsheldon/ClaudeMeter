@@ -9,11 +9,18 @@
 # history, so old binaries never accumulate in the public git history.
 #
 # Usage:
-#   publish/publish-public.sh                 # build Release, package DMG, push
+#   publish/publish-public.sh                 # build Release, package DMG, notarize, push
 #   publish/publish-public.sh --app PATH.app  # reuse an already-built .app
 #   publish/publish-public.sh --no-dmg        # skip the installer DMG
+#   publish/publish-public.sh --no-notarize   # build+staple skipped; ship unnotarized DMG
 #   publish/publish-public.sh --no-push       # stage + commit locally, do not push
 #   publish/publish-public.sh --dry-run       # build staging tree only, show tree, stop
+#
+# Notarization uses an App Store Connect API key. Resolution order for each of
+# APP_STORE_CONNECT_ISSUER_ID / _KEY_ID / the .p8 key: process env, then project
+# SSM (via `mysecrets run`), then the notarytool default key location
+# ~/.private_keys/AuthKey_<KEY_ID>.p8. Store the issuer once with:
+#   mysecrets set APP_STORE_CONNECT_ISSUER_ID <uuid>
 #
 set -euo pipefail
 
@@ -61,20 +68,28 @@ RELOCATE_URL_FILES=(
   "site/index.html"
 )
 
+# Apple notarization (App Store Connect API key). The Autimo key lives at the
+# notarytool default location; the issuer resolves from env/SSM at run time.
+NOTARY_KEY_ID="${APP_STORE_CONNECT_KEY_ID:-VKXT96WHG7}"
+NOTARY_KEY_PATH="${APP_STORE_CONNECT_KEY:-$HOME/.private_keys/AuthKey_${NOTARY_KEY_ID}.p8}"
+NOTARY_ISSUER="${APP_STORE_CONNECT_ISSUER_ID:-}"
+
 # ---------------------------------------------------------------------------
 # Args
 # ---------------------------------------------------------------------------
 APP_PATH=""
 DO_DMG=1
 DO_PUSH=1
+DO_NOTARIZE=1
 DRY_RUN=0
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --app) APP_PATH="${2:?--app needs a path}"; shift 2 ;;
     --no-dmg) DO_DMG=0; shift ;;
+    --no-notarize) DO_NOTARIZE=0; shift ;;
     --no-push) DO_PUSH=0; shift ;;
     --dry-run) DRY_RUN=1; DO_PUSH=0; shift ;;
-    -h|--help) sed -n '2,20p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,26p' "$0"; exit 0 ;;
     *) echo "unknown arg: $1" >&2; exit 2 ;;
   esac
 done
@@ -85,6 +100,42 @@ cd "$REPO_ROOT"
 log() { printf '\033[1;32m==>\033[0m %s\n' "$*"; }
 warn() { printf '\033[1;33mwarn:\033[0m %s\n' "$*" >&2; }
 die() { printf '\033[1;31merror:\033[0m %s\n' "$*" >&2; exit 1; }
+
+# Read a single APP_STORE_CONNECT_* value from project SSM without echoing it.
+ssm_get() { mysecrets run -- bash -c 'printf "%s" "${'"$1"':-}"' 2>/dev/null || true; }
+
+# Notarize a DMG with Apple and staple the ticket in place.
+notarize_dmg() {
+  local dmg="$1"
+  local issuer="$NOTARY_ISSUER" key_id="$NOTARY_KEY_ID" key_path="$NOTARY_KEY_PATH"
+
+  if command -v mysecrets >/dev/null; then
+    [[ -z "$issuer" ]] && issuer="$(ssm_get APP_STORE_CONNECT_ISSUER_ID)"
+    local ssm_keyid; ssm_keyid="$(ssm_get APP_STORE_CONNECT_KEY_ID)"
+    if [[ -n "$ssm_keyid" && -z "${APP_STORE_CONNECT_KEY_ID:-}" ]]; then
+      key_id="$ssm_keyid"; key_path="${APP_STORE_CONNECT_KEY:-$HOME/.private_keys/AuthKey_${key_id}.p8}"
+    fi
+    if [[ ! -f "$key_path" ]]; then
+      local ssm_b64; ssm_b64="$(ssm_get APP_STORE_CONNECT_API_KEY_BASE64)"
+      if [[ -n "$ssm_b64" ]]; then
+        key_path="$STAGE/AuthKey_${key_id}.p8"
+        printf '%s' "$ssm_b64" | base64 --decode > "$key_path"
+      fi
+    fi
+  fi
+
+  [[ -f "$key_path" ]] || die "notary key not found at $key_path — set APP_STORE_CONNECT_KEY, store APP_STORE_CONNECT_API_KEY_BASE64 in SSM, or pass --no-notarize"
+  [[ -n "$issuer" ]] || die "notary issuer id missing — run 'mysecrets set APP_STORE_CONNECT_ISSUER_ID <uuid>' (or export APP_STORE_CONNECT_ISSUER_ID), or pass --no-notarize"
+
+  log "Notarizing $(basename "$dmg") with Apple (key $key_id; may take a few minutes)"
+  xcrun notarytool submit "$dmg" \
+    --key "$key_path" --key-id "$key_id" --issuer "$issuer" \
+    --wait --timeout 30m
+  log "Stapling and validating the notarization ticket"
+  xcrun stapler staple "$dmg"
+  xcrun stapler validate "$dmg"
+  spctl -a -t open --context context:primary-signature -v "$dmg" || warn "spctl reported a Gatekeeper assessment issue"
+}
 
 command -v git >/dev/null || die "git not found"
 [[ -d "$REPO_ROOT/.git" ]] || die "must run inside the internal git repo"
@@ -204,6 +255,12 @@ if [[ "$DO_DMG" -eq 1 ]]; then
   fi
   [[ -f "$DMG_OUT" ]] || die "DMG was not produced"
   log "DMG size: $(du -h "$DMG_OUT" | cut -f1)"
+
+  if [[ "$DO_NOTARIZE" -eq 1 && "$DRY_RUN" -eq 0 ]]; then
+    notarize_dmg "$DMG_OUT"
+  else
+    warn "Notarization skipped — the DMG is signed but not notarized (Gatekeeper will warn on first open)"
+  fi
 
   # Insert a Download section pointing at the in-repo DMG (idempotent).
   if [[ -f README.md ]] && ! grep -qF "releases/$DMG_NAME" README.md; then
