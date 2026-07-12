@@ -127,8 +127,10 @@ notarize_dmg() {
     fi
   fi
 
-  [[ -f "$key_path" ]] || die "notary key not found at $key_path — set APP_STORE_CONNECT_KEY, store APP_STORE_CONNECT_API_KEY_BASE64 in SSM, or pass --no-notarize"
-  [[ -n "$issuer" ]] || die "notary issuer id missing — run 'mysecrets set APP_STORE_CONNECT_ISSUER_ID <uuid>' (or export APP_STORE_CONNECT_ISSUER_ID), or pass --no-notarize"
+  local ssm_hint=""
+  command -v mysecrets >/dev/null && ssm_hint=" (if the key/issuer live in SSM, the AWS SSO session may have expired — run: aws sso login --profile sso-ws-claude)"
+  [[ -f "$key_path" ]] || die "notary key not found at $key_path — set APP_STORE_CONNECT_KEY, store APP_STORE_CONNECT_API_KEY_BASE64 in SSM, or pass --no-notarize.${ssm_hint}"
+  [[ -n "$issuer" ]] || die "notary issuer id missing — set APP_STORE_CONNECT_ISSUER_ID in SSM/env, or pass --no-notarize.${ssm_hint}"
 
   log "Notarizing $(basename "$dmg") with Apple (key $key_id; may take a few minutes)"
   xcrun notarytool submit "$dmg" \
@@ -176,18 +178,37 @@ build_number() {
   printf '%d' "$(( 10#$M * 10000 + 10#$m * 100 + 10#$p ))"
 }
 
+# Body of the topmost CHANGELOG section (e.g. [Unreleased] or the newest version),
+# leading/trailing blank lines trimmed. Empty if the changelog has no section.
+release_notes() {
+  awk '
+    /^## \[/ { if (found) exit; found=1; next }
+    found { lines[n++] = $0 }
+    END {
+      s = 0;   while (s < n   && lines[s] ~ /^[[:space:]]*$/) s++
+      e = n-1; while (e >= s  && lines[e] ~ /^[[:space:]]*$/) e--
+      for (i = s; i <= e; i++) print lines[i]
+    }
+  ' "$REPO_ROOT/CHANGELOG.md" 2>/dev/null
+}
+
 # Publish the notarized DMG as a GitHub Release asset (not committed to git).
 # Each publish uses a fresh auto-incremented tag, so releases accumulate as history.
 release_dmg() {
-  local dmg="$1" tag="$2"
+  local dmg="$1" tag="$2" notes_file="$STAGE/release-notes.md" body
   command -v gh >/dev/null || { warn "gh not found — DMG built but no GitHub Release created"; return 0; }
+  body="$(release_notes)"
+  {
+    [[ -n "$body" ]] && printf '### What'\''s changed\n\n%s\n\n---\n\n' "$body"
+    printf 'Universal (Apple Silicon & Intel), Developer ID signed and notarized. Download **%s** below, open it, and drag **Pinemeter** into **Applications**.\n' "$DMG_NAME"
+  } > "$notes_file"
   log "Publishing GitHub Release $tag to $PUBLIC_REPO"
   gh release create "$tag" "$dmg" \
     --repo "$PUBLIC_REPO" \
     --target "$PUBLIC_BRANCH" \
     --latest \
     --title "Pinemeter $tag" \
-    --notes "Universal (Apple Silicon & Intel), Developer ID signed and notarized. Download **$DMG_NAME** below, open it, and drag **Pinemeter** into **Applications**." \
+    --notes-file "$notes_file" \
     || die "gh release create failed for $tag"
   log "Release live: $PUBLIC_URL/releases/latest/download/$DMG_NAME"
 }
