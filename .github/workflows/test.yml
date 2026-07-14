@@ -1,9 +1,8 @@
 name: Test
 
+# Untrusted public PR lane. Runs only on ephemeral GitHub-hosted runners;
+# main-push testing lives in .woodpecker/test-macos.yml (see docs/ci.md).
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main

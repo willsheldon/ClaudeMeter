@@ -57,6 +57,22 @@ The GitHub Actions release workflow is manual, but it is not just a local verifi
 
 Do not trigger, re-run, or modify these publishing steps as a signing check. Workflow dispatch, publishing, `git push`, `gh release`, Homebrew tap updates, notarization submissions, tag changes, or history rewriting require explicit maintainer confirmation for the intended version and target repository.
 
+## CI configuration source of truth
+
+The public repository (`PineIT-ca/pinemeter`) is force-published from this
+repository's HEAD as a single squashed commit by `publish/publish-public.sh`.
+All CI configuration on the public repository, including `.woodpecker/` and
+`.github/workflows/` (minus `release.yml`, which is stripped), must live in
+this repository or it is deleted on the next publish. Never edit CI config
+directly on the public repository; change it here and republish.
+
+The CI trust and publication boundary (which lanes run on Woodpecker versus
+GitHub Actions, and why the retained Actions lanes are intentional
+exceptions) is documented in [docs/ci.md](docs/ci.md). The private-side
+production exception is `release.yml` itself: a manual-dispatch release lane
+that stays on GitHub Actions until a production cutover is explicitly
+approved.
+
 ## Failure diagnostics
 
 If signing verification fails, inspect the failing surface before retrying any release:
