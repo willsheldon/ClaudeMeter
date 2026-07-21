@@ -80,3 +80,7 @@ aws_profile: sso-ws-claude
 ## Host cmux Payload Rule
 
 On cmux hosts, do not use `cmux send` for literal long command text: it is a keystroke API and interprets `\n`, `\r`, and `\t` as Enter, Return, and Tab. For literal payloads, use `cmux set-buffer --name <unique> -- <payload>`, then `cmux paste-buffer --name <unique> --surface <surface>`, then send Enter separately with `cmux send --surface <surface> '\r'`. Canonical notes: `/Users/will/wiki/gsd-cmux.md`.
+
+## GSD Runtime
+
+As of 2026-07-13 this project runs on **GSD Core** (`@opengsd/gsd-core`, "GSD-v1") inside Claude Code via the `gsd-*` skills. The gsd-pi (GSD-2) CLI runtime is retired for this project. `.gsd/` is retained as a read-only GSD-2 archive (migrated via `gsd-tools from-gsd2` / `gsd1-lightport`); new phase work lives in `.planning/`. gsd-pi remains installed fleet-wide for other projects.
