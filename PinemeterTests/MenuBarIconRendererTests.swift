@@ -20,6 +20,31 @@ final class MenuBarIconRendererTests: XCTestCase {
         XCTAssertEqual(special.kind, .special)
         XCTAssertFalse(fiveHour.isNearLimit)
         XCTAssertTrue(weekly.isNearLimit)
+        XCTAssertEqual(fiveHour.meterColor, .cyan)
+        XCTAssertEqual(weekly.meterColor, .red)
+        XCTAssertEqual(special.meterColor, .yellow)
+    }
+
+    func test_quotaBarsGroupAdjacentMetersBySubscriptionIdentity() {
+        func bar(_ heading: String, accountID: String = "work") -> MenuBarQuotaBar {
+            MenuBarQuotaBar(
+                label: "Work \(heading)",
+                percentage: 20,
+                status: .safe,
+                heading: heading,
+                owner: "Work",
+                renameTarget: .claudeAccount(id: accountID)
+            )
+        }
+
+        let bars = [
+            bar("5h"),
+            bar("Weekly"),
+            bar("Fable"),
+            bar("5h", accountID: "personal"),
+        ]
+
+        XCTAssertEqual(MenuBarQuotaBar.groupedByOwner(bars).map(\.count), [3, 1])
     }
 
     func test_menuBarIconRendersMeterStyle() {

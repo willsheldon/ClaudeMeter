@@ -35,6 +35,33 @@ struct MenuBarQuotaBar: Equatable, Sendable {
 
     var isNearLimit: Bool { percentage >= 90 }
 
+    var meterColor: Color {
+        if isNearLimit { return .red }
+
+        switch kind {
+        case .fiveHour: return .cyan
+        case .weekly: return .purple
+        case .special: return .yellow
+        }
+    }
+
+    static func groupedByOwner(_ bars: [MenuBarQuotaBar]) -> [[MenuBarQuotaBar]] {
+        bars.reduce(into: []) { groups, bar in
+            guard let previous = groups.last?.last else {
+                groups.append([bar])
+                return
+            }
+
+            let sameOwner = previous.renameTarget == bar.renameTarget
+                && (bar.renameTarget != nil || previous.owner == bar.owner)
+            if sameOwner {
+                groups[groups.count - 1].append(bar)
+            } else {
+                groups.append([bar])
+            }
+        }
+    }
+
     init(
         label: String,
         percentage: Double,
@@ -97,7 +124,7 @@ struct DualBarIcon: View {
                     ForEach(Array(bars.enumerated()), id: \.offset) { _, bar in
                         MiniMeter(
                             percentage: bar.percentage,
-                            color: color(for: bar),
+                            color: isStale ? .gray : bar.meterColor,
                             isStale: isStale
                         )
                         .frame(width: 5, height: 15)
@@ -127,16 +154,6 @@ struct DualBarIcon: View {
             .joined(separator: ", ")
     }
 
-    private func color(for bar: MenuBarQuotaBar) -> Color {
-        if isStale { return .gray }
-        if bar.isNearLimit { return .red }
-
-        switch bar.kind {
-        case .fiveHour: return .cyan
-        case .weekly: return .purple
-        case .special: return .yellow
-        }
-    }
 }
 
 /// Individual vertical mini-meter component for the menu bar.

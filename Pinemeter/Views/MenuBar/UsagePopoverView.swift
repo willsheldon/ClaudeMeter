@@ -257,17 +257,9 @@ private struct QuotaBarChart: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(alignment: .top, spacing: 8) {
-                ForEach(Array(bars.enumerated()), id: \.offset) { index, bar in
-                    // The owner label prints once per account group (under the
-                    // group's first column), so multi-bar accounts aren't
-                    // labelled repeatedly.
-                    let isFirstOfOwner = index == 0 || bars[index - 1].owner != bar.owner
-                    QuotaBarColumn(
-                        bar: bar,
-                        showsOwnerLabel: isFirstOfOwner,
-                        appModel: appModel
-                    )
+            HStack(alignment: .top, spacing: 16) {
+                ForEach(Array(MenuBarQuotaBar.groupedByOwner(bars).enumerated()), id: \.offset) { _, group in
+                    QuotaBarGroup(bars: group, appModel: appModel)
                 }
             }
             .frame(minWidth: 328, alignment: .center)
@@ -278,15 +270,33 @@ private struct QuotaBarChart: View {
     }
 }
 
-private struct QuotaBarColumn: View {
-    let bar: MenuBarQuotaBar
-    let showsOwnerLabel: Bool
+private struct QuotaBarGroup: View {
+    let bars: [MenuBarQuotaBar]
     @Bindable var appModel: AppModel
 
-    @State private var isHovering = false
-    @State private var isEditing = false
-    @State private var draft = ""
-    @FocusState private var fieldFocused: Bool
+    var body: some View {
+        VStack(spacing: 8) {
+            HStack(alignment: .top, spacing: 8) {
+                ForEach(Array(bars.enumerated()), id: \.offset) { _, bar in
+                    QuotaBarColumn(bar: bar)
+                }
+            }
+
+            if let ownerBar = bars.first, !ownerBar.owner.isEmpty {
+                VStack(spacing: 4) {
+                    Rectangle()
+                        .fill(Color.popoverSecondary.opacity(0.35))
+                        .frame(height: 1)
+
+                    QuotaOwnerLabel(bar: ownerBar, appModel: appModel)
+                }
+            }
+        }
+    }
+}
+
+private struct QuotaBarColumn: View {
+    let bar: MenuBarQuotaBar
 
     private var clampedPercentage: Double {
         min(max(bar.percentage, 0), 100)
@@ -312,21 +322,17 @@ private struct QuotaBarColumn: View {
             Text("\(Int(bar.percentage.rounded()))%")
                 .font(.system(.caption, design: .monospaced))
                 .fontWeight(.semibold)
-                .foregroundStyle(bar.status.color)
+                .foregroundStyle(bar.meterColor)
 
             ZStack(alignment: .bottom) {
                 RoundedRectangle(cornerRadius: 5)
                     .fill(Color.gray.opacity(0.18))
 
                 RoundedRectangle(cornerRadius: 5)
-                    .fill(bar.status.color)
+                    .fill(bar.meterColor)
                     .frame(height: 140 * clampedPercentage / 100)
             }
             .frame(width: 24, height: 140)
-
-            if showsOwnerLabel && !bar.owner.isEmpty {
-                ownerLabel
-            }
 
             if let detail = bar.detail {
                 Text(detail)
@@ -340,9 +346,19 @@ private struct QuotaBarColumn: View {
         .frame(width: 72, alignment: .top)
         .help(tooltip)
     }
+}
+
+private struct QuotaOwnerLabel: View {
+    let bar: MenuBarQuotaBar
+    @Bindable var appModel: AppModel
+
+    @State private var isHovering = false
+    @State private var isEditing = false
+    @State private var draft = ""
+    @FocusState private var fieldFocused: Bool
 
     @ViewBuilder
-    private var ownerLabel: some View {
+    var body: some View {
         if let target = bar.renameTarget {
             editableOwner(target: target)
         } else {
