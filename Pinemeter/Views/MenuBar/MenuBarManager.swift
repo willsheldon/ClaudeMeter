@@ -127,7 +127,7 @@ final class MenuBarManager {
         let isColored = appModel.settings.isColoredIcon
         let quotaBars = appModel.usageQuotaBars
         let quotaSignature = quotaBars
-            .map { "\($0.label):\(Int($0.percentage.rounded())):\($0.status.rawValue)" }
+            .map { "\($0.label):\(Int($0.percentage.rounded())):\($0.status.rawValue):\($0.kind):\($0.isNearLimit)" }
             .joined(separator: "|")
 
         if let cachedImage = iconCache.get(

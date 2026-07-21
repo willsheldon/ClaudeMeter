@@ -25,6 +25,16 @@ struct MenuBarQuotaBar: Equatable, Sendable {
     /// renamed inline in the popover; nil for single-account "Claude".
     let renameTarget: QuotaRenameTarget?
 
+    var kind: MenuBarQuotaKind {
+        switch heading {
+        case "5h": .fiveHour
+        case "Weekly": .weekly
+        default: .special
+        }
+    }
+
+    var isNearLimit: Bool { percentage >= 90 }
+
     init(
         label: String,
         percentage: Double,
@@ -42,6 +52,12 @@ struct MenuBarQuotaBar: Equatable, Sendable {
         self.detail = detail
         self.renameTarget = renameTarget
     }
+}
+
+enum MenuBarQuotaKind: Equatable, Sendable {
+    case fiveHour
+    case weekly
+    case special
 }
 
 /// Identifies what a popover owner-label rename writes to.
@@ -64,7 +80,7 @@ struct DualBarIcon: View {
 
     private var bars: [MenuBarQuotaBar] {
         if quotaBars.isEmpty {
-            return [MenuBarQuotaBar(label: "Claude 5h", percentage: percentage, status: status)]
+            return [MenuBarQuotaBar(label: "Claude 5h", percentage: percentage, status: status, heading: "5h")]
         }
         // Mirror every popover bar; the cap only guards against runaway width.
         return Array(quotaBars.prefix(12))
@@ -113,7 +129,13 @@ struct DualBarIcon: View {
 
     private func color(for bar: MenuBarQuotaBar) -> Color {
         if isStale { return .gray }
-        return bar.status.color
+        if bar.isNearLimit { return .red }
+
+        switch bar.kind {
+        case .fiveHour: return .cyan
+        case .weekly: return .purple
+        case .special: return .yellow
+        }
     }
 }
 
@@ -145,9 +167,9 @@ private struct MiniMeter: View {
             isLoading: false,
             isStale: false,
             quotaBars: [
-                MenuBarQuotaBar(label: "Claude 5h", percentage: 65, status: .warning),
-                MenuBarQuotaBar(label: "Claude weekly", percentage: 35, status: .safe),
-                MenuBarQuotaBar(label: "ChatGPT Pro", percentage: 82, status: .warning),
+                MenuBarQuotaBar(label: "Claude 5h", percentage: 65, status: .warning, heading: "5h"),
+                MenuBarQuotaBar(label: "Claude weekly", percentage: 35, status: .safe, heading: "Weekly"),
+                MenuBarQuotaBar(label: "ChatGPT Pro", percentage: 82, status: .warning, heading: "Pro"),
                 MenuBarQuotaBar(label: "ChatGPT 4o", percentage: 20, status: .safe),
             ]
         )

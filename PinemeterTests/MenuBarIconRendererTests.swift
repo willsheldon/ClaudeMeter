@@ -10,6 +10,18 @@ import XCTest
 
 @MainActor
 final class MenuBarIconRendererTests: XCTestCase {
+    func test_quotaBarColorRolesAndNearLimitThreshold() {
+        let fiveHour = MenuBarQuotaBar(label: "Claude 5h", percentage: 89, status: .critical, heading: "5h")
+        let weekly = MenuBarQuotaBar(label: "Claude weekly", percentage: 90, status: .critical, heading: "Weekly")
+        let special = MenuBarQuotaBar(label: "Claude Fable", percentage: 20, status: .safe, heading: "Fable")
+
+        XCTAssertEqual(fiveHour.kind, .fiveHour)
+        XCTAssertEqual(weekly.kind, .weekly)
+        XCTAssertEqual(special.kind, .special)
+        XCTAssertFalse(fiveHour.isNearLimit)
+        XCTAssertTrue(weekly.isNearLimit)
+    }
+
     func test_menuBarIconRendersMeterStyle() {
         let renderer = MenuBarIconRenderer()
 
