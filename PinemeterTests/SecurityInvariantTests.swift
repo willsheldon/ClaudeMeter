@@ -21,7 +21,7 @@ final class SecurityInvariantTests: XCTestCase {
         settings.hasNotificationsEnabled = false
         settings.isFirstLaunch = false
         settings.cachedOrganizationId = UUID(uuidString: "00000000-0000-0000-0000-000000000001")
-        settings.isSonnetUsageShown = true
+        settings.isFableUsageShown = false
         settings.isChatGPTUsageShown = true
         settings.iconStyle = .dualBar
         settings.isColoredIcon = false

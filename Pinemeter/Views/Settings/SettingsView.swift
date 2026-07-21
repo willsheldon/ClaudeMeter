@@ -64,7 +64,7 @@ struct SettingsView: View {
                     accountsSection
                     chatGPTUsageSection
                     refreshIntervalSection
-                    sonnetUsageSection
+                    fableUsageSection
                     launchAtLoginSection
                 }
             }
@@ -666,21 +666,21 @@ struct SettingsView: View {
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 
-    // MARK: - Sonnet Usage Section
+    // MARK: - Fable Usage Section
 
-    private var sonnetUsageSection: some View {
+    private var fableUsageSection: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Show Sonnet Usage")
+                Text("Show Fable Usage")
                     .font(.subheadline)
-                Text("Display weekly Sonnet usage in the menu bar popover")
+                Text("Display model-scoped Fable usage in the menu bar and popover")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
             Spacer()
 
-            Toggle("", isOn: $appModel.settings.isSonnetUsageShown)
+            Toggle("", isOn: $appModel.settings.isFableUsageShown)
                 .labelsHidden()
         }
         .padding()

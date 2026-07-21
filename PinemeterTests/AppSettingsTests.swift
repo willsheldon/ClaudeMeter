@@ -43,6 +43,7 @@ final class AppSettingsTests: XCTestCase {
 
         XCTAssertNil(settings.chatGPTCustomLabel)
         XCTAssertNil(settings.geminiCustomLabel)
+        XCTAssertTrue(settings.isFableUsageShown)
         XCTAssertTrue(settings.isResetCelebrationEnabled)
         XCTAssertTrue(settings.scanExcludedAccounts.isEmpty)
     }
@@ -51,6 +52,7 @@ final class AppSettingsTests: XCTestCase {
         var settings = AppSettings.default
         settings.chatGPTCustomLabel = "Work GPT"
         settings.geminiCustomLabel = "Personal Gemini"
+        settings.isFableUsageShown = false
         settings.isResetCelebrationEnabled = false
         settings.scanExcludedAccounts = [
             ScanExcludedAccount(provider: .claude, accountId: "org-1", displayLabel: "Old account")
@@ -61,6 +63,7 @@ final class AppSettingsTests: XCTestCase {
 
         XCTAssertEqual(decoded.chatGPTCustomLabel, "Work GPT")
         XCTAssertEqual(decoded.geminiCustomLabel, "Personal Gemini")
+        XCTAssertFalse(decoded.isFableUsageShown)
         XCTAssertFalse(decoded.isResetCelebrationEnabled)
         XCTAssertEqual(decoded.scanExcludedAccounts, settings.scanExcludedAccounts)
     }

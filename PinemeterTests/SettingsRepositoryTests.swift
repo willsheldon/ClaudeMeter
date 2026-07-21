@@ -50,6 +50,7 @@ final class SettingsRepositoryTests: XCTestCase {
         let settings = try JSONDecoder().decode(AppSettings.self, from: data)
 
         XCTAssertTrue(settings.isColoredIcon)
+        XCTAssertTrue(settings.isFableUsageShown)
     }
 
     func test_defaultSettings_hideChatGPTUsage() {

@@ -644,6 +644,10 @@ final class ClaudeMultiAccountTests: XCTestCase {
 
         XCTAssertEqual(appModel.usageQuotaBars.map(\.heading), ["5h", "Weekly", "Fable"])
         XCTAssertEqual(appModel.usageQuotaBars.last?.percentage, 31)
+
+        appModel.settings.isFableUsageShown = false
+
+        XCTAssertEqual(appModel.usageQuotaBars.map(\.heading), ["5h", "Weekly"])
     }
 
     // MARK: - Per-account usage fetch

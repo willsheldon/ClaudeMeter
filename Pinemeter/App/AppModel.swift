@@ -308,7 +308,7 @@ final class AppModel {
 
     /// Ordered quota bars for the menu bar icon: one mini bar per usage bar
     /// shown in the popover, in the same order (each Claude account's 5h,
-    /// weekly, and optional Sonnet bar; then ChatGPT rows; then Gemini), so
+    /// weekly, and optional Fable bar; then ChatGPT rows; then Gemini), so
     /// the popover doubles as the legend for the menu bar meters.
     var usageQuotaBars: [MenuBarQuotaBar] {
         var bars: [MenuBarQuotaBar] = []
@@ -338,18 +338,7 @@ final class AppModel {
                 owner: section.title,
                 renameTarget: renameTarget
             ))
-            if settings.isSonnetUsageShown, let sonnetUsage = usageData.sonnetUsage {
-                bars.append(MenuBarQuotaBar(
-                    label: "\(section.title) Sonnet weekly",
-                    percentage: clampedBarPercentage(sonnetUsage.percentage),
-                    status: sonnetUsage.status,
-                    detail: "Resets \(sonnetUsage.resetDescription)",
-                    heading: "Sonnet",
-                    owner: section.title,
-                    renameTarget: renameTarget
-                ))
-            }
-            if let fableUsage = usageData.fableUsage {
+            if settings.isFableUsageShown, let fableUsage = usageData.fableUsage {
                 bars.append(MenuBarQuotaBar(
                     label: "\(section.title) Fable",
                     percentage: clampedBarPercentage(fableUsage.percentage),

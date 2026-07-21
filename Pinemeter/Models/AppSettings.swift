@@ -24,8 +24,8 @@ struct AppSettings: Codable, Equatable, Sendable {
     /// Last known organization ID (cached)
     var cachedOrganizationId: UUID?
 
-    /// Whether to show Sonnet usage in the popover
-    var isSonnetUsageShown: Bool
+    /// Whether to show Fable usage in the menu bar and popover
+    var isFableUsageShown: Bool
 
     /// Whether to show ChatGPT quota usage in the popover
     var isChatGPTUsageShown: Bool
@@ -61,7 +61,7 @@ struct AppSettings: Codable, Equatable, Sendable {
         notificationThresholds: .default,
         isFirstLaunch: true,
         cachedOrganizationId: nil,
-        isSonnetUsageShown: false,
+        isFableUsageShown: true,
         isChatGPTUsageShown: false,
         iconStyle: .dualBar,
         isColoredIcon: true
@@ -73,7 +73,7 @@ struct AppSettings: Codable, Equatable, Sendable {
         case notificationThresholds = "notification_thresholds"
         case isFirstLaunch = "is_first_launch"
         case cachedOrganizationId = "cached_organization_id"
-        case isSonnetUsageShown = "show_sonnet_usage"
+        case isFableUsageShown = "show_fable_usage"
         case isChatGPTUsageShown = "show_chatgpt_usage"
         case legacyOpenAIUsageShown = "show_openai_usage"
         case iconStyle = "icon_style"
@@ -96,7 +96,7 @@ extension AppSettings {
         notificationThresholds = try container.decodeIfPresent(NotificationThresholds.self, forKey: .notificationThresholds) ?? defaults.notificationThresholds
         isFirstLaunch = try container.decodeIfPresent(Bool.self, forKey: .isFirstLaunch) ?? defaults.isFirstLaunch
         cachedOrganizationId = try container.decodeIfPresent(UUID.self, forKey: .cachedOrganizationId)
-        isSonnetUsageShown = try container.decodeIfPresent(Bool.self, forKey: .isSonnetUsageShown) ?? defaults.isSonnetUsageShown
+        isFableUsageShown = try container.decodeIfPresent(Bool.self, forKey: .isFableUsageShown) ?? defaults.isFableUsageShown
         isChatGPTUsageShown = try container.decodeIfPresent(Bool.self, forKey: .isChatGPTUsageShown)
             ?? container.decodeIfPresent(Bool.self, forKey: .legacyOpenAIUsageShown)
             ?? defaults.isChatGPTUsageShown
@@ -115,7 +115,7 @@ extension AppSettings {
         notificationThresholds: NotificationThresholds,
         isFirstLaunch: Bool,
         cachedOrganizationId: UUID?,
-        isSonnetUsageShown: Bool,
+        isFableUsageShown: Bool,
         isChatGPTUsageShown: Bool,
         iconStyle: IconStyle
     ) {
@@ -124,7 +124,7 @@ extension AppSettings {
         self.notificationThresholds = notificationThresholds
         self.isFirstLaunch = isFirstLaunch
         self.cachedOrganizationId = cachedOrganizationId
-        self.isSonnetUsageShown = isSonnetUsageShown
+        self.isFableUsageShown = isFableUsageShown
         self.isChatGPTUsageShown = isChatGPTUsageShown
         self.iconStyle = iconStyle
         self.isColoredIcon = AppSettings.default.isColoredIcon
@@ -137,7 +137,7 @@ extension AppSettings {
         try container.encode(notificationThresholds, forKey: .notificationThresholds)
         try container.encode(isFirstLaunch, forKey: .isFirstLaunch)
         try container.encodeIfPresent(cachedOrganizationId, forKey: .cachedOrganizationId)
-        try container.encode(isSonnetUsageShown, forKey: .isSonnetUsageShown)
+        try container.encode(isFableUsageShown, forKey: .isFableUsageShown)
         try container.encode(isChatGPTUsageShown, forKey: .isChatGPTUsageShown)
         try container.encode(iconStyle, forKey: .iconStyle)
         try container.encode(isColoredIcon, forKey: .isColoredIcon)

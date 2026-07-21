@@ -15,7 +15,7 @@ enum DemoMode: String, CaseIterable {
     case warningUsage
     case criticalUsage
     case exceededUsage
-    case withSonnet
+    case withFable
     case multiProvider
     case loading
     case error
@@ -36,7 +36,7 @@ enum DemoMode: String, CaseIterable {
         case .warningUsage: "Medium usage - warning state"
         case .criticalUsage: "High usage - critical state"
         case .exceededUsage: "Over limit - exceeded state"
-        case .withSonnet: "Shows Sonnet usage card"
+        case .withFable: "Shows Fable usage bar"
         case .multiProvider: "Two Claude accounts plus ChatGPT and Gemini"
         case .loading: "Loading spinner visible"
         case .error: "Error banner displayed"
