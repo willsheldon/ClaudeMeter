@@ -48,3 +48,20 @@ struct ClaudeAccount: Codable, Equatable, Sendable, Identifiable {
 
     var isPrimary: Bool { keychainAccount == Self.primaryKeychainAccount }
 }
+
+/// Non-secret metadata for an account the user does not want browser scans to reconnect.
+struct ScanExcludedAccount: Codable, Equatable, Sendable, Identifiable {
+    let provider: CredentialProvider
+    let accountId: String
+    let displayLabel: String
+
+    var id: String { "\(provider.rawValue):\(accountId)" }
+
+    static func claude(_ account: ClaudeAccount) -> Self {
+        Self(provider: .claude, accountId: account.id, displayLabel: account.displayLabel)
+    }
+
+    static func chatGPT(displayLabel: String) -> Self {
+        Self(provider: .chatGPT, accountId: ChatGPTUsageService.defaultSessionAccount, displayLabel: displayLabel)
+    }
+}

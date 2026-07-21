@@ -11,6 +11,7 @@ struct SettingsView: View {
     @State private var activeCredentialActionKind: ProviderCredentialActionKind?
     @State private var accountsFeedback: (message: String, isSuccess: Bool)?
     @State private var pendingRemoval: AccountRemoval?
+    @State private var pendingScanExclusion: ScanExclusion?
     @State private var isRemovingAccount: Bool = false
     @State private var isSavingGemini: Bool = false
     // Gemini is the one provider connected by manual entry: a Google AI Studio
@@ -106,6 +107,24 @@ struct SettingsView: View {
         }
     }
 
+    private enum ScanExclusion: Identifiable {
+        case claude(id: String, label: String)
+        case chatGPT(label: String)
+
+        var id: String {
+            switch self {
+            case .claude(let id, _): return "claude-\(id)"
+            case .chatGPT: return "chatgpt"
+            }
+        }
+
+        var label: String {
+            switch self {
+            case .claude(_, let label), .chatGPT(let label): return label
+            }
+        }
+    }
+
     private var orderedClaudeAccounts: [ClaudeAccount] {
         appModel.settings.claudeAccounts.sorted { lhs, rhs in
             if lhs.isPrimary != rhs.isPrimary { return lhs.isPrimary }
@@ -132,6 +151,8 @@ struct SettingsView: View {
 
             accountCardsRow
 
+            excludedAccountsBox
+
             accountsFeedbackView
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -149,6 +170,18 @@ struct SettingsView: View {
             Button("Cancel", role: .cancel) {}
         } message: { removal in
             Text(removal.reconnectHint)
+        }
+        .confirmationDialog(
+            pendingScanExclusion.map { "Exclude \($0.label) from scans?" } ?? "",
+            isPresented: pendingScanExclusionBinding,
+            presenting: pendingScanExclusion
+        ) { exclusion in
+            Button("Exclude from Scans", role: .destructive) {
+                performScanExclusion(exclusion)
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: { _ in
+            Text("The account will be disconnected and future browser scans will ignore it until you re-enable it here.")
         }
     }
 
@@ -338,6 +371,7 @@ struct SettingsView: View {
                 if account.isPrimary, let primaryStatus {
                     providerCredentialStatusActions(for: primaryStatus)
                 }
+                excludeButton(.claude(id: account.id, label: account.displayLabel))
                 removeButton(.claude(id: account.id, label: account.displayLabel))
                 Spacer()
             }
@@ -386,6 +420,9 @@ struct SettingsView: View {
 
             if let status {
                 HStack(spacing: 8) {
+                    if provider == .chatGPT {
+                        excludeButton(.chatGPT(label: displayLabel))
+                    }
                     removeButton(.provider(status: status, label: displayLabel))
                     Spacer()
                 }
@@ -428,6 +465,47 @@ struct SettingsView: View {
         .disabled(isAccountsBusy)
     }
 
+    private func excludeButton(_ exclusion: ScanExclusion) -> some View {
+        Button("Exclude") {
+            pendingScanExclusion = exclusion
+        }
+        .buttonStyle(.borderless)
+        .controlSize(.small)
+        .disabled(isAccountsBusy)
+        .help("Disconnect and permanently exclude from browser scans")
+    }
+
+    @ViewBuilder
+    private var excludedAccountsBox: some View {
+        if !appModel.settings.scanExcludedAccounts.isEmpty {
+            GroupBox("Excluded from scans") {
+                VStack(spacing: 8) {
+                    ForEach(appModel.settings.scanExcludedAccounts) { account in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(account.displayLabel)
+                                    .font(.callout.weight(.medium))
+                                Text(account.provider.displayName)
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
+
+                            Spacer()
+
+                            Button("Re-enable") {
+                                appModel.reenableScanAccount(id: account.id)
+                                accountsFeedback = ("Re-enabled \(account.displayLabel). Scan to reconnect it.", true)
+                            }
+                            .controlSize(.small)
+                            .disabled(isAccountsBusy)
+                        }
+                    }
+                }
+                .padding(.vertical, 4)
+            }
+        }
+    }
+
     @ViewBuilder
     private var accountsFeedbackView: some View {
         if let accountsFeedback {
@@ -451,12 +529,39 @@ struct SettingsView: View {
         )
     }
 
+    private var pendingScanExclusionBinding: Binding<Bool> {
+        Binding(
+            get: { pendingScanExclusion != nil },
+            set: { if !$0 { pendingScanExclusion = nil } }
+        )
+    }
+
     private func performRemoval(_ removal: AccountRemoval) {
         switch removal {
         case .claude(let id, let label):
             removeClaudeAccountFromSettings(id: id, label: label)
         case .provider(let status, _):
             handleCredentialAction(.clear, for: status)
+        }
+    }
+
+    private func performScanExclusion(_ exclusion: ScanExclusion) {
+        Task { @MainActor in
+            isRemovingAccount = true
+            accountsFeedback = nil
+            offersFullDiskAccessSettings = false
+            do {
+                switch exclusion {
+                case .claude(let id, _):
+                    try await appModel.excludeClaudeAccountFromScans(id: id)
+                case .chatGPT:
+                    try await appModel.excludeChatGPTAccountFromScans()
+                }
+                accountsFeedback = ("Excluded \(exclusion.label) from browser scans.", true)
+            } catch {
+                accountsFeedback = ("Failed to exclude \(exclusion.label): \(error.localizedDescription)", false)
+            }
+            isRemovingAccount = false
         }
     }
 

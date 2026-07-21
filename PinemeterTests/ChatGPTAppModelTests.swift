@@ -183,6 +183,43 @@ final class ChatGPTAppModelTests: XCTestCase {
         XCTAssertNil(appModel.chatGPTErrorMessage)
     }
 
+    func test_scanExcludedChatGPTAccount_isSkippedUntilReenabled() async throws {
+        let sessionRepository = ChatGPTSessionRepositoryFake()
+        let importService = SessionKeyImportServiceStub(
+            result: .failure(SessionKeyImportError.noSessionKeyFound),
+            chatGPTResult: .success(ImportedChatGPTSessionCookie(
+                cookieHeader: "chatgpt-session-redacted",
+                sourceDescription: "Chrome Default"
+            ))
+        )
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: UsageServiceStub(fetchUsageResult: .success(makeClaudeUsage(percentage: 10))),
+            chatGPTUsageService: ChatGPTUsageServiceStub(),
+            chatGPTSessionRepository: sessionRepository,
+            notificationService: NotificationServiceSpy(),
+            sessionKeyImportService: importService
+        )
+
+        _ = try await appModel.importAndSaveChatGPTSessionCookie(from: .chrome)
+        try await appModel.excludeChatGPTAccountFromScans()
+
+        do {
+            _ = try await appModel.importAndSaveChatGPTSessionCookie(from: .chrome)
+            XCTFail("Expected excluded account to be skipped")
+        } catch SessionKeyImportError.allDiscoveredAccountsExcluded {
+            // Expected.
+        }
+
+        let exclusion = try XCTUnwrap(appModel.settings.scanExcludedAccounts.first)
+        appModel.reenableScanAccount(id: exclusion.id)
+        _ = try await appModel.importAndSaveChatGPTSessionCookie(from: .chrome)
+
+        XCTAssertTrue(appModel.hasChatGPTSessionCookie)
+        XCTAssertTrue(appModel.settings.scanExcludedAccounts.isEmpty)
+    }
+
     private func makeAppModel(
         keychainRepository: KeychainRepositoryFake = KeychainRepositoryFake(),
         chatGPTUsageService: ChatGPTUsageServiceProtocol = ChatGPTUsageServiceStub(),

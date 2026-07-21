@@ -151,6 +151,46 @@ final class ClaudeMultiAccountTests: XCTestCase {
         XCTAssertTrue(appModel.claudeAccountUsage.isEmpty)
     }
 
+    func test_scanExcludedClaudeAccount_staysDisconnectedUntilReenabled() async throws {
+        let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
+        let org2 = organization(id: 2, uuid: Self.org2UUIDString, name: "Personal")
+        let primaryUsage = makeUsageData(percentage: 11)
+        let secondaryUsage = makeUsageData(percentage: 22)
+        let keychainRepository = KeychainRepositoryFake()
+        let importService = MultiAccountImportServiceStub(importedKeys: [
+            ImportedSessionKey(value: Self.key1, sourceDescription: "Chrome Profile 1"),
+            ImportedSessionKey(value: Self.key2, sourceDescription: "Chrome Profile 15"),
+        ])
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: keychainRepository,
+            usageService: MultiAccountUsageServiceStub(
+                organizationsByKey: [Self.key1: [org1], Self.key2: [org2]],
+                usageByOrganization: [org1.organizationUUID!: primaryUsage, org2.organizationUUID!: secondaryUsage],
+                primaryUsage: primaryUsage
+            ),
+            notificationService: NotificationServiceSpy(),
+            sessionKeyImportService: importService
+        )
+
+        _ = try await appModel.importClaudeAccounts(from: .chrome)
+        try await appModel.excludeClaudeAccountFromScans(id: Self.org2UUIDString)
+        _ = try await appModel.importClaudeAccounts(from: .chrome)
+
+        XCTAssertEqual(appModel.settings.claudeAccounts.map(\.id), [Self.org1UUIDString])
+        XCTAssertEqual(appModel.settings.scanExcludedAccounts.map(\.accountId), [Self.org2UUIDString])
+
+        let exclusionId = try XCTUnwrap(appModel.settings.scanExcludedAccounts.first?.id)
+        appModel.reenableScanAccount(id: exclusionId)
+        _ = try await appModel.importClaudeAccounts(from: .chrome)
+
+        XCTAssertEqual(
+            Set(appModel.settings.claudeAccounts.map(\.id)),
+            Set([Self.org1UUIDString, Self.org2UUIDString])
+        )
+        XCTAssertTrue(appModel.settings.scanExcludedAccounts.isEmpty)
+    }
+
     func test_singleAccountImport_rendersUnlabeledClaudeSection() async throws {
         let org1 = organization(id: 1, uuid: Self.org1UUIDString, name: "Acme")
         let usage = makeUsageData(percentage: 33)
@@ -581,6 +621,29 @@ final class ClaudeMultiAccountTests: XCTestCase {
         appModel.usageData = makeUsageData(percentage: 11)
 
         XCTAssertEqual(appModel.usageQuotaBars.map(\.renameTarget), [nil, nil])
+    }
+
+    func test_usageQuotaBars_includeFableModelScopedUsage() {
+        let appModel = AppModel(
+            settingsRepository: SettingsRepositoryFake(),
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: MultiAccountUsageServiceStub(
+                organizationsByKey: [:],
+                usageByOrganization: [:],
+                primaryUsage: makeUsageData(percentage: 11)
+            ),
+            notificationService: NotificationServiceSpy()
+        )
+        var usage = makeUsageData(percentage: 11)
+        usage.fableUsage = UsageLimit(
+            utilization: 31,
+            resetAt: Date().addingTimeInterval(TestConstants.oneHourInterval)
+        )
+        appModel.isSetupComplete = true
+        appModel.usageData = usage
+
+        XCTAssertEqual(appModel.usageQuotaBars.map(\.heading), ["5h", "Weekly", "Fable"])
+        XCTAssertEqual(appModel.usageQuotaBars.last?.percentage, 31)
     }
 
     // MARK: - Per-account usage fetch

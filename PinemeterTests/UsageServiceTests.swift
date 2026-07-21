@@ -306,6 +306,33 @@ final class UsageServiceTests: XCTestCase {
             XCTFail("Expected sonnet usage reset date")
         }
     }
+
+    func test_usageResponse_mapsModelScopedFableLimit() throws {
+        var response = UsageAPIResponse(
+            fiveHour: UsageLimitResponse(
+                utilization: TestConstants.sessionPercentage,
+                resetsAt: TestConstants.sessionResetDateString
+            ),
+            sevenDay: UsageLimitResponse(
+                utilization: TestConstants.weeklyPercentage,
+                resetsAt: TestConstants.weeklyResetDateString
+            ),
+            sevenDaySonnet: nil
+        )
+        response.limits = [
+            ScopedUsageLimitResponse(
+                percent: 31,
+                resetsAt: TestConstants.weeklyResetDateString,
+                scope: .init(model: .init(displayName: "Fable 5"))
+            )
+        ]
+
+        let usageData = try response.toDomain()
+
+        XCTAssertEqual(usageData.fableUsage?.utilization, 31)
+        let resetAt = try XCTUnwrap(usageData.fableUsage?.resetAt)
+        assertDate(resetAt, equalsIso8601String: TestConstants.weeklyResetDateString)
+    }
 }
 
 // MARK: - Helpers

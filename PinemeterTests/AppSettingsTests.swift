@@ -44,6 +44,7 @@ final class AppSettingsTests: XCTestCase {
         XCTAssertNil(settings.chatGPTCustomLabel)
         XCTAssertNil(settings.geminiCustomLabel)
         XCTAssertTrue(settings.isResetCelebrationEnabled)
+        XCTAssertTrue(settings.scanExcludedAccounts.isEmpty)
     }
 
     func test_encodeDecodeRoundTrip_preservesNewLabelAndCelebrationFields() throws {
@@ -51,6 +52,9 @@ final class AppSettingsTests: XCTestCase {
         settings.chatGPTCustomLabel = "Work GPT"
         settings.geminiCustomLabel = "Personal Gemini"
         settings.isResetCelebrationEnabled = false
+        settings.scanExcludedAccounts = [
+            ScanExcludedAccount(provider: .claude, accountId: "org-1", displayLabel: "Old account")
+        ]
 
         let data = try JSONEncoder().encode(settings)
         let decoded = try JSONDecoder().decode(AppSettings.self, from: data)
@@ -58,5 +62,6 @@ final class AppSettingsTests: XCTestCase {
         XCTAssertEqual(decoded.chatGPTCustomLabel, "Work GPT")
         XCTAssertEqual(decoded.geminiCustomLabel, "Personal Gemini")
         XCTAssertFalse(decoded.isResetCelebrationEnabled)
+        XCTAssertEqual(decoded.scanExcludedAccounts, settings.scanExcludedAccounts)
     }
 }

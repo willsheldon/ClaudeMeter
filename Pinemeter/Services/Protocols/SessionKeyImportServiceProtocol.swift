@@ -138,6 +138,7 @@ enum SessionKeyImportError: LocalizedError {
     case browserKeychainAccessDenied(String)
     case invalidImportedSessionKey
     case invalidImportedChatGPTSessionCookie
+    case allDiscoveredAccountsExcluded
 
     var errorDescription: String? {
         switch self {
@@ -155,6 +156,8 @@ enum SessionKeyImportError: LocalizedError {
             return "The imported Claude browser session could not be validated."
         case .invalidImportedChatGPTSessionCookie:
             return "The imported ChatGPT browser session could not be validated."
+        case .allDiscoveredAccountsExcluded:
+            return "All detected accounts are excluded from browser scans. Re-enable one in Settings to connect it."
         }
     }
 

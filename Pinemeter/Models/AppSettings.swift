@@ -52,6 +52,9 @@ struct AppSettings: Codable, Equatable, Sendable {
     /// Whether to show the center-screen celebration when a quota resets.
     var isResetCelebrationEnabled: Bool = true
 
+    /// Accounts that browser scans must not reconnect until the user re-enables them.
+    var scanExcludedAccounts: [ScanExcludedAccount] = []
+
     static let `default` = AppSettings(
         refreshInterval: Constants.Refresh.minimum,
         hasNotificationsEnabled: true,
@@ -79,6 +82,7 @@ struct AppSettings: Codable, Equatable, Sendable {
         case chatGPTCustomLabel = "chatgpt_custom_label"
         case geminiCustomLabel = "gemini_custom_label"
         case isResetCelebrationEnabled = "reset_celebration_enabled"
+        case scanExcludedAccounts = "scan_excluded_accounts"
     }
 }
 
@@ -102,6 +106,7 @@ extension AppSettings {
         chatGPTCustomLabel = try container.decodeIfPresent(String.self, forKey: .chatGPTCustomLabel)
         geminiCustomLabel = try container.decodeIfPresent(String.self, forKey: .geminiCustomLabel)
         isResetCelebrationEnabled = try container.decodeIfPresent(Bool.self, forKey: .isResetCelebrationEnabled) ?? true
+        scanExcludedAccounts = try container.decodeIfPresent([ScanExcludedAccount].self, forKey: .scanExcludedAccounts) ?? []
     }
 
     init(
@@ -140,6 +145,7 @@ extension AppSettings {
         try container.encodeIfPresent(chatGPTCustomLabel, forKey: .chatGPTCustomLabel)
         try container.encodeIfPresent(geminiCustomLabel, forKey: .geminiCustomLabel)
         try container.encode(isResetCelebrationEnabled, forKey: .isResetCelebrationEnabled)
+        try container.encode(scanExcludedAccounts, forKey: .scanExcludedAccounts)
     }
 }
 

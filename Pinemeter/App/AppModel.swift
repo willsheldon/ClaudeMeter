@@ -349,6 +349,17 @@ final class AppModel {
                     renameTarget: renameTarget
                 ))
             }
+            if let fableUsage = usageData.fableUsage {
+                bars.append(MenuBarQuotaBar(
+                    label: "\(section.title) Fable",
+                    percentage: clampedBarPercentage(fableUsage.percentage),
+                    status: fableUsage.status,
+                    detail: "Resets \(fableUsage.resetDescription)",
+                    heading: "Fable",
+                    owner: section.title,
+                    renameTarget: renameTarget
+                ))
+            }
         }
 
         if settings.isChatGPTUsageShown, let chatGPTUsageData {
@@ -725,6 +736,12 @@ final class AppModel {
         )
     }
 
+    func excludeChatGPTAccountFromScans() async throws {
+        let excluded = ScanExcludedAccount.chatGPT(displayLabel: chatGPTDisplayLabel)
+        try await clearChatGPTSessionCookie()
+        upsertScanExclusion(excluded)
+    }
+
     // MARK: - Gemini Usage
 
     func refreshGeminiUsage() async {
@@ -994,8 +1011,17 @@ final class AppModel {
 
         var candidates: [Candidate] = []
         var seenOrganizations = Set<String>()
+        let excludedOrganizationIds = Set(
+            settings.scanExcludedAccounts
+                .filter { $0.provider == .claude }
+                .map(\.accountId)
+        )
+        var excludedCandidateCount = 0
         for candidate in validated {
-            if seenOrganizations.insert(candidate.organization.uuid).inserted {
+            if excludedOrganizationIds.contains(candidate.organization.uuid) {
+                excludedCandidateCount += 1
+                Self.logger.info("Skipping scan-excluded Claude organization \(candidate.organization.uuid, privacy: .public)")
+            } else if seenOrganizations.insert(candidate.organization.uuid).inserted {
                 candidates.append(candidate)
             } else {
                 Self.logger.info("Key \(candidate.index) (\(candidate.sourceDescription, privacy: .public)): duplicate of already-connected org \(candidate.organization.uuid, privacy: .public), skipping")
@@ -1004,7 +1030,9 @@ final class AppModel {
 
         guard !candidates.isEmpty else {
             importProgress = nil
-            throw SessionKeyImportError.invalidImportedSessionKey
+            throw excludedCandidateCount > 0
+                ? SessionKeyImportError.allDiscoveredAccountsExcluded
+                : SessionKeyImportError.invalidImportedSessionKey
         }
 
         importProgress = "Saving \(candidates.count) account\(candidates.count == 1 ? "" : "s")\u{2026}"
@@ -1097,6 +1125,13 @@ final class AppModel {
     }
 
     func importAndSaveChatGPTSessionCookie(from source: BrowserImportSource) async throws -> ImportedChatGPTSessionCookie {
+        guard !isScanExcluded(
+            provider: .chatGPT,
+            accountId: ChatGPTUsageService.defaultSessionAccount
+        ) else {
+            throw SessionKeyImportError.allDiscoveredAccountsExcluded
+        }
+
         let imported = try await sessionKeyImportService.importChatGPTSessionCookie(from: source)
         let normalizedCookie = ChatGPTUsageService.cookieHeader(from: imported.cookieHeader)
 
@@ -1383,6 +1418,28 @@ final class AppModel {
         claudeAccountUsage[id] = nil
         claudeAccountErrors[id] = nil
         await refreshAdditionalClaudeAccounts(forceRefresh: true)
+    }
+
+    func excludeClaudeAccountFromScans(id: String) async throws {
+        guard let account = settings.claudeAccounts.first(where: { $0.id == id }) else { return }
+        let excluded = ScanExcludedAccount.claude(account)
+        try await removeClaudeAccount(id: id)
+        upsertScanExclusion(excluded)
+    }
+
+    func reenableScanAccount(id: String) {
+        settings.scanExcludedAccounts.removeAll { $0.id == id }
+    }
+
+    private func isScanExcluded(provider: CredentialProvider, accountId: String) -> Bool {
+        settings.scanExcludedAccounts.contains {
+            $0.provider == provider && $0.accountId == accountId
+        }
+    }
+
+    private func upsertScanExclusion(_ excluded: ScanExcludedAccount) {
+        settings.scanExcludedAccounts.removeAll { $0.id == excluded.id }
+        settings.scanExcludedAccounts.append(excluded)
     }
 
     func clearSessionKey() async throws {

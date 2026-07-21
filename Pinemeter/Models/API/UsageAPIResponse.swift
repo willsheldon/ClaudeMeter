@@ -12,11 +12,38 @@ struct UsageAPIResponse: Codable {
     let fiveHour: UsageLimitResponse
     let sevenDay: UsageLimitResponse
     let sevenDaySonnet: UsageLimitResponse?
+    var limits: [ScopedUsageLimitResponse]? = nil
 
     enum CodingKeys: String, CodingKey {
         case fiveHour = "five_hour"
         case sevenDay = "seven_day"
         case sevenDaySonnet = "seven_day_sonnet"
+        case limits
+    }
+}
+
+/// Newer Claude usage responses expose model-specific meters in `limits`.
+struct ScopedUsageLimitResponse: Codable {
+    struct Scope: Codable {
+        struct Model: Codable {
+            let displayName: String?
+
+            enum CodingKeys: String, CodingKey {
+                case displayName = "display_name"
+            }
+        }
+
+        let model: Model?
+    }
+
+    let percent: Double?
+    let resetsAt: String?
+    let scope: Scope?
+
+    enum CodingKeys: String, CodingKey {
+        case percent
+        case resetsAt = "resets_at"
+        case scope
     }
 }
 
@@ -79,6 +106,22 @@ extension UsageAPIResponse {
             )
         }
 
+        let fableLimit: UsageLimit? = try limits?
+            .first(where: {
+                $0.scope?.model?.displayName?.localizedCaseInsensitiveContains("fable") == true
+                    && $0.percent != nil
+            })
+            .flatMap { fable -> UsageLimit? in
+                guard let percent = fable.percent else { return nil }
+                let resetDate = try parseResetDate(
+                    from: fable.resetsAt,
+                    field: "limits.fable.resetsAt",
+                    formatter: iso8601Formatter,
+                    fallback: Constants.Pacing.weeklyWindow
+                )
+                return UsageLimit(utilization: percent, resetAt: resetDate)
+            }
+
         return UsageData(
             sessionUsage: UsageLimit(
                 utilization: fiveHour.utilization,
@@ -89,6 +132,7 @@ extension UsageAPIResponse {
                 resetAt: weeklyResetDate
             ),
             sonnetUsage: sonnetLimit,
+            fableUsage: fableLimit,
             lastUpdated: Date()
         )
     }
