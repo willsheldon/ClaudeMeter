@@ -57,6 +57,18 @@ The GitHub Actions release workflow is manual, but it is not just a local verifi
 
 Do not trigger, re-run, or modify these publishing steps as a signing check. Workflow dispatch, publishing, `git push`, `gh release`, Homebrew tap updates, notarization submissions, tag changes, or history rewriting require explicit maintainer confirmation for the intended version and target repository.
 
+## Public mirror and download release
+
+The canonical public deploy is `publish/publish-public.sh`, run from a clean,
+reviewed internal `main`. Run `publish/publish-public.sh --dry-run` first, audit
+the retained staging tree, then remove it before the approved real run.
+
+The real run builds, signs, and notarizes `Pinemeter.dmg`; force-publishes the
+sanitized single-commit mirror to `PineIT-ca/pinemeter`; creates the next GitHub
+release; enables GitHub Pages when needed; then dispatches `deploy-pages.yml`
+and waits for it to succeed. Pages runs after release creation so the site
+receives the new release version.
+
 ## CI configuration source of truth
 
 The public repository (`PineIT-ca/pinemeter`) is force-published from this

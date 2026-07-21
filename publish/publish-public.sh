@@ -196,7 +196,7 @@ release_notes() {
 # Each publish uses a fresh auto-incremented tag, so releases accumulate as history.
 release_dmg() {
   local dmg="$1" tag="$2" notes_file="$STAGE/release-notes.md" body
-  command -v gh >/dev/null || { warn "gh not found — DMG built but no GitHub Release created"; return 0; }
+  command -v gh >/dev/null || die "gh not found: cannot publish the GitHub Release"
   body="$(release_notes)"
   {
     [[ -n "$body" ]] && printf '### What'\''s changed\n\n%s\n\n---\n\n' "$body"
@@ -211,6 +211,52 @@ release_dmg() {
     --notes-file "$notes_file" \
     || die "gh release create failed for $tag"
   log "Release live: $PUBLIC_URL/releases/latest/download/$DMG_NAME"
+}
+
+# Ensure Pages exists, then deploy after the release is live so the workflow
+# injects the new version rather than the previous release's version.
+publish_pages() {
+  command -v gh >/dev/null || die "gh not found: cannot deploy GitHub Pages"
+
+  if ! gh api "repos/$PUBLIC_REPO/pages" >/dev/null 2>&1; then
+    log "Enabling GitHub Pages with the Actions publishing source"
+    gh api --method POST "repos/$PUBLIC_REPO/pages" \
+      -f build_type=workflow >/dev/null \
+      || die "failed to enable GitHub Pages for $PUBLIC_REPO"
+  fi
+
+  local previous_run run_id=""
+  previous_run="$(gh run list \
+    --repo "$PUBLIC_REPO" \
+    --workflow deploy-pages.yml \
+    --event workflow_dispatch \
+    --limit 1 \
+    --json databaseId \
+    --jq '.[0].databaseId // empty')"
+
+  log "Dispatching GitHub Pages from $PUBLIC_BRANCH"
+  gh workflow run deploy-pages.yml \
+    --repo "$PUBLIC_REPO" \
+    --ref "$PUBLIC_BRANCH" \
+    || die "failed to dispatch GitHub Pages"
+
+  for _ in {1..15}; do
+    run_id="$(gh run list \
+      --repo "$PUBLIC_REPO" \
+      --workflow deploy-pages.yml \
+      --event workflow_dispatch \
+      --limit 1 \
+      --json databaseId \
+      --jq '.[0].databaseId // empty')"
+    [[ -n "$run_id" && "$run_id" != "$previous_run" ]] && break
+    sleep 2
+  done
+
+  [[ -n "$run_id" && "$run_id" != "$previous_run" ]] \
+    || die "could not find the dispatched GitHub Pages run"
+  gh run watch "$run_id" --repo "$PUBLIC_REPO" --exit-status \
+    || die "GitHub Pages deployment failed (run $run_id)"
+  log "GitHub Pages deployed successfully (run $run_id)"
 }
 
 command -v git >/dev/null || die "git not found"
@@ -433,6 +479,7 @@ if [[ "$DO_PUSH" -eq 1 ]]; then
   if [[ "$DO_DMG" -eq 1 && -n "${DMG_OUT:-}" && -f "$DMG_OUT" ]]; then
     release_dmg "$DMG_OUT" "v$VERSION"
   fi
+  publish_pages
 else
   log "Committed locally (no push). Inspect: $STAGE/tree"
   trap - EXIT
