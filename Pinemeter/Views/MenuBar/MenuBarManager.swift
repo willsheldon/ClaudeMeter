@@ -106,6 +106,7 @@ final class MenuBarManager {
             _ = appModel.isLoading
             _ = appModel.settings.iconStyle
             _ = appModel.settings.isColoredIcon
+            _ = appModel.settings.menuBarColorScheme
         } onChange: { [weak self] in
             Task { @MainActor [weak self] in
                 guard let self else { return }
@@ -127,7 +128,7 @@ final class MenuBarManager {
         let isColored = appModel.settings.isColoredIcon
         let quotaBars = appModel.usageQuotaBars
         let quotaSignature = quotaBars
-            .map { "\($0.label):\(Int($0.percentage.rounded())):\($0.status.rawValue):\($0.kind):\($0.isNearLimit)" }
+            .map { "\($0.label):\(Int($0.percentage.rounded())):\($0.status.rawValue):\($0.kind):\($0.isNearLimit):\($0.colorScheme.rawValue)" }
             .joined(separator: "|")
 
         if let cachedImage = iconCache.get(

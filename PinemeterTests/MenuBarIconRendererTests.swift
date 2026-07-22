@@ -25,6 +25,24 @@ final class MenuBarIconRendererTests: XCTestCase {
         XCTAssertEqual(special.meterColor, .yellow)
     }
 
+    func test_colorSchemesProvideThreeRoleColorsAndPreserveCriticalRed() {
+        XCTAssertEqual(MenuBarColorScheme.allCases.count, 6)
+
+        for scheme in MenuBarColorScheme.allCases {
+            XCTAssertEqual(scheme.colors.count, 3)
+            XCTAssertEqual(Set(scheme.colors).count, 3)
+
+            let nearLimit = MenuBarQuotaBar(
+                label: "Claude 5h",
+                percentage: 90,
+                status: .critical,
+                heading: "5h",
+                colorScheme: scheme
+            )
+            XCTAssertEqual(nearLimit.meterColor, .red)
+        }
+    }
+
     func test_quotaBarsGroupAdjacentMetersBySubscriptionIdentity() {
         func bar(_ heading: String, accountID: String = "work") -> MenuBarQuotaBar {
             MenuBarQuotaBar(
