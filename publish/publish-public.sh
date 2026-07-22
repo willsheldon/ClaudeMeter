@@ -51,7 +51,6 @@ STRIP_PATHS=(
   "build"
   "work-to-date.md"
   "scripts/vm_validation"
-  ".github/workflows/release.yml"
   "publish"
 )
 
@@ -497,7 +496,7 @@ log "Verifying no internal identifiers remain"
 if grep -rIlE 'HMR9RDR6M2|AUTIMO SYSTEMS INC' . 2>/dev/null; then
   die "internal signing identifiers leaked into staged tree (see above)"
 fi
-for p in AGENTS.md CLAUDE.md RELEASING.md .gsd .planning .mcp.json .github/workflows/release.yml; do
+for p in AGENTS.md CLAUDE.md RELEASING.md .gsd .planning .mcp.json; do
   [[ -e "$p" ]] && die "strip failed: $p still present"
 done
 

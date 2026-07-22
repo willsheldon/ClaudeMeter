@@ -1,6 +1,6 @@
 # Releasing Pinemeter
 
-This document describes the safe local checks to run before triggering the manual release workflow. It intentionally separates non-destructive verification from steps that publish artifacts or mutate remote repositories.
+This document describes the safe local checks to run before using the canonical public publisher. It intentionally separates non-destructive verification from steps that publish artifacts or mutate remote repositories.
 
 ## Official signing identity
 
@@ -24,8 +24,9 @@ EXPECTED_TEAM_ID="HMR9RDR6M2"
 
 grep -F "CODE_SIGN_IDENTITY = \"$EXPECTED_SIGNING_IDENTITY\";" Pinemeter.xcodeproj/project.pbxproj
 grep -F "DEVELOPMENT_TEAM = $EXPECTED_TEAM_ID;" Pinemeter.xcodeproj/project.pbxproj
-grep -F "EXPECTED_SIGNING_IDENTITY: \"$EXPECTED_SIGNING_IDENTITY\"" .github/workflows/release.yml
-grep -F "EXPECTED_TEAM_ID: $EXPECTED_TEAM_ID" .github/workflows/release.yml
+grep -F "REAL_SIGN_IDENTITY='$EXPECTED_SIGNING_IDENTITY'" publish/publish-public.sh
+grep -F "REAL_TEAM_ID='$EXPECTED_TEAM_ID'" publish/publish-public.sh
+grep -F 'SPARKLE_ED25519_PRIVATE_KEY' publish/publish-public.sh
 ```
 
 ### Check a built release artifact locally
@@ -49,13 +50,14 @@ For an installed or downloaded app, the same signature checks can be run against
 
 ## Publishing and remote mutation boundaries
 
-The GitHub Actions release workflow is manual, but it is not just a local verification job. Once triggered with valid secrets, it can mutate remote state:
+The local public publisher is not just a verification command. Once run without `--dry-run` or `--no-push`, it can mutate remote state:
 
-- Creates a GitHub release using `contents: write` and uploads the ZIP artifact.
-- Clones, commits to, and runs `git push` against the Homebrew tap using `HOMEBREW_TAP_TOKEN`.
+- Force-pushes the sanitized public mirror.
+- Creates a GitHub release and uploads the signed, notarized DMG.
+- Publishes the signed Sparkle appcast through GitHub Pages.
 - Submits the app to Apple notarization with App Store Connect credentials.
 
-Do not trigger, re-run, or modify these publishing steps as a signing check. Workflow dispatch, publishing, `git push`, `gh release`, Homebrew tap updates, notarization submissions, tag changes, or history rewriting require explicit maintainer confirmation for the intended version and target repository.
+Do not run or modify these publishing steps as a signing check. Publishing, `git push`, `gh release`, Pages deployment, notarization submissions, tag changes, or history rewriting require explicit maintainer confirmation for the intended version and target repository.
 
 ## Public mirror and download release
 
@@ -74,23 +76,22 @@ receives the new release version.
 The public repository (`PineIT-ca/pinemeter`) is force-published from this
 repository's HEAD as a single squashed commit by `publish/publish-public.sh`.
 All CI configuration on the public repository, including `.woodpecker/` and
-`.github/workflows/` (minus `release.yml`, which is stripped), must live in
+`.github/workflows/`, must live in
 this repository or it is deleted on the next publish. Never edit CI config
 directly on the public repository; change it here and republish.
 
 The CI trust and publication boundary (which lanes run on Woodpecker versus
 GitHub Actions, and why the retained Actions lanes are intentional
-exceptions) is documented in [docs/ci.md](docs/ci.md). The private-side
-production exception is `release.yml` itself: a manual-dispatch release lane
-that stays on GitHub Actions until a production cutover is explicitly
-approved.
+exceptions) is documented in [docs/ci.md](docs/ci.md). Releases must use
+`publish/publish-public.sh`; there is no alternate GitHub Actions release lane
+because it could publish an update without refreshing the signed appcast.
 
 ## Failure diagnostics
 
 If signing verification fails, inspect the failing surface before retrying any release:
 
 1. Confirm `Pinemeter.xcodeproj/project.pbxproj` still contains `CODE_SIGN_IDENTITY = "Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)";` and `DEVELOPMENT_TEAM = HMR9RDR6M2;`.
-2. Confirm `.github/workflows/release.yml` still exports `EXPECTED_SIGNING_IDENTITY` and `EXPECTED_TEAM_ID` with the official values.
+2. Confirm `publish/publish-public.sh` still pins `REAL_SIGN_IDENTITY` and `REAL_TEAM_ID` to the official values.
 3. Confirm the imported Apple certificate contains `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` before building.
 4. Inspect `codesign -dvv` output for the produced app and verify `TeamIdentifier=HMR9RDR6M2`.
 5. Treat any generic `Developer ID Application` match without `AUTIMO SYSTEMS INC (HMR9RDR6M2)` as unsafe for release artifacts.
