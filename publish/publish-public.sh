@@ -301,7 +301,8 @@ publish_pages() {
 }
 
 command -v git >/dev/null || die "git not found"
-[[ -d "$REPO_ROOT/.git" ]] || die "must run inside the internal git repo"
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 \
+  || die "must run inside the internal git repo"
 
 STAGE="$(mktemp -d "${TMPDIR:-/tmp}/pinemeter-publish.XXXXXX")"
 cleanup() { rm -rf "$STAGE"; }
