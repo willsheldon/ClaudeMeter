@@ -8,6 +8,23 @@
 import SwiftUI
 import AppKit
 
+enum QuotaChartLayout {
+    static let columnWidth: CGFloat = 72
+    static let barSpacing: CGFloat = 8
+    static let groupSpacing: CGFloat = 16
+    static let chartPadding: CGFloat = 12
+    static let contentPadding: CGFloat = 14
+
+    static func popoverWidth(for bars: [MenuBarQuotaBar]) -> CGFloat {
+        let groups = MenuBarQuotaBar.groupedByOwner(bars)
+        let columns = CGFloat(bars.count) * columnWidth
+        let barGaps = CGFloat(groups.reduce(0) { $0 + max($1.count - 1, 0) }) * barSpacing
+        let groupGaps = CGFloat(max(groups.count - 1, 0)) * groupSpacing
+        let ideal = columns + barGaps + groupGaps + 2 * (chartPadding + contentPadding)
+        return min(max(ideal, 240), 700)
+    }
+}
+
 /// Usage popover view with detailed metrics
 struct UsagePopoverView: View {
     @Bindable var appModel: AppModel
@@ -16,13 +33,8 @@ struct UsagePopoverView: View {
     @State private var isRescanningBrowsers = false
     @State private var rescanMessage: String?
 
-    /// Width sized to fit every quota column (chart padding 12, column width
-    /// 72, spacing 8, outer padding 14), clamped so few bars keep the classic
-    /// popover width and many bars fall back to horizontal scrolling.
     private var popoverWidth: CGFloat {
-        let columns = CGFloat(appModel.usageQuotaBars.count)
-        let chartWidth = columns * 72 + max(columns - 1, 0) * 8 + 24
-        return min(max(chartWidth + 28, 380), 700)
+        QuotaChartLayout.popoverWidth(for: appModel.usageQuotaBars)
     }
 
     var body: some View {
@@ -115,7 +127,7 @@ struct UsagePopoverView: View {
                         providerErrorRow(provider: "Gemini", message: geminiErrorMessage)
                     }
                 }
-                .padding(14)
+                .padding(QuotaChartLayout.contentPadding)
             } else {
                 // Loading state
                 VStack(spacing: 16) {
@@ -257,13 +269,12 @@ private struct QuotaBarChart: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(alignment: .top, spacing: 16) {
+            HStack(alignment: .top, spacing: QuotaChartLayout.groupSpacing) {
                 ForEach(Array(MenuBarQuotaBar.groupedByOwner(bars).enumerated()), id: \.offset) { _, group in
                     QuotaBarGroup(bars: group, appModel: appModel)
                 }
             }
-            .frame(minWidth: 328, alignment: .center)
-            .padding(12)
+            .padding(QuotaChartLayout.chartPadding)
         }
         .background(Color(nsColor: .controlBackgroundColor))
         .clipShape(RoundedRectangle(cornerRadius: 14))
@@ -276,7 +287,7 @@ private struct QuotaBarGroup: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            HStack(alignment: .top, spacing: 8) {
+            HStack(alignment: .top, spacing: QuotaChartLayout.barSpacing) {
                 ForEach(Array(bars.enumerated()), id: \.offset) { _, bar in
                     QuotaBarColumn(bar: bar)
                 }
@@ -343,7 +354,7 @@ private struct QuotaBarColumn: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
-        .frame(width: 72, alignment: .top)
+        .frame(width: QuotaChartLayout.columnWidth, alignment: .top)
         .help(tooltip)
     }
 }

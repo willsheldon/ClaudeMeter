@@ -47,6 +47,24 @@ final class MenuBarIconRendererTests: XCTestCase {
         XCTAssertEqual(MenuBarQuotaBar.groupedByOwner(bars).map(\.count), [3, 1])
     }
 
+    func test_popoverWidthFitsActualTwoAndThreeBarLayouts() {
+        func bar(_ heading: String) -> MenuBarQuotaBar {
+            MenuBarQuotaBar(
+                label: "Claude \(heading)",
+                percentage: 20,
+                status: .safe,
+                heading: heading,
+                owner: "Claude"
+            )
+        }
+
+        let twoBars = [bar("5h"), bar("Weekly")]
+        let threeBars = twoBars + [bar("Fable")]
+
+        XCTAssertEqual(QuotaChartLayout.popoverWidth(for: twoBars), 240)
+        XCTAssertEqual(QuotaChartLayout.popoverWidth(for: threeBars), 284)
+    }
+
     func test_menuBarIconRendersMeterStyle() {
         let renderer = MenuBarIconRenderer()
 
