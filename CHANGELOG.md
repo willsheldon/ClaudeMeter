@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add six selectable Apple system-color palettes for menu bar and popover quota meters.
+
 ### Changed
 
 - Document release signing safety checks and add a release workflow audit preflight for pinned Developer ID and publishing assumptions.

@@ -64,6 +64,7 @@ struct SettingsView: View {
                     accountsSection
                     chatGPTUsageSection
                     refreshIntervalSection
+                    barColorsSection
                     fableUsageSection
                     launchAtLoginSection
                 }
@@ -660,6 +661,42 @@ struct SettingsView: View {
             .pickerStyle(.menu)
             .labelsHidden()
             .frame(width: 120)
+        }
+        .padding()
+        .background(.quaternary.opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+
+    // MARK: - Bar Colors Section
+
+    private var barColorsSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Bar Colors")
+                    .font(.subheadline)
+                Text("Color palette for quota meters")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Picker("", selection: $appModel.settings.menuBarColorScheme) {
+                ForEach(MenuBarColorScheme.allCases) { scheme in
+                    HStack(spacing: 5) {
+                        ForEach(Array(scheme.colors.enumerated()), id: \.offset) { _, color in
+                            Circle()
+                                .fill(color)
+                                .frame(width: 8, height: 8)
+                        }
+                        Text(scheme.title)
+                    }
+                    .tag(scheme)
+                }
+            }
+            .pickerStyle(.menu)
+            .labelsHidden()
+            .frame(width: 145)
         }
         .padding()
         .background(.quaternary.opacity(0.3))

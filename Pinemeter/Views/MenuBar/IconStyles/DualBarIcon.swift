@@ -21,6 +21,7 @@ struct MenuBarQuotaBar: Equatable, Sendable {
     let status: UsageStatus
     /// Secondary annotation for the popover column (e.g. reset time).
     let detail: String?
+    let colorScheme: MenuBarColorScheme
     /// What renaming this bar's owner label targets, when the label can be
     /// renamed inline in the popover; nil for single-account "Claude".
     let renameTarget: QuotaRenameTarget?
@@ -38,11 +39,7 @@ struct MenuBarQuotaBar: Equatable, Sendable {
     var meterColor: Color {
         if isNearLimit { return .red }
 
-        switch kind {
-        case .fiveHour: return .cyan
-        case .weekly: return .purple
-        case .special: return .yellow
-        }
+        return colorScheme.color(for: kind)
     }
 
     static func groupedByOwner(_ bars: [MenuBarQuotaBar]) -> [[MenuBarQuotaBar]] {
@@ -69,7 +66,8 @@ struct MenuBarQuotaBar: Equatable, Sendable {
         detail: String? = nil,
         heading: String? = nil,
         owner: String = "",
-        renameTarget: QuotaRenameTarget? = nil
+        renameTarget: QuotaRenameTarget? = nil,
+        colorScheme: MenuBarColorScheme = .spectrum
     ) {
         self.label = label
         self.heading = heading ?? label
@@ -78,6 +76,7 @@ struct MenuBarQuotaBar: Equatable, Sendable {
         self.status = status
         self.detail = detail
         self.renameTarget = renameTarget
+        self.colorScheme = colorScheme
     }
 }
 
@@ -85,6 +84,27 @@ enum MenuBarQuotaKind: Equatable, Sendable {
     case fiveHour
     case weekly
     case special
+}
+
+extension MenuBarColorScheme {
+    var colors: [Color] {
+        switch self {
+        case .spectrum: [.cyan, .purple, .yellow]
+        case .ocean: [.blue, .teal, .mint]
+        case .forest: [.green, .brown, .mint]
+        case .sunset: [.orange, .pink, .purple]
+        case .berry: [.purple, .pink, .blue]
+        case .citrus: [.yellow, .orange, .green]
+        }
+    }
+
+    func color(for kind: MenuBarQuotaKind) -> Color {
+        switch kind {
+        case .fiveHour: colors[0]
+        case .weekly: colors[1]
+        case .special: colors[2]
+        }
+    }
 }
 
 /// Identifies what a popover owner-label rename writes to.

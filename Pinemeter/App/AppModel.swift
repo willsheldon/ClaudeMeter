@@ -331,7 +331,8 @@ final class AppModel {
                 detail: "Resets \(usageData.sessionUsage.resetDescription)",
                 heading: "5h",
                 owner: section.title,
-                renameTarget: renameTarget
+                renameTarget: renameTarget,
+                colorScheme: settings.menuBarColorScheme
             ))
             bars.append(MenuBarQuotaBar(
                 label: "\(section.title) weekly",
@@ -340,7 +341,8 @@ final class AppModel {
                 detail: "Resets \(usageData.weeklyUsage.resetDescription)",
                 heading: "Weekly",
                 owner: section.title,
-                renameTarget: renameTarget
+                renameTarget: renameTarget,
+                colorScheme: settings.menuBarColorScheme
             ))
             if settings.isFableUsageShown, let fableUsage = usageData.fableUsage {
                 bars.append(MenuBarQuotaBar(
@@ -350,7 +352,8 @@ final class AppModel {
                     detail: "Resets \(fableUsage.resetDescription)",
                     heading: "Fable",
                     owner: section.title,
-                    renameTarget: renameTarget
+                    renameTarget: renameTarget,
+                    colorScheme: settings.menuBarColorScheme
                 ))
             }
         }
@@ -364,7 +367,8 @@ final class AppModel {
                     detail: row.resetAt.map { "Resets \($0.formatted(.relative(presentation: .named)))" },
                     heading: row.menuBarRole?.columnHeading ?? row.label,
                     owner: chatGPTDisplayLabel,
-                    renameTarget: .provider(.chatGPT)
+                    renameTarget: .provider(.chatGPT),
+                    colorScheme: settings.menuBarColorScheme
                 ))
             }
         }
@@ -377,7 +381,8 @@ final class AppModel {
                 detail: geminiUsageData.resetAt.map { "Resets \($0.formatted(.relative(presentation: .named)))" },
                 heading: "API",
                 owner: geminiDisplayLabel,
-                renameTarget: .provider(.gemini)
+                renameTarget: .provider(.gemini),
+                colorScheme: settings.menuBarColorScheme
             ))
         }
 

@@ -22,6 +22,7 @@ final class SettingsRepositoryTests: XCTestCase {
         settings.cachedOrganizationId = UUID(uuidString: TestConstants.organizationUUIDString)
         settings.iconStyle = .dualBar
         settings.isColoredIcon = false
+        settings.menuBarColorScheme = .sunset
         settings.isChatGPTUsageShown = true
 
         try await repository.save(settings)
@@ -51,6 +52,7 @@ final class SettingsRepositoryTests: XCTestCase {
 
         XCTAssertTrue(settings.isColoredIcon)
         XCTAssertTrue(settings.isFableUsageShown)
+        XCTAssertEqual(settings.menuBarColorScheme, .spectrum)
     }
 
     func test_defaultSettings_hideChatGPTUsage() {

@@ -36,6 +36,9 @@ struct AppSettings: Codable, Equatable, Sendable {
     /// Whether menu bar icons are shown in color instead of monochrome.
     var isColoredIcon: Bool
 
+    /// Color palette used by quota meters in the menu bar and popover.
+    var menuBarColorScheme: MenuBarColorScheme = .spectrum
+
     /// Connected Claude subscriptions (session keys held in Keychain).
     /// Empty on legacy installs; the primary account is the entry whose
     /// `keychainAccount` is `"default"`.
@@ -84,6 +87,7 @@ struct AppSettings: Codable, Equatable, Sendable {
         case legacyOpenAIUsageShown = "show_openai_usage"
         case iconStyle = "icon_style"
         case isColoredIcon = "is_colored_icon"
+        case menuBarColorScheme = "menu_bar_color_scheme"
         case claudeAccounts = "claude_accounts"
         case chatGPTCustomLabel = "chatgpt_custom_label"
         case geminiCustomLabel = "gemini_custom_label"
@@ -111,6 +115,8 @@ extension AppSettings {
             ?? defaults.isChatGPTUsageShown
         iconStyle = try container.decodeIfPresent(IconStyle.self, forKey: .iconStyle) ?? defaults.iconStyle
         isColoredIcon = try container.decodeIfPresent(Bool.self, forKey: .isColoredIcon) ?? defaults.isColoredIcon
+        menuBarColorScheme = try container.decodeIfPresent(MenuBarColorScheme.self, forKey: .menuBarColorScheme)
+            ?? defaults.menuBarColorScheme
         claudeAccounts = try container.decodeIfPresent([ClaudeAccount].self, forKey: .claudeAccounts) ?? defaults.claudeAccounts
         chatGPTCustomLabel = try container.decodeIfPresent(String.self, forKey: .chatGPTCustomLabel)
         geminiCustomLabel = try container.decodeIfPresent(String.self, forKey: .geminiCustomLabel)
@@ -140,6 +146,7 @@ extension AppSettings {
         self.isChatGPTUsageShown = isChatGPTUsageShown
         self.iconStyle = iconStyle
         self.isColoredIcon = AppSettings.default.isColoredIcon
+        self.menuBarColorScheme = AppSettings.default.menuBarColorScheme
     }
 
     func encode(to encoder: Encoder) throws {
@@ -153,6 +160,7 @@ extension AppSettings {
         try container.encode(isChatGPTUsageShown, forKey: .isChatGPTUsageShown)
         try container.encode(iconStyle, forKey: .iconStyle)
         try container.encode(isColoredIcon, forKey: .isColoredIcon)
+        try container.encode(menuBarColorScheme, forKey: .menuBarColorScheme)
         try container.encode(claudeAccounts, forKey: .claudeAccounts)
         try container.encodeIfPresent(chatGPTCustomLabel, forKey: .chatGPTCustomLabel)
         try container.encodeIfPresent(geminiCustomLabel, forKey: .geminiCustomLabel)
