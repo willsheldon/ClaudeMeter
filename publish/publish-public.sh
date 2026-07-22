@@ -37,6 +37,7 @@ VOLUME_NAME="Pinemeter"
 
 # Internal-only paths removed before publishing (relative to repo root).
 STRIP_PATHS=(
+  ".agents"
   ".bg-shell"
   ".claude"
   ".gsd"
@@ -45,6 +46,8 @@ STRIP_PATHS=(
   ".gsd-worktrees"
   ".mcp.json"
   ".planning"
+  ".github/copilot-instructions.md"
+  ".github/skills"
   "AGENTS.md"
   "CLAUDE.md"
   "RELEASING.md"
@@ -527,7 +530,7 @@ log "Verifying no internal identifiers remain"
 if grep -rIlE 'HMR9RDR6M2|AUTIMO SYSTEMS INC' . 2>/dev/null; then
   die "internal signing identifiers leaked into staged tree (see above)"
 fi
-for p in AGENTS.md CLAUDE.md RELEASING.md .gsd .planning .mcp.json; do
+for p in AGENTS.md CLAUDE.md RELEASING.md .agents .github/copilot-instructions.md .github/skills .gsd .planning .mcp.json; do
   [[ -e "$p" ]] && die "strip failed: $p still present"
 done
 
