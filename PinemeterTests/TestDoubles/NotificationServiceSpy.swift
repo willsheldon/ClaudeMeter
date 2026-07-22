@@ -15,6 +15,7 @@ final class NotificationServiceSpy: NotificationServiceProtocol {
     private(set) var requestAuthorizationCallCount: Int = 0
     private(set) var sentThresholdPercentage: Double?
     private(set) var sentThresholdType: UsageThresholdType?
+    private(set) var sentUpdateVersions: [String] = []
 
     func setupDelegate() {}
 
@@ -37,6 +38,10 @@ final class NotificationServiceSpy: NotificationServiceProtocol {
     }
 
     func sendResetNotification() async throws {}
+
+    func sendUpdateAvailableNotification(version: String) async throws {
+        sentUpdateVersions.append(version)
+    }
 
     func checkNotificationPermissions() async -> Bool {
         hasPermission

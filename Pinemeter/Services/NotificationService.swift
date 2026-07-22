@@ -148,6 +148,25 @@ final class NotificationService: NSObject, NotificationServiceProtocol, UNUserNo
         try await center.add(request)
     }
 
+    func sendUpdateAvailableNotification(version: String) async throws {
+        guard await shouldSendNotifications() else { return }
+
+        let content = UNMutableNotificationContent()
+        content.title = "Pinemeter \(version) is available"
+        content.body = "Open Pinemeter to upgrade now."
+        content.sound = .default
+        content.categoryIdentifier = "app.update"
+        content.userInfo = ["version": version]
+
+        let request = UNNotificationRequest(
+            identifier: "update.\(version)",
+            content: content,
+            trigger: nil
+        )
+
+        try await center.add(request)
+    }
+
     /// Check system notification permissions
     func checkNotificationPermissions() async -> Bool {
         await center.authorizationStatus() == .authorized

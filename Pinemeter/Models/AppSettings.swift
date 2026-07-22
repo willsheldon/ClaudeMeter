@@ -55,6 +55,12 @@ struct AppSettings: Codable, Equatable, Sendable {
     /// Accounts that browser scans must not reconnect until the user re-enables them.
     var scanExcludedAccounts: [ScanExcludedAccount] = []
 
+    /// Internal update-check state. These are persisted so the daily check and
+    /// once-per-release notification survive app relaunches.
+    var lastUpdateCheckAt: Date? = nil
+    var lastNotifiedUpdateVersion: String? = nil
+    var availableUpdateVersion: String? = nil
+
     static let `default` = AppSettings(
         refreshInterval: Constants.Refresh.minimum,
         hasNotificationsEnabled: true,
@@ -83,6 +89,9 @@ struct AppSettings: Codable, Equatable, Sendable {
         case geminiCustomLabel = "gemini_custom_label"
         case isResetCelebrationEnabled = "reset_celebration_enabled"
         case scanExcludedAccounts = "scan_excluded_accounts"
+        case lastUpdateCheckAt = "last_update_check_at"
+        case lastNotifiedUpdateVersion = "last_notified_update_version"
+        case availableUpdateVersion = "available_update_version"
     }
 }
 
@@ -107,6 +116,9 @@ extension AppSettings {
         geminiCustomLabel = try container.decodeIfPresent(String.self, forKey: .geminiCustomLabel)
         isResetCelebrationEnabled = try container.decodeIfPresent(Bool.self, forKey: .isResetCelebrationEnabled) ?? true
         scanExcludedAccounts = try container.decodeIfPresent([ScanExcludedAccount].self, forKey: .scanExcludedAccounts) ?? []
+        lastUpdateCheckAt = try container.decodeIfPresent(Date.self, forKey: .lastUpdateCheckAt)
+        lastNotifiedUpdateVersion = try container.decodeIfPresent(String.self, forKey: .lastNotifiedUpdateVersion)
+        availableUpdateVersion = try container.decodeIfPresent(String.self, forKey: .availableUpdateVersion)
     }
 
     init(
@@ -146,6 +158,9 @@ extension AppSettings {
         try container.encodeIfPresent(geminiCustomLabel, forKey: .geminiCustomLabel)
         try container.encode(isResetCelebrationEnabled, forKey: .isResetCelebrationEnabled)
         try container.encode(scanExcludedAccounts, forKey: .scanExcludedAccounts)
+        try container.encodeIfPresent(lastUpdateCheckAt, forKey: .lastUpdateCheckAt)
+        try container.encodeIfPresent(lastNotifiedUpdateVersion, forKey: .lastNotifiedUpdateVersion)
+        try container.encodeIfPresent(availableUpdateVersion, forKey: .availableUpdateVersion)
     }
 }
 

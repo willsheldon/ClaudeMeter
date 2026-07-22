@@ -192,6 +192,10 @@ final class AppModel {
         health: .unknown
     )
 
+    var availableUpdateVersion: String? {
+        settings.availableUpdateVersion
+    }
+
     var providerCredentialStatuses: [AppProviderCredentialStatus] {
         [
             AppProviderCredentialStatus(
@@ -449,12 +453,17 @@ final class AppModel {
     @ObservationIgnored private let geminiAPIKeyRepository: any GeminiAPIKeyRepositoryProtocol
     @ObservationIgnored private let notificationService: NotificationServiceProtocol
     @ObservationIgnored private let sessionKeyImportService: SessionKeyImportServiceProtocol
+    @ObservationIgnored private let releaseCheckService: (any ReleaseCheckServiceProtocol)?
+    @ObservationIgnored private let appUpdater: AppUpdaterProtocol?
+    @ObservationIgnored private let installedVersion: String
 
     // MARK: - Private
 
     @ObservationIgnored private var refreshTask: Task<Void, Never>?
     @ObservationIgnored private var settingsSaveTask: Task<Void, Never>?
     @ObservationIgnored private var wakeTask: Task<Void, Never>?
+    @ObservationIgnored private var updateCheckTask: Task<Void, Never>?
+    @ObservationIgnored private var isCheckingForUpdates = false
     @ObservationIgnored private var hasLoadedSettings: Bool = false
     @ObservationIgnored private let refreshClock = ContinuousClock()
 
@@ -469,7 +478,10 @@ final class AppModel {
         geminiUsageService: GeminiUsageServiceProtocol? = nil,
         geminiAPIKeyRepository: (any GeminiAPIKeyRepositoryProtocol)? = nil,
         notificationService: NotificationServiceProtocol? = nil,
-        sessionKeyImportService: SessionKeyImportServiceProtocol? = nil
+        sessionKeyImportService: SessionKeyImportServiceProtocol? = nil,
+        releaseCheckService: (any ReleaseCheckServiceProtocol)? = nil,
+        appUpdater: AppUpdaterProtocol? = nil,
+        installedVersion: String? = nil
     ) {
         self.settingsRepository = settingsRepository
         self.keychainRepository = keychainRepository
@@ -495,6 +507,11 @@ final class AppModel {
         self.notificationService = notificationService ?? NotificationService(
             settingsRepository: settingsRepository
         )
+        self.releaseCheckService = releaseCheckService
+        self.appUpdater = appUpdater
+        self.installedVersion = installedVersion
+            ?? Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+            ?? "0"
 
         self.notificationService.setupDelegate()
     }
@@ -504,6 +521,10 @@ final class AppModel {
     func bootstrap() async {
         guard !isReady else { return }
         settings = await settingsRepository.load()
+        if let availableVersion = settings.availableUpdateVersion,
+           !AvailableUpdate(version: availableVersion).isNewer(than: installedVersion) {
+            settings.availableUpdateVersion = nil
+        }
         hasLoadedSettings = true
 
         isSetupComplete = await keychainRepository.exists(account: "default")
@@ -540,6 +561,7 @@ final class AppModel {
         }
 
         startWakeObserver()
+        startUpdateCheckLoop()
     }
 
     // MARK: - Usage
@@ -1474,6 +1496,37 @@ final class AppModel {
         )
     }
 
+    func installAvailableUpdate() {
+        appUpdater?.installAvailableUpdate()
+    }
+
+    func checkForUpdatesIfNeeded(now: Date = Date()) async {
+        guard let releaseCheckService, !isCheckingForUpdates else { return }
+        isCheckingForUpdates = true
+        defer { isCheckingForUpdates = false }
+
+        await sendAvailableUpdateNotificationIfNeeded()
+        if let lastCheck = settings.lastUpdateCheckAt,
+           now.timeIntervalSince(lastCheck) < 24 * 60 * 60 {
+            return
+        }
+
+        settings.lastUpdateCheckAt = now
+
+        do {
+            let update = try await releaseCheckService.latestRelease()
+            if update.isNewer(than: installedVersion) {
+                settings.availableUpdateVersion = update.version
+            } else {
+                settings.availableUpdateVersion = nil
+            }
+        } catch {
+            Self.logger.debug("Update check failed: \(error.localizedDescription, privacy: .public)")
+        }
+
+        await sendAvailableUpdateNotificationIfNeeded()
+    }
+
     // MARK: - Private
 
     private func credentialActions(for state: CredentialState) -> [AppProviderCredentialStatus.Action] {
@@ -1498,6 +1551,22 @@ final class AppModel {
             }
         }
         return kinds.map(AppProviderCredentialStatus.Action.init(kind:))
+    }
+
+    private func sendAvailableUpdateNotificationIfNeeded() async {
+        guard let version = settings.availableUpdateVersion,
+              settings.lastNotifiedUpdateVersion != version,
+              settings.hasNotificationsEnabled,
+              await notificationService.checkNotificationPermissions() else {
+            return
+        }
+
+        do {
+            try await notificationService.sendUpdateAvailableNotification(version: version)
+            settings.lastNotifiedUpdateVersion = version
+        } catch {
+            Self.logger.debug("Update notification failed: \(error.localizedDescription, privacy: .public)")
+        }
     }
 
     private static func credentialState(
@@ -1586,6 +1655,20 @@ final class AppModel {
                 if self.hasGeminiAPIKey {
                     await self.refreshGeminiUsage()
                 }
+                await self.checkForUpdatesIfNeeded()
+            }
+        }
+    }
+
+    private func startUpdateCheckLoop() {
+        updateCheckTask?.cancel()
+        guard releaseCheckService != nil else { return }
+
+        updateCheckTask = Task { [weak self] in
+            guard let self else { return }
+            while !Task.isCancelled {
+                await self.checkForUpdatesIfNeeded()
+                try? await self.refreshClock.sleep(for: .seconds(3_600))
             }
         }
     }

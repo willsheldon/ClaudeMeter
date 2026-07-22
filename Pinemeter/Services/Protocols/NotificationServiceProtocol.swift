@@ -63,6 +63,9 @@ protocol NotificationServiceProtocol {
     /// Send session reset notification
     func sendResetNotification() async throws
 
+    /// Send a once-per-release update notification.
+    func sendUpdateAvailableNotification(version: String) async throws
+
     /// Check system notification permissions
     func checkNotificationPermissions() async -> Bool
 }

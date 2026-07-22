@@ -4,6 +4,61 @@ import XCTest
 
 @MainActor
 final class AppModelTests: XCTestCase {
+    func test_availableUpdate_usesNumericVersionComparison() {
+        XCTAssertTrue(AvailableUpdate(version: "1.10.0").isNewer(than: "1.9.9"))
+        XCTAssertTrue(AvailableUpdate(version: "2.0").isNewer(than: "1.99"))
+        XCTAssertFalse(AvailableUpdate(version: "1.2.0").isNewer(than: "1.2.0"))
+        XCTAssertFalse(AvailableUpdate(version: "1.2.0").isNewer(than: "1.2.1"))
+    }
+
+    func test_checkForUpdates_throttlesDailyNotifiesOnceAndPersistsAvailableVersion() async throws {
+        let now = Date()
+        let settingsRepository = SettingsRepositoryFake()
+        var settings = AppSettings.default
+        settings.lastUpdateCheckAt = now
+        try await settingsRepository.save(settings)
+        let releaseCheckService = UpdateReleaseCheckServiceFake(update: AvailableUpdate(version: "1.10.0"))
+        let notificationService = NotificationServiceSpy()
+        let appModel = AppModel(
+            settingsRepository: settingsRepository,
+            keychainRepository: KeychainRepositoryFake(),
+            usageService: UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage))),
+            notificationService: notificationService,
+            releaseCheckService: releaseCheckService,
+            installedVersion: "1.9.9"
+        )
+
+        await appModel.bootstrap()
+        await appModel.checkForUpdatesIfNeeded(now: now.addingTimeInterval(23 * 60 * 60))
+        let throttledCallCount = await releaseCheckService.callCount
+        XCTAssertEqual(throttledCallCount, 0)
+
+        let firstCheck = now.addingTimeInterval(24 * 60 * 60)
+        await appModel.checkForUpdatesIfNeeded(now: firstCheck)
+        let firstCallCount = await releaseCheckService.callCount
+        XCTAssertEqual(firstCallCount, 1)
+        XCTAssertEqual(appModel.settings.availableUpdateVersion, "1.10.0")
+        XCTAssertEqual(appModel.settings.lastNotifiedUpdateVersion, "1.10.0")
+        XCTAssertEqual(notificationService.sentUpdateVersions, ["1.10.0"])
+
+        await appModel.checkForUpdatesIfNeeded(now: firstCheck.addingTimeInterval(24 * 60 * 60))
+        let secondCallCount = await releaseCheckService.callCount
+        XCTAssertEqual(secondCallCount, 2)
+        XCTAssertEqual(notificationService.sentUpdateVersions, ["1.10.0"])
+        await Task.yield()
+        let persistedSettings = await settingsRepository.load()
+        XCTAssertEqual(persistedSettings.availableUpdateVersion, "1.10.0")
+    }
+
+    func test_installAvailableUpdate_delegatesToUpdater() {
+        let updater = AppUpdaterSpy()
+        let appModel = AppModel(appUpdater: updater)
+
+        appModel.installAvailableUpdate()
+
+        XCTAssertEqual(updater.installCallCount, 1)
+    }
+
     func test_bootstrap_withoutSessionKey_showsSetupState() async {
         let usageService = UsageServiceStub(fetchUsageResult: .failure(TestError(message: TestConstants.unexpectedErrorMessage)))
         let notificationService = NotificationServiceSpy()
@@ -1638,6 +1693,29 @@ final class AppModelTests: XCTestCase {
 }
 
 // MARK: - Helpers
+
+private actor UpdateReleaseCheckServiceFake: ReleaseCheckServiceProtocol {
+    private let update: AvailableUpdate
+    private(set) var callCount = 0
+
+    init(update: AvailableUpdate) {
+        self.update = update
+    }
+
+    func latestRelease() async throws -> AvailableUpdate {
+        callCount += 1
+        return update
+    }
+}
+
+@MainActor
+private final class AppUpdaterSpy: AppUpdaterProtocol {
+    private(set) var installCallCount = 0
+
+    func installAvailableUpdate() {
+        installCallCount += 1
+    }
+}
 
 private actor RepairFailingKeychainRepository: KeychainRepositoryProtocol {
     private let sessionKey: String

@@ -13,10 +13,24 @@ struct MenuBarPopoverView: View {
     let onRequestClose: () -> Void
 
     var body: some View {
-        if appModel.hasConfiguredUsageProvider {
-            UsagePopoverView(appModel: appModel, onRequestClose: onRequestClose)
-        } else {
-            SetupWizardView(appModel: appModel)
+        VStack(spacing: 0) {
+            if let version = appModel.availableUpdateVersion {
+                Button("Upgrade to version \(version) now") {
+                    onRequestClose()
+                    appModel.installAvailableUpdate()
+                }
+                .buttonStyle(.borderedProminent)
+                .frame(maxWidth: .infinity)
+                .padding()
+
+                Divider()
+            }
+
+            if appModel.hasConfiguredUsageProvider {
+                UsagePopoverView(appModel: appModel, onRequestClose: onRequestClose)
+            } else {
+                SetupWizardView(appModel: appModel)
+            }
         }
     }
 }

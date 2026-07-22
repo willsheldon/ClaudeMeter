@@ -214,6 +214,46 @@ release_dmg() {
   log "Release live: $PUBLIC_URL/releases/latest/download/$DMG_NAME"
 }
 
+# Generate the signed Sparkle feed before the public tree is committed. The
+# enclosure points at the versioned release URL that release_dmg publishes
+# immediately after the public source push.
+create_appcast() {
+  local dmg="$1" version="$2" private_key tool input_dir
+  private_key="$(ssm_get SPARKLE_ED25519_PRIVATE_KEY)"
+  [[ -n "$private_key" ]] \
+    || die "SPARKLE_ED25519_PRIVATE_KEY missing from project SSM"
+
+  tool="${DD:-}/SourcePackages/artifacts/sparkle/Sparkle/bin/generate_appcast"
+  if [[ ! -x "$tool" ]]; then
+    local tools_dd="$STAGE/sparkle-tools"
+    log "Resolving Sparkle publishing tools"
+    ( cd "$REPO_ROOT" && xcodebuild -resolvePackageDependencies \
+        -project Pinemeter.xcodeproj \
+        -scheme Pinemeter \
+        -derivedDataPath "$tools_dd" \
+        >"$STAGE/sparkle-tools.log" 2>&1 ) \
+      || { tail -40 "$STAGE/sparkle-tools.log" >&2; die "Sparkle tool resolution failed"; }
+    tool="$tools_dd/SourcePackages/artifacts/sparkle/Sparkle/bin/generate_appcast"
+  fi
+  [[ -x "$tool" ]] || die "Sparkle generate_appcast tool not found"
+
+  input_dir="$STAGE/sparkle"
+  mkdir -p "$input_dir"
+  cp "$dmg" "$input_dir/$DMG_NAME"
+  printf '%s' "$private_key" | "$tool" \
+    --ed-key-file - \
+    --download-url-prefix "$PUBLIC_URL/releases/download/v$version/" \
+    --link "https://pineit-ca.github.io/pinemeter/" \
+    "$input_dir"
+  unset private_key
+
+  [[ -f "$input_dir/appcast.xml" ]] || die "Sparkle appcast was not generated"
+  cp "$input_dir/appcast.xml" "$STAGE/tree/site/appcast.xml"
+  grep -q 'sparkle:edSignature=' "$STAGE/tree/site/appcast.xml" \
+    || die "Sparkle appcast is missing its EdDSA signature"
+  log "Signed Sparkle appcast generated for v$version"
+}
+
 # Ensure Pages exists, then deploy after the release is live so the workflow
 # injects the new version rather than the previous release's version.
 publish_pages() {
@@ -422,6 +462,12 @@ if [[ "$DO_DMG" -eq 1 ]]; then
     notarize_dmg "$DMG_OUT" "$APP_PATH"
   else
     warn "Notarization skipped — the DMG is signed but not notarized (Gatekeeper will warn on first open)"
+  fi
+
+  if [[ "$DRY_RUN" -eq 0 ]]; then
+    create_appcast "$DMG_OUT" "$VERSION"
+  else
+    warn "Sparkle appcast signing skipped during dry run"
   fi
 
   # Big, bold download button at the top of the README, linking to the latest

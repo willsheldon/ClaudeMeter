@@ -46,6 +46,9 @@ final class AppSettingsTests: XCTestCase {
         XCTAssertTrue(settings.isFableUsageShown)
         XCTAssertTrue(settings.isResetCelebrationEnabled)
         XCTAssertTrue(settings.scanExcludedAccounts.isEmpty)
+        XCTAssertNil(settings.lastUpdateCheckAt)
+        XCTAssertNil(settings.lastNotifiedUpdateVersion)
+        XCTAssertNil(settings.availableUpdateVersion)
     }
 
     func test_encodeDecodeRoundTrip_preservesNewLabelAndCelebrationFields() throws {
@@ -57,6 +60,9 @@ final class AppSettingsTests: XCTestCase {
         settings.scanExcludedAccounts = [
             ScanExcludedAccount(provider: .claude, accountId: "org-1", displayLabel: "Old account")
         ]
+        settings.lastUpdateCheckAt = Date(timeIntervalSince1970: 1_700_000_000)
+        settings.lastNotifiedUpdateVersion = "1.2.3"
+        settings.availableUpdateVersion = "1.3.0"
 
         let data = try JSONEncoder().encode(settings)
         let decoded = try JSONDecoder().decode(AppSettings.self, from: data)
@@ -66,5 +72,8 @@ final class AppSettingsTests: XCTestCase {
         XCTAssertFalse(decoded.isFableUsageShown)
         XCTAssertFalse(decoded.isResetCelebrationEnabled)
         XCTAssertEqual(decoded.scanExcludedAccounts, settings.scanExcludedAccounts)
+        XCTAssertEqual(decoded.lastUpdateCheckAt, settings.lastUpdateCheckAt)
+        XCTAssertEqual(decoded.lastNotifiedUpdateVersion, "1.2.3")
+        XCTAssertEqual(decoded.availableUpdateVersion, "1.3.0")
     }
 }

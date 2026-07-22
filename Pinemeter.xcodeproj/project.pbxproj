@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		940ECFCED2930E18C9024CDB /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 1E869117452041001C7AF869 /* SnapshotTesting */; };
+		A7D3F0012F10000100000001 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = A7D3F0032F10000100000001 /* Sparkle */; };
 		B4C1B3B12ECA700100000001 /* SweetCookieKit in Frameworks */ = {isa = PBXBuildFile; productRef = B4C1B3B02ECA700100000001 /* SweetCookieKit */; };
 /* End PBXBuildFile section */
 
@@ -26,9 +27,22 @@
 		E19FC5088677C21D48B7E68B /* PinemeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PinemeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A7D3F0042F10000100000001 /* Exceptions for "Pinemeter" folder in "Pinemeter" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/Info.plist,
+			);
+			target = 6814B1062EC74F6000B4B5C3 /* Pinemeter */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6814B1092EC74F6000B4B5C3 /* Pinemeter */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A7D3F0042F10000100000001 /* Exceptions for "Pinemeter" folder in "Pinemeter" target */,
+			);
 			path = Pinemeter;
 			sourceTree = "<group>";
 		};
@@ -52,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7D3F0012F10000100000001 /* Sparkle in Frameworks */,
 				B4C1B3B12ECA700100000001 /* SweetCookieKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,6 +136,7 @@
 			);
 			name = Pinemeter;
 			packageProductDependencies = (
+				A7D3F0032F10000100000001 /* Sparkle */,
 				B4C1B3B02ECA700100000001 /* SweetCookieKit */,
 			);
 			productName = Pinemeter;
@@ -157,6 +173,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				7C6391426CABA70B39395D98 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				A7D3F0022F10000100000001 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				B4C1B3AF2ECA700100000001 /* XCRemoteSwiftPackageReference "SweetCookieKit" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -401,11 +418,8 @@
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Pinemeter;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Pinemeter/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -448,11 +462,8 @@
 				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Pinemeter;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_LSUIElement = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Pinemeter/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -512,6 +523,14 @@
 				minimumVersion = 1.18.7;
 			};
 		};
+		A7D3F0022F10000100000001 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.4;
+			};
+		};
 		B4C1B3AF2ECA700100000001 /* XCRemoteSwiftPackageReference "SweetCookieKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/steipete/SweetCookieKit";
@@ -527,6 +546,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7C6391426CABA70B39395D98 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
 			productName = SnapshotTesting;
+		};
+		A7D3F0032F10000100000001 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A7D3F0022F10000100000001 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 		B4C1B3B02ECA700100000001 /* SweetCookieKit */ = {
 			isa = XCSwiftPackageProductDependency;
