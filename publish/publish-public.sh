@@ -401,16 +401,25 @@ fi
 # ---------------------------------------------------------------------------
 if [[ "$DO_DMG" -eq 1 ]]; then
   if [[ -z "$APP_PATH" ]]; then
-    log "Building Release Pinemeter.app (universal, Developer ID, hardened runtime + secure timestamp)"
+    log "Archiving and exporting Pinemeter.app for Developer ID distribution"
     DD="$STAGE/dd"
-    # Distribution signing, mirroring the release workflow: strip the base
-    # (get-task-allow) entitlements and add a secure timestamp + hardened runtime,
-    # all of which Apple's notary service requires.
-    ( cd "$REPO_ROOT" && xcodebuild clean build \
+    ARCHIVE_PATH="$STAGE/Pinemeter.xcarchive"
+    EXPORT_PATH="$STAGE/export"
+    EXPORT_OPTIONS="$STAGE/ExportOptions.plist"
+    plutil -create xml1 "$EXPORT_OPTIONS"
+    plutil -insert method -string developer-id "$EXPORT_OPTIONS"
+    plutil -insert teamID -string "$REAL_TEAM_ID" "$EXPORT_OPTIONS"
+    plutil -insert signingStyle -string manual "$EXPORT_OPTIONS"
+    plutil -insert signingCertificate -string "$REAL_SIGN_IDENTITY" "$EXPORT_OPTIONS"
+
+    # Archive + export makes Xcode re-sign Sparkle's nested helpers with the
+    # distribution identity, hardened runtime, and secure timestamps.
+    ( cd "$REPO_ROOT" && xcodebuild archive \
         -project Pinemeter.xcodeproj \
         -scheme Pinemeter \
         -configuration Release \
         -derivedDataPath "$DD" \
+        -archivePath "$ARCHIVE_PATH" \
         -arch x86_64 -arch arm64 ONLY_ACTIVE_ARCH=NO \
         MARKETING_VERSION="$VERSION" CURRENT_PROJECT_VERSION="$BUILD_NUM" \
         CODE_SIGN_STYLE=Manual \
@@ -418,8 +427,15 @@ if [[ "$DO_DMG" -eq 1 ]]; then
         DEVELOPMENT_TEAM="$REAL_TEAM_ID" \
         CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
         OTHER_CODE_SIGN_FLAGS="--timestamp --options runtime" \
-        >"$STAGE/build.log" 2>&1 ) || { tail -40 "$STAGE/build.log" >&2; die "Release build failed"; }
-    APP_PATH="$DD/Build/Products/Release/Pinemeter.app"
+        >"$STAGE/archive.log" 2>&1 ) \
+      || { tail -40 "$STAGE/archive.log" >&2; die "Release archive failed"; }
+    xcodebuild -exportArchive \
+      -archivePath "$ARCHIVE_PATH" \
+      -exportPath "$EXPORT_PATH" \
+      -exportOptionsPlist "$EXPORT_OPTIONS" \
+      >"$STAGE/export.log" 2>&1 \
+      || { tail -40 "$STAGE/export.log" >&2; die "Developer ID export failed"; }
+    APP_PATH="$EXPORT_PATH/Pinemeter.app"
   else
     warn "--app given: shipping $VERSION as the release tag, but the prebuilt app keeps its own embedded version"
   fi
@@ -428,13 +444,28 @@ if [[ "$DO_DMG" -eq 1 ]]; then
   # Fail fast (before the slow notary round-trip) if the app is not distribution-signed.
   # Capture into vars and match in bash — a `... | grep -q` pipe would SIGPIPE codesign
   # and, under `set -o pipefail`, report a false failure.
-  if [[ "$DO_NOTARIZE" -eq 1 && "$DRY_RUN" -eq 0 ]]; then
-    sig_info="$(codesign -dvv "$APP_PATH" 2>&1 || true)"
+  if [[ "$DO_NOTARIZE" -eq 1 ]]; then
+    codesign --verify --deep --strict "$APP_PATH" \
+      || die "app contains an invalid nested code signature"
     ent_info="$(codesign -d --entitlements - "$APP_PATH" 2>&1 || true)"
     [[ "$ent_info" == *get-task-allow* ]] \
       && die "app requests get-task-allow (not distribution-signed) — notarization would fail; rebuild without --app"
-    [[ "$sig_info" == *"Timestamp="* ]] \
-      || die "app signature has no secure timestamp — notarization would fail; rebuild without --app"
+
+    sparkle_root="$APP_PATH/Contents/Frameworks/Sparkle.framework/Versions/Current"
+    distribution_targets=(
+      "$APP_PATH"
+      "$sparkle_root/Autoupdate"
+      "$sparkle_root/Updater.app"
+      "$sparkle_root/XPCServices/Downloader.xpc"
+      "$sparkle_root/XPCServices/Installer.xpc"
+    )
+    for distribution_target in "${distribution_targets[@]}"; do
+      sig_info="$(codesign -dvv "$distribution_target" 2>&1 || true)"
+      [[ "$sig_info" == *"Authority=$REAL_SIGN_IDENTITY"* ]] \
+        || die "$(basename "$distribution_target") is not signed by $REAL_SIGN_IDENTITY"
+      [[ "$sig_info" == *"Timestamp="* ]] \
+        || die "$(basename "$distribution_target") has no secure timestamp"
+    done
   fi
 
   log "Packaging $DMG_NAME from $(basename "$APP_PATH")"
