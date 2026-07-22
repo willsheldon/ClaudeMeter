@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add six selectable Apple system-color palettes for menu bar and popover quota meters.
+- Add a Check for Updates action to the two-column About tab.
 
 ### Changed
 
