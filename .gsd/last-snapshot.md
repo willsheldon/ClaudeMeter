@@ -1,13 +1,10 @@
-# GSD context snapshot (2026-06-19T17:28:52.626Z)
+# GSD context snapshot (2026-07-05T22:12:21.603Z)
 
 ## Top project memories
 - [MEM001] (gotcha) For Pinemeter release signing, do not use the generic CODE_SIGN_IDENTITY "Developer ID Application" or a mutable APPLE_TEAM_ID secret. The release path must pin and verify `Developer ID Application: AUTIMO SYSTEMS INC (HMR9RDR6M2)` and `TeamIdentifier=HMR9RDR6M2`.
 - [MEM008] (gotcha) In this repo, using gsd_requirement_update/save can regenerate .gsd/REQUIREMENTS.md from an incomplete DB row set and drop manually rich requirements R001-R009/R012-R015. Prefer manual surgical edits to REQUIREMENTS.md or reconcile the DB before using requirement tools for requirement changes.
-- [MEM002] (architecture) Claude credential repair preserves the legacy `com.claudemeter.sessionkey` Keychain service identifier and repairs access by scoped update-then-add under the selected account, avoiding broad deletes and relying on the current signed app identity for access control.
-- [MEM003] (architecture) ChatGPT session repository separates credential-equivalent material by durability: session cookies are stored only in a Keychain-backed repository boundary, transient access tokens stay actor-memory-only, and diagnostics persist only sanitized acquisition state/error categories outside AppSettings.
-- [MEM004] (architecture) ChatGPT session acquisition flows now use ChatGPTSessionRepository as the sole durable boundary: AppModel, ChatGPTUsageService, and WebView cookie-store extraction persist session cookies through that repository, while access tokens remain transient and are only re-saved in actor memory after validation.
-- [MEM005] (architecture) ChatGPT session cookies are treated as durable credential-equivalent material and stored through ChatGPTSessionRepository's Keychain boundary; ChatGPT access tokens remain transient actor memory only. Persisted ChatGPT acquisition diagnostics are limited to sanitized state and failure categories, not raw cookies, tokens, headers, or AppSettings values.
-
-## Recent gsd_exec runs
-- 
+- [MEM009] (gotcha) A true local first-run reset for Pinemeter must clear both UserDefaults/preferences for bundle id `com.eddmann.Pinemeter` and exact Keychain items: Claude service `com.claudemeter.sessionkey` account `default`, plus ChatGPT service `com.pinemeter.chatgpt.session` account `chatgpt.com`. Clearing preferences alone leaves Claude/ChatGPT configured because credentials remain in Keychain.
+- [MEM010] (gotcha) ChatGPT browser import must not require the quota API validation to pass before saving the imported session cookie; save the browser cookie through ChatGPTSessionRepository first, then refresh usage and surface quota/API errors separately. The importer should accept both `__Secure-next-auth.session-token` and `__Secure-authjs.session-token` cookies, including split chunk variants.
+- [MEM011] (convention) Pinemeter GSD preferences should include a project-level `verification_commands` fallback with `xcodebuild test -project Pinemeter.xcodeproj -scheme Pinemeter -configuration Debug` so auto-mode can always discover a host-owned verification command when task plans omit one.
+- [MEM018] (gotcha) Chrome/Chromium v10 encrypted cookies can decrypt to SHA256(host_key) + value on newer cookie DB schemas; decoding the whole plaintext as UTF-8 can silently drop valid cookies. ChatGPT import needs to strip the 32-byte host diges
 …[truncated]

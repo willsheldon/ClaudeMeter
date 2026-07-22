@@ -1,7 +1,7 @@
 # Codebase Map
 
-Generated: 2026-07-01T18:14:06Z | Files: 124 | Described: 0/124
-<!-- gsd:codebase-meta {"generatedAt":"2026-07-01T18:14:06Z","fingerprint":"c8b05e0890a27dede0e1395e08fa9b7fbd52dd82","fileCount":124,"truncated":false} -->
+Generated: 2026-07-05T19:39:57Z | Files: 130 | Described: 0/130
+<!-- gsd:codebase-meta {"generatedAt":"2026-07-05T19:39:57Z","fingerprint":"8fd2c1257bab73b27e26f58b95719adf66027cfa","fileCount":130,"truncated":false} -->
 
 ### (root)/
 - `.gitignore`
@@ -11,6 +11,7 @@ Generated: 2026-07-01T18:14:06Z | Files: 124 | Described: 0/124
 - `CONTRIBUTING.md`
 - `LICENSE`
 - `README.md`
+- `RELEASING.md`
 - `SECURITY.md`
 - `work-to-date.md`
 
@@ -56,6 +57,7 @@ Generated: 2026-07-01T18:14:06Z | Files: 124 | Described: 0/124
 ### Pinemeter/Models/
 - `Pinemeter/Models/AppSettings.swift`
 - `Pinemeter/Models/ChatGPTUsageData.swift`
+- `Pinemeter/Models/ClaudeAccount.swift`
 - `Pinemeter/Models/Constants.swift`
 - `Pinemeter/Models/CredentialState.swift`
 - `Pinemeter/Models/IconStyle.swift`
@@ -143,26 +145,7 @@ Generated: 2026-07-01T18:14:06Z | Files: 124 | Described: 0/124
 - `Pinemeter/Views/Shared/CopyableErrorText.swift`
 
 ### PinemeterTests/
-- `PinemeterTests/AppModelTests.swift`
-- `PinemeterTests/AppSettingsTests.swift`
-- `PinemeterTests/CacheRepositoryTests.swift`
-- `PinemeterTests/ChatGPTAppModelTests.swift`
-- `PinemeterTests/ChatGPTSessionRepositoryTests.swift`
-- `PinemeterTests/ChatGPTUsageServiceTests.swift`
-- `PinemeterTests/CopyableErrorPresentationTests.swift`
-- `PinemeterTests/CredentialStateTests.swift`
-- `PinemeterTests/CredentialStatusServiceTests.swift`
-- `PinemeterTests/GeminiCredentialBoundaryTests.swift`
-- `PinemeterTests/GeminiUsageServiceTests.swift`
-- `PinemeterTests/KeychainRepositoryTests.swift`
-- `PinemeterTests/MenuBarIconRendererTests.swift`
-- `PinemeterTests/NotificationServiceTests.swift`
-- `PinemeterTests/ProviderErrorWorkflowTests.swift`
-- `PinemeterTests/SecurityInvariantTests.swift`
-- `PinemeterTests/SessionKeyTests.swift`
-- `PinemeterTests/SettingsRepositoryTests.swift`
-- `PinemeterTests/UsageLimitRiskTests.swift`
-- `PinemeterTests/UsageServiceTests.swift`
+- *(21 files: 21 .swift)*
 
 ### PinemeterTests/TestDoubles/
 - `PinemeterTests/TestDoubles/CacheRepositoryFake.swift`
@@ -183,6 +166,11 @@ Generated: 2026-07-01T18:14:06Z | Files: 124 | Described: 0/124
 - `scripts/demo.sh`
 - `scripts/provider_status_surface_audit.py`
 - `scripts/provider_workflow_copy_audit.py`
+
+### scripts/vm_validation/
+- `scripts/vm_validation/pinemeter_vm_probe.sh`
+- `scripts/vm_validation/pinemeter_vm_validate.sh`
+- `scripts/vm_validation/README.md`
 
 ### site/
 - `site/index.html`

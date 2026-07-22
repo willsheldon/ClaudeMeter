@@ -1,8 +1,0 @@
-  search domain[0] : k.cam
-  nameserver[0] : 192.168.1.2
-  nameserver[1] : 192.168.1.1
-  nameserver[2] : fd00:3235:3235::
-  search domain[0] : k.cam
-  nameserver[0] : 192.168.1.2
-  nameserver[1] : 192.168.1.1
-  nameserver[2] : fd00:3235:3235::

@@ -1,9 +1,0 @@
-# Pinemeter VM probe
-timestamp_utc=2026-07-03T16:55:17Z
-target=will@Wills-AUTH-vm.local
-secret_policy=no cookie dbs, keychain values, tokens, auth headers, or browser storage contents are read
-
-ssh: Could not resolve hostname wills-auth-vm.local: nodename nor servname provided, or not known
-result=unreachable
-category=ssh_or_dns_unavailable
-next_action=verify VM is booted, on the same network, and reachable by PINEMETER_VM_HOST

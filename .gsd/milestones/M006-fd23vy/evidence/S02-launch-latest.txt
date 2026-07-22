@@ -1,5 +1,0 @@
-launch.start=true
-launch.process=Pinemeter
-launch.running=true
-preferences.file=missing
-evidence_file=.gsd/milestones/M006-fd23vy/evidence/S02/vm-validate-20260703T171658Z.txt

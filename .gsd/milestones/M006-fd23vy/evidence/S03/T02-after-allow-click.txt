@@ -1,4 +1,0 @@
-== windows_after_allow_click ==
-Google Chrome:1iTerm2:1
-== pinemeter ==
-windows=0

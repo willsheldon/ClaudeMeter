@@ -1,7 +1,7 @@
 {
   "schema": 2,
   "lastWriter": "gsd-pi",
-  "lastProjectedAt": "2026-07-03T18:28:46.639Z",
+  "lastProjectedAt": "2026-07-05T04:06:17.850Z",
   "projections": {
     "milestones/M005/M005-ROADMAP.md": {
       "sha": "33e9dcf8316e51b8",
@@ -108,6 +108,715 @@
     },
     "milestones/M006-fd23vy/slices/S06/S06-PLAN.md": {
       "sha": "41deb9d4492e2cd4",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S06"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-ROADMAP.md": {
+      "sha": "f6d9b1474e6c7ac7",
+      "entities": [
+        "M002"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-01-ASSESSMENT.md": {
+      "sha": "16dc21979f919763",
+      "entities": [
+        "M002",
+        "M002/S01"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-01-PLAN.md": {
+      "sha": "e588f80f8f2739a6",
+      "entities": [
+        "M002",
+        "M002/S01"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-01-SUMMARY.md": {
+      "sha": "a3efeea295f6aafe",
+      "entities": [
+        "M002",
+        "M002/S01"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-01-UAT.md": {
+      "sha": "6a5ff226d86abd37",
+      "entities": [
+        "M002",
+        "M002/S01"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-02-ASSESSMENT.md": {
+      "sha": "febcd640d6971dc8",
+      "entities": [
+        "M002",
+        "M002/S02"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-02-PLAN.md": {
+      "sha": "2f4ac8e30d4b0788",
+      "entities": [
+        "M002",
+        "M002/S02"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-SUMMARY.md": {
+      "sha": "c0f6920badff5bf4",
+      "entities": [
+        "M002",
+        "M002/S02"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-02-UAT.md": {
+      "sha": "bb1c7c0cbdfb8ff1",
+      "entities": [
+        "M002",
+        "M002/S02"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-02-SUMMARY.md": {
+      "sha": "c0f6920badff5bf4",
+      "entities": [
+        "M002",
+        "M002/S02"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-03-ASSESSMENT.md": {
+      "sha": "230c7f96c23b5ed8",
+      "entities": [
+        "M002",
+        "M002/S03"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-03-PLAN.md": {
+      "sha": "df299fe835daf542",
+      "entities": [
+        "M002",
+        "M002/S03"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-03-SUMMARY.md": {
+      "sha": "2df1e889cbc2931f",
+      "entities": [
+        "M002",
+        "M002/S03"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-03-UAT.md": {
+      "sha": "2922862d73f95868",
+      "entities": [
+        "M002",
+        "M002/S03"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-04-ASSESSMENT.md": {
+      "sha": "0018fbd1774955db",
+      "entities": [
+        "M002",
+        "M002/S04"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-04-PLAN.md": {
+      "sha": "fcec33a0abddc31a",
+      "entities": [
+        "M002",
+        "M002/S04"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-04-SUMMARY.md": {
+      "sha": "67bf61504d5aa082",
+      "entities": [
+        "M002",
+        "M002/S04"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-04-UAT.md": {
+      "sha": "c3b9f22579d99da8",
+      "entities": [
+        "M002",
+        "M002/S04"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-05-ASSESSMENT.md": {
+      "sha": "ccc58ad2b57710c7",
+      "entities": [
+        "M002",
+        "M002/S05"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-05-PLAN.md": {
+      "sha": "04d3eeb1600ccc10",
+      "entities": [
+        "M002",
+        "M002/S05"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-05-SUMMARY.md": {
+      "sha": "39f57acc20e921e5",
+      "entities": [
+        "M002",
+        "M002/S05"
+      ]
+    },
+    "phases/02-durable-credential-acquisition/02-05-UAT.md": {
+      "sha": "e70b6a4f05ce1884",
+      "entities": [
+        "M002",
+        "M002/S05"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-ROADMAP.md": {
+      "sha": "e123741668f316b6",
+      "entities": [
+        "M003"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-01-ASSESSMENT.md": {
+      "sha": "788822cf021f3e83",
+      "entities": [
+        "M003",
+        "M003/S01"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-01-PLAN.md": {
+      "sha": "074b0ff2545b591a",
+      "entities": [
+        "M003",
+        "M003/S01"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-01-REPLAN.md": {
+      "sha": "9042ef47609ec4d1",
+      "entities": [
+        "M003",
+        "M003/S01"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-01-SUMMARY.md": {
+      "sha": "5202129ed8bdc13d",
+      "entities": [
+        "M003",
+        "M003/S01"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-01-UAT.md": {
+      "sha": "702228f8ff114ab9",
+      "entities": [
+        "M003",
+        "M003/S01"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-02-ASSESSMENT.md": {
+      "sha": "2e460293f4d96ecc",
+      "entities": [
+        "M003",
+        "M003/S02"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-02-PLAN.md": {
+      "sha": "b6b83caed2435e78",
+      "entities": [
+        "M003",
+        "M003/S02"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-02-SUMMARY.md": {
+      "sha": "16361f0a61dec110",
+      "entities": [
+        "M003",
+        "M003/S02"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-02-UAT.md": {
+      "sha": "f9dc52555dd2cc82",
+      "entities": [
+        "M003",
+        "M003/S02"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-03-ASSESSMENT.md": {
+      "sha": "e3f9a0d02cbfdc64",
+      "entities": [
+        "M003",
+        "M003/S03"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-03-PLAN.md": {
+      "sha": "24930105d421e6f8",
+      "entities": [
+        "M003",
+        "M003/S03"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-SUMMARY.md": {
+      "sha": "9bca5fd4ece59d53",
+      "entities": [
+        "M003",
+        "M003/S03"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-03-UAT.md": {
+      "sha": "56b4b06e8e0c5e8b",
+      "entities": [
+        "M003",
+        "M003/S03"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-03-SUMMARY.md": {
+      "sha": "9bca5fd4ece59d53",
+      "entities": [
+        "M003",
+        "M003/S03"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-04-ASSESSMENT.md": {
+      "sha": "361cad64ff569fd1",
+      "entities": [
+        "M003",
+        "M003/S04"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-04-PLAN.md": {
+      "sha": "b444c9cb83c6b4f8",
+      "entities": [
+        "M003",
+        "M003/S04"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-04-SUMMARY.md": {
+      "sha": "1d078b965faadb9f",
+      "entities": [
+        "M003",
+        "M003/S04"
+      ]
+    },
+    "phases/03-multi-provider-workflow-polish/03-04-UAT.md": {
+      "sha": "05e33367811db314",
+      "entities": [
+        "M003",
+        "M003/S04"
+      ]
+    },
+    "phases/04-gemini-monitoring-extension/04-ROADMAP.md": {
+      "sha": "8b242c0f0cbc630d",
+      "entities": [
+        "M004"
+      ]
+    },
+    "phases/04-m004/04-01-ASSESSMENT.md": {
+      "sha": "5debf5e44587e63d",
+      "entities": [
+        "M004",
+        "M004/S01"
+      ]
+    },
+    "phases/04-m004/04-01-PLAN.md": {
+      "sha": "ff51ae0b84ef8b9d",
+      "entities": [
+        "M004",
+        "M004/S01"
+      ]
+    },
+    "phases/04-m004/04-01-SUMMARY.md": {
+      "sha": "e020c08d24aab011",
+      "entities": [
+        "M004",
+        "M004/S01"
+      ]
+    },
+    "phases/04-m004/04-01-UAT.md": {
+      "sha": "f21ef1b0fa824cd5",
+      "entities": [
+        "M004",
+        "M004/S01"
+      ]
+    },
+    "phases/04-m004/04-02-ASSESSMENT.md": {
+      "sha": "679317c38f94276c",
+      "entities": [
+        "M004",
+        "M004/S02"
+      ]
+    },
+    "phases/04-m004/04-02-PLAN.md": {
+      "sha": "0efc5317c4b7354f",
+      "entities": [
+        "M004",
+        "M004/S02"
+      ]
+    },
+    "phases/04-m004/04-02-SUMMARY.md": {
+      "sha": "97d6b99fdc2ab0da",
+      "entities": [
+        "M004",
+        "M004/S02"
+      ]
+    },
+    "phases/04-m004/04-02-UAT.md": {
+      "sha": "cb48fe7d2530fe63",
+      "entities": [
+        "M004",
+        "M004/S02"
+      ]
+    },
+    "phases/04-m004/04-03-ASSESSMENT.md": {
+      "sha": "46799de2babd0943",
+      "entities": [
+        "M004",
+        "M004/S03"
+      ]
+    },
+    "phases/04-m004/04-03-PLAN.md": {
+      "sha": "137e00cc5b96e06c",
+      "entities": [
+        "M004",
+        "M004/S03"
+      ]
+    },
+    "phases/04-m004/04-03-SUMMARY.md": {
+      "sha": "b9b571c83d5f17b6",
+      "entities": [
+        "M004",
+        "M004/S03"
+      ]
+    },
+    "phases/04-m004/04-03-UAT.md": {
+      "sha": "169ba56a458d51d3",
+      "entities": [
+        "M004",
+        "M004/S03"
+      ]
+    },
+    "phases/04-m004/04-04-ASSESSMENT.md": {
+      "sha": "5e071483a3106195",
+      "entities": [
+        "M004",
+        "M004/S04"
+      ]
+    },
+    "phases/04-m004/04-04-PLAN.md": {
+      "sha": "97220134ed54ef17",
+      "entities": [
+        "M004",
+        "M004/S04"
+      ]
+    },
+    "phases/04-m004/04-04-SUMMARY.md": {
+      "sha": "ce59a1bf16476cf1",
+      "entities": [
+        "M004",
+        "M004/S04"
+      ]
+    },
+    "phases/04-m004/04-04-UAT.md": {
+      "sha": "39aff23503067d66",
+      "entities": [
+        "M004",
+        "M004/S04"
+      ]
+    },
+    "phases/04-m004/04-05-ASSESSMENT.md": {
+      "sha": "8579809cd3bed361",
+      "entities": [
+        "M004",
+        "M004/S05"
+      ]
+    },
+    "phases/04-m004/04-05-PLAN.md": {
+      "sha": "b36df05e66eb4322",
+      "entities": [
+        "M004",
+        "M004/S05"
+      ]
+    },
+    "phases/04-m004/04-05-REPLAN.md": {
+      "sha": "d3c89db6ffe5b327",
+      "entities": [
+        "M004",
+        "M004/S05"
+      ]
+    },
+    "phases/04-m004/04-05-SUMMARY.md": {
+      "sha": "2e84bce56d61aa48",
+      "entities": [
+        "M004",
+        "M004/S05"
+      ]
+    },
+    "phases/04-m004/04-05-UAT.md": {
+      "sha": "501698c0010a7537",
+      "entities": [
+        "M004",
+        "M004/S05"
+      ]
+    },
+    "phases/05-public-open-source-polish/05-ROADMAP.md": {
+      "sha": "33e9dcf8316e51b8",
+      "entities": [
+        "M005"
+      ]
+    },
+    "phases/05-m005/05-01-ASSESSMENT.md": {
+      "sha": "a6a2b480a4d6c491",
+      "entities": [
+        "M005",
+        "M005/S01"
+      ]
+    },
+    "phases/05-m005/05-01-PLAN.md": {
+      "sha": "26dcf4699bb7ebcf",
+      "entities": [
+        "M005",
+        "M005/S01"
+      ]
+    },
+    "phases/05-m005/05-01-SUMMARY.md": {
+      "sha": "77976e36367b535b",
+      "entities": [
+        "M005",
+        "M005/S01"
+      ]
+    },
+    "phases/05-m005/05-01-UAT.md": {
+      "sha": "cf86cb83f9367dde",
+      "entities": [
+        "M005",
+        "M005/S01"
+      ]
+    },
+    "phases/05-m005/05-02-ASSESSMENT.md": {
+      "sha": "b39b2493fa639e03",
+      "entities": [
+        "M005",
+        "M005/S02"
+      ]
+    },
+    "phases/05-m005/05-02-PLAN.md": {
+      "sha": "8829a7a402d99642",
+      "entities": [
+        "M005",
+        "M005/S02"
+      ]
+    },
+    "phases/05-m005/05-02-SUMMARY.md": {
+      "sha": "90bad6921b55085b",
+      "entities": [
+        "M005",
+        "M005/S02"
+      ]
+    },
+    "phases/05-m005/05-02-UAT.md": {
+      "sha": "e22428feb189a422",
+      "entities": [
+        "M005",
+        "M005/S02"
+      ]
+    },
+    "phases/05-m005/05-03-REPLAN.md": {
+      "sha": "dc2af56999a5e394",
+      "entities": [
+        "M005",
+        "M005/S03"
+      ]
+    },
+    "phases/05-m005/05-03-ASSESSMENT.md": {
+      "sha": "23dd610967232219",
+      "entities": [
+        "M005",
+        "M005/S03"
+      ]
+    },
+    "phases/05-m005/05-03-PLAN.md": {
+      "sha": "8f3520e16cfc002d",
+      "entities": [
+        "M005",
+        "M005/S03"
+      ]
+    },
+    "phases/05-m005/05-03-SUMMARY.md": {
+      "sha": "07b10b9de203a13d",
+      "entities": [
+        "M005",
+        "M005/S03"
+      ]
+    },
+    "phases/05-m005/05-03-UAT.md": {
+      "sha": "776092e9a83b5741",
+      "entities": [
+        "M005",
+        "M005/S03"
+      ]
+    },
+    "phases/05-m005/05-04-ASSESSMENT.md": {
+      "sha": "25c929bee60a23d9",
+      "entities": [
+        "M005",
+        "M005/S04"
+      ]
+    },
+    "phases/05-m005/05-04-PLAN.md": {
+      "sha": "ff0feac0ff3737fd",
+      "entities": [
+        "M005",
+        "M005/S04"
+      ]
+    },
+    "phases/05-m005/05-04-SUMMARY.md": {
+      "sha": "fb293c9c777586f7",
+      "entities": [
+        "M005",
+        "M005/S04"
+      ]
+    },
+    "phases/05-m005/05-04-UAT.md": {
+      "sha": "5a1a0ffb8498cf19",
+      "entities": [
+        "M005",
+        "M005/S04"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-ROADMAP.md": {
+      "sha": "513bc548218e08e9",
+      "entities": [
+        "M006-fd23vy"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-01-ASSESSMENT.md": {
+      "sha": "2d79a6159afd546b",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S01"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-01-PLAN.md": {
+      "sha": "4a1690686966cce7",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S01"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-01-SUMMARY.md": {
+      "sha": "c94f431e3e2c49cc",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S01"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-01-UAT.md": {
+      "sha": "1817f3f166ee4f18",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S01"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-02-ASSESSMENT.md": {
+      "sha": "8a8400b6c269f935",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S02"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-02-PLAN.md": {
+      "sha": "0f93c577a8da2b82",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S02"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-02-SUMMARY.md": {
+      "sha": "1e635b259e10a133",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S02"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-02-UAT.md": {
+      "sha": "afe8d36fab2d5058",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S02"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-03-ASSESSMENT.md": {
+      "sha": "8972db6b2345f0ef",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S03"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-03-PLAN.md": {
+      "sha": "f640a5c3a1000386",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S03"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-03-SUMMARY.md": {
+      "sha": "9554d19cfaec2fdc",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S03"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-03-UAT.md": {
+      "sha": "19c95c07e86ae71d",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S03"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-04-ASSESSMENT.md": {
+      "sha": "1be9c434490c9608",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S04"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-04-PLAN.md": {
+      "sha": "ba789a2c1b772d30",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S04"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-04-SUMMARY.md": {
+      "sha": "ed4071258ed5041c",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S04"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-04-UAT.md": {
+      "sha": "447a9134b43d5b5f",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S04"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-06-PLAN.md": {
+      "sha": "41deb9d4492e2cd4",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S06"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-SUMMARY.md": {
+      "sha": "31ad182d0bbf38b0",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S06"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-06-UAT.md": {
+      "sha": "1914f3d2c7f0850f",
+      "entities": [
+        "M006-fd23vy",
+        "M006-fd23vy/S06"
+      ]
+    },
+    "phases/06-fd23vy-automated-vm-first-run-validation/06-06-SUMMARY.md": {
+      "sha": "31ad182d0bbf38b0",
       "entities": [
         "M006-fd23vy",
         "M006-fd23vy/S06"

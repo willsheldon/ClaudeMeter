@@ -1,2 +1,0 @@
-== pinemeter_popover_after_hook ==
-windows=0
