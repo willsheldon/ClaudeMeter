@@ -1,3 +1,0 @@
-menu bar item 1 of menu bar 2 of application process Pinemeter
-== after_system_events_click ==
-windows=0

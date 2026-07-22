@@ -1,8 +1,0 @@
-== applescript_process_count ==
-48
-== frontmost_app ==
-TextEdit
-== screenshot ==
-path=/Users/will/Desktop/pinemeter-vm-validation/visual-probe.png
-exists=True
-bytes=369758

@@ -1,7 +1,0 @@
-== process ==
-running
-== ax_process_summary ==
-frontmost=falsewindows=0menu_bars=2menu_bar.description=missing valuemenu_bar.items=6menu_bar_item name=Apple description=missing valuemenu_bar_item name=Pinemeter description=missing valuemenu_bar_item name=Edit description=missing valuemenu_bar_item name=View description=missing valuemenu_bar_item name=Window description=missing valuemenu_bar_item name=Help description=missing valuemenu_bar.description=menu barmenu_bar.items=1menu_bar_item name=missing value description=Pinemeter
-
-== system_status_items_hint ==
-process_with_menu_bar=Pinemeter

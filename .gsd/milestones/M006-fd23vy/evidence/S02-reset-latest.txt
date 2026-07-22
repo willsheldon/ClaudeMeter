@@ -1,6 +1,0 @@
-reset.start=true
-reset.preferences.domain=com.eddmann.Pinemeter
-reset.keychain.claude=com.claudemeter.sessionkey/default
-reset.keychain.chatgpt=com.pinemeter.chatgpt.session/chatgpt.com
-reset.complete=true
-evidence_file=.gsd/milestones/M006-fd23vy/evidence/S02/vm-validate-20260703T171435Z.txt

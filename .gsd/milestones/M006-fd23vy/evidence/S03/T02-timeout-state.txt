@@ -1,4 +1,0 @@
-pinemeter=running
-textedit=running
-chrome=running
--rw-r--r--@ 1 will  staff  398828 Jul  3 10:24 /Users/will/Desktop/pinemeter-vm-validation/s03-timeout-state.png

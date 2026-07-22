@@ -1,2 +1,0 @@
-== post_click_windows ==
-frontmost=falsewindows=0

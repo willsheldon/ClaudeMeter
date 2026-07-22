@@ -1,8 +1,0 @@
-built_products_dir=/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug
-app_path=/Users/will/Library/Developer/Xcode/DerivedData/Pinemeter-blaeajqgnbyrdefgkbvjsbzzwwfq/Build/Products/Debug/Pinemeter.app
-app_bundle_exists=true
-codesign_summary:
-Identifier=com.eddmann.Pinemeter
-TeamIdentifier=HMR9RDR6M2
-quarantine:
-absent
