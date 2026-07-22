@@ -44,7 +44,7 @@ Use `mysecrets` to manage secrets for this project.
 ssm_path: /ws-claude/claudemeter
 aws_profile: sso-ws-claude
 
-Writes work; do not request IAM grants. `sso-ws-claude` is the read-only role by design, and a raw `aws ssm put-parameter` under it will always get AccessDenied. That is not a blocker: `mysecrets set` routes writes through `aws-project-write.sh` (assumes `WsClaudeProjectWrite` with a session policy scoped to this project's path). If a write fails with a permission error, the cause is registry resolution, not IAM — most likely you are not running from the registered canonical path.
+Writes work; do not request IAM grants. `sso-ws-claude` is the read-only role by design, and a raw `aws ssm put-parameter` under it will always get AccessDenied. That is not a blocker: `mysecrets set` routes writes through `aws-project-write.sh` (assumes `WsClaudeProjectWrite` with a session policy scoped to this project's path). If a write fails with a permission error, the cause is registry resolution, not IAM; most likely you are not running from the registered canonical path.
 
 Registry matching is exact-path against `/Users/will/code/pinemeter`. From inside a git worktree (`.worktrees/<name>`) or any other path, either `cd /Users/will/code/pinemeter` for `mysecrets set`/`delete`, or use:
 
