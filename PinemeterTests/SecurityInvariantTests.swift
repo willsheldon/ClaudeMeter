@@ -460,6 +460,28 @@ final class SecurityInvariantTests: XCTestCase {
         }
     }
 
+    /// H1: the Claude `sessionKey` cookie must never reach a persistent,
+    /// on-disk WebKit store, and a stale copy from a prior build must be
+    /// cleaned up on launch. Source-scanned (matching this file's existing
+    /// pattern) rather than instantiating a real `WKWebView`/website data
+    /// store, which is heavy and flaky under XCTest.
+    func test_webViewNetworkServiceUsesNonPersistentCookieStoreAndPurgesLegacyPersistentCookie() throws {
+        let source = try sourceContents(relativePath: "Pinemeter/Services/WebViewNetworkService.swift")
+
+        XCTAssertTrue(
+            source.contains("WKWebsiteDataStore.nonPersistent()"),
+            "The WebView's cookie/data store must be non-persistent so sessionKey never reaches disk"
+        )
+        XCTAssertFalse(
+            source.contains("websiteDataStore = WKWebsiteDataStore.default()"),
+            "The WebView must not be configured with the persistent default data store"
+        )
+        XCTAssertTrue(
+            source.contains("purgeLegacyPersistentSessionKeyCookie"),
+            "Installs upgrading from a build that wrote sessionKey to the persistent store must have it purged"
+        )
+    }
+
     private func sourceContents(relativePath: String) throws -> String {
         let testFile = URL(fileURLWithPath: #filePath)
         let repositoryRoot = testFile.deletingLastPathComponent().deletingLastPathComponent()
