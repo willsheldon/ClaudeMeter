@@ -76,28 +76,19 @@ enum MappingError: LocalizedError {
 /// Extension to map API response to domain model
 extension UsageAPIResponse {
     func toDomain() throws -> UsageData {
-        let iso8601Formatter = ISO8601DateFormatter()
-        iso8601Formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-
-        let sessionResetDate = try parseResetDate(
+        let sessionResetDate = parseResetDate(
             from: fiveHour.resetsAt,
-            field: "fiveHour.resetsAt",
-            formatter: iso8601Formatter,
             fallback: Constants.Pacing.sessionWindow
         )
-        let weeklyResetDate = try parseResetDate(
+        let weeklyResetDate = parseResetDate(
             from: sevenDay.resetsAt,
-            field: "sevenDay.resetsAt",
-            formatter: iso8601Formatter,
             fallback: Constants.Pacing.weeklyWindow
         )
 
         // Handle optional sonnet usage
-        let sonnetLimit: UsageLimit? = try sevenDaySonnet.flatMap { sonnet -> UsageLimit? in
-            let sonnetResetDate = try parseResetDate(
+        let sonnetLimit: UsageLimit? = sevenDaySonnet.map { sonnet -> UsageLimit in
+            let sonnetResetDate = parseResetDate(
                 from: sonnet.resetsAt,
-                field: "sevenDaySonnet.resetsAt",
-                formatter: iso8601Formatter,
                 fallback: Constants.Pacing.weeklyWindow
             )
             return UsageLimit(
@@ -106,17 +97,15 @@ extension UsageAPIResponse {
             )
         }
 
-        let fableLimit: UsageLimit? = try limits?
+        let fableLimit: UsageLimit? = limits?
             .first(where: {
                 $0.scope?.model?.displayName?.localizedCaseInsensitiveContains("fable") == true
                     && $0.percent != nil
             })
             .flatMap { fable -> UsageLimit? in
                 guard let percent = fable.percent else { return nil }
-                let resetDate = try parseResetDate(
+                let resetDate = parseResetDate(
                     from: fable.resetsAt,
-                    field: "limits.fable.resetsAt",
-                    formatter: iso8601Formatter,
                     fallback: Constants.Pacing.weeklyWindow
                 )
                 return UsageLimit(utilization: percent, resetAt: resetDate)
@@ -137,18 +126,30 @@ extension UsageAPIResponse {
         )
     }
 
-    private func parseResetDate(
-        from rawValue: String?,
-        field: String,
-        formatter: ISO8601DateFormatter,
-        fallback: TimeInterval
-    ) throws -> Date {
-        guard let rawValue else {
+    /// Parses a `resets_at` timestamp leniently: Claude's API has been
+    /// observed emitting fractional-second timestamps
+    /// ("2025-01-01T00:00:00.000Z"), but a millisecond-free timestamp
+    /// ("2025-01-01T00:00:00Z") is an equally spec-legal ISO-8601 variant.
+    /// Utilization (the number that matters) must not be lost over a
+    /// secondary field's formatting: a missing or unparseable reset
+    /// timestamp both fall back to the same synthetic window rather than
+    /// failing the whole response (H2).
+    private func parseResetDate(from rawValue: String?, fallback: TimeInterval) -> Date {
+        guard let rawValue, let date = Self.parseISO8601(rawValue) else {
             return Date().addingTimeInterval(fallback)
         }
-        guard let date = formatter.date(from: rawValue) else {
-            throw MappingError.missingCriticalField(field: field)
-        }
         return date
+    }
+
+    private static func parseISO8601(_ rawValue: String) -> Date? {
+        let withFractionalSeconds = ISO8601DateFormatter()
+        withFractionalSeconds.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        if let date = withFractionalSeconds.date(from: rawValue) {
+            return date
+        }
+
+        let withoutFractionalSeconds = ISO8601DateFormatter()
+        withoutFractionalSeconds.formatOptions = [.withInternetDateTime]
+        return withoutFractionalSeconds.date(from: rawValue)
     }
 }

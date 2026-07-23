@@ -33,6 +33,21 @@ final class WebViewNetworkService: NSObject, NetworkServiceProtocol {
     init(chatGPTSessionRepository: any ChatGPTSessionRepositoryProtocol = ChatGPTSessionRepository()) {
         self.chatGPTSessionRepository = chatGPTSessionRepository
         super.init()
+        Task { await self.purgeLegacyPersistentSessionKeyCookie() }
+    }
+
+    /// One-time cleanup for installs upgrading from a build that injected
+    /// `sessionKey` into the persistent default `WKWebsiteDataStore` with a
+    /// 30-day expiry and never purged it on disconnect (H1). The WebView now
+    /// uses a non-persistent store (see `getOrCreateWebView`), so nothing new
+    /// reaches disk, but a stale copy from a prior build may already be
+    /// sitting in the persistent store. Idempotent: a no-op once clean.
+    private func purgeLegacyPersistentSessionKeyCookie() async {
+        let cookieStore = WKWebsiteDataStore.default().httpCookieStore
+        for cookie in await allCookies(from: cookieStore)
+        where cookie.name == "sessionKey" && cookie.domain.hasSuffix("claude.ai") {
+            await cookieStore.deleteCookie(cookie)
+        }
     }
 
     /// Perform a generic HTTP request using WKWebView
@@ -145,7 +160,13 @@ final class WebViewNetworkService: NSObject, NetworkServiceProtocol {
         }
 
         let config = WKWebViewConfiguration()
-        config.websiteDataStore = WKWebsiteDataStore.default()
+        // Non-persistent: the session cookie (H1) and any Cloudflare
+        // clearance live only in memory for this process's lifetime and are
+        // never written to disk. The WebView instance is cached for the
+        // app's lifetime (below), so this does not cost a re-challenge per
+        // request -- only a fresh cold app launch pays the challenge-wait
+        // path, which challengeRetryCount already tolerates.
+        config.websiteDataStore = WKWebsiteDataStore.nonPersistent()
 
         // Set up preferences
         let prefs = WKWebpagePreferences()

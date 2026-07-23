@@ -222,7 +222,11 @@ final class UsageServiceTests: XCTestCase {
         )
     }
 
-    func test_usageFetch_withMalformedResetAt_surfacesInvalidResponse() async throws {
+    /// H2: a `resets_at` the app cannot parse must never take down the whole
+    /// response -- utilization is the number that matters. Falls back to the
+    /// same synthetic window used when `resets_at` is missing entirely,
+    /// mirroring `test_usageFetch_withMissingResetAt_usesFallbackWindow`.
+    func test_usageFetch_withUnparseableResetAt_fallsBackInsteadOfFailing() async throws {
         let responseData = try makeUsageResponseData(
             sessionUtilization: TestConstants.sessionPercentage,
             weeklyUtilization: TestConstants.weeklyPercentage,
@@ -253,17 +257,51 @@ final class UsageServiceTests: XCTestCase {
         settings.cachedOrganizationId = UUID(uuidString: TestConstants.organizationUUIDString)
         try await settingsRepository.save(settings)
 
-        do {
-            _ = try await service.fetchUsage(forceRefresh: true)
-            XCTFail("Expected invalidResponse error")
-        } catch AppError.networkError(let networkError) {
-            if case .invalidResponse = networkError {
-                return
-            }
-            XCTFail("Expected invalidResponse error")
-        } catch {
-            XCTFail("Unexpected error: \(error)")
-        }
+        let usageData = try await service.fetchUsage(forceRefresh: true)
+
+        XCTAssertEqual(usageData.sessionUsage.utilization, TestConstants.sessionPercentage)
+        XCTAssertGreaterThan(usageData.sessionUsage.resetAt, Date())
+    }
+
+    /// H2: Claude's usage endpoint has been observed emitting `resets_at`
+    /// both with and without fractional seconds; both are spec-legal
+    /// ISO-8601 and must decode to the same instant. Every other fixture in
+    /// this file uses the fractional-second form, so this is the only test
+    /// that would have caught the original defect.
+    func test_usageFetch_withResetAtLackingFractionalSeconds_decodesSameInstant() async throws {
+        let responseData = try makeUsageResponseData(
+            sessionUtilization: TestConstants.sessionPercentage,
+            weeklyUtilization: TestConstants.weeklyPercentage,
+            sessionResetAt: "2025-01-01T00:00:00Z",
+            weeklyResetAt: TestConstants.weeklyResetDateString,
+            sonnetUtilization: nil,
+            sonnetResetAt: nil
+        )
+
+        let networkService = NetworkServiceStub(responseData: responseData)
+        let cacheRepository = CacheRepositoryFake()
+        let keychainRepository = KeychainRepositoryFake()
+        let settingsRepository = SettingsRepositoryFake()
+
+        let service = UsageService(
+            networkService: networkService,
+            cacheRepository: cacheRepository,
+            keychainRepository: keychainRepository,
+            settingsRepository: settingsRepository
+        )
+
+        try await keychainRepository.save(
+            sessionKey: TestConstants.sessionKeyValue,
+            account: "default"
+        )
+
+        var settings = AppSettings.default
+        settings.cachedOrganizationId = UUID(uuidString: TestConstants.organizationUUIDString)
+        try await settingsRepository.save(settings)
+
+        let usageData = try await service.fetchUsage(forceRefresh: true)
+
+        assertDate(usageData.sessionUsage.resetAt, equalsIso8601String: TestConstants.sessionResetDateString)
     }
 
     func test_usageFetch_withSonnetUsage_showsSonnetUsage() async throws {
